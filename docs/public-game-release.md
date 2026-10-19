@@ -88,3 +88,12 @@ earlier hosted game to restore; unpublishing Pages is its emergency fallback.
 The [travel and memory retention correction](streaming-memory-fix-2026-10-19.md)
 documents subsequent request cancellation, actor GPU cleanup and production
 recording changes. It keeps the same world packet and visual residency limits.
+
+The [Revontuli and Kaamos integration](decisions/0021-revontuli-and-kaamos-cars.md)
+subsequently restores those two supplied cars beside the Lumi GT at Senate
+Square. Desktop world `senate-20261020-cars` derives from the original expanded
+world; the new Pages descriptor pins `senate-pages-20261020-cars-tex1024`.
+All 304 city cells, terrain, collision, roads, scenery and previous hero assets
+remain unchanged. The new packet is 943,492,168 bytes and its archive is
+665,665,503 bytes, retaining the full map within the existing size limits.
+Reload the game after deployment to select the new pinned world.

@@ -19,13 +19,19 @@ exports record NVIDIA Kimodo provenance; the generator code's license is not
 represented as a license for its model checkpoint or motion output. The
 checkpoint revision was not supplied.
 
-The car, Cathedral, Alexander monument, custom character modifications and
+The Lumi GT/patrol car, Revontuli, Kaamos, Cathedral, Alexander monument, custom character modifications and
 their movement exports were supplied by the project owner, who requested
 public game distribution and will provide further copyright information.
 Upstream authors and complete redistribution terms for these supplied assets
 are pending. Do not assume that these items are MIT, CC0, or CC BY solely
 because other project content uses those licenses. This notice does not grant
 new rights in third-party assets.
+
+Revontuli and Kaamos are fictional adaptations of the owner-supplied Veyron and
+GT40 models. Brand marks, lettering, number plates and source textures were
+removed; the cars use original flat materials, procedural wheels and fitted
+Finn vehicle interaction poses. Their upstream authors and complete terms are
+pending with the other supplied models.
 
 Original project paving, rail artwork, selected procedural facade charts and
 other explicitly identified original artwork retain their recorded CC0-1.0

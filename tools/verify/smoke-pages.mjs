@@ -18,6 +18,7 @@ if (url.hostname === 'mattitynka.github.io' && (url.protocol !== 'https:' || url
 if (existsSync(values.out)) throw new Error('Evidence directories are never overwritten');
 mkdirSync(values.out, { recursive: true });
 const errors = [], failed = [], responses = [], checks = [], captures = [];
+const expectedCellCancellations = [];
 const check = (id, pass, detail) => { checks.push({ id, pass, detail }); console.log(`${pass ? 'PASS' : 'FAIL'} ${id}: ${detail}`); };
 const browser = await chromium.launch({ channel: 'chromium', headless: true,
   args: ['--enable-gpu', '--ignore-gpu-blocklist', '--use-angle=d3d11', '--enable-unsafe-swiftshader', '--autoplay-policy=no-user-gesture-required'] });
@@ -63,7 +64,12 @@ try {
   const visuals = new Set(responses.filter(r => /\.lod[012]\.[A-Za-z0-9.-]+\.glb$/.test(r.url)).map(r => r.url));
   check('streamed-visuals', visuals.size > 0 && visuals.size < 608, `${visuals.size} of 608 city visual files requested across the tested route`);
   check('http', responses.every(r => r.status < 400), `${responses.filter(r => r.status >= 400).length} HTTP errors`);
-  check('network', failed.length === 0, `${failed.length} failed requests`);
+  // Moving to another district now deliberately aborts obsolete cell downloads.
+  // Only exact cell GLB aborts count as expected; failures of other resources still fail the gate.
+  expectedCellCancellations.push(...failed.filter(request => request.error === 'net::ERR_ABORTED'
+    && new URL(request.url).origin === url.origin && /\/world\/[^/]+\/cells\/[A-Za-z0-9._-]+\.glb$/.test(new URL(request.url).pathname)));
+  const unexpectedFailures = failed.filter(request => !expectedCellCancellations.includes(request));
+  check('network', unexpectedFailures.length === 0, `${unexpectedFailures.length} unexpected failures; ${expectedCellCancellations.length} obsolete cell downloads cancelled`);
   check('console', errors.length === 0, `${errors.length} console/page errors`);
   const review = new URL(url); review.searchParams.set('review', '1');
   await page.goto(review.href, { waitUntil: 'load' });
@@ -75,7 +81,7 @@ try {
   check('completed', false, error instanceof Error ? error.message : String(error));
   await page.screenshot({ path: path.join(values.out, 'failure.png') }).catch(() => {});
 } finally {
-  writeFileSync(path.join(values.out, 'result.json'), JSON.stringify({ status: checks.every(c => c.pass) && !fatal ? 'PASS' : 'FAIL', url: url.href, browser: browser.version(), checks, errors, failed, responses, captures, fatal, appearance: 'CAPTURED_NOT_REVIEWED' }, null, 2) + '\n');
+  writeFileSync(path.join(values.out, 'result.json'), JSON.stringify({ status: checks.every(c => c.pass) && !fatal ? 'PASS' : 'FAIL', url: url.href, browser: browser.version(), checks, errors, failed, expectedCellCancellations, responses, captures, fatal, appearance: 'CAPTURED_NOT_REVIEWED' }, null, 2) + '\n');
   await context.close(); await browser.close();
 }
 process.exitCode = checks.every(c => c.pass) && !fatal ? 0 : 1;
