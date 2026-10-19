@@ -1,9 +1,8 @@
 # Contributing to Helsinki-rides
 
-The project is preparing an open-source release at
-`MattiTynka/Helsinki-rides`. The repository remains private during preparation.
-Public issue tracking, a hosted game and downloadable city assets are separate
-release steps; their availability must not be assumed from this document.
+The public project is [MattiTynka/Helsinki-rides](https://github.com/MattiTynka/Helsinki-rides).
+See the [browser beta release record](docs/public-game-release.md) for the hosted
+game, world downloads, content-license boundaries and deployment instructions.
 
 ## Development
 

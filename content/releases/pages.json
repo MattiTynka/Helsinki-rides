@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "worldRelease": "senate-pages-20261019-tex1024",
+  "manifestSha256": "34e8dbfe999eb99d10c9a42834a6424e7543035c2126daf7d3aeb82b14e0c149",
+  "worldBaseUrl": "https://mattitynka.github.io/Helsinki-rides/world/",
+  "archiveUrl": "https://github.com/MattiTynka/Helsinki-rides/releases/download/pages-beta-20261019/pages-world.tar.gz",
+  "archiveSha256": "a93b26c31f4b978ee7cdca50df4972ada147716bf8ce0d99c834cfbea8658202",
+  "archiveBytes": 663598842,
+  "worldBytes": 939907689
+}

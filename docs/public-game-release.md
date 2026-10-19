@@ -1,0 +1,86 @@
+# Public browser beta
+
+The project owner authorized public source and GitHub Pages publication on
+19 October 2026. The source repository is
+[MattiTynka/Helsinki-rides](https://github.com/MattiTynka/Helsinki-rides).
+The intended game URL is
+[Helsinki Rides](https://mattitynka.github.io/Helsinki-rides/).
+
+## Pages packaging
+
+This release keeps the complete 304-cell central Helsinki map. The original
+desktop world is `senate-20261019-08b1f804`, manifest SHA-256
+`6f1e5b68f16fb8b34ad8ad1f02f2a03e05fb36fcfac5510c4f5fe3fd22e2858b`.
+Its 1,684,371,576 bytes exceed GitHub Pages' published-site size limit.
+
+The owner selected smaller web textures rather than an external asset account.
+`tools/release/prepare-pages-world.py` makes a separate world using the existing
+KTX2 mip chain for city atlases above 1024 pixels. This copies the retained
+compressed image levels exactly. Geometry, collision, navigation, gameplay,
+character animations and the supplied hero assets remain unchanged. The
+authoring inputs and the local active-world pointer are preserved.
+
+The committed `content/releases/pages.json` descriptor pins the derived world,
+its manifest, a GitHub Release archive and the archive's exact hash and size.
+The archive is a release download, outside the source Git tree. The manually
+triggered Pages workflow verifies the packet, builds the ordinary production
+application, and stages both into one Pages artifact. The published game needs
+no account, API credentials, paid asset host or gameplay server. Visual cells
+continue to stream as the player moves.
+
+The packet verifier checks regular archive entries, exact file inventories,
+manifest references and hashes, and both world and complete-site size limits.
+Build and deploy jobs have separate permissions. Forks and non-main refs cannot
+use the publishing job. The review adapter is excluded from the production
+bundle, including when a visitor supplies `?review=1`.
+
+## Content notices
+
+Known City of Helsinki, photographer and Blender Studio credits stay in the
+manifest and in-game attribution. The packet includes a notice, the exact
+OpenStreetMap source publication extract and ledger, and the generated road database.
+OpenStreetMap database content remains under ODbL 1.0. MIT covers original code
+and documentation; it does not relicense models, photographs or databases.
+
+The owner requested publication and said the remaining copyright information
+would follow, with most content under CC BY 4.0. This is recorded as publication
+authorization, not independent verification of every asset's license. Upstream
+authors and redistribution terms for the owner-supplied car, Cathedral,
+Alexander model and custom character adaptations/motion still need completion.
+Those assets are identified as supplied content with terms pending; no new
+copyright or open-license grant is invented for them.
+
+## Verification and limitations
+
+The source check and privacy audit of commit
+`98fb1e5ef6fe825c9d36d7de52ff6260223c7ef2` passed before visibility changed.
+World publication checks cover all 926 original files, 617 GLB JSON chunks,
+their embedded image metadata, and all 925 manifest payload references.
+They found no credential or operator-private metadata.
+
+The deployment workflow repeats portable source tests, TypeScript checks,
+release-tool tests and packet verification. Hosted smoke evidence is stored
+locally under ignored `build/release-audit/`; it records the exact deployed
+source/world, browser errors, ordinary keyboard/UI interactions and captures.
+Images require visual inspection before an appearance claim. Desktop beta
+performance is device dependent, and the initial simulation data download is
+large. Earlier local journey/performance results remain bound to the builds
+named in their benchmark records.
+
+## Releasing and rolling back
+
+1. Prepare a fresh derivative and regular-file archive with
+   `tools/release/prepare-pages-world.py`; retain its local receipt.
+2. Audit its JSON, model/image metadata and exact file inventory. Keep source
+   notices and machine-readable database material with the packet.
+3. Upload the audited archive as `pages-world.tar.gz` on an identified GitHub
+   Release. Record its immutable expected hash and byte counts in the descriptor.
+4. Commit the descriptor and source, then run the manual Pages workflow from
+   `main`. The workflow refuses an altered or oversized packet.
+5. Open the actual Pages URL and run `tools/verify/smoke-pages.mjs`. Inspect its
+   screenshots and record the deployment identity and any remaining failures.
+
+For a later rollback, restore the previous tested source/descriptor pair and
+run the workflow again. Retain old world release downloads so an already open
+session can continue fetching its matching assets. The first release has no
+earlier hosted game to restore; unpublishing Pages is its emergency fallback.
