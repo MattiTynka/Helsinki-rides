@@ -1,5 +1,40 @@
 # Two more cars: the Revontuli and the Kaamos
 
+## Integration into the expanded city, 20 October 2026
+
+The main expanded world had omitted these optional cars when it was generated.
+The restored release keeps all 304 current cells, collision, terrain, roads,
+scenery, existing spawns, Finn and Rain. Only the two historical definitions,
+two spawn records and their exact model assets are added. The current north-city
+authoring configurations now retain the same additions for future builds.
+
+`tools/world/restore-release-vehicles.ts` creates an immutable derivative from
+the current world and the selected historical vehicle definitions. It verifies
+all current payload hashes and the selected historical assets before writing,
+rejects conflicting IDs or coordinate frames, and leaves active pointers alone.
+The separately derived Pages packet retains the existing 1024-pixel texture
+policy and full city. Its exact identity is pinned in `content/releases/pages.json`.
+
+Both cars are parked beside the Lumi GT at Senate Square: Revontuli at
+`[-35.5, 10]` and Kaamos at `[-41, 10]`, heading 358 degrees. The two model files
+add 3,540,504 bytes, no textures, and reuse their existing fitted Finn interaction
+poses. Asset licenses remain under the supplied-content, terms-pending treatment
+in `content/releases/world-notice.md`.
+
+The 18 October measurements and remaining topology/clearance limits below
+describe the unchanged models. Current integration evidence is recorded under
+ignored `build/release-audit/extra-cars-*`; it must identify the actual world and
+source tested. This integration does not resolve the historical topology limits.
+
+Current integration checks passed: 606 portable source tests, full TypeScript
+checks, both real-keyboard upright entry/drive/exit cycles in the expanded city,
+and an exact 1,848-tick fresh Node replay (`f3dde2cb`). Both GLBs pass Khronos
+validation with zero errors or warnings. Approach and boarding captures were
+opened for visual inspection. Passenger, windshield and flipped-exit coverage
+remains as recorded below; these paths were not rerun for this additive release.
+
+## Original implementation record
+
 Status: implemented and verified locally, 2026-10-18; staged as `senate-20261018-4b5289bb`, live pointer unchanged.
 Builds on [decision 0018](0018-finn-car-motion-and-passenger-exit.md) and
 [decision 0020](0020-finn-always-gets-out-of-the-car.md).

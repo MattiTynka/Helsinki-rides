@@ -165,12 +165,17 @@ grant is inferred from the request to publish the game.
 - **Quaternius Universal Animation Library, free Standard edition:** **CC0-1.0**,
   historical locomotion inputs superseded by the supplied native exports.
   [Quaternius](https://quaternius.com/). No library archive is in the source export.
-- **Rigged Mustang-derived Lumi GT/patrol car, low-poly Helsinki Cathedral and
+- **Rigged Mustang-derived Lumi GT/patrol car, Veyron-derived Revontuli,
+  GT40-derived Kaamos, low-poly Helsinki Cathedral and
   Alexander II monument:** supplied by the project owner. Their redistribution
   licenses are not established by the current source register. In particular,
   the Alexander exporter states that original licensing was not supplied.
   These assets and derivatives are excluded from the source grant/export until
   provenance and rights are recorded or cleared replacements are used.
+  Revontuli and Kaamos retain their source identity in their asset contracts
+  and decision 0021; brand marks and source textures are removed in the game
+  exports. The separate beta packet carries the owner's publication request
+  and the remaining terms-pending notice.
 
 ## Reference-only material
 
