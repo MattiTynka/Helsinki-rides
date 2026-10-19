@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "binding": {
+    "path": "data/raw/district-expansion-20261018/osm/district-expansion.json",
+    "sha256": "fe31bf359524e5801c6a607d62a6562736c8dfb0dea13ea45be20bd8c697c1c9",
+    "baselineGameplay": {
+      "path": "content/helsinki/central-expansion/gameplay.json",
+      "sha256": "f98a2dc8e031448ee988737a9788e777ab77346d656496178ceb58fb311b5c13"
+    },
+    "origin": "senate-square-statue-v2",
+    "crs": "EPSG:3879",
+    "verticalDatum": "N2000",
+    "axes": {
+      "x": "east",
+      "z": "south"
+    },
+    "playArea": {
+      "minX": -1350,
+      "maxX": 800,
+      "minZ": -950,
+      "maxZ": 450
+    }
+  },
+  "landmarks": [
+    {
+      "label": "Mannerheimintie / Lasipalatsi",
+      "type": "way",
+      "id": 8035238,
+      "roadRadius": 200,
+      "sourceUrl": "https://www.openstreetmap.org/way/8035238",
+      "dropInSourceNode": 313959145,
+      "dropInXZ": [
+        -805.423,
+        -104.116
+      ],
+      "dropInSourceWayIds": [
+        26979888,
+        26979888
+      ],
+      "sourceTerrainY": -0.21106319594697687
+    },
+    {
+      "label": "Parliament House / Mannerheimintie",
+      "type": "way",
+      "id": 89533459,
+      "roadRadius": 200,
+      "sourceUrl": "https://www.openstreetmap.org/way/89533459",
+      "dropInSourceNode": 9289658368,
+      "dropInXZ": [
+        -1019.086,
+        -331.255
+      ],
+      "dropInSourceWayIds": [
+        27558094,
+        27558094
+      ],
+      "sourceTerrainY": 4.794200580273142
+    },
+    {
+      "label": "Helsinki Music Centre",
+      "type": "way",
+      "id": 58023634,
+      "roadRadius": 200,
+      "sourceUrl": "https://www.openstreetmap.org/way/58023634",
+      "dropInSourceNode": 1724492950,
+      "dropInXZ": [
+        -950.165,
+        -416.308
+      ],
+      "dropInSourceWayIds": [
+        128566065,
+        128566065,
+        160402629
+      ],
+      "sourceTerrainY": 0.6414049476870138
+    },
+    {
+      "label": "Finlandia Hall / Mannerheimintie",
+      "type": "way",
+      "id": 8034126,
+      "roadRadius": 200,
+      "sourceUrl": "https://www.openstreetmap.org/way/8034126",
+      "dropInSourceNode": 1001543340,
+      "dropInXZ": [
+        -1101.608,
+        -703.844
+      ],
+      "dropInSourceWayIds": [
+        26691127,
+        26691127
+      ],
+      "sourceTerrainY": -1.0134767406463394
+    },
+    {
+      "label": "Katajanokka canal / Kanavakatu bridge",
+      "type": "way",
+      "id": 24336449,
+      "roadRadius": 200,
+      "sourceUrl": "https://www.openstreetmap.org/way/24336449",
+      "dropInSourceNode": 314739059,
+      "dropInXZ": [
+        310.265,
+        134.269
+      ],
+      "dropInSourceWayIds": [
+        28636764,
+        28636765
+      ],
+      "sourceTerrainY": -2.7492224499797993
+    },
+    {
+      "label": "Uspenski Cathedral / Rahapajankatu",
+      "type": "way",
+      "id": 15242921,
+      "roadRadius": 200,
+      "sourceUrl": "https://www.openstreetmap.org/way/15242921",
+      "dropInSourceNode": 1005600912,
+      "dropInXZ": [
+        469.916,
+        147.425
+      ],
+      "dropInSourceWayIds": [
+        315734860,
+        1262954897
+      ],
+      "sourceTerrainY": 4.207771816335583
+    },
+    {
+      "label": "Uspenski Cathedral / Pormestarinrinne approach",
+      "type": "way",
+      "id": 198622292,
+      "roadRadius": 200,
+      "sourceUrl": "https://www.openstreetmap.org/way/198622292",
+      "dropInSourceNode": 2087328746,
+      "dropInXZ": [
+        460.941,
+        135.387
+      ],
+      "dropInSourceWayIds": [
+        123367032,
+        198622292
+      ],
+      "sourceTerrainY": 5.203338839502969
+    }
+  ]
+}

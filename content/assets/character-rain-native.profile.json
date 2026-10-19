@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "id": "rain-native-v1",
+  "phaseGroup": "left-strike",
+  "upperBodyRoot": "DEF-Spine1",
+  "locomotion": [
+    {
+      "clip": "walk_back",
+      "movementSpeed": 0.948,
+      "direction": "backward"
+    },
+    {
+      "clip": "jog_back",
+      "movementSpeed": 1.856,
+      "direction": "backward"
+    },
+    {
+      "clip": "walk",
+      "movementSpeed": 1.252,
+      "direction": "forward"
+    },
+    {
+      "clip": "jog",
+      "movementSpeed": 2.471,
+      "direction": "forward"
+    },
+    {
+      "clip": "run",
+      "movementSpeed": 3.562,
+      "direction": "forward"
+    },
+    {
+      "clip": "sprint",
+      "movementSpeed": 5.031,
+      "direction": "forward"
+    },
+    {
+      "clip": "strafe_left",
+      "movementSpeed": 1.021,
+      "direction": "left"
+    },
+    {
+      "clip": "jog_left",
+      "movementSpeed": 1.963,
+      "direction": "left"
+    },
+    {
+      "clip": "strafe_right",
+      "movementSpeed": 1.014,
+      "direction": "right"
+    },
+    {
+      "clip": "jog_right",
+      "movementSpeed": 1.975,
+      "direction": "right"
+    }
+  ],
+  "states": {
+    "idle": "idle",
+    "aim": "aim",
+    "fire": "fire",
+    "hit": "hit",
+    "death": "death",
+    "drive": "drive",
+    "arrested": "arrested"
+  }
+}

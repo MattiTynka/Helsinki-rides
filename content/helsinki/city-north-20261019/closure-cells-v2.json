@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "cellSize": 128,
+  "playArea": {
+    "minX": -1792,
+    "maxX": 800,
+    "minZ": -1152,
+    "maxZ": 450
+  },
+  "curbHeight": 0.12,
+  "entranceTerraces": {
+    "openingRadius": 4,
+    "minRise": 0.2,
+    "maxFootprintDistance": 1,
+    "maxStepsDistance": 1.5,
+    "pad": 1,
+    "riser": 0.16,
+    "raster": 0.5
+  },
+  "entranceTerracesNote": "Terrain bumps at building doors (terrain more than 0.2 m above its 4 m flat-disk opening, outside footprints, within 1 m of a footprint and 1.5 m of an OSM steps way) grown by 1 m to take in their skirts, are drawn as 0.16 m terraces sliced along the terrain contours on a 0.5 m mesh; 0.16 m is a common riser between the measured flights of the grand stairs (0.137 and 0.185 m). Decision 0005.",
+  "registerStairs": {
+    "joinDistance": 0.3,
+    "minSlope": 0.05,
+    "maxEdgeAngleDeg": 30,
+    "minFill": 0.8,
+    "maxWayAngleDeg": 35,
+    "riser": 0.16,
+    "minRiser": 0.08
+  },
+  "registerStairsNote": "Flights from the city's street parts typed Portaat (YLRE, decision 0006): parts within 0.3 m form one group; a group whose fitted terrain slope is at least 5% is drawn as a straight flight with treads along the polygon edge whose normal lies within 30 degrees of uphill, if it fills at least 80% of its oriented rectangle. An OSM steps way crossing it within 35 degrees gives the step count (and, with a width tag, the run beyond the group, as at the Cathedral, whose public foot only the city outlines); otherwise one step per 0.16 m of rise. A group that is not one straight outline is tried part by part; a flight whose terrain rise is under 0.08 m per step is not drawn. Register flights replace the OSM chord flights they cross.",
+  "retainingWalls": {
+    "sideDistance": 2,
+    "minHeight": 0.5,
+    "gap": 0.02
+  },
+  "retainingWallsNote": "OSM barrier=retaining_wall segments whose sides differ by at least 0.5 m (terrain read 2 m out on each side, median along the segment) cut the ground along their line; each side keeps the level 2 m out up to the line and a vertical face joins them. The city terrain smooths these walls into 1-2 m slopes. Decision 0005.",
+  "texelCap": {
+    "facade": 512,
+    "facadeHiRes": 1000,
+    "hiResMinWallShare": 0.5,
+    "hiResMinFacingShare": 0.3,
+    "hiResBelowTexelsPerMetre": 15
+  },
+  "texelCapNote": "Source pages are 1024 px. A page of a building in landmarks.json hiResFacadesVtj keeps (almost) source resolution when at least half its mapped surface is wall, at least 30% of that wall faces the square (outward normal within 60 degrees of the direction to the origin), and the ordinary cap would leave it under 15 texels per metre (cap / sqrt(area)). The facing rule keeps the low preset under its 160 MiB measured texture budget: without it 28 pages measured 175.4 MiB. 1000 px rather than 1024 lets four such pages and their 16 px gutters share one 2048 px atlas (decision 0005).",
+  "atlasSize": 2048,
+  "atlasNote": "The WASM Basis encoder (ktx2-encoder 0.6.0) caps a single image at 12.58 Mpx, so 4096² atlases are not encodable; 2048² atlases keep one draw call per atlas per cell well under the 60-call gate.",
+  "groundTextureSize": 512,
+  "skirtBelowGround": 0.3,
+  "skirtSearchRadius": 1.5,
+  "matching": {
+    "maxMedianOffset": 0.5,
+    "minCoverage": 0.9,
+    "coverageDistance": 1,
+    "minInsideShare": 0.3
+  },
+  "budgets": {
+    "drawCallsPerCell": 60,
+    "sceneTextureMiB": 224,
+    "lowPresetTextureMiB": 160
+  },
+  "untextured": {
+    "wall": [
+      212,
+      210,
+      195
+    ],
+    "roof": [
+      106,
+      114,
+      113
+    ],
+    "wallMaxNormalY": 0.3,
+    "tileSize": 32
+  },
+  "untexturedNote": "Buildings come solely from the textured LoD2 (decision 0004). LoD2 walls and roofs without a facade texture take flat colours split by face slope (plan section 4.3): from all textured LoD2 walls (160 450 m2) and roofs (63 837 m2) in the city model, sampled at 4 points per m2 from the raw masters with chart padding excluded: walls the mean of the 80th to 90th luma percentile (lit plaster; the median, 99/106/101, was dragged down by windows and shade and made the boxes read grey-green; decision 0005), roofs the mean of the 40th to 60th (equal to the median). The tiles go into the facade atlas, so the grade and the baked-light material apply as to their neighbours. Undersides keep the city model colour.",
+  "facadeGrade": {
+    "veil": [
+      23,
+      30,
+      35
+    ],
+    "gamma": 0.8,
+    "saturation": 1.25,
+    "sharpenSigma": 0.6
+  },
+  "vegetation": {
+    "mode": "restore-original",
+    "margin": 1,
+    "elevationDeg": [
+      30,
+      60
+    ],
+    "sideways": 0.6,
+    "greenOverRed": 4,
+    "greenOverBlue": 0,
+    "minValue": 20,
+    "minSaturation": 0.15,
+    "reachMetres": 4,
+    "closeMetres": 0.4,
+    "holeMetres": 3,
+    "darkLuma": 75,
+    "dilate": 2,
+    "bayMetres": [
+      2.5,
+      7
+    ],
+    "minBayCorrelation": 0.9,
+    "maxChartEraseFraction": 0.08,
+    "maxRegionMetres": 4,
+    "maxBoundaryError": 10
+  },
+  "vegetationNote": "Automatic foliage erasure is disabled. The texture-only repair_facades.ts pass and full cell builder use the same source-hash-bound facade registry. Individual elevations at the University, Topelia, National Library, Bank of Finland, House of the Estates, Holy Trinity Church, Rauhankatu19 and Kirkkokatu12/14/16 are reconstructed after checking their actual architecture in street-level references. Whole architectural bays, doors, pilasters, cornices and stone bases constrain each map; untouched charts remain original. Most build pixels come from the same licensed LoD2 building; the Estates additionally uses credited CC BY4.0 photographs. Google imagery is visual reference only. Separate registered tree meshes are retained. See decision0010 for reviewed scope and limitations. The repeat-based algorithm is available only in calibrate_facades.ts --experimental and is not used in production.",
+  "facadeGradeNote": "Veil = 0.8 x the 0.5th percentile per channel over all 124 LoD2 masters, black chart padding excluded (R 29, G 38, B 44 over 91.5 Mpx); decision 0003. Gamma 0.8 and saturation 1.25 (from 1.0 and 1.15) chosen by eye against Street View around Senate Square: walls in shade read olive and dark, sunlit cream walls must not clip; decision 0005.",
+  "copyright": "Buildings: Helsinki 3D city model (textured LoD2) © City of Helsinki, CC BY 4.0, modified (atlased, colour-graded, reference-led facade reconstruction using licensed same-building pixels, re-encoded, skirts, flat colours for untextured surfaces). House of the Estates facade photographs © Josefiina Alanen, CC BY 4.0, modified; exact source files and adaptations are recorded in sources.json and the source register. Street areas © City of Helsinki, CC BY 4.0. Ground heights: Helsinki terrain model 2021 © City of Helsinki, CC BY 4.0. Flights of steps: © OpenStreetMap contributors, ODbL 1.0. Helsinki Cathedral: authored low-poly model supplied by the project owner, placed and baked. Generated ground textures original.",
+  "streaming": {
+    "enabled": true,
+    "lod2": "textureless",
+    "note": "World total is disk storage; runtime residency is independently bounded and browser-gated."
+  },
+  "carriagewayGrade": {
+    "protectedArea": {
+      "minX": -1792,
+      "maxX": 800,
+      "minZ": -945,
+      "maxZ": 450
+    },
+    "protectedMarginMetres": 0,
+    "gridMetres": 4,
+    "maxAxisGrade": 0.35,
+    "rawSourceDeckPartIds": [
+      "47166",
+      "481789",
+      "481790"
+    ],
+    "rawDeckTieInMetres": 8
+  },
+  "carriagewayGradeNote": "Opt-in source-footprint road grade outside the accepted district plus an 8m margin. Shared 4m nodes constrain isolated terrain extrema symmetrically without an invented absolute height. Ordinary neighboring surfaces meet the intended 0.12m curb and blend back over 4-16m; exact surveyed rock, retaining walls and other Silta top surfaces remain protected and receive boundary closure. Fredrikinkatu 47166 and exact bridge-end parts 481789/481790 keep private raw interpolation inside their source footprints; ordinary approaches meet their real boundary over 8 m, with 0.5 m meshing only in that local tie-in. Ordinary 48397 follows the constrained road field. The two unmodelled Merihaankatu bridge axes are source-bound road-graph exclusions, not flattened terrain. Raw source terrain is immutable; derived safety terrain is lowered under the resulting actual mesh. Final full-width static and runtime gates remain required.",
+  "drivableCorridorsNote": "One reviewed retained driveway, OSM 34918441 segment 1, receives a source-bound grade only inside asphalt street part 58384. The plan pins final roads-v6, OSM and register hashes and the exact reviewed lane points. Its 1.117 m buffer and round caps never extend beyond the reviewed source; the full 0.967 m vehicle half-width must have source support. The combined carriageway field preserves exact source decks and actual nearby building/stair boundaries. Ankkuri, the park driveway and Meritulli receive no speculative corridor grade. This is an authored height approximation; fresh world and runtime acceptance remain required.",
+  "coastal": {
+    "waterElevationN2000": 0,
+    "safetyFloorY": -30
+  },
+  "continuation": {
+    "baseRelease": "senate-20261019-809c1a14",
+    "appendRegionXZ": [
+      -1792,
+      -1152,
+      800,
+      -950
+    ],
+    "method": "Build and serialize only north strip; accepted ground owns exact overlapping coverage. Accepted geometry and terrain remain protected except an independently qualified boundary repair if measurements require it."
+  },
+  "northClosureScope": "Protect accepted dry interiors Z>=-945; the municipal bank addition has its separately qualified source-water exception. Append zero-area vertical seals only."
+}

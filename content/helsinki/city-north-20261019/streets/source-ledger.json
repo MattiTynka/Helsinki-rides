@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "id": "city-north-tram-and-surface-source-v1",
+  "status": "SOURCE_QUALIFIED_FINAL_DECODED_TRAM_AUTHORITY_AND_RUNTIME_REVIEW_PENDING",
+  "at": "2026-10-19T11:24:17.525Z",
+  "inputs": {
+    "origin": {
+      "file": "content/helsinki/world-origin.json",
+      "sha256": "46e5a24375dc3fa48b38795d69481bf2b73512e622c3358714db354869d794e7"
+    },
+    "osm": {
+      "file": "data/raw/city-north-20261019/osm/city-north.json",
+      "sha256": "707388efff3d70d40c3e71898d22dbdb908d1137a67f6dac2e3b13ef26c49c1a"
+    },
+    "osmLedger": {
+      "file": "data/raw/city-north-20261019/osm/ledger.json",
+      "sha256": "d5408fadbc5dd6b46f20e97928d48d86a5fee49d063955d20b43f9e2cb8aaa0e"
+    },
+    "streetParts": {
+      "file": "data/raw/city-north-20261019/street-parts/city-north.geojson",
+      "sha256": "f920ab43145e1721247ad76bddb6fd2de591efe317800d2ae88e067aa91ded94"
+    },
+    "streetLedger": {
+      "file": "data/raw/city-north-20261019/street-parts/ledger.json",
+      "sha256": "8f45fbaa69d722b1abce9efbdec3bb861c4d2cc436ef5d8cafdcfe598f89b646"
+    },
+    "inheritedProfile": {
+      "file": "content/helsinki/district-expansion/streets-v1/tram-source-profile.json",
+      "sha256": "80b3c1489f77414a513e6ae429a547798c0e1238e82788f7baa895366ce05481"
+    },
+    "inheritedCredits": {
+      "file": "content/helsinki/district-expansion/streets-v1/production-credits-v1.json",
+      "sha256": "717b56b22f9745d377c982980848598928bd212a35d27133e1ac071dde067b7e"
+    }
+  },
+  "profile": {
+    "file": "content/helsinki/city-north-20261019/streets/tram-source-profile.json",
+    "sha256": "80d682d35eb479d7d3526b779b6be62db89322220679b039dd1ae06ada3bb3d4"
+  },
+  "surfaceAnalysis": {
+    "file": "content/helsinki/city-north-20261019/streets/surface-reference-analysis.json",
+    "sha256": "3502439691bdfb1f088b05c9102567eb9f1e3f19de9ab93cd37ac98adbce11a1"
+  },
+  "sources": [
+    {
+      "id": "osm-tram-axes",
+      "license": "ODbL1.0",
+      "url": "https://www.openstreetmap.org/",
+      "attribution": "Tram axes © OpenStreetMap contributors, ODbL1.0",
+      "use": "Only original railway=tram ways, explicit1000mm gauge and exact original nodes/tags; no synthetic road-centreline tracks."
+    },
+    {
+      "id": "helsinki-municipal-materials",
+      "license": "CC BY4.0 (inherited municipal ledger qualification retained)",
+      "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs",
+      "attribution": "Street areas © City of Helsinki, CC BY4.0",
+      "use": "Exact 2D track-footprint support and surface-reference analysis; no source photograph or physical deck height inferred."
+    },
+    {
+      "id": "inherited-operator-gauge",
+      "url": "https://kaupunkiliikenne.fi/termisto/",
+      "use": "Inherited accepted operator gauge:1000mm between measuring faces. Head/groove/guard widths and up-to3mm lift remain rendering approximations. No new lookup claimed."
+    },
+    {
+      "id": "original-tram-artwork",
+      "license": "CC0-1.0",
+      "authority": {
+        "file": "content/helsinki/district-expansion/streets-v1/production-credits-v1.json",
+        "sha256": "717b56b22f9745d377c982980848598928bd212a35d27133e1ac071dde067b7e"
+      },
+      "use": "Existing original project rail stripe and dimensions; no new pixel artwork generated in this source-only task."
+    }
+  ],
+  "exclusions": [
+    "No new Google reference inspection",
+    "No blanket cobble paving",
+    "No underground, bridge, multilevel or synthetic parallel rails",
+    "No world payload write or final floor authority in this receipt"
+  ]
+}

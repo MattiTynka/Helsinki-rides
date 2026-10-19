@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "kind": "vehicle-contract",
+  "assetId": "vehicle-kaamos-v1",
+  "source": "models/GT40.blend",
+  "builder": "tools/blender/build_extra_cars.py --car kaamos",
+  "note": "The user-supplied low endurance racer (.blend; the .fbx and .obj are the same model) becomes the fictional 'Kaamos'. Every source texture is dropped for flat paint; it carries no emblem geometry. The source is unrigged: the doors are cut out of the body mesh and hinged at their front edges; procedural wheels replace the source wheels. Scaled about 9% over life size (wheelbase 2.63 m) so Finn can sit in it reclined; for him the seats sit lower and further forward, the wheel nearer, and roof blisters over both seats (like the racer's own \"Gurney bubble\") give his head room. Finn's ways in and out are fitted to this cabin (content/assets/finn-vehicle-poses-kaamos.json).",
+  "axes": {
+    "up": "+Y",
+    "forward": "+Z",
+    "left": "+X",
+    "units": "metres",
+    "scale": 1.0
+  },
+  "rootAtGroundBetweenAxles": true,
+  "expectedDimensions": {
+    "lengthM": [
+      4.3,
+      4.7
+    ],
+    "widthM": [
+      1.8,
+      2.0
+    ],
+    "heightM": [
+      1.15,
+      1.3
+    ],
+    "wheelbaseM": [
+      2.4,
+      2.65
+    ],
+    "wheelRadiusM": [
+      0.3,
+      0.4
+    ]
+  },
+  "nodes": {
+    "root": "CAR_ROOT",
+    "body": "CAR_BODY",
+    "optionalMeshes": [
+      "CAR_GLASS",
+      "WINDSHIELD",
+      "CAR_INTERIOR",
+      "CAR_DETAILS"
+    ],
+    "wheels": [
+      "WHEEL_FL",
+      "WHEEL_FR",
+      "WHEEL_RL",
+      "WHEEL_RR"
+    ],
+    "wheelRule": "each wheel node's origin is the hub centre, the wheel spins about its local +X axle; the wheel mesh is a child of (or is) the node; FL = front left = +X +Z",
+    "doors": [
+      "DOOR_FL",
+      "DOOR_FR"
+    ],
+    "doorRule": "optional; origin on the hinge line, opens about local +Y by extras.openDeg (0..70)",
+    "steeringWheel": "STEERING_WHEEL",
+    "steeringRule": "optional; origin at the hub, turns about its local +Z, extras.lockDeg"
+  },
+  "sockets": [
+    {
+      "node": "SEAT_DRIVER",
+      "purpose": "driver hips position (left-hand drive, +X side)"
+    },
+    {
+      "node": "EXIT_DRIVER",
+      "purpose": "ground point where the driver appears on exit (left side, 1.5 m out)"
+    },
+    {
+      "node": "EXIT_PASSENGER",
+      "purpose": "ground point on the right side"
+    },
+    {
+      "node": "CAMERA_CHASE",
+      "purpose": "default chase camera offset, about [0, 2.3, -7.5]"
+    },
+    {
+      "node": "CENTER_OF_MASS",
+      "purpose": "centre of mass, low and slightly forward"
+    },
+    {
+      "node": "LIGHT_HEAD_L",
+      "purpose": "headlight centre"
+    },
+    {
+      "node": "LIGHT_HEAD_R",
+      "purpose": "headlight centre"
+    },
+    {
+      "node": "LIGHT_TAIL_L",
+      "purpose": "tail light centre"
+    },
+    {
+      "node": "LIGHT_TAIL_R",
+      "purpose": "tail light centre"
+    },
+    {
+      "node": "LIGHTBAR",
+      "purpose": "roof centre where the patrol light bar sits"
+    }
+  ],
+  "variants": [
+    {
+      "id": "vehicle-kaamos",
+      "file": "vehicle-kaamos.glb",
+      "paint": "polar-night blue metallic"
+    }
+  ],
+  "budgets": {
+    "triangles": 45000,
+    "materials": 10,
+    "textureMaxSize": 1024,
+    "fileBytes": 6000000
+  },
+  "materials": "paint (metallic 0.6, roughness 0.35, KHR_materials_clearcoat welcome), glass (alpha blend 0.4), rubber, alloy, lamp emissive, interior; textures baked or dropped; no 2K leather maps",
+  "reportFields": [
+    "bodyBoundsLocal",
+    "wheelPositions",
+    "wheelRadius",
+    "sockets",
+    "triangles",
+    "materials",
+    "removedParts"
+  ]
+}

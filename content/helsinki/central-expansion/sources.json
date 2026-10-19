@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "note": "Source register for the release manifest (plan section 1 and 18). Each entry names a raw-data ledger under data/raw whose snapshot hash is copied into the manifest at publish time. Hero assets are listed separately because they are not geodata.",
+  "sources": [
+    {
+      "id": "helsinki-lod2-textured",
+      "ledger": "data/raw/central-expansion-20261017/lod2/ledger.json",
+      "snapshot": "central-expansion",
+      "title": "City of Helsinki 3D city information model, textured LoD2 buildings (3D Tiles)",
+      "url": "https://kartta.hel.fi/3d/",
+      "license": "CC BY 4.0",
+      "attribution": "Buildings © City of Helsinki 3D city model (LoD2), CC BY 4.0, modified"
+    },
+    {
+      "id": "helsinki-terrain-2021",
+      "ledger": "data/raw/central-expansion-20261017/terrain/ledger.json",
+      "snapshot": "central-expansion",
+      "title": "City of Helsinki terrain model 2021 (quantized-mesh, layer 2021_terrain \"Maastomalli\")",
+      "url": "https://kartta.hel.fi/3d/",
+      "license": "CC BY 4.0",
+      "attribution": "Terrain: Helsinki terrain model 2021 © City of Helsinki, CC BY 4.0, resampled"
+    },
+    {
+      "id": "helsinki-building-register-wfs",
+      "ledger": "data/raw/central-expansion-20261017/building-register/ledger.json",
+      "snapshot": "central-expansion",
+      "title": "City of Helsinki building footprints with register attributes",
+      "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs",
+      "license": "CC BY 4.0",
+      "attribution": "Building register © City of Helsinki, CC BY 4.0"
+    },
+    {
+      "id": "helsinki-street-parts-wfs",
+      "ledger": "data/raw/central-expansion-20261017/street-parts/ledger.json",
+      "snapshot": "central-expansion",
+      "title": "City of Helsinki public area register, street and green parts (YLRE)",
+      "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs",
+      "license": "CC BY 4.0",
+      "attribution": "Street areas © City of Helsinki, CC BY 4.0"
+    },
+    {
+      "id": "helsinki-trees-street",
+      "ledger": "data/raw/central-expansion-20261017/trees/street/ledger.json",
+      "snapshot": "central-expansion",
+      "title": "City of Helsinki 3D city model, tree layer Katu_ja_puistopuut (street and park trees, the public tree register; 3D Tiles)",
+      "url": "https://kartta.hel.fi/3d/",
+      "license": "CC BY 4.0",
+      "attribution": "Trees: Helsinki 3D city model tree layers © City of Helsinki, CC BY 4.0 (positions, heights, crown and trunk sizes, genus)"
+    },
+    {
+      "id": "helsinki-trees-plot",
+      "ledger": "data/raw/central-expansion-20261017/trees/plot/ledger.json",
+      "snapshot": "central-expansion",
+      "title": "City of Helsinki 3D city model, tree layer Tontti_ja_metsapuut (plot and forest trees; 3D Tiles)",
+      "url": "https://kartta.hel.fi/3d/",
+      "license": "CC BY 4.0",
+      "attribution": "Trees: Helsinki 3D city model tree layers © City of Helsinki, CC BY 4.0 (positions, heights, crown sizes)"
+    },
+    {
+      "id": "osm",
+      "ledger": "data/raw/central-expansion-20261017/osm/ledger.json",
+      "snapshot": "central-expansion",
+      "title": "OpenStreetMap",
+      "url": "https://www.openstreetmap.org/",
+      "license": "ODbL 1.0",
+      "attribution": "Road and steps data © OpenStreetMap contributors, ODbL"
+    },
+    {
+      "id": "estates-facade-front-2021",
+      "ledger": "data/raw/estates-facades/ledger.json",
+      "snapshot": "front-2021",
+      "title": "House of the Estates Facade 2021-06-08",
+      "url": "https://commons.wikimedia.org/wiki/File:House_of_the_Estates_Facade_2021-06-08.jpg",
+      "license": "CC BY 4.0",
+      "attribution": "House of the Estates Facade 2021-06-08 © Josefiina Alanen, via Wikimedia Commons, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/), cropped, reprojected and reconstructed"
+    },
+    {
+      "id": "estates-facade-park-2022",
+      "ledger": "data/raw/estates-facades/ledger.json",
+      "snapshot": "park-2022",
+      "title": "House of the Estates Park 2022-07-20",
+      "url": "https://commons.wikimedia.org/wiki/File:House_of_the_Estates_Park_2022-07-20.jpg",
+      "license": "CC BY 4.0",
+      "attribution": "House of the Estates Park 2022-07-20 © Josefiina Alanen, via Wikimedia Commons, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/), cropped, reprojected and reconstructed"
+    },
+    {
+      "id": "esplanadi-catani-valtonen",
+      "ledger": "content/assets/facades/esplanadi/source-ledger.json",
+      "title": "Pohjoisesplanadi 31 facade, Helsinki City Museum",
+      "url": "https://hkm.finna.fi/Record/hkm.0930CD28-8917-4792-A315-631BC6E7A029",
+      "license": "CC BY 4.0",
+      "attribution": "Pohjoisesplanadi31 facade photograph: Marja Valtonen / Helsinki City Museum, CC BY4.0; rectified, repeated clean corresponding bays and removed photographed foreground objects.",
+      "snapshot": "catani-2010"
+    }
+  ],
+  "assetCredits": [
+    "Characters derived from Snow and Rain © Blender Studio, CC BY 4.0, modified",
+    "Finn player: user modification of Snow by Blender Studio, CC BY 4.0; supplied native rig and movement clips",
+    "Finn movement generated in the supplied project with NVIDIA Kimodo-SOMA-RP-v1.2, selected, looped and retargeted by the project owner; gameplay poses adapted for Helsinki",
+    "Rain officer: supplied Poliisi-uniform adaptation of Rain by Blender Studio, CC BY 4.0; eleven native movement clips retained, gameplay actions and uniform correction by Helsinki project",
+    "Vehicle derived from the project owner's rigged car model, brand marks removed",
+    "Helsinki Cathedral: low-poly model supplied by the project owner, placed on the city model and light-baked",
+    "Tree models and their textures generated procedurally for the project (tools/blender/build_tree_models.py)",
+    "Alexander II monument: improved model supplied by the project owner; calibrated to 10.67 m, placed at Senate Square centre and texture-compressed. Source sculpture limitations retained."
+  ]
+}

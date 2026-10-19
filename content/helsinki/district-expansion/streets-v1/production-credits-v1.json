@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "id": "district-original-paving-tram-v1",
+  "status": "Credit integration for the pending street/tram candidate; not a release or runtime acceptance receipt",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution": "Regular and fan-pattern granite paving and tram rail-stripe artwork: original Helsinki browser-game project artwork (2026), CC0-1.0. City of Helsinki material polygons and OpenStreetMap track axes retain their separate source licences. Appearance/technical references are not reproduced.",
+  "production": {
+    "referencePixelsCopied": false,
+    "paving": {
+      "kind": "original-procedural",
+      "regularTexturePixels": [
+        256,
+        256
+      ],
+      "fanTexturePixels": [
+        256,
+        256
+      ],
+      "seed": 20261018,
+      "stonesPerSide": 10,
+      "jointMetres": 0.004,
+      "regularSettsApproximateMetres": [
+        0.2,
+        0.1
+      ],
+      "regularCubeApproximateMetres": [
+        0.1,
+        0.1
+      ],
+      "fanRepeatMetres": [
+        2,
+        2
+      ],
+      "palette": "Grey/slightly blue granite; original seeded variation",
+      "producerPaths": [
+        "tools/world/lib/ground-resurfacing.ts",
+        "tools/world/lib/ground-resurfacing-glb.ts"
+      ],
+      "scope": "Exact source materials, matching existing stone finishes, whole upward-face containment and bounded supplementary Senate regions. Fan artwork only source panels 58148–58197; outer concrete walkway, pale stone inserts, monument ring and other source surfaces preserved."
+    },
+    "railStripe": {
+      "kind": "original-procedural",
+      "texturePixels": [
+        44,
+        4
+      ],
+      "crossSectionPixelBands": {
+        "head": 24,
+        "groove": 14,
+        "guard": 6
+      },
+      "crossSectionApproximateMetres": {
+        "head": 0.06,
+        "groove": 0.035,
+        "guard": 0.015
+      },
+      "gaugeBetweenMeasuringPointsMetres": 1,
+      "liftMetres": 0.003,
+      "producerPaths": [
+        "tools/world/lib/tram-visuals.ts",
+        "tools/world/lib/append-tram-glb.ts"
+      ],
+      "scope": "Visual embedded rails from actual separately mapped source track axes; no sleepers or ballast. Ground/collision unchanged. Pixel bands are original authoring, not source photography."
+    },
+    "outputBinding": "Final encoded texture/GLB hashes, exact target coverage and preservation are bound by the fresh producer receipts and release manifest. Producer paths are not claimed frozen by this credit ledger."
+  },
+  "sourcePlan": {
+    "path": "content/helsinki/district-expansion/streets-v1/source-ledger.json",
+    "sha256": "9b82d8f2bc05aef2fb0c20cc2a9680b157a59d6aa65607cae67247f26c7c54ab",
+    "immutableProfiles": [
+      {
+        "path": "content/helsinki/district-expansion/streets-v1/surface-source-profile.json",
+        "sha256": "5ae807cd9eb39e89f1e91ab752b17a9714c0544079341e1f965cb9489a70cf00"
+      },
+      {
+        "path": "content/helsinki/district-expansion/streets-v1/tram-source-profile.json",
+        "sha256": "80b3c1489f77414a513e6ae429a547798c0e1238e82788f7baa895366ce05481"
+      }
+    ]
+  },
+  "sourceGeometry": [
+    {
+      "id": "helsinki-street-parts-wfs",
+      "license": "CC BY 4.0",
+      "attribution": "Street areas © City of Helsinki, CC BY 4.0",
+      "path": "data/raw/district-expansion-20261018/street-parts/district-expansion.geojson",
+      "sha256": "c853f169944e20c7a77b0c06f434ecc04bb95b59f153d10c5ca14adc198983a6",
+      "role": "Footprint and original material authority; source-layer licence caveat remains in raw/source ledger."
+    },
+    {
+      "id": "osm",
+      "license": "ODbL 1.0",
+      "licenseUrl": "https://opendatacommons.org/licenses/odbl/1-0/",
+      "attribution": "Tram track data © OpenStreetMap contributors, ODbL 1.0",
+      "path": "data/raw/district-expansion-20261018/osm/district-expansion.json",
+      "sha256": "fe31bf359524e5801c6a607d62a6562736c8dfb0dea13ea45be20bd8c697c1c9",
+      "role": "92 actual source ways, 452 unique nodes and 4271.545657 m total source track centreline. Original coordinate order retained; derived artwork licence does not replace source-data licence."
+    }
+  ],
+  "references": {
+    "sourceLedger": "content/helsinki/district-expansion/streets-v1/source-ledger.json",
+    "appearanceOnlyIds": [
+      "google-sv-lasipalatsi-2024",
+      "google-sv-pohjoisesplanadi-2024",
+      "google-sv-etelaesplanadi-2026",
+      "google-maps360-senate-2022",
+      "google-sv-aleksanterinkatu-senate"
+    ],
+    "actualOpening": "Root opened all five through sanctioned CUA Chrome controls. Square reference is Xavi Terns Mas's contributor 360, not Google car imagery. IDs, image dates, exact public URLs and observations remain in the immutable source ledger.",
+    "technicalOnly": [
+      {
+        "id": "kaupunkiliikenne-gauge",
+        "url": "https://kaupunkiliikenne.fi/termisto/",
+        "authority": "Pääkaupunkiseudun Kaupunkiliikenne Oy",
+        "basis": "Track centreline equidistant from rail measuring points; straight-track gauge 1,000 mm between measuring points."
+      },
+      {
+        "id": "helsinki-tram-paving",
+        "url": "https://kaupunkitilaohje.hel.fi/kortti/raitiotie/",
+        "authority": "City of Helsinki",
+        "documentStatus": "Draft, updated 2024-05-08",
+        "basis": "Street paving 0–5 mm below running surface; adjoining street material determines paving. Supports visual 3 mm lift, not an engineering survey."
+      }
+    ],
+    "municipalMaterialMap": {
+      "path": "data/evidence/district-expansion-20261018/street-surfaces-v1/senate-source-material-map.png",
+      "sha256": "b1414bbc6b183d62bff9c5ae2c4b722fe473e82a735f51d5d8244f939c63818a",
+      "kind": "Original diagnostic diagram derived from licensed municipal source polygons; actually opened by acquisition agent and root",
+      "role": "Source footprint/material diagnosis, no photograph pixels"
+    },
+    "excluded": "Northern Mannerheim statue panorama defaulted to August 2014; intentionally not used as current 2026 appearance authority."
+  },
+  "acceptance": {
+    "newFinalPack": null,
+    "sourcePartCoverage": "Fresh producer precision/coverage gates required",
+    "nativeSuite": "Required on the new exact final pack; no full-suite PASS or activation claimed",
+    "supersededCandidate": "senate-20261018-717a9536",
+    "supersededStatus": "SUPERSEDED_INCOMPLETE",
+    "supersededReceipt": "data/evidence/district-expansion-20261018/gpu-suite-closure-v4-stopped-for-street-work.json",
+    "completedHistoricalChecks": "23 low fixtures and 9 low native-browser checks passed; continuous walk interrupted. Results do not validate the new street/tram candidate."
+  }
+}

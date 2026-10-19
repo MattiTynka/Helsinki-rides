@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "alexander-ii-monument",
+  "source": "models/Alexander/Alexander-improved.glb",
+  "sourceSha256": "a70d9cabb2bc5b2ad76d8f46af44866c315ddff9cf5e4a6ad1d93c5f4baafc50",
+  "originId": "senate-square-statue-v2",
+  "centreProjectedEN": [25497350, 6672960],
+  "heightMetres": 10.67,
+  "heightReference": "https://www.hamhelsinki.fi/en/sculptures/alexander-ii/",
+  "headingRadians": 0,
+  "headingNote": "Supplied front (+Z, ALEXANDER II lettering and Lex) faces south, away from Cathedral. Source Front4.jpg shows Cathedral behind front; supplied model front is Blender -Y / glTF +Z.",
+  "heightMethod": "Uniformly scale complete supplied monument to HAM's measured 10.67 m; retain supplied proportions. Ground base is centred from lowest granite tier, not sculpture extents.",
+  "groundFit": { "innerRadius": 8, "outerRadius": 20, "rejectAboveMetres": 0.5, "passes": 2 },
+  "sourceScope": "User-supplied visual model. Existing simplified anatomy, heraldry and missing rear figure remain; raw source and references untouched. Original licensing not supplied.",
+  "textureCap": 512
+}

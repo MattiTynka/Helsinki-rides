@@ -1,0 +1,716 @@
+{
+  "schemaVersion": 1,
+  "status": "VERIFIED_FROZEN_INTERVALS_AND_CONDITIONAL_SOURCE_FACES",
+  "baseCellsIndexSha256": "7f1db6eaac8cd4f3026c3ed5c417e9af25f43c60cac6c12059c57248335cf54a",
+  "sourceProofs": [
+    {
+      "path": "data/evidence/district-expansion-20261018/building-foundation-closure-proposal-v2.json",
+      "sha256": "98829996b8f50c4f7bd550736dd73e54024ec9ff0b5458151bbce8342b600432"
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/frozen-building-base-diagnosis-v2.json",
+      "sha256": "7bef4fdb70330afcccb67dcb1d7d32358a78b57951301b64ad764c4fb43f770b"
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/building-foundation-conditional-grade-proposal-v1.json",
+      "sha256": "797c170b7fb7943e3900dd9ee8efd3921b454523a992ed3835fc36ecf278ea12"
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/building-foundation-conditional-grade-samples-v1.json",
+      "sha256": "27d5a2720593ab84e385373de48e836f0cc2b04ad918ec84bd1228b2bdd10f23"
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/carriageway-skirt-gap-selected-source-v1.json",
+      "sha256": "05fb2b20c50d6a9e8872147604f4c8e2bde8e5732dfc2e6b3d17bae4eace7451"
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/carriageway-authored-west-prototype.json",
+      "sha256": "4deb2b62b0f93dc8092085b3fa9aca5a23e44e3a8fe2336fd28a328cd5ae8995"
+    }
+  ],
+  "policy": "Extend only independently confirmed, unmasked exterior source skirt intervals to final dry ground, using their exact frozen palette material and UVs. No original geometry, imagery, terrain input, or accepted-area edits. Two additional exact frozen source faces are conditional on the selected authored grade; final decoded visual/HCOL and transverse-ray closure checks must pass before acceptance.",
+  "repairs": [
+    {
+      "building": "BID_efc2530d-167d-4b77-bf51-94a81e49169b",
+      "vtj": "103055979D",
+      "cell": "c_m09_p00",
+      "materialName": "c_m09_p00_palette",
+      "edgeRuntime": [
+        [
+          -1029.9703020726618,
+          2.136023023758496,
+          -38.699265053905265
+        ],
+        [
+          -1030.0830078125,
+          2.136023023758496,
+          -38.86600112915039
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        0.8284823947566221,
+        -0.5600151083482772
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "e15cb5ef999aaed3bc9f9031e89d1739329ff19e24bc01d91de54b1c8c8ec21c"
+    },
+    {
+      "building": "BID_95fa860b-32d9-41b3-8660-28848507ad5e",
+      "vtj": null,
+      "cell": "c_m08_m01",
+      "materialName": "c_m08_m01_palette",
+      "edgeRuntime": [
+        [
+          -1028.1355722088806,
+          2.6553442078627874,
+          -39.903196803585026
+        ],
+        [
+          -1028.4054223221824,
+          2.6553442137326058,
+          -39.72669981402035
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.5473721718179767,
+        -0.8368893030259568
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "dbb91031aaff4cb409c1c908d27596c9b9a2606cd35b0a9d1d69ccffdbd362e7"
+    },
+    {
+      "building": "BID_95fa860b-32d9-41b3-8660-28848507ad5e",
+      "vtj": null,
+      "cell": "c_m08_m01",
+      "materialName": "c_m08_m01_palette",
+      "edgeRuntime": [
+        [
+          -1028.4054223221824,
+          2.6553442137326058,
+          -39.72669981402035
+        ],
+        [
+          -1028.5,
+          2.655344215789873,
+          -39.664840750073466
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.5473721718179767,
+        -0.8368893030259568
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "dbb91031aaff4cb409c1c908d27596c9b9a2606cd35b0a9d1d69ccffdbd362e7"
+    },
+    {
+      "building": "BID_95fa860b-32d9-41b3-8660-28848507ad5e",
+      "vtj": null,
+      "cell": "c_m08_m01",
+      "materialName": "c_m08_m01_palette",
+      "edgeRuntime": [
+        [
+          -1028.5,
+          2.655344215789873,
+          -39.664840750073466
+        ],
+        [
+          -1028.5066626854123,
+          2.6553442159348006,
+          -39.660482983077266
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.5473721718179767,
+        -0.8368893030259568
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "dbb91031aaff4cb409c1c908d27596c9b9a2606cd35b0a9d1d69ccffdbd362e7"
+    },
+    {
+      "building": "BID_95fa860b-32d9-41b3-8660-28848507ad5e",
+      "vtj": null,
+      "cell": "c_m08_m01",
+      "materialName": "c_m08_m01_palette",
+      "edgeRuntime": [
+        [
+          -1028.5066626854123,
+          2.6553442159348006,
+          -39.660482983077266
+        ],
+        [
+          -1028.7201976436518,
+          2.655344220579644,
+          -39.52081923850826
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.5473721718179767,
+        -0.8368893030259568
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "dbb91031aaff4cb409c1c908d27596c9b9a2606cd35b0a9d1d69ccffdbd362e7"
+    },
+    {
+      "building": "BID_95fa860b-32d9-41b3-8660-28848507ad5e",
+      "vtj": null,
+      "cell": "c_m08_m01",
+      "materialName": "c_m08_m01_palette",
+      "edgeRuntime": [
+        [
+          -1028.7201976436518,
+          2.655344220579644,
+          -39.52081923850826
+        ],
+        [
+          -1029.1856755769388,
+          2.6553442307047868,
+          -39.21637076921272
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.5473721718179767,
+        -0.8368893030259568
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "dbb91031aaff4cb409c1c908d27596c9b9a2606cd35b0a9d1d69ccffdbd362e7"
+    },
+    {
+      "building": "BID_95fa860b-32d9-41b3-8660-28848507ad5e",
+      "vtj": null,
+      "cell": "c_m08_m01",
+      "materialName": "c_m08_m01_palette",
+      "edgeRuntime": [
+        [
+          -1029.1856755769388,
+          2.6553442307047868,
+          -39.21637076921272
+        ],
+        [
+          -1029.467131689308,
+          2.6553442368270606,
+          -39.03228281045705
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.5473721718179767,
+        -0.8368893030259568
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "dbb91031aaff4cb409c1c908d27596c9b9a2606cd35b0a9d1d69ccffdbd362e7"
+    },
+    {
+      "building": "BID_95fa860b-32d9-41b3-8660-28848507ad5e",
+      "vtj": null,
+      "cell": "c_m08_m01",
+      "materialName": "c_m08_m01_palette",
+      "edgeRuntime": [
+        [
+          -1029.467131689308,
+          2.6553442368270606,
+          -39.03228281045705
+        ],
+        [
+          -1029.514735706673,
+          2.65534423786255,
+          -39.001147134235445
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.5473721718179767,
+        -0.8368893030259568
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "dbb91031aaff4cb409c1c908d27596c9b9a2606cd35b0a9d1d69ccffdbd362e7"
+    },
+    {
+      "building": "BID_95fa860b-32d9-41b3-8660-28848507ad5e",
+      "vtj": null,
+      "cell": "c_m08_m01",
+      "materialName": "c_m08_m01_palette",
+      "edgeRuntime": [
+        [
+          -1029.514735706673,
+          2.65534423786255,
+          -39.001147134235445
+        ],
+        [
+          -1029.972412109375,
+          2.655344247817993,
+          -38.70180130004883
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.5473721718179767,
+        -0.8368893030259568
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "dbb91031aaff4cb409c1c908d27596c9b9a2606cd35b0a9d1d69ccffdbd362e7"
+    },
+    {
+      "building": "BID_2e29faa4-6908-4a1f-8d5b-af2f6ce23f14",
+      "vtj": "103075016H",
+      "cell": "c_m10_m01",
+      "materialName": "c_m10_m01_palette",
+      "edgeRuntime": [
+        [
+          -1214.4100341796875,
+          6.2500786781311035,
+          -67.74500274658203
+        ],
+        [
+          -1214.4119203236926,
+          6.250078678149834,
+          -67.7437205958314
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.5621819364655717,
+        -0.8270135853248239
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "e9f661cadabe03ceda42900d9bf32f990e18f357544e25b011181a44639632f0"
+    },
+    {
+      "building": "BID_2e29faa4-6908-4a1f-8d5b-af2f6ce23f14",
+      "vtj": "103075016H",
+      "cell": "c_m10_m01",
+      "materialName": "c_m10_m01_palette",
+      "edgeRuntime": [
+        [
+          -1214.4119203236926,
+          6.250078678149834,
+          -67.7437205958314
+        ],
+        [
+          -1215.2047654637197,
+          6.2500786860234205,
+          -67.20476546371961
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.5621819364655717,
+        -0.8270135853248239
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "e9f661cadabe03ceda42900d9bf32f990e18f357544e25b011181a44639632f0"
+    },
+    {
+      "building": "BID_2e29faa4-6908-4a1f-8d5b-af2f6ce23f14",
+      "vtj": "103075016H",
+      "cell": "c_m10_m01",
+      "materialName": "c_m10_m01_palette",
+      "edgeRuntime": [
+        [
+          -1215.2047654637197,
+          6.2500786860234205,
+          -67.20476546371961
+        ],
+        [
+          -1216,
+          6.2500786939207345,
+          -66.66418608330464
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.5621819364655717,
+        -0.8270135853248239
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "e9f661cadabe03ceda42900d9bf32f990e18f357544e25b011181a44639632f0"
+    },
+    {
+      "building": "BID_2e29faa4-6908-4a1f-8d5b-af2f6ce23f14",
+      "vtj": "103075016H",
+      "cell": "c_m10_m01",
+      "materialName": "c_m10_m01_palette",
+      "edgeRuntime": [
+        [
+          -1216,
+          6.2500786939207345,
+          -66.66418608330464
+        ],
+        [
+          -1217.5860388621813,
+          6.250078709671367,
+          -65.58603886218128
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.5621819364655717,
+        -0.8270135853248239
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "e9f661cadabe03ceda42900d9bf32f990e18f357544e25b011181a44639632f0"
+    },
+    {
+      "building": "BID_654b583e-a33f-4bed-aa7d-d1bc981c769f",
+      "vtj": "103017631C",
+      "cell": "c_p01_m01",
+      "materialName": "c_p01_m01_palette",
+      "edgeRuntime": [
+        [
+          198.2481980432488,
+          -1.489216157832332,
+          -73.6472214634787
+        ],
+        [
+          198.35370131701265,
+          -1.489216157832332,
+          -72
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.9979551371220571,
+        0.06391826258352025
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "8d023bf9fb10757a0f867243dff3f77d3866e28d5925a0a6eae56696e24ac568"
+    },
+    {
+      "building": "BID_654b583e-a33f-4bed-aa7d-d1bc981c769f",
+      "vtj": "103017631C",
+      "cell": "c_p01_m01",
+      "materialName": "c_p01_m01_palette",
+      "edgeRuntime": [
+        [
+          198.35370131701265,
+          -1.489216157832332,
+          -72
+        ],
+        [
+          198.51477043850556,
+          -1.489216157832332,
+          -69.48522956149444
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.9979551371220571,
+        0.06391826258352025
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "8d023bf9fb10757a0f867243dff3f77d3866e28d5925a0a6eae56696e24ac568"
+    },
+    {
+      "building": "BID_654b583e-a33f-4bed-aa7d-d1bc981c769f",
+      "vtj": "103017631C",
+      "cell": "c_p01_m01",
+      "materialName": "c_p01_m01_palette",
+      "edgeRuntime": [
+        [
+          198.51477043850556,
+          -1.489216157832332,
+          -69.48522956149444
+        ],
+        [
+          198.55169677734375,
+          -1.489216157832332,
+          -68.90869903564453
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.9979551371220571,
+        0.06391826258352025
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "8d023bf9fb10757a0f867243dff3f77d3866e28d5925a0a6eae56696e24ac568"
+    },
+    {
+      "building": "BID_d767d737-6f33-45d2-80ca-49a47189cc33",
+      "vtj": "103036698E",
+      "cell": "c_p01_m01",
+      "materialName": "c_p01_m01_palette",
+      "edgeRuntime": [
+        [
+          214.3040008544922,
+          -1.8266261256205845,
+          -50.3900032043457
+        ],
+        [
+          213.6540047056099,
+          -1.8266261256205845,
+          -50.34599529439008
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.06755023155392478,
+        -0.9977158744938417
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "44830320437f92d5ba1dcb57e69e79ab84c394525907ce1b7ef7a6563f65c922"
+    },
+    {
+      "building": "BID_d767d737-6f33-45d2-80ca-49a47189cc33",
+      "vtj": "103036698E",
+      "cell": "c_p01_m01",
+      "materialName": "c_p01_m01_palette",
+      "edgeRuntime": [
+        [
+          213.6540047056099,
+          -1.8266261256205845,
+          -50.34599529439008
+        ],
+        [
+          212.49978089783417,
+          -1.8266261256205845,
+          -50.26784871230867
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.06755023155392478,
+        -0.9977158744938417
+      ],
+      "reason": "Frozen source face and generated skirt stop above independently decoded ground. Exterior register probes and transverse rays sampled at most .125m apart have no intervening geometry at/before the facade plane; any deeper ground hits are recorded.",
+      "sourcePaletteTriangleSha256": "44830320437f92d5ba1dcb57e69e79ab84c394525907ce1b7ef7a6563f65c922"
+    },
+    {
+      "building": "BID_94647ab5-6d84-4dea-8d2c-94f42505f3df",
+      "vtj": "1030750077",
+      "cell": "c_m09_m01",
+      "materialName": "c_m09_m01_palette",
+      "edgeRuntime": [
+        [
+          -1035.1619873046875,
+          4.170078754425049,
+          -87.01800537109375
+        ],
+        [
+          -1063.2259521484375,
+          4.170079231262207,
+          -127.89100646972656
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        0.8243828523728793,
+        -0.5660326074649369
+      ],
+      "reason": "Conditional closure of this exact frozen source face: the selected fresh-source road-grade prototype lowers adjacent ground at proven exterior samples. Emit vertical strips only where the final authored exterior ground is below the existing skirt/source-wall bottom; zero work where already buried.",
+      "conditionalOnFinalGrade": true
+    },
+    {
+      "building": "BID_94647ab5-6d84-4dea-8d2c-94f42505f3df",
+      "vtj": "1030750077",
+      "cell": "c_m09_m01",
+      "materialName": "c_m09_m01_palette",
+      "edgeRuntime": [
+        [
+          -1063.52197265625,
+          3.9169135093688965,
+          -128.3209991455078
+        ],
+        [
+          -1071.7130126953125,
+          3.9169135093688965,
+          -140.25100708007812
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        0.8243914787913468,
+        -0.5660200435463539
+      ],
+      "reason": "Conditional closure of this exact frozen source face: the selected fresh-source road-grade prototype lowers adjacent ground at proven exterior samples. Emit vertical strips only where the final authored exterior ground is below the existing skirt/source-wall bottom; zero work where already buried.",
+      "conditionalOnFinalGrade": true
+    }
+  ],
+  "confirmedFrozenIntervals": 18,
+  "conditionalSourceFaces": 2
+}

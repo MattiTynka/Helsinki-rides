@@ -1,0 +1,8 @@
+{
+  "require_version": "5.2",
+  "self_overlap": { "enabled": true, "max_faces": 200000, "epsilon": 1e-5 },
+  "limits": { "nonmanifold_interior_edges": 0, "flipped_edges": 0, "wire_edges": 0, "loose_vertices": 0, "degenerate_faces": 0 },
+  "dimensions": [{ "object": "CAR_BODY", "size": [2.0226, 4.4972, 1.1068], "tolerance": 0.005 }],
+  "unit_scale": 1.0,
+  "applied_transforms": true
+}

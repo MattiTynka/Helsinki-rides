@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "binding": {
+    "osm": {
+      "path": "data/raw/city-continuation-20261019/osm/city-continuation.json",
+      "sha256": "d13888acd3b1f9bd0fe1e5d38b6bac9c2085482d4990252901ce0fe5bd34e2d6"
+    },
+    "origin": {
+      "path": "content/helsinki/world-origin.json",
+      "sha256": "46e5a24375dc3fa48b38795d69481bf2b73512e622c3358714db354869d794e7"
+    },
+    "footprints": {
+      "path": "data/raw/city-continuation-20261019/building-register/city-continuation.geojson",
+      "sha256": "ebfcdf2e93a575b2528fa61bd19212f40bc441fb0247a0241af8251004000901"
+    },
+    "acceptedApproach": {
+      "path": "content/helsinki/district-expansion/walk-plan.json",
+      "sha256": "586f072e9f15ea324977a1f9cb87498e0efe484b1d27fb056f0558f736b81737",
+      "firstSourceNode": 313959145
+    },
+    "originId": "senate-square-statue-v2",
+    "crs": "EPSG:3879",
+    "verticalDatum": "N2000",
+    "axes": {
+      "x": "east",
+      "z": "south"
+    },
+    "playArea": {
+      "minX": -1792,
+      "maxX": 800,
+      "minZ": -950,
+      "maxZ": 450
+    }
+  },
+  "landmarks": [
+    {
+      "label": "Fredrikinkatu / Arkadiankatu western boundary crossing",
+      "position": [
+        -1374.03,
+        -199.422
+      ],
+      "headingDeg": 270,
+      "source": {
+        "type": "node",
+        "id": 296557930,
+        "connectedWayIds": [
+          27095460,
+          30297580
+        ],
+        "landmarkWay": null,
+        "nearbySourceWay": 4236351,
+        "entranceNode": null,
+        "referenceUrl": "https://www.openstreetmap.org/node/296557930"
+      }
+    },
+    {
+      "label": "Temppeliaukio public approach",
+      "position": [
+        -1476.874,
+        -348.454
+      ],
+      "headingDeg": 327.5029732719529,
+      "source": {
+        "type": "node",
+        "id": 9333749513,
+        "connectedWayIds": [
+          27413196,
+          1011638580
+        ],
+        "landmarkWay": 124143121,
+        "nearbySourceWay": null,
+        "entranceNode": 394822829,
+        "referenceUrl": "https://temppeliaukionkirkko.fi/index/suunnittelevierailusi.html"
+      }
+    },
+    {
+      "label": "Western Arkadiankatu / Runeberginkatu",
+      "position": [
+        -1610.429,
+        -233.86
+      ],
+      "headingDeg": 90,
+      "source": {
+        "type": "node",
+        "id": 6343007772,
+        "connectedWayIds": [
+          677423457
+        ],
+        "landmarkWay": null,
+        "nearbySourceWay": 78315548,
+        "entranceNode": null,
+        "referenceUrl": "https://www.openstreetmap.org/node/6343007772"
+      }
+    },
+    {
+      "label": "West Kamppi / Pohjoinen Rautatiekatu",
+      "position": [
+        -1495.607,
+        140.66
+      ],
+      "headingDeg": 90,
+      "source": {
+        "type": "node",
+        "id": 7694544836,
+        "connectedWayIds": [
+          314475693
+        ],
+        "landmarkWay": null,
+        "nearbySourceWay": 29050361,
+        "entranceNode": null,
+        "referenceUrl": "https://www.openstreetmap.org/node/7694544836"
+      }
+    }
+  ]
+}

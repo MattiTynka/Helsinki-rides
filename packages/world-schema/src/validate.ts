@@ -1,0 +1,75 @@
+// Hand-written structural validators (no schema library): each returns a list of problems, empty when valid.
+import type { GameplayBundle, WorldManifest } from './types.ts';
+
+const isNum = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
+const isVec2 = (v: unknown): boolean => Array.isArray(v) && v.length === 2 && v.every(isNum);
+const isVec3 = (v: unknown): boolean => Array.isArray(v) && v.length === 3 && v.every(isNum);
+
+export function validateWorldManifest(m: unknown): string[] {
+  const p: string[] = [];
+  const x = m as Partial<WorldManifest>;
+  if (!x || typeof x !== 'object') return ['manifest is not an object'];
+  if (x.schemaVersion !== 2) p.push('schemaVersion must be 2');
+  if (typeof x.worldReleaseId !== 'string' || !x.worldReleaseId) p.push('worldReleaseId missing');
+  if (!x.origin || !isVec3(x.origin.originProjected)) p.push('origin.originProjected must be [E, N, H]');
+  if (!isNum(x.cellSize) || x.cellSize <= 0) p.push('cellSize must be positive');
+  if (!Array.isArray(x.boundsRuntimeXZ) || x.boundsRuntimeXZ.length !== 4) p.push('boundsRuntimeXZ must have 4 numbers');
+  if (!Array.isArray(x.cells)) p.push('cells must be an array');
+  else {
+    const ids = new Set<string>();
+    for (const c of x.cells) {
+      if (ids.has(c.id)) p.push(`duplicate cell ${c.id}`);
+      ids.add(c.id);
+      if (!c.visual?.lod0?.path || !c.visual.lod0.sha256) p.push(`cell ${c.id} has no lod0`);
+      if (!c.collision?.path || !c.collision.sha256) p.push(`cell ${c.id} has no collision`);
+      if (!Array.isArray(c.buildings)) p.push(`cell ${c.id} has no building records`);
+      else for (const b of c.buildings) {
+        if (b.match === 'unmatched' && b.collider !== 'citymodel') p.push(`cell ${c.id}: unmatched building ${b.id} without a citymodel collider`);
+      }
+    }
+  }
+  if (!x.terrain?.path || !isNum(x.terrain.resolution)) p.push('terrain missing');
+  if (!x.roads?.path) p.push('roads missing');
+  if (!x.gameplay?.path) p.push('gameplay missing');
+  if (x.scenery !== undefined && (!x.scenery.path || !x.scenery.sha256)) p.push('scenery must be a file reference');
+  if (x.scenery && !x.assets?.some(a => a.kind === 'scenery')) p.push('scenery without a scenery asset');
+  if (!Array.isArray(x.sources) || x.sources.length === 0) p.push('sources must list every data source');
+  if (!Array.isArray(x.attribution) || x.attribution.length === 0) p.push('attribution missing');
+  if (x.lighting !== 'unlit-facades' && x.lighting !== 'lit-facades') p.push('lighting decision missing');
+  return p;
+}
+
+export function validateGameplayBundle(g: unknown): string[] {
+  const p: string[] = [];
+  const x = g as Partial<GameplayBundle>;
+  if (!x || typeof x !== 'object') return ['gameplay is not an object'];
+  if (x.schemaVersion !== 2) p.push('schemaVersion must be 2');
+  if (!x.player || !isVec2(x.player.spawn?.position)) p.push('player.spawn.position must be [x, z]');
+  if (!x.playArea || ![x.playArea.minX, x.playArea.maxX, x.playArea.minZ, x.playArea.maxZ].every(isNum)) p.push('playArea missing');
+  const defs = new Set<string>();
+  for (const d of x.vehicleDefinitions ?? []) {
+    defs.add(d.id);
+    if (!(d.massKg > 0)) p.push(`vehicle ${d.id}: massKg`);
+    if (!Array.isArray(d.wheels) || d.wheels.length < 3) p.push(`vehicle ${d.id}: wheels`);
+    if (!isVec3(d.collider?.halfExtents)) p.push(`vehicle ${d.id}: collider.halfExtents`);
+    if (!(d.engine?.topSpeedMs > 0)) p.push(`vehicle ${d.id}: engine.topSpeedMs`);
+    if (!(d.seat?.entryRadius > 0) || !Array.isArray(d.seat.exits) || d.seat.exits.length === 0) p.push(`vehicle ${d.id}: seat`);
+    const ia = d.interaction;
+    if (ia && (typeof ia.poses !== 'string' || !isVec3(ia.stage) || !isVec3(ia.windshieldStage) || !isVec2(ia.flippedStage)
+      || !Array.isArray(ia.doorSweep) || !ia.doorSweep.length || !ia.doorSweep.every(isVec3)
+      || !Array.isArray(ia.bonnetPath) || !ia.bonnetPath.length || !ia.bonnetPath.every(isVec3))) p.push(`vehicle ${d.id}: interaction`);
+  }
+  for (const v of x.vehicles ?? []) {
+    if (!defs.has(v.definition)) p.push(`vehicle spawn ${v.id}: unknown definition ${v.definition}`);
+    if (!isVec2(v.position)) p.push(`vehicle spawn ${v.id}: position`);
+  }
+  const anchors = x.anchors ?? [];
+  if (!anchors.some(a => a.kind === 'hospital')) p.push('no hospital anchor');
+  if (!anchors.some(a => a.kind === 'police')) p.push('no police anchor');
+  for (const a of anchors) if (!a.destinationName) p.push(`anchor ${a.id}: destinationName names the real place`);
+  if (!x.weapons?.some(w => w.id === 'pistol')) p.push('pistol weapon missing');
+  if (!x.wanted || !Array.isArray(x.wanted.starThresholds) || x.wanted.starThresholds.length !== 5) p.push('wanted.starThresholds must have 5 entries');
+  if (!x.wanted || !Array.isArray(x.wanted.unitCaps) || x.wanted.unitCaps.length !== 5) p.push('wanted.unitCaps must have 5 entries');
+  if (!x.police || !Array.isArray(x.police.patrolSpawns) || x.police.patrolSpawns.length < 2) p.push('police.patrolSpawns needs at least two edges');
+  return p;
+}

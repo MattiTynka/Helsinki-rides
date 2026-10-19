@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "buildingRegister": "data/raw/district-expansion-20261018/building-register/district-expansion.geojson",
+  "structures": [
+    {
+      "buildingId": "BID_c6be6cac-848f-47e9-898e-44bc97d39d25",
+      "registerId": "register-879555",
+      "featureId": "Rakennukset_alue_rekisteritiedot.31292",
+      "kind": "floating-sauna",
+      "referenceUrl": "https://www.allaspool.fi/en/saunas/"
+    }
+  ],
+  "evidence": "Helsinki RAVA register feature 879555 is a current Sauna footprint, matched within 3 mm to this LoD2 building. The Allas operator identifies its three pool-deck saunas as floating structures. This declaration allows only a source-matched visible roof collider: ground and safety terrain below the structure remain subject to the strict water checks. Decoded source roof and prism cap differ by less than 0.08 mm at both affected water-grid probes."
+}

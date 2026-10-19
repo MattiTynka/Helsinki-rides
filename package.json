@@ -1,0 +1,40 @@
+{
+  "name": "helsinki-rides",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.28.2",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @helsinki/game dev",
+    "build": "pnpm --filter @helsinki/game build",
+    "build:pages": "pnpm --filter @helsinki/game exec vite build --mode pages",
+    "build:review": "pnpm --filter @helsinki/game exec vite build --mode review",
+    "preview": "pnpm --filter @helsinki/game preview",
+    "typecheck": "tsc -p packages/world-schema && tsc -p packages/sim && tsc -p apps/game && tsc -p tools/verify && tsc -p tools/world",
+    "test": "node --test \"packages/*/test/*.test.ts\" \"tools/verify/test/*.test.ts\" \"tools/verify/test/*.test.mjs\" \"tools/world/test/*.test.ts\"",
+    "test:source": "node tools/release/test-source.mjs",
+    "release:audit": "python tools/release/source_release.py audit",
+    "release:source": "python tools/release/source_release.py export --out build/source-release",
+    "world:convert": "node tools/world/convert_city_model.ts",
+    "world:terrain": "node tools/world/build_terrain.ts",
+    "world:roads": "node tools/world/build_roads.ts",
+    "world:cells": "node tools/world/build_cells.ts",
+    "world:release": "node tools/world/publish_release.ts"
+  },
+  "devDependencies": {
+    "@gltf-transform/core": "4.5.1",
+    "@gltf-transform/extensions": "4.5.1",
+    "@gltf-transform/functions": "4.5.1",
+    "@types/node": "24.19.2",
+    "earcut": "3.2.4",
+    "gltf-validator": "2.0.0-dev.3.10",
+    "ktx2-encoder": "0.6.0",
+    "meshoptimizer": "1.3.0",
+    "playwright": "1.63.0",
+    "polygon-clipping": "0.15.7",
+    "sharp": "0.35.5",
+    "typescript": "7.0.2"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "buildingId": "BID_1a7d931f-e35e-4088-b153-eed14c6ec1b0",
+  "building": "House of the Estates / Säätytalo, Snellmaninkatu 9–11, Helsinki",
+  "created": "2026-10-17",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+  "assets": [
+    {
+      "file": "front-2021.jpg",
+      "sha256": "de916b7a4ab9b909845e926e63fa72ebdd2ebf8ab11934c8e73f6bd405e004b0",
+      "title": "House of the Estates Facade 2021-06-08",
+      "author": "Josefiina Alanen",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:House_of_the_Estates_Facade_2021-06-08.jpg",
+      "attribution": "\"House of the Estates Facade 2021-06-08\" by Josefiina Alanen, CC BY 4.0, via Wikimedia Commons; cropped, reprojected and reconstructed.",
+      "sourceSha256": "cd718a6b4599947c9b4e1626617a852c5c2c059e4866061b2ab0f94758bf60f3",
+      "privacyChanges": "Non-rendering camera/location/contact metadata removed; encoded pixels unchanged."
+    },
+    {
+      "file": "park-2022.jpg",
+      "sha256": "389cc0a3cea129acd9974409747bfdbc7ab37649b237e33ee8905cafe5c4298e",
+      "title": "House of the Estates Park 2022-07-20",
+      "author": "Josefiina Alanen",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:House_of_the_Estates_Park_2022-07-20.jpg",
+      "attribution": "\"House of the Estates Park 2022-07-20\" by Josefiina Alanen, CC BY 4.0, via Wikimedia Commons; cropped, reprojected and reconstructed.",
+      "sourceSha256": "efd0f1412d04a3fc388d9abd16a2abbd7c5cade05f08248b7cf92db91b4df516",
+      "privacyChanges": "Non-rendering camera/location/contact metadata removed; encoded pixels unchanged."
+    }
+  ],
+  "changes": "Photographs cropped and reprojected into the original Helsinki wall UV triangles; lamps, pots, tram wires, trees, fountain and fence excluded using clear same-building masonry/window donors. Front portico and crest retained. Three rectangular recessed side bays plus separate projecting corner bays and five arched rear bays retain different architecture. Hidden side detail and rear basement reconstructed from analogous clean same-building bays. No geometric/collision/source-master changes; no Google pixels.",
+  "geometryCatalogue": {
+    "file": "wall-mapping.json",
+    "sha256": "a42fb15c6e0fac14a78040f706d20876f27552698e10642aa5bb9f0735d90ffa",
+    "sourceCityBinSha256": "ff93bf9d543e0f11477c8d847681a2b0b724e1372ca428d70d32b9c4b875ed2e"
+  },
+  "referenceOnly": [
+    {
+      "title": "Kirkkokatu - panoramio (1)",
+      "author": "jampe",
+      "license": "CC BY-SA 3.0",
+      "url": "https://commons.wikimedia.org/wiki/File:Kirkkokatu_-_panoramio_(1).jpg",
+      "use": "Visual reference only; no pixels copied into assets. Shows rectangular upper/middle and arched basement windows on the south facade."
+    },
+    {
+      "title": "Säätytalon telineillä: Kertomuksia peruskorjaushankkeesta 2021–2025",
+      "publisher": "Senaatti-kiinteistöt",
+      "url": "https://www.sttinfo.fi/files/69820807/72102281/403946/fi",
+      "use": "Visual/reference reading only; no pixels copied into assets."
+    }
+  ]
+}

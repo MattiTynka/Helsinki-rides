@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "binding": {
+    "osm": {
+      "path": "data/raw/city-continuation-20261019/osm/city-continuation.json",
+      "sha256": "d13888acd3b1f9bd0fe1e5d38b6bac9c2085482d4990252901ce0fe5bd34e2d6"
+    },
+    "roads": {
+      "path": "data/work/city-continuation-20261019/roads-v1/roads.json",
+      "sha256": "8515f4c8135c0f9ea23cda94180a8f6890316e4f839c905eb57302ec6788be42"
+    },
+    "gameplayBase": {
+      "path": "content/helsinki/city-continuation/gameplay-base.json",
+      "sha256": "f5851d361fbe8575cb7c097db2ff4c33f01b70f62744320e680c357e2ce52eb6"
+    },
+    "origin": "senate-square-statue-v2",
+    "axes": {
+      "x": "east",
+      "z": "south"
+    },
+    "note": "Actual lane points/directed planning, not driving proof; final candidate source binding and CPU/native support gates remain.",
+    "selectedDirectedPrototype": {
+      "path": "data/work/city-continuation-20261019/verification/drive-order-prototype-v3.json",
+      "sha256": "2b947bf8daf1b88cf157e096f925f5db5b396611b6fb7d225fe909ef73e88c12"
+    }
+  },
+  "status": "SOURCE_PLANNED_NOT_DRIVEN",
+  "goals": [
+    {
+      "label": "Mannerheimintie / Lasipalatsi departure",
+      "road": "Mannerheimintie",
+      "xz": [
+        -838.05417361918,
+        -151.95915923280188
+      ],
+      "radius": 0.6
+    },
+    {
+      "label": "Directed Pohjoinen Hesperiankatu continuation checkpoint 2",
+      "road": "Pohjoinen Hesperiankatu",
+      "xz": [
+        -1373.3617079713824,
+        -908.9434663779003
+      ],
+      "radius": 0.6
+    },
+    {
+      "label": "Runeberginkatu north of Baana",
+      "road": "Runeberginkatu",
+      "xz": [
+        -1637.6844311895072,
+        -392.21125021289816
+      ],
+      "radius": 0.6
+    },
+    {
+      "label": "Temppeliaukio / Lutherinkatu public street approach",
+      "road": "Lutherinkatu",
+      "xz": [
+        -1470.366579016395,
+        -345.56512154669014
+      ],
+      "radius": 0.6
+    },
+    {
+      "label": "Directed Mannerheimintie continuation checkpoint 5",
+      "road": "Mannerheimintie",
+      "xz": [
+        -964.8458078250917,
+        -308.16492663534586
+      ],
+      "radius": 0.6
+    },
+    {
+      "label": "West Kamppi / Salomonkatu boundary approach",
+      "road": "Salomonkatu",
+      "xz": [
+        -1355.298038498146,
+        176.88384836669525
+      ],
+      "radius": 0.6
+    },
+    {
+      "label": "Directed Kaivokatu continuation checkpoint 7",
+      "road": "Kaivokatu",
+      "xz": [
+        -717.7853280281473,
+        -66.44133756535412
+      ],
+      "radius": 0.6
+    },
+    {
+      "label": "Senate Square / Unioninkatu return",
+      "road": "Unioninkatu",
+      "xz": [
+        -73.87589662273845,
+        -25.20822093281485
+      ],
+      "radius": 8
+    }
+  ],
+  "requiredWayIds": [
+    45479821,
+    46656787,
+    1312868100,
+    8035726,
+    129920008,
+    211448173
+  ],
+  "recommendedMaxSeconds": 1400,
+  "acceptance": "Real keyboard Senate entry, north/west extension, Temppeliaukio public street approach, legal accepted-Fredrikinkatu detour to west Kamppi and supported Senate return/exit. Unapproved Runeberginkatu bridge is NOT used. New intermediate source lane checkpoints retain 240s/leg and10m/s target; recoveries0. Actual candidate own recording/replay and final ground CPU/native gates remain required."
+}

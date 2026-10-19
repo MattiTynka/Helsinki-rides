@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "id": "cygnaeuksenkatu-6-source-skirt-v2",
+  "sourceCells": {
+    "path": "data/work/district-expansion-20261018/cells-abutments-v1",
+    "indexSha256": "f3d37e78be20236d6ab970e8d08052ac90fd0f2e3e1491799cfd320f64a8198b"
+  },
+  "sourceProofs": [
+    {
+      "path": "data/work/city-continuation-20261019/acquisition/frontier-foundation-proposal-v1.json",
+      "sha256": "54a4c92579a74b17c9407699c22dd4edc56d1cf3471f9087ca3aca21c51cb027"
+    },
+    {
+      "path": "data/work/city-continuation-20261019/acquisition/frontier-building-qualification-v2.json",
+      "sha256": "645fb2255132d83efe50f2d6bdd39faa25e2e3feec161a78e4128bdf0812f590"
+    },
+    {
+      "path": "data/work/district-expansion-20261018/citymodel/city-model.json",
+      "sha256": "864f7618e769cd8508ef4cd7a60030dffd2ba5412ef187f3878ab9b10e7c56a8"
+    },
+    {
+      "path": "data/work/district-expansion-20261018/citymodel/city-model.bin",
+      "sha256": "8ff6b9101b52c3898846aee0ece37d7e1b378779f6daa6a2aa53bed75cd7c97a"
+    }
+  ],
+  "buryMetres": 0.3,
+  "repairs": [
+    {
+      "building": "BID_c4619cfa-d2b9-4cdc-b9c2-7cacf757c408",
+      "vtj": "1031998713",
+      "cell": "c_m11_m05",
+      "node": "c_m11_m05_flat",
+      "primitive": 0,
+      "triangle": 2159,
+      "materialName": "c_m11_m05_palette",
+      "edgeRuntime": [
+        [
+          -1351.9136962890625,
+          5.3238654136657715,
+          -630.5286865234375
+        ],
+        [
+          -1353.3565673828125,
+          5.3238654136657715,
+          -622.2235107421875
+        ]
+      ],
+      "uv": [
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ],
+        [
+          0.09376668955519951,
+          0.03125047684443427
+        ]
+      ],
+      "exterior": [
+        -0.9852419241675837,
+        -0.17116761043654594
+      ],
+      "reason": "Exact retained source-wall skirt is exposed above newly supported west source ground. Actual normal rays miss below the skirt. Extend only vertically; preserve all original building geometry, materials, textures and authored terrain.",
+      "sourceTriangleKey": "3dfda8c41b5daa40d6a11dc4692ba9c41b5daa404e8e1bc43dfda8c47ca4b840d6a11dc4",
+      "coarsePaletteTexel": {
+        "node": "c_m11_m05",
+        "primitive": 0
+      }
+    }
+  ],
+  "scope": "One actual existing palette skirt edge; original-procedural vertical extension only, reference images/materials unchanged, HCOL and ground arrays unchanged.",
+  "distantCorrespondence": "Historical simplified distant tier omitted the source skirt. Append the exact original foundation geometry with colour sampled from the existing licensed palette pixel; preserve all old distant arrays."
+}

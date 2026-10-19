@@ -1,0 +1,8 @@
+{
+  "require_version": "5.2",
+  "objects": ["prop-pistol"],
+  "self_overlap": { "enabled": true, "max_faces": 200000, "epsilon": 1e-5 },
+  "limits": { "boundary_edges": 0, "nonmanifold_edges": 0, "flipped_edges": 0, "wire_edges": 0, "loose_vertices": 0, "degenerate_faces": 0 },
+  "unit_scale": 1.0,
+  "applied_transforms": true
+}

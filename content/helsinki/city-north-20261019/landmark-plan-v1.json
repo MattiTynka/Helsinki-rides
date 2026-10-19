@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "binding": {
+    "baseRelease": "senate-20261019-809c1a14",
+    "sites": {
+      "file": "data/work/city-north-20261019/verification/north-public-sites-source-v2.json",
+      "sha256": "6935d240116821fdbfb5bdfc71e3bcc6803033e17f1cd93b65d60310bbd3b58c"
+    },
+    "context": {
+      "file": "data/work/city-north-20261019/acquisition/north-route-dropin-source-v1.json",
+      "sha256": "38a781bc8ac9e0c9e030c4330179d317938bb51e9b5e00bcfd0727c8b0710741"
+    },
+    "acceptedApproach": {
+      "file": "content/helsinki/city-continuation/walk-plan-v2.json",
+      "sha256": "9e6bcdd78f1166193e601629abdc10a71fdd797319861cfd636e852da2ef74a9",
+      "endIndex": 97,
+      "endNode": 11752429222
+    },
+    "inputs": {
+      "osm": {
+        "file": "data/raw/city-north-20261019/osm/city-north.json",
+        "sha256": "707388efff3d70d40c3e71898d22dbdb908d1137a67f6dac2e3b13ef26c49c1a"
+      },
+      "streetParts": {
+        "file": "data/raw/city-north-20261019/street-parts/city-north.geojson",
+        "sha256": "f920ab43145e1721247ad76bddb6fd2de591efe317800d2ae88e067aa91ded94"
+      },
+      "footprints": {
+        "file": "data/raw/city-north-20261019/building-register/city-north.geojson",
+        "sha256": "a193f6e0b2567b216ae59ab36faea68631f876d465eb6295ee97733f947049a3"
+      },
+      "terrain": {
+        "file": "data/work/city-north-20261019/terrain-source/terrain.bin",
+        "sha256": "42e3b9bf2073983bac53cbee53621842c9fba8ad1549cbdc0c3ab56e45c805b0",
+        "x0": -1792,
+        "z0": -1152,
+        "resolution": 1,
+        "nx": 2593,
+        "nz": 1603
+      },
+      "acceptedApproach": {
+        "file": "content/helsinki/district-expansion/walk-plan.json",
+        "sha256": "586f072e9f15ea324977a1f9cb87498e0efe484b1d27fb056f0558f736b81737",
+        "endIndex": 84,
+        "endNode": 11752429222
+      },
+      "scriptSha256": "05246f006d5d632c4bbac78d3e686d0b7624037bd2b25c00a76efc05f315df75",
+      "graphScriptSha256": "b216495423fc25257abb890ebb3c6807004c2f7cdd8b6cc678921e0003cf5319"
+    },
+    "playArea": {
+      "minX": -1792,
+      "maxX": 800,
+      "minZ": -1152,
+      "maxZ": 450
+    }
+  },
+  "landmarks": [
+    {
+      "label": "Mannerheimintie northern public sidewalk",
+      "type": "node",
+      "id": 317697371,
+      "roadRadius": 100,
+      "sourceUrl": "https://www.openstreetmap.org/node/317697371",
+      "dropInXZ": [
+        -1317.6468069963157,
+        -1076.3550240425393
+      ]
+    },
+    {
+      "label": "Töölöntori public western edge",
+      "type": "node",
+      "id": 298270464,
+      "roadRadius": 100,
+      "sourceUrl": "https://www.openstreetmap.org/node/298270464",
+      "dropInXZ": [
+        -1598.543866880238,
+        -1062.7095184279606
+      ]
+    },
+    {
+      "label": "Sandelsinkatu / Välskärinkatu public sidewalk",
+      "type": "node",
+      "id": 2399143967,
+      "roadRadius": 100,
+      "sourceUrl": "https://www.openstreetmap.org/node/2399143967",
+      "dropInXZ": [
+        -1735.0222693681717,
+        -1055.9067977834493
+      ]
+    },
+    {
+      "label": "Runeberginkatu northern public sidewalk",
+      "type": "node",
+      "id": 950062872,
+      "roadRadius": 100,
+      "sourceUrl": "https://www.openstreetmap.org/node/950062872",
+      "dropInXZ": [
+        -1575.5999162718654,
+        -1126.1229388760403
+      ]
+    },
+    {
+      "label": "Hakaniementori",
+      "type": "node",
+      "id": 392054034,
+      "roadRadius": 100,
+      "sourceUrl": "https://www.openstreetmap.org/node/392054034",
+      "dropInXZ": [
+        -79.78,
+        -1046.724
+      ]
+    }
+  ]
+}

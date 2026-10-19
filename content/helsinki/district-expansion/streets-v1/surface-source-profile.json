@@ -1,0 +1,846 @@
+{
+  "schemaVersion": 1,
+  "id": "district-source-stone-surfaces-v1",
+  "baseCellsIndexSha256": "610300aa9966fc60ee412e9777ac6579fb7c742698992bfa74ab00c2f20b5fbb",
+  "streetPartsSha256": "c853f169944e20c7a77b0c06f434ecc04bb95b59f153d10c5ca14adc198983a6",
+  "originSha256": "46e5a24375dc3fa48b38795d69481bf2b73512e622c3358714db354869d794e7",
+  "regions": [
+    {
+      "id": "mannerheimintie-setts",
+      "partIds": [
+        "40791",
+        "40794",
+        "46186",
+        "46187",
+        "46188",
+        "46194",
+        "46213",
+        "46214",
+        "46239",
+        "54905",
+        "54906",
+        "57094",
+        "57096",
+        "57097",
+        "57100",
+        "57105",
+        "57107",
+        "57134",
+        "57142",
+        "57143",
+        "57145",
+        "57149",
+        "57154",
+        "57155",
+        "57156",
+        "57159",
+        "57171",
+        "57172",
+        "57173",
+        "57174",
+        "57175",
+        "57192",
+        "57207",
+        "57212",
+        "57242",
+        "57304",
+        "57305",
+        "57309",
+        "57311",
+        "57312",
+        "57314",
+        "57317",
+        "94996",
+        "95679",
+        "95680",
+        "95681",
+        "95682",
+        "95683",
+        "96541",
+        "96542",
+        "96543",
+        "96547",
+        "112637",
+        "112675",
+        "123328",
+        "123663",
+        "440054",
+        "440056",
+        "440059",
+        "440060",
+        "440147",
+        "440148",
+        "440149",
+        "440150",
+        "440154",
+        "440155",
+        "440156",
+        "440157",
+        "440158",
+        "440159",
+        "440160",
+        "440161",
+        "440162",
+        "440163",
+        "440164",
+        "440165",
+        "440166",
+        "440167",
+        "440168",
+        "440169",
+        "440269",
+        "440277",
+        "440278",
+        "440279",
+        "440280",
+        "440281",
+        "440282",
+        "440283",
+        "440284",
+        "440285",
+        "440287",
+        "440288",
+        "440290",
+        "440295",
+        "440296",
+        "440299",
+        "471700",
+        "471703",
+        "471725",
+        "471732",
+        "475707",
+        "481249",
+        "481251",
+        "481253",
+        "581242",
+        "581243",
+        "581244",
+        "581245",
+        "581246"
+      ],
+      "expectedMaterials": [
+        "Nupukivi"
+      ],
+      "existingFinishes": [
+        "setts"
+      ],
+      "pattern": "setts",
+      "basis": {
+        "originXZ": [
+          -814.6804089695215,
+          -94.23153046518564
+        ],
+        "alongXZ": [
+          -0.5893238942293993,
+          -0.8078968669887856
+        ]
+      },
+      "tileMetres": [
+        2,
+        1
+      ],
+      "referenceIds": [
+        "google-sv-lasipalatsi-2024"
+      ]
+    },
+    {
+      "id": "mannerheimintie-cobble",
+      "partIds": [
+        "40757",
+        "40789",
+        "40790",
+        "46196",
+        "46197",
+        "46200",
+        "46201",
+        "46202",
+        "46204",
+        "46205",
+        "46206",
+        "54903",
+        "54904",
+        "57128",
+        "57130",
+        "57132",
+        "57133",
+        "57138",
+        "57140",
+        "57141",
+        "57144",
+        "57147",
+        "57228",
+        "57232",
+        "57237",
+        "57245",
+        "57256",
+        "57271",
+        "57293",
+        "57303",
+        "89209",
+        "94997",
+        "95677",
+        "95678",
+        "96525",
+        "96526",
+        "98390",
+        "98391",
+        "112636",
+        "112643",
+        "123327",
+        "123666",
+        "123692",
+        "123693",
+        "123787",
+        "440055",
+        "440266",
+        "440267",
+        "471474",
+        "471707",
+        "471708",
+        "473623",
+        "473624",
+        "473625",
+        "473626",
+        "473627",
+        "475712",
+        "481248",
+        "581212",
+        "581237",
+        "581239"
+      ],
+      "expectedMaterials": [
+        "Noppakivi"
+      ],
+      "existingFinishes": [
+        "cobble"
+      ],
+      "pattern": "cobble",
+      "basis": {
+        "originXZ": [
+          -814.6804089695215,
+          -94.23153046518564
+        ],
+        "alongXZ": [
+          -0.5893238942293993,
+          -0.8078968669887856
+        ]
+      },
+      "tileMetres": [
+        1,
+        1
+      ],
+      "referenceIds": [
+        "google-sv-lasipalatsi-2024"
+      ]
+    },
+    {
+      "id": "pohjoisesplanadi-setts",
+      "partIds": [
+        "46385",
+        "46386",
+        "46387",
+        "46388",
+        "46393",
+        "46399",
+        "46404",
+        "46408",
+        "46409",
+        "46410",
+        "46416",
+        "46421",
+        "46422",
+        "46424",
+        "46432",
+        "95704",
+        "460589",
+        "481455",
+        "481461",
+        "481462",
+        "481463",
+        "481468",
+        "481479",
+        "481480",
+        "481481",
+        "481485",
+        "481486",
+        "481491",
+        "481492",
+        "481493",
+        "481494"
+      ],
+      "expectedMaterials": [
+        "Nupukivi"
+      ],
+      "existingFinishes": [
+        "setts"
+      ],
+      "pattern": "setts",
+      "basis": {
+        "originXZ": [
+          0,
+          0
+        ],
+        "alongXZ": [
+          1,
+          0
+        ]
+      },
+      "tileMetres": [
+        2,
+        1
+      ],
+      "referenceIds": [
+        "google-sv-pohjoisesplanadi-2024"
+      ]
+    },
+    {
+      "id": "pohjoisesplanadi-cobble",
+      "partIds": [
+        "46389",
+        "46390",
+        "46392",
+        "46411",
+        "46412",
+        "46414",
+        "46415",
+        "46418",
+        "46433",
+        "46435",
+        "95705",
+        "95706",
+        "481469"
+      ],
+      "expectedMaterials": [
+        "Noppakivi"
+      ],
+      "existingFinishes": [
+        "cobble"
+      ],
+      "pattern": "cobble",
+      "basis": {
+        "originXZ": [
+          0,
+          0
+        ],
+        "alongXZ": [
+          1,
+          0
+        ]
+      },
+      "tileMetres": [
+        1,
+        1
+      ],
+      "referenceIds": [
+        "google-sv-pohjoisesplanadi-2024"
+      ]
+    },
+    {
+      "id": "etelaesplanadi-setts",
+      "partIds": [
+        "46127",
+        "46129",
+        "46131",
+        "46134",
+        "46136",
+        "46141",
+        "46142",
+        "46183",
+        "46184",
+        "480302",
+        "480435",
+        "480436",
+        "480437",
+        "480438",
+        "480439",
+        "480440",
+        "480441",
+        "480442",
+        "480443",
+        "480444",
+        "480445",
+        "480446",
+        "480447",
+        "480448"
+      ],
+      "expectedMaterials": [
+        "Nupukivi"
+      ],
+      "existingFinishes": [
+        "setts"
+      ],
+      "pattern": "setts",
+      "basis": {
+        "originXZ": [
+          0,
+          0
+        ],
+        "alongXZ": [
+          1,
+          0
+        ]
+      },
+      "tileMetres": [
+        2,
+        1
+      ],
+      "referenceIds": [
+        "google-sv-etelaesplanadi-2026"
+      ]
+    },
+    {
+      "id": "etelaesplanadi-cobble",
+      "partIds": [
+        "46132",
+        "46133",
+        "46135",
+        "46139",
+        "46140",
+        "46143",
+        "46150",
+        "46152",
+        "46155",
+        "46165",
+        "46176",
+        "46178",
+        "46182",
+        "480434",
+        "480449",
+        "480451",
+        "480452",
+        "480453",
+        "480454",
+        "480455",
+        "480456",
+        "480457",
+        "480458",
+        "480459",
+        "480460",
+        "480461",
+        "480462",
+        "480463",
+        "480464",
+        "480465",
+        "480466"
+      ],
+      "expectedMaterials": [
+        "Noppakivi"
+      ],
+      "existingFinishes": [
+        "cobble"
+      ],
+      "pattern": "cobble",
+      "basis": {
+        "originXZ": [
+          0,
+          0
+        ],
+        "alongXZ": [
+          1,
+          0
+        ]
+      },
+      "tileMetres": [
+        1,
+        1
+      ],
+      "referenceIds": [
+        "google-sv-etelaesplanadi-2026"
+      ]
+    },
+    {
+      "id": "senaatintori-setts",
+      "partIds": [
+        "58144",
+        "58224",
+        "58225",
+        "58226",
+        "58227",
+        "96811",
+        "459999",
+        "460000",
+        "460009"
+      ],
+      "expectedMaterials": [
+        "Nupukivi"
+      ],
+      "existingFinishes": [
+        "setts"
+      ],
+      "pattern": "setts",
+      "basis": {
+        "originXZ": [
+          0,
+          0
+        ],
+        "alongXZ": [
+          1,
+          0
+        ]
+      },
+      "tileMetres": [
+        2,
+        1
+      ],
+      "referenceIds": [
+        "google-maps360-senate-2022"
+      ]
+    },
+    {
+      "id": "senaatintori-fan-cobble",
+      "partIds": [
+        "58148",
+        "58149",
+        "58150",
+        "58151",
+        "58152",
+        "58153",
+        "58154",
+        "58155",
+        "58156",
+        "58157",
+        "58158",
+        "58159",
+        "58160",
+        "58161",
+        "58162",
+        "58163",
+        "58164",
+        "58165",
+        "58166",
+        "58167",
+        "58168",
+        "58169",
+        "58170",
+        "58171",
+        "58172",
+        "58173",
+        "58174",
+        "58175",
+        "58176",
+        "58177",
+        "58178",
+        "58179",
+        "58180",
+        "58181",
+        "58182",
+        "58183",
+        "58184",
+        "58185",
+        "58186",
+        "58187",
+        "58188",
+        "58189",
+        "58190",
+        "58191",
+        "58192",
+        "58193",
+        "58194",
+        "58195",
+        "58196",
+        "58197"
+      ],
+      "expectedMaterials": [
+        "Noppakivi"
+      ],
+      "existingFinishes": [
+        "cobble"
+      ],
+      "pattern": "fan-cobble",
+      "basis": {
+        "originXZ": [
+          0,
+          0
+        ],
+        "alongXZ": [
+          1,
+          0
+        ]
+      },
+      "tileMetres": [
+        2,
+        2
+      ],
+      "referenceIds": [
+        "google-maps360-senate-2022"
+      ]
+    },
+    {
+      "id": "aleksanterinkatu-setts",
+      "partIds": [
+        "58075",
+        "58076",
+        "58077",
+        "58078",
+        "58079",
+        "58086",
+        "58087",
+        "58133",
+        "96810",
+        "105143",
+        "459995",
+        "459996",
+        "459997",
+        "459998",
+        "460001",
+        "460002"
+      ],
+      "expectedMaterials": [
+        "Nupukivi"
+      ],
+      "existingFinishes": [
+        "setts"
+      ],
+      "pattern": "setts",
+      "basis": {
+        "originXZ": [
+          0,
+          0
+        ],
+        "alongXZ": [
+          1,
+          0
+        ]
+      },
+      "tileMetres": [
+        2,
+        1
+      ],
+      "referenceIds": [
+        "google-sv-aleksanterinkatu-senate"
+      ],
+      "runtimeBoundsXZ": [
+        -100,
+        -290,
+        150,
+        210
+      ]
+    },
+    {
+      "id": "unioninkatu-setts",
+      "partIds": [
+        "45894",
+        "56774",
+        "56776",
+        "56777",
+        "56782",
+        "56783",
+        "56785",
+        "56786",
+        "56788",
+        "56796",
+        "56797",
+        "56806",
+        "56807",
+        "56808",
+        "56809",
+        "56821",
+        "203229",
+        "203231",
+        "472004",
+        "472027",
+        "472028"
+      ],
+      "expectedMaterials": [
+        "Nupukivi"
+      ],
+      "existingFinishes": [
+        "setts"
+      ],
+      "pattern": "setts",
+      "basis": {
+        "originXZ": [
+          0,
+          0
+        ],
+        "alongXZ": [
+          0,
+          -1
+        ]
+      },
+      "tileMetres": [
+        2,
+        1
+      ],
+      "referenceIds": [
+        "google-maps360-senate-2022",
+        "helsinki-street-register-materials"
+      ],
+      "runtimeBoundsXZ": [
+        -100,
+        -290,
+        150,
+        210
+      ]
+    },
+    {
+      "id": "unioninkatu-cobble",
+      "partIds": [
+        "45896",
+        "56775",
+        "56778",
+        "56779",
+        "56781",
+        "56784",
+        "56787",
+        "56795"
+      ],
+      "expectedMaterials": [
+        "Noppakivi"
+      ],
+      "existingFinishes": [
+        "cobble"
+      ],
+      "pattern": "cobble",
+      "basis": {
+        "originXZ": [
+          0,
+          0
+        ],
+        "alongXZ": [
+          0,
+          -1
+        ]
+      },
+      "tileMetres": [
+        1,
+        1
+      ],
+      "referenceIds": [
+        "google-maps360-senate-2022",
+        "helsinki-street-register-materials"
+      ],
+      "runtimeBoundsXZ": [
+        -100,
+        -290,
+        150,
+        210
+      ]
+    },
+    {
+      "id": "snellmaninkatu-setts",
+      "partIds": [
+        "58568",
+        "58572",
+        "534191",
+        "534192"
+      ],
+      "expectedMaterials": [
+        "Nupukivi"
+      ],
+      "existingFinishes": [
+        "setts"
+      ],
+      "pattern": "setts",
+      "basis": {
+        "originXZ": [
+          0,
+          0
+        ],
+        "alongXZ": [
+          0,
+          -1
+        ]
+      },
+      "tileMetres": [
+        2,
+        1
+      ],
+      "referenceIds": [
+        "google-maps360-senate-2022",
+        "helsinki-street-register-materials"
+      ],
+      "runtimeBoundsXZ": [
+        -100,
+        -290,
+        150,
+        210
+      ]
+    },
+    {
+      "id": "katariinankatu-setts",
+      "partIds": [
+        "58261"
+      ],
+      "expectedMaterials": [
+        "Nupukivi"
+      ],
+      "existingFinishes": [
+        "setts"
+      ],
+      "pattern": "setts",
+      "basis": {
+        "originXZ": [
+          0,
+          0
+        ],
+        "alongXZ": [
+          0,
+          -1
+        ]
+      },
+      "tileMetres": [
+        2,
+        1
+      ],
+      "referenceIds": [
+        "google-maps360-senate-2022",
+        "helsinki-street-register-materials"
+      ],
+      "runtimeBoundsXZ": [
+        -100,
+        -290,
+        150,
+        210
+      ]
+    },
+    {
+      "id": "hallituskatu-setts",
+      "partIds": [
+        "58124",
+        "58126",
+        "460004",
+        "460005",
+        "460006"
+      ],
+      "expectedMaterials": [
+        "Nupukivi"
+      ],
+      "existingFinishes": [
+        "setts"
+      ],
+      "pattern": "setts",
+      "basis": {
+        "originXZ": [
+          0,
+          0
+        ],
+        "alongXZ": [
+          1,
+          0
+        ]
+      },
+      "tileMetres": [
+        2,
+        1
+      ],
+      "referenceIds": [
+        "google-maps360-senate-2022",
+        "helsinki-street-register-materials"
+      ],
+      "runtimeBoundsXZ": [
+        -100,
+        -290,
+        150,
+        210
+      ]
+    }
+  ],
+  "texture": {
+    "size": 256,
+    "seed": 20261018,
+    "stonesPerSide": 10,
+    "jointMetres": 0.004
+  },
+  "minimumNormalY": 0.7
+}

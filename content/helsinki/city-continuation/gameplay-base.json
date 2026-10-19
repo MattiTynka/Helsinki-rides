@@ -1,0 +1,682 @@
+{
+  "schemaVersion": 2,
+  "originId": "senate-square-statue-v2",
+  "killHeight": -25,
+  "playArea": {
+    "minX": -1792,
+    "maxX": 800,
+    "minZ": -950,
+    "maxZ": 450
+  },
+  "player": {
+    "spawn": {
+      "position": [
+        -12,
+        14
+      ],
+      "headingDeg": 300
+    },
+    "health": 100,
+    "armour": 0
+  },
+  "vehicleDefinitions": [
+    {
+      "id": "lumi-gt",
+      "label": "Lumi GT",
+      "assetId": "vehicle-lumi-gt",
+      "role": "civilian",
+      "massKg": 1650,
+      "centreOfMass": [
+        0,
+        0.38,
+        0.1
+      ],
+      "collider": {
+        "halfExtents": [
+          0.94,
+          0.4,
+          2.35
+        ],
+        "centre": [
+          0,
+          0.95,
+          -0.07
+        ],
+        "skid": {
+          "halfExtents": [
+            0.94,
+            0.25,
+            1.3
+          ],
+          "centre": [
+            0,
+            0.6,
+            -0.07
+          ]
+        }
+      },
+      "wheelRadius": 0.342,
+      "wheelWidth": 0.29,
+      "wheels": [
+        {
+          "socket": "WHEEL_FL",
+          "position": [
+            0.822,
+            0.342,
+            1.333
+          ],
+          "steer": true,
+          "drive": false,
+          "handbrake": false
+        },
+        {
+          "socket": "WHEEL_FR",
+          "position": [
+            -0.822,
+            0.342,
+            1.333
+          ],
+          "steer": true,
+          "drive": false,
+          "handbrake": false
+        },
+        {
+          "socket": "WHEEL_RL",
+          "position": [
+            0.822,
+            0.342,
+            -1.333
+          ],
+          "steer": false,
+          "drive": true,
+          "handbrake": true
+        },
+        {
+          "socket": "WHEEL_RR",
+          "position": [
+            -0.822,
+            0.342,
+            -1.333
+          ],
+          "steer": false,
+          "drive": true,
+          "handbrake": true
+        }
+      ],
+      "suspension": {
+        "restLength": 0.42,
+        "stiffness": 32,
+        "damping": 4.4,
+        "compression": 4,
+        "maxTravel": 0.3
+      },
+      "tyres": {
+        "frictionSlip": 3.2,
+        "sideFriction": 1
+      },
+      "engine": {
+        "maxForceN": 9000,
+        "reverseForceN": 4500,
+        "topSpeedMs": 58,
+        "topSpeedReverseMs": 8
+      },
+      "brakes": {
+        "forceN": 5200,
+        "handbrakeN": 7000
+      },
+      "steering": {
+        "maxAngleDeg": 36,
+        "highSpeedAngleDeg": 9,
+        "rateDegPerS": 140
+      },
+      "aero": {
+        "dragCoefficient": 0.42,
+        "downforce": 0.6
+      },
+      "seat": {
+        "driver": [
+          0.365,
+          0.598,
+          -0.281
+        ],
+        "exits": [
+          [
+            1.5,
+            0,
+            -0.035
+          ],
+          [
+            -1.5,
+            0,
+            -0.035
+          ]
+        ],
+        "entryRadius": 2.4
+      },
+      "cameraChase": [
+        0,
+        2.3,
+        -7.5
+      ],
+      "health": 1000,
+      "damage": {
+        "smokeBelow": 0.3,
+        "fireBelow": 0.1,
+        "explodeAfterSeconds": 5
+      }
+    },
+    {
+      "id": "patrol",
+      "label": "Patrol car",
+      "assetId": "vehicle-patrol",
+      "role": "patrol",
+      "massKg": 1750,
+      "centreOfMass": [
+        0,
+        0.38,
+        0.1
+      ],
+      "collider": {
+        "halfExtents": [
+          0.94,
+          0.4,
+          2.35
+        ],
+        "centre": [
+          0,
+          0.95,
+          -0.07
+        ],
+        "skid": {
+          "halfExtents": [
+            0.94,
+            0.25,
+            1.3
+          ],
+          "centre": [
+            0,
+            0.6,
+            -0.07
+          ]
+        }
+      },
+      "wheelRadius": 0.342,
+      "wheelWidth": 0.29,
+      "wheels": [
+        {
+          "socket": "WHEEL_FL",
+          "position": [
+            0.822,
+            0.342,
+            1.333
+          ],
+          "steer": true,
+          "drive": false,
+          "handbrake": false
+        },
+        {
+          "socket": "WHEEL_FR",
+          "position": [
+            -0.822,
+            0.342,
+            1.333
+          ],
+          "steer": true,
+          "drive": false,
+          "handbrake": false
+        },
+        {
+          "socket": "WHEEL_RL",
+          "position": [
+            0.822,
+            0.342,
+            -1.333
+          ],
+          "steer": false,
+          "drive": true,
+          "handbrake": true
+        },
+        {
+          "socket": "WHEEL_RR",
+          "position": [
+            -0.822,
+            0.342,
+            -1.333
+          ],
+          "steer": false,
+          "drive": true,
+          "handbrake": true
+        }
+      ],
+      "suspension": {
+        "restLength": 0.42,
+        "stiffness": 30,
+        "damping": 4.4,
+        "compression": 4,
+        "maxTravel": 0.3
+      },
+      "tyres": {
+        "frictionSlip": 3.4,
+        "sideFriction": 1
+      },
+      "engine": {
+        "maxForceN": 8600,
+        "reverseForceN": 4500,
+        "topSpeedMs": 52,
+        "topSpeedReverseMs": 8
+      },
+      "brakes": {
+        "forceN": 5200,
+        "handbrakeN": 7000
+      },
+      "steering": {
+        "maxAngleDeg": 36,
+        "highSpeedAngleDeg": 9,
+        "rateDegPerS": 150
+      },
+      "aero": {
+        "dragCoefficient": 0.44,
+        "downforce": 0.6
+      },
+      "seat": {
+        "driver": [
+          0.365,
+          0.598,
+          -0.281
+        ],
+        "exits": [
+          [
+            1.5,
+            0,
+            -0.035
+          ],
+          [
+            -1.5,
+            0,
+            -0.035
+          ]
+        ],
+        "entryRadius": 2.4
+      },
+      "cameraChase": [
+        0,
+        2.3,
+        -7.5
+      ],
+      "health": 1200,
+      "damage": {
+        "smokeBelow": 0.3,
+        "fireBelow": 0.1,
+        "explodeAfterSeconds": 5
+      }
+    }
+  ],
+  "vehicles": [
+    {
+      "id": "car-1",
+      "definition": "lumi-gt",
+      "position": [
+        -30,
+        10
+      ],
+      "headingDeg": 358,
+      "occupied": false
+    },
+    {
+      "id": "car-2",
+      "definition": "lumi-gt",
+      "position": [
+        38,
+        -50
+      ],
+      "headingDeg": 90,
+      "occupied": false
+    },
+    {
+      "id": "parked-1",
+      "definition": "lumi-gt",
+      "position": [
+        488.91,
+        268.45
+      ],
+      "headingDeg": 15,
+      "occupied": false
+    },
+    {
+      "id": "parked-2",
+      "definition": "lumi-gt",
+      "position": [
+        492.05,
+        256.87
+      ],
+      "headingDeg": 15,
+      "occupied": false
+    },
+    {
+      "id": "parked-3",
+      "definition": "lumi-gt",
+      "position": [
+        478.73,
+        265.7
+      ],
+      "headingDeg": 15,
+      "occupied": false
+    },
+    {
+      "id": "parked-4",
+      "definition": "lumi-gt",
+      "position": [
+        481.87,
+        254.11
+      ],
+      "headingDeg": 15,
+      "occupied": false
+    },
+    {
+      "id": "parked-5",
+      "definition": "lumi-gt",
+      "position": [
+        475.21,
+        258.53
+      ],
+      "headingDeg": 15,
+      "occupied": false
+    },
+    {
+      "id": "parked-6",
+      "definition": "lumi-gt",
+      "position": [
+        -1200.38,
+        301.23
+      ],
+      "headingDeg": 15,
+      "occupied": false
+    }
+  ],
+  "anchors": [
+    {
+      "id": "hospital-placeholder",
+      "kind": "hospital",
+      "label": "Ambulance bay (district edge)",
+      "placeholder": true,
+      "destinationName": "Meilahti hospital",
+      "position": [
+        -84,
+        -60
+      ],
+      "headingDeg": 90
+    },
+    {
+      "id": "police-placeholder",
+      "kind": "police",
+      "label": "Police van (district edge)",
+      "placeholder": true,
+      "destinationName": "Pasila police station",
+      "position": [
+        145,
+        -152
+      ],
+      "headingDeg": 270
+    }
+  ],
+  "weapons": [
+    {
+      "id": "pistol",
+      "label": "Pistol",
+      "damage": 26,
+      "headshotMultiplier": 3,
+      "rangeMeters": 120,
+      "spreadDeg": 1.2,
+      "recoilDeg": 2.5,
+      "roundsPerMinute": 360,
+      "magazine": 12,
+      "reloadSeconds": 1.4,
+      "automatic": false
+    }
+  ],
+  "wanted": {
+    "starWeights": {
+      "takeCar": 1,
+      "ram": 0.5,
+      "ramPolice": 1,
+      "hitPedestrian": 1,
+      "drawWeapon": 0.4,
+      "fire": 1,
+      "shootAtPolice": 2,
+      "kill": 3,
+      "killOfficer": 3
+    },
+    "starThresholds": [
+      1,
+      2,
+      3,
+      5,
+      8
+    ],
+    "decaySeconds": [
+      20,
+      40,
+      70,
+      110,
+      150
+    ],
+    "unitCaps": [
+      1,
+      3,
+      5,
+      7,
+      9
+    ],
+    "witnessReportSeconds": [
+      3,
+      6
+    ],
+    "arrest": {
+      "footRadius": 3,
+      "footSeconds": 2,
+      "boxedSeconds": 3
+    },
+    "searchRadius": 60
+  },
+  "police": {
+    "spawnMinDistance": 150,
+    "initialPatrols": 1,
+    "patrolSpawns": [
+      {
+        "position": [
+          -90,
+          -263
+        ],
+        "headingDeg": 180
+      },
+      {
+        "position": [
+          140,
+          42
+        ],
+        "headingDeg": 270
+      },
+      {
+        "position": [
+          57,
+          -263
+        ],
+        "headingDeg": 180
+      },
+      {
+        "position": [
+          -89,
+          -138
+        ],
+        "headingDeg": 90
+      }
+    ]
+  },
+  "landmarks": [
+    {
+      "label": "Senate Square",
+      "position": [
+        0,
+        12
+      ],
+      "headingDeg": 0
+    },
+    {
+      "label": "Helsinki Cathedral steps",
+      "position": [
+        -3,
+        -36
+      ],
+      "headingDeg": 0
+    },
+    {
+      "label": "Unioninkatu / Aleksanterinkatu",
+      "position": [
+        -62,
+        60
+      ],
+      "headingDeg": 180
+    },
+    {
+      "label": "Snellmaninkatu",
+      "position": [
+        64,
+        -10
+      ],
+      "headingDeg": 0
+    },
+    {
+      "label": "Kirkkokatu",
+      "position": [
+        -20,
+        -160
+      ],
+      "headingDeg": 90
+    },
+    {
+      "label": "Kluuvi / Aleksanterinkatu",
+      "position": [
+        -264,
+        55
+      ],
+      "headingDeg": 270
+    },
+    {
+      "label": "Esplanadi",
+      "position": [
+        -300,
+        220
+      ],
+      "headingDeg": 270
+    },
+    {
+      "label": "Ateneum / Kaivokatu",
+      "position": [
+        -450,
+        -100
+      ],
+      "headingDeg": 180
+    },
+    {
+      "label": "Helsinki Central Railway Station",
+      "position": [
+        -610,
+        -140
+      ],
+      "headingDeg": 0
+    },
+    {
+      "label": "Kaisaniemenkatu",
+      "position": [
+        -370,
+        -260
+      ],
+      "headingDeg": 270
+    },
+    {
+      "label": "Mannerheimintie / Lasipalatsi",
+      "position": [
+        -805.423,
+        -104.116
+      ],
+      "headingDeg": 270
+    },
+    {
+      "label": "Parliament House / Mannerheimintie",
+      "position": [
+        -1019.086,
+        -331.255
+      ],
+      "headingDeg": 270
+    },
+    {
+      "label": "Helsinki Music Centre",
+      "position": [
+        -950.165,
+        -416.308
+      ],
+      "headingDeg": 0
+    },
+    {
+      "label": "Finlandia Hall / Mannerheimintie",
+      "position": [
+        -1101.608,
+        -703.844
+      ],
+      "headingDeg": 90
+    },
+    {
+      "label": "Katajanokka canal / Kanavakatu bridge",
+      "position": [
+        310.265,
+        134.269
+      ],
+      "headingDeg": 90
+    },
+    {
+      "label": "Uspenski Cathedral / Rahapajankatu",
+      "position": [
+        469.916,
+        147.425
+      ],
+      "headingDeg": 270
+    },
+    {
+      "label": "Uspenski Cathedral / Pormestarinrinne approach",
+      "position": [
+        460.941,
+        135.387
+      ],
+      "headingDeg": 270
+    }
+  ],
+  "district": {
+    "name": "Central Helsinki / Mannerheimintie / Katajanokka",
+    "boundary": [
+      [
+        -1350,
+        -950
+      ],
+      [
+        800,
+        -950
+      ],
+      [
+        800,
+        450
+      ],
+      [
+        -1350,
+        450
+      ]
+    ]
+  },
+  "playerStart": {
+    "weapons": [
+      {
+        "id": "pistol",
+        "reserve": 48
+      }
+    ]
+  }
+}

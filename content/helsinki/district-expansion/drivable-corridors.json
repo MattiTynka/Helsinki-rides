@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "status": "SOURCE_BOUND_SERVICE_ONLY_FINAL_ROADS_V6_PLAN_FRESH_WORLD_GATES_REQUIRED",
+  "sourceHashes": {
+    "roads": "f47fbc0ab5974fc41377ba47bf0ee363287baee550bb71222216a0e07b5b798d",
+    "osm": "fe31bf359524e5801c6a607d62a6562736c8dfb0dea13ea45be20bd8c697c1c9",
+    "streetParts": "c853f169944e20c7a77b0c06f434ecc04bb95b59f153d10c5ca14adc198983a6"
+  },
+  "vehicleHalfWidthMetres": 0.967,
+  "marginMetres": 0.15,
+  "reviewedGeometry": {
+    "baselineRoadsSha256": "cee64bcf83b0084df90e92a38231537e570c08f900e60a3e24ed26a3e58f61c2",
+    "lanePointsSha256": {
+      "34918441:1:f0": "1d212929432964b740c8f33946ccd3d60b33ad70c27fe80f0be8f7a0b0e39dbc",
+      "34918441:1:b0": "b1757979141dbee27d292df2d19e74e57f30819e7cc1d7f3b5e5db5e5330cbf6"
+    }
+  },
+  "sourceProofs": [
+    {
+      "path": "data/evidence/district-expansion-20261018/corridor-service34918441-final-axis-binding-v1.json",
+      "sha256": "a54f918b0166607fa58125ac2d630e389ec4e7926b9fb13a22f91315f36e3be1"
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/corridor-service34918441-v4-prototype-v2.json",
+      "sha256": "f9cd8181409d74fddacee4c47fcac86e9cca78f0e8b008fd62ec3a7eef05a644",
+      "tyreStepsBefore": 10,
+      "tyreStepsAfter": 0,
+      "unsupportedAfter": 0
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/corridor-service34918441-foundation-lowerings-v3.json",
+      "sha256": "738a4cf3f4f1ca81de961c6e405d9f35ef91fa69af574687d8e188ac3af74ff6",
+      "transverseProbes": 45,
+      "failures": 0
+    }
+  ],
+  "corridors": [
+    {
+      "id": "service-34918441-segment1",
+      "wayId": 34918441,
+      "laneIds": [
+        "34918441:1:f0",
+        "34918441:1:b0"
+      ],
+      "sourcePartIds": [
+        "58384"
+      ],
+      "reason": "Reviewed retained driveway crosses surveyed asphalt shared surface; real retaining wall 58364 stays protected.",
+      "stationsMetres": {
+        "34918441:1:f0": [
+          0,
+          17.101906608214502
+        ],
+        "34918441:1:b0": [
+          0,
+          17.101906608214502
+        ]
+      }
+    }
+  ],
+  "scopeNote": "Only retained service 34918441 segment 1 on reviewed asphalt source 58384. Round buffer caps stay within 1.117 m; strict 0.967 m physical support/protection checks. Ankkuri and the park fit cleanly; Meritulli has a source-bound northern portal trim. They receive no corridor grade. This is an authoring approximation, not a new height survey."
+}

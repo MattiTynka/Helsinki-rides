@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "id": "esplanadi-catani-valtonen",
+      "file": "content/assets/facades/esplanadi/catani-valtonen.jpg",
+      "sha256": "ec4314fbe12857b8794836bd99ddccb3767d0eb36fd757a7595baadd64a5c4b0",
+      "recordUrl": "https://hkm.finna.fi/Record/hkm.0930CD28-8917-4792-A315-631BC6E7A029",
+      "imageUrl": "https://www.finna.fi/Cover/Show?source=Solr&id=hkm.0930CD28-8917-4792-A315-631BC6E7A029&index=0&size=large",
+      "author": "Marja Valtonen",
+      "institution": "Helsinki City Museum",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "credit": "Pohjoisesplanadi31 facade photograph: Marja Valtonen / Helsinki City Museum, CC BY4.0; rectified, repeated clean corresponding bays and removed photographed foreground objects.",
+      "captureDate": "2010-10-22",
+      "captureDateSource": "https://hkm.finna.fi/Record/hkm.HKMS000005%3Akm003xx0?lng=fi",
+      "retrievedAt": "2026-10-17T21:20:06.810Z",
+      "productionPixels": true
+    }
+  ],
+  "referenceOnly": [
+    {
+      "url": "https://commons.wikimedia.org/wiki/File:Pohjoisesplanadi_29-31,_Helsinki.jpg",
+      "author": "I99pema",
+      "license": "CC BY-SA4.0",
+      "date": "2017-03-29",
+      "pixelsUsed": false
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/File:Pohjoisesplanadi_33.jpg",
+      "author": "Mahlum",
+      "license": "Public domain",
+      "date": "2007-07-02",
+      "pixelsUsed": false
+    },
+    {
+      "url": "https://www.lokaatio.com/pohjoisesplanadi-35-224",
+      "pixelsUsed": false
+    },
+    {
+      "url": "https://www.hel.fi/static/rakvv/varikaava/htm/30015.htm",
+      "pixelsUsed": false
+    }
+  ],
+  "googleStreetView": {
+    "status": "UNAVAILABLE",
+    "attemptedUrl": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=60.16765,24.9476&heading=0&pitch=10&fov=80",
+    "reason": "CUA browser inventory empty; chrome and iab creation unavailable. web tool cannot render panorama. Official museum image and building control references used."
+  },
+  "retrievedAt": "2026-10-17T21:20:06.810Z",
+  "snapshots": {
+    "catani-2010": {
+      "retrievedAt": "2026-10-17T21:20:06.810Z",
+      "sha256": "ec4314fbe12857b8794836bd99ddccb3767d0eb36fd757a7595baadd64a5c4b0",
+      "file": "content/assets/facades/esplanadi/catani-valtonen.jpg"
+    }
+  }
+}

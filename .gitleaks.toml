@@ -1,0 +1,21 @@
+title = "Helsinki-rides: default rules with reviewed non-secret geometry labels"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+
+[[rules.allowlists]]
+description = "Exact encoded triangle coordinates, consumed by frontierTriangleKey integrity checks"
+condition = "AND"
+paths = ['''(?:^|/)content/helsinki/city-continuation/foundation-skirts-v[12]\.json$''']
+regexTarget = "line"
+regexes = ['''^\s*"sourceTriangleKey": "3dfda8c41b5daa40d6a11dc4692ba9c41b5daa404e8e1bc43dfda8c47ca4b840d6a11dc4"\s*,?\s*$''']
+
+[[rules.allowlists]]
+description = "Exact municipal street and surface labels, not access credentials"
+condition = "AND"
+paths = ['''(?:^|/)content/helsinki/city-north-20261019/streets/surface-reference-analysis\.json$''']
+regexTarget = "line"
+regexes = ['''^\s*"key": "Mannerheimintie/(?:Nupukivi|Noppakivi|Asfalttibetoni|Istutusalue - nurmi)",\s*$''']

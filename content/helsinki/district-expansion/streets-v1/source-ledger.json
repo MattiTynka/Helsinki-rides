@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "id": "district-street-surfaces-source-v1",
+  "status": "Source/reference plan; no asset application or browser acceptance claimed",
+  "sourceInputs": [
+    {
+      "id": "helsinki-street-register-materials",
+      "path": "data/raw/district-expansion-20261018/street-parts/district-expansion.geojson",
+      "sha256": "c853f169944e20c7a77b0c06f434ecc04bb95b59f153d10c5ca14adc198983a6",
+      "ledgerPath": "data/raw/district-expansion-20261018/street-parts/ledger.json",
+      "ledgerSha256": "13dfbca39382a17d6995e1bf10ae12738ae5b12fa3291de04d9cf1c0fee7cfde",
+      "retrievedAt": "2026-10-18T08:06:44.613Z",
+      "authority": "City of Helsinki public area register YLRE_Katu_ja_viherosat_kaikki_alue",
+      "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs",
+      "license": "CC BY 4.0 (City open geographic data terms; inherited ledger records layer-level text not separately verified)",
+      "attribution": "Street areas © City of Helsinki, CC BY 4.0",
+      "use": "Exact footprint and original material/type authority. Only explicit Nupukivi/Noppakivi and matching existing stone finishes; no asphalt/slab override."
+    },
+    {
+      "id": "osm-tram-axes",
+      "path": "data/raw/district-expansion-20261018/osm/district-expansion.json",
+      "sha256": "fe31bf359524e5801c6a607d62a6562736c8dfb0dea13ea45be20bd8c697c1c9",
+      "ledgerPath": "data/raw/district-expansion-20261018/osm/ledger.json",
+      "retrievedAt": "2026-10-18T08:06:44.286Z",
+      "authority": "OpenStreetMap API0.6 complete unfiltered map snapshot",
+      "url": "https://www.openstreetmap.org/",
+      "license": "ODbL 1.0",
+      "licenseUrl": "https://opendatacommons.org/licenses/odbl/1-0/",
+      "attribution": "Tram/road data © OpenStreetMap contributors, ODbL 1.0",
+      "use": "Actual separately mapped railway=tram track axes, ordered nodes and tags.92 selected ways, no invented road-centreline tracks.372 complete raw tram ways; zero missing referenced nodes. No new acquisition necessary."
+    },
+    {
+      "id": "world-origin",
+      "path": "content/helsinki/world-origin.json",
+      "sha256": "46e5a24375dc3fa48b38795d69481bf2b73512e622c3358714db354869d794e7",
+      "crs": "EPSG:3879",
+      "heightDatum": "N2000",
+      "originProjected": [
+        25497350,
+        6672960,
+        7.5
+      ],
+      "runtime": "X=E-E0, Z=-(N-N0). No Y in source tram profile; producer samples final decoded ground."
+    },
+    {
+      "id": "base-cells",
+      "path": "data/work/district-expansion-20261018/cells-charts-v3/cells.json",
+      "sha256": "610300aa9966fc60ee412e9777ac6579fb7c742698992bfa74ab00c2f20b5fbb",
+      "use": "Initial exact base payload binding; fresh floor/surface/rail candidates require their own exact producer bindings and gates."
+    }
+  ],
+  "references": [
+    {
+      "id": "google-sv-lasipalatsi-2024",
+      "title": "Google Street View, Mannerheimintie/Lasipalatsi22E12",
+      "url": "https://www.google.com/maps/@60.170354,24.9375878,3a,75y,220h,90t/data=!3m7!1e1!3m5!1sXsxhGDr8ASn5EdMn-nbhEA!2e0!7i16384!8i8192",
+      "panoramaId": "XsxhGDr8ASn5EdMn-nbhEA",
+      "location": [
+        60.170354,
+        24.9375878
+      ],
+      "imageDate": "2024-08",
+      "kind": "Google car Street View",
+      "openedBy": "Root through sanctioned CUA ChromeID2,2026-10-18",
+      "headingsDegrees": [
+        220,
+        282,
+        1
+      ],
+      "observations": "Car roadway grey rectangular granite setts. Separate red asphalt bicycle surface and large-slab walkway. Centre embedded rails use concrete slabs/barrier; do not blanket-cobble centre/bicycle/walkway.",
+      "role": "appearance-reference-only",
+      "pixelsInAssets": false,
+      "urlStatus": "Constructed public panorama URL from actually opened panorama ID and pose supplied by root."
+    },
+    {
+      "id": "google-sv-pohjoisesplanadi-2024",
+      "title": "Google Street View, Pohjoisesplanadi21/Norra Esplanaden",
+      "url": "https://www.google.com/maps/@60.1678257,24.9496958,6a,75y,90h,90t/data=!3m7!1e1!3m5!1sAXVzrnoAL1M_Y0yYY3ukaQ!2e0!7i16384!8i8192",
+      "panoramaId": "AXVzrnoAL1M_Y0yYY3ukaQ",
+      "location": [
+        60.1678257,
+        24.9496958
+      ],
+      "imageDate": "2024-08",
+      "kind": "Google car Street View",
+      "openedBy": "Root through sanctioned CUA ChromeID2,2026-10-18",
+      "headingsDegrees": [
+        90
+      ],
+      "observations": "Grey rectangular granite sett car road. Separate park walks with larger slabs and small-cobble tree pits; building-side walkway slabs. No blanket park cobble.",
+      "role": "appearance-reference-only",
+      "pixelsInAssets": false
+    },
+    {
+      "id": "google-sv-etelaesplanadi-2026",
+      "title": "Google Street View, Eteläesplanadi14",
+      "url": "https://www.google.com/maps/@60.1671628,24.9476383,8a,75y,86.72h,90t/data=!3m7!1e1!3m5!1sNhFmSmtZmqvTwmZ2mVQ09A!2e0!7i16384!8i8192",
+      "panoramaId": "NhFmSmtZmqvTwmZ2mVQ09A",
+      "location": [
+        60.1671628,
+        24.9476383
+      ],
+      "imageDate": "2026-08",
+      "kind": "Google car Street View",
+      "openedBy": "Root through sanctioned CUA ChromeID2,2026-10-18",
+      "headingsDegrees": [
+        86.72
+      ],
+      "observations": "Grey rectangular granite sett roadway with darker crosswalk stripes. Separate large-slab sidewalk; park remains gravel/green. Southern street independently opened, not inferred from north.",
+      "role": "appearance-reference-only",
+      "pixelsInAssets": false
+    },
+    {
+      "id": "google-maps360-senate-2022",
+      "title": "Google Maps360, Senate Square, Xavi Terns Mas",
+      "url": "https://www.google.com/maps/@60.1694794,24.9522867,3a,75y,88.59h,90t/data=!3m8!1e1!3m6!1sCIHM0ogKEICAgIDuvN6ACQ!2e10!3e11!7i4608!8i2304",
+      "panoramaId": "CIHM0ogKEICAgIDuvN6ACQ",
+      "location": [
+        60.1694794,
+        24.9522867
+      ],
+      "imageDate": "2022-08",
+      "kind": "Contributor360 panorama; not Google car Street View",
+      "author": "Xavi Terns Mas",
+      "openedBy": "Root through sanctioned CUA ChromeID2,2026-10-18",
+      "headingsDegrees": [
+        88.59
+      ],
+      "observations": "Small grey/reddish cube stones in fan/arc courses inside panels; narrow pale straight granite border grid. Approved fan scope is only source Noppakivi panels58148–58197,4119.17m². Concrete perimeter58145, pale inserts58198–58223, monument ring/base and source geometry preserved.",
+      "role": "appearance-reference-only",
+      "pixelsInAssets": false
+    },
+    {
+      "id": "google-sv-aleksanterinkatu-senate",
+      "title": "Google Street View, Aleksanterinkatu18 beside Senate Square",
+      "url": "https://www.google.com/maps/@60.169101,24.9539697,8a,75y,90h,90t/data=!3m7!1e1!3m5!1seQ0hfRuNK8sl8mdB-2Rh8A!2e0!7i16384!8i8192",
+      "panoramaId": "eQ0hfRuNK8sl8mdB-2Rh8A",
+      "location": [
+        60.169101,
+        24.9539697
+      ],
+      "imageDate": "2024-08",
+      "kind": "Google car Street View",
+      "openedBy": "Root through sanctioned CUA ChromeID2,2026-10-18",
+      "headingsDegrees": [
+        148.76,
+        90
+      ],
+      "observations": "Grey rectangular sett roadway; larger-slab sidewalk. Embedded parallel tram rails and actual curved junction turnout. Cathedral/Senate edge visible at right in rotated view.",
+      "role": "appearance-reference-only",
+      "pixelsInAssets": false
+    },
+    {
+      "id": "kaupunkiliikenne-gauge",
+      "title": "Pääkaupunkiseudun Kaupunkiliikenne Oy: raitiotien termistö",
+      "url": "https://kaupunkiliikenne.fi/termisto/",
+      "openedBy": "Coastal agent and acquisition agent through web text tool,2026-10-18",
+      "observations": "Track centreline is equidistant from rail measuring points. Straight-track gauge1000mm between measuring points. A track metre contains two rail metres.",
+      "use": "Gauge/axis interpretation authority; no photo pixels copied",
+      "role": "technical-reference-only"
+    },
+    {
+      "id": "helsinki-tram-paving",
+      "title": "Helsingin kaupunkitilaohje: Raitiotiet",
+      "url": "https://kaupunkitilaohje.hel.fi/kortti/raitiotie/",
+      "openedBy": "Coastal agent and acquisition agent through web text tool,2026-10-18",
+      "documentUpdated": "2024-05-08",
+      "documentStatus": "Draft",
+      "observations": "Street paving specified0–5mm below rail running surface. Cobblestones where adjoining street is cobbled, not every tram corridor. Visual producer uses3mm flush rail approximation, no physical rail collider.",
+      "role": "technical-reference-only"
+    }
+  ],
+  "profiles": [
+    {
+      "path": "content/helsinki/district-expansion/streets-v1/tram-source-profile.json",
+      "sha256": "80b3c1489f77414a513e6ae429a547798c0e1238e82788f7baa895366ce05481"
+    },
+    {
+      "path": "content/helsinki/district-expansion/streets-v1/surface-source-profile.json",
+      "sha256": "5ae807cd9eb39e89f1e91ab752b17a9714c0544079341e1f965cb9489a70cf00"
+    }
+  ],
+  "originalArt": {
+    "kind": "Original procedural texture/visual rails; this source plan contains no rendered asset pixels",
+    "paving": {
+      "seed": 20261018,
+      "textureSize": 256,
+      "stonesPerSide": 10,
+      "jointsMetres": 0.004,
+      "rectangularSettsApproximateMetres": [
+        0.2,
+        0.1
+      ],
+      "cubeCobbleApproximateMetres": [
+        0.1,
+        0.1
+      ],
+      "fanTileRepeatMetres": [
+        2,
+        2
+      ],
+      "palette": "Grey/slightly blue granite; approximate authoring dimensions and variation rather than measured construction drawing"
+    },
+    "referencePixelsCopied": false
+  },
+  "limitations": [
+    "No claim that every metre of all five supplementary Senate streets was independently photographed. Exact municipal material/footprint is primary authority there; added selection is clipped to accepted Senate bounds.",
+    "Reference UI images were actually opened by root; this ledger archives source identifiers/observations, not screenshots or copyrighted source pixels.",
+    "Current717a/runtime-v5 measurements are historical and do not validate the forthcoming street-surface/tram candidate.",
+    "Tram profile has one connected source graph452unique nodes/565node entries/92ways,4271.545657m total source centreline. Long cross-street stems excluded explicitly; visual cut-boundary tangents must not infer absent third stems.",
+    "Final source containment, triangle coverage, preservation, draw/resource budgets and native opened runtime images remain separate required gates."
+  ]
+}

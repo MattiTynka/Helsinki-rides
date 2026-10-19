@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "binding": {
+    "osm": {
+      "path": "data/raw/city-continuation-20261019/osm/city-continuation.json",
+      "sha256": "d13888acd3b1f9bd0fe1e5d38b6bac9c2085482d4990252901ce0fe5bd34e2d6"
+    },
+    "origin": {
+      "path": "content/helsinki/world-origin.json",
+      "sha256": "46e5a24375dc3fa48b38795d69481bf2b73512e622c3358714db354869d794e7"
+    },
+    "footprints": {
+      "path": "data/raw/city-continuation-20261019/building-register/city-continuation.geojson",
+      "sha256": "ebfcdf2e93a575b2528fa61bd19212f40bc441fb0247a0241af8251004000901"
+    },
+    "acceptedApproach": {
+      "path": "content/helsinki/district-expansion/walk-plan.json",
+      "sha256": "586f072e9f15ea324977a1f9cb87498e0efe484b1d27fb056f0558f736b81737",
+      "firstSourceNode": 313959145
+    },
+    "originId": "senate-square-statue-v2",
+    "crs": "EPSG:3879",
+    "verticalDatum": "N2000",
+    "axes": {
+      "x": "east",
+      "z": "south"
+    },
+    "playArea": {
+      "minX": -1792,
+      "maxX": 800,
+      "minZ": -950,
+      "maxZ": 450
+    }
+  },
+  "landmarks": [
+    {
+      "label": "Fredrikinkatu / Arkadiankatu western boundary crossing",
+      "type": "node",
+      "id": 296557930,
+      "roadRadius": 100,
+      "sourceUrl": "https://www.openstreetmap.org/node/296557930",
+      "dropInXZ": [
+        -1374.03,
+        -199.422
+      ],
+      "landmarkWay": null,
+      "connectedWayIds": [
+        27095460,
+        30297580
+      ]
+    },
+    {
+      "label": "Temppeliaukio public approach",
+      "type": "node",
+      "id": 9333749513,
+      "roadRadius": 100,
+      "sourceUrl": "https://www.openstreetmap.org/node/9333749513",
+      "dropInXZ": [
+        -1476.874,
+        -348.454
+      ],
+      "landmarkWay": 124143121,
+      "connectedWayIds": [
+        27413196,
+        1011638580
+      ]
+    },
+    {
+      "label": "Western Arkadiankatu / Runeberginkatu",
+      "type": "node",
+      "id": 6343007772,
+      "roadRadius": 100,
+      "sourceUrl": "https://www.openstreetmap.org/node/6343007772",
+      "dropInXZ": [
+        -1610.429,
+        -233.86
+      ],
+      "landmarkWay": null,
+      "connectedWayIds": [
+        677423457
+      ]
+    },
+    {
+      "label": "West Kamppi / Pohjoinen Rautatiekatu",
+      "type": "node",
+      "id": 7694544836,
+      "roadRadius": 100,
+      "sourceUrl": "https://www.openstreetmap.org/node/7694544836",
+      "dropInXZ": [
+        -1495.607,
+        140.66
+      ],
+      "landmarkWay": null,
+      "connectedWayIds": [
+        314475693
+      ]
+    }
+  ]
+}

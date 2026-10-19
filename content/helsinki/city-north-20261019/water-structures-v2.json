@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "buildingRegister": "data/raw/city-north-20261019/building-register/city-north.geojson",
+  "sourceModel": {
+    "directory": "data/work/city-north-20261019/citymodel-merged",
+    "jsonSha256": "1a9237c7da9321f0cbc9a80401fe76ac094dab03be7ff07b690d7cd3a6f677b3"
+  },
+  "structures": [
+    {
+      "buildingId": "BID_c6be6cac-848f-47e9-898e-44bc97d39d25",
+      "registerId": "register-879555",
+      "featureId": "Rakennukset_alue_rekisteritiedot.31292",
+      "kind": "floating-sauna",
+      "referenceUrl": "https://www.allaspool.fi/en/saunas/"
+    },
+    {
+      "buildingId": "BID_021b53b4-2086-4639-9c47-740b7617928c",
+      "registerId": "104015441T",
+      "featureId": "Rakennukset_alue_rekisteritiedot.79287",
+      "kind": "floating-sauna",
+      "referenceUrl": "https://www.allaspool.fi/en/saunas/"
+    },
+    {
+      "buildingId": "BID_bfe02967-315b-4664-b539-f71b0d854897",
+      "registerId": "103171023H",
+      "featureId": "Rakennukset_alue_rekisteritiedot.40743",
+      "kind": "floating-restaurant",
+      "referenceUrl": "https://meripaviljonki.fi/english/"
+    }
+  ],
+  "evidence": "Finite exact current register/source identities. Existing Allas structures retain accepted payloads. Meripaviljonki requires its actual city-model collider, replacing the flat prism roof. Primary reference text and photographs are retained under data/work/city-north-20261019/service-ground/water-static-diagnosis/references-v1; museum/photo pixels are not shipped. Source water still requires absent visual ground, absent ground colliders and terrain below the kill plane. Every declared visible structure must match both decoded native and source roofs within the original 0.035m tolerance. No bridge or general water-floor exception is authorized."
+}

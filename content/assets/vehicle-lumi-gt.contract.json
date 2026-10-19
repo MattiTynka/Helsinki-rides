@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "kind": "vehicle-contract",
+  "assetId": "vehicle-lumi-gt-v1",
+  "source": "models/ford-mustang-gt-500-with-pro-rig-for-free/source/ford mustang fully rigged.blend",
+  "note": "The user-supplied rigged muscle car becomes the fictional 'Lumi GT'. Every badge, logo, model lettering, number plate text and brand texture is removed before export (plan section 18 rule 3). Only visual meshes are exported; the authoring rig stays in Blender.",
+  "axes": { "up": "+Y", "forward": "+Z", "left": "+X", "units": "metres", "scale": 1.0 },
+  "rootAtGroundBetweenAxles": true,
+  "expectedDimensions": { "lengthM": [4.6, 4.9], "widthM": [1.85, 1.98], "heightM": [1.3, 1.45], "wheelbaseM": [2.6, 2.8], "wheelRadiusM": [0.32, 0.37] },
+  "nodes": {
+    "root": "CAR_ROOT",
+    "body": "CAR_BODY",
+    "optionalMeshes": ["CAR_GLASS", "CAR_INTERIOR", "CAR_DETAILS"],
+    "wheels": ["WHEEL_FL", "WHEEL_FR", "WHEEL_RL", "WHEEL_RR"],
+    "wheelRule": "each wheel node's origin is the hub centre, the wheel spins about its local +X axle; the wheel mesh is a child of (or is) the node; FL = front left = +X +Z",
+    "doors": ["DOOR_FL", "DOOR_FR"],
+    "doorRule": "optional; origin on the hinge line, opens about local +Y by extras.openDeg (0..70)",
+    "steeringWheel": "STEERING_WHEEL",
+    "steeringRule": "optional; origin at the hub, turns about its local +Z, extras.lockDeg"
+  },
+  "sockets": [
+    { "node": "SEAT_DRIVER", "purpose": "driver hips position (left-hand drive, +X side)" },
+    { "node": "EXIT_DRIVER", "purpose": "ground point where the driver appears on exit (left side, 1.5 m out)" },
+    { "node": "EXIT_PASSENGER", "purpose": "ground point on the right side" },
+    { "node": "CAMERA_CHASE", "purpose": "default chase camera offset, about [0, 2.3, -7.5]" },
+    { "node": "CENTER_OF_MASS", "purpose": "centre of mass, low and slightly forward" },
+    { "node": "LIGHT_HEAD_L", "purpose": "headlight centre" },
+    { "node": "LIGHT_HEAD_R", "purpose": "headlight centre" },
+    { "node": "LIGHT_TAIL_L", "purpose": "tail light centre" },
+    { "node": "LIGHT_TAIL_R", "purpose": "tail light centre" },
+    { "node": "LIGHTBAR", "purpose": "roof centre where the patrol light bar sits" }
+  ],
+  "variants": [
+    { "id": "vehicle-lumi-gt", "file": "vehicle-lumi-gt.glb", "paint": "deep red metallic" },
+    { "id": "vehicle-patrol", "file": "vehicle-patrol.glb", "paint": "white body with a mid-blue band along the doors and bonnet stripes; a roof light bar (two emissive lamps: blue left, blue right, 1.0 m wide) as mesh LIGHTBAR_MESH under the LIGHTBAR socket; no emblem, no lettering" }
+  ],
+  "budgets": { "triangles": 45000, "materials": 10, "textureMaxSize": 1024, "fileBytes": 6000000 },
+  "materials": "paint (metallic 0.6, roughness 0.35, KHR_materials_clearcoat welcome), glass (alpha blend 0.4), rubber, alloy, lamp emissive, interior; textures baked or dropped; no 2K leather maps",
+  "reportFields": ["bodyBoundsLocal", "wheelPositions", "wheelRadius", "sockets", "triangles", "materials", "removedParts"]
+}

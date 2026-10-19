@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "kind": "character-contract",
+  "note": "Legacy22-joint authoring contract. Active player/officer slots resolve separate Finn/Rain native contracts through variants[].contract. The capsule owns world displacement.",
+  "axes": {
+    "up": "+Y",
+    "forward": "+Z",
+    "left": "+X",
+    "units": "metres",
+    "scale": 1
+  },
+  "feetAtOrigin": true,
+  "heightMeters": {
+    "min": 1.65,
+    "max": 1.9
+  },
+  "skeleton": {
+    "root": "Hips",
+    "joints": [
+      "Hips",
+      "Spine",
+      "Spine1",
+      "Spine2",
+      "Neck",
+      "Head",
+      "LeftShoulder",
+      "LeftArm",
+      "LeftForeArm",
+      "LeftHand",
+      "RightShoulder",
+      "RightArm",
+      "RightForeArm",
+      "RightHand",
+      "LeftUpLeg",
+      "LeftLeg",
+      "LeftFoot",
+      "LeftToeBase",
+      "RightUpLeg",
+      "RightLeg",
+      "RightFoot",
+      "RightToeBase"
+    ],
+    "parents": {
+      "Spine": "Hips",
+      "Spine1": "Spine",
+      "Spine2": "Spine1",
+      "Neck": "Spine2",
+      "Head": "Neck",
+      "LeftShoulder": "Spine2",
+      "LeftArm": "LeftShoulder",
+      "LeftForeArm": "LeftArm",
+      "LeftHand": "LeftForeArm",
+      "RightShoulder": "Spine2",
+      "RightArm": "RightShoulder",
+      "RightForeArm": "RightArm",
+      "RightHand": "RightForeArm",
+      "LeftUpLeg": "Hips",
+      "LeftLeg": "LeftUpLeg",
+      "LeftFoot": "LeftLeg",
+      "LeftToeBase": "LeftFoot",
+      "RightUpLeg": "Hips",
+      "RightLeg": "RightUpLeg",
+      "RightFoot": "RightLeg",
+      "RightToeBase": "RightFoot"
+    },
+    "maxJoints": 64,
+    "maxInfluencesPerVertex": 4,
+    "optionalExtraJoints": "finger and face joints may be kept if the total stays under maxJoints; they must not be required by any clip"
+  },
+  "sockets": [
+    {
+      "node": "SOCKET_HAND_R",
+      "parentJoint": "RightHand",
+      "purpose": "pistol grip: +Z barrel direction, +Y up, origin at the grip centre"
+    },
+    {
+      "node": "SOCKET_HEAD",
+      "parentJoint": "Head",
+      "purpose": "name tag / headshot sphere centre (0.1 m above eye level)"
+    }
+  ],
+  "fps": 30,
+  "clips": [
+    {
+      "name": "idle",
+      "loop": true,
+      "seconds": 2,
+      "movementSpeed": 0,
+      "note": "relaxed standing breath"
+    },
+    {
+      "name": "walk",
+      "loop": true,
+      "seconds": 1,
+      "movementSpeed": 1.4,
+      "note": "one full stride cycle (two steps); feet planted without skating against a 1.4 m/s forward trajectory"
+    },
+    {
+      "name": "run",
+      "loop": true,
+      "seconds": 0.7,
+      "movementSpeed": 3.6,
+      "note": "one full cycle"
+    },
+    {
+      "name": "sprint",
+      "loop": true,
+      "seconds": 0.6,
+      "movementSpeed": 6,
+      "note": "one full cycle, body leaned forward"
+    },
+    {
+      "name": "aim",
+      "loop": true,
+      "seconds": 1,
+      "movementSpeed": 0,
+      "note": "standing two-handed pistol aim toward +Z at chest height; lower body neutral so it can be layered over walk"
+    },
+    {
+      "name": "fire",
+      "loop": false,
+      "seconds": 0.25,
+      "movementSpeed": 0,
+      "note": "recoil kick from the aim pose, returns to aim"
+    },
+    {
+      "name": "hit",
+      "loop": false,
+      "seconds": 0.5,
+      "movementSpeed": 0,
+      "note": "flinch, returns to idle"
+    },
+    {
+      "name": "death",
+      "loop": false,
+      "seconds": 1.4,
+      "movementSpeed": 0,
+      "note": "collapse to the ground, last frame held; no gore"
+    },
+    {
+      "name": "drive",
+      "loop": true,
+      "seconds": 2,
+      "movementSpeed": 0,
+      "note": "seated, hips at the origin, hands on a wheel 0.37 m ahead and 0.43 m above the hips, feet forward and 0.5 m below the hips"
+    },
+    {
+      "name": "arrested",
+      "loop": true,
+      "seconds": 2,
+      "movementSpeed": 0,
+      "note": "standing with hands raised"
+    }
+  ],
+  "budgets": {
+    "player": {
+      "triangles": 30000,
+      "materials": 6,
+      "textureMaxSize": 1024,
+      "fileBytes": 4000000
+    },
+    "npc": {
+      "triangles": 14000,
+      "materials": 4,
+      "textureMaxSize": 512,
+      "fileBytes": 2500000
+    }
+  },
+  "materials": "baked base colour only (metallic 0, roughness 0.8); no transparency except hair cards; no vertex colours required",
+  "variants": [
+    {
+      "id": "character-snow",
+      "role": "player",
+      "source": "Snow_v4.2/game/public/assets/finn.glb",
+      "credit": "Finn12, user-supplied adaptation of Snow by Blender Studio, CC BY 4.0",
+      "contract": "content/assets/character-finn.contract.json",
+      "note": "Stable manifest/runtime player slot retained; native Finn12 rig, appearance and eleven supplied clips are preserved."
+    },
+    {
+      "id": "character-rain",
+      "role": "officer",
+      "source": "Snow_v4.2/motion/out/rain.glb",
+      "credit": "Rain © Blender Studio, CC BY 4.0",
+      "note": "Supplied Poliisi uniform,70 native joints and all11 supplied in-place loops retained; six gameplay clips appended. Stable officer asset slot.",
+      "contract": "content/assets/character-rain-native.contract.json"
+    }
+  ],
+  "prop": {
+    "id": "prop-pistol",
+    "file": "prop-pistol.glb",
+    "note": "Original low-poly pistol (under 600 triangles, one material, dark grey): origin at the grip centre, barrel along +Z, length 0.19 m, so it drops straight onto SOCKET_HAND_R"
+  }
+}
