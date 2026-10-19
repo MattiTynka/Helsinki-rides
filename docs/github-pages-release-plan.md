@@ -1,6 +1,12 @@
 # GitHub Pages release plan — MattiTynka
 
-Prepared 19 October 2026. Status: **PRIVATE SOURCE RELEASE PREPARATION; PUBLIC GAME DEPLOYMENT PENDING.**
+Prepared 19 October 2026. **Historical plan; superseded by the authorized
+[public browser beta](public-game-release.md).** The owner subsequently requested
+public repository and Pages publication and selected smaller web textures with
+the full map retained. The current deployment uses one Pages site and a pinned
+GitHub Release packet; an external R2 account is not required. The private-only
+instructions and external-host proposal below describe the earlier preparation
+stage, not the current publication authorization.
 
 The owner selected **MattiTynka/Helsinki-rides** with **private** initial visibility. The effective GitHub CLI identity was verified as `MattiTynka`. Source privacy, licensing boundaries, export commands and verification are recorded in [source release preparation](open-source-release.md) and the [privacy audit](source-privacy-audit.md). Creating the private source repository does not activate Pages or publish the external world assets.
 

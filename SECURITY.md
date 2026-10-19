@@ -1,7 +1,7 @@
 # Security policy
 
-Helsinki-rides is an experimental browser game preparing its first source
-release. There is no supported stable release or guaranteed response time yet.
+Helsinki-rides is an experimental public browser beta. There is no supported
+stable release or guaranteed response time yet.
 Security fixes target the current main branch. Maintainers must reassess this
 policy when a tagged release or hosted service is introduced.
 
@@ -9,8 +9,8 @@ policy when a tagged release or hosted service is introduced.
 
 Use GitHub's **Report a vulnerability** feature on
 `MattiTynka/Helsinki-rides` when it is enabled. If it is unavailable, contact the
-repository owner through an existing private channel. For a collaborator on the
-private repository, arrange a confidential report directly with the owner.
+repository owner through an existing private channel. Collaborators should
+arrange a confidential report directly with the owner.
 There is currently no published security email address.
 
 Do not place exploit details, credentials or personal information in a public

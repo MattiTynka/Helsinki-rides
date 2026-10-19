@@ -1,7 +1,9 @@
 # Source privacy and publication audit — 19 October 2026
 
 Scope: the curated source export for **MattiTynka/Helsinki-rides**, its initial
-Git commit and Pages application shell. Keep the GitHub repository **private**.
+Git commit and Pages application shell. The repository was kept private through
+the audit, then made public at the owner's explicit request. See the
+[public beta record](public-game-release.md) for the subsequent Pages publication.
 The large authoring workspace is not the upload artifact.
 
 ## Findings and corrections

@@ -1,0 +1,248 @@
+import copy
+import gzip
+import hashlib
+import importlib.util
+import io
+import json
+from pathlib import Path
+import tarfile
+import tempfile
+import unittest
+
+
+SPEC = importlib.util.spec_from_file_location('stage_pages_world', Path(__file__).resolve().parents[1] / 'stage-pages-world.py')
+pages = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(pages)
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+class PagesWorldTest(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name)
+        self.output = self.root / 'dist-pages'
+        self.output.mkdir()
+        for name in ['index.html', 'assets/index-test.js', 'assets/index-test.css',
+                     'basis/basis_transcoder.js', 'basis/basis_transcoder.wasm']:
+            path = self.output / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(b'public shell')
+        self.release = 'senate-pages-test'
+        self.payloads = {
+            'terrain.bin': b'terrain', 'roads.json': b'{}', 'gameplay.json': b'{}',
+            'cells/c0.glb': b'visual mesh', 'cells/c0.hcol': b'collision',
+            'assets/snow.glb': b'character', 'LICENSE.md': b'Public attribution',
+            'sources/osm.json.gz': gzip.compress(b'{"license":"ODbL"}', mtime=0),
+        }
+
+        def ref(name):
+            return {'path': name, 'bytes': len(self.payloads[name]), 'sha256': sha(self.payloads[name])}
+
+        self.manifest = {
+            'schemaVersion': 2, 'worldReleaseId': self.release,
+            'terrain': ref('terrain.bin'), 'roads': ref('roads.json'), 'gameplay': ref('gameplay.json'),
+            'cells': [{'visual': {'lod0': ref('cells/c0.glb')}, 'collision': ref('cells/c0.hcol')}],
+            'assets': [dict(id='character-snow', kind='character', **ref('assets/snow.glb'))],
+            'publicationFiles': [ref('LICENSE.md'), ref('sources/osm.json.gz')],
+        }
+        self.descriptor_path = self.root / 'pages.json'
+        self.archive_path = self.root / 'pages-world.tar.gz'
+        self.build_inputs()
+
+    def build_inputs(self, extra_members=(), omit=(), manifest_bytes=None):
+        manifest_data = manifest_bytes or json.dumps(self.manifest, sort_keys=True).encode()
+        files = {'manifest.json': manifest_data, **self.payloads}
+        members = [(f'world/{self.release}/{name}', data, tarfile.REGTYPE)
+                   for name, data in files.items() if name not in omit]
+        members.extend(extra_members)
+        stream = io.BytesIO()
+        with tarfile.open(fileobj=stream, mode='w:gz', format=tarfile.GNU_FORMAT) as archive:
+            for name, data, kind in members:
+                info = tarfile.TarInfo(name)
+                info.type = kind
+                info.size = len(data) if kind == tarfile.REGTYPE else 0
+                if kind in {tarfile.SYMTYPE, tarfile.LNKTYPE}:
+                    info.linkname = 'terrain.bin'
+                archive.addfile(info, io.BytesIO(data) if info.size else None)
+        self.archive_path.write_bytes(stream.getvalue())
+        self.descriptor = {
+            'schemaVersion': 1, 'worldRelease': self.release,
+            'manifestSha256': sha(manifest_data), 'worldBaseUrl': pages.WORLD_BASE_URL,
+            'archiveUrl': 'https://github.com/MattiTynka/Helsinki-rides/releases/download/pages-test/pages-world.tar.gz',
+            'archiveSha256': sha(stream.getvalue()), 'archiveBytes': len(stream.getvalue()),
+            'worldBytes': sum(len(data) for name, data, kind in members if kind == tarfile.REGTYPE),
+        }
+        self.write_descriptor()
+
+    def write_descriptor(self):
+        self.descriptor_path.write_text(json.dumps(self.descriptor), encoding='utf-8')
+
+    def stage(self):
+        return pages.stage(self.descriptor_path, self.archive_path, self.output, 'a' * 40)
+
+    def assert_refused_without_output(self):
+        with self.assertRaises((ValueError, OSError, EOFError)):
+            self.stage()
+        self.assertFalse((self.output / 'world').exists())
+        self.assertFalse((self.output / 'release-info.json').exists())
+
+    def refresh_archive_pin(self):
+        data = self.archive_path.read_bytes()
+        self.descriptor.update(archiveSha256=sha(data), archiveBytes=len(data))
+        self.write_descriptor()
+
+    def test_valid_archive_is_staged_with_receipt_and_exact_payloads(self):
+        result = self.stage()
+        self.assertEqual(result['status'], 'PASS')
+        self.assertEqual(result['worldFiles'], len(self.payloads) + 1)
+        self.assertEqual(result['sourceCommit'], 'a' * 40)
+        for name, data in self.payloads.items():
+            self.assertEqual((self.output / 'world' / self.release / name).read_bytes(), data)
+        receipt = json.loads((self.output / 'release-info.json').read_bytes())
+        self.assertEqual(receipt['descriptorSha256'], sha(self.descriptor_path.read_bytes()))
+        self.assertEqual(result['artifactBytes'], sum(path.stat().st_size for path in self.output.rglob('*') if path.is_file()))
+        self.assertTrue((self.output / '.nojekyll').is_file())
+
+    def test_descriptor_rejects_unapproved_destinations_fields_and_types(self):
+        changes = [
+            {'archiveUrl': 'https://example.invalid/pages-world.tar.gz'},
+            {'archiveUrl': self.descriptor['archiveUrl'] + '?secret=value'},
+            {'archiveUrl': self.descriptor['archiveUrl'].replace('/pages-test/', '/../')},
+            {'worldBaseUrl': pages.WORLD_BASE_URL + '../'}, {'schemaVersion': True},
+            {'worldRelease': '../escape'}, {'worldRelease': 'unsafe%2fescape'},
+            {'worldBytes': pages.MAX_WORLD_BYTES + 1}, {'archiveBytes': False},
+            {'manifestSha256': 'A' * 64}, {'unexpected': 'value'},
+        ]
+        original = copy.deepcopy(self.descriptor)
+        for change in changes:
+            with self.subTest(change=change):
+                self.descriptor = {**original, **change}
+                self.write_descriptor()
+                with self.assertRaises(ValueError):
+                    pages.load_descriptor(self.descriptor_path)
+
+    def test_descriptor_rejects_duplicate_json_keys(self):
+        data = self.descriptor_path.read_text(encoding='utf-8')
+        self.descriptor_path.write_text('{"schemaVersion":1,' + data[1:], encoding='utf-8')
+        self.assert_refused_without_output()
+
+    def test_validated_descriptor_writes_only_allowlisted_runner_variables(self):
+        descriptor, _ = pages.load_descriptor(self.descriptor_path)
+        environment = self.root / 'runner-env'
+        pages.write_github_env(descriptor, environment)
+        values = dict(line.split('=', 1) for line in environment.read_text().splitlines())
+        self.assertEqual(values['VITE_WORLD_RELEASE'], self.release)
+        self.assertEqual(values['PAGES_WORLD_ARCHIVE_URL'], descriptor['archiveUrl'])
+        self.assertEqual(len(values), 5)
+
+    def test_compressed_archive_hash_and_size_are_both_pinned(self):
+        for field, value in [('archiveSha256', 'b' * 64), ('archiveBytes', self.descriptor['archiveBytes'] + 1)]:
+            with self.subTest(field=field):
+                original = self.descriptor[field]
+                self.descriptor[field] = value
+                self.write_descriptor()
+                self.assert_refused_without_output()
+                self.descriptor[field] = original
+
+    def test_archive_rejects_traversal_wrong_release_and_encoded_paths(self):
+        for name in ['world/../escaped.bin', f'world/{self.release}/../escaped.bin',
+                     'world/other/terrain.bin', f'world/{self.release}/a%2fb.bin',
+                     f'world/{self.release}/a\\b.bin', f'world/{self.release}/.hidden.json']:
+            with self.subTest(name=name):
+                self.build_inputs(extra_members=[(name, b'bad', tarfile.REGTYPE)])
+                self.assert_refused_without_output()
+
+    def test_archive_rejects_links_directories_and_special_entries(self):
+        for kind in [tarfile.SYMTYPE, tarfile.LNKTYPE, tarfile.DIRTYPE, tarfile.FIFOTYPE, tarfile.CHRTYPE, tarfile.XHDTYPE]:
+            with self.subTest(kind=kind):
+                self.build_inputs(extra_members=[(f'world/{self.release}/extra.bin', b'bad', kind)])
+                self.assert_refused_without_output()
+
+    def test_archive_rejects_duplicate_and_unreferenced_files(self):
+        for name in ['terrain.bin', 'extra.bin', 'source.py', 'extra.map']:
+            with self.subTest(name=name):
+                self.build_inputs(extra_members=[(f'world/{self.release}/{name}', b'bad', tarfile.REGTYPE)])
+                self.assert_refused_without_output()
+
+    def test_missing_or_tampered_referenced_file_is_rejected(self):
+        self.build_inputs(omit=['terrain.bin'])
+        self.assert_refused_without_output()
+        self.payloads['terrain.bin'] = b'tampered terrain'
+        self.build_inputs()
+        self.assert_refused_without_output()
+
+    def test_reference_byte_count_and_digest_are_independently_checked(self):
+        for key, value in [('bytes', len(self.payloads['terrain.bin']) + 1), ('sha256', 'd' * 64)]:
+            with self.subTest(key=key):
+                original = self.manifest['terrain'][key]
+                self.manifest['terrain'][key] = value
+                self.build_inputs()
+                self.assert_refused_without_output()
+                self.manifest['terrain'][key] = original
+
+    def test_manifest_hash_release_and_required_references_are_checked(self):
+        self.descriptor['manifestSha256'] = 'c' * 64
+        self.write_descriptor()
+        self.assert_refused_without_output()
+        for update in [{'worldReleaseId': 'other'}, {'schemaVersion': 1}, {'terrain': {}},
+                       {'assets': ['invalid']}, {'publicationFiles': ['invalid']}, {'cells': []}]:
+            with self.subTest(update=update):
+                original = copy.deepcopy(self.manifest)
+                self.manifest.update(update)
+                self.build_inputs()
+                self.assert_refused_without_output()
+                self.manifest = original
+
+    def test_manifest_rejects_encoded_paths_and_conflicting_references(self):
+        self.manifest['terrain']['path'] = '%2e%2e/terrain.bin'
+        self.build_inputs()
+        self.assert_refused_without_output()
+        self.manifest['terrain']['path'] = 'terrain.bin'
+        self.manifest['roads'] = {**self.manifest['terrain'], 'sha256': 'b' * 64}
+        self.build_inputs()
+        self.assert_refused_without_output()
+
+    def test_publication_compression_is_restricted_to_json_gzip_not_runtime_refs(self):
+        self.manifest['terrain'] = self.manifest['publicationFiles'][1]
+        self.build_inputs()
+        self.assert_refused_without_output()
+        self.manifest['publicationFiles'][1]['path'] = 'source.tar.gz'
+        self.build_inputs()
+        self.assert_refused_without_output()
+
+    def test_archive_world_total_is_checked(self):
+        self.descriptor['worldBytes'] += 1
+        self.write_descriptor()
+        self.assert_refused_without_output()
+
+    def test_corrupt_headers_truncation_and_hidden_trailing_data_are_rejected(self):
+        original = self.archive_path.read_bytes()
+        tar = gzip.decompress(original)
+        for malformed in [tar[:512] + tar[512:600], bytes([tar[0] ^ 1]) + tar[1:], tar + b'hidden']:
+            with self.subTest(length=len(malformed)):
+                self.archive_path.write_bytes(gzip.compress(malformed))
+                self.refresh_archive_pin()
+                self.assert_refused_without_output()
+
+    def test_shell_refuses_source_maps_review_files_and_existing_world(self):
+        for name in ['assets/index.js.map', 'source.ts', 'review/index.html', 'release-info.json', 'world/current.json']:
+            with self.subTest(name=name):
+                path = self.output / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(b'forbidden')
+                with self.assertRaises(ValueError):
+                    self.stage()
+                path.unlink()
+        (self.output / 'world').rmdir()
+
+    def test_invalid_source_commit_is_refused(self):
+        with self.assertRaises(ValueError):
+            pages.stage(self.descriptor_path, self.archive_path, self.output, 'main')
+
+
+if __name__ == '__main__':
+    unittest.main()

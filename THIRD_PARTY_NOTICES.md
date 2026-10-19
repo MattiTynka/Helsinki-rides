@@ -29,7 +29,7 @@ License: [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 The full Apache license is reproduced below. The Basis attribution notice below
 is retained from the installed `ktx2-encoder` 0.6.0 package's upstream notice.
 Keep this notice and license with redistributed decoder files and hosted builds;
-the private repository's visibility does not remove license obligations.
+repository visibility does not remove license obligations.
 
 ```
 Basis Universal™ Supercompressed GPU Texture Compression Library
@@ -143,9 +143,11 @@ and is not a source of the current game.
 
 ## Characters, motion and owner-supplied assets
 
-These binaries are excluded from the source export. They remain dependencies of
-the current local full game; this section records provenance, not clearance of
-the complete asset packet.
+These binaries are excluded from the source Git tree. The separately distributed
+browser beta packet retains these notices. This section records known provenance;
+the owner will provide remaining supplied-asset copyright details as described
+in [the public beta record](docs/public-game-release.md). No unverified license
+grant is inferred from the request to publish the game.
 
 - **Finn**, modified from **Snow v4.2**, and **Rain**, modified into the Poliisi
   officer: © Blender Studio, **CC BY 4.0** according to the copied source

@@ -19,11 +19,19 @@ and [current verification record](docs/benchmarks/city-north-2026-10-19.md) for 
 exact candidate, limits and acceptance status. The [city expansion handoff](docs/handoff-2026-10-19.md)
 records the local preview, source snapshots and reproducible checks.
 
-The source repository is prepared for `MattiTynka/Helsinki-rides` and remains
-private during release preparation. Original code is [MIT-licensed](LICENSE);
+Play the desktop browser beta at **[Helsinki Rides](https://mattitynka.github.io/Helsinki-rides/)**.
+The full central Helsinki map streams nearby visuals as you travel. The initial
+city-data download can take a while. Use WASD to move, Space to jump, and F to
+enter or leave a car; the loading screen lists the remaining controls.
+
+The public source repository is `MattiTynka/Helsinki-rides`.
+Original code is [MIT-licensed](LICENSE);
 third-party material retains its [own licenses](THIRD_PARTY_NOTICES.md).
 The source checkout excludes the generated city and supplied character/car/landmark
-models. A public playable release still needs asset-rights clearance and hosting.
+models. Versioned game-world downloads are distributed separately through
+GitHub Releases. Known content credits are retained; the owner will provide the
+remaining supplied-asset copyright details. See the
+[public beta release record](docs/public-game-release.md).
 See the [source release guide](docs/open-source-release.md),
 [privacy audit](docs/source-privacy-audit.md) and
 [GitHub Pages release plan](docs/github-pages-release-plan.md).

@@ -1,10 +1,12 @@
 # Helsinki-rides source release preparation
 
-Target repository: **MattiTynka/Helsinki-rides**. Initial visibility: **private**.
-The owner requested preparation for a later open-source release; this is not
-authorization to change visibility or publish a playable website. Before any
-upload, present the prepared source artifact and verification result to the
-owner. Keep Pages deployment and public asset uploads as separate operations.
+Target repository: **MattiTynka/Helsinki-rides**. Initial visibility was private.
+The owner subsequently authorized making the repository public and publishing
+the game on Pages. The [public beta record](public-game-release.md) supersedes
+the earlier preparation-only restrictions below. Source Git continues to exclude
+the generated world; a separately audited release packet supplies the public
+game. Unresolved supplied-asset terms remain explicitly identified until the
+owner provides the remaining copyright information.
 
 ## What the repository contains
 
