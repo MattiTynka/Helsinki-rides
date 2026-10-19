@@ -17,7 +17,7 @@ function pagesDecoders(): Plugin {
   };
 }
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
   const pages = mode === 'pages';
   const env = loadEnv(mode, import.meta.dirname, ['VITE_WORLD_', 'HELSINKI_PAGES_RELEASE']);
   const deployment = createWorldDeployment({
@@ -32,7 +32,7 @@ export default defineConfig(({ mode }) => {
     root: import.meta.dirname,
     base: deployment.appBase,
     publicDir: 'public',
-    define: { __REVIEW_BUILD__: JSON.stringify(mode === 'review'), __WORLD_DEPLOYMENT__: JSON.stringify(deployment) },
+    define: { __REVIEW_BUILD__: JSON.stringify(mode === 'review'), __CAPTURE_REPLAY__: JSON.stringify(mode === 'review' || command === 'serve'), __WORLD_DEPLOYMENT__: JSON.stringify(deployment) },
     plugins: pages ? [pagesDecoders()] : [],
     server: { fs: { allow: [repoRoot] } },
     build: {

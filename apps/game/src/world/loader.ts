@@ -93,7 +93,16 @@ export class GlbLoader {
     this.loader = new GLTFLoader().setKTX2Loader(this.ktx2).setMeshoptDecoder(MeshoptDecoder);
   }
 
-  load(url: string): Promise<GLTF> {
+  async load(url: string, signal?: AbortSignal): Promise<GLTF> {
+    if (signal) {
+      // Cell GLBs are self-contained. Fetch directly so leaving the district cancels the download;
+      // parse/transcode cannot be interrupted, so its owner retains the slot and disposes late results.
+      const response = await fetch(url, { signal });
+      if (!response.ok) throw new Error(`${url}: ${response.status}`);
+      const bytes = await response.arrayBuffer();
+      signal.throwIfAborted();
+      return this.loader.parseAsync(bytes, THREE.LoaderUtils.extractUrlBase(url));
+    }
     return new Promise((resolve, reject) => this.loader.load(url, resolve, undefined, reject));
   }
 

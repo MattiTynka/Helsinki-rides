@@ -37,6 +37,29 @@ test('cell memory is counted once per owned buffer/texture and disposal releases
   assert.equal(root.parent, null); assert.equal(root.children.length, 0);
 });
 
+test('disposing an independent cell closes each owned ImageBitmap once even when several textures share its source', () => {
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'ImageBitmap');
+  class Bitmap { width = 4; height = 4; closes = 0; close(): void { this.closes++; } }
+  Object.defineProperty(globalThis, 'ImageBitmap', { value: Bitmap, configurable: true });
+  try {
+    const shared = new Bitmap(), second = new Bitmap(), actor = new Bitmap();
+    const firstMap = new THREE.Texture(shared as unknown as ImageBitmap), secondMap = new THREE.Texture(shared as unknown as ImageBitmap);
+    const thirdMap = new THREE.Texture(second as unknown as ImageBitmap), actorMap = new THREE.Texture(actor as unknown as ImageBitmap);
+    const root = new THREE.Group();
+    const material = new THREE.MeshStandardMaterial({ map: firstMap, normalMap: secondMap, emissiveMap: thirdMap });
+    root.add(new THREE.Mesh(new THREE.BoxGeometry(), material), new THREE.Mesh(new THREE.BoxGeometry(), material));
+    const independentActor = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ map: actorMap }));
+    let textureDisposals = 0;
+    [firstMap, secondMap, thirdMap, actorMap].forEach(texture => texture.addEventListener('dispose', () => textureDisposals++));
+    disposeCellResources(root); disposeCellResources(root);
+    assert.equal(shared.closes, 1); assert.equal(second.closes, 1); assert.equal(actor.closes, 0);
+    assert.equal(textureDisposals, 3); assert.equal(independentActor.material.map, actorMap);
+  } finally {
+    if (previous) Object.defineProperty(globalThis, 'ImageBitmap', previous);
+    else Reflect.deleteProperty(globalThis, 'ImageBitmap');
+  }
+});
+
 test('detail removal restores coarse ground and late disposal cannot detach a newer view', () => {
   const city = scene(), coarse = view('a', 'lod2'), old = view('a', 'lod0'), current = view('a', 'lod0');
   city.showCell(coarse); city.showCell(old);
@@ -63,6 +86,15 @@ test('optional low-preset lod1 loads its own payload and uses the same complete-
   const withoutOptional = { ...descriptor, visual: { lod0: descriptor.visual.lod0 } };
   const full = await city.loadCell(loader, '/release/', withoutOptional, 'lod1');
   assert.equal(full.lod, 'lod0'); assert.equal(urls[1], '/release/full.glb');
+});
+
+test('scene cell loading forwards cancellation through to its loader without mounting a view', async () => {
+  const city = scene(), controller = new AbortController();
+  let received: AbortSignal | undefined;
+  const loader = { load: async (_url: string, signal?: AbortSignal) => { received = signal; return { scene: new THREE.Group() }; } } as unknown as Parameters<CityScene['loadCell']>[0];
+  const descriptor = { id: 'a', visual: { lod0: { path: 'full.glb' } } } as Parameters<CityScene['loadCell']>[2];
+  const loaded = await city.loadCell(loader, '/release/', descriptor, 'lod0', controller.signal);
+  assert.equal(received, controller.signal); assert.equal(loaded.group.parent, null); assert.equal(city.cells.size, 0);
 });
 
 test('scenery instance buffers follow visible cells without disposing shared tree templates', () => {

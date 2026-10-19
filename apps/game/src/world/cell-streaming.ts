@@ -4,7 +4,7 @@ import type { CellDescriptor } from '@helsinki/world-schema';
 export interface StreamFocus { x: number; z: number; velocityX: number; velocityZ: number }
 export interface CellResource { readonly textureBytes: number; readonly geometryBytes: number; readonly lod?: 'lod0' | 'lod1' | 'lod2' }
 export interface CellStreamBackend<T extends CellResource> {
-  load(cell: CellDescriptor): Promise<T>;
+  load(cell: CellDescriptor, signal: AbortSignal): Promise<T>;
   show(cell: CellDescriptor, resource: T): void;
   dispose(cell: CellDescriptor, resource: T): void;
 }
@@ -33,6 +33,7 @@ export interface CellStreamStats {
   loaded: number;
   evicted: number;
   staleDisposed: number;
+  cancelledLoads: number;
   failedLoads: number;
   fallbackCells: number;
   missingNearDetail: string[];
@@ -94,7 +95,8 @@ export function selectVisualCells(cells: readonly CellDescriptor[], focus: Strea
 
 export class CellVisualStream<T extends CellResource> {
   private readonly resident = new Map<string, { cell: CellDescriptor; resource: T }>();
-  private readonly pending = new Map<string, Promise<void>>();
+  // Aborted decoding can still be running in a worker. Keep its slot until the promise settles.
+  private readonly pending = new Map<string, { controller: AbortController; task: Promise<void>; decoded: boolean }>();
   private readonly costs = new Map<string, number>();
   private readonly geometryCosts = new Map<string, number>();
   private readonly retryAt = new Map<string, number>();
@@ -110,6 +112,7 @@ export class CellVisualStream<T extends CellResource> {
   private loaded = 0;
   private evicted = 0;
   private staleDisposed = 0;
+  private cancelledLoads = 0;
   private failures = 0;
   private readonly now: () => number;
   private readonly cells: readonly CellDescriptor[];
@@ -137,7 +140,7 @@ export class CellVisualStream<T extends CellResource> {
     for (;;) {
       this.reselect();
       this.pump();
-      const tasks = [...this.pending.values()];
+      const tasks = [...this.pending.values()].map(entry => entry.task);
       if (!tasks.length) return;
       await Promise.all(tasks);
     }
@@ -155,7 +158,7 @@ export class CellVisualStream<T extends CellResource> {
       residentLods,
       pendingCells: this.pending.size, residentTextureMiB: this.bytes / 2 ** 20, textureBudgetMiB: this.options.textureBudgetBytes / 2 ** 20,
       residentGeometryMiB: this.geometryBytes / 2 ** 20, geometryBudgetMiB: this.options.geometryBudgetBytes ? this.options.geometryBudgetBytes / 2 ** 20 : null,
-      peakTextureMiB: this.peak / 2 ** 20, loaded: this.loaded, evicted: this.evicted, staleDisposed: this.staleDisposed,
+      peakTextureMiB: this.peak / 2 ** 20, loaded: this.loaded, evicted: this.evicted, staleDisposed: this.staleDisposed, cancelledLoads: this.cancelledLoads,
       failedLoads: this.failures, fallbackCells: this.cells.length - this.resident.size,
       missingNearDetail: this.cells.filter(c => distance(visualBounds(c), this.focus.x, this.focus.z) < 40 && !residentIds.has(c.id)).map(c => c.id),
       errors: [...this.errorByCell].filter(([id]) => desiredIds.has(id)).map(([id, message]) => `${id}: ${message}`),
@@ -163,8 +166,10 @@ export class CellVisualStream<T extends CellResource> {
   }
 
   dispose(): void {
+    if (this.disposed) return;
     this.disposed = true;
     this.generation++;
+    for (const entry of this.pending.values()) this.cancel(entry.controller);
     for (const entry of this.resident.values()) this.backend.dispose(entry.cell, entry.resource);
     this.resident.clear();
     this.bytes = 0;
@@ -176,6 +181,7 @@ export class CellVisualStream<T extends CellResource> {
     if (this.disposed) return;
     this.desired = selectVisualCells(this.cells, this.focus, this.options, this.costs, new Set(this.resident.keys()), this.geometryCosts);
     const wanted = new Set(this.desired.map(c => c.id));
+    for (const [id, entry] of this.pending) if (!entry.decoded && !wanted.has(id)) this.cancel(entry.controller);
     // Eviction precedes loading, so the old and new district never occupy GPU memory together.
     for (const [id, entry] of this.resident) if (!wanted.has(id)) {
       this.backend.dispose(entry.cell, entry.resource);
@@ -186,18 +192,34 @@ export class CellVisualStream<T extends CellResource> {
     }
   }
 
+  private cancel(controller: AbortController): void {
+    if (controller.signal.aborted) return;
+    this.cancelledLoads++;
+    controller.abort();
+  }
+
   private pump(): void {
     if (this.disposed) return;
     for (const cell of this.desired) {
       if (this.pending.size >= (this.options.concurrency ?? 2)) break;
       if (this.resident.has(cell.id) || this.pending.has(cell.id) || (this.retryAt.get(cell.id) ?? 0) > this.now()) continue;
       const generation = this.generation;
-      const task = this.backend.load(cell).then(resource => {
+      const controller = new AbortController();
+      let loading: Promise<T>;
+      try { loading = this.backend.load(cell, controller.signal); }
+      catch (error) { loading = Promise.reject(error); }
+      const entry = { controller, task: Promise.resolve(), decoded: false };
+      entry.task = loading.then(resource => {
+        entry.decoded = true;
+        // A cell can be wanted again before its cancelled decode finishes. That old result still
+        // belongs to the cancelled request; release it and let a fresh request own the new view.
+        if (controller.signal.aborted || this.disposed || generation !== this.generation) {
+          this.backend.dispose(cell, resource); this.staleDisposed++; return;
+        }
         this.costs.set(cell.id, resource.textureBytes);
         this.geometryCosts.set(cell.id, resource.geometryBytes);
-        if (this.disposed || generation !== this.generation) { this.backend.dispose(cell, resource); this.staleDisposed++; return; }
         this.reselect();
-        if (!this.desired.some(c => c.id === cell.id) || this.bytes + resource.textureBytes > this.options.textureBudgetBytes ||
+        if (controller.signal.aborted || !this.desired.some(c => c.id === cell.id) || this.bytes + resource.textureBytes > this.options.textureBudgetBytes ||
           this.geometryBytes + resource.geometryBytes > (this.options.geometryBudgetBytes ?? Infinity)) {
           this.backend.dispose(cell, resource); this.staleDisposed++; return;
         }
@@ -210,15 +232,18 @@ export class CellVisualStream<T extends CellResource> {
         this.errorByCell.delete(cell.id);
         this.retryAt.delete(cell.id);
       }).catch((error: unknown) => {
-        if (this.disposed) return;
+        if (controller.signal.aborted || this.disposed || generation !== this.generation) return;
         this.failures++;
         const message = error instanceof Error ? error.message : String(error);
         this.errorByCell.set(cell.id, message);
         this.failureHistory.push(`${cell.id}: ${message}`);
         if (this.failureHistory.length > 32) this.failureHistory.shift();
         this.retryAt.set(cell.id, this.now() + 3000);
-      }).finally(() => { this.pending.delete(cell.id); });
-      this.pending.set(cell.id, task);
+      }).finally(() => {
+        if (this.pending.get(cell.id) === entry) this.pending.delete(cell.id);
+        this.pump();
+      });
+      this.pending.set(cell.id, entry);
     }
   }
 }

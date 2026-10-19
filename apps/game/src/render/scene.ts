@@ -75,11 +75,11 @@ export class CityScene {
     this.camera.updateProjectionMatrix();
   }
 
-  async loadCell(loader: GlbLoader, base: string, descriptor: CellDescriptor, requestedLod: 'lod0' | 'lod1' | 'lod2' = 'lod0'): Promise<CellView> {
+  async loadCell(loader: GlbLoader, base: string, descriptor: CellDescriptor, requestedLod: 'lod0' | 'lod1' | 'lod2' = 'lod0', signal?: AbortSignal): Promise<CellView> {
     const lod = requestedLod === 'lod1' && !descriptor.visual.lod1 ? 'lod0' : requestedLod;
     const source = descriptor.visual[lod];
     if (!source) throw new Error(`cell ${descriptor.id} has no ${lod}`);
-    const gltf = await loader.load(base + source.path);
+    const gltf = await loader.load(base + source.path, signal);
     const group = gltf.scene;
     if (this.preset === 'low' && lod === 'lod2') partitionCoarseCell(group);
     let triangles = 0;

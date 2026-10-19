@@ -24,6 +24,8 @@ export class VehicleView {
   /** Opening 0..1 per door node, set from the interaction clock. */
   readonly doorOpen: Record<string, number> = { DOOR_FL: 0, DOOR_FR: 0 };
   private readonly def: VehicleDefinition;
+  private readonly ownedLampMaterials = new Set<THREE.Material>();
+  private disposed = false;
 
   constructor(assets: AssetLibrary, id: string, def: VehicleDefinition, shadowMaterial: THREE.Material, detailRange: number) {
     this.id = id;
@@ -48,6 +50,9 @@ export class VehicleView {
       if (!m.isMesh) return;
       const mats = Array.isArray(m.material) ? m.material : [m.material];
       for (const mat of mats) {
+        // cloneVehicle owns only the per-instance lamp materials; even their
+        // colour textures and all near/far geometry belong to AssetLibrary.
+        if (mat.name.startsWith('car_lamp')) this.ownedLampMaterials.add(mat);
         const s = mat as THREE.MeshStandardMaterial;
         if (s.name === 'car_lamp_head') this.lampHead.push(s);
         else if (s.name === 'car_lamp_tail') this.lampTail.push(s);
@@ -104,5 +109,12 @@ export class VehicleView {
     this.shadow.visible = state.position[1] > -20;
   }
 
-  dispose(): void { this.root.removeFromParent(); }
+  dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
+    this.shadow.geometry.dispose();
+    for (const material of this.ownedLampMaterials) material.dispose();
+    this.ownedLampMaterials.clear();
+    this.root.removeFromParent();
+  }
 }

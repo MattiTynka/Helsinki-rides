@@ -19,6 +19,7 @@ import { GlbLoader, loadWorldData, resolveRelease, type Progress, type WorldData
 import { CellVisualStream, missingVisualCoverage, type StreamFocus } from './world/cell-streaming.ts';
 
 const MAX_STEPS_PER_FRAME = 5;
+declare const __CAPTURE_REPLAY__: boolean;
 
 export interface WorldVisualStreaming {
   readonly detail: CellVisualStream<CellView>;
@@ -56,6 +57,8 @@ export class Game {
   readonly eventLog: GameEvent[] = [];
   /** Every command stepped, encoded, so a session can be replayed in Node (plan section 2). */
   readonly commandLog: EncodedCommand[] = [];
+  /** Replay history is a review-build capability; ordinary play retains no per-tick diagnostics. */
+  readonly captureReplay: boolean;
   /** State digest per tick (review builds), to locate the first tick where a replay diverges. */
   readonly traceLog: string[] = [];
   scripted: Command | null = null;
@@ -72,6 +75,7 @@ export class Game {
 
   private constructor(config: GameConfig, data: WorldData, world: StaticWorld, scene: CityScene, loader: GlbLoader, assets: AssetLibrary, canvas: HTMLCanvasElement, streaming: WorldVisualStreaming | null) {
     this.config = config;
+    this.captureReplay = __CAPTURE_REPLAY__;
     this.data = data;
     this.world = world;
     this.scene = scene;
@@ -114,7 +118,7 @@ export class Game {
       const totalTextureBudgetBytes = (config.preset === 'low' ? 160 : 320) * 2 ** 20;
       const fallbackBudget = 4 * 2 ** 20;
       const backend = (lod: 'lod0' | 'lod1' | 'lod2') => ({
-        load: (cell: typeof data.manifest.cells[number]) => scene.loadCell(loader, data.base, cell, lod),
+        load: (cell: typeof data.manifest.cells[number], signal: AbortSignal) => scene.loadCell(loader, data.base, cell, lod, signal),
         show: (_cell: typeof data.manifest.cells[number], view: CellView) => scene.showCell(view),
         dispose: (_cell: typeof data.manifest.cells[number], view: CellView) => scene.disposeCell(view),
       });
@@ -212,14 +216,17 @@ export class Game {
     for (let i = 0; i < n; i++) {
       // Quantise through the encoding so the browser and a Node replay step bit-identical commands.
       const encoded = encodeCommand(command ?? this.currentCommand());
-      this.commandLog.push(encoded);
+      if (this.captureReplay) this.commandLog.push(encoded);
       const c = decodeCommand(encoded);
       this.previousState = this.state;
       const events = this.sim.step(c);
       this.state = this.sim.state();
       if (events.some(e => e.type === 'respawn' || e.type === 'recover')) this.previousState = this.state;
-      if (this.config.review && this.traceLog.length < 20000) this.traceLog.push(this.sim.digest());
-      for (const e of events) { this.frameEvents.push(e); this.eventLog.push(e); if (this.eventLog.length > 5000) this.eventLog.shift(); }
+      if (this.captureReplay && this.config.review && this.traceLog.length < 20000) this.traceLog.push(this.sim.digest());
+      for (const e of events) {
+        this.frameEvents.push(e);
+        if (this.captureReplay) { this.eventLog.push(e); if (this.eventLog.length > 5000) this.eventLog.shift(); }
+      }
       this.handleEvents(events);
     }
   }
@@ -374,7 +381,7 @@ export class Game {
     const g = this.sim.groundPoint(target[0]!, target[1]!);
     this.sim.player.teleport(g, headingToYaw(headingDeg));
     // Not a command: logged here so a replay knows a teleport happened after this tick.
-    this.eventLog.push({ tick: this.sim.tick, type: 'dropIn', detail: `${x},${z},${headingDeg}` });
+    if (this.captureReplay) this.eventLog.push({ tick: this.sim.tick, type: 'dropIn', detail: `${x},${z},${headingDeg}` });
     this.cameraRig.reset(this.sim.player.yaw);
     this.state = this.sim.state();
     this.previousState = this.state;
