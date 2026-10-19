@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "id": "canalside-and-parliament-lower-wing-v2",
+  "status": "ORIGINAL_ART_FOR_REVIEW_NOT_APPLIED",
+  "production": {
+    "kind": "original-procedural",
+    "license": "CC0-1.0",
+    "attribution": "Original procedural Palace east, Main Guard south and Parliament south lower-wing artwork, Helsinki browser-game project (2026), CC0-1.0. Reference photographs are not reproduced.",
+    "referencePixelsCopied": false,
+    "geometryChanged": false,
+    "art": {
+      "path": "canalside-original.png",
+      "sha256": "52649294ba19d27630d1759b08051a8ddfcbfaa8aa1266cf8384f51617050935"
+    },
+    "profile": {
+      "path": "profile.json",
+      "sha256": "bab5283bb16f29162715f0173c65ff8f3f39c5d608dff3adbabf089318c009d0"
+    }
+  },
+  "previousApproved": {
+    "profilePath": "content/helsinki/district-expansion/facade-charts/canalside-v1/profile.json",
+    "sha256": "46de315aa3c0003157284a94a6352283ff2b8fffb96f9d8c577effe64b3649ff",
+    "palaceAndGuardChartDeclarationsAndSelectorsUnchanged": true,
+    "palaceAndGuardPixelsBitIdentical": true,
+    "changedAtlasPixels": 24366,
+    "changedPixelsOutsideNewChart": 0
+  },
+  "source": {
+    "building": "BID_31acb401-f0ce-43c6-aed2-167cbed5d05e",
+    "vtj": "1031902037",
+    "sourcePart": 0,
+    "sourceTriangleIds": [
+      665,
+      666
+    ],
+    "engineering": {
+      "path": "data/evidence/district-expansion-20261018/facade-chart-parliament-lower-engineering-v1/source-fit.json",
+      "sha256": "7621e8f7192a21f551bbad75cf7b2979abf80ee9a6963e4e8b104138cbccb031"
+    },
+    "planeDiagnosis": {
+      "path": "data/evidence/district-expansion-20261018/parliament-lower-wing-source-planes-v1.json",
+      "sha256": "a657ff2448e32b50aedc4eb74cced477b59eaf17d39d00af5f32c3548b20b6b7"
+    },
+    "sourceAreaMetres2": 277.8059128580387,
+    "exclusions": "Separate 6.405m stair-side return source661/662; all other wings; source faces above Y11; all authored main-front columns and upper artwork; floors and HCOL."
+  },
+  "references": [
+    {
+      "title": "Parliament House, tree-free aerial showing both complete lower wings, Helsinki City Museum architecture record, image2",
+      "url": "https://www.finna.fi/Record/hkm.C070A514-709A-4A40-9F6D-D8413A6AD6D4",
+      "role": "appearance-reference-only",
+      "productionUse": false
+    },
+    {
+      "title": "Parliament official aerial, Lev Karavanov / Mostphotos",
+      "url": "https://www.parliament.fi/fi/vieraile-ja-osallistu/eduskuntatalo",
+      "role": "appearance-reference-only",
+      "productionUse": false
+    }
+  ],
+  "openedReferences": [
+    {
+      "path": "data/evidence/district-expansion-20261018/blank-canalside-facades-v1/references/parliament-architecture-museum-2.jpg",
+      "sha256": "72b7de38508a3b7e57c0cf84ae11e6b10f4050e52ffcfea53fd7ba1edb1df072",
+      "opened": true,
+      "observation": "Tree-free oblique aerial shows the complete south lower front wing with eleven tall round-arched openings, a thin top band and stone courses. Source plane extent/orientation matches this wing beyond the main stairs."
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/blank-canalside-facades-v1/references/parliament-official-aerial.jpg",
+      "sha256": "df6c581eb44d3038ec4afb03851bfd28c17ee2a42cdbf4b4208d81c393159d01",
+      "opened": true,
+      "observation": "Contemporary official aerial corroborates extant round arches and pink-gray stone; canopy obscures several exact bay positions, so historical tree-free view supplies the complete count."
+    }
+  ],
+  "layout": {
+    "southLowerWing": {
+      "lengthMetres": 38.003547,
+      "heightMetres": 7.31000018119812,
+      "archedOpenings": 11,
+      "openingArrangement": "One evenly spaced row; original flat glazing/grid approximation, not a claim about which doors are open or which interiors exist.",
+      "surface": "Pink-gray granite coursing and narrow top stone band."
+    }
+  },
+  "approximations": [
+    "Metre positions, aperture widths/heights, glazing subdivisions and stone colour/joints are authored visual approximations from opened reference and source dimensions.",
+    "No copied reference pixels, tree silhouettes, painted reflections or added mesh geometry.",
+    "Source solid wall/collision remains; this chart does not create an enterable building.",
+    "Textureless distant source triangles receive a corner-colour approximation only, not full window detail."
+  ],
+  "memory": {
+    "width": 768,
+    "height": 256,
+    "ownerCells": 3,
+    "rgbaMipBytesPerOwner": 1048576,
+    "aggregateFallbackBytes": 3145728
+  },
+  "application": {
+    "applied": false,
+    "initialBase": "data/work/district-expansion-20261018/cells-closed-v2",
+    "futureCandidateRebindRequiresNewProfile": true
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "kind": "source-bound-tree-registration",
+  "originId": "senate-square-statue-v2",
+  "assetSha256": "ad3978765df75d695c5756b53c9ff2f1f418bf964a28e0ae910661882c6f2690",
+  "thresholdMetres": 0.15,
+  "baselineCells": {
+    "path": "data/work/district-expansion-20261018/cells-final",
+    "indexSha256": "7f1db6eaac8cd4f3026c3ed5c417e9af25f43c60cac6c12059c57248335cf54a",
+    "scenerySha256": "6f69ae4383f3624b9612ab029ca50e43353b3ca793fbd6d9462afead3ba88e9a"
+  },
+  "auditCells": {
+    "path": "data/work/district-expansion-20261018/cells-ground-v2",
+    "indexSha256": "910785b26902eb234ee353d4fb0d3986032ff9476e7f86b170fb4efc19b925af",
+    "scenerySha256": "6f69ae4383f3624b9612ab029ca50e43353b3ca793fbd6d9462afead3ba88e9a"
+  },
+  "audit": {
+    "path": "data/evidence/district-expansion-20261018/tree-ground-v2.json",
+    "sha256": "01335bd95ca1f943a66c076bff8939d1f99133f17294c08c8eb7b23a786dc27b"
+  },
+  "sourceTrees": {
+    "path": "data/work/district-expansion-20261018/trees-v2/trees.json",
+    "sha256": "5d9d83da7322b989433ee033723181c8ba5ae7ef05b26561a0ad4901844e0504"
+  },
+  "sourceReport": {
+    "path": "data/work/district-expansion-20261018/trees-v2/trees-report.json",
+    "sha256": "a37f713003b436ab0a0414fbf6478ff1caf3b56bc5fd37a8e3fc4a8ced203bfb"
+  },
+  "acceptedTrees": {
+    "path": "data/work/expansion-20261017/trees-v2/trees.json",
+    "sha256": "4487756889a73e776d1035a71f6df57d7fecefda14d38f9901b70c8c7f78285d"
+  },
+  "acceptedCount": 810,
+  "protectedArea": {
+    "minX": -800,
+    "maxX": 150,
+    "minZ": -450,
+    "maxZ": 350
+  },
+  "confirmedTreeIds": [
+    "TREE_SUMMER_b64cc2ad-cf23-4777-b163-f03a867420ba",
+    "TREE_SUMMER_4caef342-f615-4bd9-931a-59c08f4a12bf",
+    "TREE_SUMMER_b0cd848c-ba4f-4c5e-8f08-4ac71c9fa85f",
+    "TREE_SUMMER_ceb5a4b0-0af2-4028-948b-0e303813061d",
+    "TREE_SUMMER_5ab6c135-515c-4e98-8512-5b351b9d5920",
+    "TREE_SUMMER_286cf564-512a-4944-875b-bfd7baa754f1",
+    "TREE_SUMMER_4dcf12fb-83f3-4dfc-8006-473f58d3caf3",
+    "TREE_SUMMER_d733dac5-1980-4775-917b-263817597b69",
+    "TREE_SUMMER_a0bdf69b-dd5c-49d7-881a-1eb48144427f",
+    "TREE_SUMMER_8d753fc0-6dd5-422c-89bd-50a720cde20c",
+    "TREE_SUMMER_27019290-f5c3-455a-80d9-17c3365b4eec",
+    "TREE_SUMMER_a28a2736-5b3a-4b4c-ab85-df0b9343b53a",
+    "TREE_SUMMER_776a263c-c792-45d7-bf40-08f134f1952f",
+    "TREE_SUMMER_0d8fea68-8e50-4ccd-b6a4-e3135a9c035c",
+    "TREE_SUMMER_b09f93cc-fc2f-4814-b691-910be90a46d8",
+    "TREE_SUMMER_76cb5373-e409-42e3-a361-03b524490e36",
+    "TREE_SUMMER_f458a615-eb18-4e88-8f11-7355e50b5d13",
+    "TREE_SUMMER_1abc9e89-2820-4741-9786-3f4bf79b310d",
+    "TREE_SUMMER_a311e5c8-7a6b-443d-a4d1-5f3853f51406",
+    "TREE_SUMMER_c2ee6ae1-0207-423f-a8e4-b63e3450ce68",
+    "TREE_SUMMER_eb2224db-0885-47ec-a22e-20c9ac9e257a",
+    "TREE_SUMMER_11741c32-232f-4ded-9689-51f689fe2207",
+    "TREE_SUMMER_a8fa7eb7-ed14-4bc6-9ed3-badcadda6c96",
+    "TREE_SUMMER_7f5f5eed-9087-4372-bb57-26a6eaa66d9d",
+    "TREE_SUMMER_8a69d67f-79af-4624-912f-7ce1fe11bb2c",
+    "TREE_SUMMER_8a187b95-98e4-45c7-bd5f-d5e1b7a965d4",
+    "TREE_SUMMER_167bdb43-9a94-40a8-bd57-9f5faebe2f7d"
+  ],
+  "note": "Authority is restricted to27 source tree IDs whose ground registration changed by over15cm. The final candidate index must be independently pinned at execution, and final nine-point support is recomputed. Original source tree files and all810 accepted placements remain immutable."
+}

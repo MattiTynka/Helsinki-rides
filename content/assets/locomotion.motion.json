@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "sourceId": "quaternius-ual1-standard",
+  "license": "CC0-1.0",
+  "sourcePack": "data/raw/quaternius-animation/ual1-standard-20261017/ledger.json",
+  "rootMotion": "removed; fixed-step character controller owns world displacement",
+  "sourceAxes": "+Y up, +Z forward, +X left; forward verified from positive root travel in RM clips",
+  "targetAxes": "Blender +Z up, -Y forward, +X left; export_yup gives glTF +Y up, +Z forward",
+  "retarget": "original target pelvis/torso/clavicle balance and mean arm carriage with bounded mean-relative source dynamics/swing; periodic source filtering/C1 time warp, fixed target limb lengths, stabilized-knee two-bone IK, actual skinned-shoe floor fit, analytical C1 foot pitch/clearance and speed-constrained heel-to-toe stance/polynomial swing recovery",
+  "posturePolicy": {
+    "baseline": "sample original target walk/run/sprint action before replacement; preserve its anatomy and speed-appropriate balance",
+    "sourceTransfer": "clavicles and arms use mean-relative body-frame source rotation deltas; torso uses bounded mean-relative dynamics; absolute source clavicle and spine directions and static arm bias are forbidden",
+    "torsoDynamicsCapDegrees": 2.0,
+    "clavicleDynamicsCapDegrees": 3.0,
+    "armDynamicsCapDegrees": 40.0,
+    "rootDynamicsCapMeters": 0.004,
+    "numericProbeLimits": {
+      "hipHeadLeanDegrees": 3.0,
+      "chestLeanDegrees": 3.0,
+      "clavicleSweepDegrees": 5.0,
+      "shoulderBehindThoraxAxisMeters": 0.015,
+      "handForwardFromShoulderMeters": 0.05
+    },
+    "acceptance": "numeric probes bound mean posture change against original target clips; visual side/front review remains required"
+  },
+  "phase": "left foot enters stable near-ground support at normalized phase 0; right strike is at 0.5",
+  "authoringFps": 30,
+  "sampleFps": 120,
+  "interpolationPolicy": "Saved Blender scene contains dense120Hz LINEAR authoring keys at fractional30Hz frames. Walk, Run and Sprint use a deterministic GLB postpass with hemisphere-unwrapped quaternion samples and central periodic CUBICSPLINE tangents. Sampled poses match; between-key interpolation differs and is independently checked.",
+  "reviewPolicy": "Re-import actual exported GLBs; capture front/side views at eight phases across every gait cycle for both variants. Offline review complements actual-game camera/control/transition review.",
+  "clips": [
+    { "name": "walk", "sourceClip": "Walk_Loop", "movementSpeed": 1.4, "seconds": 1.0, "supportDuty": 0.60, "footLiftMeters": 0.09, "strikePitchDegrees": -10, "clearanceExponent": 3, "pelvisReachSmoothingMeters": 0, "interpolation": "CUBICSPLINE" },
+    { "name": "run", "sourceClip": "Jog_Fwd_Loop", "movementSpeed": 3.6, "seconds": 0.7, "supportDuty": 0.36, "footLiftMeters": 0.20, "strikePitchDegrees": 0, "clearanceExponent": 2, "pelvisReachSmoothingMeters": 0.02, "interpolation": "CUBICSPLINE" },
+    { "name": "sprint", "sourceClip": "Sprint_Loop", "movementSpeed": 6.0, "seconds": 0.6, "supportDuty": 0.28, "footLiftMeters": 0.30, "strikePitchDegrees": 0, "clearanceExponent": 2, "pelvisReachSmoothingMeters": 0.02, "interpolation": "CUBICSPLINE" }
+  ],
+  "durationPolicy": "shared natural gameplay cadence1.0/.7/.6seconds; adapt source support duty and planted-foot fore-aft trajectory to actual gameplay speed rather than slowing long-stride source jog/sprint to moon-walk cadence; source support fit and RM travel are independently recorded",
+  "verification": "actual skinned target shoe vertices are fitted before export; exported GLB tracks/shoes and runtime blending require independent verification"
+}

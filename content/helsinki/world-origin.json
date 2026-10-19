@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "senate-square-statue-v2",
+  "crs": "EPSG:3879",
+  "heightDatum": "N2000",
+  "originProjected": [25497350, 6672960, 7.50],
+  "horizontalChoice": "Integer-metre point at the Alexander II statue, centre of Senate Square, bounded by the University main building and the Government Palace footprints (City of Helsinki building register).",
+  "localFrames": {
+    "working": "X east, Y north, Z up (metres, after subtracting originProjected); used by the cell builder and Blender",
+    "runtime": "X east, Y up, Z south: runtime = (E - E0, H - H0, -(N - N0))"
+  },
+  "heightDerivation": {
+    "method": "least-squares plane through the city terrain model (2021_terrain) on a 1 m grid over an 8 to 20 m annulus around (E0, N0), one 0.5 m rejection pass (tools/world/derive_origin_height.ts)",
+    "samples": 1064,
+    "kept": 1057,
+    "rmsMeters": 0.052,
+    "sourceLedger": "helsinki-terrain-2021",
+    "derivedAt": "2026-10-16T17:05:00Z",
+    "supersedes": "senate-square-statue-v1 (height 7.29 from the 2017 mesh; decision 0005)"
+  },
+  "openIssues": [
+    "Three control points (Cathedral, Railway Station, Market Square quay) are the permanent re-tiling test; only the Cathedral lies inside the pilot."
+  ]
+}

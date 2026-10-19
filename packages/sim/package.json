@@ -1,0 +1,13 @@
+{
+  "name": "@helsinki/sim",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@dimforge/rapier3d-deterministic-compat": "0.21.0",
+    "@helsinki/world-schema": "workspace:*"
+  }
+}

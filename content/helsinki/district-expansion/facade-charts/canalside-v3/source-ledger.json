@@ -1,0 +1,673 @@
+{
+  "schemaVersion": 1,
+  "id": "canalside-three-landmarks-guard-complete-v3",
+  "status": "ORIGINAL_ART_FOR_REVIEW_NOT_APPLIED",
+  "production": {
+    "kind": "original-procedural",
+    "license": "CC0-1.0",
+    "attribution": "Original procedural Palace east, Main Guard south and Parliament south lower-wing artwork, Helsinki browser-game project (2026), CC0-1.0. Reference photographs are not reproduced.",
+    "referencePixelsCopied": false,
+    "geometryChanged": false,
+    "art": {
+      "path": "canalside-original.png",
+      "sha256": "2a8c76c3a1c17ee5ca8d2c75b72671d4c0d47e47178733c9ca0a86fd2ca581a5"
+    },
+    "profile": {
+      "path": "profile.json",
+      "sha256": "63f936c9f2a128dff463c291dc33e894970e4205d5d4e0110b5e72793ab9138a"
+    }
+  },
+  "previousApproved": {
+    "profilePath": "content/helsinki/district-expansion/facade-charts/canalside-v2/profile.json",
+    "profileSha256": "bab5283bb16f29162715f0173c65ff8f3f39c5d608dff3adbabf089318c009d0",
+    "artSha256": "52649294ba19d27630d1759b08051a8ddfcbfaa8aa1266cf8384f51617050935",
+    "oldChartDeclarationsUnchanged": true,
+    "oldTargetSelectorsUnchanged": true,
+    "changedAtlasPixels": 19360,
+    "changedPixelsOutsideTwoUnusedStrips": 0,
+    "usedPalaceGuardParliamentBaseTexelsUnchanged": true
+  },
+  "sourceBindings": [
+    {
+      "path": "data/evidence/district-expansion-20261018/facade-chart-guard-recess-engineering-v1/source-fit.json",
+      "sha256": "68f5192f77c9d24ed526bfdba28e65105cbc347c59628e627e8cb966b47ab012"
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/facade-chart-guard-se-chamfer-engineering-v1/source-fit.json",
+      "sha256": "41f8596f26f0688a37e163624f1519ff9ecb9bcaad8533903d831022bb6d23b4"
+    }
+  ],
+  "layout": {
+    "recessChart": {
+      "id": "main-guard-south-recess",
+      "building": "BID_582cc5c9-65ce-4d61-ab46-f8f1b31b5731",
+      "origin": [
+        284.5199890136719,
+        4.797425270080566,
+        84.5669937133789
+      ],
+      "uAxis": [
+        0.9988251917266577,
+        0,
+        -0.04845860472821395
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        -9.807347297668457,
+        13.826271110435997,
+        0.000457763671875
+      ],
+      "pixels": [
+        3,
+        52,
+        220,
+        44
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    "chamferChart": {
+      "id": "main-guard-southeast",
+      "building": "BID_582cc5c9-65ce-4d61-ab46-f8f1b31b5731",
+      "origin": [
+        331.53759765625,
+        -5.009922504425049,
+        69.44979858398438
+      ],
+      "uAxis": [
+        0.6331760667308439,
+        0,
+        -0.7740077961618074
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -22.549641113449766,
+        0,
+        0,
+        8.450547695159912
+      ],
+      "pixels": [
+        3,
+        3,
+        220,
+        44
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    "recessWorldStationBounds": [
+      18.349619202573994,
+      32.17586525466782
+    ],
+    "recessSvgYBounds": [
+      -0.9109559059143066,
+      8.896849155426025
+    ]
+  },
+  "guardRecess": {
+    "sourceTriangleIds": [
+      117,
+      120,
+      121,
+      122
+    ],
+    "worldStationBounds": [
+      18.349619202573994,
+      32.17586525466782
+    ],
+    "southRhythm": "Original six-bay world stations are cropped, not restarted: only bays3 and4 fall in the recess.",
+    "verticalMapping": "Existing window/sill/plinth worldY is preserved exactly. The approximately0.91m extra source height above the main front has original blue plaster without invented openings.",
+    "sourceGeometryUnchanged": true
+  },
+  "guardSoutheast": {
+    "sourceTriangleIds": [
+      164,
+      165
+    ],
+    "blindArcades": 5,
+    "smallHighWindows": 5,
+    "doorsAdded": 0,
+    "reference": "Complete southeast plane visible in actually opened primary CityMuseum architecture record image2. The older colour wide crops this elevation and supplies colour/material corroboration only."
+  },
+  "references": [
+    {
+      "path": "data/evidence/district-expansion-20261018/blank-canalside-facades-v1/references/main-guard-museum-2.jpg",
+      "sha256": "a733b46790450045fef6f3122196bcfef3a91e9464a0419c45a8fd867f4a9c2a",
+      "recordUrl": "https://www.finna.fi/Record/hkm.E7295B4D-1D26-4351-9F57-1D2A3DC096A2",
+      "index": 2,
+      "opened": true,
+      "role": "appearance-reference-only",
+      "productionPixels": false
+    }
+  ],
+  "packingProof": {
+    "indexPath": "data/work/district-expansion-20261018/cells-charts-v2/cells.json",
+    "indexSha256": "0f5ec1ee9edbc3a0e6720de52fce9f445856f75296c7b03f5ca448c28a54e9a1",
+    "basis": "Actual old Float32 rendered UV triangle union, expanded new rectangles by1pixel for conservative base-level texel taps.",
+    "rows": [
+      {
+        "cell": "c_p01_p00",
+        "lod0Sha256": "4b6df209e4d03dd92b08c179ed63b3114fa3cf1637f554a067506ca6cc7adac5",
+        "sourceTriangles": 14,
+        "strips": [
+          {
+            "pixels": [
+              3,
+              3,
+              220,
+              44
+            ],
+            "paddingPixels": 1,
+            "usedTriangleOverlapPixels2": 0
+          },
+          {
+            "pixels": [
+              3,
+              52,
+              220,
+              44
+            ],
+            "paddingPixels": 1,
+            "usedTriangleOverlapPixels2": 0
+          }
+        ],
+        "actualUvTriangles": [
+          [
+            [
+              766.5,
+              158.5
+            ],
+            [
+              763.1357116699219,
+              1.5
+            ],
+            [
+              756.9719696044922,
+              4.0652971267700195
+            ]
+          ],
+          [
+            [
+              766.5,
+              158.5
+            ],
+            [
+              756.9719696044922,
+              4.0652971267700195
+            ],
+            [
+              756.9719696044922,
+              18.0723934173584
+            ]
+          ],
+          [
+            [
+              766.5,
+              158.5
+            ],
+            [
+              756.9719696044922,
+              18.0723934173584
+            ],
+            [
+              380.7377700805664,
+              18.117862701416016
+            ]
+          ],
+          [
+            [
+              766.5,
+              158.5
+            ],
+            [
+              380.7377471923828,
+              18.59617805480957
+            ],
+            [
+              237.2007064819336,
+              18.489112854003906
+            ]
+          ],
+          [
+            [
+              766.5,
+              158.5
+            ],
+            [
+              237.2007064819336,
+              18.489112854003906
+            ],
+            [
+              230.68485260009766,
+              20.856040954589844
+            ]
+          ],
+          [
+            [
+              766.5,
+              158.5
+            ],
+            [
+              230.68485260009766,
+              20.856040954589844
+            ],
+            [
+              230.68485260009766,
+              102.96825408935547
+            ]
+          ],
+          [
+            [
+              766.5,
+              158.5
+            ],
+            [
+              230.68485260009766,
+              102.96825408935547
+            ],
+            [
+              202.58470916748047,
+              102.9243392944336
+            ]
+          ],
+          [
+            [
+              766.5,
+              158.5
+            ],
+            [
+              202.58470916748047,
+              102.9243392944336
+            ],
+            [
+              1.5,
+              102.96665954589844
+            ]
+          ],
+          [
+            [
+              756.9719696044922,
+              158.49998474121094
+            ],
+            [
+              763.1357116699219,
+              158.49998474121094
+            ],
+            [
+              1.5,
+              102.96665954589844
+            ]
+          ],
+          [
+            [
+              380.7377700805664,
+              158.49998474121094
+            ],
+            [
+              756.9719696044922,
+              158.49998474121094
+            ],
+            [
+              1.5,
+              102.96665954589844
+            ]
+          ],
+          [
+            [
+              237.2007064819336,
+              158.49998474121094
+            ],
+            [
+              380.7377700805664,
+              158.49998474121094
+            ],
+            [
+              1.5,
+              102.96665954589844
+            ]
+          ],
+          [
+            [
+              230.68485260009766,
+              158.49998474121094
+            ],
+            [
+              237.2007064819336,
+              158.49998474121094
+            ],
+            [
+              1.5,
+              102.96665954589844
+            ]
+          ],
+          [
+            [
+              202.58470916748047,
+              158.49998474121094
+            ],
+            [
+              230.68485260009766,
+              158.49998474121094
+            ],
+            [
+              1.5,
+              102.96665954589844
+            ]
+          ],
+          [
+            [
+              202.58470916748047,
+              158.49998474121094
+            ],
+            [
+              1.5,
+              102.96665954589844
+            ],
+            [
+              1.5,
+              158.49998474121094
+            ]
+          ]
+        ]
+      },
+      {
+        "cell": "c_p02_p00",
+        "lod0Sha256": "739d47183271702d7d000d9ae7765269887ebc99d36f12dbbb4b2322ebf9f96b",
+        "sourceTriangles": 12,
+        "strips": [
+          {
+            "pixels": [
+              3,
+              3,
+              220,
+              44
+            ],
+            "paddingPixels": 1,
+            "usedTriangleOverlapPixels2": 0
+          },
+          {
+            "pixels": [
+              3,
+              52,
+              220,
+              44
+            ],
+            "paddingPixels": 1,
+            "usedTriangleOverlapPixels2": 0
+          }
+        ],
+        "actualUvTriangles": [
+          [
+            [
+              1.5,
+              171.51072692871094
+            ],
+            [
+              1.5,
+              253.5
+            ],
+            [
+              181.85528182983398,
+              253.5
+            ]
+          ],
+          [
+            [
+              127.8947639465332,
+              171.51486206054688
+            ],
+            [
+              1.5,
+              171.51072692871094
+            ],
+            [
+              181.85528182983398,
+              253.5
+            ]
+          ],
+          [
+            [
+              127.8947639465332,
+              171.51486206054688
+            ],
+            [
+              181.85528182983398,
+              253.5
+            ],
+            [
+              181.8555793762207,
+              161.81910705566406
+            ]
+          ],
+          [
+            [
+              127.8947639465332,
+              171.51486206054688
+            ],
+            [
+              181.8555793762207,
+              161.81910705566406
+            ],
+            [
+              130.06978225708008,
+              161.81927490234375
+            ]
+          ],
+          [
+            [
+              127.8947639465332,
+              171.51486206054688
+            ],
+            [
+              130.06978225708008,
+              161.81927490234375
+            ],
+            [
+              127.8947639465332,
+              162.3964080810547
+            ]
+          ],
+          [
+            [
+              317.2174072265625,
+              161.62069702148438
+            ],
+            [
+              317.2174072265625,
+              253.5
+            ],
+            [
+              500.49998474121094,
+              253.5
+            ]
+          ],
+          [
+            [
+              373.6172790527344,
+              162.3980712890625
+            ],
+            [
+              370.23246002197266,
+              161.5
+            ],
+            [
+              317.2174072265625,
+              161.62069702148438
+            ]
+          ],
+          [
+            [
+              373.6172790527344,
+              166.24053955078125
+            ],
+            [
+              373.6172790527344,
+              162.3980712890625
+            ],
+            [
+              317.2174072265625,
+              161.62069702148438
+            ]
+          ],
+          [
+            [
+              373.6172790527344,
+              166.24053955078125
+            ],
+            [
+              317.2174072265625,
+              161.62069702148438
+            ],
+            [
+              500.49998474121094,
+              253.5
+            ]
+          ],
+          [
+            [
+              437.3008575439453,
+              166.2595977783203
+            ],
+            [
+              373.6172790527344,
+              166.24053955078125
+            ],
+            [
+              500.49998474121094,
+              253.5
+            ]
+          ],
+          [
+            [
+              499.4180145263672,
+              166.77560424804688
+            ],
+            [
+              437.3008575439453,
+              166.2595977783203
+            ],
+            [
+              500.49998474121094,
+              253.5
+            ]
+          ],
+          [
+            [
+              499.4180145263672,
+              166.77560424804688
+            ],
+            [
+              500.49998474121094,
+              253.5
+            ],
+            [
+              500.49998474121094,
+              166.6573944091797
+            ]
+          ]
+        ]
+      },
+      {
+        "cell": "c_m09_m03",
+        "lod0Sha256": "de73c32486aa22d01b05899d0f3a73aa7bc57e51452c6b92fecd8f7abb1204c8",
+        "sourceTriangles": 2,
+        "strips": [
+          {
+            "pixels": [
+              3,
+              3,
+              220,
+              44
+            ],
+            "paddingPixels": 1,
+            "usedTriangleOverlapPixels2": 0
+          },
+          {
+            "pixels": [
+              3,
+              52,
+              220,
+              44
+            ],
+            "paddingPixels": 1,
+            "usedTriangleOverlapPixels2": 0
+          }
+        ],
+        "actualUvTriangles": [
+          [
+            [
+              766.5,
+              253.5
+            ],
+            [
+              766.5,
+              161.50001525878906
+            ],
+            [
+              505.5,
+              161.5
+            ]
+          ],
+          [
+            [
+              766.5,
+              253.5
+            ],
+            [
+              505.5,
+              161.5
+            ],
+            [
+              505.5,
+              253.5
+            ]
+          ]
+        ]
+      }
+    ],
+    "limitation": "Full mip-chain pixels necessarily change; final native close/distant visual review remains required."
+  },
+  "unchangedBackgroundSourceArt": [
+    {
+      "building": "BID_9a46dd48-ee3e-4ab1-a3fa-4f99b02a4b5b",
+      "vtj": "1030176577",
+      "address": "Pohjoisranta2",
+      "reason": "Original source-flat distant background, not applied texture loss; outside these named facade charts."
+    },
+    {
+      "building": "BID_7f599675-2086-4b5a-8335-5a802dc3b6ac",
+      "vtj": "1030176588",
+      "address": "Pohjoisranta2",
+      "reason": "Original source-flat distant background, not applied texture loss; outside these named facade charts."
+    }
+  ],
+  "approximations": [
+    "Dimensions, stone joints, ornament thickness and flat glazing are original visual approximations; no reference photographs are embedded.",
+    "Additional recess height is a source massing discrepancy relative to the flat street elevation photograph; extra top blue plaster is not a claim of a surveyed cornice or hidden opening.",
+    "Source positions, winding, buildings, roofs, ground, HCOL and all unrelated source faces remain unchanged."
+  ],
+  "memory": {
+    "atlas": [
+      768,
+      256
+    ],
+    "ownerCells": 3,
+    "fullRgbaMipBytes": 3145728
+  },
+  "application": {
+    "applied": false,
+    "initialBase": "cells-closed-v2",
+    "requiresNewFinalCandidateProfile": true
+  },
+  "limitations": [
+    "Source-art limitations of the two identified distant Pohjoisranta2 records remain.",
+    "TexturelessLOD2 retains corner-colour approximation; final actual close/distant appearance and budgets require native review."
+  ]
+}

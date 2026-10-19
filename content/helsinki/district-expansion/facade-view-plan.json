@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "note": "Labelled visual fixtures, separate from continuous district traversal. Native teleport first snaps to the nearest road; explicit Alt+W approaches then place the observer outside the source facades. Actual positions are recorded.",
+  "fixtures": [
+    { "id": "parliament-road-front", "startXZ": [-1019.086, -331.255], "views": [[-2.17, 0.25], [-2.17, 0.48]] },
+    { "id": "finlandia-west", "startXZ": [-1101.608, -703.844], "approachXZs": [[-1083, -700]], "views": [[1.5707963267948966, 0.08], [1.5707963267948966, 0.32]] },
+    { "id": "finlandia-congress-south", "startXZ": [-1040, -585], "approachXZs": [[-1053.584, -552.148], [-1050.808, -546.842], [-1047.02088, -548.854557], [-1043.888681, -550.500346], [-1040.967587, -551.968086], [-1037.639383, -549.825563], [-1034.448272, -549.343268], [-1031.13348, -550.420667], [-1021.386762, -555.825677], [-1017.852286, -560.12277], [-1021.260425, -565.585532], [-1024.784938, -571.226679], [-1025.29265, -585.232095], [-1004.332762, -597.388836], [-1000, -598]], "views": [[3.141592653589793, 0.06], [3.141592653589793, 0.3]] },
+    { "id": "finlandia-north-end", "startXZ": [-1050, -830], "approachXZs": [[-1050, -830]], "views": [[0, 0.08], [0, 0.3]] },
+    { "id": "uspenski-south-road", "startXZ": [469.916, 147.425], "views": [[-2.15, 0.25], [-2.15, 0.48]] }
+  ]
+}

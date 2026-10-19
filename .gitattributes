@@ -1,0 +1,5 @@
+# Fixture and authoring inputs contain byte-level hash pins. Preserve exact bytes on every platform.
+* -text
+*.jpg binary
+*.png binary
+*.wasm binary

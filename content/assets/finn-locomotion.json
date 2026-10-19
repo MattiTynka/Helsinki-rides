@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "finn-native-v1",
+  "phaseGroup": "left-strike",
+  "upperBodyRoot": "DEF-Spine",
+  "locomotion": [
+    { "clip": "walk", "movementSpeed": 1.233, "direction": "forward" },
+    { "clip": "jog", "movementSpeed": 2.432, "direction": "forward" },
+    { "clip": "run", "movementSpeed": 3.506, "direction": "forward" },
+    { "clip": "sprint", "movementSpeed": 4.953, "direction": "forward" },
+    { "clip": "walk_back", "movementSpeed": 0.933, "direction": "backward" },
+    { "clip": "jog_back", "movementSpeed": 1.827, "direction": "backward" },
+    { "clip": "strafe_left", "movementSpeed": 1.005, "direction": "left" },
+    { "clip": "jog_left", "movementSpeed": 1.932, "direction": "left" },
+    { "clip": "strafe_right", "movementSpeed": 0.998, "direction": "right" },
+    { "clip": "jog_right", "movementSpeed": 1.944, "direction": "right" }
+  ],
+  "states": {
+    "idle": "idle",
+    "aim": "aim",
+    "fire": "fire",
+    "hit": "hit",
+    "death": "death",
+    "drive": "drive",
+    "arrested": "arrested"
+  }
+}

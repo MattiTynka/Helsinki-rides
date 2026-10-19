@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "id": "canalside-palace-east-main-guard-south-v1",
+  "status": "ORIGINAL_ART_FOR_REVIEW_NOT_APPLIED",
+  "production": {
+    "kind": "original-procedural",
+    "license": "CC0-1.0",
+    "attribution": "Original procedural Palace east and Main Guard south facade artwork, Helsinki browser-game project (2026). Reference photographs are not reproduced.",
+    "art": {
+      "path": "canalside-original.png",
+      "sha256": "62f231df54d3826f437bc9a06997384681c06e9b81e4e5e5e7f675f237e4e732"
+    },
+    "svg": {
+      "path": "canalside-original.svg",
+      "sha256": "f2ddd2867e2b9aadb711432ebcfbad4f158da9c9255ff07a3574118cade8f214"
+    },
+    "profile": {
+      "path": "profile.json",
+      "sha256": "46de315aa3c0003157284a94a6352283ff2b8fffb96f9d8c577effe64b3649ff"
+    },
+    "referencePixelsCopied": false,
+    "sourceGeometryChanged": false
+  },
+  "sourceBindings": [
+    {
+      "path": "data/evidence/district-expansion-20261018/facade-chart-engineering-v1/source-fit.json",
+      "sha256": "0981ce764b633b8405695fbf6446d8600a68dbebe1b34401043eaf4c8c87ddcc"
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/facade-chart-guard-engineering-v1/source-fit.json",
+      "sha256": "1a48b02f467e101f9da12705aa700021a470ba00784d816ed9d8fb73e4a4d1d2"
+    }
+  ],
+  "referenceRoute": {
+    "streetView": "Attempted sanctioned Chrome and in-app-browser Street View; neither browser is enabled; cua.getState returned no browser/app surfaces. No headless Maps/browser bypass used.",
+    "fallback": "Actually opened official President and Finnish Heritage Agency/museum photographs. Photograph files remain evidence only."
+  },
+  "references": [
+    {
+      "title": "Presidential Palace: official exterior photographs, Matti Porre / Office of the President",
+      "url": "https://www.presidentti.fi/en/pictures/presidential-palace/",
+      "role": "appearance-reference-only",
+      "productionUse": false
+    },
+    {
+      "title": "Presidentinlinna nähtynä Mariankadun puolelta, Finnish Heritage Agency, HK6532_246",
+      "url": "https://www.finna.fi/Record/museovirasto.CD4234EC063271791B3E54AC4FF9844D",
+      "role": "appearance-reference-only",
+      "productionUse": false
+    },
+    {
+      "title": "Presidentinlinna Mariankadun puolelta, Finnish Heritage Agency, 7137_495",
+      "url": "https://www.finna.fi/Record/museovirasto.9434E8449CCD91F7DF6016F25860D541",
+      "role": "appearance-reference-only",
+      "productionUse": false
+    },
+    {
+      "title": "Main Guard canal elevation, Volker von Bonin / Finnish Heritage Agency, published by Yle",
+      "url": "https://yle.fi/a/3-11446975",
+      "role": "appearance-reference-only",
+      "productionUse": false
+    }
+  ],
+  "openedFiles": [
+    {
+      "path": "data/evidence/district-expansion-20261018/blank-canalside-facades-v1/references/presidentinlinna-ulkoa.jpg",
+      "sha256": "18afda774e49995afc8f8236ddb1ba535bffa23cedefa4e2c17441fda862a5f2",
+      "opened": true
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/blank-canalside-facades-v1/references/palace-east-heritage-a.jpg",
+      "sha256": "84ed38a9252853a1e905836cf20fac6a1149b08ab5d0c34c46249a3b350f7640",
+      "opened": true
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/blank-canalside-facades-v1/references/palace-east-heritage-b.jpg",
+      "sha256": "a4fd7f7009948966ccec139052d27ce7413b1c0f396d4ad1239cfd19b6c2b692",
+      "opened": true
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/blank-canalside-facades-v1/references/palace-east-heritage-c.jpg",
+      "sha256": "4a35111c616d1d68a38902cdb0b4f81e69a05f6f9144e0d4f83c8b3eac8bd07f",
+      "opened": true
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/blank-canalside-facades-v1/references/main-guard-museum-wide.jpg",
+      "sha256": "2ee3f2a05ad25c832fb68661bba81983863825b73a41ea8bfa8a415651bbeff2",
+      "opened": true
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/blank-canalside-facades-v1/references/main-guard-citymuseum.jpg",
+      "sha256": "5a8de4d15195373a6b781a353cb21f63b7e58674f8d2e1d627c424d409693cec",
+      "opened": true
+    },
+    {
+      "path": "data/evidence/district-expansion-20261018/blank-canalside-facades-v1/references/main-guard-museum-portico.jpg",
+      "sha256": "f993f3a75e23660a7439301a4bf738035948f618829dea04dedd8be63b6bebe1",
+      "opened": true
+    }
+  ],
+  "layout": {
+    "palaceEast": {
+      "sourceFaceTriangles": 14,
+      "sourceAreaMetres2": 810.2306386600922,
+      "direction": "Image left is south (u=-71.149722), right is north (u=0).",
+      "southLowWing": {
+        "approximateLengthMetres": 21.315,
+        "rectangularWindows": 7,
+        "canopyDoors": 1
+      },
+      "highWing": {
+        "middleWindows": 14,
+        "upperSingleWindows": 12,
+        "upperThreeLightGroups": 1,
+        "upperThreeLightOpenings": 3,
+        "groundWindows": 7,
+        "mariankatuEntrances": 1,
+        "northGroundRemainder": "blind rusticated plaster, no added windows"
+      },
+      "excluded": "South Ionic frontage, west and courtyard elevations, roofs, nonselected faces."
+    },
+    "mainGuardSouth": {
+      "sourceFaceTriangles": 12,
+      "sourceAreaMetres2": 311.37019621909093,
+      "direction": "Image left is west, right is east.",
+      "blindArcades": 6,
+      "smallHighWindows": 6,
+      "serviceDoorBayFromWest": 5,
+      "excluded": "West portico, southeast chamfer, courtyard and separately textured BID_ff36e6db-4dc7-4610-b2ab-6db26acfaed3."
+    }
+  },
+  "approximations": [
+    "Opening positions and dimensions, cornice/moulding widths, masonry joints and colours are authored approximations fitted to source plane dimensions and opened photographs; no engineering survey accuracy is claimed.",
+    "Glazing is flat original artwork, without inferred interior rooms or reflected photographed trees.",
+    "Historical photographs establish east opening layout; official contemporary exterior photos corroborate pale yellow plaster/white trim/stone plinth.",
+    "Main Guard south blue-gray plaster is supported by the opened colour photo and contemporary article; the west portico column pattern is intentionally excluded."
+  ],
+  "memory": {
+    "atlasWidth": 768,
+    "atlasHeight": 256,
+    "ownerCells": 2,
+    "rgba8FullMipChainBytesPerOwner": 1048576,
+    "aggregateFallbackBytes": 2097152
+  },
+  "application": {
+    "applied": false,
+    "initialBase": "data/work/district-expansion-20261018/cells-closed-v2",
+    "futureRebind": "After final floor-phase hashes are known, bind exact unchanged source triangle keys to the fresh candidate before application."
+  }
+}

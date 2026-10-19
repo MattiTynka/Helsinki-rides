@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "buildingRegister": "data/raw/city-continuation-20261019/building-register/city-continuation.geojson",
+  "structures": [
+    {
+      "buildingId": "BID_c6be6cac-848f-47e9-898e-44bc97d39d25",
+      "registerId": "register-879555",
+      "featureId": "Rakennukset_alue_rekisteritiedot.31292",
+      "kind": "floating-sauna",
+      "referenceUrl": "https://www.allaspool.fi/en/saunas/"
+    }
+  ],
+  "evidence": "Retains the accepted Allas declaration from the district-expansion release. The additive register retains its exact current Sauna feature and geometry. Only this exact matched visible roof/prism structure is declared; no new water structure or bridge is approved. Strict source water, terrain and ground checks still apply."
+}

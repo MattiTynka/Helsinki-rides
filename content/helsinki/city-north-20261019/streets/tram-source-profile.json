@@ -1,0 +1,1066 @@
+{
+  "schemaVersion": 1,
+  "id": "mannerheim-north-tram-source-v1",
+  "origin": {
+    "path": "content/helsinki/world-origin.json",
+    "sha256": "46e5a24375dc3fa48b38795d69481bf2b73512e622c3358714db354869d794e7",
+    "id": "senate-square-statue-v2",
+    "crs": "EPSG:3879",
+    "heightDatum": "N2000"
+  },
+  "osm": {
+    "path": "data/raw/city-north-20261019/osm/city-north.json",
+    "sha256": "707388efff3d70d40c3e71898d22dbdb908d1137a67f6dac2e3b13ef26c49c1a",
+    "license": "ODbL1.0",
+    "attribution": "Tram/road data © OpenStreetMap contributors, ODbL1.0",
+    "ledgerPath": "data/raw/city-north-20261019/osm/ledger.json",
+    "ledgerSha256": "d5408fadbc5dd6b46f20e97928d48d86a5fee49d063955d20b43f9e2cb8aaa0e"
+  },
+  "sourceLocks": [
+    {
+      "file": "data/raw/city-north-20261019/street-parts/city-north.geojson",
+      "sha256": "f920ab43145e1721247ad76bddb6fd2de591efe317800d2ae88e067aa91ded94"
+    },
+    {
+      "file": "data/raw/city-north-20261019/street-parts/ledger.json",
+      "sha256": "8f45fbaa69d722b1abce9efbdec3bb861c4d2cc436ef5d8cafdcfe598f89b646"
+    },
+    {
+      "file": "content/helsinki/district-expansion/streets-v1/tram-source-profile.json",
+      "sha256": "80b3c1489f77414a513e6ae429a547798c0e1238e82788f7baa895366ce05481"
+    },
+    {
+      "file": "content/helsinki/district-expansion/streets-v1/production-credits-v1.json",
+      "sha256": "717b56b22f9745d377c982980848598928bd212a35d27133e1ac071dde067b7e"
+    }
+  ],
+  "scope": {
+    "name": "Mannerheimintie actual separately mapped tracks, additive northern202m strip",
+    "renderBoundsRuntimeXZ": [
+      -1792,
+      -1152,
+      800,
+      -950
+    ],
+    "clipToRuntimeBounds": true,
+    "selectionPolicy": "A source railway=tram way must intersect new northern strip rectangle, have at least one source node within30m of a named Mannerheimintie highway axis, and all source nodes within40m. Keep whole source way/node ordering; actual rendering clips to bounds. No synthetic offset tracks and no automatic long cross-street expansion.",
+    "sourceCorridorWayIds": [
+      22906934,
+      22906936,
+      22907032,
+      23025074,
+      24449353,
+      24449389,
+      24662056,
+      25522290,
+      25522292,
+      28408148,
+      28775991,
+      28903193,
+      29507723,
+      29507724,
+      29722945,
+      29722947,
+      30259989,
+      30260136,
+      30260455,
+      30263045,
+      30287601,
+      30287602,
+      30287647,
+      30471500,
+      30471501,
+      30528384,
+      30529424,
+      33971192,
+      35868996,
+      37137191,
+      37264258,
+      38156742,
+      38156743,
+      45150439,
+      45150440,
+      45314201,
+      45314202,
+      76353022,
+      76353023,
+      76353848,
+      76354123,
+      76354126,
+      76354127,
+      76354128,
+      76354131,
+      77615981,
+      77615982,
+      81796301,
+      81796302,
+      81796303,
+      144214759,
+      151796351,
+      151796352,
+      158253280,
+      187794586,
+      187794587,
+      187794592,
+      187794594,
+      187794598,
+      187794600,
+      199237897,
+      199237899,
+      199237903,
+      217189183,
+      217189184,
+      217189185,
+      217189186,
+      240859297,
+      240859298,
+      257670066,
+      258783043,
+      259723581,
+      259734798,
+      260546489,
+      321796210,
+      357273767,
+      638833803,
+      655405465,
+      732343447,
+      1084312068,
+      1103867420,
+      1309809289,
+      1309809290,
+      1311908641,
+      1312033905,
+      1312033916,
+      1312196651,
+      1312196652,
+      1433225572,
+      1433225575,
+      1433225579,
+      1433225580,
+      1539168818,
+      1549165509,
+      1549165510,
+      1549165511,
+      1549165512,
+      1549165513,
+      1549165514,
+      1549165515,
+      1549165516,
+      1549165517,
+      1549165518,
+      1549165519,
+      1549165520,
+      1549165521,
+      1549165522,
+      1549165523,
+      1549165524,
+      1563213328
+    ],
+    "visualOnly": true,
+    "physics": "unchanged",
+    "preservation": "Accepted rails south ofZ-950 remain untouched. Full original source ways and node order determine tangents; renderer clips only new rail footprint area toZ[-1152,-950]."
+  },
+  "gauge": {
+    "metres": 1,
+    "authorityUrl": "https://kaupunkiliikenne.fi/termisto/",
+    "kind": "rail-measuring-points",
+    "sourceTerm": "Raideleveys; straight track1000mm. Each raidemetri contains two kiskometres.",
+    "limitation": "Visual rail heads approximate groove/rail section; source geometry is track centreline, not surveyed individual steel edges.",
+    "inheritedAuthorityProfile": {
+      "file": "content/helsinki/district-expansion/streets-v1/tram-source-profile.json",
+      "sha256": "80b3c1489f77414a513e6ae429a547798c0e1238e82788f7baa895366ce05481"
+    },
+    "newAuthorityLookupClaimed": false
+  },
+  "tracks": [
+    {
+      "wayId": 170954804,
+      "nodeIds": [
+        1820613414,
+        251065542,
+        2660480290,
+        1001544400,
+        11591900008,
+        13429427463,
+        3814285094
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "curb_low",
+        "voltage": "750"
+      },
+      "points": [
+        {
+          "nodeId": 1820613414,
+          "x": -1354.6653351299465,
+          "z": -1273.221784338355,
+          "lat": 60.180931,
+          "lon": 24.9278374
+        },
+        {
+          "nodeId": 251065542,
+          "x": -1341.6616179831326,
+          "z": -1228.485439831391,
+          "lat": 60.1805296,
+          "lon": 24.9280726
+        },
+        {
+          "nodeId": 2660480290,
+          "x": -1338.9578105211258,
+          "z": -1219.3575716651976,
+          "lat": 60.1804477,
+          "lon": 24.9281215
+        },
+        {
+          "nodeId": 1001544400,
+          "x": -1318.742277149111,
+          "z": -1140.9882944868878,
+          "lat": 60.1797445,
+          "lon": 24.9284873
+        },
+        {
+          "nodeId": 11591900008,
+          "x": -1296.163663584739,
+          "z": -1050.4388891113922,
+          "lat": 60.178932,
+          "lon": 24.9288959
+        },
+        {
+          "nodeId": 13429427463,
+          "x": -1289.8211396820843,
+          "z": -1018.5784011632204,
+          "lat": 60.1786461,
+          "lon": 24.9290108
+        },
+        {
+          "nodeId": 3814285094,
+          "x": -1287.539773028344,
+          "z": -1008.5819879295304,
+          "lat": 60.1785564,
+          "lon": 24.9290521
+        }
+      ],
+      "selection": {
+        "reason": "Complete original source track in inherited Mannerheim mainline/junction corridor; additive north-strip rendering only",
+        "sourceCorridorWayIds": [
+          30287647,
+          260546489,
+          1309809289
+        ],
+        "minSourceRoadDistanceMetres": 4.8214530394422175,
+        "maxSourceNodeRoadDistanceMetres": 38.84059404266025,
+        "sourceAxisMetresInsideNorthStrip": 147.43322115551518
+      },
+      "support": {
+        "expectedLayer": 0,
+        "bridge": false,
+        "tunnel": false,
+        "heights": "No Y authored here. Final decoded visual ground and matching collision must qualify the rail footprint in plan_tram_visuals.ts.",
+        "municipalSourceCoveragePending": false,
+        "municipalSourcePartIds": [
+          "56639"
+        ],
+        "limitation": "Exact 2D municipal polygon coverage only; does not replace final compressed visual/HCOL surface qualification."
+      },
+      "gaugeMetres": 1
+    },
+    {
+      "wayId": 378015112,
+      "nodeIds": [
+        3814285092,
+        313950709,
+        313950707,
+        3814285095
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "divider",
+        "voltage": "750"
+      },
+      "points": [
+        {
+          "nodeId": 3814285092,
+          "x": -1267.0941447280347,
+          "z": -940.852943977341,
+          "lat": 60.1779487,
+          "lon": 24.9294218
+        },
+        {
+          "nodeId": 313950709,
+          "x": -1267.7737227343023,
+          "z": -943.7281873961911,
+          "lat": 60.1779745,
+          "lon": 24.9294095
+        },
+        {
+          "nodeId": 313950707,
+          "x": -1283.7741759195924,
+          "z": -1005.9819656154141,
+          "lat": 60.1785331,
+          "lon": 24.92912
+        },
+        {
+          "nodeId": 3814285095,
+          "x": -1284.6363730467856,
+          "z": -1009.3253531465307,
+          "lat": 60.1785631,
+          "lon": 24.9291044
+        }
+      ],
+      "selection": {
+        "reason": "Complete original source track in inherited Mannerheim mainline/junction corridor; additive north-strip rendering only",
+        "sourceCorridorWayIds": [
+          199237897
+        ],
+        "minSourceRoadDistanceMetres": 6.425529692073525,
+        "maxSourceNodeRoadDistanceMetres": 7.973438719829077,
+        "sourceAxisMetresInsideNorthStrip": 61.25422925755548
+      },
+      "support": {
+        "expectedLayer": 0,
+        "bridge": false,
+        "tunnel": false,
+        "heights": "No Y authored here. Final decoded visual ground and matching collision must qualify the rail footprint in plan_tram_visuals.ts.",
+        "municipalSourceCoveragePending": false,
+        "municipalSourcePartIds": [
+          "51819",
+          "56639",
+          "98392"
+        ],
+        "limitation": "Exact 2D municipal polygon coverage only; does not replace final compressed visual/HCOL surface qualification."
+      },
+      "gaugeMetres": 1
+    },
+    {
+      "wayId": 378015113,
+      "nodeIds": [
+        3814285094,
+        249689686,
+        295575932,
+        3814285093
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "divider",
+        "voltage": "750"
+      },
+      "points": [
+        {
+          "nodeId": 3814285094,
+          "x": -1287.539773028344,
+          "z": -1008.5819879295304,
+          "lat": 60.1785564,
+          "lon": 24.9290521
+        },
+        {
+          "nodeId": 249689686,
+          "x": -1286.6720643639565,
+          "z": -1005.2051691766828,
+          "lat": 60.1785261,
+          "lon": 24.9290678
+        },
+        {
+          "nodeId": 295575932,
+          "x": -1270.8436593227088,
+          "z": -942.9961285023019,
+          "lat": 60.1779679,
+          "lon": 24.9293542
+        },
+        {
+          "nodeId": 3814285093,
+          "x": -1270.1584859117866,
+          "z": -940.1654446832836,
+          "lat": 60.1779425,
+          "lon": 24.9293666
+        }
+      ],
+      "selection": {
+        "reason": "Complete original source track in inherited Mannerheim mainline/junction corridor; additive north-strip rendering only",
+        "sourceCorridorWayIds": [
+          1309809289,
+          1309809290
+        ],
+        "minSourceRoadDistanceMetres": 6.7025519155206,
+        "maxSourceNodeRoadDistanceMetres": 6.951175414276953,
+        "sourceAxisMetresInsideNorthStrip": 60.450636734039165
+      },
+      "support": {
+        "expectedLayer": 0,
+        "bridge": false,
+        "tunnel": false,
+        "heights": "No Y authored here. Final decoded visual ground and matching collision must qualify the rail footprint in plan_tram_visuals.ts.",
+        "municipalSourceCoveragePending": false,
+        "municipalSourcePartIds": [
+          "56639"
+        ],
+        "limitation": "Exact 2D municipal polygon coverage only; does not replace final compressed visual/HCOL surface qualification."
+      },
+      "gaugeMetres": 1
+    },
+    {
+      "wayId": 378015124,
+      "nodeIds": [
+        3814285095,
+        13429427464,
+        11591900009,
+        1001544548,
+        2660480291,
+        313950705,
+        1820613417
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "curb_low",
+        "voltage": "750"
+      },
+      "points": [
+        {
+          "nodeId": 3814285095,
+          "x": -1284.6363730467856,
+          "z": -1009.3253531465307,
+          "lat": 60.1785631,
+          "lon": 24.9291044
+        },
+        {
+          "nodeId": 13429427464,
+          "x": -1286.8902610056102,
+          "z": -1019.0766211645678,
+          "lat": 60.1786506,
+          "lon": 24.9290636
+        },
+        {
+          "nodeId": 11591900009,
+          "x": -1293.2879722453654,
+          "z": -1051.2491265488788,
+          "lat": 60.1789393,
+          "lon": 24.9289477
+        },
+        {
+          "nodeId": 1001544548,
+          "x": -1315.561984874308,
+          "z": -1141.2745321346447,
+          "lat": 60.1797471,
+          "lon": 24.9285446
+        },
+        {
+          "nodeId": 2660480291,
+          "x": -1336.0490415655077,
+          "z": -1220.0786072136834,
+          "lat": 60.1804542,
+          "lon": 24.9281739
+        },
+        {
+          "nodeId": 313950705,
+          "x": -1338.6469652950764,
+          "z": -1229.6185951121151,
+          "lat": 60.1805398,
+          "lon": 24.9281269
+        },
+        {
+          "nodeId": 1820613417,
+          "x": -1351.8503389880061,
+          "z": -1274.4999870350584,
+          "lat": 60.1809425,
+          "lon": 24.9278881
+        }
+      ],
+      "selection": {
+        "reason": "Complete original source track in inherited Mannerheim mainline/junction corridor; additive north-strip rendering only",
+        "sourceCorridorWayIds": [
+          199237897,
+          259734798,
+          260546489
+        ],
+        "minSourceRoadDistanceMetres": 4.720277401002131,
+        "maxSourceNodeRoadDistanceMetres": 38.75883290686225,
+        "sourceAxisMetresInsideNorthStrip": 146.63278951388364
+      },
+      "support": {
+        "expectedLayer": 0,
+        "bridge": false,
+        "tunnel": false,
+        "heights": "No Y authored here. Final decoded visual ground and matching collision must qualify the rail footprint in plan_tram_visuals.ts.",
+        "municipalSourceCoveragePending": false,
+        "municipalSourcePartIds": [
+          "52473",
+          "56639",
+          "98392"
+        ],
+        "limitation": "Exact 2D municipal polygon coverage only; does not replace final compressed visual/HCOL surface qualification."
+      },
+      "gaugeMetres": 1
+    }
+  ],
+  "excluded": [
+    {
+      "wayId": 130347321,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "last_renovation": "2013-04",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "divider",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1058.642455592649,
+      "maxSourceNodeRoadDistanceMetres": 1111.1224303624385
+    },
+    {
+      "wayId": 327387087,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "divider",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1047.6072053366352,
+      "maxSourceNodeRoadDistanceMetres": 1097.7754921822634
+    },
+    {
+      "wayId": 327387089,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "divider",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1050.7186455593283,
+      "maxSourceNodeRoadDistanceMetres": 1101.189669139259
+    },
+    {
+      "wayId": 327387099,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "last_renovation": "2013-04",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "divider",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1061.104096077117,
+      "maxSourceNodeRoadDistanceMetres": 1113.6250245940523
+    },
+    {
+      "wayId": 1122867283,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "oneway": "yes",
+        "railway": "tram",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 977.174825090701,
+      "maxSourceNodeRoadDistanceMetres": 1026.770648914493
+    },
+    {
+      "wayId": 1122867284,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "oneway": "yes",
+        "railway": "tram",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1031.3999596656183,
+      "maxSourceNodeRoadDistanceMetres": 1050.7186455593283
+    },
+    {
+      "wayId": 1122867285,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "description": "This section of Crown Bridges Light Rail infrastructure has been built using contemporary Helsinki tram track structure",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "maxspeed": "10",
+        "name": "Kruunusillat-raitiotie",
+        "name:en": "Crown Bridges Light Rail",
+        "name:fi": "Kruunusillat-raitiotie",
+        "name:sv": "Spårväg Kronbroarna",
+        "note": "Fully finished test-driven operation-ready railway\n\nNot under construction (railway=construction), railway does not equal operational line, lines are mapped using relations",
+        "oneway": "yes",
+        "railway": "tram",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1016.3354757144358,
+      "maxSourceNodeRoadDistanceMetres": 1068.643520901537
+    },
+    {
+      "wayId": 1122867286,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "description": "This section of Crown Bridges Light Rail infrastructure has been built using contemporary Helsinki tram track structure",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "maxspeed": "10",
+        "name": "Kruunusillat-raitiotie",
+        "name:en": "Crown Bridges Light Rail",
+        "name:fi": "Kruunusillat-raitiotie",
+        "name:sv": "Spårväg Kronbroarna",
+        "note": "Fully finished test-driven operation-ready railway\n\nNot under construction (railway=construction), railway does not equal operational line, lines are mapped using relations",
+        "oneway": "yes",
+        "railway": "tram",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1019.4319132213727,
+      "maxSourceNodeRoadDistanceMetres": 1069.947111120288
+    },
+    {
+      "wayId": 1122867287,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "oneway": "yes",
+        "railway": "tram",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1031.3999596656183,
+      "maxSourceNodeRoadDistanceMetres": 1061.104096077117
+    },
+    {
+      "wayId": 1122867288,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "oneway": "yes",
+        "railway": "tram",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1026.770648914493,
+      "maxSourceNodeRoadDistanceMetres": 1058.642455592649
+    },
+    {
+      "wayId": 1447357042,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "oneway": "yes",
+        "railway": "tram",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1013.0526522330043,
+      "maxSourceNodeRoadDistanceMetres": 1031.3999596656183
+    },
+    {
+      "wayId": 1447357043,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "oneway": "yes",
+        "railway": "tram",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1026.770648914493,
+      "maxSourceNodeRoadDistanceMetres": 1047.6072053366352
+    },
+    {
+      "wayId": 330257545,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "construction": "railway",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "maxspeed": "40",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "curb_low",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 330.09979202229783,
+      "maxSourceNodeRoadDistanceMetres": 387.2522786894197
+    },
+    {
+      "wayId": 330259339,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "construction": "railway",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "maxspeed": "40",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "curb_low",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 327.26921935459376,
+      "maxSourceNodeRoadDistanceMetres": 384.2941136479682
+    },
+    {
+      "wayId": 130347323,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "last_renovation": "2009-06",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "divider",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1113.6250245940523,
+      "maxSourceNodeRoadDistanceMetres": 1118.8568103535936
+    },
+    {
+      "wayId": 327387092,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "last_renovation": "2009-06",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "divider",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1111.1224303624385,
+      "maxSourceNodeRoadDistanceMetres": 1117.3107190515213
+    },
+    {
+      "wayId": 327387094,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "last_renovation": "2009-06",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "junction",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1118.8568103535936,
+      "maxSourceNodeRoadDistanceMetres": 1122.7005447714876
+    },
+    {
+      "wayId": 327387095,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "last_renovation": "2009-06",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "junction",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1117.3107190515213,
+      "maxSourceNodeRoadDistanceMetres": 1120.3758366073823
+    },
+    {
+      "wayId": 327387104,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "junction",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1101.189669139259,
+      "maxSourceNodeRoadDistanceMetres": 1105.4013651557352
+    },
+    {
+      "wayId": 327387106,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "junction",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 1097.7754921822634,
+      "maxSourceNodeRoadDistanceMetres": 1100.6780460301243
+    },
+    {
+      "wayId": 330257547,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "maxspeed": "40",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "divider",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 242.05897515122965,
+      "maxSourceNodeRoadDistanceMetres": 277.75875659565367
+    },
+    {
+      "wayId": 330257548,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "maxspeed": "40",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "divider",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 239.16629197971469,
+      "maxSourceNodeRoadDistanceMetres": 274.615576877682
+    },
+    {
+      "wayId": 330257549,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "construction": "railway",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "maxspeed": "40",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "separate",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 295.9429021342448,
+      "maxSourceNodeRoadDistanceMetres": 317.4238594362296
+    },
+    {
+      "wayId": 330257550,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "construction": "railway",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "maxspeed": "40",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "separate",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 294.77274688718904,
+      "maxSourceNodeRoadDistanceMetres": 315.3220225679168
+    },
+    {
+      "wayId": 330257551,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "construction": "railway",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "maxspeed": "40",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "junction",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 277.75875659565367,
+      "maxSourceNodeRoadDistanceMetres": 295.9429021342448
+    },
+    {
+      "wayId": 330257552,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "construction": "railway",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "maxspeed": "40",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "junction",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 274.615576877682,
+      "maxSourceNodeRoadDistanceMetres": 294.77274688718904
+    },
+    {
+      "wayId": 330257554,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "construction": "railway",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "maxspeed": "40",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "junction",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 315.3220225679168,
+      "maxSourceNodeRoadDistanceMetres": 327.26921935459376
+    },
+    {
+      "wayId": 330257555,
+      "reasons": [
+        "Outside inherited Mannerheim corridor: at least one source node within30m and every source node within40m required"
+      ],
+      "tags": {
+        "construction": "railway",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1000",
+        "maxspeed": "40",
+        "oneway": "yes",
+        "operator": "HKL-Raitioliikenne",
+        "operator:wikidata": "Q111354305",
+        "railway": "tram",
+        "tram:segregation:physical": "junction",
+        "voltage": "750"
+      },
+      "minSourceRoadDistanceMetres": 317.4238594362296,
+      "maxSourceNodeRoadDistanceMetres": 330.09979202229783
+    }
+  ]
+}

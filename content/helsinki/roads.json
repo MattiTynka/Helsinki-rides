@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "note": "Road builder configuration for the pilot (plan sections 3 and 4.2). Speeds in m/s, widths in metres. Play area in the runtime frame.",
+  "playArea": { "minX": -100, "maxX": 150, "minZ": -290, "maxZ": 210 },
+  "drivable": ["motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", "residential", "living_street", "service", "motorway_link", "trunk_link", "primary_link", "secondary_link", "tertiary_link"],
+  "footways": ["footway", "pedestrian", "path", "steps", "cycleway", "living_street"],
+  "speedLimits": { "primary": 11.111, "secondary": 11.111, "tertiary": 8.333, "unclassified": 8.333, "residential": 8.333, "living_street": 5.556, "service": 5.556, "default": 8.333 },
+  "laneWidth": { "primary": 3.25, "secondary": 3.25, "default": 3.0 },
+  "surfaces": { "sett": "setts", "cobblestone": "cobble", "paving_stones": "slabs", "asphalt": "asphalt", "default": "asphalt" },
+  "closures": [],
+  "parkingSlotSpacing": 6.0,
+  "parkingInset": 1.4
+}

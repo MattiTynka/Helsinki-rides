@@ -1,0 +1,3847 @@
+{
+  "sourceHashes": {
+    "osm": "fe31bf359524e5801c6a607d62a6562736c8dfb0dea13ea45be20bd8c697c1c9",
+    "streetParts": "c853f169944e20c7a77b0c06f434ecc04bb95b59f153d10c5ca14adc198983a6",
+    "buildingRegister": "f2b41946d882618dfc8416739850d3ab0bbe2655be9065baf140ff52e5f0f790"
+  },
+  "parts": [
+    {
+      "id": "200599",
+      "rings": [
+        [
+          [
+            394.5329999998212,
+            -99.27849983982742
+          ],
+          [
+            394.0155000016093,
+            -99.01839984022081
+          ],
+          [
+            391.4248000010848,
+            -97.71539983991534
+          ],
+          [
+            384.8387000001967,
+            -102.79799984022975
+          ],
+          [
+            393.1655000001192,
+            -107.0954998396337
+          ],
+          [
+            393.07119999825954,
+            -105.85829984024167
+          ],
+          [
+            393.03114400058985,
+            -104.90767198987305
+          ],
+          [
+            393.12782049179077,
+            -103.43267366010696
+          ],
+          [
+            393.30009999871254,
+            -102.45689984038472
+          ],
+          [
+            393.4161958284676,
+            -101.9829129697755
+          ],
+          [
+            393.891335811466,
+            -100.5831957096234
+          ]
+        ]
+      ],
+      "bbox": [
+        384.8387000001967,
+        -107.0954998396337,
+        394.5329999998212,
+        -97.71539983991534
+      ],
+      "properties": {
+        "tietopalvelu_id": 91118,
+        "osan_id": 200599,
+        "paakohde_tyyppi_id": 26,
+        "paatyyppi": "Muut alueet",
+        "alakohde_tyyppi_id": 302,
+        "alatyyppi": "Avokallio",
+        "materiaali_id": 102,
+        "materiaali": "Luonnontilainen",
+        "rakenteellinen_kunnossapito": "Kaupunkiympäristö",
+        "talvikunnossapito": "Ei talvikunnossapitoa",
+        "tkp_kiireellisyys_lk": null,
+        "viher_hoitoluokkka_id": 21,
+        "laatutaso_id": null,
+        "yllapidon_taso": "R3",
+        "yllapidon_taso_selite": "Käyttöviheralue",
+        "puhtaanapito": "Kaupunkiympäristö",
+        "puhtaanapito_vyohyke": "1",
+        "lisatieto": null,
+        "aluetieto": "Viher",
+        "alueen_nimi": "KANAVAPUISTO",
+        "alueen_kayttotarkoitus": "Asemakaavoitettu viheralue",
+        "viheralueen_id": 10541,
+        "viheralueen_nro": 458,
+        "katualueen_id": null,
+        "katualueen_nro": null,
+        "kadunpitopaatos_pvm": null,
+        "osan_nro": 32,
+        "osan_pituus": 0,
+        "osan_leveys": 0,
+        "osan_pinta_ala": 44.993,
+        "kappalemaara": 0,
+        "muutos_vuosi": null,
+        "muutos_tyyppi": null,
+        "muutos_toimenpide": null,
+        "paivitetty_pvm": "2026-09-11T14:31:47+03:00",
+        "paivittaja": "KARRIVI1",
+        "paivitetty_tietopalveluun": "2026-10-17",
+        "datanomistaja": "Helsinki/YLRE"
+      }
+    },
+    {
+      "id": "40976",
+      "rings": [
+        [
+          [
+            -1224.2708999998868,
+            113.1115001598373
+          ],
+          [
+            -1224.3809485808015,
+            113.44344841968268
+          ],
+          [
+            -1224.4575025103986,
+            113.82831101957709
+          ],
+          [
+            -1224.483166858554,
+            114.2198733696714
+          ],
+          [
+            -1224.4756999984384,
+            114.4314001603052
+          ],
+          [
+            -1224.4575025103986,
+            114.6114357104525
+          ],
+          [
+            -1224.3809485808015,
+            114.99629831966013
+          ],
+          [
+            -1224.2548149190843,
+            115.36787606962025
+          ],
+          [
+            -1224.0872999988496,
+            115.70930016040802
+          ],
+          [
+            -1224.0812500081956,
+            115.71982818003744
+          ],
+          [
+            -1223.8631845898926,
+            116.04618615005165
+          ],
+          [
+            -1223.6358999982476,
+            116.30930016003549
+          ],
+          [
+            -1223.6043864786625,
+            116.34128883015364
+          ],
+          [
+            -1223.3092838004231,
+            116.60008693020791
+          ],
+          [
+            -1223.0496000014246,
+            116.77850016020238
+          ],
+          [
+            -1232.568599998951,
+            110.95070016011596
+          ],
+          [
+            -1234.1414999999106,
+            109.98850016016513
+          ],
+          [
+            -1234.1121074706316,
+            110.00580574013293
+          ],
+          [
+            -1233.877443548292,
+            110.12152917962521
+          ],
+          [
+            -1233.6296822689474,
+            110.20563280023634
+          ],
+          [
+            -1233.3730629011989,
+            110.25667756982148
+          ],
+          [
+            -1233.1119762696326,
+            110.27379009034485
+          ],
+          [
+            -1232.8508896306157,
+            110.25667756982148
+          ],
+          [
+            -1232.6845999993384,
+            110.22760016005486
+          ],
+          [
+            -1232.594270259142,
+            110.20563280023634
+          ],
+          [
+            -1232.3465089797974,
+            110.12152917962521
+          ],
+          [
+            -1232.1118450686336,
+            110.00580574013293
+          ],
+          [
+            -1231.8942936696112,
+            109.86044254992157
+          ],
+          [
+            -1231.6975771598518,
+            109.68792679999024
+          ],
+          [
+            -1231.5250614099205,
+            109.49121029023081
+          ],
+          [
+            -1231.460499998182,
+            109.40210015978664
+          ],
+          [
+            -1231.1165999993682,
+            108.8987001599744
+          ],
+          [
+            -1226.2454000003636,
+            111.89640016015619
+          ]
+        ]
+      ],
+      "bbox": [
+        -1234.1414999999106,
+        108.8987001599744,
+        -1223.0496000014246,
+        116.77850016020238
+      ],
+      "properties": {
+        "tietopalvelu_id": 29985,
+        "osan_id": 40976,
+        "paakohde_tyyppi_id": 2,
+        "paatyyppi": "Ajorata",
+        "alakohde_tyyppi_id": 2,
+        "alatyyppi": "Ajorata",
+        "materiaali_id": 501,
+        "materiaali": "Asfalttibetoni",
+        "rakenteellinen_kunnossapito": "Kaupunkiympäristö",
+        "talvikunnossapito": "Kaupunkiympäristö",
+        "tkp_kiireellisyys_lk": null,
+        "viher_hoitoluokkka_id": null,
+        "laatutaso_id": 2,
+        "yllapidon_taso": "II",
+        "yllapidon_taso_selite": "Kokoojakadut ja vilkasliikenteiset klv:t",
+        "puhtaanapito": "Kaupunkiympäristö",
+        "puhtaanapito_vyohyke": "1",
+        "lisatieto": null,
+        "aluetieto": "Katu",
+        "alueen_nimi": "Pohjoinen rautatiekatu",
+        "alueen_kayttotarkoitus": "Pääkatu",
+        "viheralueen_id": null,
+        "viheralueen_nro": null,
+        "katualueen_id": 458,
+        "katualueen_nro": 363,
+        "kadunpitopaatos_pvm": "2006-06-08T00:00:00+03:00",
+        "osan_nro": 6,
+        "osan_pituus": 0.1,
+        "osan_leveys": 0,
+        "osan_pinta_ala": 22.822,
+        "kappalemaara": 0,
+        "muutos_vuosi": null,
+        "muutos_tyyppi": null,
+        "muutos_toimenpide": null,
+        "paivitetty_pvm": "2026-09-11T14:28:54+03:00",
+        "paivittaja": "KARRIVI1",
+        "paivitetty_tietopalveluun": "2026-10-17",
+        "datanomistaja": "Helsinki/YLRE"
+      }
+    },
+    {
+      "id": "459962",
+      "rings": [
+        [
+          [
+            338.9211000017822,
+            724.9241001596674
+          ],
+          [
+            339.9827999994159,
+            724.9338001599535
+          ],
+          [
+            341.08799999952316,
+            724.9934001602232
+          ],
+          [
+            341.0925999991596,
+            728.8457001596689
+          ],
+          [
+            339.01799999922514,
+            729.2203001603484
+          ]
+        ]
+      ],
+      "bbox": [
+        338.9211000017822,
+        724.9241001596674,
+        341.0925999991596,
+        729.2203001603484
+      ],
+      "properties": {
+        "tietopalvelu_id": 163693,
+        "osan_id": 459962,
+        "paakohde_tyyppi_id": 2,
+        "paatyyppi": "Ajorata",
+        "alakohde_tyyppi_id": 12,
+        "alatyyppi": "Tonttiliittymä",
+        "materiaali_id": 501,
+        "materiaali": "Asfalttibetoni",
+        "rakenteellinen_kunnossapito": "Kiinteistö / Yksityinen",
+        "talvikunnossapito": "Kiinteistö / Yksityinen",
+        "tkp_kiireellisyys_lk": null,
+        "viher_hoitoluokkka_id": null,
+        "laatutaso_id": 3,
+        "yllapidon_taso": "III",
+        "yllapidon_taso_selite": "Tonttikadut ja vähäliikenteiset klv:t",
+        "puhtaanapito": "Kiinteistö / Yksityinen",
+        "puhtaanapito_vyohyke": "2",
+        "lisatieto": null,
+        "aluetieto": "Katu",
+        "alueen_nimi": "Pohjoisranta",
+        "alueen_kayttotarkoitus": "Asuntokatu",
+        "viheralueen_id": null,
+        "viheralueen_nro": null,
+        "katualueen_id": 4869,
+        "katualueen_nro": 3916,
+        "kadunpitopaatos_pvm": "2002-07-01T00:00:00+03:00",
+        "osan_nro": 77,
+        "osan_pituus": 0,
+        "osan_leveys": 0,
+        "osan_pinta_ala": 8.674,
+        "kappalemaara": 0,
+        "muutos_vuosi": null,
+        "muutos_tyyppi": null,
+        "muutos_toimenpide": null,
+        "paivitetty_pvm": "2016-12-09T08:42:01+02:00",
+        "paivittaja": "KUISMA8I",
+        "paivitetty_tietopalveluun": "2026-10-17",
+        "datanomistaja": "Helsinki/YLRE"
+      }
+    },
+    {
+      "id": "475148",
+      "rings": [
+        [
+          [
+            -1136.2980999983847,
+            399.29910015966743
+          ],
+          [
+            -1136.4477447085083,
+            399.3929252596572
+          ],
+          [
+            -1136.7322257608175,
+            399.5332157900557
+          ],
+          [
+            -1137.032584629953,
+            399.63517388980836
+          ],
+          [
+            -1137.0773000009358,
+            399.64670015964657
+          ],
+          [
+            -1137.3436820916831,
+            399.6970550203696
+          ],
+          [
+            -1137.660195171833,
+            399.7178003899753
+          ],
+          [
+            -1137.928599998355,
+            399.70290016010404
+          ],
+          [
+            -1138.0903999991715,
+            399.37390016019344
+          ],
+          [
+            -1137.9379251003265,
+            399.3996471101418
+          ],
+          [
+            -1137.660481929779,
+            399.41783169005066
+          ],
+          [
+            -1137.383038751781,
+            399.3996471101418
+          ],
+          [
+            -1137.2498999983072,
+            399.37780016008765
+          ],
+          [
+            -1137.1103427000344,
+            399.3454044898972
+          ],
+          [
+            -1136.8470596894622,
+            399.2560319500044
+          ],
+          [
+            -1136.597694568336,
+            399.13305868022144
+          ],
+          [
+            -1136.473600000143,
+            399.05560015980154
+          ],
+          [
+            -1135.318999890238,
+            398.0420716004446
+          ],
+          [
+            -1134.3315000012517,
+            396.92120015993714
+          ],
+          [
+            -1134.2986193411052,
+            396.8785505797714
+          ],
+          [
+            -1133.4388382583857,
+            395.5917972596362
+          ],
+          [
+            -1132.8004000000656,
+            394.31340015958995
+          ],
+          [
+            -1132.5122999995947,
+            394.40250016003847
+          ],
+          [
+            -1133.1789681985974,
+            395.7416535401717
+          ],
+          [
+            -1134.0606369189918,
+            397.0611640298739
+          ],
+          [
+            -1134.0876999981701,
+            397.096300159581
+          ],
+          [
+            -1135.1069935299456,
+            398.2543050702661
+          ]
+        ]
+      ],
+      "bbox": [
+        -1138.0903999991715,
+        394.31340015958995,
+        -1132.5122999995947,
+        399.7178003899753
+      ],
+      "properties": {
+        "tietopalvelu_id": 172860,
+        "osan_id": 475148,
+        "paakohde_tyyppi_id": 29,
+        "paatyyppi": "Varusteet",
+        "alakohde_tyyppi_id": 333,
+        "alatyyppi": "Tukimuuri",
+        "materiaali_id": 511,
+        "materiaali": "Betoni - valettu",
+        "rakenteellinen_kunnossapito": "Kiinteistö / Yksityinen",
+        "talvikunnossapito": "Ei talvikunnossapitoa",
+        "tkp_kiireellisyys_lk": null,
+        "viher_hoitoluokkka_id": 161,
+        "laatutaso_id": null,
+        "yllapidon_taso": "0",
+        "yllapidon_taso_selite": "Hoitoluokittamaton, ei hoitoa",
+        "puhtaanapito": "Ei toimenpiteitä",
+        "puhtaanapito_vyohyke": "1",
+        "lisatieto": null,
+        "aluetieto": "Viher",
+        "alueen_nimi": "EDUSKUNTAPUISTO",
+        "alueen_kayttotarkoitus": "Asemakaavoitettu viheralue",
+        "viheralueen_id": 8741,
+        "viheralueen_nro": 369,
+        "katualueen_id": null,
+        "katualueen_nro": null,
+        "kadunpitopaatos_pvm": null,
+        "osan_nro": 32,
+        "osan_pituus": 0,
+        "osan_leveys": 0,
+        "osan_pinta_ala": 2.359,
+        "kappalemaara": 0,
+        "muutos_vuosi": null,
+        "muutos_tyyppi": null,
+        "muutos_toimenpide": null,
+        "paivitetty_pvm": "2017-05-22T12:44:10+03:00",
+        "paivittaja": "KUISMA8I",
+        "paivitetty_tietopalveluun": "2026-10-17",
+        "datanomistaja": "Helsinki/YLRE"
+      }
+    },
+    {
+      "id": "47990",
+      "rings": [
+        [
+          [
+            -1231.1165999993682,
+            108.8987001599744
+          ],
+          [
+            -1224.2936999984086,
+            98.91210015956312
+          ],
+          [
+            -1217.5366999991238,
+            103.12540016043931
+          ],
+          [
+            -1220.003400001675,
+            106.73590014968067
+          ],
+          [
+            -1223.9602999985218,
+            112.5276001598686
+          ],
+          [
+            -1224.0812094807625,
+            112.71983490046114
+          ],
+          [
+            -1224.131700001657,
+            112.81090016011149
+          ],
+          [
+            -1224.2548169903457,
+            113.07187610026449
+          ],
+          [
+            -1224.2708999998868,
+            113.1115001598373
+          ],
+          [
+            -1226.2454000003636,
+            111.89640016015619
+          ]
+        ],
+        [
+          [
+            -1224.3337000012398,
+            105.16710016038269
+          ],
+          [
+            -1224.3389872387052,
+            105.1793827097863
+          ],
+          [
+            -1224.3593686893582,
+            105.23942450992763
+          ],
+          [
+            -1224.3717387393117,
+            105.30161296017468
+          ],
+          [
+            -1224.3758857399225,
+            105.36488399002701
+          ],
+          [
+            -1224.3717387393117,
+            105.42815503012389
+          ],
+          [
+            -1224.3593686893582,
+            105.49034347012639
+          ],
+          [
+            -1224.3389872387052,
+            105.55038527026772
+          ],
+          [
+            -1224.3109431415796,
+            105.6072530997917
+          ],
+          [
+            -1224.2757162116468,
+            105.65997392032295
+          ],
+          [
+            -1224.2339092083275,
+            105.7076456695795
+          ],
+          [
+            -1224.1862374581397,
+            105.7494526701048
+          ],
+          [
+            -1224.1339999996126,
+            105.78440016042441
+          ],
+          [
+            -1224.133516639471,
+            105.78467958979309
+          ],
+          [
+            -1224.0766488201916,
+            105.81272369995713
+          ],
+          [
+            -1224.0166070200503,
+            105.83310514967889
+          ],
+          [
+            -1223.9544185698032,
+            105.84547519963235
+          ],
+          [
+            -1223.8911475390196,
+            105.84962220024318
+          ],
+          [
+            -1223.827876508236,
+            105.84547519963235
+          ],
+          [
+            -1223.7656880617142,
+            105.83310514967889
+          ],
+          [
+            -1223.7056462615728,
+            105.81272369995713
+          ],
+          [
+            -1223.6487784311175,
+            105.78467958979309
+          ],
+          [
+            -1223.5960576087236,
+            105.7494526701048
+          ],
+          [
+            -1223.5483858585358,
+            105.7076456695795
+          ],
+          [
+            -1223.5065788589418,
+            105.65997392032295
+          ],
+          [
+            -1223.499200001359,
+            105.65010016039014
+          ],
+          [
+            -1222.9402000010014,
+            104.79840015992522
+          ],
+          [
+            -1222.918038930744,
+            104.76345312036574
+          ],
+          [
+            -1222.8892148286104,
+            104.7050036303699
+          ],
+          [
+            -1222.868266519159,
+            104.64329188037664
+          ],
+          [
+            -1222.85555242002,
+            104.57937377970666
+          ],
+          [
+            -1222.8512900695205,
+            104.51434298977256
+          ],
+          [
+            -1222.85555242002,
+            104.44931219983846
+          ],
+          [
+            -1222.868266519159,
+            104.3853941000998
+          ],
+          [
+            -1222.8892148286104,
+            104.32368235010654
+          ],
+          [
+            -1222.918038930744,
+            104.2652328601107
+          ],
+          [
+            -1222.9542456306517,
+            104.21104571036994
+          ],
+          [
+            -1222.9972154088318,
+            104.16204806044698
+          ],
+          [
+            -1223.0462130606174,
+            104.11907828040421
+          ],
+          [
+            -1223.065499998629,
+            104.1050001597032
+          ],
+          [
+            -1223.1004002094269,
+            104.08287158980966
+          ],
+          [
+            -1223.1588497012854,
+            104.05404748953879
+          ],
+          [
+            -1223.220561441034,
+            104.0330991698429
+          ],
+          [
+            -1223.2844795398414,
+            104.0203850697726
+          ],
+          [
+            -1223.3495103381574,
+            104.01612273044884
+          ],
+          [
+            -1223.4145411290228,
+            104.0203850697726
+          ],
+          [
+            -1223.4784592315555,
+            104.0330991698429
+          ],
+          [
+            -1223.5401709787548,
+            104.05404748953879
+          ],
+          [
+            -1223.5986204594374,
+            104.08287158980966
+          ],
+          [
+            -1223.6528076082468,
+            104.11907828040421
+          ],
+          [
+            -1223.7018052600324,
+            104.16204806044698
+          ],
+          [
+            -1223.7447750382125,
+            104.21104571036994
+          ],
+          [
+            -1223.758900001645,
+            104.23040015995502
+          ]
+        ]
+      ],
+      "bbox": [
+        -1231.1165999993682,
+        98.91210015956312,
+        -1217.5366999991238,
+        113.1115001598373
+      ],
+      "properties": {
+        "tietopalvelu_id": 34797,
+        "osan_id": 47990,
+        "paakohde_tyyppi_id": 2,
+        "paatyyppi": "Ajorata",
+        "alakohde_tyyppi_id": 2,
+        "alatyyppi": "Ajorata",
+        "materiaali_id": 501,
+        "materiaali": "Asfalttibetoni",
+        "rakenteellinen_kunnossapito": "Kaupunkiympäristö",
+        "talvikunnossapito": "Kaupunkiympäristö",
+        "tkp_kiireellisyys_lk": null,
+        "viher_hoitoluokkka_id": null,
+        "laatutaso_id": 3,
+        "yllapidon_taso": "III",
+        "yllapidon_taso_selite": "Tonttikadut ja vähäliikenteiset klv:t",
+        "puhtaanapito": "Kaupunkiympäristö",
+        "puhtaanapito_vyohyke": "1",
+        "lisatieto": null,
+        "aluetieto": "Katu",
+        "alueen_nimi": "Jaakonkatu",
+        "alueen_kayttotarkoitus": "Asuntokatu",
+        "viheralueen_id": null,
+        "viheralueen_nro": null,
+        "katualueen_id": 6021,
+        "katualueen_nro": 525,
+        "kadunpitopaatos_pvm": "2007-08-16T00:00:00+03:00",
+        "osan_nro": 1,
+        "osan_pituus": 12.1,
+        "osan_leveys": 7.793,
+        "osan_pinta_ala": 94.309,
+        "kappalemaara": 0,
+        "muutos_vuosi": null,
+        "muutos_tyyppi": null,
+        "muutos_toimenpide": null,
+        "paivitetty_pvm": "2026-09-11T14:28:52+03:00",
+        "paivittaja": "KARRIVI1",
+        "paivitetty_tietopalveluun": "2026-10-17",
+        "datanomistaja": "Helsinki/YLRE"
+      }
+    },
+    {
+      "id": "48718",
+      "rings": [
+        [
+          [
+            626.3619999997318,
+            -326.38579984009266
+          ],
+          [
+            633.9191000014544,
+            -331.4681998398155
+          ],
+          [
+            634.1326999999583,
+            -331.1420998396352
+          ],
+          [
+            637.4858000017703,
+            -326.12439983990043
+          ],
+          [
+            645.5471000000834,
+            -314.0543998396024
+          ],
+          [
+            646.283100001514,
+            -314.05029984004796
+          ],
+          [
+            648.1030000001192,
+            -315.28279983997345
+          ],
+          [
+            652.2188000008464,
+            -309.1954998401925
+          ],
+          [
+            650.931899998337,
+            -308.33299984037876
+          ],
+          [
+            650.3255999982357,
+            -306.92919983994216
+          ],
+          [
+            661.9257000014186,
+            -289.9956998396665
+          ],
+          [
+            654.4472999982536,
+            -285.0050998404622
+          ],
+          [
+            637.5590999983251,
+            -309.799799839966
+          ],
+          [
+            633.9613000005484,
+            -315.1727998396382
+          ],
+          [
+            627.3194000013173,
+            -324.921599839814
+          ]
+        ]
+      ],
+      "bbox": [
+        626.3619999997318,
+        -331.4681998398155,
+        661.9257000014186,
+        -285.0050998404622
+      ],
+      "properties": {
+        "tietopalvelu_id": 35400,
+        "osan_id": 48718,
+        "paakohde_tyyppi_id": 2,
+        "paatyyppi": "Ajorata",
+        "alakohde_tyyppi_id": 2,
+        "alatyyppi": "Ajorata",
+        "materiaali_id": 501,
+        "materiaali": "Asfalttibetoni",
+        "rakenteellinen_kunnossapito": "Kaupunkiympäristö",
+        "talvikunnossapito": "Kaupunkiympäristö",
+        "tkp_kiireellisyys_lk": null,
+        "viher_hoitoluokkka_id": null,
+        "laatutaso_id": 3,
+        "yllapidon_taso": "III",
+        "yllapidon_taso_selite": "Tonttikadut ja vähäliikenteiset klv:t",
+        "puhtaanapito": "Kaupunkiympäristö",
+        "puhtaanapito_vyohyke": "2",
+        "lisatieto": null,
+        "aluetieto": "Katu",
+        "alueen_nimi": "Ankkurikatu",
+        "alueen_kayttotarkoitus": "Asuntokatu",
+        "viheralueen_id": null,
+        "viheralueen_nro": null,
+        "katualueen_id": 677,
+        "katualueen_nro": 571,
+        "kadunpitopaatos_pvm": "1932-01-01T00:00:00+02:00",
+        "osan_nro": 1,
+        "osan_pituus": 50,
+        "osan_leveys": 9.432,
+        "osan_pinta_ala": 471.626,
+        "kappalemaara": 0,
+        "muutos_vuosi": null,
+        "muutos_tyyppi": null,
+        "muutos_toimenpide": null,
+        "paivitetty_pvm": "2026-09-11T14:28:52+03:00",
+        "paivittaja": "KARRIVI1",
+        "paivitetty_tietopalveluun": "2026-10-17",
+        "datanomistaja": "Helsinki/YLRE"
+      }
+    },
+    {
+      "id": "48719",
+      "rings": [
+        [
+          [
+            623.8126000016928,
+            -324.6712998403236
+          ],
+          [
+            626.3619999997318,
+            -326.38579984009266
+          ],
+          [
+            627.3194000013173,
+            -324.921599839814
+          ],
+          [
+            633.9613000005484,
+            -315.1727998396382
+          ],
+          [
+            637.5590999983251,
+            -309.799799839966
+          ],
+          [
+            654.4472999982536,
+            -285.0050998404622
+          ],
+          [
+            651.7140999995172,
+            -283.1810998497531
+          ]
+        ]
+      ],
+      "bbox": [
+        623.8126000016928,
+        -326.38579984009266,
+        654.4472999982536,
+        -283.1810998497531
+      ],
+      "properties": {
+        "tietopalvelu_id": 35401,
+        "osan_id": 48719,
+        "paakohde_tyyppi_id": 3,
+        "paatyyppi": "Kevyt liikenne",
+        "alakohde_tyyppi_id": 7,
+        "alatyyppi": "Jalankulkualue",
+        "materiaali_id": 501,
+        "materiaali": "Asfalttibetoni",
+        "rakenteellinen_kunnossapito": "Kaupunkiympäristö",
+        "talvikunnossapito": "Kaupunkiympäristö",
+        "tkp_kiireellisyys_lk": null,
+        "viher_hoitoluokkka_id": null,
+        "laatutaso_id": 3,
+        "yllapidon_taso": "III",
+        "yllapidon_taso_selite": "Tonttikadut ja vähäliikenteiset klv:t",
+        "puhtaanapito": "Kaupunkiympäristö",
+        "puhtaanapito_vyohyke": "2",
+        "lisatieto": null,
+        "aluetieto": "Katu",
+        "alueen_nimi": "Ankkurikatu",
+        "alueen_kayttotarkoitus": "Asuntokatu",
+        "viheralueen_id": null,
+        "viheralueen_nro": null,
+        "katualueen_id": 677,
+        "katualueen_nro": 571,
+        "kadunpitopaatos_pvm": "1932-01-01T00:00:00+02:00",
+        "osan_nro": 2,
+        "osan_pituus": 50,
+        "osan_leveys": 3.156,
+        "osan_pinta_ala": 157.78,
+        "kappalemaara": 0,
+        "muutos_vuosi": null,
+        "muutos_tyyppi": null,
+        "muutos_toimenpide": null,
+        "paivitetty_pvm": "2026-09-11T14:28:51+03:00",
+        "paivittaja": "KARRIVI1",
+        "paivitetty_tietopalveluun": "2026-10-17",
+        "datanomistaja": "Helsinki/YLRE"
+      }
+    },
+    {
+      "id": "545658",
+      "rings": [
+        [
+          [
+            -1136.2980999983847,
+            399.29910015966743
+          ],
+          [
+            -1135.1069935299456,
+            398.2543050702661
+          ],
+          [
+            -1134.0876999981701,
+            397.096300159581
+          ],
+          [
+            -1134.0606369189918,
+            397.0611640298739
+          ],
+          [
+            -1133.1789681985974,
+            395.7416535401717
+          ],
+          [
+            -1132.5122999995947,
+            394.40250016003847
+          ],
+          [
+            -1129.8715000003576,
+            395.2193001601845
+          ],
+          [
+            -1130.2085523307323,
+            396.12181481998414
+          ],
+          [
+            -1130.9986338615417,
+            397.7239416697994
+          ],
+          [
+            -1131.7798000015318,
+            398.92640016041696
+          ],
+          [
+            -1131.9910756498575,
+            399.20923576969653
+          ],
+          [
+            -1133.1688967384398,
+            400.5522833298892
+          ],
+          [
+            -1134.5119443014264,
+            401.7301044203341
+          ],
+          [
+            -1134.7177999988198,
+            401.88500015996397
+          ],
+          [
+            -1134.5397000014782,
+            402.1264001596719
+          ],
+          [
+            -1135.3585000000894,
+            402.6867001596838
+          ],
+          [
+            -1135.8470014482737,
+            402.982229270041
+          ],
+          [
+            -1136.2151000015438,
+            403.18740016035736
+          ],
+          [
+            -1137.928599998355,
+            399.70290016010404
+          ],
+          [
+            -1137.660195171833,
+            399.7178003899753
+          ],
+          [
+            -1137.3436820916831,
+            399.6970550203696
+          ],
+          [
+            -1137.0773000009358,
+            399.64670015964657
+          ],
+          [
+            -1137.032584629953,
+            399.63517388980836
+          ],
+          [
+            -1136.7322257608175,
+            399.5332157900557
+          ],
+          [
+            -1136.4477447085083,
+            399.3929252596572
+          ]
+        ]
+      ],
+      "bbox": [
+        -1137.928599998355,
+        394.40250016003847,
+        -1129.8715000003576,
+        403.18740016035736
+      ],
+      "properties": {
+        "tietopalvelu_id": 209716,
+        "osan_id": 545658,
+        "paakohde_tyyppi_id": 2,
+        "paatyyppi": "Ajorata",
+        "alakohde_tyyppi_id": 12,
+        "alatyyppi": "Tonttiliittymä",
+        "materiaali_id": 511,
+        "materiaali": "Betoni - valettu",
+        "rakenteellinen_kunnossapito": "Kiinteistö / Yksityinen",
+        "talvikunnossapito": "Ei talvikunnossapitoa",
+        "tkp_kiireellisyys_lk": null,
+        "viher_hoitoluokkka_id": 161,
+        "laatutaso_id": null,
+        "yllapidon_taso": "0",
+        "yllapidon_taso_selite": "Hoitoluokittamaton, ei hoitoa",
+        "puhtaanapito": "Ei toimenpiteitä",
+        "puhtaanapito_vyohyke": "1",
+        "lisatieto": null,
+        "aluetieto": "Viher",
+        "alueen_nimi": "EDUSKUNTAPUISTO",
+        "alueen_kayttotarkoitus": "Asemakaavoitettu viheralue",
+        "viheralueen_id": 8741,
+        "viheralueen_nro": 369,
+        "katualueen_id": null,
+        "katualueen_nro": null,
+        "kadunpitopaatos_pvm": null,
+        "osan_nro": 38,
+        "osan_pituus": 0,
+        "osan_leveys": 0,
+        "osan_pinta_ala": 27.722,
+        "kappalemaara": 1,
+        "muutos_vuosi": null,
+        "muutos_tyyppi": null,
+        "muutos_toimenpide": null,
+        "paivitetty_pvm": "2017-05-22T12:50:55+03:00",
+        "paivittaja": "KUISMA8I",
+        "paivitetty_tietopalveluun": "2026-10-17",
+        "datanomistaja": "Helsinki/YLRE"
+      }
+    },
+    {
+      "id": "545659",
+      "rings": [
+        [
+          [
+            -1133.2094999998808,
+            395.1755001600832
+          ],
+          [
+            -1137.7641999982297,
+            393.854300159961
+          ],
+          [
+            -1137.6805999986827,
+            393.56620016042143
+          ],
+          [
+            -1133.071100000292,
+            394.9033001596108
+          ],
+          [
+            -1133.1394000016153,
+            395.0399001603946
+          ]
+        ]
+      ],
+      "bbox": [
+        -1137.7641999982297,
+        393.56620016042143,
+        -1133.071100000292,
+        395.1755001600832
+      ],
+      "properties": {
+        "tietopalvelu_id": 209717,
+        "osan_id": 545659,
+        "paakohde_tyyppi_id": 29,
+        "paatyyppi": "Varusteet",
+        "alakohde_tyyppi_id": 333,
+        "alatyyppi": "Tukimuuri",
+        "materiaali_id": 511,
+        "materiaali": "Betoni - valettu",
+        "rakenteellinen_kunnossapito": "Kiinteistö / Yksityinen",
+        "talvikunnossapito": "Ei talvikunnossapitoa",
+        "tkp_kiireellisyys_lk": null,
+        "viher_hoitoluokkka_id": 161,
+        "laatutaso_id": null,
+        "yllapidon_taso": "0",
+        "yllapidon_taso_selite": "Hoitoluokittamaton, ei hoitoa",
+        "puhtaanapito": "Ei toimenpiteitä",
+        "puhtaanapito_vyohyke": "1",
+        "lisatieto": null,
+        "aluetieto": "Viher",
+        "alueen_nimi": "EDUSKUNTAPUISTO",
+        "alueen_kayttotarkoitus": "Asemakaavoitettu viheralue",
+        "viheralueen_id": 8741,
+        "viheralueen_nro": 369,
+        "katualueen_id": null,
+        "katualueen_nro": null,
+        "kadunpitopaatos_pvm": null,
+        "osan_nro": 39,
+        "osan_pituus": 0,
+        "osan_leveys": 0,
+        "osan_pinta_ala": 1.431,
+        "kappalemaara": 0,
+        "muutos_vuosi": null,
+        "muutos_tyyppi": null,
+        "muutos_toimenpide": null,
+        "paivitetty_pvm": "2017-05-22T12:58:45+03:00",
+        "paivittaja": "KUISMA8I",
+        "paivitetty_tietopalveluun": "2026-10-17",
+        "datanomistaja": "Helsinki/YLRE"
+      }
+    },
+    {
+      "id": "58428",
+      "rings": [
+        [
+          [
+            330.24810000136495,
+            725.8494001599029
+          ],
+          [
+            330.70160000026226,
+            718.5271001597866
+          ],
+          [
+            332.3669999986887,
+            717.9229001598433
+          ],
+          [
+            332.8627000004053,
+            717.3897001603618
+          ],
+          [
+            334.2868000008166,
+            691.1897001601756
+          ],
+          [
+            341.22190000116825,
+            691.879700159654
+          ],
+          [
+            340.13360000029206,
+            717.224000159651
+          ],
+          [
+            340.67040000110865,
+            717.5663001602516
+          ],
+          [
+            340.99040000140667,
+            717.7703001601622
+          ],
+          [
+            333.7824000008404,
+            724.6912001604214
+          ],
+          [
+            332.3592999987304,
+            725.2220001602545
+          ],
+          [
+            330.23880000039935,
+            726.013200160116
+          ]
+        ]
+      ],
+      "bbox": [
+        330.23880000039935,
+        691.1897001601756,
+        341.22190000116825,
+        726.013200160116
+      ],
+      "properties": {
+        "tietopalvelu_id": 42484,
+        "osan_id": 58428,
+        "paakohde_tyyppi_id": 2,
+        "paatyyppi": "Ajorata",
+        "alakohde_tyyppi_id": 2,
+        "alatyyppi": "Ajorata",
+        "materiaali_id": 501,
+        "materiaali": "Asfalttibetoni",
+        "rakenteellinen_kunnossapito": "Kaupunkiympäristö",
+        "talvikunnossapito": "Kaupunkiympäristö",
+        "tkp_kiireellisyys_lk": null,
+        "viher_hoitoluokkka_id": null,
+        "laatutaso_id": 3,
+        "yllapidon_taso": "III",
+        "yllapidon_taso_selite": "Tonttikadut ja vähäliikenteiset klv:t",
+        "puhtaanapito": "Kaupunkiympäristö",
+        "puhtaanapito_vyohyke": "2",
+        "lisatieto": null,
+        "aluetieto": "Katu",
+        "alueen_nimi": "Välikatu",
+        "alueen_kayttotarkoitus": "Asuntokatu",
+        "viheralueen_id": null,
+        "viheralueen_nro": null,
+        "katualueen_id": 814,
+        "katualueen_nro": 703,
+        "kadunpitopaatos_pvm": "1932-01-01T00:00:00+02:00",
+        "osan_nro": 1,
+        "osan_pituus": 34,
+        "osan_leveys": 6.941,
+        "osan_pinta_ala": 236.022,
+        "kappalemaara": 0,
+        "muutos_vuosi": null,
+        "muutos_tyyppi": null,
+        "muutos_toimenpide": null,
+        "paivitetty_pvm": "2026-09-11T14:28:52+03:00",
+        "paivittaja": "KARRIVI1",
+        "paivitetty_tietopalveluun": "2026-10-17",
+        "datanomistaja": "Helsinki/YLRE"
+      }
+    },
+    {
+      "id": "58762",
+      "rings": [
+        [
+          [
+            438.35110000148416,
+            732.8226001597941
+          ],
+          [
+            438.18553994968534,
+            732.9510422898456
+          ],
+          [
+            436.04104677960277,
+            734.3839468201622
+          ],
+          [
+            434.3161999993026,
+            735.2697001602501
+          ],
+          [
+            433.72786847129464,
+            735.5246801199391
+          ],
+          [
+            431.28558415174484,
+            736.353723930195
+          ],
+          [
+            429.81529999896884,
+            736.6880001602694
+          ],
+          [
+            426.6977000012994,
+            736.4159001596272
+          ],
+          [
+            421.5782000012696,
+            736.1042001601309
+          ],
+          [
+            415.1884000003338,
+            735.8196001602337
+          ],
+          [
+            409.4464000016451,
+            735.5214001601562
+          ],
+          [
+            402.70080000162125,
+            735.1989001603797
+          ],
+          [
+            396.97150000184774,
+            734.8626001598313
+          ],
+          [
+            391.82660000026226,
+            734.6400001598522
+          ],
+          [
+            385.4750000014901,
+            734.3552001602948
+          ],
+          [
+            380.46979999914765,
+            734.0561001598835
+          ],
+          [
+            375.5537000000477,
+            733.9604001604021
+          ],
+          [
+            370.1420000009239,
+            733.7254001600668
+          ],
+          [
+            365.0861999988556,
+            733.5788001604378
+          ],
+          [
+            360.91950000077486,
+            733.4441001601517
+          ],
+          [
+            359.0522999987006,
+            733.4590001599863
+          ],
+          [
+            356.63870000094175,
+            733.4619001597166
+          ],
+          [
+            353.88239999860525,
+            733.5542001603171
+          ],
+          [
+            351.1262000016868,
+            733.8117001596838
+          ],
+          [
+            348.92880000174046,
+            733.9543001595885
+          ],
+          [
+            345.7534999996424,
+            734.288600159809
+          ],
+          [
+            342.36250000074506,
+            734.8139001596719
+          ],
+          [
+            339.25099999830127,
+            735.3897001603618
+          ],
+          [
+            335.42850000038743,
+            736.1951001603156
+          ],
+          [
+            329.55389999970794,
+            738.2994001600891
+          ],
+          [
+            321.9329000003636,
+            741.6295001599938
+          ],
+          [
+            306.62350000068545,
+            750.4735001595691
+          ],
+          [
+            302.99689999967813,
+            752.4385001603514
+          ],
+          [
+            300.47529999911785,
+            753.8048001602292
+          ],
+          [
+            279.83920000121,
+            764.9858001600951
+          ],
+          [
+            279.7211062014103,
+            765.0518672503531
+          ],
+          [
+            279.1773031614721,
+            765.4152248203754
+          ],
+          [
+            278.6855801194906,
+            765.846454359591
+          ],
+          [
+            278.25435059145093,
+            766.3381773997098
+          ],
+          [
+            277.8909930214286,
+            766.8819804303348
+          ],
+          [
+            277.60172456130385,
+            767.4685588302091
+          ],
+          [
+            277.3914946913719,
+            768.087876079604
+          ],
+          [
+            277.26390048116446,
+            768.7293354896829
+          ],
+          [
+            277.2369000017643,
+            768.9851001603529
+          ],
+          [
+            277.22112511098385,
+            769.3819615198299
+          ],
+          [
+            277.26390048116446,
+            770.0345875397325
+          ],
+          [
+            277.3914946913719,
+            770.6760469498113
+          ],
+          [
+            277.60172456130385,
+            771.2953642103821
+          ],
+          [
+            277.8909930214286,
+            771.8819426102564
+          ],
+          [
+            278.25435059145093,
+            772.42574563995
+          ],
+          [
+            278.6855801194906,
+            772.9174686800689
+          ],
+          [
+            279.17339999973774,
+            773.3457001596689
+          ],
+          [
+            249.40760000050068,
+            768.256800159812
+          ],
+          [
+            249.49380965158343,
+            768.2346794800833
+          ],
+          [
+            249.6735000014305,
+            768.1822001598775
+          ],
+          [
+            249.93400000035763,
+            768.0902001596987
+          ],
+          [
+            250.01387247815728,
+            768.0580689897761
+          ],
+          [
+            250.50762835144997,
+            767.8145755399019
+          ],
+          [
+            250.9653778001666,
+            767.5087171401829
+          ],
+          [
+            251.37928859889507,
+            767.1457271100953
+          ],
+          [
+            251.41820000112057,
+            767.1063001602888
+          ],
+          [
+            251.74227863177657,
+            766.7318163104355
+          ],
+          [
+            252.04813703149557,
+            766.2740668598562
+          ],
+          [
+            252.29163048043847,
+            765.7803109996021
+          ],
+          [
+            252.3627000004053,
+            765.5967001598328
+          ],
+          [
+            264.95760000124574,
+            760.407700159587
+          ],
+          [
+            266.278299998492,
+            760.0883001601323
+          ],
+          [
+            267.48460000008345,
+            759.769100160338
+          ],
+          [
+            268.805300001055,
+            759.3988001598045
+          ],
+          [
+            270.2910000011325,
+            758.8885001596063
+          ],
+          [
+            271.61129999905825,
+            758.3912001596764
+          ],
+          [
+            272.95719999819994,
+            757.8810001602396
+          ],
+          [
+            273.9602999985218,
+            757.4476001597941
+          ],
+          [
+            275.53449999913573,
+            756.7593001602218
+          ],
+          [
+            277.4006999991834,
+            755.8544001495466
+          ],
+          [
+            279.000300001353,
+            755.0517001496628
+          ],
+          [
+            281.3234999999404,
+            753.8412001598626
+          ],
+          [
+            283.202199999243,
+            752.7839001603425
+          ],
+          [
+            285.5887999981642,
+            751.4970001596957
+          ],
+          [
+            288.33080000057817,
+            750.0064001595601
+          ],
+          [
+            291.2250999994576,
+            748.4902001600713
+          ],
+          [
+            294.5384999997914,
+            746.7192001603544
+          ],
+          [
+            297.2424000017345,
+            745.3176001599059
+          ],
+          [
+            299.80689999833703,
+            744.0941001595929
+          ],
+          [
+            302.26969999819994,
+            742.8581001600251
+          ],
+          [
+            303.589999999851,
+            742.1573001602665
+          ],
+          [
+            305.0119000002742,
+            741.4946001600474
+          ],
+          [
+            307.6271999999881,
+            740.3092001602054
+          ],
+          [
+            309.73460000008345,
+            739.2769001601264
+          ],
+          [
+            312.2483999989927,
+            738.1171001596376
+          ],
+          [
+            314.68600000068545,
+            737.0845001600683
+          ],
+          [
+            316.958599999547,
+            736.1029001595452
+          ],
+          [
+            319.0788999982178,
+            735.2105001602322
+          ],
+          [
+            320.8183999992907,
+            734.4966001603752
+          ],
+          [
+            322.278599999845,
+            734.0371001595631
+          ],
+          [
+            324.8687000013888,
+            732.9535001600161
+          ],
+          [
+            326.51929999887943,
+            732.3540001595393
+          ],
+          [
+            328.39849999919534,
+            731.7162001598626
+          ],
+          [
+            332.0916000008583,
+            730.7118001598865
+          ],
+          [
+            334.51929999887943,
+            730.107000160031
+          ],
+          [
+            336.445000000298,
+            729.6848001601174
+          ],
+          [
+            342.10359999909997,
+            728.663100159727
+          ],
+          [
+            344.0353999994695,
+            728.3651001602411
+          ],
+          [
+            346.18299999833107,
+            728.1186001598835
+          ],
+          [
+            348.5212000012398,
+            727.885600159876
+          ],
+          [
+            349.66490000113845,
+            727.7500001601875
+          ],
+          [
+            350.80840000137687,
+            727.6651001600549
+          ],
+          [
+            352.0535999983549,
+            727.5806001601741
+          ],
+          [
+            354.1880000010133,
+            727.4992001596838
+          ],
+          [
+            356.37310000136495,
+            727.4054001597688
+          ],
+          [
+            359.42210000008345,
+            727.314500159584
+          ],
+          [
+            362.29280000180006,
+            727.3375001596287
+          ],
+          [
+            366.9670999981463,
+            727.4049001596868
+          ],
+          [
+            372.70760000124574,
+            727.7046001600102
+          ],
+          [
+            388.0751000009477,
+            728.4578001601622
+          ],
+          [
+            396.6603999994695,
+            728.9327001599595
+          ],
+          [
+            401.4877999983728,
+            729.175400160253
+          ],
+          [
+            412.13230000063777,
+            729.6196001600474
+          ],
+          [
+            424.0734999999404,
+            730.25360015966
+          ],
+          [
+            429.104200001806,
+            730.5526001602411
+          ],
+          [
+            430.5395999997854,
+            730.6018001595512
+          ],
+          [
+            431.5685000009835,
+            730.5624001603574
+          ],
+          [
+            432.72439999878407,
+            730.5102001596242
+          ],
+          [
+            433.89290000125766,
+            730.4325001602992
+          ],
+          [
+            435.21000000089407,
+            730.2070001596585
+          ],
+          [
+            436.2424000017345,
+            729.984700160101
+          ],
+          [
+            436.28309712931514,
+            729.9811159903184
+          ],
+          [
+            436.34398128837347,
+            729.9690053798258
+          ],
+          [
+            436.4027638286352,
+            729.949051390402
+          ],
+          [
+            436.4584389589727,
+            729.9215954598039
+          ],
+          [
+            436.51005405932665,
+            729.8871073499322
+          ],
+          [
+            436.5567259900272,
+            729.8461771700531
+          ],
+          [
+            436.5929000005126,
+            729.8056001598015
+          ],
+          [
+            436.5976561717689,
+            729.7995052402839
+          ],
+          [
+            436.632144279778,
+            729.74789013993
+          ],
+          [
+            436.65960022062063,
+            729.6922150095925
+          ],
+          [
+            436.67955420166254,
+            729.633432470262
+          ],
+          [
+            436.69166481122375,
+            729.5725483102724
+          ],
+          [
+            436.69572484120727,
+            729.510604259558
+          ],
+          [
+            436.69166481122375,
+            729.4486602200195
+          ],
+          [
+            436.68769999966025,
+            729.4237001603469
+          ],
+          [
+            436.62090000137687,
+            729.2803001599386
+          ],
+          [
+            440.58300000056624,
+            730.7868001600727
+          ]
+        ]
+      ],
+      "bbox": [
+        249.40760000050068,
+        727.314500159584,
+        440.58300000056624,
+        773.3457001596689
+      ],
+      "properties": {
+        "tietopalvelu_id": 42792,
+        "osan_id": 58762,
+        "paakohde_tyyppi_id": 2,
+        "paatyyppi": "Ajorata",
+        "alakohde_tyyppi_id": 2,
+        "alatyyppi": "Ajorata",
+        "materiaali_id": 501,
+        "materiaali": "Asfalttibetoni",
+        "rakenteellinen_kunnossapito": "Kaupunkiympäristö",
+        "talvikunnossapito": "Kaupunkiympäristö",
+        "tkp_kiireellisyys_lk": null,
+        "viher_hoitoluokkka_id": null,
+        "laatutaso_id": 3,
+        "yllapidon_taso": "III",
+        "yllapidon_taso_selite": "Tonttikadut ja vähäliikenteiset klv:t",
+        "puhtaanapito": "Kaupunkiympäristö",
+        "puhtaanapito_vyohyke": "2",
+        "lisatieto": null,
+        "aluetieto": "Katu",
+        "alueen_nimi": "Pohjoisranta",
+        "alueen_kayttotarkoitus": "Asuntokatu",
+        "viheralueen_id": null,
+        "viheralueen_nro": null,
+        "katualueen_id": 4869,
+        "katualueen_nro": 3916,
+        "kadunpitopaatos_pvm": "2002-07-01T00:00:00+03:00",
+        "osan_nro": 2,
+        "osan_pituus": 185.2,
+        "osan_leveys": 7.59,
+        "osan_pinta_ala": 1405.69,
+        "kappalemaara": 0,
+        "muutos_vuosi": null,
+        "muutos_tyyppi": null,
+        "muutos_toimenpide": null,
+        "paivitetty_pvm": "2026-09-11T14:28:53+03:00",
+        "paivittaja": "KARRIVI1",
+        "paivitetty_tietopalveluun": "2026-10-17",
+        "datanomistaja": "Helsinki/YLRE"
+      }
+    },
+    {
+      "id": "58781",
+      "rings": [
+        [
+          [
+            435.9277000017464,
+            729.1999001596123
+          ],
+          [
+            435.7587999999523,
+            729.2353001600131
+          ],
+          [
+            434.4125999994576,
+            729.4021001597866
+          ],
+          [
+            433.5236000008881,
+            729.5685001602396
+          ],
+          [
+            432.4565000012517,
+            729.6206001602113
+          ],
+          [
+            431.22439999878407,
+            729.6730001596734
+          ],
+          [
+            429.15399999916553,
+            729.7263001604006
+          ],
+          [
+            425.4572999998927,
+            729.5019001597539
+          ],
+          [
+            416.58769999817014,
+            729.0486001595855
+          ],
+          [
+            415.0135000012815,
+            729.0453001596034
+          ],
+          [
+            398.5813999995589,
+            728.1266001602635
+          ],
+          [
+            370.8440999984741,
+            726.5962001504377
+          ],
+          [
+            339.9827999994159,
+            724.9338001599535
+          ],
+          [
+            337.7344999983907,
+            724.9131001504138
+          ],
+          [
+            337.04870000109076,
+            724.9108001599088
+          ],
+          [
+            336.3755000010133,
+            724.9084001602605
+          ],
+          [
+            335.43519999831915,
+            724.9812001604587
+          ],
+          [
+            334.39330000057817,
+            725.0410001603886
+          ],
+          [
+            333.9147999994457,
+            725.1541001601145
+          ],
+          [
+            332.35119999945164,
+            725.3943001599982
+          ],
+          [
+            332.3592999987304,
+            725.2220001602545
+          ],
+          [
+            333.7824000008404,
+            724.6912001604214
+          ],
+          [
+            340.99040000140667,
+            717.7703001601622
+          ],
+          [
+            341.39919999986887,
+            718.0309001598507
+          ],
+          [
+            406.56859999895096,
+            722.4681001603603
+          ],
+          [
+            413.2736000008881,
+            722.8975001601502
+          ],
+          [
+            424.9180999994278,
+            723.7090001599863
+          ],
+          [
+            428.0876745097339,
+            723.8683410799131
+          ],
+          [
+            431.34530000016093,
+            723.7000001603737
+          ],
+          [
+            432.2128124907613,
+            723.5979652497917
+          ],
+          [
+            436.267368208617,
+            722.7914639702067
+          ],
+          [
+            437.6376999989152,
+            722.390900160186
+          ],
+          [
+            436.62090000137687,
+            729.2803001599386
+          ],
+          [
+            436.57964684814215,
+            729.2622302602977
+          ],
+          [
+            436.44122359901667,
+            729.2152418997139
+          ],
+          [
+            436.2978513687849,
+            729.1867233896628
+          ],
+          [
+            436.28069999814034,
+            729.1846001604572
+          ],
+          [
+            436.1519832983613,
+            729.1771627003327
+          ],
+          [
+            436.006115231663,
+            729.1867233896628
+          ]
+        ]
+      ],
+      "bbox": [
+        332.35119999945164,
+        717.7703001601622,
+        437.6376999989152,
+        729.7263001604006
+      ],
+      "properties": {
+        "tietopalvelu_id": 42810,
+        "osan_id": 58781,
+        "paakohde_tyyppi_id": 2,
+        "paatyyppi": "Ajorata",
+        "alakohde_tyyppi_id": 2,
+        "alatyyppi": "Ajorata",
+        "materiaali_id": 501,
+        "materiaali": "Asfalttibetoni",
+        "rakenteellinen_kunnossapito": "Kaupunkiympäristö",
+        "talvikunnossapito": "Kaupunkiympäristö",
+        "tkp_kiireellisyys_lk": null,
+        "viher_hoitoluokkka_id": null,
+        "laatutaso_id": 3,
+        "yllapidon_taso": "III",
+        "yllapidon_taso_selite": "Tonttikadut ja vähäliikenteiset klv:t",
+        "puhtaanapito": "Kaupunkiympäristö",
+        "puhtaanapito_vyohyke": "2",
+        "lisatieto": null,
+        "aluetieto": "Katu",
+        "alueen_nimi": "Pohjoisranta",
+        "alueen_kayttotarkoitus": "Asuntokatu",
+        "viheralueen_id": null,
+        "viheralueen_nro": null,
+        "katualueen_id": 4869,
+        "katualueen_nro": 3916,
+        "kadunpitopaatos_pvm": "2002-07-01T00:00:00+03:00",
+        "osan_nro": 20,
+        "osan_pituus": 99.1,
+        "osan_leveys": 6.442,
+        "osan_pinta_ala": 638.389,
+        "kappalemaara": 0,
+        "muutos_vuosi": null,
+        "muutos_tyyppi": null,
+        "muutos_toimenpide": null,
+        "paivitetty_pvm": "2026-09-11T14:28:53+03:00",
+        "paivittaja": "KARRIVI1",
+        "paivitetty_tietopalveluun": "2026-10-17",
+        "datanomistaja": "Helsinki/YLRE"
+      }
+    }
+  ],
+  "declarations": {
+    "schemaVersion": 1,
+    "sourceHashes": {
+      "osm": "fe31bf359524e5801c6a607d62a6562736c8dfb0dea13ea45be20bd8c697c1c9",
+      "streetParts": "c853f169944e20c7a77b0c06f434ecc04bb95b59f153d10c5ca14adc198983a6",
+      "buildingRegister": "f2b41946d882618dfc8416739850d3ab0bbe2655be9065baf140ff52e5f0f790"
+    },
+    "buildingRegister": "data/raw/district-expansion-20261018/building-register/district-expansion.geojson",
+    "endpointAlignments": [
+      {
+        "wayId": 124128289,
+        "endpointNodeId": 295062597,
+        "endpoint": "start",
+        "partIds": [
+          "47990",
+          "40976"
+        ],
+        "clearanceMetres": 1.067,
+        "maxShiftMetres": 3,
+        "blendMetres": 10,
+        "reason": "Fit Jaakonkatu bridge approach inside surveyed carriageways; preserve rock499811 and sourcewall26999151."
+      },
+      {
+        "wayId": 221459853,
+        "endpointNodeId": 10537715309,
+        "endpoint": "end",
+        "partIds": [
+          "58762"
+        ],
+        "clearanceMetres": 1.067,
+        "maxShiftMetres": 6,
+        "blendMetres": 20,
+        "reason": "Fit full Siltavuorenranta junction approach into surveyed Pohjoisranta carriageway; retain grass96825/58741 unchanged."
+      },
+      {
+        "wayId": 313613088,
+        "endpointNodeId": 3196174315,
+        "endpoint": "end",
+        "partIds": [
+          "545658"
+        ],
+        "guardPartIds": [
+          "475148",
+          "545659"
+        ],
+        "clearanceMetres": 1.067,
+        "maxShiftMetres": 3,
+        "blendMetres": 10,
+        "reason": "OSM driveway overshoots surveyed Tonttiliittymä; fit actual vehicle clear of real park retaining walls."
+      },
+      {
+        "wayId": 1130718383,
+        "endpointNodeId": 10537715309,
+        "endpoint": "start",
+        "partIds": [
+          "58762"
+        ],
+        "clearanceMetres": 1.067,
+        "maxShiftMetres": 6,
+        "blendMetres": 20,
+        "reason": "Fit the connected Siltavuorenranta continuation with the same reviewed source junction translation, preserving direction and lane separation."
+      },
+      {
+        "wayId": 957490416,
+        "endpointNodeId": 8859747560,
+        "endpoint": "end",
+        "partIds": [
+          "48718",
+          "48719"
+        ],
+        "pedestrianPartIds": [
+          "48719"
+        ],
+        "sharedShiftEN": [
+          1.105,
+          -0.705
+        ],
+        "clearanceMetres": 1.067,
+        "maxShiftMetres": 3,
+        "blendMetres": 10,
+        "reason": "Source-proven Ankkurikatu driveway/sidewalk crossing: minimal1.30384m endpointfit inside48719+48718; entire7.8833m source axisblend,>=1.0672906m centreclearance,nearestactualprotection2.47912m; evidenceankkurikatu-source-endpoint-feasibility-v1.json SHA4bbd4bbee8a4a4e551b79c5c3b7787f1a10b8740755378c62a6b68397e0712af."
+      }
+    ],
+    "fullCorridors": [
+      {
+        "wayId": 1273454143,
+        "nodeIds": [
+          1375811127,
+          10537715309
+        ],
+        "partIds": [
+          "459962",
+          "58762",
+          "58781",
+          "58428"
+        ],
+        "clearanceMetres": 1.017,
+        "maxShiftMetres": 8,
+        "physicalWidthMetres": 2.09765,
+        "start": [
+          340.01,
+          -721.183
+        ],
+        "straightTo": [
+          340.01,
+          -730
+        ],
+        "control1": [
+          340.01,
+          -730.5333333333
+        ],
+        "control2": [
+          340.01,
+          -731.0666666667
+        ],
+        "end": [
+          340.01,
+          -731.6
+        ],
+        "reason": "Reviewed source-bound single physical Välikatu corridor: OSM has no lane/width tags, surveyed459962 minimum2.09765m. Preserve two logical directions on shared axis; .967m actual tyre envelope unchanged, explicit50mm per-side survey buffer exception. Exact source width/body/wheelbase evidence road-layout-v4/valikatu-width-prototype.json and valikatu-full-path-prototype.json.",
+        "nodeAnchor": [
+          340.01,
+          -732
+        ]
+      }
+    ],
+    "guardAlignments": [
+      {
+        "wayId": 1173733210,
+        "endpointNodeId": 10905604094,
+        "shiftXZ": [
+          -0.875,
+          -0.75
+        ],
+        "guardPartIds": [
+          "200599"
+        ],
+        "clearanceMetres": 1.067,
+        "blendMetres": 10,
+        "maxShiftMetres": 3,
+        "reason": "Retain Kanavaranta access stub within bounded OSM registration and clear exact source rock200599; minsourceclearance1.07538m, nearestRAVA building3.67274m; ground remains unchanged."
+      }
+    ],
+    "portalComponents": [
+      {
+        "portalWayId": 444344429,
+        "wayIds": [
+          444344430,
+          444344432
+        ],
+        "reason": "Courtyard component has no vehicle connection except source tunnel=building_passage444344429. Separate-height passage is not modelled; source-bound unsupported component, no claim of private access and no source ways removed."
+      }
+    ],
+    "junctionMouths": [
+      {
+        "nodeId": 10537715309,
+        "partIds": [
+          "459962",
+          "58762",
+          "58781",
+          "58428"
+        ],
+        "blendMetres": 20,
+        "maxEndpointTrimMetres": 12,
+        "nodeAnchor": [
+          340.01,
+          -732
+        ],
+        "targets": [
+          {
+            "laneId": "221459853:0:f0",
+            "xz": [
+              338,
+              -730.954
+            ]
+          },
+          {
+            "laneId": "221459853:0:b0",
+            "xz": [
+              338,
+              -733.192
+            ]
+          },
+          {
+            "laneId": "1130718383:0:f0",
+            "xz": [
+              342.5,
+              -730.951
+            ]
+          },
+          {
+            "laneId": "1130718383:0:b0",
+            "xz": [
+              342.5,
+              -733.195
+            ]
+          }
+        ],
+        "bodyOverhangPhysicalProof": {
+          "file": "data/evidence/district-expansion-20261018/road-layout-v4/junction-body-physical-proof.json",
+          "sha256": "cfc98e7d82f72c6e1ca53f3a798192de2c666bdf1fd8acc0e7d437dbf5d18fcf",
+          "reason": "Reviewed actual12body-overhang corners above lowgrass: all wheelbase/tyre samplessource-supported,410orientedBODY/SKIDRapierquerieszero intersections,minimumgroundclearance.44385m. Authoringdecisiononly; repeatfrozenoutputandfinalgroundphysicalproofrequired."
+        }
+      }
+    ],
+    "vehicleDeadEndTrims": [
+      {
+        "wayId": 22505405,
+        "endpoint": "start",
+        "sourceEndpointNodeId": 25470397,
+        "stopNodeId": 8879808377,
+        "protectedPartIds": [
+          "231915"
+        ],
+        "reason": "Project-car feasibility only: surveyed northern planting231915 and building1030271692 leave a measured1.858m pedestrian throat, narrower than accepted1.934m tyres. Existing OSM node8879808377 retains every southern source motor driveway and the public street; northern source node25470397 connects only pedestrian ways. Raw legal living_street tags, source art, planting, stairs and footways remain unchanged. Official2025orthophoto and actually opened Oct2020 Google Street View panorama OvR1YLp3Vd7A2vQHsx5VPA corroborate planting and narrow path."
+      }
+    ]
+  },
+  "lanes": [
+    {
+      "id": "124128289:0:f0",
+      "wayId": 124128289,
+      "name": "Jaakonkatu",
+      "highway": "residential",
+      "surface": "asphalt",
+      "speedLimit": 8.333,
+      "width": 3,
+      "from": "n295062597",
+      "to": "n25473214",
+      "points": [
+        [
+          -1224.192,
+          5.081,
+          -113.014
+        ],
+        [
+          -1227.473,
+          5.905,
+          -118.009
+        ]
+      ],
+      "length": 5.976,
+      "index": 0,
+      "count": 1
+    },
+    {
+      "id": "124128289:0:b0",
+      "wayId": 124128289,
+      "name": "Jaakonkatu",
+      "highway": "residential",
+      "surface": "asphalt",
+      "speedLimit": 8.333,
+      "width": 3,
+      "from": "n25473214",
+      "to": "n295062597",
+      "points": [
+        [
+          -1229.981,
+          5.901,
+          -116.362
+        ],
+        [
+          -1226.7,
+          5.094,
+          -111.367
+        ]
+      ],
+      "length": 5.976,
+      "index": 0,
+      "count": 1
+    },
+    {
+      "id": "221459853:0:f0",
+      "wayId": 221459853,
+      "name": "Siltavuorenranta",
+      "highway": "unclassified",
+      "surface": "asphalt",
+      "speedLimit": 8.333,
+      "width": 3,
+      "from": "n241593433",
+      "to": "n10537715309",
+      "points": [
+        [
+          274.837,
+          -5.576,
+          -760.352
+        ],
+        [
+          300.018,
+          -5.283,
+          -747.469
+        ],
+        [
+          316.954,
+          -5.106,
+          -740.411
+        ],
+        [
+          326.786,
+          -4.91,
+          -738.001
+        ],
+        [
+          335.574,
+          -4.814,
+          -737.204
+        ]
+      ],
+      "length": 65.581,
+      "index": 0,
+      "count": 1
+    },
+    {
+      "id": "221459853:0:b0",
+      "wayId": 221459853,
+      "name": "Siltavuorenranta",
+      "highway": "unclassified",
+      "surface": "asphalt",
+      "speedLimit": 8.333,
+      "width": 3,
+      "from": "n10537715309",
+      "to": "n241593433",
+      "points": [
+        [
+          335.845,
+          -4.624,
+          -740.192
+        ],
+        [
+          327.295,
+          -4.862,
+          -740.966
+        ],
+        [
+          317.959,
+          -5.003,
+          -743.247
+        ],
+        [
+          301.303,
+          -5.278,
+          -750.182
+        ],
+        [
+          276.203,
+          -5.608,
+          -763.023
+        ]
+      ],
+      "length": 64.431,
+      "index": 0,
+      "count": 1
+    },
+    {
+      "id": "313613088:0:f0",
+      "wayId": 313613088,
+      "name": null,
+      "highway": "service",
+      "surface": "asphalt",
+      "speedLimit": 5.556,
+      "width": 3,
+      "from": "n3196174328",
+      "to": "n3196174315",
+      "points": [
+        [
+          -1144.82,
+          3.996,
+          -406.867
+        ],
+        [
+          -1139.096,
+          4.13,
+          -402.304
+        ],
+        [
+          -1134.969,
+          4.3,
+          -399.336
+        ],
+        [
+          -1132.84,
+          4.482,
+          -397.005
+        ],
+        [
+          -1131.676,
+          4.214,
+          -395.076
+        ],
+        [
+          -1131.383,
+          4.356,
+          -394.307
+        ]
+      ],
+      "length": 18.636,
+      "index": 0,
+      "count": 1
+    },
+    {
+      "id": "313613088:0:b0",
+      "wayId": 313613088,
+      "name": null,
+      "highway": "service",
+      "surface": "asphalt",
+      "speedLimit": 5.556,
+      "width": 3,
+      "from": "n3196174315",
+      "to": "n3196174328",
+      "points": [
+        [
+          -1131.383,
+          4.356,
+          -394.307
+        ],
+        [
+          -1131.676,
+          4.214,
+          -395.076
+        ],
+        [
+          -1132.84,
+          4.482,
+          -397.005
+        ],
+        [
+          -1134.969,
+          4.3,
+          -399.336
+        ],
+        [
+          -1139.096,
+          4.13,
+          -402.304
+        ],
+        [
+          -1144.82,
+          3.996,
+          -406.867
+        ]
+      ],
+      "length": 18.636,
+      "index": 0,
+      "count": 1
+    },
+    {
+      "id": "957490416:0:f0",
+      "wayId": 957490416,
+      "name": null,
+      "highway": "service",
+      "surface": "asphalt",
+      "speedLimit": 5.556,
+      "width": 3,
+      "from": "n8859747561",
+      "to": "n8859747560",
+      "points": [
+        [
+          649.457,
+          -3.097,
+          300.166
+        ],
+        [
+          643.745,
+          -2.347,
+          297.133
+        ],
+        [
+          642.497,
+          -1.922,
+          296.464
+        ]
+      ],
+      "length": 7.884,
+      "index": 0,
+      "count": 1
+    },
+    {
+      "id": "957490416:0:b0",
+      "wayId": 957490416,
+      "name": null,
+      "highway": "service",
+      "surface": "asphalt",
+      "speedLimit": 5.556,
+      "width": 3,
+      "from": "n8859747560",
+      "to": "n8859747561",
+      "points": [
+        [
+          642.497,
+          -1.922,
+          296.464
+        ],
+        [
+          643.745,
+          -2.347,
+          297.133
+        ],
+        [
+          649.457,
+          -3.097,
+          300.166
+        ]
+      ],
+      "length": 7.884,
+      "index": 0,
+      "count": 1
+    },
+    {
+      "id": "1130718383:0:f0",
+      "wayId": 1130718383,
+      "name": "Siltavuorenranta",
+      "highway": "unclassified",
+      "surface": "asphalt",
+      "speedLimit": 8.333,
+      "width": 3,
+      "from": "n10537715309",
+      "to": "n10537641607",
+      "points": [
+        [
+          335.806,
+          -4.811,
+          -737.201
+        ],
+        [
+          343.683,
+          -4.62,
+          -737.71
+        ],
+        [
+          348.35,
+          -4.46,
+          -738.258
+        ],
+        [
+          361.389,
+          -4.352,
+          -740.786
+        ],
+        [
+          367.39,
+          -4.262,
+          -743.011
+        ],
+        [
+          371.339,
+          -4.044,
+          -746.669
+        ],
+        [
+          373.548,
+          -3.854,
+          -749.529
+        ],
+        [
+          374.999,
+          -3.705,
+          -752.04
+        ],
+        [
+          376.879,
+          -3.518,
+          -755.413
+        ],
+        [
+          381.226,
+          -4.023,
+          -764.684
+        ]
+      ],
+      "length": 58.272,
+      "index": 0,
+      "count": 1
+    },
+    {
+      "id": "1130718383:0:b0",
+      "wayId": 1130718383,
+      "name": "Siltavuorenranta",
+      "highway": "unclassified",
+      "surface": "asphalt",
+      "speedLimit": 8.333,
+      "width": 3,
+      "from": "n10537641607",
+      "to": "n10537715309",
+      "points": [
+        [
+          378.509,
+          -4.205,
+          -765.958
+        ],
+        [
+          374.186,
+          -3.33,
+          -756.739
+        ],
+        [
+          372.388,
+          -3.514,
+          -753.518
+        ],
+        [
+          371.061,
+          -3.666,
+          -751.218
+        ],
+        [
+          369.148,
+          -3.833,
+          -748.733
+        ],
+        [
+          365.833,
+          -3.994,
+          -745.643
+        ],
+        [
+          360.664,
+          -4.148,
+          -743.708
+        ],
+        [
+          347.835,
+          -4.194,
+          -741.216
+        ],
+        [
+          343.432,
+          -4.344,
+          -740.701
+        ],
+        [
+          335.613,
+          -4.636,
+          -740.195
+        ]
+      ],
+      "length": 55.051,
+      "index": 0,
+      "count": 1
+    },
+    {
+      "id": "1130718383:1:f0",
+      "wayId": 1130718383,
+      "name": "Siltavuorenranta",
+      "highway": "unclassified",
+      "surface": "asphalt",
+      "speedLimit": 8.333,
+      "width": 3,
+      "from": "n10537641607",
+      "to": "n10537641608",
+      "points": [
+        [
+          381.204,
+          -4.013,
+          -764.639
+        ],
+        [
+          386.327,
+          -4.582,
+          -774.686
+        ]
+      ],
+      "length": 11.278,
+      "index": 0,
+      "count": 1
+    },
+    {
+      "id": "1130718383:1:b0",
+      "wayId": 1130718383,
+      "name": "Siltavuorenranta",
+      "highway": "unclassified",
+      "surface": "asphalt",
+      "speedLimit": 8.333,
+      "width": 3,
+      "from": "n10537641608",
+      "to": "n10537641607",
+      "points": [
+        [
+          383.655,
+          -4.69,
+          -776.049
+        ],
+        [
+          378.531,
+          -4.215,
+          -766.002
+        ]
+      ],
+      "length": 11.278,
+      "index": 0,
+      "count": 1
+    },
+    {
+      "id": "1173733210:0:f0",
+      "wayId": 1173733210,
+      "name": null,
+      "highway": "service",
+      "surface": "asphalt",
+      "speedLimit": 5.556,
+      "width": 3,
+      "from": "n10905604095",
+      "to": "n10905604094",
+      "points": [
+        [
+          363.373,
+          -4.654,
+          88.21
+        ],
+        [
+          388.231,
+          -2.687,
+          100.247
+        ]
+      ],
+      "length": 27.619,
+      "index": 0,
+      "count": 1
+    },
+    {
+      "id": "1173733210:0:b0",
+      "wayId": 1173733210,
+      "name": null,
+      "highway": "service",
+      "surface": "asphalt",
+      "speedLimit": 5.556,
+      "width": 3,
+      "from": "n10905604094",
+      "to": "n10905604095",
+      "points": [
+        [
+          388.231,
+          -2.687,
+          100.247
+        ],
+        [
+          363.373,
+          -4.654,
+          88.21
+        ]
+      ],
+      "length": 27.619,
+      "index": 0,
+      "count": 1
+    },
+    {
+      "id": "1273454143:0:f0",
+      "wayId": 1273454143,
+      "name": "Välikatu",
+      "highway": "residential",
+      "surface": "asphalt",
+      "speedLimit": 8.333,
+      "width": 3,
+      "from": "n1375811127",
+      "to": "n10537715309",
+      "points": [
+        [
+          338.189,
+          -2.032,
+          -721.267
+        ],
+        [
+          337.207,
+          -4.698,
+          -738.782
+        ]
+      ],
+      "length": 17.543,
+      "index": 0,
+      "count": 1
+    },
+    {
+      "id": "1273454143:0:b0",
+      "wayId": 1273454143,
+      "name": "Välikatu",
+      "highway": "residential",
+      "surface": "asphalt",
+      "speedLimit": 8.333,
+      "width": 3,
+      "from": "n10537715309",
+      "to": "n1375811127",
+      "points": [
+        [
+          334.212,
+          -4.837,
+          -738.614
+        ],
+        [
+          335.194,
+          -1.995,
+          -721.099
+        ]
+      ],
+      "length": 17.543,
+      "index": 0,
+      "count": 1
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n241593433",
+      "position": [
+        275.52,
+        -5.627,
+        -761.688
+      ],
+      "kind": "junction"
+    },
+    {
+      "id": "n1375811127",
+      "position": [
+        336.692,
+        -1.98,
+        -721.183
+      ],
+      "kind": "junction"
+    },
+    {
+      "id": "n10905604095",
+      "position": [
+        363.373,
+        -4.654,
+        88.21
+      ],
+      "kind": "junction"
+    },
+    {
+      "id": "n3196174328",
+      "position": [
+        -1144.82,
+        3.996,
+        -406.867
+      ],
+      "kind": "junction"
+    },
+    {
+      "id": "n25473214",
+      "position": [
+        -1228.727,
+        5.893,
+        -117.185
+      ],
+      "kind": "junction"
+    },
+    {
+      "id": "n295062597",
+      "position": [
+        -1225.446,
+        5.132,
+        -112.191
+      ],
+      "kind": "end"
+    },
+    {
+      "id": "n8859747561",
+      "position": [
+        649.457,
+        -3.097,
+        300.166
+      ],
+      "kind": "junction"
+    },
+    {
+      "id": "n10537715309",
+      "position": [
+        335.709,
+        -4.754,
+        -738.698
+      ],
+      "kind": "junction"
+    },
+    {
+      "id": "n3196174315",
+      "position": [
+        -1131.383,
+        4.356,
+        -394.307
+      ],
+      "kind": "end"
+    },
+    {
+      "id": "n8859747560",
+      "position": [
+        642.497,
+        -1.922,
+        296.464
+      ],
+      "kind": "end"
+    },
+    {
+      "id": "n10537641607",
+      "position": [
+        379.867,
+        -4.103,
+        -765.321
+      ],
+      "kind": "junction"
+    },
+    {
+      "id": "n10537641608",
+      "position": [
+        384.991,
+        -4.603,
+        -775.367
+      ],
+      "kind": "junction"
+    },
+    {
+      "id": "n10905604094",
+      "position": [
+        388.231,
+        -2.687,
+        100.247
+      ],
+      "kind": "end"
+    }
+  ],
+  "portalElements": [
+    {
+      "type": "way",
+      "id": 444344429,
+      "timestamp": "2024-03-19T17:25:45Z",
+      "version": 4,
+      "changeset": 148872797,
+      "user": "perusluku",
+      "uid": 742733,
+      "nodes": [
+        4418311109,
+        4418311110
+      ],
+      "tags": {
+        "access": "destination",
+        "highway": "service",
+        "lit": "yes",
+        "maxheight": "below_default",
+        "service": "driveway",
+        "tunnel": "building_passage"
+      }
+    },
+    {
+      "type": "way",
+      "id": 444344430,
+      "timestamp": "2024-03-19T17:25:45Z",
+      "version": 2,
+      "changeset": 148872797,
+      "user": "perusluku",
+      "uid": 742733,
+      "nodes": [
+        4418311110,
+        4418311111,
+        4418311112,
+        4418311113,
+        4418311114,
+        4418311115,
+        4418311116,
+        4418311117,
+        4418311122,
+        4418311118
+      ],
+      "tags": {
+        "access": "destination",
+        "highway": "service",
+        "service": "driveway"
+      }
+    },
+    {
+      "type": "way",
+      "id": 444344432,
+      "timestamp": "2024-03-19T17:25:45Z",
+      "version": 2,
+      "changeset": 148872797,
+      "user": "perusluku",
+      "uid": 742733,
+      "nodes": [
+        4418311110,
+        4418311123,
+        4418311124
+      ],
+      "tags": {
+        "access": "destination",
+        "highway": "service",
+        "service": "driveway"
+      }
+    }
+  ],
+  "deadEndElements": [
+    {
+      "type": "way",
+      "id": 22505405,
+      "timestamp": "2022-03-15T12:42:29Z",
+      "version": 13,
+      "changeset": 118510124,
+      "user": "papamoai",
+      "uid": 14834554,
+      "nodes": [
+        25470397,
+        8879808377,
+        8879808375,
+        9580495095,
+        8879808373,
+        471408589,
+        8879808372,
+        9549633751,
+        391448651,
+        1375811124
+      ],
+      "tags": {
+        "highway": "living_street",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Meritullinkatu",
+        "name:fi": "Meritullinkatu",
+        "name:sv": "Sjötullsgatan",
+        "old_name:fi": "Konstantininkatu",
+        "surface": "asphalt"
+      },
+      "points": [
+        {
+          "id": 25470397,
+          "lat": 60.1755925,
+          "lon": 24.9579787,
+          "x": 317.64821542426944,
+          "z": -676.9851583819836,
+          "tags": {}
+        },
+        {
+          "id": 8879808377,
+          "lat": 60.1754865,
+          "lon": 24.9579884,
+          "x": 318.17909187823534,
+          "z": -665.1747993119061,
+          "tags": {}
+        },
+        {
+          "id": 8879808375,
+          "lat": 60.1754594,
+          "lon": 24.9579906,
+          "x": 318.29928055778146,
+          "z": -662.1553683783859,
+          "tags": {}
+        },
+        {
+          "id": 9580495095,
+          "lat": 60.1754442,
+          "lon": 24.9579915,
+          "x": 318.34815718233585,
+          "z": -660.4618248231709,
+          "tags": {}
+        },
+        {
+          "id": 8879808373,
+          "lat": 60.1753402,
+          "lon": 24.9580042,
+          "x": 319.04569344222546,
+          "z": -648.8741907272488,
+          "tags": {}
+        },
+        {
+          "id": 471408589,
+          "lat": 60.1752661,
+          "lon": 24.9580085,
+          "x": 319.2791133671999,
+          "z": -640.6181692061946,
+          "tags": {}
+        },
+        {
+          "id": 8879808372,
+          "lat": 60.175201,
+          "lon": 24.9580132,
+          "x": 319.5353737398982,
+          "z": -633.3648708760738,
+          "tags": {}
+        },
+        {
+          "id": 9549633751,
+          "lat": 60.1750718,
+          "lon": 24.9580297,
+          "x": 320.4420532695949,
+          "z": -618.9694392774254,
+          "tags": {}
+        },
+        {
+          "id": 391448651,
+          "lat": 60.1750406,
+          "lon": 24.9580327,
+          "x": 320.6063590720296,
+          "z": -615.4931779028848,
+          "tags": {}
+        },
+        {
+          "id": 1375811124,
+          "lat": 60.1750019,
+          "lon": 24.9581187,
+          "x": 325.3770515806973,
+          "z": -611.1783778704703,
+          "tags": {}
+        }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 138982503,
+      "timestamp": "2025-09-26T22:10:17Z",
+      "version": 7,
+      "changeset": 172504940,
+      "user": "Larmax",
+      "uid": 8105430,
+      "nodes": [
+        13174311577,
+        1523572748,
+        340211198,
+        8879808379,
+        8879808378,
+        25470397
+      ],
+      "tags": {
+        "bicycle": "no",
+        "footway": "sidewalk",
+        "highway": "footway",
+        "lit": "yes",
+        "surface": "asphalt"
+      },
+      "points": [
+        {
+          "id": 13174311577,
+          "lat": 60.1755401,
+          "lon": 24.9567787,
+          "x": 251.03955672681332,
+          "z": -671.1899832244962,
+          "tags": {}
+        },
+        {
+          "id": 1523572748,
+          "lat": 60.1755404,
+          "lon": 24.9567889,
+          "x": 251.60572062060237,
+          "z": -671.2230373378843,
+          "tags": {}
+        },
+        {
+          "id": 340211198,
+          "lat": 60.1755566,
+          "lon": 24.9568012,
+          "x": 252.2896018922329,
+          "z": -673.0275177629665,
+          "tags": {}
+        },
+        {
+          "id": 8879808379,
+          "lat": 60.1755673,
+          "lon": 24.9571378,
+          "x": 270.9730529822409,
+          "z": -674.2074881782755,
+          "tags": {}
+        },
+        {
+          "id": 8879808378,
+          "lat": 60.1755759,
+          "lon": 24.9574332,
+          "x": 287.36957404762506,
+          "z": -675.155054975301,
+          "tags": {}
+        },
+        {
+          "id": 25470397,
+          "lat": 60.1755925,
+          "lon": 24.9579787,
+          "x": 317.64821542426944,
+          "z": -676.9851583819836,
+          "tags": {}
+        }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 959744724,
+      "timestamp": "2026-08-27T15:16:47Z",
+      "version": 2,
+      "changeset": 188102106,
+      "user": "Barro",
+      "uid": 486606,
+      "nodes": [
+        25470397,
+        8879905551
+      ],
+      "tags": {
+        "footway": "sidewalk",
+        "highway": "footway",
+        "lit": "yes"
+      },
+      "points": [
+        {
+          "id": 25470397,
+          "lat": 60.1755925,
+          "lon": 24.9579787,
+          "x": 317.64821542426944,
+          "z": -676.9851583819836,
+          "tags": {}
+        },
+        {
+          "id": 8879905551,
+          "lat": 60.175598,
+          "lon": 24.9581634,
+          "x": 327.90019829571247,
+          "z": -677.5914337905124,
+          "tags": {}
+        }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 959736165,
+      "timestamp": "2026-08-27T15:11:55Z",
+      "version": 2,
+      "changeset": 188102106,
+      "user": "Barro",
+      "uid": 486606,
+      "nodes": [
+        8879808377,
+        8879808376
+      ],
+      "tags": {
+        "highway": "footway",
+        "lit": "yes"
+      },
+      "points": [
+        {
+          "id": 8879808377,
+          "lat": 60.1754865,
+          "lon": 24.9579884,
+          "x": 318.17909187823534,
+          "z": -665.1747993119061,
+          "tags": {}
+        },
+        {
+          "id": 8879808376,
+          "lat": 60.1754844,
+          "lon": 24.9579354,
+          "x": 315.23721969127655,
+          "z": -664.9426997704431,
+          "tags": {
+            "access": "private",
+            "addr:city": "Helsinki",
+            "addr:housenumber": "32",
+            "addr:postcode": "00170",
+            "addr:street": "Meritullinkatu",
+            "addr:unit": "C",
+            "entrance": "staircase",
+            "wheelchair": "no"
+          }
+        }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 959736164,
+      "timestamp": "2023-12-31T15:43:37Z",
+      "version": 3,
+      "changeset": 145738250,
+      "user": "perusluku",
+      "uid": 742733,
+      "nodes": [
+        9580495095,
+        8879808374
+      ],
+      "tags": {
+        "highway": "service",
+        "service": "driveway"
+      },
+      "points": [
+        {
+          "id": 9580495095,
+          "lat": 60.1754442,
+          "lon": 24.9579915,
+          "x": 318.34815718233585,
+          "z": -660.4618248231709,
+          "tags": {}
+        },
+        {
+          "id": 8879808374,
+          "lat": 60.1754442,
+          "lon": 24.95794,
+          "x": 315.4896866567433,
+          "z": -660.4636441469193,
+          "tags": {
+            "access": "private",
+            "barrier": "gate",
+            "description": "With keycode"
+          }
+        }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 959736163,
+      "timestamp": "2026-08-27T15:11:55Z",
+      "version": 2,
+      "changeset": 188102106,
+      "user": "Barro",
+      "uid": 486606,
+      "nodes": [
+        8879808373,
+        1629557214
+      ],
+      "tags": {
+        "highway": "footway",
+        "lit": "yes"
+      },
+      "points": [
+        {
+          "id": 8879808373,
+          "lat": 60.1753402,
+          "lon": 24.9580042,
+          "x": 319.04569344222546,
+          "z": -648.8741907272488,
+          "tags": {}
+        },
+        {
+          "id": 1629557214,
+          "lat": 60.175339,
+          "lon": 24.9579506,
+          "x": 316.070569396019,
+          "z": -648.7423854190856,
+          "tags": {
+            "access": "private",
+            "addr:city": "Helsinki",
+            "addr:housenumber": "32",
+            "addr:postcode": "00170",
+            "addr:street": "Meritullinkatu",
+            "addr:unit": "B",
+            "entrance": "staircase"
+          }
+        }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 902634507,
+      "timestamp": "2023-12-31T15:43:37Z",
+      "version": 2,
+      "changeset": 145738250,
+      "user": "perusluku",
+      "uid": 742733,
+      "nodes": [
+        471408586,
+        471408589
+      ],
+      "tags": {
+        "highway": "service",
+        "lit": "yes",
+        "service": "driveway",
+        "surface": "asphalt"
+      },
+      "points": [
+        {
+          "id": 471408586,
+          "lat": 60.17527,
+          "lon": 24.9581944,
+          "x": 329.5976903103292,
+          "z": -641.04614260979,
+          "tags": {}
+        },
+        {
+          "id": 471408589,
+          "lat": 60.1752661,
+          "lon": 24.9580085,
+          "x": 319.2791133671999,
+          "z": -640.6181692061946,
+          "tags": {}
+        }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 959736162,
+      "timestamp": "2026-08-27T15:11:52Z",
+      "version": 3,
+      "changeset": 188102106,
+      "user": "Barro",
+      "uid": 486606,
+      "nodes": [
+        8879808372,
+        8879808371
+      ],
+      "tags": {
+        "handrail": "no",
+        "highway": "steps",
+        "incline": "up",
+        "lit": "yes",
+        "step_count": "1"
+      },
+      "points": [
+        {
+          "id": 8879808372,
+          "lat": 60.175201,
+          "lon": 24.9580132,
+          "x": 319.5353737398982,
+          "z": -633.3648708760738,
+          "tags": {}
+        },
+        {
+          "id": 8879808371,
+          "lat": 60.1752003,
+          "lon": 24.9579627,
+          "x": 316.7323371358216,
+          "z": -633.2886632718146,
+          "tags": {
+            "access": "private",
+            "addr:city": "Helsinki",
+            "addr:housenumber": "32",
+            "addr:postcode": "00170",
+            "addr:street": "Meritullinkatu",
+            "addr:unit": "A",
+            "entrance": "staircase",
+            "wheelchair": "no"
+          }
+        }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 1036541662,
+      "timestamp": "2026-08-27T15:11:55Z",
+      "version": 2,
+      "changeset": 188102106,
+      "user": "Barro",
+      "uid": 486606,
+      "nodes": [
+        1651385684,
+        9549633751
+      ],
+      "tags": {
+        "highway": "footway",
+        "lit": "yes"
+      },
+      "points": [
+        {
+          "id": 1651385684,
+          "lat": 60.1750711,
+          "lon": 24.9579754,
+          "x": 317.42808701470494,
+          "z": -618.8933651819825,
+          "tags": {
+            "access": "private",
+            "addr:city": "Helsinki",
+            "addr:housenumber": "28-30",
+            "addr:postcode": "00170",
+            "addr:street": "Meritullinkatu",
+            "addr:unit": "C",
+            "description": "With buzzer",
+            "entrance": "staircase"
+          }
+        },
+        {
+          "id": 9549633751,
+          "lat": 60.1750718,
+          "lon": 24.9580297,
+          "x": 320.4420532695949,
+          "z": -618.9694392774254,
+          "tags": {}
+        }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 308722796,
+      "timestamp": "2024-08-12T20:46:42Z",
+      "version": 7,
+      "changeset": 155167919,
+      "user": "Daeron",
+      "uid": 38239,
+      "nodes": [
+        340877940,
+        391448650,
+        391448651,
+        391448653,
+        8879905549,
+        8879905547,
+        8879905544,
+        8879905543,
+        391448652
+      ],
+      "tags": {
+        "bicycle": "no",
+        "footway": "sidewalk",
+        "highway": "footway",
+        "lit": "yes",
+        "surface": "asphalt"
+      },
+      "points": [
+        {
+          "id": 340877940,
+          "lat": 60.1748319,
+          "lon": 24.958025,
+          "x": 320.16419241577387,
+          "z": -592.2410888690501,
+          "tags": {}
+        },
+        {
+          "id": 391448650,
+          "lat": 60.1750173,
+          "lon": 24.9580136,
+          "x": 319.5445639155805,
+          "z": -612.897876592353,
+          "tags": {}
+        },
+        {
+          "id": 391448651,
+          "lat": 60.1750406,
+          "lon": 24.9580327,
+          "x": 320.6063590720296,
+          "z": -615.4931779028848,
+          "tags": {}
+        },
+        {
+          "id": 391448653,
+          "lat": 60.1750462,
+          "lon": 24.9582244,
+          "x": 331.2470551356673,
+          "z": -616.1103573031723,
+          "tags": {}
+        },
+        {
+          "id": 8879905549,
+          "lat": 60.1750631,
+          "lon": 24.9587197,
+          "x": 358.73983559012413,
+          "z": -617.9759882129729,
+          "tags": {}
+        },
+        {
+          "id": 8879905547,
+          "lat": 60.1750648,
+          "lon": 24.9587625,
+          "x": 361.1155646517873,
+          "z": -618.1639100201428,
+          "tags": {}
+        },
+        {
+          "id": 8879905544,
+          "lat": 60.1750746,
+          "lon": 24.9590443,
+          "x": 376.7575288936496,
+          "z": -619.2460463345051,
+          "tags": {}
+        },
+        {
+          "id": 8879905543,
+          "lat": 60.1750853,
+          "lon": 24.9593543,
+          "x": 393.96478344127536,
+          "z": -620.4275594651699,
+          "tags": {}
+        },
+        {
+          "id": 391448652,
+          "lat": 60.1750977,
+          "lon": 24.9595527,
+          "x": 404.977799333632,
+          "z": -621.802347695455,
+          "tags": {}
+        }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 22505402,
+      "timestamp": "2026-08-27T15:11:54Z",
+      "version": 26,
+      "changeset": 188102103,
+      "user": "Barro",
+      "uid": 486606,
+      "nodes": [
+        1375811124,
+        898935519
+      ],
+      "tags": {
+        "cycleway:both": "no",
+        "hazmat:A": "destination",
+        "highway": "residential",
+        "lanes": "1",
+        "lit": "yes",
+        "maxlength": "12",
+        "maxspeed": "30",
+        "name": "Meritullinkatu",
+        "name:fi": "Meritullinkatu",
+        "name:sv": "Sjötullsgatan",
+        "old_name:fi": "Konstantininkatu",
+        "parking:both": "no",
+        "parking:both:restriction": "no_parking",
+        "smoothness": "bad",
+        "surface": "sett"
+      },
+      "points": [
+        {
+          "id": 1375811124,
+          "lat": 60.1750019,
+          "lon": 24.9581187,
+          "x": 325.3770515806973,
+          "z": -611.1783778704703,
+          "tags": {}
+        },
+        {
+          "id": 898935519,
+          "lat": 60.1749514,
+          "lon": 24.9581227,
+          "x": 325.5955040156841,
+          "z": -605.5517674144357,
+          "tags": {}
+        }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 123341599,
+      "timestamp": "2026-08-27T15:11:55Z",
+      "version": 8,
+      "changeset": 188102103,
+      "user": "Barro",
+      "uid": 486606,
+      "nodes": [
+        1375811124,
+        391448649
+      ],
+      "tags": {
+        "highway": "residential",
+        "lanes": "1",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Kruununhaankatu",
+        "name:fi": "Kruununhaankatu",
+        "name:sv": "Kronohagsgatan",
+        "oneway": "yes",
+        "oneway:bicycle": "no",
+        "parking:both": "no",
+        "parking:both:restriction": "no_parking",
+        "smoothness": "bad",
+        "surface": "sett"
+      },
+      "points": [
+        {
+          "id": 1375811124,
+          "lat": 60.1750019,
+          "lon": 24.9581187,
+          "x": 325.3770515806973,
+          "z": -611.1783778704703,
+          "tags": {}
+        },
+        {
+          "id": 391448649,
+          "lat": 60.1750055,
+          "lon": 24.9582262,
+          "x": 331.3440958186984,
+          "z": -611.5756937609985,
+          "tags": {
+            "crossing": "uncontrolled",
+            "highway": "crossing"
+          }
+        }
+      ]
+    }
+  ]
+}

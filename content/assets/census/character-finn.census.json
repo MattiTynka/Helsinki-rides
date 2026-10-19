@@ -1,0 +1,31 @@
+{
+  "require_version": "5.2",
+  "objects": [
+    "FINN-body_game",
+    "FINN-eyebrows_game",
+    "FINN-eyes_game",
+    "FINN-hair_short_game",
+    "FINN-head_game",
+    "FINN-pants_game",
+    "FINN-shirt_game",
+    "FINN-shoes_base_game",
+    "FINN-shoes_bottom_game",
+    "FINN-shoes_parts_game",
+    "FINN-tongue_game"
+  ],
+  "self_overlap": {
+    "enabled": true,
+    "max_faces": 200000,
+    "epsilon": 1e-05
+  },
+  "limits": {
+    "nonmanifold_interior_edges": 0,
+    "flipped_edges": 0,
+    "wire_edges": 0,
+    "loose_vertices": 0,
+    "degenerate_faces": 0
+  },
+  "unit_scale": 1.0,
+  "applied_transforms": true,
+  "degenerate_area": 1e-08
+}

@@ -1,0 +1,510 @@
+{
+  "schemaVersion": 1,
+  "id": "canalside-palace-east-main-guard-south-v1",
+  "baseCellsIndexSha256": "7bd2a345626ee2d56c2f1d79159a9b0fc54d31c4f77bc1d9c337848d78d490e0",
+  "source": {
+    "cityJsonSha256": "864f7618e769cd8508ef4cd7a60030dffd2ba5412ef187f3878ab9b10e7c56a8",
+    "cityBinSha256": "8ff6b9101b52c3898846aee0ece37d7e1b378779f6daa6a2aa53bed75cd7c97a",
+    "originId": "senate-square-statue-v2"
+  },
+  "art": {
+    "path": "canalside-original.png",
+    "sha256": "62f231df54d3826f437bc9a06997384681c06e9b81e4e5e5e7f675f237e4e732",
+    "width": 768,
+    "height": 256,
+    "kind": "original-procedural",
+    "license": "CC0-1.0",
+    "attribution": "Original procedural Palace east and Main Guard south facade artwork, Helsinki browser-game project (2026). Reference photographs are not reproduced.",
+    "references": [
+      {
+        "title": "Presidential Palace: official exterior photographs, Matti Porre / Office of the President",
+        "url": "https://www.presidentti.fi/en/pictures/presidential-palace/",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Presidentinlinna nähtynä Mariankadun puolelta, Finnish Heritage Agency, HK6532_246",
+        "url": "https://www.finna.fi/Record/museovirasto.CD4234EC063271791B3E54AC4FF9844D",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Presidentinlinna Mariankadun puolelta, Finnish Heritage Agency, 7137_495",
+        "url": "https://www.finna.fi/Record/museovirasto.9434E8449CCD91F7DF6016F25860D541",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Main Guard canal elevation, Volker von Bonin / Finnish Heritage Agency, published by Yle",
+        "url": "https://yle.fi/a/3-11446975",
+        "role": "appearance-reference-only"
+      }
+    ]
+  },
+  "maximumFallbackBytes": 2097152,
+  "material": {
+    "name": "canalside-original-palace-guard",
+    "unlit": true,
+    "roughness": 0.95,
+    "doubleSided": true
+  },
+  "charts": [
+    {
+      "id": "palace-east",
+      "building": "BID_cd5696b3-bb16-4aad-b2e3-cb1ee2fa2b08",
+      "origin": [
+        248.28680419921875,
+        -4.989922046661377,
+        85.1093978881836
+      ],
+      "uAxis": [
+        -0.04955877638545002,
+        0,
+        -0.9987712088777775
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -71.14972212152172,
+        0,
+        0,
+        15.615142345428467
+      ],
+      "pixels": [
+        1,
+        1,
+        766,
+        158
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "main-guard-south",
+      "building": "BID_582cc5c9-65ce-4d61-ab46-f8f1b31b5731",
+      "origin": [
+        266.3941955566406,
+        2.9188406467437744,
+        89.46819305419922
+      ],
+      "uAxis": [
+        0.998731122357389,
+        0,
+        -0.05036015522960573
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        -7.928762197494507,
+        50.93013047325209,
+        0.9680864810943604
+      ],
+      "pixels": [
+        1,
+        161,
+        500,
+        93
+      ],
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "cells": [
+    {
+      "id": "c_p01_p00",
+      "lod0Sha256": "60b2175efb9bbafd69b93b25ff0e356c106777e5ff6c7d96528b643bb3f7ecdb",
+      "lod2Sha256": "25449120193d74c69452a9ef1e28567a4b7f312d28bb5654905c3d62307d8a45",
+      "buildings": [
+        {
+          "id": "BID_cd5696b3-bb16-4aad-b2e3-cb1ee2fa2b08",
+          "vtj": "1032494093"
+        }
+      ],
+      "detailed": [
+        {
+          "node": "c_p01_p00_facades_0",
+          "primitive": 0,
+          "triangle": 2742,
+          "key": "644d7843e7002a4105d8aa42:aa547843d6eb25412cfdab42:6c49784371ad9fc00338aa42",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00_facades_0",
+          "primitive": 0,
+          "triangle": 2743,
+          "key": "6c49784371ad9fc00338aa42:aa547843d6eb25412cfdab42:aa5478438aa10f412cfdab42",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00_facades_0",
+          "primitive": 0,
+          "triangle": 2744,
+          "key": "6c49784371ad9fc00338aa42:aa5478438aa10f412cfdab42:9c107a43048f0f411de3f142",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00_facades_0",
+          "primitive": 0,
+          "triangle": 2746,
+          "key": "6c49784371ad9fc00338aa42:9d107a4328cc0e411de3f142:fbb97a43c6f70e41ea460643",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00_facades_0",
+          "primitive": 0,
+          "triangle": 2747,
+          "key": "6c49784371ad9fc00338aa42:fbb97a43c6f70e41ea460643:acc17a4385330b41dde10643",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00_facades_0",
+          "primitive": 0,
+          "triangle": 2748,
+          "key": "6c49784371ad9fc00338aa42:acc17a4385330b41dde10643:acc17a434382083fdde10643",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00_facades_0",
+          "primitive": 0,
+          "triangle": 2749,
+          "key": "6c49784371ad9fc00338aa42:acc17a434382083fdde10643:d4e27a4383a0093f187e0943",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00_facades_0",
+          "primitive": 0,
+          "triangle": 2750,
+          "key": "1ad07b43b08c083ff42b1c43:6c49784371ad9fc00338aa42:d4e27a4383a0093f187e0943",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00_facades_0",
+          "primitive": 0,
+          "triangle": 2752,
+          "key": "1ad07b43b08c083ff42b1c43:aa5478436dad9fc02cfdab42:644d78436fad9fc005d8aa42",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00_facades_0",
+          "primitive": 0,
+          "triangle": 2753,
+          "key": "1ad07b43b08c083ff42b1c43:9c107a436ead9fc01de3f142:aa5478436dad9fc02cfdab42",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00_facades_0",
+          "primitive": 0,
+          "triangle": 2754,
+          "key": "1ad07b43b08c083ff42b1c43:fbb97a436dad9fc0ea460643:9c107a436ead9fc01de3f142",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00_facades_0",
+          "primitive": 0,
+          "triangle": 2755,
+          "key": "1ad07b43b08c083ff42b1c43:acc17a436fad9fc0dde10643:fbb97a436dad9fc0ea460643",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00_facades_0",
+          "primitive": 0,
+          "triangle": 2756,
+          "key": "1ad07b43b08c083ff42b1c43:d4e27a436fad9fc0187e0943:acc17a436fad9fc0dde10643",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00_facades_0",
+          "primitive": 0,
+          "triangle": 2757,
+          "key": "1ad07b436fad9fc0f42b1c43:d4e27a436fad9fc0187e0943:1ad07b43b08c083ff42b1c43",
+          "chart": "palace-east"
+        }
+      ],
+      "distant": [
+        {
+          "node": "c_p01_p00",
+          "primitive": 0,
+          "triangle": 2686,
+          "key": "1ad07b436fad9fc0f42b1c43:d4e27a436fad9fc0187e0943:1ad07b43b08c083ff42b1c43",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00",
+          "primitive": 0,
+          "triangle": 2687,
+          "key": "1ad07b43b08c083ff42b1c43:d4e27a436fad9fc0187e0943:acc17a436fad9fc0dde10643",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00",
+          "primitive": 0,
+          "triangle": 2688,
+          "key": "1ad07b43b08c083ff42b1c43:acc17a436fad9fc0dde10643:fbb97a436dad9fc0ea460643",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00",
+          "primitive": 0,
+          "triangle": 2689,
+          "key": "1ad07b43b08c083ff42b1c43:fbb97a436dad9fc0ea460643:9c107a436ead9fc01de3f142",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00",
+          "primitive": 0,
+          "triangle": 2690,
+          "key": "1ad07b43b08c083ff42b1c43:9c107a436ead9fc01de3f142:aa5478436dad9fc02cfdab42",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00",
+          "primitive": 0,
+          "triangle": 2691,
+          "key": "1ad07b43b08c083ff42b1c43:aa5478436dad9fc02cfdab42:644d78436fad9fc005d8aa42",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00",
+          "primitive": 0,
+          "triangle": 2693,
+          "key": "1ad07b43b08c083ff42b1c43:6c49784371ad9fc00338aa42:d4e27a4383a0093f187e0943",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00",
+          "primitive": 0,
+          "triangle": 2694,
+          "key": "6c49784371ad9fc00338aa42:acc17a434382083fdde10643:d4e27a4383a0093f187e0943",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00",
+          "primitive": 0,
+          "triangle": 2695,
+          "key": "6c49784371ad9fc00338aa42:acc17a4385330b41dde10643:acc17a434382083fdde10643",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00",
+          "primitive": 0,
+          "triangle": 2696,
+          "key": "6c49784371ad9fc00338aa42:fbb97a43c6f70e41ea460643:acc17a4385330b41dde10643",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00",
+          "primitive": 0,
+          "triangle": 2697,
+          "key": "6c49784371ad9fc00338aa42:9d107a4328cc0e411de3f142:fbb97a43c6f70e41ea460643",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00",
+          "primitive": 0,
+          "triangle": 2699,
+          "key": "6c49784371ad9fc00338aa42:aa5478438aa10f412cfdab42:9c107a43048f0f411de3f142",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00",
+          "primitive": 0,
+          "triangle": 2700,
+          "key": "6c49784371ad9fc00338aa42:aa547843d6eb25412cfdab42:aa5478438aa10f412cfdab42",
+          "chart": "palace-east"
+        },
+        {
+          "node": "c_p01_p00",
+          "primitive": 0,
+          "triangle": 2701,
+          "key": "644d7843e7002a4105d8aa42:aa547843d6eb25412cfdab42:6c49784371ad9fc00338aa42",
+          "chart": "palace-east"
+        }
+      ]
+    },
+    {
+      "id": "c_p02_p00",
+      "lod0Sha256": "7a59d6e0091372e032d90224c24f238729d3b71d48153efa7ca48a90985d6400",
+      "lod2Sha256": "a6c6fe8abaf42b831e189dc95673b582e2a0189dd54947492ec52f6687ed4194",
+      "buildings": [
+        {
+          "id": "BID_582cc5c9-65ce-4d61-ab46-f8f1b31b5731",
+          "vtj": "103017640N"
+        }
+      ],
+      "detailed": [
+        {
+          "node": "c_p02_p00_facades_0",
+          "primitive": 0,
+          "triangle": 25,
+          "key": "753285434651a0c0b7efb242:ac638e434651a0c00b15b142:7532854349ce3a40b7efb242",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00_facades_0",
+          "primitive": 0,
+          "triangle": 26,
+          "key": "7532854349ce3a40b7efb242:ac638e434651a0c00b15b142:9da38b43bec73a400fa3b142",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00_facades_0",
+          "primitive": 0,
+          "triangle": 27,
+          "key": "9da38b43bec73a400fa3b142:ac638e434651a0c00b15b142:ad638e43d2c976400b15b142",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00_facades_0",
+          "primitive": 0,
+          "triangle": 28,
+          "key": "9da38b43bec73a400fa3b142:ad638e43d2c976400b15b142:febf8b438cc97640569db142",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00_facades_0",
+          "primitive": 0,
+          "triangle": 29,
+          "key": "9da38b43243773400fa3b142:9da38b43bec73a400fa3b142:febf8b438cc97640569db142",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00_facades_0",
+          "primitive": 0,
+          "triangle": 71,
+          "key": "3ea19e434651a0c08acead42:d54995432c047840d8b0af42:d54995434751a0c0d8b0af42",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00_facades_0",
+          "primitive": 0,
+          "triangle": 72,
+          "key": "8efd97436ac378405625af42:d54995432c047840d8b0af42:b82998437f3473406e1caf42",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00_facades_0",
+          "primitive": 0,
+          "triangle": 73,
+          "key": "b8299843736c5b406d1caf42:b82998437f3473406e1caf42:d54995432c047840d8b0af42",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00_facades_0",
+          "primitive": 0,
+          "triangle": 74,
+          "key": "3ea19e434651a0c08acead42:b8299843736c5b406d1caf42:d54995432c047840d8b0af42",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00_facades_0",
+          "primitive": 0,
+          "triangle": 75,
+          "key": "3ea19e434651a0c08acead42:a4689b433e4e5b40d974ae42:b8299843736c5b406d1caf42",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00_facades_0",
+          "primitive": 0,
+          "triangle": 76,
+          "key": "20939e43ad1c584063d1ad42:a4689b433e4e5b40d974ae42:3ea19e434651a0c08acead42",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00_facades_0",
+          "primitive": 0,
+          "triangle": 77,
+          "key": "20939e43ad1c584063d1ad42:3ea19e434651a0c08acead42:3ea19e43fad758408acead42",
+          "chart": "main-guard-south"
+        }
+      ],
+      "distant": [
+        {
+          "node": "c_p02_p00",
+          "primitive": 0,
+          "triangle": 32,
+          "key": "b8299843736c5b406d1caf42:b82998437f3473406e1caf42:d54995432c047840d8b0af42",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00",
+          "primitive": 0,
+          "triangle": 33,
+          "key": "8efd97436ac378405625af42:d54995432c047840d8b0af42:b82998437f3473406e1caf42",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00",
+          "primitive": 0,
+          "triangle": 34,
+          "key": "3ea19e434651a0c08acead42:b8299843736c5b406d1caf42:d54995432c047840d8b0af42",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00",
+          "primitive": 0,
+          "triangle": 35,
+          "key": "3ea19e434651a0c08acead42:a4689b433e4e5b40d974ae42:b8299843736c5b406d1caf42",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00",
+          "primitive": 0,
+          "triangle": 36,
+          "key": "20939e43ad1c584063d1ad42:a4689b433e4e5b40d974ae42:3ea19e434651a0c08acead42",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00",
+          "primitive": 0,
+          "triangle": 37,
+          "key": "20939e43ad1c584063d1ad42:3ea19e434651a0c08acead42:3ea19e43fad758408acead42",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00",
+          "primitive": 0,
+          "triangle": 74,
+          "key": "753285434651a0c0b7efb242:ac638e434651a0c00b15b142:7532854349ce3a40b7efb242",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00",
+          "primitive": 0,
+          "triangle": 91,
+          "key": "9da38b43243773400fa3b142:9da38b43bec73a400fa3b142:febf8b438cc97640569db142",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00",
+          "primitive": 0,
+          "triangle": 92,
+          "key": "9da38b43bec73a400fa3b142:ad638e43d2c976400b15b142:febf8b438cc97640569db142",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00",
+          "primitive": 0,
+          "triangle": 93,
+          "key": "9da38b43bec73a400fa3b142:ac638e434651a0c00b15b142:ad638e43d2c976400b15b142",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00",
+          "primitive": 0,
+          "triangle": 94,
+          "key": "7532854349ce3a40b7efb242:ac638e434651a0c00b15b142:9da38b43bec73a400fa3b142",
+          "chart": "main-guard-south"
+        },
+        {
+          "node": "c_p02_p00",
+          "primitive": 0,
+          "triangle": 107,
+          "key": "3ea19e434651a0c08acead42:d54995432c047840d8b0af42:d54995434751a0c0d8b0af42",
+          "chart": "main-guard-south"
+        }
+      ]
+    }
+  ]
+}

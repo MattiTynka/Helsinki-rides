@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>Helsinki Open World — Central Helsinki</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <canvas id="view"></canvas>
+    <div id="hud" class="hud hidden">
+      <div class="top-left">
+        <select id="dropin" title="Drop in by address or landmark"><option value="">Drop in…</option></select>
+        <div id="stats" class="stats"></div>
+      </div>
+      <div class="top-right">
+        <div id="stars" class="stars"></div>
+        <div id="wanted-note" class="wanted-note"></div>
+      </div>
+      <div class="bottom-left">
+        <canvas id="minimap" width="220" height="220"></canvas>
+        <div class="bars">
+          <div class="bar"><div id="health" class="fill health"></div></div>
+          <div class="bar"><div id="armour" class="fill armour"></div></div>
+        </div>
+      </div>
+      <div class="bottom-right">
+        <div id="weapon" class="weapon"></div>
+        <div id="speed" class="speed"></div>
+      </div>
+      <div id="prompt" class="prompt"></div>
+      <div id="crosshair" class="crosshair hidden"></div>
+      <div id="arrest" class="arrest hidden"><div id="arrest-fill"></div></div>
+      <div id="attribution" class="attribution"></div>
+    </div>
+    <div id="screen" class="screen hidden"><div id="screen-title"></div><div id="screen-sub"></div></div>
+    <div id="loading" class="loading"><div class="loading-box"><div id="loading-text">Loading Senate district…</div><div class="loading-bar"><div id="loading-fill"></div></div><div id="loading-hint">Click to play · WASD run · Alt walk · Shift sprint · Space jump · Quick double Space super jump · F enter/exit · Mouse aim · LMB fire · RMB aim · R reload · H horn · Space handbrake in car · Hold X to recover</div></div></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "note": "Per-landmark source decisions (plan section 4.3). Decision 0004: buildings come solely from the textured LoD2. Decision 0005 (user decisions, 2026-10-16): the Cathedral's visual is the user-supplied low-poly model (models/Helsinki-cathedral-lowpoly.stl), placed on its register footprint and LoD2 height by tools/world/place_landmark_model.ts and baked by tools/blender/build_landmark_model.py; its record and register-prism collider stay those of the LoD2 building. The corner pavilions stay LoD2. The grand stairs are drawn from the OpenStreetMap steps way (step count, width) on the city terrain, with the smooth terrain as collision. The Alexander II statue has no source until a hero model exists (ART-002).",
+  "models": [
+    {
+      "id": "helsinki-cathedral",
+      "vtj": "103027179C",
+      "source": "models/Helsinki-cathedral-lowpoly.stl"
+    }
+  ],
+  "hiResFacadesVtj": [
+    "103027180D",
+    "103027181E",
+    "103027185K",
+    "103017637K",
+    "103036766M",
+    "103027187M",
+    "1030176201"
+  ],
+  "hiResFacadesNote": "Buildings whose LoD2 geometry comes within 20 m of a Senaatintori street part (alueen_nimi). Their wall pages that the ordinary cap would leave under the density floor keep source resolution (cells.json texelCap); decision 0005."
+}

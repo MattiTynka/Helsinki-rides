@@ -1,0 +1,302 @@
+{
+  "schemaVersion": 1,
+  "building": {
+    "id": "BID_a1212feb-336e-4d01-a439-dada4d89d759",
+    "vtj": "1032092665",
+    "address": "Mannerheimintie 13e, 00100 Helsinki Finland",
+    "boundsENU": {
+      "min": [
+        -1090.894,
+        613.852,
+        -5.78
+      ],
+      "max": [
+        -985.11,
+        805.572,
+        28.1
+      ]
+    }
+  },
+  "cityModel": {
+    "jsonSha256": "864f7618e769cd8508ef4cd7a60030dffd2ba5412ef187f3878ab9b10e7c56a8",
+    "binSha256": "8ff6b9101b52c3898846aee0ece37d7e1b378779f6daa6a2aa53bed75cd7c97a"
+  },
+  "license": {
+    "production": "City of Helsinki 3D information model, CC BY 4.0; original authoring of marble joints, frame and glazing detail.",
+    "credit": "City of Helsinki 3D information model; Helsinki Open World facade restoration",
+    "source": "https://www.hel.fi/en/decision-making/information-on-helsinki/maps-and-geospatial-data/helsinki-3d"
+  },
+  "productionPixelInputs": [
+    {
+      "page": 1006,
+      "file": "textures/9d3d308d7bd04b7c4771f1ce49788e655852644f1a061977408fb94548b88fed.png",
+      "width": 1024,
+      "height": 1024,
+      "sourceSha256": "9d3d308d7bd04b7c4771f1ce49788e655852644f1a061977408fb94548b88fed",
+      "pngSha256": "eaa48ef94ec5668854925ceae677ecc53f639f5db207ec41a510e08f0415558f"
+    },
+    {
+      "page": 1008,
+      "file": "textures/6b5014a9dd96ce0f980f56467cbdf3b8e4e87a5550263aa9cc8828255ed78afe.png",
+      "width": 1024,
+      "height": 1024,
+      "sourceSha256": "6b5014a9dd96ce0f980f56467cbdf3b8e4e87a5550263aa9cc8828255ed78afe",
+      "pngSha256": "e50332f73ad6782ecd3bc8d4b9b72b5b243d69f7329b06b6edf39133f82679d5"
+    },
+    {
+      "page": 1011,
+      "file": "textures/8b042321aefafef93d51df25c011aa468dabae4e46b96afea65b2cc1b86064ac.png",
+      "width": 1024,
+      "height": 1024,
+      "sourceSha256": "8b042321aefafef93d51df25c011aa468dabae4e46b96afea65b2cc1b86064ac",
+      "pngSha256": "2dc628f8aefe7f40d1e49ec8acd1eb2b29ceff65e2d24cc0dc422cc9dba3d6a1"
+    },
+    {
+      "page": 1013,
+      "file": "textures/5a563de3c12e2ee6261d951b9cbad897fb13e24e99e3a2b52d619aa7735bd4e4.png",
+      "width": 1024,
+      "height": 1024,
+      "sourceSha256": "5a563de3c12e2ee6261d951b9cbad897fb13e24e99e3a2b52d619aa7735bd4e4",
+      "pngSha256": "6480759d6d57eb5bde17ae81b0f5af495b4e5fdbc34fc238be1ce7a654c400a0"
+    },
+    {
+      "page": 1016,
+      "file": "textures/26ea9e87d4a38f1cb2d1321fff15286285cb89809a96939e2bbca6ba6e7c0578.png",
+      "width": 1024,
+      "height": 1024,
+      "sourceSha256": "26ea9e87d4a38f1cb2d1321fff15286285cb89809a96939e2bbca6ba6e7c0578",
+      "pngSha256": "3ab7bfd82e8a3b1a4e8a2fa07fe2aa32aa2a76d2fce626afa241a589138e05cf"
+    }
+  ],
+  "visualReferences": [
+    {
+      "file": "data/evidence/district-expansion-20261018/finlandia-facades/references/east-photo-fethulla.jpg",
+      "url": "https://www.alvaraalto.fi/wp-content/uploads/2018/02/finlandia-hall-photo-fethulla-alvar-aalto-museum-1-988x659.jpg",
+      "sha256": "b057f04844010fd59cdb576ace8702b30307ced9e043a676f2f9be4cc3d003fa",
+      "credit": "Alvar Aalto Foundation / named photographer or architectural drawing",
+      "openedVisually": true,
+      "use": "Visual architecture/material reference only; no redistributed production pixels."
+    },
+    {
+      "file": "data/evidence/district-expansion-20261018/finlandia-facades/references/east-elevation-drawing.jpg",
+      "url": "https://www.alvaraalto.fi/wp-content/uploads/2018/02/finlandia-hall-elevation-to-the-east-with-extra-wing-2-drawing-alvar-aalto-museum-988x659.jpg",
+      "sha256": "7a8835c9e0dd2c5f73a36bf8e3968a6f10fcc29f0da7647bf0a39453471e2ede",
+      "credit": "Alvar Aalto Foundation / named photographer or architectural drawing",
+      "openedVisually": true,
+      "use": "Visual architecture/material reference only; no redistributed production pixels."
+    },
+    {
+      "file": "data/evidence/district-expansion-20261018/finlandia-facades/references/facade-rune-snellman.jpg",
+      "url": "https://www.alvaraalto.fi/wp-content/uploads/2018/02/finlandia-hall-helsinki-facade-photo-rune-snellman-alvar-aalto-museum-988x659.jpg",
+      "sha256": "238683443720c24a8ecd50f18a3b44e96a3b3c8a72443ac8b9f0f5bfeed15b8c",
+      "credit": "Alvar Aalto Foundation / named photographer or architectural drawing",
+      "openedVisually": true,
+      "use": "Visual architecture/material reference only; no redistributed production pixels."
+    },
+    {
+      "file": "data/evidence/district-expansion-20261018/finlandia-facades/references/facade-fethulla.jpg",
+      "url": "https://www.alvaraalto.fi/wp-content/uploads/2018/02/finlandia-hall-facade-helsinki-photo-fethulla-alvar-aalto-museum-988x659.jpg",
+      "sha256": "39826d4c6cf6f59f98346aa60efedb1c3315a878494fc068602f48ca8120449f",
+      "credit": "Alvar Aalto Foundation / named photographer or architectural drawing",
+      "openedVisually": true,
+      "use": "Visual architecture/material reference only; no redistributed production pixels."
+    },
+    {
+      "file": "data/evidence/district-expansion-20261018/finlandia-facades/references/west-elevation-drawing.jpg",
+      "url": "https://www.alvaraalto.fi/wp-content/uploads/2018/02/finlandia-hall-elevation-to-the-west-with-extra-wing-drawing-2-alvar-aalto-museum-988x659.jpg",
+      "sha256": "2078abdd0baedc6611f019d1b4183d733a654c9e5fa6365b7c4ee4b280a744c5",
+      "credit": "Alvar Aalto Foundation / named photographer or architectural drawing",
+      "openedVisually": true,
+      "use": "Visual architecture/material reference only; no redistributed production pixels."
+    },
+    {
+      "file": "data/evidence/district-expansion-20261018/finlandia-facades/references/building-history-2005.pdf",
+      "url": "https://www.finlandiatalo.fi/wp-content/uploads/2024/03/finlandia-talo_rakennushistoriaselvitys.pdf",
+      "sha256": "11b38e44abbc4164bc0551fbff6ef110a591c9c0457688225e21541d8ababeaa",
+      "credit": "Minna Lukander and Mari Mannevaara / Talli 2005; Finlandia Hall building-history survey",
+      "openedVisually": true,
+      "use": "Visual architecture/material reference only; no redistributed production pixels."
+    },
+    {
+      "file": "data/evidence/district-expansion-20261018/finlandia-facades/references/official-renovation-plan-2020.pdf",
+      "url": "https://www.hel.fi/hel2/ksv/liitteet/2022_kaava/ak12678_selostus.pdf",
+      "sha256": "95cb7bcf28fbbf466879f5811f137a0a76d7af1ba35a3d4f5e0a38976ba12272",
+      "credit": "Arkkitehdit NRT 2020; City of Helsinki planning document ak12678, PDF page 61",
+      "openedVisually": true,
+      "openedPages": [
+        55,
+        57,
+        58,
+        59,
+        61,
+        63,
+        65,
+        66
+      ],
+      "use": "Visual architecture/material reference only; no redistributed production pixels."
+    },
+    {
+      "file": "data/evidence/district-expansion-20261018/finlandia-facades/references/nrt-east-aerial-028.jpg",
+      "url": "https://cdn.prod.website-files.com/677147e85e5d008a7b2b81d8/6898e7c29671b22673eae556_arkkitehdit-nrt-TU-241114-finlandia-talo-028.jpg",
+      "sha256": "d090d0042173bb2ac126c0af291a70b1f7d38d73ccfcc1879c2362d1e78aa6b4",
+      "credit": "Tuomas Uusheimo / Arkkitehdit NRT official project gallery",
+      "openedVisually": true,
+      "use": "Visual architecture/material reference only; no redistributed production pixels."
+    },
+    {
+      "file": "data/evidence/district-expansion-20261018/finlandia-facades/references/nrt-exterior-040.jpg",
+      "url": "https://cdn.prod.website-files.com/677147e85e5d008a7b2b81d8/6898e7c2eabbac800ea45641_arkkitehdit-nrt-TU-241114-finlandia-talo-040.jpg",
+      "sha256": "21aaee8ee4caaa7ca31a29531d8398567eac949ed738d71f48be88e86c324651",
+      "credit": "Tuomas Uusheimo / Arkkitehdit NRT official project gallery",
+      "openedVisually": true,
+      "use": "Visual architecture/material reference only; no redistributed production pixels."
+    },
+    {
+      "file": "data/evidence/district-expansion-20261018/finlandia-facades/references/nrt-exterior-020.jpg",
+      "url": "https://cdn.prod.website-files.com/677147e85e5d008a7b2b81d8/6898e7c2378a3ad63bdc87f4_arkkitehdit-nrt-TU-241114-finlandia-talo-020.jpg",
+      "sha256": "89c5fce06298488331f0c615331a0a72420e2f49858d0c2a887e1ae16497fd97",
+      "credit": "Tuomas Uusheimo / Arkkitehdit NRT official project gallery",
+      "openedVisually": true,
+      "use": "Visual architecture/material reference only; no redistributed production pixels."
+    },
+    {
+      "file": "data/evidence/district-expansion-20261018/finlandia-facades/references/nrt-exterior-023.jpg",
+      "url": "https://cdn.prod.website-files.com/677147e85e5d008a7b2b81d8/6898e7c2ca67c4740670768c_arkkitehdit-nrt-TU-241114-finlandia-talo-023.jpg",
+      "sha256": "38c4e13acaf2b998f79d8bb53365663ec5befdbdd5d0ee1d1d21c9e0f3b8b7c0",
+      "credit": "Tuomas Uusheimo / Arkkitehdit NRT official project gallery",
+      "openedVisually": true,
+      "use": "Visual architecture/material reference only; no redistributed production pixels."
+    },
+    {
+      "file": "data/evidence/district-expansion-20261018/finlandia-facades/references/congress-olli-urpela.webp",
+      "url": "https://finlandiatalo.fi/wp-content/uploads/2023/12/Finlandia-Hall-photo-Olli-Urpela_DSC5838-scaled-1-jpg-webp.webp",
+      "sha256": "d038a0be6a2d50ac4185b07b9916b6b399274ef31f374fa400616989cd739ab3",
+      "credit": "Olli Urpela / Finlandia Hall official congress-wing page",
+      "openedVisually": true,
+      "use": "Visual architecture/material reference only; no redistributed production pixels."
+    },
+    {
+      "file": "data/evidence/district-expansion-20261018/finlandia-facades/references/floorplan-aalto.jpg",
+      "url": "https://www.alvaraalto.fi/wp-content/uploads/2018/02/alvar-aalto-finlandia-talo-pohjapiirustus-2-alvar-aalto-museo-988x659.jpg",
+      "sha256": "25912597e609bce82b75d40e95651216ee9384b0d36961e475bab2a5b6e4c7ef",
+      "credit": "Alvar Aalto Foundation / named photographer or architectural drawing",
+      "openedVisually": true,
+      "use": "Visual architecture/material reference only; no redistributed production pixels."
+    }
+  ],
+  "inspection": {
+    "buildingPages": [
+      {
+        "page": 1005,
+        "file": "textures/91c8d73350cc1483874b12d79a63c2fb71d1462a02c900499fcb1bbd637b99ae.png",
+        "pngSha256": "6a5f2bfbf7a88a0632661015a4f007797d62478911e725ec35843b537153d5ad",
+        "inspected": true,
+        "decision": "Retained. Roof/clear elevation or atlas pixels outside building wall UVs."
+      },
+      {
+        "page": 1006,
+        "file": "textures/9d3d308d7bd04b7c4771f1ce49788e655852644f1a061977408fb94548b88fed.png",
+        "pngSha256": "eaa48ef94ec5668854925ceae677ecc53f639f5db207ec41a510e08f0415558f",
+        "inspected": true,
+        "decision": "Bounded mapped walls selected; other charts retained"
+      },
+      {
+        "page": 1007,
+        "file": "textures/8317373277a24a6be667546e312f1b46c7d120689ce583b772a90b063e98fb45.png",
+        "pngSha256": "a94047ad09f3fedaffa587a0a62400baa05fa2477cbba51148245cb4bde2d87e",
+        "inspected": true,
+        "decision": "Retained. Roof/clear elevation or atlas pixels outside building wall UVs."
+      },
+      {
+        "page": 1008,
+        "file": "textures/6b5014a9dd96ce0f980f56467cbdf3b8e4e87a5550263aa9cc8828255ed78afe.png",
+        "pngSha256": "e50332f73ad6782ecd3bc8d4b9b72b5b243d69f7329b06b6edf39133f82679d5",
+        "inspected": true,
+        "decision": "Bounded mapped walls selected; other charts retained"
+      },
+      {
+        "page": 1009,
+        "file": "textures/39a1fbab5d2d45c39a86c9940fd14fc12b2dce2f40db5a88f51db984f0adde1c.png",
+        "pngSha256": "e866dfa1810a2cbaaae54c7a4c86a0a69f26977ed39db2d9053afdc3fee2eede",
+        "inspected": true,
+        "decision": "Retained. Roof/clear elevation or atlas pixels outside building wall UVs."
+      },
+      {
+        "page": 1010,
+        "file": "textures/0496a6f8d5da14b76d9bfe8f41efa1fbc413aa4c3d51cdf3c9292e6ed1706fbd.png",
+        "pngSha256": "24289823c45d9856ccefe834e4091964845db0e7e4377358936aee089c941000",
+        "inspected": true,
+        "decision": "Retained. Roof/clear elevation or atlas pixels outside building wall UVs."
+      },
+      {
+        "page": 1011,
+        "file": "textures/8b042321aefafef93d51df25c011aa468dabae4e46b96afea65b2cc1b86064ac.png",
+        "pngSha256": "2dc628f8aefe7f40d1e49ec8acd1eb2b29ceff65e2d24cc0dc422cc9dba3d6a1",
+        "inspected": true,
+        "decision": "Bounded mapped walls selected; other charts retained"
+      },
+      {
+        "page": 1012,
+        "file": "textures/968fb53c9127f4edda7d119e092e6e4812ed086a6d53f523aee84488dd445ffe.png",
+        "pngSha256": "32b8c87b6267fbab438655b3959b211ec37700bc066f88feaefb79097e9575fc",
+        "inspected": true,
+        "decision": "Retained. Roof/clear elevation or atlas pixels outside building wall UVs."
+      },
+      {
+        "page": 1013,
+        "file": "textures/5a563de3c12e2ee6261d951b9cbad897fb13e24e99e3a2b52d619aa7735bd4e4.png",
+        "pngSha256": "6480759d6d57eb5bde17ae81b0f5af495b4e5fdbc34fc238be1ce7a654c400a0",
+        "inspected": true,
+        "decision": "Bounded mapped walls selected; other charts retained"
+      },
+      {
+        "page": 1014,
+        "file": "textures/ba980829a93967fde8864256f821e02f77bc2d24da9896b520a3c2a11528b7ef.png",
+        "pngSha256": "a2e76dd7f117a74091aacba49462dfabc31ef80aaff7c6ac006eee24d9e72068",
+        "inspected": true,
+        "decision": "Retained. Roof/clear elevation or atlas pixels outside building wall UVs."
+      },
+      {
+        "page": 1015,
+        "file": "textures/13c2f74a264b93406dc3c3de950e164b252fb9883d41cd1a2881b16647160187.png",
+        "pngSha256": "22b29ce3ddb11b850c2f08060d2b9722d1f0777a5c3962f3e4e8c45dba4ae62b",
+        "inspected": true,
+        "decision": "Retained. Roof/clear elevation or atlas pixels outside building wall UVs."
+      },
+      {
+        "page": 1016,
+        "file": "textures/26ea9e87d4a38f1cb2d1321fff15286285cb89809a96939e2bbca6ba6e7c0578.png",
+        "pngSha256": "3ab7bfd82e8a3b1a4e8a2fa07fe2aa32aa2a76d2fce626afa241a589138e05cf",
+        "inspected": true,
+        "decision": "Bounded mapped walls selected; other charts retained"
+      },
+      {
+        "page": 1017,
+        "file": "textures/cfd052f16bd722a811d3c6da65190996930857fee2264be596adb5b3a8ecd1d8.png",
+        "pngSha256": "8fd97c102d7b46287ea4fb01a88f1b501e472d8f4a3f6b9b888bad1e1ecafa77",
+        "inspected": true,
+        "decision": "Retained. Roof/clear elevation or atlas pixels outside building wall UVs."
+      },
+      {
+        "page": 1018,
+        "file": "textures/4c0c08bb05ca4d98c9c9ffdd46ee2ae152146d22be27896ffb5d9ada8beda6aa.png",
+        "pngSha256": "1509371371dc64ddff048e7a68ccf2ff6825987a146fc6280d864723699dec47",
+        "inspected": true,
+        "decision": "Retained. Roof/clear elevation or atlas pixels outside building wall UVs."
+      }
+    ],
+    "sourceTriangleCount": 664,
+    "selectedCharts": 124,
+    "streetView": {
+      "attempted": true,
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=60.1752,24.9319&heading=85&pitch=0",
+      "result": "Sanctioned CUA browser inventory empty; Chrome and in-app browser creation both returned Browser unavailable. No Street View imagery was seen or used."
+    }
+  },
+  "limitations": [
+    "Texture-only candidate. No source geometry, footprint, terrain, collision, roofs or other buildings changed.",
+    "Marble panel joints, opening/frame widths and simple glass interiors are approximate original authoring based on the opened architectural references, not a measured reconstruction.",
+    "1016-18 central bank remains source pixels at H[2.2,4.95]. The two expanded lower entrance columns remain source pixels only at H[-5.8,1.7]; no hidden door is invented. Native runtime-views-v2 exposed original photographed foliage at their base. The bounded H[1.7,2.2] band now uses the existing same-building granite donor from page 1013/chart 1013-0, keeping the same exact chart and along-column bounds. Ground-only final HCOL minima 1.80011 and 2.09368 bury the reconstruction bottom by at least 0.10 m. Exact source UV corners and final support samples are recorded in visible-base-materials-cpu-v1.json (SHA256 91cf900b115dce7d4d84654e6974d8c5cbd5bd728ae1425600169d0e0a63606a). Native compressed review is required after this material correction.",
+    "CPU before/after orthographic images are source-triangle inspection evidence, not runtime proof. Parent owns registration, application and browser verification."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "note": "Hand-authored gameplay content for the pilot (plan sections 6-9). Baked with tools/world/build_gameplay.ts into the runtime bundle together with register addresses and parking spawns. Positions are runtime XZ metres from the origin; headings in degrees clockwise from north.",
+  "killHeight": -25,
+  "playArea": { "minX": -100, "maxX": 150, "minZ": -290, "maxZ": 210 },
+  "district": { "name": "Senate Square", "boundary": [[-100, -290], [150, -290], [150, 210], [-100, 210]] },
+  "player": { "spawn": { "position": [-12, 14], "headingDeg": 300 }, "health": 100, "armour": 0 },
+  "vehicleDefinitions": [
+    {
+      "id": "lumi-gt", "label": "Lumi GT", "assetId": "vehicle-lumi-gt", "role": "civilian",
+      "massKg": 1650, "centreOfMass": [0, 0.38, 0.1],
+      "collider": { "halfExtents": [0.94, 0.40, 2.35], "centre": [0, 0.95, -0.07], "skid": { "halfExtents": [0.94, 0.25, 1.30], "centre": [0, 0.60, -0.07] } },
+      "wheelRadius": 0.342, "wheelWidth": 0.29,
+      "wheels": [
+        { "socket": "WHEEL_FL", "position": [0.822, 0.342, 1.333], "steer": true, "drive": false, "handbrake": false },
+        { "socket": "WHEEL_FR", "position": [-0.822, 0.342, 1.333], "steer": true, "drive": false, "handbrake": false },
+        { "socket": "WHEEL_RL", "position": [0.822, 0.342, -1.333], "steer": false, "drive": true, "handbrake": true },
+        { "socket": "WHEEL_RR", "position": [-0.822, 0.342, -1.333], "steer": false, "drive": true, "handbrake": true }
+      ],
+      "suspension": { "restLength": 0.42, "stiffness": 32, "damping": 4.4, "compression": 4.0, "maxTravel": 0.3 },
+      "tyres": { "frictionSlip": 3.2, "sideFriction": 1.0 },
+      "engine": { "maxForceN": 9000, "reverseForceN": 4500, "topSpeedMs": 58, "topSpeedReverseMs": 8 },
+      "brakes": { "forceN": 5200, "handbrakeN": 7000 },
+      "steering": { "maxAngleDeg": 36, "highSpeedAngleDeg": 9, "rateDegPerS": 140 },
+      "aero": { "dragCoefficient": 0.42, "downforce": 0.6 },
+      "seat": { "driver": [0.365, 0.598, -0.281], "exits": [[1.5, 0, -0.035], [-1.5, 0, -0.035]], "entryRadius": 2.4 },
+      "cameraChase": [0, 2.3, -7.5], "health": 1000,
+      "damage": { "smokeBelow": 0.3, "fireBelow": 0.1, "explodeAfterSeconds": 5 }
+    },
+    {
+      "id": "patrol", "label": "Patrol car", "assetId": "vehicle-patrol", "role": "patrol",
+      "massKg": 1750, "centreOfMass": [0, 0.38, 0.1],
+      "collider": { "halfExtents": [0.94, 0.40, 2.35], "centre": [0, 0.95, -0.07], "skid": { "halfExtents": [0.94, 0.25, 1.30], "centre": [0, 0.60, -0.07] } },
+      "wheelRadius": 0.342, "wheelWidth": 0.29,
+      "wheels": [
+        { "socket": "WHEEL_FL", "position": [0.822, 0.342, 1.333], "steer": true, "drive": false, "handbrake": false },
+        { "socket": "WHEEL_FR", "position": [-0.822, 0.342, 1.333], "steer": true, "drive": false, "handbrake": false },
+        { "socket": "WHEEL_RL", "position": [0.822, 0.342, -1.333], "steer": false, "drive": true, "handbrake": true },
+        { "socket": "WHEEL_RR", "position": [-0.822, 0.342, -1.333], "steer": false, "drive": true, "handbrake": true }
+      ],
+      "suspension": { "restLength": 0.42, "stiffness": 30, "damping": 4.4, "compression": 4.0, "maxTravel": 0.3 },
+      "tyres": { "frictionSlip": 3.4, "sideFriction": 1.0 },
+      "engine": { "maxForceN": 8600, "reverseForceN": 4500, "topSpeedMs": 52, "topSpeedReverseMs": 8 },
+      "brakes": { "forceN": 5200, "handbrakeN": 7000 },
+      "steering": { "maxAngleDeg": 36, "highSpeedAngleDeg": 9, "rateDegPerS": 150 },
+      "aero": { "dragCoefficient": 0.44, "downforce": 0.6 },
+      "seat": { "driver": [0.365, 0.598, -0.281], "exits": [[1.5, 0, -0.035], [-1.5, 0, -0.035]], "entryRadius": 2.4 },
+      "cameraChase": [0, 2.3, -7.5], "health": 1200,
+      "damage": { "smokeBelow": 0.3, "fireBelow": 0.1, "explodeAfterSeconds": 5 }
+    }
+  ],
+  "vehicles": [
+    { "id": "car-1", "definition": "lumi-gt", "position": [-30, 10], "headingDeg": 358, "occupied": false },
+    { "id": "car-2", "definition": "lumi-gt", "position": [38, -50], "headingDeg": 90, "occupied": false }
+  ],
+  "parkedFromParkingSlots": { "definition": "lumi-gt", "max": 6, "minDistanceFromSpawn": 20 },
+  "anchors": [
+    { "id": "hospital-placeholder", "kind": "hospital", "label": "Ambulance bay (district edge)", "placeholder": true, "destinationName": "Meilahti hospital", "position": [-84, -60], "headingDeg": 90 },
+    { "id": "police-placeholder", "kind": "police", "label": "Police van (district edge)", "placeholder": true, "destinationName": "Pasila police station", "position": [145, -152], "headingDeg": 270 }
+  ],
+  "weapons": [
+    { "id": "pistol", "label": "Pistol", "damage": 26, "headshotMultiplier": 3.0, "rangeMeters": 120, "spreadDeg": 1.2, "recoilDeg": 2.5, "roundsPerMinute": 360, "magazine": 12, "reloadSeconds": 1.4, "automatic": false }
+  ],
+  "playerStart": { "weapons": [{ "id": "pistol", "reserve": 48 }] },
+  "wanted": {
+    "starWeights": { "takeCar": 1, "ram": 0.5, "ramPolice": 1, "hitPedestrian": 1, "drawWeapon": 0.4, "fire": 1, "shootAtPolice": 2, "kill": 3, "killOfficer": 3 },
+    "starThresholds": [1, 2, 3, 5, 8],
+    "decaySeconds": [20, 40, 70, 110, 150],
+    "unitCaps": [1, 3, 5, 7, 9],
+    "witnessReportSeconds": [3, 6],
+    "arrest": { "footRadius": 3.0, "footSeconds": 2.0, "boxedSeconds": 3.0 },
+    "searchRadius": 60
+  },
+  "police": {
+    "spawnMinDistance": 150,
+    "initialPatrols": 1,
+    "patrolSpawns": [
+      { "position": [-90, -263], "headingDeg": 180 },
+      { "position": [140, 42], "headingDeg": 270 },
+      { "position": [57, -263], "headingDeg": 180 },
+      { "position": [-89, -138], "headingDeg": 90 }
+    ]
+  },
+  "landmarks": [
+    { "label": "Senate Square", "position": [0, 12], "headingDeg": 0 },
+    { "label": "Helsinki Cathedral steps", "position": [-3, -36], "headingDeg": 0 },
+    { "label": "Unioninkatu / Aleksanterinkatu", "position": [-62, 60], "headingDeg": 180 },
+    { "label": "Snellmaninkatu", "position": [64, -10], "headingDeg": 0 },
+    { "label": "Kirkkokatu", "position": [-20, -160], "headingDeg": 90 }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "sourceHashes": {
+    "roads": "8515f4c8135c0f9ea23cda94180a8f6890316e4f839c905eb57302ec6788be42",
+    "osm": "d13888acd3b1f9bd0fe1e5d38b6bac9c2085482d4990252901ce0fe5bd34e2d6",
+    "streetParts": "f0dae9e4db669f2b719b05c1b58d8c5a858b3ebec1cb0bf2076be9915825f990"
+  },
+  "vehicleHalfWidthMetres": 0.967,
+  "marginMetres": 0.15,
+  "reviewedGeometry": {
+    "baselineRoadsSha256": "8515f4c8135c0f9ea23cda94180a8f6890316e4f839c905eb57302ec6788be42",
+    "lanePointsSha256": {
+      "311975524:0:f0": "2666d36f73be6fce300f27efe67280e9d3a014efd1fe1547b60c0abe6c777444",
+      "311975524:0:b0": "7c040e6bde62fde7d56cdfcc6c0366854d167eb943fa4b6e411e0e25f6b27489"
+    }
+  },
+  "corridors": [
+    {
+      "id": "lapinrinne-public-shared-asphalt-46765",
+      "wayId": 311975524,
+      "laneIds": [
+        "311975524:0:f0",
+        "311975524:0:b0"
+      ],
+      "stationsMetres": {
+        "311975524:0:f0": [
+          28.485999999999997,
+          48.486
+        ],
+        "311975524:0:b0": [
+          10,
+          30
+        ]
+      },
+      "sourcePartIds": [
+        "46765"
+      ],
+      "reason": "Retained public living_street crosses surveyed shared-use asphalt46765 (Lapinrinne, Pihakatu, measuredwidth6.89m). Exact serialized V4 triangles disagree by1.38665m at common XZ near[-1380.1548,228], producing0.741m tyre steps. Apply the existing symmetric source-bound corridor grade only to the20m affected interval, preserving source buildings, stairs, walls, footprint and surrounding ground."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "alexander-ii-monument",
+  "kind": "scenery",
+  "axes": "Runtime X east, Y up, Z south; model is already placed, all nodes identity",
+  "heightMetres": 10.67,
+  "heightToleranceMetres": 0.00001,
+  "maximumTriangles": 153000,
+  "maximumDrawCalls": 4,
+  "maximumMaterials": 4,
+  "maximumTextureDimension": 512,
+  "maximumTextureResidentBytes": 1100000,
+  "maximumBytes": 6000000,
+  "geometryPolicy": "Preserve all source topology, normals and UVs. Bake uniform metre calibration and translation into POSITION. Lossless meshopt packing only; no decimation.",
+  "collisionPolicy": "Ground-level closed granite architectural pieces only; sculpture is an open visual asset. Export granite positions/indices separately so shared world builder can use its existing collision pipeline.",
+  "census": {
+    "require_version": "5.2",
+    "weld_distance": 0.000001,
+    "degenerate_area": 1e-12,
+    "limits": { "wire_edges": 0, "loose_vertices": 0, "degenerate_faces": 0, "flipped_edges": 0, "nonmanifold_interior_edges": 50, "boundary_edges": 3800 },
+    "unit_scale": 1.0,
+    "applied_transforms": true
+  }
+}

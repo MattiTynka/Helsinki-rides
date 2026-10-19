@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "status": "SOURCE_BOUND_CONDITIONAL_CASE_PLAN_NOT_FINAL_AUTHORITY",
+  "approval": "Root-approved conditional dispositions: six explicit continuous-soil registrations, two bank-only registrations, five actual-visible-obstacle conditional omissions. Recompute every condition on final candidate; all810 accepted trees immutable.",
+  "soilCases": {
+    "asset": {
+      "path": "data/work/expansion-20261017/assets/scenery-trees.glb",
+      "sha256": "ad3978765df75d695c5756b53c9ff2f1f418bf964a28e0ae910661882c6f2690"
+    },
+    "continuous": [
+      {
+        "id": "TREE_SUMMER_b09f93cc-fc2f-4814-b691-910be90a46d8",
+        "maximumRangeMetres": 1.4,
+        "maximumAdjacentStepMetres": 0.05,
+        "maximumPlaneResidualMetres": 0.12,
+        "maximumSlope": 2,
+        "proof": {
+          "path": "data/evidence/district-expansion-20261018/tree-soil-hardcase-profiles-v2.json",
+          "sha256": "b0972553111d524490a8dcd08390c6b5d7ce35a33bbbf575d813710a2bb12032"
+        }
+      },
+      {
+        "id": "TREE_SUMMER_76cb5373-e409-42e3-a361-03b524490e36",
+        "maximumRangeMetres": 0.75,
+        "maximumAdjacentStepMetres": 0.03,
+        "maximumPlaneResidualMetres": 0.05,
+        "maximumSlope": 1.6,
+        "proof": {
+          "path": "data/evidence/district-expansion-20261018/tree-soil-hardcase-profiles-v2.json",
+          "sha256": "b0972553111d524490a8dcd08390c6b5d7ce35a33bbbf575d813710a2bb12032"
+        }
+      },
+      {
+        "id": "TREE_SUMMER_fcf14b77-167e-4564-934b-b1f02944c7be",
+        "maximumRangeMetres": 0.7,
+        "maximumAdjacentStepMetres": 0.03,
+        "maximumPlaneResidualMetres": 0.01,
+        "maximumSlope": 1.2,
+        "proof": {
+          "path": "data/evidence/district-expansion-20261018/tree-soil-hardcase-profiles-v2.json",
+          "sha256": "b0972553111d524490a8dcd08390c6b5d7ce35a33bbbf575d813710a2bb12032"
+        }
+      },
+      {
+        "id": "TREE_SUMMER_850c05fb-5ce3-40e6-a86a-8afa62531abb",
+        "maximumRangeMetres": 0.9,
+        "maximumAdjacentStepMetres": 0.07,
+        "maximumPlaneResidualMetres": 0.15,
+        "maximumSlope": 1.2,
+        "proof": {
+          "path": "data/evidence/district-expansion-20261018/tree-soil-hardcase-profiles-v2.json",
+          "sha256": "b0972553111d524490a8dcd08390c6b5d7ce35a33bbbf575d813710a2bb12032"
+        }
+      },
+      {
+        "id": "TREE_SUMMER_b8516aa2-5266-45d2-a89d-fc39ab340202",
+        "maximumRangeMetres": 0.85,
+        "maximumAdjacentStepMetres": 0.03,
+        "maximumPlaneResidualMetres": 0.01,
+        "maximumSlope": 1.7,
+        "proof": {
+          "path": "data/evidence/district-expansion-20261018/tree-soil-hardcase-profiles-v2.json",
+          "sha256": "b0972553111d524490a8dcd08390c6b5d7ce35a33bbbf575d813710a2bb12032"
+        }
+      },
+      {
+        "id": "TREE_SUMMER_5380e815-2919-47f7-93de-0ebd85783002",
+        "maximumRangeMetres": 0.75,
+        "maximumAdjacentStepMetres": 0.035,
+        "maximumPlaneResidualMetres": 0.02,
+        "maximumSlope": 1.9,
+        "proof": {
+          "path": "data/evidence/district-expansion-20261018/tree-soil-hardcase-profiles-v2.json",
+          "sha256": "b0972553111d524490a8dcd08390c6b5d7ce35a33bbbf575d813710a2bb12032"
+        }
+      }
+    ],
+    "banks": [
+      {
+        "id": "TREE_SUMMER_ae631a60-cfdc-4982-bb85-0d745a388315",
+        "waterY": -7.5,
+        "proof": {
+          "path": "data/evidence/district-expansion-20261018/tree-soil-hardcase-profiles-v2.json",
+          "sha256": "b0972553111d524490a8dcd08390c6b5d7ce35a33bbbf575d813710a2bb12032"
+        },
+        "references": [
+          {
+            "path": "data/evidence/district-expansion-20261018/tree-shore-reference/western-shore-2025.png",
+            "sha256": "0191b1f9c9d7d1853d7ba7dd84f9234ef2033558562af619d9e9a56fbd4a943e"
+          },
+          {
+            "path": "data/evidence/district-expansion-20261018/tree-shore-reference/retrieval.json",
+            "sha256": "f5652063c1454d81e901bad7eeb7572fc743d43acfd633da436a1b395a1107ac"
+          }
+        ]
+      },
+      {
+        "id": "TREE_SUMMER_0185906f-40e0-48cf-834f-a4dc9cf78aaa",
+        "waterY": -7.5,
+        "proof": {
+          "path": "data/evidence/district-expansion-20261018/tree-soil-hardcase-profiles-v2.json",
+          "sha256": "b0972553111d524490a8dcd08390c6b5d7ce35a33bbbf575d813710a2bb12032"
+        },
+        "references": [
+          {
+            "path": "data/evidence/district-expansion-20261018/tree-bank-reference/eastern-bank-0185906f-2025.png",
+            "sha256": "bfbfedb08788fd02bd8344d49c355340da85626e1ea4ac124652eb3bacfa760c"
+          },
+          {
+            "path": "data/evidence/district-expansion-20261018/tree-bank-reference/retrieval.json",
+            "sha256": "3e3a2ee25d4888b37b8e070c1aed02f365839daaa0068919ec58d677fa6db18a"
+          }
+        ]
+      }
+    ]
+  },
+  "modelIncompatibleOmissions": [
+    {
+      "id": "TREE_SUMMER_36c6ce8e-75b0-497b-b50a-581626e6bfdf",
+      "kind": "retaining-wall",
+      "sourceIds": [
+        "osm-way-836763101"
+      ],
+      "proof": {
+        "path": "data/evidence/district-expansion-20261018/tree-visible-obstacles-v2.json",
+        "sha256": "01caded0b9ad7427bdb86f2b4d930b8bccee979aef20d882d7faae0259ecc202"
+      }
+    },
+    {
+      "id": "TREE_SUMMER_72323b01-ca73-42ec-a650-eb774ef8b485",
+      "kind": "retaining-wall",
+      "sourceIds": [
+        "527622"
+      ],
+      "proof": {
+        "path": "data/evidence/district-expansion-20261018/tree-visible-obstacles-v2.json",
+        "sha256": "01caded0b9ad7427bdb86f2b4d930b8bccee979aef20d882d7faae0259ecc202"
+      }
+    },
+    {
+      "id": "TREE_SUMMER_4db8c796-fe05-49a6-99ce-d09b4109ccda",
+      "kind": "retaining-wall",
+      "sourceIds": [
+        "656624"
+      ],
+      "proof": {
+        "path": "data/evidence/district-expansion-20261018/tree-visible-obstacles-v2.json",
+        "sha256": "01caded0b9ad7427bdb86f2b4d930b8bccee979aef20d882d7faae0259ecc202"
+      }
+    },
+    {
+      "id": "TREE_SUMMER_8b790df3-ff47-453a-8baf-8de244489145",
+      "kind": "retaining-wall",
+      "sourceIds": [
+        "477485"
+      ],
+      "proof": {
+        "path": "data/evidence/district-expansion-20261018/tree-visible-obstacles-v2.json",
+        "sha256": "01caded0b9ad7427bdb86f2b4d930b8bccee979aef20d882d7faae0259ecc202"
+      }
+    },
+    {
+      "id": "TREE_SUMMER_1bd0f59f-e9ee-477e-bd19-361c7130baa5",
+      "kind": "building",
+      "sourceIds": [
+        "103122952U"
+      ],
+      "proof": {
+        "path": "data/evidence/district-expansion-20261018/tree-visible-obstacles-v2.json",
+        "sha256": "01caded0b9ad7427bdb86f2b4d930b8bccee979aef20d882d7faae0259ecc202"
+      }
+    }
+  ]
+}

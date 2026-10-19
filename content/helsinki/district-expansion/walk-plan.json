@@ -1,0 +1,7493 @@
+{
+  "schemaVersion": 1,
+  "binding": {
+    "path": "data/raw/district-expansion-20261018/osm/district-expansion.json",
+    "sha256": "fe31bf359524e5801c6a607d62a6562736c8dfb0dea13ea45be20bd8c697c1c9",
+    "baselineGameplay": {
+      "path": "content/helsinki/central-expansion/gameplay.json",
+      "sha256": "f98a2dc8e031448ee988737a9788e777ab77346d656496178ceb58fb311b5c13"
+    },
+    "origin": "senate-square-statue-v2",
+    "crs": "EPSG:3879",
+    "verticalDatum": "N2000",
+    "axes": {
+      "x": "east",
+      "z": "south"
+    },
+    "playArea": {
+      "minX": -1350,
+      "maxX": 800,
+      "minZ": -950,
+      "maxZ": 450
+    }
+  },
+  "acceptance": "Source-backed planned paths; final visible/collider support, facade appearance and browser traversal remain integration gates. Fixture drop-ins may snap to the nearest drivable lane, so real tours separately visit the courtyard and entrance stairs.",
+  "routes": [
+    {
+      "id": "mannerheim-return",
+      "waypoints": [
+        {
+          "label": "Senate Square west crossing",
+          "xz": [
+            -63,
+            24
+          ],
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "label": "Unioninkatu / Aleksanterinkatu public crossing",
+          "xz": [
+            -62.583,
+            59.085
+          ],
+          "source": {
+            "type": "node",
+            "id": 314737043
+          },
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -63.306,
+            61.291
+          ],
+          "source": {
+            "type": "node",
+            "id": 1003245952,
+            "wayId": 308725070,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1003245952",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -68.047,
+            60.619
+          ],
+          "source": {
+            "type": "node",
+            "id": 6055299247,
+            "wayId": 28591358,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6055299247",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -70.317,
+            60.706
+          ],
+          "source": {
+            "type": "node",
+            "id": 314030383,
+            "wayId": 28591358,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314030383",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -75.386,
+            61.137
+          ],
+          "source": {
+            "type": "node",
+            "id": 5555352073,
+            "wayId": 28591358,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 5555352073",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -79.933,
+            61.379
+          ],
+          "source": {
+            "type": "node",
+            "id": 314737039,
+            "wayId": 1395932038,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314737039",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -156.852,
+            64.318
+          ],
+          "source": {
+            "type": "node",
+            "id": 12920914884,
+            "wayId": 1395932038,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12920914884",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -156.994,
+            61.766
+          ],
+          "source": {
+            "type": "node",
+            "id": 672968200,
+            "wayId": 1304730646,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 672968200",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -157.179,
+            56.63
+          ],
+          "source": {
+            "type": "node",
+            "id": 376031669,
+            "wayId": 1304730647,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 376031669",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -157.111,
+            54.948
+          ],
+          "source": {
+            "type": "node",
+            "id": 672967786,
+            "wayId": 1304730647,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 672967786",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -157.314,
+            52.006
+          ],
+          "source": {
+            "type": "node",
+            "id": 12920914887,
+            "wayId": 691217219,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12920914887",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -168.795,
+            52.41
+          ],
+          "source": {
+            "type": "node",
+            "id": 12920914886,
+            "wayId": 1395932040,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12920914886",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -168.782,
+            50.17
+          ],
+          "source": {
+            "type": "node",
+            "id": 376030788,
+            "wayId": 86649835,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 376030788",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -172.001,
+            -1.741
+          ],
+          "source": {
+            "type": "node",
+            "id": 426926469,
+            "wayId": 86649835,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 426926469",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -173.608,
+            -34.587
+          ],
+          "source": {
+            "type": "node",
+            "id": 298277837,
+            "wayId": 460589829,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 298277837",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -175.068,
+            -34.533
+          ],
+          "source": {
+            "type": "node",
+            "id": 11763386536,
+            "wayId": 1266430961,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 11763386536",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -209.093,
+            -33.133
+          ],
+          "source": {
+            "type": "node",
+            "id": 11712023750,
+            "wayId": 460589830,
+            "highway": "pedestrian",
+            "name": null
+          },
+          "label": "Public pedestrian node 11712023750",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -228.363,
+            -32.223
+          ],
+          "source": {
+            "type": "node",
+            "id": 7271505156,
+            "wayId": 1028977978,
+            "highway": "pedestrian",
+            "name": null
+          },
+          "label": "Public pedestrian node 7271505156",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -251.058,
+            -31.049
+          ],
+          "source": {
+            "type": "node",
+            "id": 298277839,
+            "wayId": 1266430960,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 298277839",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -251.799,
+            -42.146
+          ],
+          "source": {
+            "type": "node",
+            "id": 315151679,
+            "wayId": 18378083,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 315151679",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -257.034,
+            -41.894
+          ],
+          "source": {
+            "type": "node",
+            "id": 315151678,
+            "wayId": 1266430958,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 315151678",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -260.587,
+            -41.652
+          ],
+          "source": {
+            "type": "node",
+            "id": 376030558,
+            "wayId": 1266430958,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 376030558",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -278.402,
+            -40.831
+          ],
+          "source": {
+            "type": "node",
+            "id": 7282120573,
+            "wayId": 656168721,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7282120573",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -301.846,
+            -39.758
+          ],
+          "source": {
+            "type": "node",
+            "id": 7282120577,
+            "wayId": 656168721,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7282120577",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -320.594,
+            -38.893
+          ],
+          "source": {
+            "type": "node",
+            "id": 7414771946,
+            "wayId": 656168721,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7414771946",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -336.927,
+            -38.137
+          ],
+          "source": {
+            "type": "node",
+            "id": 7414771950,
+            "wayId": 656168721,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7414771950",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -365.934,
+            -36.813
+          ],
+          "source": {
+            "type": "node",
+            "id": 7414771953,
+            "wayId": 656168721,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7414771953",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -372.873,
+            -36.484
+          ],
+          "source": {
+            "type": "node",
+            "id": 315151673,
+            "wayId": 656168721,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 315151673",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -372.534,
+            -30.824
+          ],
+          "source": {
+            "type": "node",
+            "id": 315151670,
+            "wayId": 1304723105,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 315151670",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -381.216,
+            -30.697
+          ],
+          "source": {
+            "type": "node",
+            "id": 1380974104,
+            "wayId": 4247500,
+            "highway": "unclassified",
+            "name": "Yliopistonkatu"
+          },
+          "label": "Public unclassified node 1380974104",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -381.073,
+            -28.881
+          ],
+          "source": {
+            "type": "node",
+            "id": 6231203246,
+            "wayId": 25361287,
+            "highway": "pedestrian",
+            "name": "Mikonkatu"
+          },
+          "label": "Public pedestrian node 6231203246",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -381.978,
+            -28.849
+          ],
+          "source": {
+            "type": "node",
+            "id": 6485676297,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 6485676297",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -385.492,
+            -28.785
+          ],
+          "source": {
+            "type": "node",
+            "id": 6231203247,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 6231203247",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -395.119,
+            -28.414
+          ],
+          "source": {
+            "type": "node",
+            "id": 206104402,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 206104402",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -413.25,
+            -27.649
+          ],
+          "source": {
+            "type": "node",
+            "id": 256212242,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 256212242",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -445.56,
+            -26.15
+          ],
+          "source": {
+            "type": "node",
+            "id": 5555352645,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 5555352645",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -467.173,
+            -24.954
+          ],
+          "source": {
+            "type": "node",
+            "id": 9510981925,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 9510981925",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -480.07,
+            -24.24
+          ],
+          "source": {
+            "type": "node",
+            "id": 5555352639,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 5555352639",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -487.441,
+            -25.316
+          ],
+          "source": {
+            "type": "node",
+            "id": 5555352638,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 5555352638",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -502.447,
+            -24.594
+          ],
+          "source": {
+            "type": "node",
+            "id": 256211999,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 256211999",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -513.9,
+            -24.147
+          ],
+          "source": {
+            "type": "node",
+            "id": 4466480947,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 4466480947",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -524.309,
+            -23.543
+          ],
+          "source": {
+            "type": "node",
+            "id": 9165194689,
+            "wayId": 991970117,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 9165194689",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -524.463,
+            -25.103
+          ],
+          "source": {
+            "type": "node",
+            "id": 9165194692,
+            "wayId": 991970114,
+            "highway": "pedestrian",
+            "name": "Keskuskatu"
+          },
+          "label": "Public pedestrian node 9165194692",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -530.114,
+            -82.944
+          ],
+          "source": {
+            "type": "node",
+            "id": 299270708,
+            "wayId": 991970114,
+            "highway": "pedestrian",
+            "name": "Keskuskatu"
+          },
+          "label": "Public pedestrian node 299270708",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -539.035,
+            -82.806
+          ],
+          "source": {
+            "type": "node",
+            "id": 299269515,
+            "wayId": 311381806,
+            "highway": "pedestrian",
+            "name": null
+          },
+          "label": "Public pedestrian node 299269515",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -539.857,
+            -82.774
+          ],
+          "source": {
+            "type": "node",
+            "id": 11766355987,
+            "wayId": 311381806,
+            "highway": "pedestrian",
+            "name": null
+          },
+          "label": "Public pedestrian node 11766355987",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -570.135,
+            -81.664
+          ],
+          "source": {
+            "type": "node",
+            "id": 4733960687,
+            "wayId": 52135520,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 4733960687",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -594.878,
+            -80.716
+          ],
+          "source": {
+            "type": "node",
+            "id": 299270709,
+            "wayId": 52135520,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 299270709",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -612.038,
+            -80.141
+          ],
+          "source": {
+            "type": "node",
+            "id": 664318885,
+            "wayId": 52135520,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 664318885",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -631.179,
+            -79.445
+          ],
+          "source": {
+            "type": "node",
+            "id": 9679962118,
+            "wayId": 52135520,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 9679962118",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -650.049,
+            -78.76
+          ],
+          "source": {
+            "type": "node",
+            "id": 9708693618,
+            "wayId": 52135520,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 9708693618",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -671.827,
+            -77.911
+          ],
+          "source": {
+            "type": "node",
+            "id": 6329446584,
+            "wayId": 27572912,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6329446584",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -675.275,
+            -77.769
+          ],
+          "source": {
+            "type": "node",
+            "id": 6329449910,
+            "wayId": 27572912,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6329449910",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -696.27,
+            -77.03
+          ],
+          "source": {
+            "type": "node",
+            "id": 302745563,
+            "wayId": 27572912,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 302745563",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -699.808,
+            -75.797
+          ],
+          "source": {
+            "type": "node",
+            "id": 976961258,
+            "wayId": 27572912,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 976961258",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -702.17,
+            -78.473
+          ],
+          "source": {
+            "type": "node",
+            "id": 976961261,
+            "wayId": 83944644,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 976961261",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -703.634,
+            -80.279
+          ],
+          "source": {
+            "type": "node",
+            "id": 313959360,
+            "wayId": 83944644,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 313959360",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -714.178,
+            -72.278
+          ],
+          "source": {
+            "type": "node",
+            "id": 317704057,
+            "wayId": 28583927,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 317704057",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -742.843,
+            -50.623
+          ],
+          "source": {
+            "type": "node",
+            "id": 313959358,
+            "wayId": 28583927,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 313959358",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -746.108,
+            -55.139
+          ],
+          "source": {
+            "type": "node",
+            "id": 6361390132,
+            "wayId": 28544649,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6361390132",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -752.761,
+            -64.314
+          ],
+          "source": {
+            "type": "node",
+            "id": 313554177,
+            "wayId": 28544649,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 313554177",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -755.806,
+            -61.966
+          ],
+          "source": {
+            "type": "node",
+            "id": 288370104,
+            "wayId": 26321171,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 288370104",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -758.734,
+            -64.621
+          ],
+          "source": {
+            "type": "node",
+            "id": 664317437,
+            "wayId": 23648452,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 664317437",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -764.39,
+            -71.779
+          ],
+          "source": {
+            "type": "node",
+            "id": 295711613,
+            "wayId": 23648452,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 295711613",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -770.795,
+            -67.395
+          ],
+          "source": {
+            "type": "node",
+            "id": 295711611,
+            "wayId": 26979886,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 295711611",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -776.266,
+            -63.556
+          ],
+          "source": {
+            "type": "node",
+            "id": 295711618,
+            "wayId": 26979886,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 295711618",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -779.382,
+            -67.893
+          ],
+          "source": {
+            "type": "node",
+            "id": 11883105011,
+            "wayId": 26979888,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 11883105011",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -805.423,
+            -104.116
+          ],
+          "source": {
+            "type": "node",
+            "id": 313959145,
+            "wayId": 26979888,
+            "highway": "footway",
+            "name": null
+          },
+          "capture": true,
+          "label": "Mannerheimintie / Lasipalatsi",
+          "yaw": -1.5707963267948966,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -823.387,
+            -127.141
+          ],
+          "source": {
+            "type": "node",
+            "id": 11883105013,
+            "wayId": 26979888,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 11883105013",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -830.107,
+            -135.748
+          ],
+          "source": {
+            "type": "node",
+            "id": 295711616,
+            "wayId": 26979888,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 295711616",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -844.563,
+            -129.055
+          ],
+          "source": {
+            "type": "node",
+            "id": 25345645,
+            "wayId": 23704110,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 25345645",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -853.556,
+            -123.381
+          ],
+          "source": {
+            "type": "node",
+            "id": 176246326,
+            "wayId": 965255798,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 176246326",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -863.78,
+            -136.705
+          ],
+          "source": {
+            "type": "node",
+            "id": 257751137,
+            "wayId": 965255991,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 257751137",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -880.991,
+            -151.206
+          ],
+          "source": {
+            "type": "node",
+            "id": 292723253,
+            "wayId": 965255991,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 292723253",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -886.921,
+            -155.479
+          ],
+          "source": {
+            "type": "node",
+            "id": 302569345,
+            "wayId": 965255991,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 302569345",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -893.294,
+            -160.877
+          ],
+          "source": {
+            "type": "node",
+            "id": 257751136,
+            "wayId": 965255991,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 257751136",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -905.648,
+            -169.97
+          ],
+          "source": {
+            "type": "node",
+            "id": 292719535,
+            "wayId": 965255990,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 292719535",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -910.241,
+            -173.472
+          ],
+          "source": {
+            "type": "node",
+            "id": 3238782832,
+            "wayId": 965255990,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3238782832",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -911.821,
+            -175.513
+          ],
+          "source": {
+            "type": "node",
+            "id": 289567400,
+            "wayId": 965255990,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 289567400",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -920.53,
+            -194.105
+          ],
+          "source": {
+            "type": "node",
+            "id": 60666088,
+            "wayId": 45581773,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 60666088",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -918.667,
+            -197.29
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001544233,
+            "wayId": 1311339800,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1001544233",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -917.88,
+            -201.59
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001544503,
+            "wayId": 1311339800,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1001544503",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -918.622,
+            -203.808
+          ],
+          "source": {
+            "type": "node",
+            "id": 1037987970,
+            "wayId": 1311339800,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1037987970",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -933.145,
+            -235.754
+          ],
+          "source": {
+            "type": "node",
+            "id": 11752429222,
+            "wayId": 1311339800,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 11752429222",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -954.217,
+            -281.655
+          ],
+          "source": {
+            "type": "node",
+            "id": 11752429217,
+            "wayId": 1311339800,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 11752429217",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -960.014,
+            -290.975
+          ],
+          "source": {
+            "type": "node",
+            "id": 3723618574,
+            "wayId": 1311339800,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3723618574",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -962.349,
+            -292.805
+          ],
+          "source": {
+            "type": "node",
+            "id": 5132970534,
+            "wayId": 1311339800,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 5132970534",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -965.059,
+            -297.554
+          ],
+          "source": {
+            "type": "node",
+            "id": 1037987944,
+            "wayId": 1311339800,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1037987944",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -970.792,
+            -309.258
+          ],
+          "source": {
+            "type": "node",
+            "id": 302550438,
+            "wayId": 1311339800,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 302550438",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -974.147,
+            -313.406
+          ],
+          "source": {
+            "type": "node",
+            "id": 60069400,
+            "wayId": 1311009992,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 60069400",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -978.736,
+            -320.374
+          ],
+          "source": {
+            "type": "node",
+            "id": 317913641,
+            "wayId": 1311009992,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 317913641",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -981.353,
+            -323.418
+          ],
+          "source": {
+            "type": "node",
+            "id": 285674433,
+            "wayId": 1311009992,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 285674433",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -995.557,
+            -307.032
+          ],
+          "source": {
+            "type": "node",
+            "id": 296560725,
+            "wayId": 69223438,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 296560725",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1002.009,
+            -299.763
+          ],
+          "source": {
+            "type": "node",
+            "id": 296560724,
+            "wayId": 69223438,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 296560724",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1007.977,
+            -293.685
+          ],
+          "source": {
+            "type": "node",
+            "id": 302551811,
+            "wayId": 69223438,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 302551811",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1015.54,
+            -319.263
+          ],
+          "source": {
+            "type": "node",
+            "id": 6020388082,
+            "wayId": 27558094,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6020388082",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1019.086,
+            -331.255
+          ],
+          "source": {
+            "type": "node",
+            "id": 9289658368,
+            "wayId": 27558094,
+            "highway": "footway",
+            "name": null
+          },
+          "capture": true,
+          "label": "Parliament House / Mannerheimintie",
+          "yaw": -1.5707963267948966,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1025.824,
+            -354.046
+          ],
+          "source": {
+            "type": "node",
+            "id": 316791439,
+            "wayId": 27558094,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 316791439",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1030.268,
+            -367.922
+          ],
+          "source": {
+            "type": "node",
+            "id": 9289658362,
+            "wayId": 27558094,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 9289658362",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1036.825,
+            -388.384
+          ],
+          "source": {
+            "type": "node",
+            "id": 6020388081,
+            "wayId": 27558094,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6020388081",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1046.459,
+            -418.465
+          ],
+          "source": {
+            "type": "node",
+            "id": 302551812,
+            "wayId": 1006957479,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 302551812",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1045.275,
+            -419.578
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001543596,
+            "wayId": 1006957479,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1001543596",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1027.74,
+            -425.03
+          ],
+          "source": {
+            "type": "node",
+            "id": 302551820,
+            "wayId": 1006957479,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 302551820",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1030.842,
+            -432.019
+          ],
+          "source": {
+            "type": "node",
+            "id": 292717637,
+            "wayId": 1311009993,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 292717637",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1036.694,
+            -440.76
+          ],
+          "source": {
+            "type": "node",
+            "id": 3237243928,
+            "wayId": 1311009993,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3237243928",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1043.276,
+            -448.399
+          ],
+          "source": {
+            "type": "node",
+            "id": 302551818,
+            "wayId": 1311009993,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 302551818",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1022.139,
+            -458.639
+          ],
+          "source": {
+            "type": "node",
+            "id": 285673948,
+            "wayId": 8035209,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 285673948",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1017.002,
+            -461.129
+          ],
+          "source": {
+            "type": "node",
+            "id": 292717111,
+            "wayId": 8035209,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 292717111",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -996.13,
+            -423.038
+          ],
+          "source": {
+            "type": "node",
+            "id": 1420465557,
+            "wayId": 368503200,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1420465557",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -992.983,
+            -417.308
+          ],
+          "source": {
+            "type": "node",
+            "id": 1420465549,
+            "wayId": 1309809291,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1420465549",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -980.512,
+            -421.173
+          ],
+          "source": {
+            "type": "node",
+            "id": 1420465561,
+            "wayId": 128566065,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1420465561",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -960.873,
+            -427.27
+          ],
+          "source": {
+            "type": "node",
+            "id": 1420465576,
+            "wayId": 128566065,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1420465576",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -958.876,
+            -426.02
+          ],
+          "source": {
+            "type": "node",
+            "id": 4537741371,
+            "wayId": 128566065,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 4537741371",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -950.165,
+            -416.308
+          ],
+          "source": {
+            "type": "node",
+            "id": 1724492950,
+            "wayId": 128566065,
+            "highway": "footway",
+            "name": null
+          },
+          "capture": true,
+          "label": "Helsinki Music Centre",
+          "yaw": 3.141592653589793,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -958.876,
+            -426.02
+          ],
+          "source": {
+            "type": "node",
+            "id": 4537741371,
+            "wayId": 128566065,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 4537741371",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -960.873,
+            -427.27
+          ],
+          "source": {
+            "type": "node",
+            "id": 1420465576,
+            "wayId": 128566065,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1420465576",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -980.512,
+            -421.173
+          ],
+          "source": {
+            "type": "node",
+            "id": 1420465561,
+            "wayId": 128566065,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1420465561",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -992.983,
+            -417.308
+          ],
+          "source": {
+            "type": "node",
+            "id": 1420465549,
+            "wayId": 128566065,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1420465549",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -996.13,
+            -423.038
+          ],
+          "source": {
+            "type": "node",
+            "id": 1420465557,
+            "wayId": 1309809291,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1420465557",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1017.002,
+            -461.129
+          ],
+          "source": {
+            "type": "node",
+            "id": 292717111,
+            "wayId": 368503200,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 292717111",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1019.31,
+            -467.772
+          ],
+          "source": {
+            "type": "node",
+            "id": 292717081,
+            "wayId": 368503200,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 292717081",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1020.34,
+            -469.89
+          ],
+          "source": {
+            "type": "node",
+            "id": 1724492954,
+            "wayId": 368503200,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1724492954",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1020.617,
+            -471.35
+          ],
+          "source": {
+            "type": "node",
+            "id": 1724492957,
+            "wayId": 368503200,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1724492957",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1017.282,
+            -475.614
+          ],
+          "source": {
+            "type": "node",
+            "id": 12138464006,
+            "wayId": 1242842717,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12138464006",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1013.726,
+            -478.652
+          ],
+          "source": {
+            "type": "node",
+            "id": 12138464005,
+            "wayId": 1242842717,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12138464005",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1014.5,
+            -481.661
+          ],
+          "source": {
+            "type": "node",
+            "id": 12138464004,
+            "wayId": 1311339801,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12138464004",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1017.097,
+            -488.159
+          ],
+          "source": {
+            "type": "node",
+            "id": 12138464003,
+            "wayId": 1311339801,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12138464003",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1019.835,
+            -498.412
+          ],
+          "source": {
+            "type": "node",
+            "id": 12138464002,
+            "wayId": 1311339801,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12138464002",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1024.215,
+            -497.625
+          ],
+          "source": {
+            "type": "node",
+            "id": 292717144,
+            "wayId": 317455760,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 292717144",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1025.365,
+            -501.927
+          ],
+          "source": {
+            "type": "node",
+            "id": 11420418983,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 11420418983",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1031.279,
+            -516.149
+          ],
+          "source": {
+            "type": "node",
+            "id": 13429427450,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 13429427450",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1043.36,
+            -535.136
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001543964,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1001543964",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1050.808,
+            -546.842
+          ],
+          "source": {
+            "type": "node",
+            "id": 292717142,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 292717142",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1053.584,
+            -552.148
+          ],
+          "source": {
+            "type": "node",
+            "id": 13429427449,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 13429427449",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1065.131,
+            -577.596
+          ],
+          "source": {
+            "type": "node",
+            "id": 13429427442,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 13429427442",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1070.162,
+            -586.392
+          ],
+          "source": {
+            "type": "node",
+            "id": 250090183,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 250090183",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1073.795,
+            -595.008
+          ],
+          "source": {
+            "type": "node",
+            "id": 13429427441,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 13429427441",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1110.36,
+            -666.886
+          ],
+          "source": {
+            "type": "node",
+            "id": 250090181,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 250090181",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1114.166,
+            -673.385
+          ],
+          "source": {
+            "type": "node",
+            "id": 250090182,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 250090182",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1115.369,
+            -675.28
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001543737,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1001543737",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1161.486,
+            -750.801
+          ],
+          "source": {
+            "type": "node",
+            "id": 12145839942,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 12145839942",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1164.661,
+            -756.742
+          ],
+          "source": {
+            "type": "node",
+            "id": 279749825,
+            "wayId": 1190624341,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 279749825",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1167.923,
+            -763.23
+          ],
+          "source": {
+            "type": "node",
+            "id": 292716448,
+            "wayId": 1190624341,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 292716448",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1166.507,
+            -763.997
+          ],
+          "source": {
+            "type": "node",
+            "id": 2333008831,
+            "wayId": 23182136,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 2333008831",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1160.109,
+            -768.024
+          ],
+          "source": {
+            "type": "node",
+            "id": 249689953,
+            "wayId": 23182136,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 249689953",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1155.057,
+            -768.754
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001544029,
+            "wayId": 23126175,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1001544029",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1154.085,
+            -764.074
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001543898,
+            "wayId": 26691127,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1001543898",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1142.937,
+            -751.071
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001544236,
+            "wayId": 26691127,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1001544236",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1132.639,
+            -741.969
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001543313,
+            "wayId": 26691127,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1001543313",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1123.053,
+            -732.244
+          ],
+          "source": {
+            "type": "node",
+            "id": 250090177,
+            "wayId": 26691127,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 250090177",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1101.608,
+            -703.844
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001543340,
+            "wayId": 26691127,
+            "highway": "footway",
+            "name": null
+          },
+          "capture": true,
+          "label": "Finlandia Hall / Mannerheimintie",
+          "yaw": 1.5707963267948966,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1123.053,
+            -732.244
+          ],
+          "source": {
+            "type": "node",
+            "id": 250090177,
+            "wayId": 26691127,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 250090177",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1132.639,
+            -741.969
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001543313,
+            "wayId": 26691127,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1001543313",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1142.937,
+            -751.071
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001544236,
+            "wayId": 26691127,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1001544236",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1154.085,
+            -764.074
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001543898,
+            "wayId": 26691127,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1001543898",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1155.057,
+            -768.754
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001544029,
+            "wayId": 26691127,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1001544029",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1160.109,
+            -768.024
+          ],
+          "source": {
+            "type": "node",
+            "id": 249689953,
+            "wayId": 23126175,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 249689953",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1166.507,
+            -763.997
+          ],
+          "source": {
+            "type": "node",
+            "id": 2333008831,
+            "wayId": 23182136,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 2333008831",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1167.923,
+            -763.23
+          ],
+          "source": {
+            "type": "node",
+            "id": 292716448,
+            "wayId": 23182136,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 292716448",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1164.661,
+            -756.742
+          ],
+          "source": {
+            "type": "node",
+            "id": 279749825,
+            "wayId": 1190624341,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 279749825",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1161.486,
+            -750.801
+          ],
+          "source": {
+            "type": "node",
+            "id": 12145839942,
+            "wayId": 1190624341,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12145839942",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1115.369,
+            -675.28
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001543737,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1001543737",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1114.166,
+            -673.385
+          ],
+          "source": {
+            "type": "node",
+            "id": 250090182,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 250090182",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1110.36,
+            -666.886
+          ],
+          "source": {
+            "type": "node",
+            "id": 250090181,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 250090181",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1073.795,
+            -595.008
+          ],
+          "source": {
+            "type": "node",
+            "id": 13429427441,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 13429427441",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1070.162,
+            -586.392
+          ],
+          "source": {
+            "type": "node",
+            "id": 250090183,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 250090183",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1065.131,
+            -577.596
+          ],
+          "source": {
+            "type": "node",
+            "id": 13429427442,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 13429427442",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1053.584,
+            -552.148
+          ],
+          "source": {
+            "type": "node",
+            "id": 13429427449,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 13429427449",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1050.808,
+            -546.842
+          ],
+          "source": {
+            "type": "node",
+            "id": 292717142,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 292717142",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1043.36,
+            -535.136
+          ],
+          "source": {
+            "type": "node",
+            "id": 1001543964,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1001543964",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1031.279,
+            -516.149
+          ],
+          "source": {
+            "type": "node",
+            "id": 13429427450,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 13429427450",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1025.365,
+            -501.927
+          ],
+          "source": {
+            "type": "node",
+            "id": 11420418983,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 11420418983",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1024.215,
+            -497.625
+          ],
+          "source": {
+            "type": "node",
+            "id": 292717144,
+            "wayId": 78536575,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 292717144",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1019.835,
+            -498.412
+          ],
+          "source": {
+            "type": "node",
+            "id": 12138464002,
+            "wayId": 317455760,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 12138464002",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1017.097,
+            -488.159
+          ],
+          "source": {
+            "type": "node",
+            "id": 12138464003,
+            "wayId": 1311339801,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12138464003",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1014.5,
+            -481.661
+          ],
+          "source": {
+            "type": "node",
+            "id": 12138464004,
+            "wayId": 1311339801,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12138464004",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1013.726,
+            -478.652
+          ],
+          "source": {
+            "type": "node",
+            "id": 12138464005,
+            "wayId": 1311339801,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12138464005",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1017.282,
+            -475.614
+          ],
+          "source": {
+            "type": "node",
+            "id": 12138464006,
+            "wayId": 1242842717,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12138464006",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1020.617,
+            -471.35
+          ],
+          "source": {
+            "type": "node",
+            "id": 1724492957,
+            "wayId": 1242842717,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1724492957",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1020.34,
+            -469.89
+          ],
+          "source": {
+            "type": "node",
+            "id": 1724492954,
+            "wayId": 368503200,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1724492954",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1019.31,
+            -467.772
+          ],
+          "source": {
+            "type": "node",
+            "id": 292717081,
+            "wayId": 368503200,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 292717081",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -1017.002,
+            -461.129
+          ],
+          "source": {
+            "type": "node",
+            "id": 292717111,
+            "wayId": 368503200,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 292717111",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -996.13,
+            -423.038
+          ],
+          "source": {
+            "type": "node",
+            "id": 1420465557,
+            "wayId": 368503200,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1420465557",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -995.532,
+            -416.297
+          ],
+          "source": {
+            "type": "node",
+            "id": 1420465546,
+            "wayId": 1312033899,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1420465546",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -992.954,
+            -407.971
+          ],
+          "source": {
+            "type": "node",
+            "id": 4537741372,
+            "wayId": 98571495,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 4537741372",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -954.531,
+            -329.285
+          ],
+          "source": {
+            "type": "node",
+            "id": 10764077114,
+            "wayId": 98571495,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 10764077114",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -951.323,
+            -322.854
+          ],
+          "source": {
+            "type": "node",
+            "id": 315726396,
+            "wayId": 98571495,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 315726396",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -911.14,
+            -237.247
+          ],
+          "source": {
+            "type": "node",
+            "id": 315726399,
+            "wayId": 98571495,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 315726399",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -908.523,
+            -233.524
+          ],
+          "source": {
+            "type": "node",
+            "id": 313120634,
+            "wayId": 98571495,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 313120634",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -905.319,
+            -229.22
+          ],
+          "source": {
+            "type": "node",
+            "id": 313120639,
+            "wayId": 58774537,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 313120639",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -893.595,
+            -217.588
+          ],
+          "source": {
+            "type": "node",
+            "id": 4747028876,
+            "wayId": 58774537,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 4747028876",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -876.215,
+            -205.471
+          ],
+          "source": {
+            "type": "node",
+            "id": 733251984,
+            "wayId": 58774537,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 733251984",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -866.411,
+            -200.693
+          ],
+          "source": {
+            "type": "node",
+            "id": 733251977,
+            "wayId": 1360350481,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 733251977",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -841.253,
+            -182.888
+          ],
+          "source": {
+            "type": "node",
+            "id": 733251969,
+            "wayId": 1360350481,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 733251969",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -831.953,
+            -167.771
+          ],
+          "source": {
+            "type": "node",
+            "id": 733251921,
+            "wayId": 1360350481,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 733251921",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -827.457,
+            -161.182
+          ],
+          "source": {
+            "type": "node",
+            "id": 733251938,
+            "wayId": 1360350481,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 733251938",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -824.022,
+            -159.886
+          ],
+          "source": {
+            "type": "node",
+            "id": 719965902,
+            "wayId": 52624675,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 719965902",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -823.369,
+            -158.326
+          ],
+          "source": {
+            "type": "node",
+            "id": 733251929,
+            "wayId": 23788446,
+            "highway": "pedestrian",
+            "name": "Mannerheiminaukio"
+          },
+          "label": "Public pedestrian node 733251929",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -820.659,
+            -158.613
+          ],
+          "source": {
+            "type": "node",
+            "id": 11764634349,
+            "wayId": 23788446,
+            "highway": "pedestrian",
+            "name": "Mannerheiminaukio"
+          },
+          "label": "Public pedestrian node 11764634349",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -813.592,
+            -159.453
+          ],
+          "source": {
+            "type": "node",
+            "id": 9597690230,
+            "wayId": 23788446,
+            "highway": "pedestrian",
+            "name": "Mannerheiminaukio"
+          },
+          "label": "Public pedestrian node 9597690230",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -813.029,
+            -156.132
+          ],
+          "source": {
+            "type": "node",
+            "id": 315280758,
+            "wayId": 23788268,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 315280758",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -811.772,
+            -146.327
+          ],
+          "source": {
+            "type": "node",
+            "id": 664317441,
+            "wayId": 52135394,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 664317441",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -811.242,
+            -143.218
+          ],
+          "source": {
+            "type": "node",
+            "id": 288370103,
+            "wayId": 1168109205,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 288370103",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -766.444,
+            -148.891
+          ],
+          "source": {
+            "type": "node",
+            "id": 7428401423,
+            "wayId": 756316411,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7428401423",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -753.803,
+            -150.473
+          ],
+          "source": {
+            "type": "node",
+            "id": 8570732315,
+            "wayId": 756316411,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 8570732315",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -735.22,
+            -153.085
+          ],
+          "source": {
+            "type": "node",
+            "id": 575674390,
+            "wayId": 756316411,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 575674390",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -734.16,
+            -153.273
+          ],
+          "source": {
+            "type": "node",
+            "id": 288370102,
+            "wayId": 45965904,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 288370102",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -731.19,
+            -153.705
+          ],
+          "source": {
+            "type": "node",
+            "id": 9457580514,
+            "wayId": 45965904,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 9457580514",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -729.028,
+            -149.581
+          ],
+          "source": {
+            "type": "node",
+            "id": 9457580513,
+            "wayId": 45965904,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 9457580513",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -726.281,
+            -131.373
+          ],
+          "source": {
+            "type": "node",
+            "id": 9457580508,
+            "wayId": 45965904,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 9457580508",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -724.231,
+            -120.397
+          ],
+          "source": {
+            "type": "node",
+            "id": 9457580512,
+            "wayId": 45965904,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 9457580512",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -717.399,
+            -100.971
+          ],
+          "source": {
+            "type": "node",
+            "id": 9457580511,
+            "wayId": 45965904,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 9457580511",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -715.645,
+            -94.206
+          ],
+          "source": {
+            "type": "node",
+            "id": 9457580509,
+            "wayId": 45965904,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 9457580509",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -713.527,
+            -92.332
+          ],
+          "source": {
+            "type": "node",
+            "id": 976961257,
+            "wayId": 45965904,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 976961257",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -710.859,
+            -89.155
+          ],
+          "source": {
+            "type": "node",
+            "id": 976961260,
+            "wayId": 83944644,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 976961260",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -708.619,
+            -86.401
+          ],
+          "source": {
+            "type": "node",
+            "id": 313959192,
+            "wayId": 83944644,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 313959192",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -706.889,
+            -84.16
+          ],
+          "source": {
+            "type": "node",
+            "id": 1369465808,
+            "wayId": 83944644,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1369465808",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -705.209,
+            -82.219
+          ],
+          "source": {
+            "type": "node",
+            "id": 313959350,
+            "wayId": 83944644,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 313959350",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -702.17,
+            -78.473
+          ],
+          "source": {
+            "type": "node",
+            "id": 976961261,
+            "wayId": 83944644,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 976961261",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -699.808,
+            -75.797
+          ],
+          "source": {
+            "type": "node",
+            "id": 976961258,
+            "wayId": 83944644,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 976961258",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -696.27,
+            -77.03
+          ],
+          "source": {
+            "type": "node",
+            "id": 302745563,
+            "wayId": 27572912,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 302745563",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -675.275,
+            -77.769
+          ],
+          "source": {
+            "type": "node",
+            "id": 6329449910,
+            "wayId": 27572912,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6329449910",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -656.66,
+            -78.521
+          ],
+          "source": {
+            "type": "node",
+            "id": 11778872187,
+            "wayId": 52135520,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 11778872187",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -650.049,
+            -78.76
+          ],
+          "source": {
+            "type": "node",
+            "id": 9708693618,
+            "wayId": 52135520,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 9708693618",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -631.179,
+            -79.445
+          ],
+          "source": {
+            "type": "node",
+            "id": 9679962118,
+            "wayId": 52135520,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 9679962118",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -612.038,
+            -80.141
+          ],
+          "source": {
+            "type": "node",
+            "id": 664318885,
+            "wayId": 52135520,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 664318885",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -594.878,
+            -80.716
+          ],
+          "source": {
+            "type": "node",
+            "id": 299270709,
+            "wayId": 52135520,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 299270709",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -570.135,
+            -81.664
+          ],
+          "source": {
+            "type": "node",
+            "id": 4733960687,
+            "wayId": 52135520,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 4733960687",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -539.857,
+            -82.774
+          ],
+          "source": {
+            "type": "node",
+            "id": 11766355987,
+            "wayId": 52135520,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 11766355987",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -539.035,
+            -82.806
+          ],
+          "source": {
+            "type": "node",
+            "id": 299269515,
+            "wayId": 311381806,
+            "highway": "pedestrian",
+            "name": null
+          },
+          "label": "Public pedestrian node 299269515",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -530.114,
+            -82.944
+          ],
+          "source": {
+            "type": "node",
+            "id": 299270708,
+            "wayId": 311381806,
+            "highway": "pedestrian",
+            "name": null
+          },
+          "label": "Public pedestrian node 299270708",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -524.463,
+            -25.103
+          ],
+          "source": {
+            "type": "node",
+            "id": 9165194692,
+            "wayId": 991970114,
+            "highway": "pedestrian",
+            "name": "Keskuskatu"
+          },
+          "label": "Public pedestrian node 9165194692",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -524.309,
+            -23.543
+          ],
+          "source": {
+            "type": "node",
+            "id": 9165194689,
+            "wayId": 991970114,
+            "highway": "pedestrian",
+            "name": "Keskuskatu"
+          },
+          "label": "Public pedestrian node 9165194689",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -513.9,
+            -24.147
+          ],
+          "source": {
+            "type": "node",
+            "id": 4466480947,
+            "wayId": 991970117,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 4466480947",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -502.447,
+            -24.594
+          ],
+          "source": {
+            "type": "node",
+            "id": 256211999,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 256211999",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -487.441,
+            -25.316
+          ],
+          "source": {
+            "type": "node",
+            "id": 5555352638,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 5555352638",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -480.07,
+            -24.24
+          ],
+          "source": {
+            "type": "node",
+            "id": 5555352639,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 5555352639",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -467.173,
+            -24.954
+          ],
+          "source": {
+            "type": "node",
+            "id": 9510981925,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 9510981925",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -445.56,
+            -26.15
+          ],
+          "source": {
+            "type": "node",
+            "id": 5555352645,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 5555352645",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -413.25,
+            -27.649
+          ],
+          "source": {
+            "type": "node",
+            "id": 256212242,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 256212242",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -392.443,
+            -28.501
+          ],
+          "source": {
+            "type": "node",
+            "id": 8341334305,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 8341334305",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -385.492,
+            -28.785
+          ],
+          "source": {
+            "type": "node",
+            "id": 6231203247,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 6231203247",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -381.978,
+            -28.849
+          ],
+          "source": {
+            "type": "node",
+            "id": 6485676297,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 6485676297",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -381.073,
+            -28.881
+          ],
+          "source": {
+            "type": "node",
+            "id": 6231203246,
+            "wayId": 8035183,
+            "highway": "pedestrian",
+            "name": "Ateneuminkuja"
+          },
+          "label": "Public pedestrian node 6231203246",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -381.216,
+            -30.697
+          ],
+          "source": {
+            "type": "node",
+            "id": 1380974104,
+            "wayId": 25361287,
+            "highway": "pedestrian",
+            "name": "Mikonkatu"
+          },
+          "label": "Public pedestrian node 1380974104",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -372.534,
+            -30.824
+          ],
+          "source": {
+            "type": "node",
+            "id": 315151670,
+            "wayId": 4247500,
+            "highway": "unclassified",
+            "name": "Yliopistonkatu"
+          },
+          "label": "Public unclassified node 315151670",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -372.873,
+            -36.484
+          ],
+          "source": {
+            "type": "node",
+            "id": 315151673,
+            "wayId": 1304723105,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 315151673",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -365.934,
+            -36.813
+          ],
+          "source": {
+            "type": "node",
+            "id": 7414771953,
+            "wayId": 656168721,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7414771953",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -336.927,
+            -38.137
+          ],
+          "source": {
+            "type": "node",
+            "id": 7414771950,
+            "wayId": 656168721,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7414771950",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -320.594,
+            -38.893
+          ],
+          "source": {
+            "type": "node",
+            "id": 7414771946,
+            "wayId": 656168721,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7414771946",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -301.846,
+            -39.758
+          ],
+          "source": {
+            "type": "node",
+            "id": 7282120577,
+            "wayId": 656168721,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7282120577",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -278.402,
+            -40.831
+          ],
+          "source": {
+            "type": "node",
+            "id": 7282120573,
+            "wayId": 656168721,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7282120573",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -260.587,
+            -41.652
+          ],
+          "source": {
+            "type": "node",
+            "id": 376030558,
+            "wayId": 656168721,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 376030558",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -257.034,
+            -41.894
+          ],
+          "source": {
+            "type": "node",
+            "id": 315151678,
+            "wayId": 1266430958,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 315151678",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -251.799,
+            -42.146
+          ],
+          "source": {
+            "type": "node",
+            "id": 315151679,
+            "wayId": 1266430958,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 315151679",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -251.058,
+            -31.049
+          ],
+          "source": {
+            "type": "node",
+            "id": 298277839,
+            "wayId": 18378083,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 298277839",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -228.363,
+            -32.223
+          ],
+          "source": {
+            "type": "node",
+            "id": 7271505156,
+            "wayId": 1028977978,
+            "highway": "pedestrian",
+            "name": null
+          },
+          "label": "Public pedestrian node 7271505156",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -209.093,
+            -33.133
+          ],
+          "source": {
+            "type": "node",
+            "id": 11712023750,
+            "wayId": 460589830,
+            "highway": "pedestrian",
+            "name": null
+          },
+          "label": "Public pedestrian node 11712023750",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -175.068,
+            -34.533
+          ],
+          "source": {
+            "type": "node",
+            "id": 11763386536,
+            "wayId": 460589830,
+            "highway": "pedestrian",
+            "name": null
+          },
+          "label": "Public pedestrian node 11763386536",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -173.608,
+            -34.587
+          ],
+          "source": {
+            "type": "node",
+            "id": 298277837,
+            "wayId": 1266430961,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 298277837",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -172.001,
+            -1.741
+          ],
+          "source": {
+            "type": "node",
+            "id": 426926469,
+            "wayId": 460589829,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 426926469",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -168.782,
+            50.17
+          ],
+          "source": {
+            "type": "node",
+            "id": 376030788,
+            "wayId": 86649835,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 376030788",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -168.795,
+            52.41
+          ],
+          "source": {
+            "type": "node",
+            "id": 12920914886,
+            "wayId": 86649835,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12920914886",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -157.314,
+            52.006
+          ],
+          "source": {
+            "type": "node",
+            "id": 12920914887,
+            "wayId": 1395932040,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12920914887",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -157.111,
+            54.948
+          ],
+          "source": {
+            "type": "node",
+            "id": 672967786,
+            "wayId": 691217219,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 672967786",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -157.179,
+            56.63
+          ],
+          "source": {
+            "type": "node",
+            "id": 376031669,
+            "wayId": 1304730647,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 376031669",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -156.994,
+            61.766
+          ],
+          "source": {
+            "type": "node",
+            "id": 672968200,
+            "wayId": 1304730647,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 672968200",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -156.852,
+            64.318
+          ],
+          "source": {
+            "type": "node",
+            "id": 12920914884,
+            "wayId": 1304730646,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12920914884",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -79.933,
+            61.379
+          ],
+          "source": {
+            "type": "node",
+            "id": 314737039,
+            "wayId": 1395932038,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314737039",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -75.386,
+            61.137
+          ],
+          "source": {
+            "type": "node",
+            "id": 5555352073,
+            "wayId": 28591358,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 5555352073",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -70.317,
+            60.706
+          ],
+          "source": {
+            "type": "node",
+            "id": 314030383,
+            "wayId": 28591358,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314030383",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -68.047,
+            60.619
+          ],
+          "source": {
+            "type": "node",
+            "id": 6055299247,
+            "wayId": 28591358,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6055299247",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -63.306,
+            61.291
+          ],
+          "source": {
+            "type": "node",
+            "id": 1003245952,
+            "wayId": 28591358,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1003245952",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            -62.583,
+            59.085
+          ],
+          "source": {
+            "type": "node",
+            "id": 314737043,
+            "wayId": 308725070,
+            "highway": "footway",
+            "name": null
+          },
+          "capture": false,
+          "label": "Returned along public routes to Senate Square west crossing",
+          "yaw": 0,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "label": "Senate Square west interior",
+          "xz": [
+            -63,
+            24
+          ],
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "label": "Returned on foot to Senate Square",
+          "xz": [
+            -35,
+            18
+          ],
+          "capture": true,
+          "yaw": 3.141592653589793,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        }
+      ]
+    },
+    {
+      "id": "uspenski-return",
+      "waypoints": [
+        {
+          "label": "Senate Square south crossing",
+          "xz": [
+            0,
+            35
+          ],
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "label": "Senate Square east crossing",
+          "xz": [
+            62,
+            35
+          ],
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "label": "Snellmaninkatu / Aleksanterinkatu public crossing",
+          "xz": [
+            65.361,
+            53.34
+          ],
+          "source": {
+            "type": "node",
+            "id": 12112538613
+          },
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            67.37,
+            54.89
+          ],
+          "source": {
+            "type": "node",
+            "id": 892864869,
+            "wayId": 75623238,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 892864869",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            69.796,
+            54.802
+          ],
+          "source": {
+            "type": "node",
+            "id": 11518916070,
+            "wayId": 308725065,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 11518916070",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            70.257,
+            54.792
+          ],
+          "source": {
+            "type": "node",
+            "id": 355143046,
+            "wayId": 308725065,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 355143046",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            72.156,
+            54.67
+          ],
+          "source": {
+            "type": "node",
+            "id": 6055299256,
+            "wayId": 308725065,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6055299256",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            75.048,
+            54.528
+          ],
+          "source": {
+            "type": "node",
+            "id": 311039367,
+            "wayId": 308725065,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311039367",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            85.658,
+            53.109
+          ],
+          "source": {
+            "type": "node",
+            "id": 344213232,
+            "wayId": 308725068,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 344213232",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            96.556,
+            52.649
+          ],
+          "source": {
+            "type": "node",
+            "id": 691314129,
+            "wayId": 308725068,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 691314129",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            101.497,
+            52.373
+          ],
+          "source": {
+            "type": "node",
+            "id": 7648639705,
+            "wayId": 308725068,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7648639705",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            121.333,
+            51.24
+          ],
+          "source": {
+            "type": "node",
+            "id": 7648639703,
+            "wayId": 308725068,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7648639703",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            145.239,
+            49.919
+          ],
+          "source": {
+            "type": "node",
+            "id": 7648639698,
+            "wayId": 308725068,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7648639698",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            150.002,
+            49.655
+          ],
+          "source": {
+            "type": "node",
+            "id": 6475029918,
+            "wayId": 308725068,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6475029918",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            151.051,
+            50.046
+          ],
+          "source": {
+            "type": "node",
+            "id": 311039363,
+            "wayId": 308725068,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311039363",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            154.693,
+            49.803
+          ],
+          "source": {
+            "type": "node",
+            "id": 311039365,
+            "wayId": 308725019,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311039365",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            158.13,
+            49.627
+          ],
+          "source": {
+            "type": "node",
+            "id": 6475029917,
+            "wayId": 308725019,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6475029917",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            158.93,
+            48.992
+          ],
+          "source": {
+            "type": "node",
+            "id": 311037862,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311037862",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            167.773,
+            48.497
+          ],
+          "source": {
+            "type": "node",
+            "id": 7652327597,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7652327597",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            193.767,
+            47.044
+          ],
+          "source": {
+            "type": "node",
+            "id": 7652327595,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7652327595",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            200.223,
+            46.681
+          ],
+          "source": {
+            "type": "node",
+            "id": 1015192020,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1015192020",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            204.703,
+            46.572
+          ],
+          "source": {
+            "type": "node",
+            "id": 311037880,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311037880",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            234.377,
+            45.244
+          ],
+          "source": {
+            "type": "node",
+            "id": 7652327593,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7652327593",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            241.999,
+            44.903
+          ],
+          "source": {
+            "type": "node",
+            "id": 1015191926,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1015191926",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            247.423,
+            44.595
+          ],
+          "source": {
+            "type": "node",
+            "id": 311032024,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311032024",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            254.446,
+            44.388
+          ],
+          "source": {
+            "type": "node",
+            "id": 311032033,
+            "wayId": 87315650,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311032033",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            256.267,
+            44.389
+          ],
+          "source": {
+            "type": "node",
+            "id": 314057116,
+            "wayId": 87315650,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314057116",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            261.885,
+            44.159
+          ],
+          "source": {
+            "type": "node",
+            "id": 311032019,
+            "wayId": 87315650,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311032019",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            263.65,
+            70.309
+          ],
+          "source": {
+            "type": "node",
+            "id": 11734749124,
+            "wayId": 87315648,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 11734749124",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            265.032,
+            88.281
+          ],
+          "source": {
+            "type": "node",
+            "id": 1015192010,
+            "wayId": 87315648,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1015192010",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            265.376,
+            89.496
+          ],
+          "source": {
+            "type": "node",
+            "id": 311032022,
+            "wayId": 87315648,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311032022",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            268.875,
+            95.347
+          ],
+          "source": {
+            "type": "node",
+            "id": 12110417084,
+            "wayId": 87315648,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12110417084",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            271.311,
+            97.343
+          ],
+          "source": {
+            "type": "node",
+            "id": 12110417083,
+            "wayId": 87315648,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12110417083",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            293.204,
+            109.758
+          ],
+          "source": {
+            "type": "node",
+            "id": 12110417082,
+            "wayId": 87315648,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12110417082",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            291.114,
+            113.433
+          ],
+          "source": {
+            "type": "node",
+            "id": 314057170,
+            "wayId": 87315656,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314057170",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            289.658,
+            115.839
+          ],
+          "source": {
+            "type": "node",
+            "id": 311017304,
+            "wayId": 87315656,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311017304",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            288.291,
+            117.843
+          ],
+          "source": {
+            "type": "node",
+            "id": 1015191985,
+            "wayId": 87315656,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1015191985",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            286.99,
+            120.227
+          ],
+          "source": {
+            "type": "node",
+            "id": 2087259329,
+            "wayId": 87315656,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 2087259329",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            288.655,
+            121.197
+          ],
+          "source": {
+            "type": "node",
+            "id": 2087259324,
+            "wayId": 198613750,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 2087259324",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            287.132,
+            123.369
+          ],
+          "source": {
+            "type": "node",
+            "id": 2087259322,
+            "wayId": 198613750,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 2087259322",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            288.564,
+            124.395
+          ],
+          "source": {
+            "type": "node",
+            "id": 314739030,
+            "wayId": 28636755,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314739030",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            291.727,
+            126.514
+          ],
+          "source": {
+            "type": "node",
+            "id": 314739033,
+            "wayId": 28636755,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314739033",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            301.36,
+            133.316
+          ],
+          "source": {
+            "type": "node",
+            "id": 314739031,
+            "wayId": 28636755,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314739031",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            306.024,
+            132.629
+          ],
+          "source": {
+            "type": "node",
+            "id": 1003028437,
+            "wayId": 28636764,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1003028437",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            310.265,
+            134.269
+          ],
+          "source": {
+            "type": "node",
+            "id": 314739059,
+            "wayId": 28636764,
+            "highway": "footway",
+            "name": null
+          },
+          "capture": true,
+          "label": "Katajanokka canal / Kanavakatu bridge",
+          "yaw": 1.5707963267948966,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            320.059,
+            140.882
+          ],
+          "source": {
+            "type": "node",
+            "id": 314739061,
+            "wayId": 28636765,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314739061",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            330.342,
+            147.618
+          ],
+          "source": {
+            "type": "node",
+            "id": 314739063,
+            "wayId": 28636766,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314739063",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            334.143,
+            142.317
+          ],
+          "source": {
+            "type": "node",
+            "id": 1376000047,
+            "wayId": 123367028,
+            "highway": "cycleway",
+            "name": "Kanavaranta"
+          },
+          "label": "Public cycleway node 1376000047",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            335.01,
+            141.014
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600930,
+            "wayId": 26427853,
+            "highway": "living_street",
+            "name": "Kanavaranta"
+          },
+          "label": "Public living_street node 1005600930",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            339.811,
+            133.151
+          ],
+          "source": {
+            "type": "node",
+            "id": 314739065,
+            "wayId": 26427853,
+            "highway": "living_street",
+            "name": "Kanavaranta"
+          },
+          "label": "Public living_street node 314739065",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            343.607,
+            135.505
+          ],
+          "source": {
+            "type": "node",
+            "id": 445344939,
+            "wayId": 123367035,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 445344939",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            354.967,
+            142.208
+          ],
+          "source": {
+            "type": "node",
+            "id": 1003028379,
+            "wayId": 123367035,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1003028379",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            357.824,
+            144.895
+          ],
+          "source": {
+            "type": "node",
+            "id": 1003028402,
+            "wayId": 123367035,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1003028402",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            360.786,
+            150.166
+          ],
+          "source": {
+            "type": "node",
+            "id": 1003028646,
+            "wayId": 123367035,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1003028646",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            366.679,
+            155.106
+          ],
+          "source": {
+            "type": "node",
+            "id": 1376000043,
+            "wayId": 123367035,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1376000043",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            409.604,
+            183.064
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600825,
+            "wayId": 123367035,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1005600825",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            413.327,
+            185.462
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649561,
+            "wayId": 123367035,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 3218649561",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            418.558,
+            184.028
+          ],
+          "source": {
+            "type": "node",
+            "id": 1010666211,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1010666211",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            447.36,
+            174.931
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600941,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600941",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            452.596,
+            172.951
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600886,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600886",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            455.384,
+            171.204
+          ],
+          "source": {
+            "type": "node",
+            "id": 7809668864,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7809668864",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            458.417,
+            168.766
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649562,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649562",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            460.334,
+            165.926
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600903,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600903",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            460.182,
+            160.199
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600800,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600800",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            467.234,
+            158.81
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649564,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649564",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            470.072,
+            156.216
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600943,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600943",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            473.677,
+            153.221
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649567,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649567",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            481.216,
+            152.635
+          ],
+          "source": {
+            "type": "node",
+            "id": 1009811053,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1009811053",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            569.674,
+            147.918
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649569,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649569",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            571.932,
+            149.334
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649568,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649568",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            572.591,
+            152.409
+          ],
+          "source": {
+            "type": "node",
+            "id": 1009811089,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1009811089",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            578.676,
+            142.853
+          ],
+          "source": {
+            "type": "node",
+            "id": 259612651,
+            "wayId": 193105390,
+            "highway": "footway",
+            "name": null
+          },
+          "capture": false,
+          "label": "Rahapajankatu eastern public approach",
+          "yaw": 0,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            572.591,
+            152.409
+          ],
+          "source": {
+            "type": "node",
+            "id": 1009811089,
+            "wayId": 193105390,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1009811089",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            571.932,
+            149.334
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649568,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649568",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            569.674,
+            147.918
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649569,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649569",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            481.216,
+            152.635
+          ],
+          "source": {
+            "type": "node",
+            "id": 1009811053,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1009811053",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            473.677,
+            153.221
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649567,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649567",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            470.072,
+            156.216
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600943,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600943",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            470.118,
+            154.01
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600857,
+            "wayId": 315734860,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600857",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            469.916,
+            147.425
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600912,
+            "wayId": 315734860,
+            "highway": "footway",
+            "name": null
+          },
+          "capture": true,
+          "label": "Uspenski Cathedral / Rahapajankatu",
+          "yaw": -1.5707963267948966,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            469.786,
+            142.824
+          ],
+          "source": {
+            "type": "node",
+            "id": 324624323,
+            "wayId": 1262954897,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 324624323",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            469.692,
+            141.242
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600948,
+            "wayId": 1262954897,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600948",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            466.007,
+            139.824
+          ],
+          "source": {
+            "type": "node",
+            "id": 324588615,
+            "wayId": 29452454,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 324588615",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            465.146,
+            139.969
+          ],
+          "source": {
+            "type": "node",
+            "id": 324624305,
+            "wayId": 29453171,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 324624305",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            461.249,
+            140.156
+          ],
+          "source": {
+            "type": "node",
+            "id": 324595421,
+            "wayId": 29453171,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 324595421",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            460.941,
+            135.387
+          ],
+          "source": {
+            "type": "node",
+            "id": 2087328746,
+            "wayId": 123367032,
+            "highway": "unclassified",
+            "name": "Pormestarinrinne"
+          },
+          "capture": true,
+          "label": "Uspenski Cathedral / Pormestarinrinne approach",
+          "yaw": -1.5707963267948966,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            461.249,
+            140.156
+          ],
+          "source": {
+            "type": "node",
+            "id": 324595421,
+            "wayId": 123367032,
+            "highway": "unclassified",
+            "name": "Pormestarinrinne"
+          },
+          "label": "Public unclassified node 324595421",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            458.534,
+            140.277
+          ],
+          "source": {
+            "type": "node",
+            "id": 6187436624,
+            "wayId": 29453171,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6187436624",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            455.879,
+            143.339
+          ],
+          "source": {
+            "type": "node",
+            "id": 6187436615,
+            "wayId": 29453171,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6187436615",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            454.968,
+            144.319
+          ],
+          "source": {
+            "type": "node",
+            "id": 322802535,
+            "wayId": 29453171,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 322802535",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            451.128,
+            139.905
+          ],
+          "source": {
+            "type": "node",
+            "id": 6187436618,
+            "wayId": 660881504,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6187436618",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            428.732,
+            141.395
+          ],
+          "source": {
+            "type": "node",
+            "id": 6187436616,
+            "wayId": 660881504,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6187436616",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            425.729,
+            141.627
+          ],
+          "source": {
+            "type": "node",
+            "id": 324614437,
+            "wayId": 660881501,
+            "highway": "steps",
+            "name": null
+          },
+          "label": "Public steps node 324614437",
+          "radius": 0.6,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            408.634,
+            142.876
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600877,
+            "wayId": 660881505,
+            "highway": "footway",
+            "name": null
+          },
+          "capture": true,
+          "label": "Uspenski public courtyard via south stair flights",
+          "yaw": 3.141592653589793,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            407.765,
+            130.742
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600839,
+            "wayId": 86509428,
+            "highway": "steps",
+            "name": null
+          },
+          "capture": true,
+          "label": "Uspenski western stair landing outside entrance",
+          "yaw": 1.5707963267948966,
+          "radius": 0.6,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            408.634,
+            142.876
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600877,
+            "wayId": 86509428,
+            "highway": "steps",
+            "name": null
+          },
+          "capture": false,
+          "label": "Returned down Uspenski western stairs",
+          "yaw": 0,
+          "radius": 0.6,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            428.732,
+            141.395
+          ],
+          "source": {
+            "type": "node",
+            "id": 6187436616,
+            "wayId": 660881501,
+            "highway": "steps",
+            "name": null
+          },
+          "label": "Public steps node 6187436616",
+          "radius": 0.6,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            451.128,
+            139.905
+          ],
+          "source": {
+            "type": "node",
+            "id": 6187436618,
+            "wayId": 660881504,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6187436618",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            454.968,
+            144.319
+          ],
+          "source": {
+            "type": "node",
+            "id": 322802535,
+            "wayId": 660881504,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 322802535",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            455.879,
+            143.339
+          ],
+          "source": {
+            "type": "node",
+            "id": 6187436615,
+            "wayId": 29453171,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6187436615",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            458.534,
+            140.277
+          ],
+          "source": {
+            "type": "node",
+            "id": 6187436624,
+            "wayId": 29453171,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6187436624",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            461.249,
+            140.156
+          ],
+          "source": {
+            "type": "node",
+            "id": 324595421,
+            "wayId": 29453171,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 324595421",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            460.941,
+            135.387
+          ],
+          "source": {
+            "type": "node",
+            "id": 2087328746,
+            "wayId": 123367032,
+            "highway": "unclassified",
+            "name": "Pormestarinrinne"
+          },
+          "capture": false,
+          "label": "Returned down Uspenski south stair flights to Pormestarinrinne",
+          "yaw": 0,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            461.249,
+            140.156
+          ],
+          "source": {
+            "type": "node",
+            "id": 324595421,
+            "wayId": 123367032,
+            "highway": "unclassified",
+            "name": "Pormestarinrinne"
+          },
+          "label": "Public unclassified node 324595421",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            465.146,
+            139.969
+          ],
+          "source": {
+            "type": "node",
+            "id": 324624305,
+            "wayId": 29453171,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 324624305",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            466.007,
+            139.824
+          ],
+          "source": {
+            "type": "node",
+            "id": 324588615,
+            "wayId": 29453171,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 324588615",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            469.692,
+            141.242
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600948,
+            "wayId": 29452454,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600948",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            469.786,
+            142.824
+          ],
+          "source": {
+            "type": "node",
+            "id": 324624323,
+            "wayId": 1262954897,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 324624323",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            470.118,
+            154.01
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600857,
+            "wayId": 315734860,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600857",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            470.072,
+            156.216
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600943,
+            "wayId": 315734860,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600943",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            473.677,
+            153.221
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649567,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649567",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            481.216,
+            152.635
+          ],
+          "source": {
+            "type": "node",
+            "id": 1009811053,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1009811053",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            569.674,
+            147.918
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649569,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649569",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            571.932,
+            149.334
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649568,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649568",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            572.591,
+            152.409
+          ],
+          "source": {
+            "type": "node",
+            "id": 1009811089,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1009811089",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            578.676,
+            142.853
+          ],
+          "source": {
+            "type": "node",
+            "id": 259612651,
+            "wayId": 193105390,
+            "highway": "footway",
+            "name": null
+          },
+          "capture": false,
+          "label": "Returned through Rahapajankatu public approach",
+          "yaw": 0,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            572.591,
+            152.409
+          ],
+          "source": {
+            "type": "node",
+            "id": 1009811089,
+            "wayId": 193105390,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1009811089",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            571.932,
+            149.334
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649568,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649568",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            569.674,
+            147.918
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649569,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649569",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            481.216,
+            152.635
+          ],
+          "source": {
+            "type": "node",
+            "id": 1009811053,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1009811053",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            473.677,
+            153.221
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649567,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649567",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            470.072,
+            156.216
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600943,
+            "wayId": 315734861,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600943",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            467.234,
+            158.81
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649564,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649564",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            460.182,
+            160.199
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600800,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600800",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            460.334,
+            165.926
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600903,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600903",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            458.417,
+            168.766
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649562,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649562",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            455.384,
+            171.204
+          ],
+          "source": {
+            "type": "node",
+            "id": 7809668864,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7809668864",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            452.596,
+            172.951
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600886,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600886",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            447.36,
+            174.931
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600941,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1005600941",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            418.558,
+            184.028
+          ],
+          "source": {
+            "type": "node",
+            "id": 1010666211,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1010666211",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            413.327,
+            185.462
+          ],
+          "source": {
+            "type": "node",
+            "id": 3218649561,
+            "wayId": 86509403,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 3218649561",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            409.604,
+            183.064
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600825,
+            "wayId": 123367035,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1005600825",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            366.679,
+            155.106
+          ],
+          "source": {
+            "type": "node",
+            "id": 1376000043,
+            "wayId": 123367035,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1376000043",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            360.786,
+            150.166
+          ],
+          "source": {
+            "type": "node",
+            "id": 1003028646,
+            "wayId": 123367035,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1003028646",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            357.824,
+            144.895
+          ],
+          "source": {
+            "type": "node",
+            "id": 1003028402,
+            "wayId": 123367035,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1003028402",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            354.967,
+            142.208
+          ],
+          "source": {
+            "type": "node",
+            "id": 1003028379,
+            "wayId": 123367035,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 1003028379",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            343.607,
+            135.505
+          ],
+          "source": {
+            "type": "node",
+            "id": 445344939,
+            "wayId": 123367035,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 445344939",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            339.811,
+            133.151
+          ],
+          "source": {
+            "type": "node",
+            "id": 314739065,
+            "wayId": 123367035,
+            "highway": "cycleway",
+            "name": null
+          },
+          "label": "Public cycleway node 314739065",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            335.01,
+            141.014
+          ],
+          "source": {
+            "type": "node",
+            "id": 1005600930,
+            "wayId": 26427853,
+            "highway": "living_street",
+            "name": "Kanavaranta"
+          },
+          "label": "Public living_street node 1005600930",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            334.143,
+            142.317
+          ],
+          "source": {
+            "type": "node",
+            "id": 1376000047,
+            "wayId": 26427853,
+            "highway": "living_street",
+            "name": "Kanavaranta"
+          },
+          "label": "Public living_street node 1376000047",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            330.342,
+            147.618
+          ],
+          "source": {
+            "type": "node",
+            "id": 314739063,
+            "wayId": 123367028,
+            "highway": "cycleway",
+            "name": "Kanavaranta"
+          },
+          "label": "Public cycleway node 314739063",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            320.059,
+            140.882
+          ],
+          "source": {
+            "type": "node",
+            "id": 314739061,
+            "wayId": 28636766,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314739061",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            310.265,
+            134.269
+          ],
+          "source": {
+            "type": "node",
+            "id": 314739059,
+            "wayId": 28636765,
+            "highway": "footway",
+            "name": null
+          },
+          "capture": true,
+          "label": "Returned over Katajanokka canal bridge",
+          "yaw": -1.5707963267948966,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            306.024,
+            132.629
+          ],
+          "source": {
+            "type": "node",
+            "id": 1003028437,
+            "wayId": 28636764,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1003028437",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            301.36,
+            133.316
+          ],
+          "source": {
+            "type": "node",
+            "id": 314739031,
+            "wayId": 28636764,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314739031",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            291.727,
+            126.514
+          ],
+          "source": {
+            "type": "node",
+            "id": 314739033,
+            "wayId": 28636755,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314739033",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            288.564,
+            124.395
+          ],
+          "source": {
+            "type": "node",
+            "id": 314739030,
+            "wayId": 28636755,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314739030",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            287.132,
+            123.369
+          ],
+          "source": {
+            "type": "node",
+            "id": 2087259322,
+            "wayId": 28636755,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 2087259322",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            288.655,
+            121.197
+          ],
+          "source": {
+            "type": "node",
+            "id": 2087259324,
+            "wayId": 198613750,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 2087259324",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            286.99,
+            120.227
+          ],
+          "source": {
+            "type": "node",
+            "id": 2087259329,
+            "wayId": 198613750,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 2087259329",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            288.291,
+            117.843
+          ],
+          "source": {
+            "type": "node",
+            "id": 1015191985,
+            "wayId": 87315656,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1015191985",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            289.658,
+            115.839
+          ],
+          "source": {
+            "type": "node",
+            "id": 311017304,
+            "wayId": 87315656,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311017304",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            291.114,
+            113.433
+          ],
+          "source": {
+            "type": "node",
+            "id": 314057170,
+            "wayId": 87315656,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314057170",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            293.204,
+            109.758
+          ],
+          "source": {
+            "type": "node",
+            "id": 12110417082,
+            "wayId": 198613752,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12110417082",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            271.311,
+            97.343
+          ],
+          "source": {
+            "type": "node",
+            "id": 12110417083,
+            "wayId": 87315648,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12110417083",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            268.875,
+            95.347
+          ],
+          "source": {
+            "type": "node",
+            "id": 12110417084,
+            "wayId": 87315648,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 12110417084",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            265.376,
+            89.496
+          ],
+          "source": {
+            "type": "node",
+            "id": 311032022,
+            "wayId": 87315648,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311032022",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            265.032,
+            88.281
+          ],
+          "source": {
+            "type": "node",
+            "id": 1015192010,
+            "wayId": 87315648,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1015192010",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            263.65,
+            70.309
+          ],
+          "source": {
+            "type": "node",
+            "id": 11734749124,
+            "wayId": 87315648,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 11734749124",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            261.885,
+            44.159
+          ],
+          "source": {
+            "type": "node",
+            "id": 311032019,
+            "wayId": 87315648,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311032019",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            256.267,
+            44.389
+          ],
+          "source": {
+            "type": "node",
+            "id": 314057116,
+            "wayId": 87315650,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 314057116",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            254.446,
+            44.388
+          ],
+          "source": {
+            "type": "node",
+            "id": 311032033,
+            "wayId": 87315650,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311032033",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            247.423,
+            44.595
+          ],
+          "source": {
+            "type": "node",
+            "id": 311032024,
+            "wayId": 87315650,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311032024",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            241.999,
+            44.903
+          ],
+          "source": {
+            "type": "node",
+            "id": 1015191926,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1015191926",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            234.377,
+            45.244
+          ],
+          "source": {
+            "type": "node",
+            "id": 7652327593,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7652327593",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            204.703,
+            46.572
+          ],
+          "source": {
+            "type": "node",
+            "id": 311037880,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311037880",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            200.223,
+            46.681
+          ],
+          "source": {
+            "type": "node",
+            "id": 1015192020,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 1015192020",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            193.767,
+            47.044
+          ],
+          "source": {
+            "type": "node",
+            "id": 7652327595,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7652327595",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            167.773,
+            48.497
+          ],
+          "source": {
+            "type": "node",
+            "id": 7652327597,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7652327597",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            158.93,
+            48.992
+          ],
+          "source": {
+            "type": "node",
+            "id": 311037862,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311037862",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            158.13,
+            49.627
+          ],
+          "source": {
+            "type": "node",
+            "id": 6475029917,
+            "wayId": 308725072,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6475029917",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            154.693,
+            49.803
+          ],
+          "source": {
+            "type": "node",
+            "id": 311039365,
+            "wayId": 308725019,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311039365",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            151.051,
+            50.046
+          ],
+          "source": {
+            "type": "node",
+            "id": 311039363,
+            "wayId": 308725019,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311039363",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            150.002,
+            49.655
+          ],
+          "source": {
+            "type": "node",
+            "id": 6475029918,
+            "wayId": 308725068,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6475029918",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            128.295,
+            50.877
+          ],
+          "source": {
+            "type": "node",
+            "id": 8475528947,
+            "wayId": 308725068,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 8475528947",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            121.333,
+            51.24
+          ],
+          "source": {
+            "type": "node",
+            "id": 7648639703,
+            "wayId": 308725068,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7648639703",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            101.497,
+            52.373
+          ],
+          "source": {
+            "type": "node",
+            "id": 7648639705,
+            "wayId": 308725068,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 7648639705",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            96.556,
+            52.649
+          ],
+          "source": {
+            "type": "node",
+            "id": 691314129,
+            "wayId": 308725068,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 691314129",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            85.658,
+            53.109
+          ],
+          "source": {
+            "type": "node",
+            "id": 344213232,
+            "wayId": 308725068,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 344213232",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            75.048,
+            54.528
+          ],
+          "source": {
+            "type": "node",
+            "id": 311039367,
+            "wayId": 308725068,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 311039367",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            72.156,
+            54.67
+          ],
+          "source": {
+            "type": "node",
+            "id": 6055299256,
+            "wayId": 308725065,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 6055299256",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            70.257,
+            54.792
+          ],
+          "source": {
+            "type": "node",
+            "id": 355143046,
+            "wayId": 308725065,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 355143046",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            69.796,
+            54.802
+          ],
+          "source": {
+            "type": "node",
+            "id": 11518916070,
+            "wayId": 308725065,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 11518916070",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            67.37,
+            54.89
+          ],
+          "source": {
+            "type": "node",
+            "id": 892864869,
+            "wayId": 308725065,
+            "highway": "footway",
+            "name": null
+          },
+          "label": "Public footway node 892864869",
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "xz": [
+            65.361,
+            53.34
+          ],
+          "source": {
+            "type": "node",
+            "id": 12112538613,
+            "wayId": 75623238,
+            "highway": "footway",
+            "name": null
+          },
+          "capture": false,
+          "label": "Returned to Senate Square east crossing",
+          "yaw": 0,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "label": "Senate Square east interior",
+          "xz": [
+            62,
+            35
+          ],
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "label": "Senate Square south interior",
+          "xz": [
+            0,
+            35
+          ],
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        },
+        {
+          "label": "Returned on foot to Senate Square",
+          "xz": [
+            -35,
+            18
+          ],
+          "capture": true,
+          "yaw": 3.141592653589793,
+          "radius": 1.4,
+          "timeoutSeconds": 180
+        }
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "label": "Mannerheimintie / Lasipalatsi",
+      "yaw": -1.5707963267948966,
+      "pitch": -0.1
+    },
+    {
+      "label": "Parliament House / Mannerheimintie",
+      "yaw": -1.5707963267948966,
+      "pitch": -0.1
+    },
+    {
+      "label": "Helsinki Music Centre",
+      "yaw": 3.141592653589793,
+      "pitch": -0.1
+    },
+    {
+      "label": "Finlandia Hall / Mannerheimintie",
+      "yaw": 1.5707963267948966,
+      "pitch": -0.1
+    },
+    {
+      "label": "Katajanokka canal / Kanavakatu bridge",
+      "yaw": 1.5707963267948966,
+      "pitch": -0.1
+    },
+    {
+      "label": "Uspenski Cathedral / Rahapajankatu",
+      "yaw": -1.5707963267948966,
+      "pitch": -0.1
+    },
+    {
+      "label": "Uspenski Cathedral / Pormestarinrinne approach",
+      "yaw": -1.5707963267948966,
+      "pitch": -0.1
+    },
+    {
+      "label": "Senate Square",
+      "yaw": 3.141592653589793,
+      "pitch": -0.1
+    }
+  ]
+}

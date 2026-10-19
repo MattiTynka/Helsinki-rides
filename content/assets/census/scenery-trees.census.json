@@ -1,0 +1,8 @@
+{
+  "require_version": "5.2",
+  "objects": ["tree-broadleaf", "tree-birch", "tree-pine"],
+  "self_overlap": { "enabled": false },
+  "limits": { "nonmanifold_interior_edges": 0, "flipped_edges": 0, "wire_edges": 0, "loose_vertices": 0, "degenerate_faces": 0 },
+  "unit_scale": 1.0,
+  "applied_transforms": true
+}

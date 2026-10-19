@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "binding": {
+    "osmPath": "data/raw/district-expansion-20261018/osm/district-expansion.json",
+    "osmSha256": "fe31bf359524e5801c6a607d62a6562736c8dfb0dea13ea45be20bd8c697c1c9",
+    "initialRoadGraphPath": "data/work/district-expansion-20261018/roads-v2/roads.json",
+    "initialRoadGraphSha256": "993e44729d9b204b209f7f422bfdef459e7a1c04a2990a0e47e7bb30ab1b4a9f",
+    "note": "Goal XZ references use exact named public road lane centres. Later coastal bridge/road support changes require final candidate route planning and real browser driving; this file is not driving proof."
+  },
+  "goals": [
+    {
+      "label": "Mannerheimintie at Lasipalatsi",
+      "xz": [
+        -838.446,
+        -152.479
+      ],
+      "road": "Mannerheimintie",
+      "radius": 3
+    },
+    {
+      "label": "Mannerheimintie at Parliament House",
+      "xz": [
+        -976.036,
+        -359.032
+      ],
+      "road": "Mannerheimintie",
+      "radius": 3
+    },
+    {
+      "label": "Mannerheimintie beside Finlandia Hall",
+      "xz": [
+        -1132.457,
+        -695.574
+      ],
+      "road": "Mannerheimintie",
+      "radius": 3
+    },
+    {
+      "label": "Mannerheimintie return at Lasipalatsi",
+      "xz": [
+        -854.005,
+        -140.915
+      ],
+      "road": "Mannerheimintie",
+      "radius": 3
+    },
+    {
+      "label": "Mannerheimintie at Stockmann",
+      "xz": [
+        -599.42,
+        199.868
+      ],
+      "road": "Mannerheimintie",
+      "radius": 3
+    },
+    {
+      "label": "Eteläesplanadi eastbound connection",
+      "xz": [
+        -199.934,
+        258.038
+      ],
+      "road": "Eteläesplanadi",
+      "radius": 3
+    },
+    {
+      "label": "Katajanokanlaituri bridge western approach",
+      "xz": [
+        274.592,
+        163.4
+      ],
+      "road": "Katajanokanlaituri",
+      "radius": 3
+    },
+    {
+      "label": "Katajanokanlaituri after canal crossing",
+      "xz": [
+        389.572,
+        237.649
+      ],
+      "road": "Katajanokanlaituri",
+      "radius": 3
+    },
+    {
+      "label": "Uspenski Cathedral base / Rahapajankatu",
+      "xz": [
+        509.96,
+        143.933
+      ],
+      "road": "Rahapajankatu",
+      "radius": 3
+    },
+    {
+      "label": "Katajanokanlaituri return to city bank",
+      "xz": [
+        276.351,
+        160.667
+      ],
+      "road": "Katajanokanlaituri",
+      "radius": 3
+    },
+    {
+      "label": "Senate Square / Unioninkatu return",
+      "xz": [
+        -75,
+        -25
+      ],
+      "road": "Unioninkatu",
+      "radius": 8
+    }
+  ],
+  "requiredWayIds": [
+    24336451
+  ],
+  "recommendedMaxSeconds": 1200,
+  "acceptance": "One real keyboard document; unchanged 240 s per-leg and 10 m/s target cap; zero recovery X inputs; final Unioninkatu goal remains radius8 and actualexit follows. Required source way24336451 proves the road canal crossing. Intermediate return goals bound individual leg lengths."
+}

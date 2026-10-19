@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "status": "SOURCE_REGISTERED_PLAN_NATIVE_DRIVE_REQUIRED",
+  "binding": {
+    "roads": {
+      "file": "data/work/city-north-20261019/roads-v2/roads.json",
+      "sha256": "30bf27aaad5ba169f1b46408b46cd8b3aebc7548c38a66549e5a20d5d714d424"
+    },
+    "gameplay": {
+      "file": "data/work/city-north-20261019/gameplay-v1/gameplay.json",
+      "sha256": "0e0e55d80972a91a224cd28db51044e5a0257be179185917df5f433976058805"
+    },
+    "osm": {
+      "file": "data/raw/city-north-20261019/osm/city-north.json",
+      "sha256": "707388efff3d70d40c3e71898d22dbdb908d1137a67f6dac2e3b13ef26c49c1a"
+    },
+    "frozenRoadIndex": {
+      "file": "data/work/city-continuation-20261019/runtime-v7/packages/world-schema/src/roads.ts",
+      "sha256": "1bdee5c06c718e5e51c2ef48bacae30d4d746509ed8b75f196688d88b2278048"
+    },
+    "planner": {
+      "file": "data/work/city-north-20261019/verification/keyboard-route-frozen-v1.ts",
+      "sha256": "c8d2cd9dc3250e23ae8670eb79d3c7594b86850e642baf4954fbb0e51e37583b",
+      "upstreamFile": "tools/verify/lib/keyboard-route.ts",
+      "upstreamSha256": "529b06efd75f90489d3bf91b70a76537e92994448b9272be93b6dfe8bc26d83a",
+      "change": "Only schema import rebased to frozen runtime-v7; planner function body unchanged."
+    },
+    "scriptSha256": "6743343b34d3bf2fdf20ef57de106cfe29fb0ecee60338f3a75caae81e0f23d6",
+    "selectedPrototype": {
+      "file": "data/work/city-north-20261019/verification/drive-directed-prototype-v1.json",
+      "sha256": "d74c40204aa507c1a0f9290aad5e253dece71a25d32d644c15ee35ff9f876a75"
+    },
+    "physicalRegistration": {
+      "file": "data/work/city-north-20261019/verification/valskari-source-roads-v2-metadata.json",
+      "sha256": "76737f62441df7d377bee29ba2e13c8c4cf52cf6eda4d8616a98ff51f9b43707"
+    }
+  },
+  "goals": [
+    {
+      "label": "Mannerheimintie / Lasipalatsi departure",
+      "road": "Mannerheimintie",
+      "xz": [
+        -838.05417361918,
+        -151.95915923280188
+      ],
+      "radius": 0.6
+    },
+    {
+      "label": "Directed Mannerheimintie continuation checkpoint",
+      "road": "Mannerheimintie",
+      "xz": [
+        -1187.3206646428819,
+        -778.820514795971
+      ],
+      "radius": 0.6
+    },
+    {
+      "label": "New Runeberginkatu north block",
+      "road": "Runeberginkatu",
+      "xz": [
+        -1639.879417774161,
+        -1015.2330381748719
+      ],
+      "radius": 0.6
+    },
+    {
+      "label": "New Sandelsinkatu / Välskärinkatu block",
+      "road": "Sandelsinkatu",
+      "xz": [
+        -1705.1664413971453,
+        -1045.6694920281484
+      ],
+      "radius": 0.6
+    },
+    {
+      "label": "New Töölöntori / Töölöntorinkatu street approach",
+      "road": "Töölöntorinkatu",
+      "xz": [
+        -1507.108008364268,
+        -1054.6182753063163
+      ],
+      "radius": 0.6
+    },
+    {
+      "label": "New northern Mannerheimintie via Dunckerinkatu",
+      "road": "Mannerheimintie",
+      "xz": [
+        -1292.427274357314,
+        -1006.375617495169
+      ],
+      "radius": 0.6
+    },
+    {
+      "label": "Directed Kaivokatu continuation checkpoint",
+      "road": "Kaivokatu",
+      "xz": [
+        -677.4206857665818,
+        -87.23124496314968
+      ],
+      "radius": 0.6
+    },
+    {
+      "label": "Senate Square / Unioninkatu return",
+      "road": "Unioninkatu",
+      "xz": [
+        -73.87589662273845,
+        -25.20822093281485
+      ],
+      "radius": 8
+    }
+  ],
+  "requiredWayIds": [
+    263728574,
+    202637398,
+    8034579,
+    1309809289,
+    372435699,
+    234804193,
+    191996208
+  ],
+  "recommendedMaxSeconds": 1200,
+  "acceptance": "One continuous real-keyboard Senate car entry, Lasipalatsi departure, legal Runeberg/Sandels/Töölöntorinkatu north-strip loop, northern Mannerheimintie southbound Dunckerinkatu junction, supported return and Senate exit. Zero U-turn connectors, outside-map detours, teleports or recoveries. Existing 240s per leg and10m/s target remain; two actual named-source lane checkpoints bound the longest legs. Candidate own recording/replay and final support/clearance checks required.",
+  "derivedFrom": {
+    "file": "content/helsinki/city-north-20261019/drive-plan-v1.json",
+    "sha256": "d84bc075e3bafcbe5a6b3ea4d44e011a8ca14afb52fc244a54655e416a98ad2b"
+  }
+}

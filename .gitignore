@@ -1,0 +1,24 @@
+node_modules/
+dist/
+dist-pages/
+.agents/
+.codex/
+.aws/
+*.log
+*.pyc
+*.rgba.deflate
+# Raw sources, intermediate work, logs and local evidence stay out of Git (plan section 14 and 15).
+data/
+build/
+apps/game/public/world/
+# Third-party source models (licences recorded in docs/source-register.md); not redistributed here.
+models/
+*.blend1
+__pycache__/
+.env
+.env.*
+!.env.example
+# Unused reference photographs; licensed production photographs are exported with metadata removed.
+content/assets/facades/estates/DSC05064.jpg
+content/assets/facades/estates/DSC05070.jpg
+content/assets/facades/estates/DSC05072.jpg
