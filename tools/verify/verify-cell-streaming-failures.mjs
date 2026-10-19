@@ -70,7 +70,9 @@ try {
   await Promise.all(delayed.splice(0).map(release => release()));
   await page.evaluate(() => window.__HELSINKI_GAME__.awaitVisuals());
   const final = await inspect(); samples.push({ label: 'stale-completion-retired', ...final });
-  check('stale-disposal', final.stream.detail.staleDisposed + final.stream.fallback.staleDisposed > recovered.stream.detail.staleDisposed + recovered.stream.fallback.staleDisposed, JSON.stringify({ detail: final.stream.detail.staleDisposed, fallback: final.stream.fallback.staleDisposed }));
+  const retired = stream => stream.detail.staleDisposed + stream.fallback.staleDisposed + (stream.detail.cancelledLoads ?? 0) + (stream.fallback.cancelledLoads ?? 0);
+  check('stale-work-retired', retired(final.stream) > retired(recovered.stream), JSON.stringify({ detailDisposed: final.stream.detail.staleDisposed, fallbackDisposed: final.stream.fallback.staleDisposed,
+    detailCancelled: final.stream.detail.cancelledLoads, fallbackCancelled: final.stream.fallback.cancelledLoads }));
   check('final-coverage', final.stream.coverage.missingCells.length === 0, JSON.stringify(final.stream.coverage));
   const bytes = final.stream.detail.residentTextureMiB + final.stream.fallback.residentTextureMiB + final.stream.persistentTextureMiB;
   check('memory-cap', bytes <= final.stream.totalTextureBudgetMiB, `${bytes.toFixed(2)} / ${final.stream.totalTextureBudgetMiB} MiB`);

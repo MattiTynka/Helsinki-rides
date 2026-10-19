@@ -64,6 +64,68 @@ test('late completion after a district change is disposed without showing or evi
   assert.deepEqual(disposed, ['a']);
   assert.equal(stream.stats().staleDisposed, 1);
   assert.equal(stream.stats().residentCells, 1);
+  assert.equal(stream.stats().cancelledLoads, 1);
+  assert.equal(stream.stats().failedLoads, 0);
+});
+
+test('leaving a district aborts its download and immediately reuses the settled slot without a failure cooldown', async () => {
+  const requests: string[] = [], signals: AbortSignal[] = [], shown: string[] = [];
+  const stream = new CellVisualStream([cell('a', 0), cell('b', 1000)], {
+    load: (cell, signal) => {
+      requests.push(cell.id); signals.push(signal);
+      if (cell.id === 'a' && requests.length === 1) return new Promise<CellResource>((_resolve, reject) => {
+        signal.addEventListener('abort', () => reject(signal.reason), { once: true });
+      });
+      return Promise.resolve(resource());
+    },
+    show: cell => { shown.push(cell.id); }, dispose: () => {},
+  }, options);
+  stream.update(focus(64)); stream.update(focus(1064));
+  assert.equal(signals[0]!.aborted, true);
+  await stream.settle();
+  assert.deepEqual(requests, ['a', 'b']); assert.deepEqual(shown, ['b']);
+  assert.equal(stream.stats().cancelledLoads, 1); assert.equal(stream.stats().failedLoads, 0);
+  assert.deepEqual(stream.stats().errors, []); assert.deepEqual(stream.stats().errorHistory, []);
+  stream.update(focus(64)); await stream.settle();
+  assert.deepEqual(requests, ['a', 'b', 'a'], 'the cancelled cell must be reloadable immediately when revisited');
+  assert.deepEqual(shown, ['b', 'a']);
+});
+
+test('cancelled uninterruptible decoding retains its concurrency slot and never mounts after returning to the same cell', async () => {
+  const old = deferred<CellResource>(), requests: string[] = [], shown: CellResource[] = [], disposed: CellResource[] = [];
+  const stale = resource(9), current = resource(10);
+  const stream = new CellVisualStream([cell('a', 0), cell('b', 1000)], {
+    load: cell => { requests.push(cell.id); return requests.length === 1 ? old.promise : Promise.resolve(current); },
+    show: (_cell, value) => { shown.push(value); }, dispose: (_cell, value) => { disposed.push(value); },
+  }, options);
+  stream.update(focus(64)); stream.update(focus(1064)); stream.update(focus(64));
+  assert.deepEqual(requests, ['a'], 'a worker which cannot abort still holds the only physical slot');
+  assert.equal(stream.stats().pendingCells, 1); assert.equal(stream.stats().cancelledLoads, 1);
+  old.resolve(stale); await stream.settle();
+  assert.deepEqual(requests, ['a', 'a']); assert.deepEqual(disposed, [stale]); assert.deepEqual(shown, [current]);
+  assert.equal(stream.stats().residentCells, 1); assert.equal(stream.stats().pendingCells, 0);
+  assert.equal(stream.stats().staleDisposed, 1); assert.equal(stream.stats().failedLoads, 0);
+});
+
+test('rapid travel keeps all aborted decode work inside the physical concurrency bound', async () => {
+  const cells = [cell('a', 0), cell('b', 128), cell('c', 1000), cell('d', 1128)];
+  const pending = new Map(cells.map(cell => [cell.id, deferred<CellResource>()]));
+  let active = 0, peak = 0;
+  const requests: string[] = [], shown: string[] = [], disposed: string[] = [];
+  const stream = new CellVisualStream(cells, {
+    load: cell => {
+      requests.push(cell.id); active++; peak = Math.max(peak, active);
+      return pending.get(cell.id)!.promise.finally(() => { active--; });
+    }, show: cell => { shown.push(cell.id); }, dispose: cell => { disposed.push(cell.id); },
+  }, { ...options, concurrency: 2 });
+  stream.update(focus(120)); stream.update(focus(1120));
+  assert.deepEqual(requests, ['a', 'b']); assert.equal(stream.stats().cancelledLoads, 2);
+  pending.get('a')!.resolve(resource()); pending.get('b')!.resolve(resource());
+  pending.get('c')!.resolve(resource()); pending.get('d')!.resolve(resource());
+  await stream.settle();
+  assert.equal(peak, 2); assert.equal(active, 0);
+  assert.deepEqual(requests, ['a', 'b', 'c', 'd']);
+  assert.deepEqual(shown.sort(), ['c', 'd']); assert.deepEqual(disposed.sort(), ['a', 'b']);
 });
 
 test('decoded texture costs control admission, and returning to an evicted district reloads resources', async () => {
@@ -95,6 +157,7 @@ test('over-budget decoded resources are disposed and not repeatedly retried', as
   stream.update(focus(64)); await stream.settle();
   stream.update(focus(64)); await stream.settle();
   assert.equal(loads, 1); assert.equal(disposed, 1);
+  assert.equal(stream.stats().cancelledLoads, 0, 'a completed decode rejected by its measured cost is not a cancelled load');
   assert.equal(stream.stats().residentCells, 0);
   assert.deepEqual(stream.stats().missingNearDetail, ['too-big']);
 });
@@ -149,4 +212,24 @@ test('disposing a stream invalidates in-flight work and releases resident cells 
   stream.dispose(); pending.resolve(resource()); await stream.settle();
   stream.dispose();
   assert.equal(shown, 0); assert.equal(disposed, 1); assert.equal(stream.stats().residentTextureMiB, 0);
+  assert.equal(stream.stats().cancelledLoads, 1); assert.equal(stream.stats().failedLoads, 0);
+});
+
+test('disposing during an abortable retry stops downloads with no extra failures or subsequent work', async () => {
+  let attempts = 0, now = 0, signal: AbortSignal | undefined;
+  const stream = new CellVisualStream([cell('a', 0)], {
+    load: (_cell, incoming) => {
+      if (++attempts === 1) return Promise.reject(new Error('first attempt failed'));
+      signal = incoming;
+      return new Promise<CellResource>((_resolve, reject) => incoming.addEventListener('abort', () => reject(incoming.reason), { once: true }));
+    }, show: () => assert.fail('no request completed'), dispose: () => assert.fail('no resources were allocated'),
+  }, { ...options, now: () => now });
+  stream.update(focus(64)); await stream.settle();
+  now = 3001; stream.update(focus(64));
+  stream.dispose(); stream.dispose(); await stream.settle();
+  now = 9000; stream.update(focus(64)); await stream.settle();
+  assert.equal(signal!.aborted, true); assert.equal(attempts, 2);
+  assert.equal(stream.stats().pendingCells, 0); assert.equal(stream.stats().failedLoads, 1);
+  assert.equal(stream.stats().cancelledLoads, 1); assert.deepEqual(stream.stats().errors, []);
+  assert.deepEqual(stream.stats().errorHistory, ['a: first attempt failed']);
 });

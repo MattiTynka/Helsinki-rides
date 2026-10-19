@@ -84,3 +84,7 @@ For a later rollback, restore the previous tested source/descriptor pair and
 run the workflow again. Retain old world release downloads so an already open
 session can continue fetching its matching assets. The first release has no
 earlier hosted game to restore; unpublishing Pages is its emergency fallback.
+
+The [travel and memory retention correction](streaming-memory-fix-2026-10-19.md)
+documents subsequent request cancellation, actor GPU cleanup and production
+recording changes. It keeps the same world packet and visual residency limits.

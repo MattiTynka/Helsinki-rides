@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { test } from 'node:test';
 import type { WorldManifest } from '@helsinki/world-schema';
-import { loadWorldData, resolveRelease } from '../src/world/loader.ts';
+import { GlbLoader, loadWorldData, resolveRelease } from '../src/world/loader.ts';
 import { basisDecoderUrl, createWorldDeployment, selectedRelease, validateManifestPaths, validatePayloadPath, validateReleaseId, validateWorldBaseUrl, verifyManifestHash, worldReleaseUrl, worldRootUrl } from '../src/world/urls.ts';
 
 const release = 'senate-20261019-08b1f804';
@@ -150,5 +150,63 @@ test('a pinned manifest mismatch stops startup before referenced files are reque
   try {
     await assert.rejects(loadWorldData(release, () => {}, pinned), /integrity check failed/);
     assert.equal(requests, 1);
+  } finally { globalThis.fetch = original; }
+});
+
+test('cell GLB downloads receive their abort signal and never parse a cancelled response', async () => {
+  const original = globalThis.fetch;
+  const controller = new AbortController();
+  let parses = 0, received: AbortSignal | null | undefined;
+  const glb = Object.assign(Object.create(GlbLoader.prototype), {
+    loader: { parseAsync: async () => { parses++; throw new Error('unexpected parse'); } },
+  }) as GlbLoader;
+  globalThis.fetch = (async (_input, options) => {
+    received = options?.signal;
+    return new Promise((_resolve, reject) => options!.signal!.addEventListener('abort', () => reject(options!.signal!.reason), { once: true }));
+  }) as typeof fetch;
+  try {
+    const pending = glb.load('/world/release/cells/a.glb', controller.signal);
+    controller.abort();
+    await assert.rejects(pending, { name: 'AbortError' });
+    assert.equal(received, controller.signal); assert.equal(parses, 0);
+  } finally { globalThis.fetch = original; }
+});
+
+test('an abort after a GLB response body arrives prevents parsing', async () => {
+  const original = globalThis.fetch;
+  const controller = new AbortController();
+  let parses = 0;
+  const glb = Object.assign(Object.create(GlbLoader.prototype), {
+    loader: { parseAsync: async () => { parses++; throw new Error('unexpected parse'); } },
+  }) as GlbLoader;
+  globalThis.fetch = (async () => ({ ok: true, arrayBuffer: async () => {
+    controller.abort(); return new ArrayBuffer(4);
+  } })) as typeof fetch;
+  try {
+    await assert.rejects(glb.load('/world/release/cells/a.glb', controller.signal), { name: 'AbortError' });
+    assert.equal(parses, 0);
+  } finally { globalThis.fetch = original; }
+});
+
+test('an uninterruptible GLB parse returns its detached resources to the owner after cancellation', async () => {
+  const original = globalThis.fetch;
+  const controller = new AbortController();
+  type Parsed = Awaited<ReturnType<GlbLoader['load']>>;
+  const parsed = { scene: { name: 'detached cell' } } as unknown as Parsed;
+  let finish!: (value: Parsed) => void, started!: () => void;
+  const parsing = new Promise<void>(resolve => { started = resolve; });
+  let resourceBase: string | undefined;
+  const glb = Object.assign(Object.create(GlbLoader.prototype), {
+    loader: { parseAsync: (_bytes: ArrayBuffer, base: string) => {
+      resourceBase = base; started();
+      return new Promise<Parsed>(resolve => { finish = resolve; });
+    } },
+  }) as GlbLoader;
+  globalThis.fetch = (async () => new Response(new Uint8Array([1, 2, 3, 4]))) as typeof fetch;
+  try {
+    const pending = glb.load('https://assets.example.org/world/release/cells/a.glb', controller.signal);
+    await parsing; controller.abort(); finish(parsed);
+    assert.equal(await pending, parsed, 'the stream must receive late resources so it can dispose them');
+    assert.equal(resourceBase, 'https://assets.example.org/world/release/cells/');
   } finally { globalThis.fetch = original; }
 });

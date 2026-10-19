@@ -47,6 +47,16 @@ export function disposeCellResources(root: THREE.Object3D): void {
   const owned = resources([root]);
   for (const geometry of owned.geometries) geometry.dispose();
   for (const material of owned.materials) material.dispose();
-  for (const texture of owned.textures) texture.dispose();
+  const bitmaps = new Set<ImageBitmap>();
+  for (const texture of owned.textures) {
+    texture.dispose();
+    // Texture.dispose releases GPU storage but Three.js deliberately leaves ImageBitmap.close
+    // to the owner. A single bitmap can back several maps/materials inside this independent GLB.
+    const image: unknown = texture.source?.data ?? texture.image;
+    for (const source of Array.isArray(image) ? image : [image]) {
+      if (typeof ImageBitmap !== 'undefined' && source instanceof ImageBitmap) bitmaps.add(source);
+    }
+  }
+  for (const bitmap of bitmaps) bitmap.close();
   root.clear();
 }

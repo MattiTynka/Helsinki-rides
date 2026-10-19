@@ -28,11 +28,19 @@ export class CharacterView {
   private readonly aimCorrection: CharacterAim | null;
   private vehicleAnimation: NativeVehicleAnimation | null = null;
   private skinnedCulling: SkinnedMeshCuller | null = null;
+  private readonly ownedSkeletons = new Set<THREE.Skeleton>();
+  private disposed = false;
 
   constructor(assets: AssetLibrary, assetId: string, shadowMaterial: THREE.Material) {
     const { root, asset } = assets.cloneCharacter(assetId);
     this.asset = asset;
     this.model = root;
+    // SkeletonUtils clones palettes per actor, while geometry/materials remain
+    // shared with the asset. Collect before attaching the shared pistol clone.
+    root.traverse(node => {
+      const mesh = node as THREE.SkinnedMesh;
+      if (mesh.isSkinnedMesh) this.ownedSkeletons.add(mesh.skeleton);
+    });
     this.root.add(root);
     this.mixer = new THREE.AnimationMixer(root);
     this.nativeAnimation = asset.profile ? new NativeCharacterAnimation(this.mixer, root, asset.clips, asset.profile) : null;
@@ -137,8 +145,15 @@ export class CharacterView {
   }
 
   dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
     this.skinnedCulling?.dispose();
+    this.skinnedCulling = null;
     this.mixer.stopAllAction();
+    this.mixer.uncacheRoot(this.model);
+    for (const skeleton of this.ownedSkeletons) skeleton.dispose();
+    this.ownedSkeletons.clear();
+    this.shadow.geometry.dispose();
     this.root.removeFromParent();
   }
 
