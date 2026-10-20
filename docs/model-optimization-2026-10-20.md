@@ -1,7 +1,7 @@
 # Local model and delivery optimization
 
-This change is local only. The published Pages descriptor and hosted release are
-unchanged. The optimized derivative is `senate-20261020-optimized`, built from
+The Pages descriptor selects the optimized derivative
+`senate-20261020-optimized`, built from
 `senate-pages-20261020-credits-tex1024` (manifest
 `f77a471ef50efe09ce7435dad37f8b6329893cf7f34736474c94b0cc40dad75b`).
 
@@ -25,8 +25,8 @@ The separate local derivative `senate-20261020-optimized-native` preserves the
 full-resolution images of `senate-20261020-credits`; it does not substitute the
 web texture set. Its manifest SHA-256 is
 `ef4c4d253ce4b4586bcc80481f5e9732ca4c8ba93cfa2a39d4b3d935c66538a2`.
-The web archive is 458,548,712 bytes and remains local. No descriptor, release
-asset or Pages deployment has been published by this work.
+The web archive is 458,548,712 bytes. The Pages release uses this web derivative;
+the full-resolution native derivative remains a local preview.
 
 ## Production steps
 
