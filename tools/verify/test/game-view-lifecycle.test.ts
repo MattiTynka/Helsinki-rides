@@ -70,3 +70,67 @@ test('deferred officer models follow a moving patrol car instead of the stale bo
   rainLoaded = false; officer.inVehicle = 'removed-patrol';
   assert.equal(ready(), false, 'a stale vehicle reference safely falls back to the officer position');
 });
+
+function waitingFrameFixture(cause: 'models' | 'collision') {
+  let modelsReady = cause !== 'models', collisionReady = cause !== 'collision', characterDt = -1;
+  let attempts = 0, steps = 0, message: string | null = null, visualMissing = false;
+  const state = { tick: 60, player: { mode: 'onFoot' }, time: 1 } as unknown as SimState;
+  const modelMessage = (Game.prototype as unknown as { modelsWaitingMessage(): string | null }).modelsWaitingMessage;
+  const context = {
+    missingVisualCells: () => visualMissing ? ['missing-coarse'] : [],
+    visualLoading: { blocked: false, blockedFrames: 0, blockedSeconds: 0, missingCells: [] as string[] },
+    collisionLoading: { blocked: false, blockedFrames: 0, blockedSeconds: 0 },
+    modelLoading: { blocked: false, blockedFrames: 0, blockedSeconds: 0, failed: true },
+    config: { dynamicResolution: false }, lastNow: 0, paused: false, accumulator: 0,
+    presentationAlpha: 0, presentationFrameTime: 0, state, previousState: state, timeScale: 1,
+    fpsAcc: 0, fpsFrames: 0, stats: { fps: 0, frameMs: 0 }, sim: { screen: null },
+    input: { takeLook: () => [0, 0], gamepadLook: () => [0, 0] },
+    cameraRig: { inCar: false, look: () => {} }, stepBlock: null as 'models' | 'collision' | null,
+    collisionReady: () => collisionReady, actorModelsReady: () => modelsReady,
+    stepTicks: () => {
+      attempts++;
+      context.stepBlock = !collisionReady ? 'collision' : !modelsReady ? 'models' : null;
+      if (context.stepBlock) return 0;
+      steps++; return 1;
+    },
+    syncViews: (_dt: number, animationDt: number) => { characterDt = animationDt; message = modelMessage.call(context as unknown as Game); },
+    render: () => {},
+  };
+  return { context, frame: (now: number) => Game.prototype.frame.call(context as unknown as Game, now),
+    ready: (value: boolean) => { if (cause === 'models') modelsReady = value; else collisionReady = value; },
+    missingVisuals: (value: boolean) => { visualMissing = value; },
+    observed: () => ({ attempts, steps, characterDt, message }),
+  };
+}
+
+for (const cause of ['models', 'collision'] as const) {
+  test(`${cause} waits persist across render frames without a due tick and clear as soon as readiness resolves`, () => {
+    const f = waitingFrameFixture(cause), status = cause === 'models' ? f.context.modelLoading : f.context.collisionLoading;
+    f.frame(20);
+    assert.equal(status.blocked, true); assert.equal(f.observed().attempts, 1); assert.equal(f.observed().steps, 0);
+    f.frame(25); f.frame(30);
+    assert.equal(f.observed().attempts, 1, 'short render frames do not need another simulation step');
+    assert.equal(status.blocked, true, 'waiting must remain visible between fixed-tick attempts');
+    assert.equal(status.blockedFrames, 3); assert.equal(f.context.accumulator, 0);
+    assert.equal(f.context.presentationAlpha, 1); assert.equal(f.observed().characterDt, 0);
+    if (cause === 'models') assert.match(f.observed().message!, /Could not load the police/);
+    f.ready(true); f.frame(35);
+    assert.equal(status.blocked, false, 'completion clears the wait even before another tick is due');
+    assert.equal(f.observed().steps, 0); assert.ok(f.observed().characterDt > 0);
+    if (cause === 'models') assert.equal(f.observed().message, null);
+    f.frame(55); assert.equal(f.observed().steps, 1, 'simulation resumes without replaying elapsed loading time');
+  });
+}
+
+test('paused or visually blocked frames do not retain a previous model wait as their active cause', () => {
+  const f = waitingFrameFixture('models');
+  f.frame(20); assert.equal(f.context.modelLoading.blocked, true);
+  f.context.paused = true; f.frame(25);
+  assert.equal(f.context.modelLoading.blocked, false); assert.equal(f.observed().characterDt, 0);
+  f.context.paused = false; f.frame(45);
+  assert.equal(f.context.modelLoading.blocked, true);
+  f.missingVisuals(true); f.frame(50);
+  assert.equal(f.context.visualLoading.blocked, true); assert.equal(f.context.modelLoading.blocked, false);
+  assert.equal(f.observed().attempts, 2); assert.equal(f.observed().steps, 0);
+  assert.equal(f.observed().characterDt, 0); assert.equal(f.context.accumulator, 0);
+});

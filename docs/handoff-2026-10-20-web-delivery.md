@@ -4,7 +4,8 @@ Status at the original handoff: LOCAL ONLY, NOT PUBLISHED. The faster build runs
 http://127.0.0.1:5317/Helsinki-rides/. The live site still serves
 `senate-20261020-optimized` as pinned by `content/releases/pages.json`. Nothing
 had been pushed; this checkout has no Git remote. Release preparation corrected
-the deferred-officer position finding below and adds a regression test. Publish
+the deferred-officer position finding below and loading-status flicker between
+fixed ticks, with regression coverage for both. Publish
 only from the separately audited export, following the instructions below.
 
 The design and its measurements are in
@@ -218,6 +219,12 @@ original Estates photographs, which the export strips of metadata.
   back to their own position if the vehicle is unavailable. The regression in
   `tools/verify/test/game-view-lifecycle.test.ts` covers both stale-position
   directions, the 128 m boundary, officers on foot and missing vehicle references.
+- **Failure-recovery correction during release preparation.** A failed tick reset
+  the accumulator, and the following render-only frame cleared the police or
+  collision loading status. Waiting now persists until readiness resolves; the
+  presentation stays still and elapsed loading time never accumulates into
+  simulation ticks. Regressions cover both causes, completion, pause and visual
+  loading priority.
 - Visual cell streaming still measures grid squares, not model extents.
 - Police beyond 128 m are not drawn until their models arrive.
 - Finn's shadow blob is missing in frames while ticks wait.
