@@ -24,6 +24,7 @@ MAX_ARTIFACT_BYTES = 980_000_000
 MAX_ARCHIVE_BYTES = 980_000_000
 MAX_FILES = 10_000
 MAX_MANIFEST_BYTES = 8_000_000
+MAX_GAMEPLAY_BYTES = 8_000_000
 MAX_TRAILER_BYTES = 1_048_576
 DESCRIPTOR_KEYS = frozenset({
     'schemaVersion', 'worldRelease', 'manifestSha256', 'worldBaseUrl',
@@ -40,6 +41,40 @@ SAFE_SEGMENT = re.compile(r'[A-Za-z0-9][A-Za-z0-9._-]*\Z')
 RUNTIME_EXTENSIONS = frozenset({'.glb', '.hcol', '.bin', '.json'})
 PUBLICATION_EXTENSIONS = frozenset({'.json', '.md', '.txt'})
 SHELL_ASSET = re.compile(r'assets/[A-Za-z0-9][A-Za-z0-9_-]*\.(?:js|css|wasm)\Z')
+# The GT40-derived Kaamos model has no redistribution permission. Check runtime identities
+# and known GLB names; historical prose and publication/license documents remain unrestricted.
+RESTRICTED_VEHICLE = re.compile(r'(?:vehicle[-_]?)?(?:kaamos|gt[-_]?40)(?:[-_.][A-Za-z0-9_.-]+)?\Z', re.IGNORECASE)
+RESTRICTED_VEHICLE_SHA256 = '01d9f51ee1e19637ed479246991891c9a0f0fb54f9f4e87da43ab18583b766f3'
+
+
+def _restricted_vehicle(value: Any) -> bool:
+    return isinstance(value, str) and RESTRICTED_VEHICLE.fullmatch(value) is not None
+
+
+def _restricted_vehicle_file(value: str) -> bool:
+    name = value.rsplit('/', 1)[-1]
+    return name.lower().endswith('.glb') and _restricted_vehicle(name[:-4])
+
+
+def _validate_gameplay_vehicle_publication(data: bytes) -> None:
+    if len(data) > MAX_GAMEPLAY_BYTES:
+        raise ValueError('gameplay document exceeds the publication limit')
+    gameplay = _json(data)
+    if not isinstance(gameplay, dict):
+        raise ValueError('gameplay must be an object')
+    for field in ['vehicleDefinitions', 'vehicles']:
+        entries = gameplay.get(field, [])
+        if not isinstance(entries, list) or any(not isinstance(entry, dict) for entry in entries):
+            raise ValueError('gameplay vehicle lists must contain objects')
+        for entry in entries:
+            identities = [entry.get('id'), entry.get('assetId'), entry.get('definition')]
+            if field == 'vehicleDefinitions':
+                identities.append(entry.get('interaction', {}).get('poses') if isinstance(entry.get('interaction'), dict) else None)
+                label = entry.get('label')
+                if isinstance(label, str) and re.search(r'\b(?:kaamos|gt[-_ ]?40)\b', label, re.IGNORECASE):
+                    raise ValueError('nonredistributable vehicle definition is excluded from publication')
+            if any(_restricted_vehicle(value) for value in identities):
+                raise ValueError('nonredistributable vehicle definition or spawn is excluded from publication')
 
 
 def _unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
@@ -233,6 +268,8 @@ def _manifest_refs(data: bytes, descriptor: dict[str, Any]) -> dict[str, dict[st
         raise ValueError('manifest must contain runtime assets')
     if any(not isinstance(asset, dict) or 'path' not in asset for asset in manifest['assets']):
         raise ValueError('manifest assets must be pinned file references')
+    if any(_restricted_vehicle(asset.get('id')) for asset in manifest['assets']):
+        raise ValueError('nonredistributable vehicle asset is excluded from publication')
     for name in ['terrain', 'roads', 'gameplay']:
         if not isinstance(manifest.get(name), dict) or 'path' not in manifest[name]:
             raise ValueError('manifest is missing a required runtime file reference')
@@ -258,8 +295,12 @@ def _manifest_refs(data: bytes, descriptor: dict[str, Any]) -> dict[str, dict[st
                 allowed = _publication_path(path) if publication else Path(path).suffix in RUNTIME_EXTENSIONS
                 if path == 'manifest.json' or not allowed:
                     raise ValueError('manifest contains an unapproved referenced path')
+                if not publication and _restricted_vehicle_file(path):
+                    raise ValueError('nonredistributable vehicle GLB is excluded from publication')
                 item = {'bytes': _integer(value.get('bytes'), MAX_WORLD_BYTES, 'file reference bytes'),
                         'sha256': _digest(value.get('sha256'), 'file reference sha256')}
+                if not publication and Path(path).suffix == '.glb' and item['sha256'] == RESTRICTED_VEHICLE_SHA256:
+                    raise ValueError('nonredistributable vehicle GLB digest is excluded from publication')
                 if path in refs and refs[path] != item:
                     raise ValueError('manifest contains conflicting file references')
                 refs[path] = item
@@ -326,6 +367,12 @@ def stage(descriptor_path: Path, archive: Path, output: Path, source_sha: str) -
             raise ValueError('archive files do not exactly match the manifest references')
         if any(inventory[path] != value for path, value in expected.items()):
             raise ValueError('a world payload differs from its manifest digest or byte count')
+        manifest_document = _json((world / 'manifest.json').read_bytes())
+        gameplay_path = safe_relative_path(manifest_document['gameplay']['path'])
+        gameplay_file = world.joinpath(*gameplay_path.split('/'))
+        if gameplay_file.stat().st_size > MAX_GAMEPLAY_BYTES:
+            raise ValueError('gameplay document exceeds the publication limit')
+        _validate_gameplay_vehicle_publication(gameplay_file.read_bytes())
         receipt = {
             'schemaVersion': 1, 'repository': 'MattiTynka/Helsinki-rides',
             'sourceCommit': source_sha, 'descriptorSha256': descriptor_sha,

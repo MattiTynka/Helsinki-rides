@@ -19,19 +19,36 @@ exports record NVIDIA Kimodo provenance; the generator code's license is not
 represented as a license for its model checkpoint or motion output. The
 checkpoint revision was not supplied.
 
-The Lumi GT/patrol car, Revontuli, Kaamos, Cathedral, Alexander monument, custom character modifications and
-their movement exports were supplied by the project owner, who requested
-public game distribution and will provide further copyright information.
-Upstream authors and complete redistribution terms for these supplied assets
-are pending. Do not assume that these items are MIT, CC0, or CC BY solely
-because other project content uses those licenses. This notice does not grant
-new rights in third-party assets.
+Lumi GT and the patrol car are adapted from
+[Ford Mustang Gt 500 With pro Rig FOR FREE!](https://sketchfab.com/3d-models/ford-mustang-gt-500-with-pro-rig-for-free-f26a29f766844f46910547d6d2cc291d)
+by [NoOb StUfFs](https://sketchfab.com/NoObStUfFs),
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+Revontuli is adapted from
+[Bugatti Veyron fully rigged.](https://sketchfab.com/3d-models/bugatti-veyron-fully-rigged-5ca18dc84d074655966a6fe7165aa157)
+by the same author, CC BY 4.0. Author and license identities were verified
+against Sketchfab's public API on 20 October 2026. The game removes brand marks,
+lettering, number plates and source textures; modifies geometry, materials,
+wheels and cabin fit; and adds gameplay sockets and fitted Finn interaction poses.
+The patrol variant adds its own paint and lamps.
 
-Revontuli and Kaamos are fictional adaptations of the owner-supplied Veyron and
-GT40 models. Brand marks, lettering, number plates and source textures were
-removed; the cars use original flat materials, procedural wheels and fitted
-Finn vehicle interaction poses. Their upstream authors and complete terms are
-pending with the other supplied models.
+Helsinki Cathedral: original model by Dany Sánchez / MiniWorld3D, optimized
+by Jukka Seppänen (@kijaidesign),
+[original model listing](https://www.printables.com/model/486571-helsinki-cathedral-finland).
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) according to the
+project owner's declaration for the supplied model. The game adapts scale,
+placement, materials and baked lighting. The exact supplied version's original
+license remains to be independently retrieved; authorship is corroborated.
+
+Kaamos / GT40 is excluded from this packet following the project owner's
+20 October 2026 report that its source restricts redistribution.
+
+The Alexander monument, custom character modifications and movement exports
+were supplied by the project owner, who requested public game distribution and
+will provide the remaining copyright information. Complete redistribution
+terms for these remaining supplied adaptations are pending. This notice does
+not grant new rights in third-party assets. Exact evidence and adaptation
+records are in the repository's
+[asset credit ledger](https://github.com/MattiTynka/Helsinki-rides/blob/main/content/releases/asset-credits.json).
 
 Original project paving, rail artwork, selected procedural facade charts and
 other explicitly identified original artwork retain their recorded CC0-1.0

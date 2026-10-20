@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 1,
-  "worldRelease": "senate-pages-20261020-cars-tex1024",
-  "manifestSha256": "9a2a24bedcdd6b34ed286dc226e1f75b0195ecf292b55d3dec1ca1168bfb3805",
-  "worldBaseUrl": "https://mattitynka.github.io/Helsinki-rides/world/",
-  "archiveUrl": "https://github.com/MattiTynka/Helsinki-rides/releases/download/pages-cars-20261020/pages-world.tar.gz",
-  "archiveSha256": "14323797ccdd25306dfb3d9b73ad07da1e5ef0ee19472a690f1586e3ddcc668f",
-  "archiveBytes": 665665503,
-  "worldBytes": 943492168
+ "schemaVersion": 1,
+ "worldRelease": "senate-pages-20261020-credits-tex1024",
+ "manifestSha256": "f77a471ef50efe09ce7435dad37f8b6329893cf7f34736474c94b0cc40dad75b",
+ "worldBaseUrl": "https://mattitynka.github.io/Helsinki-rides/world/",
+ "archiveUrl": "https://github.com/MattiTynka/Helsinki-rides/releases/download/pages-credits-20261020/pages-world.tar.gz",
+ "archiveSha256": "f63138a18fe66de31e05d86c9386b5f46d1546eec18953c41f1403db4955b282",
+ "archiveBytes": 664697272,
+ "worldBytes": 942316787
 }

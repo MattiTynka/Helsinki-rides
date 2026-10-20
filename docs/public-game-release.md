@@ -42,13 +42,19 @@ OpenStreetMap source publication extract and ledger, and the generated road data
 OpenStreetMap database content remains under ODbL 1.0. MIT covers original code
 and documentation; it does not relicense models, photographs or databases.
 
-The owner requested publication and said the remaining copyright information
-would follow, with most content under CC BY 4.0. This is recorded as publication
-authorization, not independent verification of every asset's license. Upstream
-authors and redistribution terms for the owner-supplied car, Cathedral,
-Alexander model and custom character adaptations/motion still need completion.
-Those assets are identified as supplied content with terms pending; no new
-copyright or open-license grant is invented for them.
+The owner requested publication and supplied additional copyright information
+on 20 October 2026. The Lumi GT/patrol Mustang source and Revontuli Veyron source
+are by NoOb StUfFs under CC BY 4.0, independently verified using Sketchfab's
+public model API. The supplied Cathedral is credited to Dany Sánchez /
+MiniWorld3D with optimizations by Jukka Seppänen (@kijaidesign), under CC BY 4.0
+as declared by the owner. Its authorship is corroborated; its supplied version's
+exact original license has not been independently retrieved. The
+[asset credit ledger](../content/releases/asset-credits.json) distinguishes that
+declaration from independent verification and records the exact source links.
+
+Kaamos / GT40 is removed following the owner's report of a redistribution
+restriction. Remaining Alexander and custom character/motion copyright details
+are pending. No new copyright or open-license grant is invented for them.
 
 ## Verification and limitations
 
@@ -80,20 +86,37 @@ named in their benchmark records.
 5. Open the actual Pages URL and run `tools/verify/smoke-pages.mjs`. Inspect its
    screenshots and record the deployment identity and any remaining failures.
 
-For a later rollback, restore the previous tested source/descriptor pair and
-run the workflow again. Retain old world release downloads so an already open
-session can continue fetching its matching assets. The first release has no
-earlier hosted game to restore; unpublishing Pages is its emergency fallback.
+For a later rollback, restore a tested source/descriptor pair whose asset rights
+remain cleared and run the workflow again. Remove restricted historical packets
+from public release downloads, Git references and deployment artifacts. A source
+or packet that contains the removed GT40/Kaamos must not be used for rollback.
+An already open old session must reload to select the replacement world.
 
 The [travel and memory retention correction](streaming-memory-fix-2026-10-19.md)
 documents subsequent request cancellation, actor GPU cleanup and production
 recording changes. It keeps the same world packet and visual residency limits.
 
 The [Revontuli and Kaamos integration](decisions/0021-revontuli-and-kaamos-cars.md)
-subsequently restores those two supplied cars beside the Lumi GT at Senate
-Square. Desktop world `senate-20261020-cars` derives from the original expanded
-world; the new Pages descriptor pins `senate-pages-20261020-cars-tex1024`.
-All 304 city cells, terrain, collision, roads, scenery and previous hero assets
-remain unchanged. The new packet is 943,492,168 bytes and its archive is
-665,665,503 bytes, retaining the full map within the existing size limits.
-Reload the game after deployment to select the new pinned world.
+records their earlier local and public integration. That acceptance is
+historical: the 20 October 2026 credit correction removes Kaamos and retains
+Revontuli alongside the Lumi GT. The replacement desktop world is
+`senate-20261020-credits`; its Pages derivative is
+`senate-pages-20261020-credits-tex1024`. The committed Pages descriptor and packet
+receipt are the authority for their hashes and byte counts. The complete
+304-cell map remains, with the existing web texture policy. Reload after
+deployment to select the replacement world and its updated credits.
+
+The replacement Pages world contains 934 files and 942,316,787 bytes; its
+archive is 664,697,272 bytes. The descriptor pins the exact archive and manifest
+digests. All 304 existing city cells and the retained model payloads are byte
+identical to the preceding packet. Gameplay changes remove only the Kaamos
+definition and its `car-4` spawn; source credits and publication notices are
+updated. The removed archive on `pages-cars-20261020` and its Pages Actions
+artifact are withdrawn. Model binaries were never part of the public Git tree
+or its history.
+
+The loading screen links the two car sources and their author, City of Helsinki,
+Cathedral creators, Blender Studio and OpenStreetMap to their source and license
+pages. Links open separately without starting play. The panel scrolls on short
+screens. Publication checks reject Kaamos/GT40 asset and gameplay identities
+and the withdrawn GLB's exact SHA-256, including renamed copies of that export.

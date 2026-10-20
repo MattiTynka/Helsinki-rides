@@ -36,8 +36,9 @@ human-readable index. Rule 18.3 of the plan applies: the public game never reque
 | Owner's **Finn12**, derived from Blender Studio **Snow** (v4.2) | Player with supplied 71-joint native rig and eleven movement clips; six added gameplay actions | Snow CC BY 4.0; supplied Kimodo motion provenance below | Portable source `finn.glb`, sha256 `2d4516c7…`; source scene and inputs fingerprinted | `data/raw/finn12-20261017/ledger.json` |
 | Owner-supplied native **Rain**, derived from Blender Studio Rain | Poliisi officer, 70-joint native rig and eleven supplied movement clips | Rain CC BY 4.0; supplied motion provenance retained | `motion/out/rain.glb`, sha256 `c2aec924…` | `data/raw/rain-native-20261017/ledger.json` |
 | Quaternius Universal Animation Library, free Standard edition | Historical reduced Rain and Snow locomotion; superseded by the supplied native exports | CC0-1.0 | Official itch.io Standard archive retrieved 2026-10-17; archive sha256 `cc73fc4e…`, in-place GLB `69591853…`, root-motion GLB `be684571…`; license saved beside them | `data/raw/quaternius-animation/ual1-standard-20261017/ledger.json` |
-| User-supplied rigged Mustang GT500 model | Fictional "Lumi GT" sports car and the patrol variant; all badges, lettering, plates and brand textures removed (rule 18.3) | Project owner's own asset | `models/ford-mustang-gt-500-with-pro-rig-for-free/source/ford mustang fully rigged.blend`, sha256 `d0494048…` in `data/work/m0/blender-car/blender-report.json` | — |
-| User-supplied low-poly Helsinki Cathedral model (binary STL) | The Cathedral's visual, placed on its register building and LoD2 height, light-baked (decision 0005) | Project owner's own asset | `models/Helsinki-cathedral-lowpoly.stl`, 38,754 triangles, sha256 `4a3fbc3d…` in `data/work/m0/cathedral/placement.json` | — |
+| [Rigged Mustang GT500](https://sketchfab.com/3d-models/ford-mustang-gt-500-with-pro-rig-for-free-f26a29f766844f46910547d6d2cc291d) by NoOb StUfFs, supplied by the owner | Fictional "Lumi GT" sports car and patrol variant; badges, lettering, plates and source textures removed; game geometry, wheels, materials and nodes adapted | CC BY 4.0; independently verified through Sketchfab's public API on 2026-10-20 | `models/ford-mustang-gt-500-with-pro-rig-for-free/source/ford mustang fully rigged.blend`, sha256 `d0494048…` in `data/work/m0/blender-car/blender-report.json` | `content/releases/asset-credits.json` |
+| [Rigged Veyron](https://sketchfab.com/3d-models/bugatti-veyron-fully-rigged-5ca18dc84d074655966a6fe7165aa157) by NoOb StUfFs, supplied by the owner | Fictional Revontuli; emblems, lettering, plates and source textures removed; scale, wheels, cabin, materials and gameplay nodes adapted | CC BY 4.0; independently verified through Sketchfab's public API on 2026-10-20 | Source and adaptation contract: `content/assets/vehicle-revontuli.contract.json` | `content/releases/asset-credits.json` |
+| [Helsinki Cathedral - Finland](https://www.printables.com/model/486571-helsinki-cathedral-finland) by Dany Sánchez / MiniWorld3D, optimized by Jukka Seppänen (@kijaidesign), supplied as low-poly STL | Cathedral visual, scaled and placed on its register building and LoD2 height, materials adapted and light-baked (decision 0005) | CC BY 4.0 per owner declaration on 2026-10-20; authorship corroborated, exact supplied version's original license not independently retrieved | `models/Helsinki-cathedral-lowpoly.stl`, 38,754 triangles, sha256 `4a3fbc3d…` in `data/work/m0/cathedral/placement.json` | `content/releases/asset-credits.json` |
 | Generated ground textures | Asphalt, setts, cobbles, slabs, gravel, grass, yard (seeded procedural, `tools/world/lib/textures.ts`) | Original | deterministic from the seed in `content/helsinki/cells.json` | — |
 
 The 2017 photo-mesh is no longer a source of the release (decision 0005); its mirror and the pilot tools that read
@@ -123,7 +124,12 @@ The HUD attribution line is the manifest's `attribution[]`: buildings © City of
 modified), terrain © City of Helsinki (CC BY 4.0, resampled), building register and street areas © City of Helsinki,
 road and steps data © OpenStreetMap contributors (ODbL), characters derived from Snow and Rain © Blender Studio
 (CC BY 4.0, modified), the supplied native Finn and Poliisi Rain movement exports,
-and the vehicle and Cathedral model credited as the project owner's assets.
+the Mustang-derived Lumi GT/patrol and Veyron-derived Revontuli credited to
+NoOb StUfFs (CC BY 4.0, modified), and the Cathedral credited to Dany Sánchez /
+MiniWorld3D with optimizations by Jukka Seppänen (@kijaidesign), CC BY 4.0 per
+the supplied-owner declaration. The exact evidence and verification limits are
+in `content/releases/asset-credits.json`. Kaamos / GT40 was removed on
+20 October 2026 following the owner's report of a redistribution restriction.
 Quaternius remains historical provenance for the superseded character assets;
 it is no longer the active officer's locomotion credit. The two House of the Estates photographs
 are credited to Josefiina Alanen with their titles, Wikimedia Commons source and CC BY 4.0 license link,

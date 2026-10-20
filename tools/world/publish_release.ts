@@ -19,6 +19,7 @@ const { values } = parseArgs({ options: {
 for (const k of ['cells', 'terrain', 'roads', 'gameplay', 'assets', 'origin', 'sources', 'config', 'out'] as const) if (!values[k]) throw new Error(`--${k} is required`);
 
 const sha = (b: Uint8Array): string => createHash('sha256').update(b).digest('hex');
+const RESTRICTED_VEHICLE_SHA256 = '01d9f51ee1e19637ed479246991891c9a0f0fb54f9f4e87da43ab18583b766f3';
 const origin = JSON.parse(readFileSync(values.origin!, 'utf8'));
 const config = JSON.parse(readFileSync(values.config!, 'utf8'));
 const sourcesCfg = JSON.parse(readFileSync(values.sources!, 'utf8')) as { sources: { id: string; ledger: string; snapshot: string | null; title: string; url: string; license: string; attribution: string }[]; assetCredits: string[] };
@@ -32,6 +33,7 @@ const staged: Staged[] = [];
 const stage = (src: string, dir: string, baseName: string, ext: string): Staged => {
   const bytes = new Uint8Array(readFileSync(src));
   const h = sha(bytes);
+  if (ext === '.glb' && h === RESTRICTED_VEHICLE_SHA256) throw new Error('Nonredistributable vehicle GLB digest is excluded from publication');
   const s: Staged = { src, published: `${dir}${baseName}.${h.slice(0, 10)}${ext}`, bytes, sha256: h };
   staged.push(s);
   return s;
@@ -68,12 +70,14 @@ const scenery = sceneryDoc ? stage(sceneryPath, '', 'scenery', '.json') : null;
 type AssetKind = WorldManifest['assets'][number]['kind'];
 const assetKinds: Record<string, AssetKind> = { 'character-snow': 'character', 'character-rain': 'character', 'prop-pistol': 'prop', 'vehicle-lumi-gt': 'vehicle', 'vehicle-patrol': 'vehicle', 'scenery-trees': 'scenery' };
 // Cars only some worlds' gameplay defines; a world that defines one must ship it (checked below).
-const optionalAssetKinds: Record<string, AssetKind> = { 'vehicle-lumi-gt-far-low': 'prop', 'vehicle-patrol-far-low': 'prop', 'vehicle-revontuli': 'vehicle', 'vehicle-kaamos': 'vehicle' };
+const optionalAssetKinds: Record<string, AssetKind> = { 'vehicle-lumi-gt-far-low': 'prop', 'vehicle-patrol-far-low': 'prop', 'vehicle-revontuli': 'vehicle' };
+const restrictedVehicle = /^(?:vehicle[-_]?)?(?:kaamos|gt[-_]?40)(?:[-_.][A-Za-z0-9_.-]+)?$/i;
 const assets: (ReturnType<typeof ref> & { id: string; kind: AssetKind })[] = [];
 for (const dir of values.assets!.split(',')) {
   for (const f of readdirSync(dir)) {
     if (!f.endsWith('.glb')) continue;
     const id = f.replace(/\.glb$/, '');
+    if (restrictedVehicle.test(id)) throw new Error('Nonredistributable vehicle asset is excluded from publication');
     const kind = assetKinds[id] ?? optionalAssetKinds[id];
     if (!kind) { console.warn(`skipping unknown asset ${f}`); continue; }
     assets.push({ id, kind, ...ref(stage(path.join(dir, f), 'assets/', id, '.glb')) });
@@ -81,6 +85,7 @@ for (const dir of values.assets!.split(',')) {
 }
 for (const [id, kind] of Object.entries(assetKinds)) if (kind !== 'scenery' && !assets.some(a => a.id === id)) throw new Error(`hero asset ${id} missing from --assets`);
 for (const d of (JSON.parse(readFileSync(path.join(values.gameplay!, 'gameplay.json'), 'utf8')) as { vehicleDefinitions: { id: string; assetId: string }[] }).vehicleDefinitions) {
+  if (restrictedVehicle.test(d.id) || restrictedVehicle.test(d.assetId)) throw new Error('Nonredistributable vehicle definition is excluded from publication');
   if (!assets.some(a => a.id === d.assetId && a.kind === 'vehicle')) throw new Error(`vehicle ${d.id} needs asset ${d.assetId} in --assets`);
 }
 for (const a of sceneryDoc?.assets ?? []) {

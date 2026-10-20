@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import type { PlayerState, VehicleClip, VehicleState } from '@helsinki/sim';
 import type { VehicleDefinition } from '@helsinki/world-schema';
 import poseData from '../../../../content/assets/finn-vehicle-poses.json' with { type: 'json' };
-import kaamosPoseData from '../../../../content/assets/finn-vehicle-poses-kaamos.json' with { type: 'json' };
 import revontuliPoseData from '../../../../content/assets/finn-vehicle-poses-revontuli.json' with { type: 'json' };
 
 interface PoseFrame {
@@ -27,7 +26,7 @@ export interface VehiclePoses {
 export const VEHICLE_POSES = poseData as VehiclePoses;
 /** Finn's clip sets by the car definition's `interaction.poses`, each authored in that car's cabin. */
 const POSE_SETS: Readonly<Record<string, VehiclePoses>> = {
-  'lumi-gt': VEHICLE_POSES, revontuli: revontuliPoseData as VehiclePoses, kaamos: kaamosPoseData as VehiclePoses,
+  'lumi-gt': VEHICLE_POSES, revontuli: revontuliPoseData as VehiclePoses,
 };
 
 /** The clip set fitted to this car; a car without its own uses the Lumi GT's. */

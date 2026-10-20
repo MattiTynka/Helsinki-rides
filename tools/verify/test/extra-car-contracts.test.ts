@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { test } from 'node:test';
 import { vehiclePoses } from '../../../apps/game/src/render/native-vehicle-animation.ts';
 import { validateGameplayBundle, type VehicleDefinition } from '../../../packages/world-schema/src/index.ts';
@@ -8,7 +8,6 @@ import { validateGameplayBundle, type VehicleDefinition } from '../../../package
 const read = (relative: string) => JSON.parse(readFileSync(new URL(`../../../${relative}`, import.meta.url), 'utf8'));
 const cars = [
   { id: 'revontuli', spawn: 'car-3', position: [-35.5, 10], sha256: '7e35d6a031433dbd4054a587da8195737dddddb3c87efc950e9ffd403c0262e7' },
-  { id: 'kaamos', spawn: 'car-4', position: [-41, 10], sha256: '01d9f51ee1e19637ed479246991891c9a0f0fb54f9f4e87da43ab18583b766f3' },
 ] as const;
 const sourceFiles = ['content/helsinki/city-north-20261019/gameplay-base.json', 'content/helsinki/city-north-20261019/gameplay-v1.json'];
 const reference = read('content/helsinki/central-expansion/gameplay.json');
@@ -50,7 +49,7 @@ for (const car of cars) {
 }
 
 for (const file of sourceFiles) {
-  test(`${file}: the current expanded city retains both extra-car definitions and Senate Square spawns`, () => {
+  test(`${file}: the current expanded city retains Revontuli and its Senate Square spawn`, () => {
     const gameplay = read(file);
     const errors = validateGameplayBundle({ ...gameplay, addresses: gameplay.addresses ?? [] });
     assert.deepEqual(errors, []);
@@ -70,3 +69,20 @@ for (const file of sourceFiles) {
     }
   });
 }
+
+test('every active Helsinki gameplay configuration excludes the nonredistributable Kaamos vehicle', () => {
+  const root = new URL('../../../content/helsinki/', import.meta.url);
+  const files = readdirSync(root, { recursive: true, withFileTypes: true })
+    .filter(entry => entry.isFile() && /^gameplay.*\.json$/.test(entry.name));
+  assert.ok(files.length >= 4);
+  for (const file of files) {
+    const gameplay = JSON.parse(readFileSync(`${file.parentPath}/${file.name}`, 'utf8'));
+    for (const definition of gameplay.vehicleDefinitions ?? []) {
+      assert.notEqual(definition.id, 'kaamos', `${file.name}: restricted definition`);
+      assert.notEqual(definition.assetId, 'vehicle-kaamos', `${file.name}: restricted asset`);
+      assert.notEqual(definition.interaction?.poses, 'kaamos', `${file.name}: restricted cabin motion`);
+    }
+    assert.ok(!(gameplay.vehicles ?? []).some((spawn: { definition: string }) => spawn.definition === 'kaamos'), `${file.name}: restricted spawn`);
+  }
+  assert.throws(() => vehiclePoses({ interaction: { poses: 'kaamos' } } as VehicleDefinition), /pose set kaamos missing/);
+});
