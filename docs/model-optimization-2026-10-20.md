@@ -89,6 +89,13 @@ as soon as the manifest is validated. Startup waits for the playable visual
 neighbourhood while remaining selected cells continue loading under the existing
 limits. Ordinary traversal still blocks safely if visual coverage is missing.
 
+Static hosts differ in how they serve `.gz`: Vite preview sets HTTP
+`Content-Encoding: gzip`, so Fetch exposes the decoded bytes. Other hosts expose
+the gzip file itself. The loader accepts only the exact stored or decoded
+manifest-pinned representation, with bounded allocation and SHA-256 checks for
+both. A transport gzip wrapper around the stored file also remains supported.
+The packet stager independently verifies stored bytes and the decoded round trip.
+
 Before GPU preparation, the streamer reserves the cell's measured texture and
 geometry costs. Texture uploads share a 2 ms / two-job frame queue, and shaders
 are prepared asynchronously. A cell becomes visible only after preparation.
@@ -122,7 +129,7 @@ errors or added warnings. The two far cells with changed triangulation pass
 The independent full-resolution local audit also passes all 304 cells and
 1,177 GLBs, checking 505 shared images against their original encoded payloads.
 It confirms the same exact near geometry, simulation and actor preservation.
-The audited source checkout passes 655 portable tests and TypeScript checks;
+The audited source checkout passes 660 portable tests and TypeScript checks;
 the release tooling passes 68 Python cases with one Windows-specific skip.
 Web production, web review, local production and local review shells build.
 

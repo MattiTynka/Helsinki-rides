@@ -36,3 +36,47 @@ test('browser rejects incomplete delivery before decoding', async t => {
   t.mock.method(globalThis, 'fetch', async () => new Response(stored.subarray(0, stored.length - 1)));
   await assert.rejects(fetchSimulationPayload('https://example.com/' + ref.path, ref), /byte length mismatch/);
 });
+
+test('HTTP gzip decoding exposes the original bytes while browser and Node replay still agree exactly', async t => {
+  // Fetch transparently decodes Content-Encoding, but its headers still describe the compressed response.
+  t.mock.method(globalThis, 'fetch', async () => new Response(original, {
+    headers: { 'Content-Encoding': 'gzip', 'Content-Length': String(stored.length) },
+  }));
+  const directory = mkdtempSync(path.join(os.tmpdir(), 'helsinki-http-gzip-'));
+  try {
+    writeFileSync(path.join(directory, ref.path), stored);
+    const browser = await fetchSimulationPayload('https://example.com/' + ref.path, ref);
+    const replay = await readSimulationPayload(directory, ref);
+    assert.deepEqual(browser, original);
+    assert.deepEqual(browser, replay);
+  } finally { rmSync(directory, { recursive: true }); }
+});
+
+test('an HTTP gzip wrapper can leave the pinned compressed file exposed after transport decoding', async t => {
+  // A server may gzip the already-compressed .gz file again. Fetch removes only that transport wrapper.
+  t.mock.method(globalThis, 'fetch', async () => new Response(stored, { headers: { 'Content-Encoding': 'gzip' } }));
+  assert.deepEqual(await fetchSimulationPayload('https://example.com/' + ref.path, ref), original);
+});
+
+test('HTTP decoded delivery still rejects a wrong decoded digest and same-length corrupt bytes', async t => {
+  let exposed = original;
+  t.mock.method(globalThis, 'fetch', async () => new Response(exposed, { headers: { 'Content-Encoding': 'gzip' } }));
+  await assert.rejects(fetchSimulationPayload('https://example.com/' + ref.path, { ...ref, decodedSha256: '0'.repeat(64) }), /SHA-256 mismatch/);
+  exposed = new Uint8Array(original); exposed[100] = exposed[100]! ^ 1;
+  await assert.rejects(fetchSimulationPayload('https://example.com/' + ref.path, ref), /SHA-256 mismatch/);
+});
+
+test('HTTP decoded delivery rejects a truncated original payload', async t => {
+  t.mock.method(globalThis, 'fetch', async () => new Response(original.subarray(0, original.length - 1), { headers: { 'Content-Encoding': 'gzip' } }));
+  await assert.rejects(fetchSimulationPayload('https://example.com/' + ref.path, ref), /byte length mismatch/);
+});
+
+test('HTTP decoded delivery cancels a response exceeding the decoded size bound', async t => {
+  let cancelled = false;
+  t.mock.method(globalThis, 'fetch', async () => new Response(new ReadableStream({
+    start(controller) { controller.enqueue(new Uint8Array(ref.decodedBytes + 1)); },
+    cancel() { cancelled = true; },
+  }), { headers: { 'Content-Encoding': 'gzip' } }));
+  await assert.rejects(fetchSimulationPayload('https://example.com/' + ref.path, ref), /exceeds its declared size/);
+  assert.equal(cancelled, true);
+});
