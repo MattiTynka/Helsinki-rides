@@ -41,7 +41,7 @@ try{
   check('ordinary-adapter-absent',await page.evaluate(()=>window.__HELSINKI_GAME__===undefined),'No review controls on the default page');
   const initialDetails=[...new Set(requests.filter(r=>detailPaths.has(r)))];
   check('bounded-detail-startup',initialDetails.length>0&&initialDetails.length<manifest.cells.length,{loaded:initialDetails.length,total:manifest.cells.length});
-  await page.locator('#loading').click();
+  await page.locator('#loading-text').click();
   await page.waitForFunction(()=>document.getElementById('loading')?.classList.contains('hidden'));
   await capture('default-senate');
   await page.keyboard.down('KeyW');await sleep(1500);await page.keyboard.up('KeyW');
