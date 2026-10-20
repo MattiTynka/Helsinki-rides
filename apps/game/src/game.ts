@@ -379,12 +379,16 @@ export class Game {
       }
       if (steps === MAX_STEPS_PER_FRAME) this.accumulator = 0;
     }
-    const collisionBlocked = stepBlocked && this.stepBlock === 'collision', modelBlocked = stepBlocked && this.stepBlock === 'models';
+    // A failed tick clears the accumulator; retain its wait on render frames before another tick is due.
+    const canWait = !this.paused && !blocked;
+    const collisionBlocked = canWait && (stepBlocked ? this.stepBlock === 'collision' : this.collisionLoading.blocked && !this.collisionReady());
+    const modelBlocked = canWait && !collisionBlocked && (stepBlocked ? this.stepBlock === 'models' : this.modelLoading.blocked && !this.actorModelsReady());
     this.collisionLoading.blocked = collisionBlocked;
     if (collisionBlocked) { this.collisionLoading.blockedFrames++; this.collisionLoading.blockedSeconds += dt; }
     this.modelLoading.blocked = modelBlocked;
     if (modelBlocked) { this.modelLoading.blockedFrames++; this.modelLoading.blockedSeconds += dt; }
-    const stalled = blocked || stepBlocked;
+    const stalled = blocked || collisionBlocked || modelBlocked;
+    if (stalled) this.accumulator = 0;
     this.presentationAlpha = this.paused || stalled ? 1 : this.accumulator / TICK_SECONDS;
     this.presentationFrameTime = now;
     const presentation = this.paused || stalled ? this.state : interpolateState(this.previousState, this.state, this.presentationAlpha);
