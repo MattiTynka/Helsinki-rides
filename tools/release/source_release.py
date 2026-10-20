@@ -33,6 +33,7 @@ IMAGES = {
     'content/assets/facades/estates/park-2022.jpg',
     'content/assets/facades/esplanadi/catani-valtonen.jpg',
     *(f'content/helsinki/district-expansion/facade-charts/canalside-v{i}/canalside-original.png' for i in (1, 2, 3)),
+    *(f'content/helsinki/senate-facades/v1/{vtj}/facade.png' for vtj in ('103017637K', '103036705N', '1030368080')),
 }
 DECODERS = {'apps/game/public/basis/basis_transcoder.js', 'apps/game/public/basis/basis_transcoder.wasm'}
 PUBLIC_HANDLE = 'MattiTynka'

@@ -120,3 +120,11 @@ Cathedral creators, Blender Studio and OpenStreetMap to their source and license
 pages. Links open separately without starting play. The panel scrolls on short
 screens. Publication checks reject Kaamos/GT40 asset and gameplay identities
 and the withdrawn GLB's exact SHA-256, including renamed copies of that export.
+
+The subsequent [Senate Square reference repair](senate-square-repair-2026-10-20.md)
+starts from deployed source `9bbbba7` and the optimized `m1-cb` world. It repairs
+the University and Government Palace entrances and restores selected blank
+facades with original artwork informed by Street View. It retains the full
+304-cell map and reduced-texture tier. The committed Pages descriptor remains
+the authority for the current archive and manifest; the live deployment receipt
+binds them to the published source commit.

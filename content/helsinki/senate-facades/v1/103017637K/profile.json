@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "id": "senate-reference-facades-20261020-103017637K",
+  "baselineManifestSha256": "5a3502a4641de1a79dfd40dbb06724b59d4e908d16f3a5218b8e7dcead3f7ebd",
+  "source": {
+    "cityJsonSha256": "f39ce86a590c44b87409e887d3cc4df9689995df849bcb31c43fc5be86f1e109",
+    "cityBinSha256": "54880432f726662f3d0801a98dffddd0fdfc9b0b31aca67d400a07214633c9d9",
+    "originId": "senate-square-statue-v2"
+  },
+  "art": {
+    "path": "facade.png",
+    "sha256": "5286f5a7053eac78322a96bb9ee5eaeb2a060539b9eff45fe1f538581db36be1",
+    "width": 768,
+    "height": 256,
+    "license": "CC0-1.0",
+    "attribution": "Original reference-led facade artwork by the Helsinki Rides project (2026). Appearance references are not reproduced.",
+    "references": [
+      {
+        "title": "National Archives Rauhankatu17 south front, Google Street View August2024; actual panorama opened, five central axes and four per wing",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=yoCqw1K73FLOkY5yCIzL2g&viewpoint=60.1715249,24.9528007&heading=355&pitch=12",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Porthania public south courtyard, Google Street View August2022; actual panorama opened, five glazing ribbons and low glazed east pavilion",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=GvIVZAGPa_DomRG-ry6QoQ&viewpoint=60.1699118,24.9484906&heading=1.92",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Aleksanterinkatu16 north front, Google Street View August2024; three separate historic facade layouts and current museum entrances",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=BuvcPILQ9NFQkdsZIJHe4A&viewpoint=60.1691141,24.9542295&heading=199.84",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Helsinki city architectural study K4 Elefantti25May2005 page7, complete north elevation photograph; Sederholm, Remander, Brummer physical identity and upper opening counts",
+        "url": "https://www.hel.fi/static/helsinki/paatosasiakirjat/Kh2005/Esityslista33/Liitteet/Kaupungintalokorttelin_K4_tilaselvitys,_25.5.2005.pdf?Action=sd&id=052420180",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Porthania east Fabianinkatu facade, Google Street View August2024; actual lower and upward panoramas opened, five northern ribbon rows, separate five-floor glass inset and blank tiled south wall",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=q-HpFGEjf1ptz76wRfkypw&viewpoint=60.1702431,24.9491533&heading=290&pitch=38",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Brummer14 north front, Google Street View April2023; clear full facade: seven upper windows, eastmost and centre ground doors, five shuttered ground windows",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=MZqCZZwZe1PPuQCx_E5UCg&viewpoint=60.1691298,24.9542107&heading=130&pitch=0",
+        "role": "appearance-reference-only"
+      }
+    ]
+  },
+  "material": {
+    "name": "senate-original-103017637K",
+    "unlit": true,
+    "roughness": 0.95,
+    "doubleSided": true
+  },
+  "charts": [
+    {
+      "id": "aleksanterinkatu14-18-north",
+      "building": "BID_21e7efa4-4405-497a-8d61-8807bca19bc3",
+      "origin": [
+        95.28584289550781,
+        0,
+        54.541324615478516
+      ],
+      "uAxis": [
+        -0.9986109876637896,
+        0,
+        0.05268866402890381
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -35.15419148465456,
+        -4.773122310638428,
+        19.085149153275683,
+        9.769227027893066
+      ],
+      "pixels": [
+        1,
+        1,
+        766,
+        254
+      ],
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "cells": [
+    {
+      "id": "c_p00_p00",
+      "building": "BID_21e7efa4-4405-497a-8d61-8807bca19bc3",
+      "vtj": "103017637K",
+      "baselineLevels": {
+        "lod0": "36e1ce20e43548c1782e69f7ff85632f54ef6ef3bbefd5b9e510badf67de7ddb",
+        "lod1": "7a5d51ddd4422a940d5acbecbf78e8ffc9a9c39ae135db775ff17f6a256c62d2",
+        "lod2": "26076c5fa504143bd9cf314b4526ad1fe1e8aceb1417643fdbbdddbac2ba023c"
+      },
+      "faces": [
+        {
+          "key": "5474984265bd98c006305e42:54749842f58bd34006305e42:87b3a44267bd98c02fe55c42",
+          "chart": "aleksanterinkatu14-18-north"
+        },
+        {
+          "key": "54749842f58bd34006305e42:86b3a442f58bd3402fe55c42:87b3a44267bd98c02fe55c42",
+          "chart": "aleksanterinkatu14-18-north"
+        },
+        {
+          "key": "86b3a442f58bd3402fe55c42:a5e8b142f08bd34065805b42:87b3a44267bd98c02fe55c42",
+          "chart": "aleksanterinkatu14-18-north"
+        },
+        {
+          "key": "87b3a44267bd98c02fe55c42:a5e8b142f08bd34065805b42:c269be42f48bd3409a2e5a42",
+          "chart": "aleksanterinkatu14-18-north"
+        },
+        {
+          "key": "87b3a44267bd98c02fe55c42:c269be42f48bd3409a2e5a42:a6e8b14268bd98c065805b42",
+          "chart": "aleksanterinkatu14-18-north"
+        },
+        {
+          "key": "a6e8b14268bd98c065805b42:c269be42f48bd3409a2e5a42:c269be4269bd98c09a2e5a42",
+          "chart": "aleksanterinkatu14-18-north"
+        },
+        {
+          "key": "5a92be426bbd98c0512a5a42:c269be4269bd98c09a2e5a42:c269be42f48bd3409a2e5a42",
+          "chart": "aleksanterinkatu14-18-north"
+        },
+        {
+          "key": "5a92be426bbd98c0512a5a42:c269be42f48bd3409a2e5a42:c269be42c14e1c419a2e5a42",
+          "chart": "aleksanterinkatu14-18-north"
+        },
+        {
+          "key": "5a92be426bbd98c0512a5a42:c269be42c14e1c419a2e5a42:5a92be42f74a1c41522a5a42",
+          "chart": "aleksanterinkatu14-18-north"
+        },
+        {
+          "key": "5a92be426bbd98c0512a5a42:5a92be42f74a1c41522a5a42:a0ced2422fc31b41ac075842",
+          "chart": "aleksanterinkatu14-18-north"
+        },
+        {
+          "key": "5a92be426bbd98c0512a5a42:a0ced2422fc31b41ac075842:7cc2e34235481c41b73d5642",
+          "chart": "aleksanterinkatu14-18-north"
+        },
+        {
+          "key": "5a92be426bbd98c0512a5a42:7cc2e34235481c41b73d5642:7cc2e342cd58ca40b73d5642",
+          "chart": "aleksanterinkatu14-18-north"
+        },
+        {
+          "key": "26640243d158ca40a3c15242:5a92be426bbd98c0512a5a42:7cc2e342cd58ca40b73d5642",
+          "chart": "aleksanterinkatu14-18-north"
+        },
+        {
+          "key": "26640243d158ca40a3c15242:a0ced24269bd98c0ad075842:5a92be426bbd98c0512a5a42",
+          "chart": "aleksanterinkatu14-18-north"
+        },
+        {
+          "key": "26640243d158ca40a3c15242:7cc2e34267bd98c0b73d5642:a0ced24269bd98c0ad075842",
+          "chart": "aleksanterinkatu14-18-north"
+        },
+        {
+          "key": "2664024364bd98c0a3c15242:7cc2e34267bd98c0b73d5642:26640243d158ca40a3c15242",
+          "chart": "aleksanterinkatu14-18-north"
+        }
+      ]
+    }
+  ]
+}

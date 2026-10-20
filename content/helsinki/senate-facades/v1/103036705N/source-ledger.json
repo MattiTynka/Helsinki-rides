@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "production": {
+    "kind": "original-procedural",
+    "license": "CC0-1.0",
+    "referencePixelsCopied": false,
+    "artSha256": "e1f75c00384ebf69e97a62282ec6397928ff8b9ae1a588d926524b2e3932bdc3",
+    "svgSha256": "7feb84b256c0c01b4b8b19f4ca26505c9061be9ce28e0d6847048f81c64e56d0"
+  },
+  "planSha256": "751c21f8d3577d0a9719af61a680f198c78dc16a9915577626f411b9c6e5fcfb",
+  "source": {
+    "cityJsonSha256": "f39ce86a590c44b87409e887d3cc4df9689995df849bcb31c43fc5be86f1e109",
+    "cityBinSha256": "54880432f726662f3d0801a98dffddd0fdfc9b0b31aca67d400a07214633c9d9",
+    "originId": "senate-square-statue-v2"
+  },
+  "baselineManifestSha256": "5a3502a4641de1a79dfd40dbb06724b59d4e908d16f3a5218b8e7dcead3f7ebd",
+  "building": "BID_fc7cc496-989f-4aa4-af91-5425569ba6c4",
+  "vtj": "103036705N",
+  "elevations": [
+    {
+      "id": "archive-south-west-wing",
+      "triangles": [
+        42,
+        43,
+        44
+      ],
+      "pixels": [
+        1,
+        1,
+        246,
+        318
+      ],
+      "renderer": "archive-wing",
+      "ground": 6.1,
+      "notes": "Four opening axes on both upper rows, narrow barred lower windows. West wing is physically set back from the projecting central portico. Upper wall is warm desaturated pink/sandstone behind cream columns/pilasters; rusticated ground remains cream above gray-brown granite plinth, matched to opened Street View."
+    },
+    {
+      "id": "archive-south-central-portico",
+      "triangles": [
+        24,
+        25,
+        26,
+        27
+      ],
+      "pixels": [
+        251,
+        1,
+        264,
+        318
+      ],
+      "renderer": "archive-centre",
+      "ground": 6.1,
+      "notes": "Six fluted Corinthian columns, five upper opening axes, three ornate central ground doors and the raised plinth balustrade. Upper wall is warm desaturated pink/sandstone behind cream columns/pilasters; rusticated ground remains cream above gray-brown granite plinth, matched to opened Street View."
+    },
+    {
+      "id": "archive-south-east-wing",
+      "triangles": [
+        33,
+        34,
+        35
+      ],
+      "pixels": [
+        519,
+        1,
+        248,
+        318
+      ],
+      "renderer": "archive-wing",
+      "ground": 6.1,
+      "notes": "Four upper axes. Source main wall is set back separately from the central portico. Upper wall is warm desaturated pink/sandstone behind cream columns/pilasters; rusticated ground remains cream above gray-brown granite plinth, matched to opened Street View."
+    }
+  ],
+  "limitations": [
+    "Only the three directly observed south front planes are restored. Unobserved side, rear, roof, and narrow inset returns retain municipal source materials.",
+    "Column shafts, capitals and balustrade are original flat artwork on the unchanged source wall plane, without added projecting geometry.",
+    "Opening dimensions and vertical positions are approximate; street-level alignment requires final runtime confirmation."
+  ],
+  "dimensions": "Source plane bounds are exact municipal geometry; opening positions, dimensions and colours are authored approximations fitted to observed architectural rhythm. No survey accuracy is claimed.",
+  "references": [
+    {
+      "title": "National Archives Rauhankatu17 south front, Google Street View August2024; actual panorama opened, five central axes and four per wing",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=yoCqw1K73FLOkY5yCIzL2g&viewpoint=60.1715249,24.9528007&heading=355&pitch=12",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Porthania public south courtyard, Google Street View August2022; actual panorama opened, five glazing ribbons and low glazed east pavilion",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=GvIVZAGPa_DomRG-ry6QoQ&viewpoint=60.1699118,24.9484906&heading=1.92",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Aleksanterinkatu16 north front, Google Street View August2024; three separate historic facade layouts and current museum entrances",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=BuvcPILQ9NFQkdsZIJHe4A&viewpoint=60.1691141,24.9542295&heading=199.84",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Helsinki city architectural study K4 Elefantti25May2005 page7, complete north elevation photograph; Sederholm, Remander, Brummer physical identity and upper opening counts",
+      "url": "https://www.hel.fi/static/helsinki/paatosasiakirjat/Kh2005/Esityslista33/Liitteet/Kaupungintalokorttelin_K4_tilaselvitys,_25.5.2005.pdf?Action=sd&id=052420180",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Porthania east Fabianinkatu facade, Google Street View August2024; actual lower and upward panoramas opened, five northern ribbon rows, separate five-floor glass inset and blank tiled south wall",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=q-HpFGEjf1ptz76wRfkypw&viewpoint=60.1702431,24.9491533&heading=290&pitch=38",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Brummer14 north front, Google Street View April2023; clear full facade: seven upper windows, eastmost and centre ground doors, five shuttered ground windows",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=MZqCZZwZe1PPuQCx_E5UCg&viewpoint=60.1691298,24.9542107&heading=130&pitch=0",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "referenceEvidence": [
+    {
+      "url": "https://www.hel.fi/static/helsinki/paatosasiakirjat/Kh2005/Esityslista33/Liitteet/Kaupungintalokorttelin_K4_tilaselvitys,_25.5.2005.pdf?Action=sd&id=052420180",
+      "evidenceFile": "k4-elefantti-2005.pdf",
+      "sha256": "d622ca6803066529cb61051f39ed7f9d759d30f21cce964c7ad01e68cd9788c9",
+      "openedPages": [
+        7
+      ],
+      "productionUse": false
+    }
+  ],
+  "runtimeAcceptance": "REQUIRED"
+}

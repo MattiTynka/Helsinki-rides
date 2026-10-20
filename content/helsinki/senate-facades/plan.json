@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 1,
+  "id": "senate-reference-facades-20261020",
+  "baselineManifestSha256": "5a3502a4641de1a79dfd40dbb06724b59d4e908d16f3a5218b8e7dcead3f7ebd",
+  "source": {
+    "cityJsonSha256": "f39ce86a590c44b87409e887d3cc4df9689995df849bcb31c43fc5be86f1e109",
+    "cityBinSha256": "54880432f726662f3d0801a98dffddd0fdfc9b0b31aca67d400a07214633c9d9",
+    "originId": "senate-square-statue-v2"
+  },
+  "references": [
+    {
+      "title": "National Archives Rauhankatu17 south front, Google Street View August2024; actual panorama opened, five central axes and four per wing",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=yoCqw1K73FLOkY5yCIzL2g&viewpoint=60.1715249,24.9528007&heading=355&pitch=12",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Porthania public south courtyard, Google Street View August2022; actual panorama opened, five glazing ribbons and low glazed east pavilion",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=GvIVZAGPa_DomRG-ry6QoQ&viewpoint=60.1699118,24.9484906&heading=1.92",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Aleksanterinkatu16 north front, Google Street View August2024; three separate historic facade layouts and current museum entrances",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=BuvcPILQ9NFQkdsZIJHe4A&viewpoint=60.1691141,24.9542295&heading=199.84",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Helsinki city architectural study K4 Elefantti25May2005 page7, complete north elevation photograph; Sederholm, Remander, Brummer physical identity and upper opening counts",
+      "url": "https://www.hel.fi/static/helsinki/paatosasiakirjat/Kh2005/Esityslista33/Liitteet/Kaupungintalokorttelin_K4_tilaselvitys,_25.5.2005.pdf?Action=sd&id=052420180",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Porthania east Fabianinkatu facade, Google Street View August2024; actual lower and upward panoramas opened, five northern ribbon rows, separate five-floor glass inset and blank tiled south wall",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=q-HpFGEjf1ptz76wRfkypw&viewpoint=60.1702431,24.9491533&heading=290&pitch=38",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Brummer14 north front, Google Street View April2023; clear full facade: seven upper windows, eastmost and centre ground doors, five shuttered ground windows",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=MZqCZZwZe1PPuQCx_E5UCg&viewpoint=60.1691298,24.9542107&heading=130&pitch=0",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "buildings": [
+    {
+      "id": "BID_21e7efa4-4405-497a-8d61-8807bca19bc3",
+      "vtj": "103017637K",
+      "cell": "c_p00_p00",
+      "atlas": [
+        768,
+        256
+      ],
+      "elevations": [
+        {
+          "id": "aleksanterinkatu14-18-north",
+          "triangles": [
+            230,
+            231,
+            232,
+            233,
+            234,
+            235,
+            236,
+            237,
+            238,
+            239,
+            240,
+            241,
+            242,
+            243,
+            244,
+            245
+          ],
+          "pixels": [
+            1,
+            1,
+            766,
+            254
+          ],
+          "renderer": "aleksanterinkatu-north",
+          "ground": -2.6,
+          "notes": "Physical east to west: salmon Brummer14 (7upperaxes), yellow Remander16 (7axes perupperrow, middle3pediments, asymmetric currentground openings), offwhite Sederholm18 (7upperaxes, whitepilasters/balustrades). Street View plus official architectural photograph establish distinct layouts. Clear April2023 Brummer panorama resolves five shuttered ground windows and two doors (eastmost and centre); current asymmetric Remander ground is retained rather than copied from2005."
+        }
+      ],
+      "limitations": [
+        "Only the north square-facing plane is restored. Long Katariinankatu west elevation, roofs and all courtyard wings retain their original municipal materials.",
+        "The source municipal mesh has no vertical central north Sederholm gable above its flat eave. A material chart cannot recreate the missing projecting pediment; it is not painted over the top windows.",
+        "Window and masonry dimensions are original authored approximations fitted to exact municipal source planes."
+      ]
+    },
+    {
+      "id": "BID_fc7cc496-989f-4aa4-af91-5425569ba6c4",
+      "vtj": "103036705N",
+      "cell": "c_p00_m02",
+      "atlas": [
+        768,
+        320
+      ],
+      "elevations": [
+        {
+          "id": "archive-south-west-wing",
+          "triangles": [
+            42,
+            43,
+            44
+          ],
+          "pixels": [
+            1,
+            1,
+            246,
+            318
+          ],
+          "renderer": "archive-wing",
+          "ground": 6.1,
+          "notes": "Four opening axes on both upper rows, narrow barred lower windows. West wing is physically set back from the projecting central portico. Upper wall is warm desaturated pink/sandstone behind cream columns/pilasters; rusticated ground remains cream above gray-brown granite plinth, matched to opened Street View."
+        },
+        {
+          "id": "archive-south-central-portico",
+          "triangles": [
+            24,
+            25,
+            26,
+            27
+          ],
+          "pixels": [
+            251,
+            1,
+            264,
+            318
+          ],
+          "renderer": "archive-centre",
+          "ground": 6.1,
+          "notes": "Six fluted Corinthian columns, five upper opening axes, three ornate central ground doors and the raised plinth balustrade. Upper wall is warm desaturated pink/sandstone behind cream columns/pilasters; rusticated ground remains cream above gray-brown granite plinth, matched to opened Street View."
+        },
+        {
+          "id": "archive-south-east-wing",
+          "triangles": [
+            33,
+            34,
+            35
+          ],
+          "pixels": [
+            519,
+            1,
+            248,
+            318
+          ],
+          "renderer": "archive-wing",
+          "ground": 6.1,
+          "notes": "Four upper axes. Source main wall is set back separately from the central portico. Upper wall is warm desaturated pink/sandstone behind cream columns/pilasters; rusticated ground remains cream above gray-brown granite plinth, matched to opened Street View."
+        }
+      ],
+      "limitations": [
+        "Only the three directly observed south front planes are restored. Unobserved side, rear, roof, and narrow inset returns retain municipal source materials.",
+        "Column shafts, capitals and balustrade are original flat artwork on the unchanged source wall plane, without added projecting geometry.",
+        "Opening dimensions and vertical positions are approximate; street-level alignment requires final runtime confirmation."
+      ]
+    },
+    {
+      "id": "BID_1c117345-b27e-46b8-9721-e635503b4ad8",
+      "vtj": "1030368080",
+      "cell": "c_m02_m01",
+      "atlas": [
+        768,
+        768
+      ],
+      "elevations": [
+        {
+          "id": "porthania-courtyard-north",
+          "triangles": [
+            372,
+            373,
+            375,
+            376
+          ],
+          "pixels": [
+            1,
+            1,
+            304,
+            382
+          ],
+          "renderer": "porthania-five-ribbons",
+          "ground": -0.6,
+          "notes": "Five horizontal glazing levels: glazed ground floor plus four upper ribbons; original narrow metal mullions and finely grooved offwhite spandrels."
+        },
+        {
+          "id": "porthania-courtyard-west",
+          "triangles": [
+            110,
+            111
+          ],
+          "pixels": [
+            309,
+            1,
+            324,
+            382
+          ],
+          "renderer": "porthania-five-ribbons",
+          "ground": -0.6,
+          "notes": "Left courtyard wing, continuous horizontal glazing and offwhite spandrels."
+        },
+        {
+          "id": "porthania-courtyard-east-pavilion",
+          "triangles": [
+            334,
+            335
+          ],
+          "pixels": [
+            637,
+            1,
+            130,
+            382
+          ],
+          "renderer": "porthania-low-glass",
+          "ground": -0.6,
+          "notes": "Low glazed east pavilion with green metal framing and copper-green roof fascia."
+        },
+        {
+          "id": "porthania-east-north-block",
+          "triangles": [
+            201,
+            202
+          ],
+          "pixels": [
+            1,
+            386,
+            350,
+            381
+          ],
+          "renderer": "porthania-east-five-ribbons",
+          "ground": 2.7,
+          "notes": "Five continuous ribbon-window rows directly observed in upward panorama; offwhite small rectangular tile/grid spandrels, flat roof coping, ground-level black slat grille."
+        },
+        {
+          "id": "porthania-east-glass-inset",
+          "triangles": [
+            351,
+            352,
+            353,
+            354,
+            355
+          ],
+          "pixels": [
+            355,
+            386,
+            190,
+            381
+          ],
+          "renderer": "porthania-east-glass-inset",
+          "ground": 2.7,
+          "notes": "Separate recessed full-height glass zone: five glazed floors, dark opaque spandrels, blue-green original reflection gradient. Ground glazing has a black vertical slat grille."
+        },
+        {
+          "id": "porthania-east-south-blank-tile",
+          "triangles": [
+            346,
+            347,
+            348,
+            349,
+            350
+          ],
+          "pixels": [
+            549,
+            386,
+            218,
+            381
+          ],
+          "renderer": "porthania-east-blank-tile",
+          "ground": 2.7,
+          "notes": "South zone adjacent to glass inset is observed blank offwhite rectangular tile on upper three floors. No openings invented; lower unconfirmed area receives only the same original neutral material."
+        }
+      ],
+      "limitations": [
+        "Observed public south courtyard and three separately matched eastern source wall zones are restored; outer north and west, roofs, low east street return and unobserved courtyard returns retain original municipal materials.",
+        "Narrow glazing subdivisions are authored approximations of the observed continuous ribbon construction, not a surveyed pane count.",
+        "Source geometry and all terraces and stairs remain unchanged."
+      ]
+    }
+  ],
+  "referenceEvidence": [
+    {
+      "url": "https://www.hel.fi/static/helsinki/paatosasiakirjat/Kh2005/Esityslista33/Liitteet/Kaupungintalokorttelin_K4_tilaselvitys,_25.5.2005.pdf?Action=sd&id=052420180",
+      "evidenceFile": "k4-elefantti-2005.pdf",
+      "sha256": "d622ca6803066529cb61051f39ed7f9d759d30f21cce964c7ad01e68cd9788c9",
+      "openedPages": [
+        7
+      ],
+      "productionUse": false
+    }
+  ]
+}

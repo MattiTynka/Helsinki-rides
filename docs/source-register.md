@@ -1,5 +1,15 @@
 # Source register
 
+The 20 October Senate Square repair adds original procedural granite textures
+and source-bound entrance geometry, plus original CC0 facade charts for the
+Aleksanterinkatu 14–18 north frontage, National Archives south frontage and
+Porthania's east frontage and public south courtyard. The facade artwork,
+source-face profiles and per-elevation reference ledgers are in
+[`content/helsinki/senate-facades/`](../content/helsinki/senate-facades/README.md).
+Google Street View and the City's architectural photographs are appearance
+references only; their pixels are not incorporated. Existing municipal source
+attribution and licenses remain applicable to the underlying buildings.
+
 Finn vehicle entry/seating is a project-authored adaptation of the already credited
 Snow-derived Finn rig, generated locally with Blender math/IK by
 `tools/blender/build_finn_vehicle_poses.py`. No new motion library, checkpoint or

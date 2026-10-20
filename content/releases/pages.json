@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "worldRelease": "senate-20261020-optimized-m1-cb",
-  "manifestSha256": "5a3502a4641de1a79dfd40dbb06724b59d4e908d16f3a5218b8e7dcead3f7ebd",
+  "worldRelease": "senate-20261020-reference-repair-v3",
+  "manifestSha256": "18e40f69a271f037b6b23b257fee437cb5716fad68c10cff808833a142ee7607",
   "worldBaseUrl": "https://mattitynka.github.io/Helsinki-rides/world/",
-  "archiveUrl": "https://github.com/MattiTynka/Helsinki-rides/releases/download/pages-optimized-m1-cb-20261020/pages-world.tar.gz",
-  "archiveSha256": "b0af52cd50873dad3d5ba3a3e270acf2c589794a28b0a3318814a3372ec4982d",
-  "archiveBytes": 536410482,
-  "worldBytes": 592846997
+  "archiveUrl": "https://github.com/MattiTynka/Helsinki-rides/releases/download/pages-senate-reference-20261020/pages-world.tar.gz",
+  "archiveSha256": "1d30ea31bfeb99e3fd7920a65d82f182875d396c4d6893796a1f9c3324770e78",
+  "archiveBytes": 540926482,
+  "worldBytes": 599919882
 }

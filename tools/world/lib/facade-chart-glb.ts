@@ -17,6 +17,8 @@ export interface ChartGlbOptions {
   readonly expectedSha256: string;
   readonly charts: readonly FacadeChart[];
   readonly targets: readonly FacadeChartTarget[];
+  /** Pinned image bytes for an optimized cell's external texture URIs. No network I/O is performed. */
+  readonly externalImages?: ReadonlyMap<string, Uint8Array>;
 }
 export interface FacadeAtlas {
   readonly name: string;
@@ -42,10 +44,19 @@ const arrayTypes = {5126:Float32Array,5125:Uint32Array,5123:Uint16Array,5122:Int
 const array = (p: Primitive, semantic: string): NumericArray => {
   const a=p.getAttribute(semantic)?.getArray(); assert.ok(a && Object.values(arrayTypes).some(Type=>a instanceof Type), `Unsupported ${semantic} accessor`); return a as NumericArray;
 };
-async function decode(bytes: Uint8Array) {
+async function decode(bytes: Uint8Array, externalImages?: ReadonlyMap<string, Uint8Array>) {
   await MeshoptDecoder.ready;
   const io=new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({'meshopt.decoder':MeshoptDecoder});
-  return {io,doc:await io.readBinary(bytes)};
+  if (!externalImages) return {io,doc:await io.readBinary(bytes)};
+  const {json,bin}=readFacadeGlb(bytes),resources:Record<string,Uint8Array<ArrayBuffer>>={'@glb.bin':new Uint8Array(bin)};
+  assert.ok(json.buffers.every((b,i)=>i===0?!b.uri:!b.uri || b.uri.startsWith('data:')), 'External geometry buffers are forbidden');
+  for(const image of (json.images??[]) as {uri?:string;bufferView?:number}[]){
+    if(!image.uri || image.uri.startsWith('data:'))continue;
+    assert.equal(image.bufferView,undefined,'Image cannot have both a URI and bufferView');
+    const payload=externalImages.get(image.uri);assert.ok(payload?.length,`Missing pinned external image: ${image.uri}`);
+    resources[image.uri]=new Uint8Array(payload);
+  }
+  return {io,doc:await io.readJSON({json:json as any,resources})};
 }
 function worldTriangle(node: Node, p: Primitive, triangle: number): FacadeTriangle {
   const a=p.getAttribute('POSITION'), indices=p.getIndices(); assert.ok(a && indices && p.getMode()===4);
@@ -66,9 +77,21 @@ function geometry(doc: Document) {
   return keys.sort();
 }
 
+/** Read-only selector preparation for a pinned delivery GLB. Resource bytes are supplied by its manifest owner. */
+export async function readFacadeChartTriangles(bytes:Uint8Array, externalImages?:ReadonlyMap<string,Uint8Array>) {
+  const {doc}=await decode(bytes,externalImages), result:{node:string;primitive:number;triangle:number;key:string;points:FacadeTriangle}[]=[];
+  for(const n of doc.getRoot().listNodes())for(const [primitive,p]of (n.getMesh()?.listPrimitives()??[]).entries()){
+    assert.ok(p.getIndices() && p.getMode()===4,'Facade selector preparation requires indexed triangles');
+    for(let triangle=0;triangle<p.getIndices()!.getCount()/3;triangle++){
+      const points=worldTriangle(n,p,triangle);result.push({node:n.getName(),primitive,triangle,key:facadeTriangleKey(points),points});
+    }
+  }
+  return result;
+}
+
 export async function inspectFacadeChartTargets(bytes: Uint8Array, options: ChartGlbOptions) {
   assert.equal(facadeChartSha256(bytes),options.expectedSha256,'Target GLB hash changed');
-  const {doc}=await decode(bytes), seen=new Set<string>(), triangles=new Map<string,FacadeTriangle[]>();
+  const {doc}=await decode(bytes,options.externalImages), seen=new Set<string>(), triangles=new Map<string,FacadeTriangle[]>();
   for(const target of options.targets){
     const id=`${target.node}:${target.primitive}:${target.triangle}`;assert.ok(!seen.has(id),'Duplicate target draw triangle');seen.add(id);
     const nodes=doc.getRoot().listNodes().filter(n=>n.getName()===target.node);assert.equal(nodes.length,1,'Target node must be unique');
@@ -98,7 +121,7 @@ function validateAtlas(atlas: FacadeAtlas) {
 
 async function apply(bytes: Uint8Array, options: DetailedChartOptions | DistantChartOptions, distant: boolean) {
   await inspectFacadeChartTargets(bytes,options);await MeshoptEncoder.ready;
-  const {io,doc}=await decode(bytes), beforeGeometry=geometry(doc), original=readFacadeGlb(bytes), json=structuredClone(original.json) as Json;
+  const {doc}=await decode(bytes,options.externalImages), beforeGeometry=geometry(doc), original=readFacadeGlb(bytes), json=structuredClone(original.json) as Json;
   assert.ok(json.extensionsRequired?.includes('EXT_meshopt_compression'),'Existing meshopt contract required');
   const virtual=json.buffers.findIndex((b:Json,i:number)=>i>0 && b.extensions?.EXT_meshopt_compression?.fallback===true);assert.ok(virtual>0,'Missing meshopt virtual fallback buffer');
   let physical=align4(original.bin.length),logical=align4(json.buffers[virtual].byteLength);
@@ -167,7 +190,7 @@ async function apply(bytes: Uint8Array, options: DetailedChartOptions | DistantC
     const old=b.meshes[mi].primitives[pi],next=q.meshes[mi].primitives[pi],changed=changes.some(c=>json.nodes.find((n:Json)=>n.name===c.node).mesh===mi && c.primitive===pi);
     assert.deepEqual({...next,indices:old.indices},old,'An existing primitive changed outside its drawing index partition');if(!changed)assert.equal(next.indices,old.indices);
   }
-  const after=await io.readBinary(out);assert.deepEqual(geometry(after),beforeGeometry,'Facade adapter changed the world coordinate/winding triangle multiset');
+  const {doc:after}=await decode(out,options.externalImages);assert.deepEqual(geometry(after),beforeGeometry,'Facade adapter changed the world coordinate/winding triangle multiset');
   return {bytes:new Uint8Array(out),proof:{sourceSha256:options.expectedSha256,outputSha256:facadeChartSha256(out),targetTriangles:options.targets.length,addedPrimitives:changes.length,changes,textureBytesEstimate,fallbackBytes,
     preserved:{originalBinPrefix:true,oldAccessorAndImageDescriptors:true,untargetedAttributesAndUvs:true,nodesAndTransforms:true,worldTriangleCoordinateAndWindingMultiset:true},distantFidelity:distant?'Same coarse triangles, vertex-colour sampling; no window geometry or distant texture added':null}};
 }

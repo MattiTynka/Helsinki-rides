@@ -1,0 +1,344 @@
+{
+  "schemaVersion": 1,
+  "id": "senate-reference-facades-20261020-1030368080",
+  "baselineManifestSha256": "5a3502a4641de1a79dfd40dbb06724b59d4e908d16f3a5218b8e7dcead3f7ebd",
+  "source": {
+    "cityJsonSha256": "f39ce86a590c44b87409e887d3cc4df9689995df849bcb31c43fc5be86f1e109",
+    "cityBinSha256": "54880432f726662f3d0801a98dffddd0fdfc9b0b31aca67d400a07214633c9d9",
+    "originId": "senate-square-statue-v2"
+  },
+  "art": {
+    "path": "facade.png",
+    "sha256": "c53e35525395531ada9f75bf48548ecd763345c39e9a43e74c50ddf173449a81",
+    "width": 768,
+    "height": 768,
+    "license": "CC0-1.0",
+    "attribution": "Original reference-led facade artwork by the Helsinki Rides project (2026). Appearance references are not reproduced.",
+    "references": [
+      {
+        "title": "National Archives Rauhankatu17 south front, Google Street View August2024; actual panorama opened, five central axes and four per wing",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=yoCqw1K73FLOkY5yCIzL2g&viewpoint=60.1715249,24.9528007&heading=355&pitch=12",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Porthania public south courtyard, Google Street View August2022; actual panorama opened, five glazing ribbons and low glazed east pavilion",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=GvIVZAGPa_DomRG-ry6QoQ&viewpoint=60.1699118,24.9484906&heading=1.92",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Aleksanterinkatu16 north front, Google Street View August2024; three separate historic facade layouts and current museum entrances",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=BuvcPILQ9NFQkdsZIJHe4A&viewpoint=60.1691141,24.9542295&heading=199.84",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Helsinki city architectural study K4 Elefantti25May2005 page7, complete north elevation photograph; Sederholm, Remander, Brummer physical identity and upper opening counts",
+        "url": "https://www.hel.fi/static/helsinki/paatosasiakirjat/Kh2005/Esityslista33/Liitteet/Kaupungintalokorttelin_K4_tilaselvitys,_25.5.2005.pdf?Action=sd&id=052420180",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Porthania east Fabianinkatu facade, Google Street View August2024; actual lower and upward panoramas opened, five northern ribbon rows, separate five-floor glass inset and blank tiled south wall",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=q-HpFGEjf1ptz76wRfkypw&viewpoint=60.1702431,24.9491533&heading=290&pitch=38",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Brummer14 north front, Google Street View April2023; clear full facade: seven upper windows, eastmost and centre ground doors, five shuttered ground windows",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=MZqCZZwZe1PPuQCx_E5UCg&viewpoint=60.1691298,24.9542107&heading=130&pitch=0",
+        "role": "appearance-reference-only"
+      }
+    ]
+  },
+  "material": {
+    "name": "senate-original-1030368080",
+    "unlit": true,
+    "roughness": 0.95,
+    "doubleSided": true
+  },
+  "charts": [
+    {
+      "id": "porthania-courtyard-north",
+      "building": "BID_1c117345-b27e-46b8-9721-e635503b4ad8",
+      "origin": [
+        -216.898193359375,
+        0,
+        -67.27882385253906
+      ],
+      "uAxis": [
+        0.9983628750500337,
+        0,
+        -0.05719763737979574
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -1.1506876548096419,
+        -6.343921184539795,
+        15.849388416645334,
+        23.320079803466797
+      ],
+      "pixels": [
+        1,
+        1,
+        304,
+        382
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "porthania-courtyard-west",
+      "building": "BID_1c117345-b27e-46b8-9721-e635503b4ad8",
+      "origin": [
+        -218.0469970703125,
+        0,
+        -67.21300506591797
+      ],
+      "uAxis": [
+        0.10744176913675231,
+        0,
+        -0.9942113790561667
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -18.503111175988085,
+        -6.343921661376953,
+        0,
+        23.320079803466797
+      ],
+      "pixels": [
+        309,
+        1,
+        324,
+        382
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "porthania-courtyard-east-pavilion",
+      "building": "BID_1c117345-b27e-46b8-9721-e635503b4ad8",
+      "origin": [
+        -200.98179626464844,
+        0,
+        -67.61820220947266
+      ],
+      "uAxis": [
+        0.16175605216103361,
+        0,
+        0.9868307755584426
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        -6.343921661376953,
+        13.036885716747394,
+        2.8134865760803223
+      ],
+      "pixels": [
+        637,
+        1,
+        130,
+        382
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "porthania-east-north-block",
+      "building": "BID_1c117345-b27e-46b8-9721-e635503b4ad8",
+      "origin": [
+        -178.8553924560547,
+        0,
+        -104.11113739013672
+      ],
+      "uAxis": [
+        -0.05790252539044301,
+        0,
+        -0.9983222413396435
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -19.837405303351396,
+        -6.3439202308654785,
+        0,
+        20.250078201293945
+      ],
+      "pixels": [
+        1,
+        386,
+        350,
+        381
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "porthania-east-glass-inset",
+      "building": "BID_1c117345-b27e-46b8-9721-e635503b4ad8",
+      "origin": [
+        -178.47232055664062,
+        0,
+        -81.29806518554688
+      ],
+      "uAxis": [
+        -0.062378601015941997,
+        0,
+        -0.998052558804041
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -6.034181633819473,
+        -6.343921184539795,
+        2.9553397782276907,
+        25.310081481933594
+      ],
+      "pixels": [
+        355,
+        386,
+        190,
+        381
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "porthania-east-south-blank-tile",
+      "building": "BID_1c117345-b27e-46b8-9721-e635503b4ad8",
+      "origin": [
+        -176.80999755859375,
+        0,
+        -75.35600280761719
+      ],
+      "uAxis": [
+        -0.05521944615782886,
+        0,
+        -0.998474242414907
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -5.7587863002872215,
+        -6.343921661376953,
+        0,
+        23.975374221801758
+      ],
+      "pixels": [
+        549,
+        386,
+        218,
+        381
+      ],
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "cells": [
+    {
+      "id": "c_m02_m01",
+      "building": "BID_1c117345-b27e-46b8-9721-e635503b4ad8",
+      "vtj": "1030368080",
+      "baselineLevels": {
+        "lod0": "fbe06ffc7a60a1bf0a7e6f4bb7a0b90025235f2d72b43db68364b866bf0bb28d",
+        "lod1": "fbe06ffc7a60a1bf0a7e6f4bb7a0b90025235f2d72b43db68364b866bf0bb28d",
+        "lod2": "5c4834aa8b13e7ea37a6c828bcece32e5ab8ecce7c2bb080d69daa4229b61f64"
+      },
+      "faces": [
+        {
+          "key": "080c5ac36601cbc00f6d86c2:f0e558c3858fba41c28e86c2:080c5ac3868fba410f6d86c2",
+          "chart": "porthania-courtyard-north"
+        },
+        {
+          "key": "080c5ac36601cbc00f6d86c2:f0e558c3cd709f41c28e86c2:f0e558c3858fba41c28e86c2",
+          "chart": "porthania-courtyard-north"
+        },
+        {
+          "key": "231349c36701cbc0ea5e88c2:f0e558c3cd709f41c28e86c2:f0e558c36501cbc0c18e86c2",
+          "chart": "porthania-courtyard-north"
+        },
+        {
+          "key": "231349c36701cbc0ea5e88c2:231349c3cd709f41e95e88c2:f0e558c3cd709f41c28e86c2",
+          "chart": "porthania-courtyard-north"
+        },
+        {
+          "key": "080c5ac36601cbc00f6d86c2:080c5ac3868fba410f6d86c2:f6085cc3858fba419c4443c2",
+          "chart": "porthania-courtyard-west"
+        },
+        {
+          "key": "080c5ac36601cbc00f6d86c2:f6085cc3858fba419c4443c2:f6085cc36801cbc09d4443c2",
+          "chart": "porthania-courtyard-west"
+        },
+        {
+          "key": "57fb48c327103440853c87c2:57fb48c36601cbc0853c87c2:7ddf46c36801cbc013035bc2",
+          "chart": "porthania-courtyard-east-pavilion"
+        },
+        {
+          "key": "57fb48c327103440853c87c2:7ddf46c36801cbc013035bc2:7ddf46c32a10344013035bc2",
+          "chart": "porthania-courtyard-east-pavilion"
+        },
+        {
+          "key": "eeb431c32900a241319da8c2:fbda32c36201cbc0e738d0c2:fbda32c32900a241e738d0c2",
+          "chart": "porthania-east-north-block"
+        },
+        {
+          "key": "eeb431c32900a241319da8c2:eeb431c36501cbc0319da8c2:fbda32c36201cbc0e738d0c2",
+          "chart": "porthania-east-north-block"
+        },
+        {
+          "key": "8e1832c33cbebf41208d96c2:ea7832c32a00a2419c98a2c2:ea7832c30c7bca419c98a2c2",
+          "chart": "porthania-east-glass-inset"
+        },
+        {
+          "key": "8e1832c33cbebf41208d96c2:8e1832c36501cbc0208d96c2:ea7832c32a00a2419c98a2c2",
+          "chart": "porthania-east-glass-inset"
+        },
+        {
+          "key": "8e1832c36501cbc0208d96c2:ea7832c36701cbc09c98a2c2:ea7832c32a00a2419c98a2c2",
+          "chart": "porthania-east-glass-inset"
+        },
+        {
+          "key": "1ba832c36501cbc0cc7ea8c2:ea7832c32a00a2419c98a2c2:ea7832c36701cbc09c98a2c2",
+          "chart": "porthania-east-glass-inset"
+        },
+        {
+          "key": "1ba832c32900a241cc7ea8c2:ea7832c32a00a2419c98a2c2:1ba832c36501cbc0cc7ea8c2",
+          "chart": "porthania-east-glass-inset"
+        },
+        {
+          "key": "5ccf30c36701cbc046b696c2:5ccf30c391cdbf4146b696c2:8ba230c31d29ba418a6190c2",
+          "chart": "porthania-east-south-blank-tile"
+        },
+        {
+          "key": "5ccf30c36701cbc046b696c2:8ba230c31d29ba418a6190c2:8ba230c3cd709f418a6190c2",
+          "chart": "porthania-east-south-blank-tile"
+        },
+        {
+          "key": "5ccf30c36701cbc046b696c2:8ba230c3cd709f418a6190c2:f47d30c3ce709f4146368bc2",
+          "chart": "porthania-east-south-blank-tile"
+        },
+        {
+          "key": "5ccf30c36701cbc046b696c2:f47d30c3ce709f4146368bc2:8ba230c36801cbc08b6190c2",
+          "chart": "porthania-east-south-blank-tile"
+        },
+        {
+          "key": "8ba230c36801cbc08b6190c2:f47d30c3ce709f4146368bc2:f47d30c36601cbc046368bc2",
+          "chart": "porthania-east-south-blank-tile"
+        }
+      ]
+    }
+  ]
+}
