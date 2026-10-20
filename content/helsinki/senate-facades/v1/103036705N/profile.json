@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 1,
+  "id": "senate-reference-facades-20261020-103036705N",
+  "baselineManifestSha256": "5a3502a4641de1a79dfd40dbb06724b59d4e908d16f3a5218b8e7dcead3f7ebd",
+  "source": {
+    "cityJsonSha256": "f39ce86a590c44b87409e887d3cc4df9689995df849bcb31c43fc5be86f1e109",
+    "cityBinSha256": "54880432f726662f3d0801a98dffddd0fdfc9b0b31aca67d400a07214633c9d9",
+    "originId": "senate-square-statue-v2"
+  },
+  "art": {
+    "path": "facade.png",
+    "sha256": "e1f75c00384ebf69e97a62282ec6397928ff8b9ae1a588d926524b2e3932bdc3",
+    "width": 768,
+    "height": 320,
+    "license": "CC0-1.0",
+    "attribution": "Original reference-led facade artwork by the Helsinki Rides project (2026). Appearance references are not reproduced.",
+    "references": [
+      {
+        "title": "National Archives Rauhankatu17 south front, Google Street View August2024; actual panorama opened, five central axes and four per wing",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=yoCqw1K73FLOkY5yCIzL2g&viewpoint=60.1715249,24.9528007&heading=355&pitch=12",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Porthania public south courtyard, Google Street View August2022; actual panorama opened, five glazing ribbons and low glazed east pavilion",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=GvIVZAGPa_DomRG-ry6QoQ&viewpoint=60.1699118,24.9484906&heading=1.92",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Aleksanterinkatu16 north front, Google Street View August2024; three separate historic facade layouts and current museum entrances",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=BuvcPILQ9NFQkdsZIJHe4A&viewpoint=60.1691141,24.9542295&heading=199.84",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Helsinki city architectural study K4 Elefantti25May2005 page7, complete north elevation photograph; Sederholm, Remander, Brummer physical identity and upper opening counts",
+        "url": "https://www.hel.fi/static/helsinki/paatosasiakirjat/Kh2005/Esityslista33/Liitteet/Kaupungintalokorttelin_K4_tilaselvitys,_25.5.2005.pdf?Action=sd&id=052420180",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Porthania east Fabianinkatu facade, Google Street View August2024; actual lower and upward panoramas opened, five northern ribbon rows, separate five-floor glass inset and blank tiled south wall",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=q-HpFGEjf1ptz76wRfkypw&viewpoint=60.1702431,24.9491533&heading=290&pitch=38",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Brummer14 north front, Google Street View April2023; clear full facade: seven upper windows, eastmost and centre ground doors, five shuttered ground windows",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=MZqCZZwZe1PPuQCx_E5UCg&viewpoint=60.1691298,24.9542107&heading=130&pitch=0",
+        "role": "appearance-reference-only"
+      }
+    ]
+  },
+  "material": {
+    "name": "senate-original-103036705N",
+    "unlit": true,
+    "roughness": 0.95,
+    "doubleSided": true
+  },
+  "charts": [
+    {
+      "id": "archive-south-west-wing",
+      "building": "BID_fc7cc496-989f-4aa4-af91-5425569ba6c4",
+      "origin": [
+        -1.4753094911575317,
+        0,
+        -234.7401885986328
+      ],
+      "uAxis": [
+        0.998377673930488,
+        0,
+        -0.05693874074080166
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -1.0694237361740304,
+        3.7600786685943604,
+        16.412538549891295,
+        24.849170684814453
+      ],
+      "pixels": [
+        1,
+        1,
+        246,
+        318
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "archive-south-central-portico",
+      "building": "BID_fc7cc496-989f-4aa4-af91-5425569ba6c4",
+      "origin": [
+        33.707603454589844,
+        0,
+        -234.19100952148438
+      ],
+      "uAxis": [
+        0.9987893233558581,
+        0,
+        -0.04919235255958995
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -18.657389930853952,
+        3.7600789070129395,
+        0,
+        26.13007926940918
+      ],
+      "pixels": [
+        251,
+        1,
+        264,
+        318
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "archive-south-east-wing",
+      "building": "BID_fc7cc496-989f-4aa4-af91-5425569ba6c4",
+      "origin": [
+        50.948204040527344,
+        0,
+        -237.6007080078125
+      ],
+      "uAxis": [
+        0.9984923052477749,
+        0,
+        -0.05489186060778144
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -17.441797547500876,
+        3.7600786685943604,
+        0,
+        24.84751319885254
+      ],
+      "pixels": [
+        519,
+        1,
+        248,
+        318
+      ],
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "cells": [
+    {
+      "id": "c_p00_m02",
+      "building": "BID_fc7cc496-989f-4aa4-af91-5425569ba6c4",
+      "vtj": "103036705N",
+      "baselineLevels": {
+        "lod0": "574cbd3545c653f29b182d9ad79563191e64113c4d19eea0e990c464c70050c1",
+        "lod1": "574cbd3545c653f29b182d9ad79563191e64113c4d19eea0e990c464c70050c1",
+        "lod2": "7aa546e9e74603739fb3a15617e9f42c100eca23e403fc2ef93db5defd979f18"
+      },
+      "faces": [
+        {
+          "key": "7cc022c0cf51c541e7ad6ac3:7ec022c022a57040e7ad6ac3:f1d6bcbf69b8c6417dbd6ac3",
+          "chart": "archive-south-west-wing"
+        },
+        {
+          "key": "7ec022c022a57040e7ad6ac3:d2916e4121a57040b9ac6bc3:f1d6bcbf69b8c6417dbd6ac3",
+          "chart": "archive-south-west-wing"
+        },
+        {
+          "key": "d2916e4121a57040b9ac6bc3:d4916e411acbc641b9ac6bc3:f1d6bcbf69b8c6417dbd6ac3",
+          "chart": "archive-south-west-wing"
+        },
+        {
+          "key": "96d40642f5d2c341e6306ac3:e79bc641670ad141eac069c3:b2d17c414f9cc341204f69c3",
+          "chart": "archive-south-central-portico"
+        },
+        {
+          "key": "96d4064222a57040e6306ac3:96d40642f5d2c341e6306ac3:b2d17c414f9cc341204f69c3",
+          "chart": "archive-south-central-portico"
+        },
+        {
+          "key": "342a7141649dc341f14569c3:96d4064222a57040e6306ac3:b2d17c414f9cc341204f69c3",
+          "chart": "archive-south-central-portico"
+        },
+        {
+          "key": "322a714123a57040f14569c3:96d4064222a57040e6306ac3:342a7141649dc341f14569c3",
+          "chart": "archive-south-central-portico"
+        },
+        {
+          "key": "7d210642cdc0c641afa46cc3:f6ca4b421869c441c8996dc3:a30e4442b5c7c641907e6dc3",
+          "chart": "archive-south-east-wing"
+        },
+        {
+          "key": "7d21064221a57040afa46cc3:f6ca4b421869c441c8996dc3:7d210642cdc0c641afa46cc3",
+          "chart": "archive-south-east-wing"
+        },
+        {
+          "key": "7d21064221a57040afa46cc3:f6ca4b4222a57040c8996dc3:f6ca4b421869c441c8996dc3",
+          "chart": "archive-south-east-wing"
+        }
+      ]
+    }
+  ]
+}

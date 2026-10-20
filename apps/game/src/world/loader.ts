@@ -10,6 +10,7 @@ import { basisDecoderUrl, runtimeDeployment, selectedRelease, validateManifestPa
 import { fetchSimulationPayload } from './payload.ts';
 import { OwnedKtx2Loader } from './owned-ktx2-loader.ts';
 import { requestSlots } from './startup-queue.ts';
+import { completeGlbTextures } from './complete-glb-textures.ts';
 
 export interface WorldData {
   readonly release: string;
@@ -120,7 +121,7 @@ export class GlbLoader {
 
   constructor(renderer: THREE.WebGLRenderer) {
     this.ktx2 = new OwnedKtx2Loader(this.manager).setTranscoderPath(basisDecoderUrl(runtimeDeployment())).detectSupport(renderer);
-    this.loader = new GLTFLoader().setKTX2Loader(this.ktx2).setMeshoptDecoder(MeshoptDecoder);
+    this.loader = new GLTFLoader().setKTX2Loader(this.ktx2).setMeshoptDecoder(MeshoptDecoder).register(completeGlbTextures);
   }
 
   /**
