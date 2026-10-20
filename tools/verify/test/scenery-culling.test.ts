@@ -75,11 +75,11 @@ test('low scene owns caches by residency, uses the final camera and preserves so
   assert.equal(meshes.reduce((n, m) => n + m.count, 0), 1); assert.equal(meshes.find(m => m.count === 1).instanceMatrix.array[12], 100);
   scene.disposeCell(view); assert.equal(root.children.length, 0); assert.equal((scene as any).sceneryCulling.meshes.size, 0); assert.equal(sharedDisposed, 0); assert.equal(JSON.stringify(document), original);
 });
-test('standard scene and render accounting keep their existing behavior', () => {
+test('standard scene culls offscreen instances and updates posed skin bounds before render accounting', () => {
   const scene = city('standard'), template = new THREE.Group(), node = new THREE.Mesh(new THREE.BoxGeometry(.2, .2, .2), new THREE.MeshBasicMaterial()); node.name = 'tree'; template.add(node);
   const document = { originId: 'origin', assets: [], instances: [1, 100].map((x, k) => ({ id: `tree-${k}`, asset: 'trees', node: 'tree', position: [x, 0, 1], yaw: 0, scale: [1, 1, 1] })) } as unknown as SceneryDocument;
-  const root = scene.addScenery(document, new Map([['trees', template]]), 128, false); scene.prepareSceneryForRender(); assert.equal((scene as any).sceneryCulling, null);
-  let instances = 0; root.traverse(o => { if ((o as any).isInstancedMesh) instances += (o as any).count; }); assert.equal(instances, 2, 'standard buffers are not compacted by camera visibility');
-  const calls: string[] = [], info = { render: { calls: 12, triangles: 345 }, memory: { textures: 6, geometries: 7 } }, context = { config: { preset: 'standard' }, scene: { renderer: { info, render: () => calls.push('draw') }, scene: {}, camera: {}, prepareSceneryForRender: () => calls.push('cull') }, stats: {}, sim: { tick: 8 } };
-  Game.prototype.render.call(context as unknown as Game); assert.deepEqual(calls, ['cull', 'draw']); assert.deepEqual(context.stats, { drawCalls: 12, triangles: 345, textures: 6, geometries: 7, tick: 8 });
+  const root = scene.addScenery(document, new Map([['trees', template]]), 128, false); scene.prepareSceneryForRender(); assert.ok((scene as any).sceneryCulling);
+  let instances = 0; root.traverse(o => { if ((o as any).isInstancedMesh) instances += (o as any).count; }); assert.equal(instances, 1, 'the distant offscreen instance is not submitted');
+  const calls: string[] = [], info = { render: { calls: 12, triangles: 345 }, memory: { textures: 6, geometries: 7 } }, context = { config: { preset: 'standard' }, playerView: { prepareForRender: () => calls.push('skin') }, characterViews: new Map([['npc', { prepareForRender: () => calls.push('npc') }]]), scene: { renderer: { info, render: () => calls.push('draw') }, scene: {}, camera: {}, prepareSceneryForRender: () => calls.push('cull') }, stats: {}, sim: { tick: 8 } };
+  Game.prototype.render.call(context as unknown as Game); assert.deepEqual(calls, ['skin', 'npc', 'cull', 'draw']); assert.deepEqual(context.stats, { drawCalls: 12, triangles: 345, textures: 6, geometries: 7, tick: 8 });
 });

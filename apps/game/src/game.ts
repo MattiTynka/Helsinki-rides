@@ -100,13 +100,21 @@ export class Game {
 
   static async create(canvas: HTMLCanvasElement, config: GameConfig, progress: Progress): Promise<Game> {
     const release = await resolveRelease(config.release);
-    const [data] = await Promise.all([loadWorldData(release, progress), initPhysics()]);
-    const lighting: Lighting = config.lighting ?? (data.manifest.lighting === 'unlit-facades' ? 'unlit' : 'lit');
-    const scene = new CityScene(canvas, config.preset, lighting, config.pixelRatioCap);
-    const loader = new GlbLoader(scene.renderer);
-    const world = Game.buildWorld(data);
     const assets = new AssetLibrary();
-    await assets.load(loader, data.base, data.manifest, config.preset === 'low');
+    let scene!: CityScene, loader!: GlbLoader;
+    let assetResult: Promise<{ ok: true } | { ok: false; error: unknown }> = Promise.resolve({ ok: true });
+    const dataReady = loadWorldData(release, progress, undefined, (manifest, base) => {
+      const lighting: Lighting = config.lighting ?? (manifest.lighting === 'unlit-facades' ? 'unlit' : 'lit');
+      scene = new CityScene(canvas, config.preset, lighting, config.pixelRatioCap);
+      loader = new GlbLoader(scene.renderer);
+      // Observe failures immediately, then propagate them at the joined startup boundary.
+      assetResult = assets.load(loader, base, manifest, config.preset === 'low').then(
+        () => ({ ok: true as const }), error => ({ ok: false as const, error }));
+    });
+    const [data] = await Promise.all([dataReady, initPhysics()]);
+    const world = Game.buildWorld(data);
+    const loaded = await assetResult;
+    if (!loaded.ok) throw loaded.error;
     progress(1, 1, 'hero assets');
     const hasFallbacks = data.manifest.cells.every(cell => !!cell.visual.lod2);
     if (data.scenery) scene.addScenery(data.scenery, assets.scenery, data.manifest.cellSize, hasFallbacks);
@@ -119,6 +127,7 @@ export class Game {
       const fallbackBudget = 4 * 2 ** 20;
       const backend = (lod: 'lod0' | 'lod1' | 'lod2') => ({
         load: (cell: typeof data.manifest.cells[number], signal: AbortSignal) => scene.loadCell(loader, data.base, cell, lod, signal),
+        prepare: (_cell: typeof data.manifest.cells[number], view: CellView, signal: AbortSignal) => scene.prepareCell(view, signal),
         show: (_cell: typeof data.manifest.cells[number], view: CellView) => scene.showCell(view),
         dispose: (_cell: typeof data.manifest.cells[number], view: CellView) => scene.disposeCell(view),
       });
@@ -144,11 +153,11 @@ export class Game {
       const [x, z] = data.gameplay.player.spawn.position;
       const focus = { x, z, velocityX: 0, velocityZ: 0 };
       fallback.update(focus);
-      await fallback.settle();
+      detail.update(focus);
+      // Wait for the playable neighbourhood. Outer-ring work continues inside the same budgets.
+      await Promise.all([fallback.settleNear(150), detail.settleNear(100)]);
       if (fallback.stats().errors.length) throw new Error(`Initial city fallback load failed: ${fallback.stats().errors.join('; ')}`);
       progress(1, 2, 'nearby streets');
-      detail.update(focus);
-      await detail.settle();
       if (detail.stats().errors.length) throw new Error(`Initial city detail load failed: ${detail.stats().errors.join('; ')}`);
       progress(2, 2, 'nearby buildings');
     } else {
@@ -274,10 +283,8 @@ export class Game {
 
   render(): void {
     const info = this.scene.renderer.info;
-    if (this.config.preset === 'low') {
-      this.playerView.prepareForRender();
-      for (const view of this.characterViews.values()) view.prepareForRender();
-    }
+    this.playerView.prepareForRender();
+    for (const view of this.characterViews.values()) view.prepareForRender();
     this.scene.prepareSceneryForRender();
     this.scene.renderer.render(this.scene.scene, this.scene.camera);
     this.stats.drawCalls = info.render.calls;

@@ -5,9 +5,11 @@ import importlib.util
 import io
 import json
 from pathlib import Path
+import struct
 import tarfile
 import tempfile
 import unittest
+from unittest import mock
 
 
 SPEC = importlib.util.spec_from_file_location('stage_pages_world', Path(__file__).resolve().parents[1] / 'stage-pages-world.py')
@@ -17,6 +19,21 @@ SPEC.loader.exec_module(pages)
 
 def sha(data):
     return hashlib.sha256(data).hexdigest()
+
+
+def minimal_glb(document=None):
+    """A real GLB envelope, including a padded JSON chunk and embedded BIN chunk."""
+    model = {'asset': {'version': '2.0'}, 'scene': 0, 'scenes': [{}],
+             'buffers': [{'byteLength': 4}],
+             'bufferViews': [{'buffer': 0, 'byteOffset': 0, 'byteLength': 4}]}
+    model.update(document or {})
+    text = json.dumps(model, separators=(',', ':')).encode()
+    text += b' ' * (-len(text) % 4)
+    binary = bytes(4)
+    total = 12 + 8 + len(text) + 8 + len(binary)
+    return (struct.pack('<III', 0x46546c67, 2, total)
+            + struct.pack('<II', len(text), 0x4e4f534a) + text
+            + struct.pack('<II', len(binary), 0x004e4942) + binary)
 
 
 class PagesWorldTest(unittest.TestCase):
@@ -60,7 +77,9 @@ class PagesWorldTest(unittest.TestCase):
                    for name, data in files.items() if name not in omit]
         members.extend(extra_members)
         stream = io.BytesIO()
-        with tarfile.open(fileobj=stream, mode='w:gz', format=tarfile.GNU_FORMAT) as archive:
+        # Content-addressed texture paths exceed the tar name field. USTAR carries
+        # them in its fixed prefix field without GNU LongLink or PAX entries.
+        with tarfile.open(fileobj=stream, mode='w:gz', format=tarfile.USTAR_FORMAT) as archive:
             for name, data, kind in members:
                 info = tarfile.TarInfo(name)
                 info.type = kind
@@ -99,6 +118,37 @@ class PagesWorldTest(unittest.TestCase):
         data = json.dumps(gameplay).encode()
         self.payloads['gameplay.json'] = data
         self.manifest['gameplay'] = {'path': 'gameplay.json', 'bytes': len(data), 'sha256': sha(data)}
+
+    def pin_payload(self, name, data):
+        self.payloads[name] = data
+        return {'path': name, 'bytes': len(data), 'sha256': sha(data)}
+
+    def compress_simulation(self, reference, decoded=None):
+        previous = reference['path']
+        original = self.payloads.pop(previous)
+        decoded = original if decoded is None else decoded
+        reference.update(self.pin_payload(previous + '.gz', gzip.compress(decoded, mtime=0)),
+                         compression='gzip', decodedBytes=len(decoded), decodedSha256=sha(decoded))
+        return decoded
+
+    def optimized_textures(self):
+        """Both cell and actor model dependencies exercise the optimized-model boundary."""
+        images = [b'\xabKTX 20\xbb\r\n\x1a\nlicensed texture',
+                  b'\x89PNG\r\n\x1a\nlicensed texture']
+        refs = [self.pin_payload(f'textures/{sha(data)}.{suffix}', data)
+                for data, suffix in zip(images, ['ktx2', 'png'])]
+        self.manifest['sharedTextures'] = refs
+        self.manifest['cells'][0]['visual']['lod0'] = self.pin_payload(
+            'cells/c0.glb', minimal_glb({'images': [{'uri': '../' + refs[0]['path']}]}))
+        self.manifest['assets'][0].update(self.pin_payload(
+            'assets/snow.glb', minimal_glb({'images': [{'uri': '../' + refs[1]['path']}]})))
+        return refs
+
+    def assert_optimized_refused(self, message):
+        with self.assertRaisesRegex((ValueError, OSError, EOFError), message):
+            self.stage()
+        self.assertFalse((self.output / 'world').exists())
+        self.assertFalse((self.output / 'release-info.json').exists())
 
     def test_valid_archive_is_staged_with_receipt_and_exact_payloads(self):
         result = self.stage()
@@ -314,6 +364,245 @@ class PagesWorldTest(unittest.TestCase):
                 self.set_gameplay(gameplay)
                 self.build_inputs()
                 self.assert_refused_without_output()
+
+    def test_gzip_simulation_inputs_validate_decoded_hash_and_size_without_rewriting_stored_bytes(self):
+        terrain = self.compress_simulation(self.manifest['terrain'])
+        collision = self.compress_simulation(self.manifest['cells'][0]['collision'])
+        self.build_inputs()
+        result = self.stage()
+        self.assertEqual(result['status'], 'PASS')
+        for ref, decoded in [(self.manifest['terrain'], terrain),
+                             (self.manifest['cells'][0]['collision'], collision)]:
+            staged = (self.output / 'world' / self.release / ref['path']).read_bytes()
+            self.assertEqual(staged, self.payloads[ref['path']])
+            self.assertEqual(gzip.decompress(staged), decoded)
+            self.assertEqual(len(decoded), ref['decodedBytes'])
+            self.assertEqual(sha(decoded), ref['decodedSha256'])
+
+    def test_compressed_payload_decoded_digest_and_size_are_independently_pinned(self):
+        self.compress_simulation(self.manifest['terrain'])
+        reference = self.manifest['terrain']
+        original = copy.deepcopy(reference)
+        for change in [{'decodedSha256': 'd' * 64}, {'decodedBytes': original['decodedBytes'] + 1},
+                       {'decodedBytes': original['decodedBytes'] - 1}]:
+            with self.subTest(change=change):
+                reference.clear()
+                reference.update(original, **change)
+                self.build_inputs()
+                self.assert_optimized_refused('decoded simulation')
+
+    def test_simulation_rejects_corrupt_gzip_even_when_stored_hash_is_correct(self):
+        self.compress_simulation(self.manifest['cells'][0]['collision'])
+        reference = self.manifest['cells'][0]['collision']
+        original = self.payloads[reference['path']]
+        corrupt_crc = original[:-8] + bytes([original[-8] ^ 1]) + original[-7:]
+        for malformed in [b'not gzip', original[:-3], corrupt_crc]:
+            with self.subTest(stored=malformed):
+                reference.update(self.pin_payload(reference['path'], malformed))
+                self.build_inputs()
+                self.assert_refused_without_output()
+
+    def test_simulation_compression_requires_complete_and_supported_metadata(self):
+        self.compress_simulation(self.manifest['terrain'])
+        original = copy.deepcopy(self.manifest['terrain'])
+        cases = [
+            ({'compression': 'br'}, ()), ({'compression': 'deflate'}, ()),
+            ({'compression': True}, ()), ({'compression': None}, ()),
+            ({}, ('compression',)), ({}, ('compression', 'decodedBytes', 'decodedSha256')),
+            ({}, ('decodedBytes',)), ({}, ('decodedSha256',)),
+            ({'decodedBytes': True}, ()), ({'decodedSha256': 'A' * 64}, ()),
+        ]
+        for updates, removed in cases:
+            with self.subTest(updates=updates, removed=removed):
+                self.manifest['terrain'] = {**original, **updates}
+                for field in removed:
+                    self.manifest['terrain'].pop(field)
+                self.build_inputs()
+                self.assert_optimized_refused('simulation|compression')
+
+    def test_decoded_simulation_publication_cap_is_enforced_before_decompression(self):
+        self.compress_simulation(self.manifest['terrain'])
+        self.manifest['terrain']['decodedBytes'] = pages.MAX_SIMULATION_BYTES + 1
+        self.build_inputs()
+        self.assert_optimized_refused('decoded simulation bytes.*publication limit')
+
+    def test_uncompressed_simulation_cannot_claim_decoded_or_gzip_metadata(self):
+        original = copy.deepcopy(self.manifest['terrain'])
+        for updates in [{'decodedBytes': len(self.payloads['terrain.bin'])},
+                        {'decodedSha256': sha(self.payloads['terrain.bin'])},
+                        {'compression': 'gzip', 'decodedBytes': 7, 'decodedSha256': sha(b'terrain')}]:
+            with self.subTest(updates=updates):
+                self.manifest['terrain'] = {**original, **updates}
+                self.build_inputs()
+                self.assert_optimized_refused('compression')
+
+    def test_gzip_bomb_stops_at_declared_size_plus_one_byte(self):
+        self.compress_simulation(self.manifest['terrain'], bytes(1_048_576))
+        reference = self.manifest['terrain']
+        reference.update(decodedBytes=8, decodedSha256=sha(bytes(8)))
+        self.build_inputs()
+        original_open = gzip.open
+        requested_reads = []
+
+        class BoundedReader:
+            def __init__(self, stream):
+                self.stream = stream
+
+            def __enter__(self):
+                self.stream.__enter__()
+                return self
+
+            def __exit__(self, *args):
+                return self.stream.__exit__(*args)
+
+            def read(self, size=-1):
+                requested_reads.append(size)
+                self_test.assertGreater(size, 0)
+                self_test.assertLessEqual(size, 9)
+                return self.stream.read(size)
+
+        def observed_open(filename, *args, **kwargs):
+            opened = original_open(filename, *args, **kwargs)
+            return BoundedReader(opened) if str(filename).endswith('terrain.bin.gz') else opened
+
+        self_test = self
+        with mock.patch.object(pages.gzip, 'open', side_effect=observed_open):
+            self.assert_optimized_refused('decoded simulation exceeds its declared size')
+        self.assertEqual(requested_reads, [9])
+
+    def test_runtime_gzip_is_reserved_for_declared_terrain_and_collision_payloads(self):
+        self.payloads.pop('roads.json')
+        self.manifest['roads'] = self.pin_payload('roads.bin.gz', gzip.compress(b'{}', mtime=0))
+        self.build_inputs()
+        self.assert_optimized_refused('not a declared simulation input')
+
+    def test_shared_texture_inventory_accepts_content_addressed_ktx2_and_png_dependencies(self):
+        textures = self.optimized_textures()
+        self.build_inputs()
+        self.assertEqual(self.stage()['status'], 'PASS')
+        for reference in textures:
+            data = (self.output / 'world' / self.release / reference['path']).read_bytes()
+            self.assertEqual(sha(data), reference['sha256'])
+            self.assertEqual(Path(reference['path']).stem, sha(data))
+
+    def test_shared_texture_file_bytes_are_independently_hashed(self):
+        textures = self.optimized_textures()
+        self.payloads[textures[0]['path']] = b'changed texture'
+        self.build_inputs()
+        self.assert_optimized_refused('differs from its manifest digest or byte count')
+
+    def test_shared_texture_filename_must_equal_its_pinned_digest(self):
+        textures = self.optimized_textures()
+        reference = textures[0]
+        original = reference['path']
+        renamed = 'textures/' + 'a' * 64 + '.ktx2'
+        self.payloads[renamed] = self.payloads.pop(original)
+        reference['path'] = renamed
+        self.manifest['cells'][0]['visual']['lod0'] = self.pin_payload(
+            'cells/c0.glb', minimal_glb({'images': [{'uri': '../' + renamed}]}))
+        self.build_inputs()
+        self.assert_optimized_refused('content-addressed references')
+
+    def test_shared_texture_references_require_the_approved_directory_and_image_extensions(self):
+        textures = self.optimized_textures()
+        original = copy.deepcopy(self.manifest)
+        original_payloads = copy.deepcopy(self.payloads)
+        for renamed in ['assets/' + textures[0]['sha256'] + '.png',
+                        'textures/' + textures[0]['sha256'] + '.json']:
+            with self.subTest(path=renamed):
+                self.manifest = copy.deepcopy(original)
+                self.payloads = copy.deepcopy(original_payloads)
+                self.payloads[renamed] = self.payloads.pop(textures[0]['path'])
+                self.manifest['sharedTextures'][0]['path'] = renamed
+                self.build_inputs()
+                self.assert_optimized_refused('invalid shared texture reference')
+
+    def test_external_glb_image_urls_and_traversal_are_rejected_for_cells_and_actors(self):
+        textures = self.optimized_textures()
+        original = copy.deepcopy(self.manifest)
+        original_payloads = copy.deepcopy(self.payloads)
+        uri_cases = ['https://example.invalid/image.png', '//example.invalid/image.png',
+                     'data:image/png;base64,AAAA', '../../textures/' + Path(textures[0]['path']).name,
+                     '../textures/../' + Path(textures[0]['path']).name,
+                     '../textures/%2e%2e/image.png', '..\\textures\\image.png']
+        for model in ['cells/c0.glb', 'assets/snow.glb']:
+            for uri in uri_cases:
+                with self.subTest(model=model, uri=uri):
+                    self.manifest = copy.deepcopy(original)
+                    self.payloads = copy.deepcopy(original_payloads)
+                    reference = self.pin_payload(model, minimal_glb({'images': [{'uri': uri}]}))
+                    if model.startswith('cells/'):
+                        self.manifest['cells'][0]['visual']['lod0'] = reference
+                    else:
+                        self.manifest['assets'][0].update(reference)
+                    self.build_inputs()
+                    self.assert_optimized_refused('unapproved external GLB image URI')
+
+    def test_external_image_must_be_manifest_pinned_without_an_embedded_buffer_view(self):
+        textures = self.optimized_textures()
+        original = copy.deepcopy(self.manifest['cells'][0]['visual']['lod0'])
+        cases = [({'uri': '../textures/' + 'b' * 64 + '.png'}, 'not pinned'),
+                 ({'uri': '../' + textures[0]['path'], 'bufferView': 0}, 'unapproved external')]
+        for image, message in cases:
+            with self.subTest(image=image):
+                self.manifest['cells'][0]['visual']['lod0'] = self.pin_payload(
+                    original['path'], minimal_glb({'images': [image]}))
+                self.build_inputs()
+                self.assert_optimized_refused(message)
+
+    def test_shared_texture_inventory_rejects_duplicates_unused_files_and_invalid_types(self):
+        textures = self.optimized_textures()
+        original = copy.deepcopy(self.manifest)
+        original_payloads = copy.deepcopy(self.payloads)
+        for mode in ['duplicate', 'unused', 'wrong-type', 'invalid-entry']:
+            with self.subTest(mode=mode):
+                self.manifest = copy.deepcopy(original)
+                self.payloads = copy.deepcopy(original_payloads)
+                if mode == 'duplicate':
+                    self.manifest['sharedTextures'].append(copy.deepcopy(textures[0]))
+                elif mode == 'unused':
+                    self.manifest['sharedTextures'].append(self.pin_payload(
+                        'textures/' + sha(b'unused') + '.png', b'unused'))
+                elif mode == 'wrong-type':
+                    # Retain every pinned file so archive closure succeeds and the
+                    # sharedTextures type check itself rejects this object shape.
+                    self.manifest['sharedTextures'] = dict(zip(['first', 'second'], textures))
+                else:
+                    self.manifest['sharedTextures'].append('invalid')
+                self.build_inputs()
+                self.assert_optimized_refused('shared texture|sharedTextures')
+
+    def test_shared_texture_mode_requires_real_glb_envelopes_for_every_runtime_model(self):
+        self.optimized_textures()
+        original = copy.deepcopy(self.manifest)
+        original_payloads = copy.deepcopy(self.payloads)
+        for model in ['cells/c0.glb', 'assets/snow.glb']:
+            with self.subTest(model=model):
+                self.manifest = copy.deepcopy(original)
+                self.payloads = copy.deepcopy(original_payloads)
+                reference = self.pin_payload(model, b'legacy opaque fake GLB')
+                if model.startswith('cells/'):
+                    self.manifest['cells'][0]['visual']['lod0'] = reference
+                else:
+                    self.manifest['assets'][0].update(reference)
+                self.build_inputs()
+                self.assert_optimized_refused('optimized runtime model must be a valid GLB')
+
+    def test_external_glb_buffers_are_rejected_for_cells_and_actors(self):
+        self.optimized_textures()
+        original = copy.deepcopy(self.manifest)
+        original_payloads = copy.deepcopy(self.payloads)
+        for model in ['cells/c0.glb', 'assets/snow.glb']:
+            with self.subTest(model=model):
+                self.manifest = copy.deepcopy(original)
+                self.payloads = copy.deepcopy(original_payloads)
+                reference = self.pin_payload(model, minimal_glb({'buffers': [{'byteLength': 4, 'uri': '../hidden.bin'}]}))
+                if model.startswith('cells/'):
+                    self.manifest['cells'][0]['visual']['lod0'] = reference
+                else:
+                    self.manifest['assets'][0].update(reference)
+                self.build_inputs()
+                self.assert_optimized_refused('external GLB buffers are not approved')
 
 
 if __name__ == '__main__':

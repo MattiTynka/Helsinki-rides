@@ -37,11 +37,11 @@ export class AssetLibrary {
   /** Shared by every distant car; the car materials are flat colours and double-sided. */
   readonly farMaterial = new THREE.MeshStandardMaterial({ name: 'car_far', vertexColors: true, roughness: 0.5, metalness: 0, side: THREE.DoubleSide });
 
-  async load(loader: GlbLoader, base: string, manifest: WorldManifest, lowPreset = false): Promise<void> {
+  async load(loader: GlbLoader, base: string, manifest: WorldManifest, _lowPreset = false): Promise<void> {
     const lowFarSources = new Map<string, THREE.Object3D>();
     await Promise.all(manifest.assets.map(async a => {
-      const lowFarVehicle = a.id === 'vehicle-lumi-gt-far-low' ? 'vehicle-lumi-gt' : a.id === 'vehicle-patrol-far-low' ? 'vehicle-patrol' : null;
-      if (lowFarVehicle && !lowPreset) return;
+      const candidate = a.id.endsWith('-far-low') ? a.id.slice(0, -'-far-low'.length) : null;
+      const lowFarVehicle = candidate && manifest.assets.some(asset => asset.kind === 'vehicle' && asset.id === candidate) ? candidate : null;
       const gltf = await loader.load(base + a.path);
       gltf.scene.traverse(o => { const m = o as THREE.Mesh; if (m.isMesh) { m.frustumCulled = true; } });
       if (lowFarVehicle) {

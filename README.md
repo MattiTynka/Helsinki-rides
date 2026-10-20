@@ -35,6 +35,8 @@ remaining supplied-asset copyright details. See the
 See the [source release guide](docs/open-source-release.md),
 [privacy audit](docs/source-privacy-audit.md) and
 [GitHub Pages release plan](docs/github-pages-release-plan.md).
+The [local model optimization](docs/model-optimization-2026-10-20.md) documents
+the smaller derivative, exact physics/image preservation and reproducible tools.
 
 ## Source checkout
 

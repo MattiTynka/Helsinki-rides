@@ -8,7 +8,8 @@ import * as THREE from 'three';
 import { cellId, cellIndexFor, type CellDescriptor, type SceneryDocument, type SceneryInstance, type WorldManifest } from '@helsinki/world-schema';
 import type { GlbLoader } from '../world/loader.ts';
 import type { Lighting, Preset } from '../config.ts';
-import { disposeCellResources, geometryBytesOf, textureBytesOf } from './cell-resources.ts';
+import { cellTextures, disposeCellResources, geometryBytesOf, textureBytesOf } from './cell-resources.ts';
+import { UploadQueue } from './upload-queue.ts';
 import { SceneryInstanceCuller } from './scenery-culling.ts';
 import { partitionCoarseCell } from './coarse-batching.ts';
 import { createFoliageLods, type FoliageLods, type SceneryLodLevel } from './scenery-lod.ts';
@@ -46,6 +47,7 @@ export class CityScene {
   private sceneryStreamed = false;
   lighting: Lighting;
   readonly preset: Preset;
+  private readonly uploads = new UploadQueue();
 
   constructor(canvas: HTMLCanvasElement, preset: Preset, lighting: Lighting, pixelRatioCap: number) {
     this.preset = preset;
@@ -104,6 +106,22 @@ export class CityScene {
     group.updateMatrix();
     const view: CellView = { id: descriptor.id, group, descriptor, lod, triangles, textureBytes: textureBytesOf([group]), geometryBytes: geometryBytesOf(group) };
     return view;
+  }
+
+  async prepareCell(view: CellView, signal?: AbortSignal): Promise<void> {
+    const group = view.group;
+    const pending = new AbortController(), abort = () => pending.abort();
+    signal?.addEventListener('abort', abort, { once: true });
+    if (signal?.aborted) pending.abort();
+    try {
+      await Promise.all(cellTextures(group).map(texture => this.uploads.enqueue(() => this.renderer.initTexture(texture), pending.signal)));
+      pending.signal.throwIfAborted();
+      await this.renderer.compileAsync(group, this.camera, this.scene);
+      pending.signal.throwIfAborted();
+    } catch (error) {
+      pending.abort();
+      throw error;
+    } finally { signal?.removeEventListener('abort', abort); }
   }
 
   showCell(view: CellView): void {
@@ -183,7 +201,7 @@ export class CityScene {
       const group = this.buildSceneryGroup(list, this.sceneryAssets);
       group.name = `scenery:${id}`;
       this.sceneryRoot.add(group);
-      if (this.preset === 'low') {
+      {
         const culling = this.sceneryCulling ??= { meshes: new Map(), frustum: new THREE.Frustum(), projection: new THREE.Matrix4() };
         group.updateWorldMatrix(true, true);
         group.traverse(node => { const mesh = node as THREE.InstancedMesh; if (mesh.isInstancedMesh) culling.meshes.set(mesh, new SceneryInstanceCuller(mesh, mesh.userData['sceneryLodLevel'] as SceneryLodLevel | undefined)); });
@@ -221,7 +239,7 @@ export class CityScene {
         // Alpha-masked leaves: smooth their cut-out edges where the renderer multisamples.
         if (material.alphaTest > 0 && this.preset !== 'low') material.alphaToCoverage = true;
         let levels: FoliageLods | null = null;
-        if (this.preset === 'low' && asset === 'scenery-trees' && source.name === 'tree_leaves') {
+        if (asset === 'scenery-trees' && source.name === 'tree_leaves') {
           this.sceneryFoliageLods ??= new Map();
           if (!this.sceneryFoliageLods.has(mesh.geometry)) this.sceneryFoliageLods.set(mesh.geometry, createFoliageLods(mesh.geometry));
           levels = this.sceneryFoliageLods.get(mesh.geometry)!;

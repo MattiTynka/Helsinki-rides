@@ -11,7 +11,7 @@ import { MeshoptDecoder, MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer
 import validator from 'gltf-validator';
 import { declareQuantizedAttributes } from './lib/glb-quantization.ts';
 
-const { values } = parseArgs({ options: { assets: { type: 'string' }, out: { type: 'string' } } });
+const { values } = parseArgs({ options: { assets: { type: 'string' }, out: { type: 'string' }, vehicles: { type: 'string', default: 'vehicle-lumi-gt,vehicle-patrol' } } });
 if (!values.assets || !values.out || existsSync(values.out)) throw new Error('--assets and a fresh --out required');
 mkdirSync(values.out, { recursive: true });
 await Promise.all([MeshoptDecoder.ready, MeshoptEncoder.ready, MeshoptSimplifier.ready]);
@@ -33,7 +33,9 @@ function smoothNormals(document, primitive) {
   }
   primitive.setAttribute('NORMAL', document.createAccessor().setType('VEC3').setBuffer(positions.getBuffer()).setArray(values));
 }
-for (const id of ['vehicle-lumi-gt', 'vehicle-patrol']) {
+const vehicleIds = values.vehicles.split(',');
+if (!vehicleIds.length || new Set(vehicleIds).size !== vehicleIds.length || vehicleIds.some(id => !['vehicle-lumi-gt', 'vehicle-patrol', 'vehicle-revontuli'].includes(id))) throw new Error('Unsupported distant vehicle selection');
+for (const id of vehicleIds) {
   const source = path.join(values.assets, `${id}.glb`), sourceBytes = readFileSync(source), document = await io.readBinary(sourceBytes);
   const nodes = [];
   for (const node of document.getRoot().listNodes()) {
@@ -56,10 +58,18 @@ for (const id of ['vehicle-lumi-gt', 'vehicle-patrol']) {
         const scale = MeshoptSimplifier.getScale(primitive.getAttribute('POSITION').getArray(), 3) * worldScale;
         const measuredSimplifier = { ...MeshoptSimplifier, simplify(...args) { const result = MeshoptSimplifier.simplify(...args); measuredErrorMetres = result[1] * scale; return result; } };
         simplifyPrimitive(primitive, { simplifier: measuredSimplifier, ratio: .035, error: maxErrorMetres / scale, lockBorder: false });
-        smoothNormals(document, primitive);
       }
       if (measuredErrorMetres > maxErrorMetres + 1e-6) throw new Error(`${node.getName()}: simplification error exceeds bound`);
-      nodes.push({ node: node.getName(), material: name, before, after: triangles(primitive), measuredErrorMetres });
+      const after = triangles(primitive);
+      nodes.push({ node: node.getName(), material: name, before, after, measuredErrorMetres });
+      // Small isolated trim can legitimately collapse completely within the distance error bound.
+      // A zero-index primitive is not a glTF mesh: retaining it writes zero-count accessors and
+      // nonfinite POSITION bounds. Remove its graph edge before pruning the orphaned accessors.
+      if (!after || !primitive.getAttribute('POSITION').getCount()) {
+        mesh.removePrimitive(primitive); primitive.dispose();
+        continue;
+      }
+      if (!name.startsWith('car_lamp') && before > 24) smoothNormals(document, primitive);
     }
     if (!mesh.listPrimitives().length) node.setMesh(null);
   }
@@ -67,6 +77,7 @@ for (const id of ['vehicle-lumi-gt', 'vehicle-patrol']) {
   for (const texture of document.getRoot().listTextures()) texture.dispose();
   for (const animation of document.getRoot().listAnimations()) animation.dispose();
   await document.transform(prune(), reorder({ encoder: MeshoptEncoder }));
+  if (document.getRoot().listAccessors().some(accessor => !accessor.getCount())) throw new Error(`${id}: empty accessor survived distant-car pruning`);
   document.getRoot().setExtras({ sourceSha256: sha(sourceBytes), geometry: 'optional distant low-preset car', maxErrorMetres,
     nearAssetUnchanged: true, lampGeometryUnchanged: true });
   document.createExtension(EXTMeshoptCompression).setRequired(true).setEncoderOptions({ method: EXTMeshoptCompression.EncoderMethod.FILTER });

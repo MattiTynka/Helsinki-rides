@@ -11,6 +11,8 @@ import { MeshoptDecoder } from 'meshoptimizer';
 import { initPhysics, StaticWorld, type EncodedCommand, type SimState } from '../../packages/sim/src/index.ts';
 import type { FileRef, GameplayBundle, RoadGraph, WorldManifest } from '../../packages/world-schema/src/index.ts';
 import { game, openGame } from './lib/browser.ts';
+import { readSimulationPayload } from './lib/simulation-payload.ts';
+import { parseGlb } from './glb.ts';
 
 type Point = [number, number, number];
 type AxisPoint = [number, number];
@@ -71,8 +73,31 @@ function addTriangle(triangle: Triangle): void {
 await MeshoptDecoder.ready;
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ 'meshopt.decoder': MeshoptDecoder });
 let transformedNodes = 0, normalizedAccessors = 0;
-for (const cell of manifest.cells) {
-  const doc = await io.readBinary(load(cell.visual.lod0));
+// Expanded releases retain the original flights. Decode only cells intersecting those
+// probe corridors, rather than retaining millions of unrelated city triangles in this tool.
+const corridors = flights.map(flight => {
+  const spec = flight.spec!, padding = spec.width / 2 + 10;
+  return [Math.min(...spec.axis.map(p => p[0])) - padding, Math.min(...spec.axis.map(p => -p[1])) - padding,
+    Math.max(...spec.axis.map(p => p[0])) + padding, Math.max(...spec.axis.map(p => -p[1])) + padding];
+});
+const renderCells = manifest.cells.filter(cell => {
+  const bounds = [...cell.boundsXZ];
+  for (const building of cell.buildings) {
+    bounds[0] = Math.min(bounds[0]!, building.boundsRuntime.min[0]); bounds[1] = Math.min(bounds[1]!, building.boundsRuntime.min[2]);
+    bounds[2] = Math.max(bounds[2]!, building.boundsRuntime.max[0]); bounds[3] = Math.max(bounds[3]!, building.boundsRuntime.max[2]);
+  }
+  return corridors.some(b => bounds[0]! <= b[2]! && bounds[2]! >= b[0]! && bounds[1]! <= b[3]! && bounds[3]! >= b[1]!);
+});
+for (const cell of renderCells) {
+  const encoded = load(cell.visual.lod0), json = parseGlb(encoded).json as ReturnType<typeof parseGlb>['json'] & { buffers?: { uri?: string }[] };
+  if (json.buffers?.some(buffer => buffer.uri !== undefined)) throw new Error('External visual buffers are unsupported');
+  for (const image of json.images ?? []) if (image.uri !== undefined) {
+    if (!/^\.\.\/textures\/[a-f0-9]{64}\.(?:ktx2|png)$/.test(image.uri)) throw new Error('Unapproved visual image URI');
+    const ref = manifest.sharedTextures?.find(texture => texture.path === image.uri!.slice(3));
+    if (!ref) throw new Error('Visual image is absent from the pinned shared texture inventory');
+    load(ref);
+  }
+  const doc = await io.read(path.join(releaseDir, cell.visual.lod0.path));
   for (const node of doc.getRoot().listNodes()) {
     const mesh = node.getMesh();
     if (!mesh || !(node.getName().includes('_ground_') || mesh.getName().includes('_ground_'))) continue;
@@ -112,11 +137,11 @@ function visualHeight(x: number, z: number): number | null {
   return Number.isFinite(highest) ? highest : null;
 }
 await initPhysics();
-const terrain = load(manifest.terrain), roads = JSON.parse(load(manifest.roads).toString('utf8')) as RoadGraph;
+const terrain = await readSimulationPayload(releaseDir, manifest.terrain), roads = JSON.parse(load(manifest.roads).toString('utf8')) as RoadGraph;
 const gameplay = JSON.parse(load(manifest.gameplay).toString('utf8')) as GameplayBundle;
 const collisionWorld = StaticWorld.fromBytes(terrain, roads, gameplay);
 const safetyWorld = StaticWorld.fromBytes(terrain, roads, gameplay);
-for (const cell of manifest.cells) collisionWorld.addCell(cell.id, load(cell.collision));
+for (const cell of manifest.cells) collisionWorld.addCell(cell.id, await readSimulationPayload(releaseDir, cell.collision));
 collisionWorld.physics.step(); safetyWorld.physics.step();
 function supportAt(x: number, z: number): Support {
   const visual = visualHeight(x, z), rayY = (visual ?? collisionWorld.groundHeight(x, z)) + 20;
@@ -239,14 +264,18 @@ if (!values['geometry-only']) {
     // Compare bytes actually served by this browser's origin. A query-selected release must not accidentally
     // pass against local files while the browser receives an old terrain/collider under an unchanged name.
     const refs = [{ path: 'manifest.json', sha256: sha256(manifestBytes), bytes: manifestBytes.length }, manifest.terrain, ...manifest.cells.map(c => c.collision)];
-    for (const ref of refs) {
-      const bytes = await page.evaluate(async ({ release, file }) => {
-        const response = await fetch(`/world/${encodeURIComponent(release)}/${file}`, { cache: 'no-store' });
+    for (const [index, ref] of refs.entries()) {
+      const stored = await page.evaluate(async ({ release, file }) => {
+        const entry = performance.getEntriesByType('resource').find(resource => new URL(resource.name).pathname.endsWith(`/world/${release}/manifest.json`));
+        if (!entry || new URL(entry.name).origin !== location.origin) throw new Error('Missing same-origin manifest request');
+        const response = await fetch(new URL(file, entry.name), { cache: 'no-store', signal: AbortSignal.timeout(20000) });
         if (!response.ok) throw new Error(`asset ${file}: HTTP ${response.status}`);
-        return Array.from(new Uint8Array(await response.arrayBuffer()));
+        const bytes = await response.arrayBuffer(), digest = await crypto.subtle.digest('SHA-256', bytes);
+        return { bytes: bytes.byteLength, sha256: Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('') };
       }, { release: manifest.worldReleaseId, file: ref.path });
-      browserAssets[ref.path] = sha256(Uint8Array.from(bytes));
-      if (browserAssets[ref.path] !== ref.sha256) throw new Error(`browser bytes differ: ${ref.path}`);
+      browserAssets[ref.path] = stored.sha256;
+      if (stored.bytes !== ref.bytes || stored.sha256 !== ref.sha256) throw new Error(`browser bytes differ: ${ref.path}`);
+      if (index % 64 === 0) console.log(`Checked browser simulation payload ${index + 1}/${refs.length}`);
     }
     check('browser-collision-bytes', true, `manifest, terrain and ${manifest.cells.length} HCOL payloads match the independent geometry probe`);
     await traverse('cathedral-centre-up-walk', cathedral, 0, 'ascent', true, true);

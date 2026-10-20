@@ -107,7 +107,9 @@ test('release resolution preserves the current pointer in dev and refuses unconf
 });
 
 test('startup limits collision requests to six and returns manifest order after out-of-order downloads', async () => {
-  const manifest = manifestFixture();
+  const fixture = manifestFixture(), hashByte = (byte: number) => createHash('sha256').update(new Uint8Array([byte])).digest('hex');
+  const manifest: WorldManifest = { ...fixture, terrain: { ...fixture.terrain, sha256: hashByte(0) },
+    cells: fixture.cells.map((cell, i) => ({ ...cell, collision: { ...cell.collision, sha256: hashByte(i) } })) };
   const gameplay = {
     schemaVersion: 2, player: { spawn: { position: [0, 0] } }, playArea: { minX: 0, maxX: 128, minZ: 0, maxZ: 128 },
     vehicleDefinitions: [], vehicles: [], anchors: [{ kind: 'hospital', destinationName: 'hospital' }, { kind: 'police', destinationName: 'police' }],

@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import struct
 import sys
 import tempfile
 from typing import Any
@@ -38,7 +39,8 @@ ARCHIVE_URL = re.compile(
     r'[A-Za-z0-9][A-Za-z0-9._-]{0,95}/pages-world\.tar\.gz\Z'
 )
 SAFE_SEGMENT = re.compile(r'[A-Za-z0-9][A-Za-z0-9._-]*\Z')
-RUNTIME_EXTENSIONS = frozenset({'.glb', '.hcol', '.bin', '.json'})
+RUNTIME_EXTENSIONS = frozenset({'.glb', '.hcol', '.bin', '.json', '.ktx2', '.png'})
+MAX_SIMULATION_BYTES = 64 * 1024 * 1024
 PUBLICATION_EXTENSIONS = frozenset({'.json', '.md', '.txt'})
 SHELL_ASSET = re.compile(r'assets/[A-Za-z0-9][A-Za-z0-9_-]*\.(?:js|css|wasm)\Z')
 # The GT40-derived Kaamos model has no redistribution permission. Check runtime identities
@@ -117,6 +119,10 @@ def safe_relative_path(value: Any) -> str:
 
 def _publication_path(path: str) -> bool:
     return Path(path).suffix in PUBLICATION_EXTENSIONS or path.endswith('.json.gz')
+
+
+def _runtime_path(path: str) -> bool:
+    return Path(path).suffix in RUNTIME_EXTENSIONS or re.search(r'\.(?:bin|hcol)(?:\.[0-9a-f]{12})?\.gz\Z', path) is not None
 
 
 def load_descriptor(path: Path) -> tuple[dict[str, Any], str]:
@@ -227,7 +233,7 @@ def _unpack(archive: Path, destination: Path, descriptor: dict[str, Any]) -> dic
                 raise ValueError('archive entry is outside the pinned world release')
             relative = name[len(prefix):]
             safe_relative_path(relative)
-            if Path(relative).suffix not in RUNTIME_EXTENSIONS and not _publication_path(relative):
+            if not _runtime_path(relative) and not _publication_path(relative):
                 raise ValueError('archive contains an unapproved file type')
             if relative in inventory:
                 raise ValueError('duplicate archive path')
@@ -292,7 +298,7 @@ def _manifest_refs(data: bytes, descriptor: dict[str, Any]) -> dict[str, dict[st
         if isinstance(value, dict):
             if 'path' in value:
                 path = safe_relative_path(value['path'])
-                allowed = _publication_path(path) if publication else Path(path).suffix in RUNTIME_EXTENSIONS
+                allowed = _publication_path(path) if publication else _runtime_path(path)
                 if path == 'manifest.json' or not allowed:
                     raise ValueError('manifest contains an unapproved referenced path')
                 if not publication and _restricted_vehicle_file(path):
@@ -314,6 +320,78 @@ def _manifest_refs(data: bytes, descriptor: dict[str, Any]) -> dict[str, dict[st
 
     visit(manifest)
     return refs
+
+
+def _validate_optimized_payloads(world: Path, manifest: dict[str, Any], refs: dict[str, Any]) -> None:
+    """Validate delivery encoding and GLB dependencies before publishing an optimized packet."""
+    simulation = [manifest['terrain'], *(cell['collision'] for cell in manifest['cells'])]
+    compressed_paths = set()
+    for ref in simulation:
+        compression = ref.get('compression')
+        if compression is None:
+            if 'decodedBytes' in ref or 'decodedSha256' in ref or ref['path'].endswith('.gz'):
+                raise ValueError('simulation compression metadata is incomplete')
+            continue
+        if compression != 'gzip' or not _runtime_path(ref['path']) or not ref['path'].endswith('.gz'):
+            raise ValueError('unsupported simulation payload compression')
+        expected = _integer(ref.get('decodedBytes'), MAX_SIMULATION_BYTES, 'decoded simulation bytes')
+        digest = _digest(ref.get('decodedSha256'), 'decoded simulation SHA-256')
+        _integer(ref['bytes'], MAX_SIMULATION_BYTES, 'stored simulation bytes')
+        total, actual = 0, hashlib.sha256()
+        with gzip.open(world / ref['path'], 'rb') as stream:
+            while True:
+                chunk = stream.read(min(65536, expected - total + 1))
+                if not chunk:
+                    break
+                total += len(chunk)
+                if total > expected:
+                    raise ValueError('decoded simulation exceeds its declared size')
+                actual.update(chunk)
+        if total != expected or actual.hexdigest() != digest:
+            raise ValueError('decoded simulation payload differs from its manifest')
+        compressed_paths.add(ref['path'])
+    for name in refs:
+        if name.endswith('.gz') and _runtime_path(name) and name not in compressed_paths:
+            raise ValueError('compressed runtime payload is not a declared simulation input')
+    textures = manifest.get('sharedTextures', [])
+    if not isinstance(textures, list):
+        raise ValueError('sharedTextures must be an array')
+    texture_paths = set()
+    for ref in textures:
+        name = ref.get('path') if isinstance(ref, dict) else None
+        if not isinstance(name, str) or re.fullmatch(r'textures/[0-9a-f]{64}\.(?:ktx2|png)', name) is None:
+            raise ValueError('invalid shared texture reference')
+        if name in texture_paths or name not in refs or Path(name).stem != ref.get('sha256'):
+            raise ValueError('shared textures must have unique content-addressed references')
+        texture_paths.add(name)
+    used = set()
+    glbs = {ref['path'] for cell in manifest['cells'] for ref in cell['visual'].values()}
+    glbs.update(asset['path'] for asset in manifest['assets'])
+    for name in glbs:
+        with (world / name).open('rb') as stream:
+            header = stream.read(20)
+            if len(header) != 20 or struct.unpack_from('<III', header) != (0x46546c67, 2, refs[name]['bytes']):
+                if 'sharedTextures' not in manifest:
+                    continue  # Legacy packet tests use opaque model fixtures; real GLBs are inspected below.
+                raise ValueError('optimized runtime model must be a valid GLB')
+            size, kind = struct.unpack_from('<II', header, 12)
+            if kind != 0x4e4f534a or size > 32 * 1024 * 1024 or size > refs[name]['bytes'] - 20:
+                raise ValueError('invalid GLB JSON chunk')
+            document = _json(stream.read(size))
+        if any('uri' in buffer for buffer in document.get('buffers', [])):
+            raise ValueError('external GLB buffers are not approved')
+        for image in document.get('images', []):
+            uri = image.get('uri')
+            if uri is None:
+                continue
+            if 'bufferView' in image or re.fullmatch(r'\.\./textures/[0-9a-f]{64}\.(?:ktx2|png)', uri) is None:
+                raise ValueError('unapproved external GLB image URI')
+            target = uri[3:]
+            if target not in texture_paths or len(Path(name).parts) != 2:
+                raise ValueError('external GLB image is not pinned by sharedTextures')
+            used.add(target)
+    if used != texture_paths:
+        raise ValueError('shared texture inventory does not match GLB dependencies')
 
 
 def _shell_inventory(output: Path) -> tuple[list[str], int]:
@@ -368,6 +446,7 @@ def stage(descriptor_path: Path, archive: Path, output: Path, source_sha: str) -
         if any(inventory[path] != value for path, value in expected.items()):
             raise ValueError('a world payload differs from its manifest digest or byte count')
         manifest_document = _json((world / 'manifest.json').read_bytes())
+        _validate_optimized_payloads(world, manifest_document, refs)
         gameplay_path = safe_relative_path(manifest_document['gameplay']['path'])
         gameplay_file = world.joinpath(*gameplay_path.split('/'))
         if gameplay_file.stat().st_size > MAX_GAMEPLAY_BYTES:

@@ -29,6 +29,9 @@ export function textureBytesOf(roots: readonly THREE.Object3D[]): number {
   return bytes;
 }
 
+/** Unique textures owned by one parsed cell, also used by its bounded upload preparation. */
+export function cellTextures(root: THREE.Object3D): readonly THREE.Texture[] { return [...resources([root]).textures]; }
+
 export function geometryBytesOf(root: THREE.Object3D): number {
   const buffers = new Set<ArrayBufferLike>();
   for (const geometry of resources([root]).geometries) {

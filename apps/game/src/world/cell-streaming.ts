@@ -5,6 +5,8 @@ export interface StreamFocus { x: number; z: number; velocityX: number; velocity
 export interface CellResource { readonly textureBytes: number; readonly geometryBytes: number; readonly lod?: 'lod0' | 'lod1' | 'lod2' }
 export interface CellStreamBackend<T extends CellResource> {
   load(cell: CellDescriptor, signal: AbortSignal): Promise<T>;
+  /** Upload only after actual resource costs have reserved room inside both budgets. */
+  prepare?(cell: CellDescriptor, resource: T, signal: AbortSignal): Promise<void>;
   show(cell: CellDescriptor, resource: T): void;
   dispose(cell: CellDescriptor, resource: T): void;
 }
@@ -25,6 +27,7 @@ export interface CellStreamStats {
   residentLods: Record<string, number>;
   desiredCells: number;
   pendingCells: number;
+  /** Includes reserved GPU costs of preparations that have not become visible yet. */
   residentTextureMiB: number;
   residentGeometryMiB: number;
   geometryBudgetMiB: number | null;
@@ -39,6 +42,12 @@ export interface CellStreamStats {
   missingNearDetail: string[];
   errors: string[];
   errorHistory: string[];
+}
+
+interface PendingCell {
+  readonly controller: AbortController;
+  task: Promise<void>;
+  phase: 'loading' | 'admitting' | 'waiting' | 'preparing';
 }
 
 /** Distance to the complete owned visual, including buildings crossing their centroid cell's border. */
@@ -96,7 +105,7 @@ export function selectVisualCells(cells: readonly CellDescriptor[], focus: Strea
 export class CellVisualStream<T extends CellResource> {
   private readonly resident = new Map<string, { cell: CellDescriptor; resource: T }>();
   // Aborted decoding can still be running in a worker. Keep its slot until the promise settles.
-  private readonly pending = new Map<string, { controller: AbortController; task: Promise<void>; decoded: boolean }>();
+  private readonly pending = new Map<string, PendingCell>();
   private readonly costs = new Map<string, number>();
   private readonly geometryCosts = new Map<string, number>();
   private readonly retryAt = new Map<string, number>();
@@ -146,6 +155,20 @@ export class CellVisualStream<T extends CellResource> {
     }
   }
 
+  /** Startup needs nearby selected cells, not completion of unrelated outer-ring downloads. */
+  async settleNear(radius: number): Promise<void> {
+    if (!Number.isFinite(radius) || radius < 0) throw new Error('Invalid startup visual radius');
+    for (;;) {
+      this.reselect();
+      this.pump();
+      const required = this.desired.filter(cell => distance(visualBounds(cell), this.focus.x, this.focus.z) <= radius);
+      if (required.every(cell => this.resident.has(cell.id) || this.errorByCell.has(cell.id))) return;
+      const tasks = [...this.pending.values()].map(entry => entry.task);
+      if (!tasks.length) return;
+      await Promise.race(tasks);
+    }
+  }
+
   stats(): CellStreamStats {
     const residentIds = new Set(this.resident.keys());
     const desiredIds = new Set(this.desired.map(cell => cell.id));
@@ -170,10 +193,15 @@ export class CellVisualStream<T extends CellResource> {
     this.disposed = true;
     this.generation++;
     for (const entry of this.pending.values()) this.cancel(entry.controller);
-    for (const entry of this.resident.values()) this.backend.dispose(entry.cell, entry.resource);
+    for (const entry of this.resident.values()) {
+      try { this.backend.dispose(entry.cell, entry.resource); }
+      finally {
+        this.bytes -= entry.resource.textureBytes;
+        this.geometryBytes -= entry.resource.geometryBytes;
+      }
+    }
     this.resident.clear();
-    this.bytes = 0;
-    this.geometryBytes = 0;
+    // Preparing resources still own their reservations until uploads/compilation have settled.
     this.desired = [];
   }
 
@@ -181,7 +209,7 @@ export class CellVisualStream<T extends CellResource> {
     if (this.disposed) return;
     this.desired = selectVisualCells(this.cells, this.focus, this.options, this.costs, new Set(this.resident.keys()), this.geometryCosts);
     const wanted = new Set(this.desired.map(c => c.id));
-    for (const [id, entry] of this.pending) if (!entry.decoded && !wanted.has(id)) this.cancel(entry.controller);
+    for (const [id, entry] of this.pending) if (entry.phase !== 'admitting' && !wanted.has(id)) this.cancel(entry.controller);
     // Eviction precedes loading, so the old and new district never occupy GPU memory together.
     for (const [id, entry] of this.resident) if (!wanted.has(id)) {
       this.backend.dispose(entry.cell, entry.resource);
@@ -208,29 +236,57 @@ export class CellVisualStream<T extends CellResource> {
       let loading: Promise<T>;
       try { loading = this.backend.load(cell, controller.signal); }
       catch (error) { loading = Promise.reject(error); }
-      const entry = { controller, task: Promise.resolve(), decoded: false };
-      entry.task = loading.then(resource => {
-        entry.decoded = true;
-        // A cell can be wanted again before its cancelled decode finishes. That old result still
-        // belongs to the cancelled request; release it and let a fresh request own the new view.
-        if (controller.signal.aborted || this.disposed || generation !== this.generation) {
-          this.backend.dispose(cell, resource); this.staleDisposed++; return;
+      const entry: PendingCell = { controller, task: Promise.resolve(), phase: 'loading' };
+      entry.task = loading.then(async resource => {
+        entry.phase = 'admitting';
+        let owned = true, reserved = false;
+        const stale = () => controller.signal.aborted || this.disposed || generation !== this.generation;
+        try {
+          // A cell can be wanted again before its cancelled decode finishes. That old result still
+          // belongs to the cancelled request; release it and let a fresh request own the new view.
+          if (stale()) { this.staleDisposed++; return; }
+          if (![resource.textureBytes, resource.geometryBytes].every(value => Number.isFinite(value) && value >= 0)) throw new Error('Invalid decoded visual resource cost');
+          this.costs.set(cell.id, resource.textureBytes);
+          this.geometryCosts.set(cell.id, resource.geometryBytes);
+          for (;;) {
+            entry.phase = 'admitting';
+            this.reselect();
+            if (stale() || !this.desired.some(c => c.id === cell.id)) { this.staleDisposed++; return; }
+            if (this.bytes + resource.textureBytes <= this.options.textureBudgetBytes &&
+              this.geometryBytes + resource.geometryBytes <= (this.options.geometryBudgetBytes ?? Infinity)) break;
+            // Cancelled GPU work can be uninterruptible. Keep the new CPU resource and its slot,
+            // rather than repeatedly downloading it while the previous reservation is retiring.
+            const retiring = [...this.pending.values()].filter(other => other.phase === 'preparing' && other.controller.signal.aborted);
+            if (!retiring.length) { this.staleDisposed++; return; }
+            entry.phase = 'waiting';
+            await Promise.all(retiring.map(other => other.task));
+            if (stale()) { this.staleDisposed++; return; }
+          }
+          this.bytes += resource.textureBytes;
+          this.geometryBytes += resource.geometryBytes;
+          this.peak = Math.max(this.peak, this.bytes);
+          reserved = true;
+          entry.phase = 'preparing';
+          if (this.backend.prepare) await this.backend.prepare(cell, resource, controller.signal);
+          if (stale() || !this.desired.some(c => c.id === cell.id)) { this.staleDisposed++; return; }
+          this.backend.show(cell, resource);
+          if (stale()) { this.staleDisposed++; return; }
+          this.resident.set(cell.id, { cell, resource });
+          owned = false; // The resident map now owns both the resource and its budget reservation.
+          this.loaded++;
+          this.errorByCell.delete(cell.id);
+          this.retryAt.delete(cell.id);
+        } finally {
+          if (owned) {
+            try { this.backend.dispose(cell, resource); }
+            finally {
+              if (reserved) {
+                this.bytes -= resource.textureBytes;
+                this.geometryBytes -= resource.geometryBytes;
+              }
+            }
+          }
         }
-        this.costs.set(cell.id, resource.textureBytes);
-        this.geometryCosts.set(cell.id, resource.geometryBytes);
-        this.reselect();
-        if (controller.signal.aborted || !this.desired.some(c => c.id === cell.id) || this.bytes + resource.textureBytes > this.options.textureBudgetBytes ||
-          this.geometryBytes + resource.geometryBytes > (this.options.geometryBudgetBytes ?? Infinity)) {
-          this.backend.dispose(cell, resource); this.staleDisposed++; return;
-        }
-        this.backend.show(cell, resource);
-        this.resident.set(cell.id, { cell, resource });
-        this.bytes += resource.textureBytes;
-        this.geometryBytes += resource.geometryBytes;
-        this.peak = Math.max(this.peak, this.bytes);
-        this.loaded++;
-        this.errorByCell.delete(cell.id);
-        this.retryAt.delete(cell.id);
       }).catch((error: unknown) => {
         if (controller.signal.aborted || this.disposed || generation !== this.generation) return;
         this.failures++;

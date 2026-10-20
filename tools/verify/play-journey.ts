@@ -12,6 +12,7 @@ import type { Page } from 'playwright';
 import { decodeCommand, initPhysics, Simulation, StaticWorld, type SimState, type EncodedCommand } from '../../packages/sim/src/index.ts';
 import type { WorldManifest } from '../../packages/world-schema/src/index.ts';
 import { game, openGame } from './lib/browser.ts';
+import { readSimulationPayload } from './lib/simulation-payload.ts';
 
 const { values } = parseArgs({ options: {
   url: { type: 'string', default: 'http://127.0.0.1:5317/?review=1' }, release: { type: 'string' }, out: { type: 'string' },
@@ -60,9 +61,9 @@ const roadsJson = JSON.parse(readFileSync(path.join(values.release, manifest.roa
 const { RoadIndex } = await import('../../packages/world-schema/src/index.ts');
 const roadsIndex = new RoadIndex(roadsJson);
 const gameplayJson = JSON.parse(readFileSync(path.join(values.release, manifest.gameplay.path), 'utf8'));
-const terrainBytes = new Uint8Array(readFileSync(path.join(values.release, manifest.terrain.path)));
+const terrainBytes = await readSimulationPayload(values.release, manifest.terrain);
 const RELEASE_DIR = values.release;
-const collisionFiles = manifest.cells.map(c => [c.id, new Uint8Array(readFileSync(path.join(RELEASE_DIR, c.collision.path)))] as const);
+const collisionFiles = await Promise.all(manifest.cells.map(async c => [c.id, await readSimulationPayload(RELEASE_DIR, c.collision)] as const));
 await initPhysics();
 // Terrain-only world for ground-height checks (a respawn inside a building ends up on its roof).
 const heightWorld = StaticWorld.fromBytes(terrainBytes, roadsJson, gameplayJson);

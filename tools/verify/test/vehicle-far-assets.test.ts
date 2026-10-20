@@ -45,12 +45,20 @@ test('optional far geometry wins regardless of arrival order and releases its te
   assert.deepEqual(clone.getObjectByName('WHEEL_FL')!.position.toArray(), [1, .3, 1]);
 });
 
-test('standard preset skips optional payloads and legacy releases retain their accepted merged far mesh', async () => {
-  for (const optional of [true, false]) {
+test('both presets use optional distant geometry while legacy releases retain their merged far mesh', async () => {
+  for (const low of [true, false]) {
+    const near = car(3), far = car(1), assets = new AssetLibrary();
+    const loaded: string[] = [];
+    const loader = { load: async (url: string) => { loaded.push(url); return { scene: url.endsWith('far.glb') ? far.scene : near.scene }; } } as unknown as GlbLoader;
+    await assets.load(loader, '/', manifest, low);
+    assert.deepEqual(loaded.sort(), ['/far.glb', '/near.glb']);
+    assert.equal(assets.vehicles.get('vehicle-lumi-gt')!.far.body.attributes.position!.count, 36);
+  }
+  {
     const near = car(3), assets = new AssetLibrary(), loaded: string[] = [];
     const loader = { load: async (url: string) => { loaded.push(url); return { scene: near.scene }; } } as unknown as GlbLoader;
-    const input = optional ? manifest : { assets: manifest.assets.filter(asset => asset.kind === 'vehicle') } as unknown as WorldManifest;
-    await assets.load(loader, '/', input, !optional);
+    const input = { assets: manifest.assets.filter(asset => asset.kind === 'vehicle') } as unknown as WorldManifest;
+    await assets.load(loader, '/', input);
     assert.deepEqual(loaded, ['/near.glb']);
     assert.equal(assets.vehicles.get('vehicle-lumi-gt')!.far.body.attributes.position!.count, 324);
   }

@@ -2,11 +2,13 @@
 // visuals and hero and scenery assets. Everything is content-addressed under /world/<release>/ (tools/world/publish_release.ts).
 import * as THREE from 'three';
 import { GLTFLoader, type GLTF } from 'three/addons/loaders/GLTFLoader.js';
-import { KTX2Loader } from 'three/addons/loaders/KTX2Loader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import type { GameplayBundle, RoadGraph, SceneryDocument, WorldManifest } from '@helsinki/world-schema';
 import { validateGameplayBundle, validateWorldManifest } from '@helsinki/world-schema';
 import { basisDecoderUrl, runtimeDeployment, selectedRelease, validateManifestPaths, validateReleaseId, verifyManifestHash, worldReleaseUrl, worldRootUrl, type WorldDeployment } from './urls.ts';
+import { fetchSimulationPayload } from './payload.ts';
+import { runStartupJobs } from './startup-queue.ts';
+import { OwnedKtx2Loader } from './owned-ktx2-loader.ts';
 
 export interface WorldData {
   readonly release: string;
@@ -47,7 +49,7 @@ async function fetchJson<T>(url: string): Promise<T> {
 }
 
 /** Load the data the simulation needs (no GPU work). */
-export async function loadWorldData(release: string, progress: Progress, deployment: WorldDeployment = runtimeDeployment()): Promise<WorldData> {
+export async function loadWorldData(release: string, progress: Progress, deployment: WorldDeployment = runtimeDeployment(), onManifest?: (manifest: WorldManifest, base: string) => void): Promise<WorldData> {
   const base = worldReleaseUrl(deployment, release);
   const manifestBytes = await fetchBytes(`${base}manifest.json`);
   await verifyManifestHash(manifestBytes, deployment.manifestSha256);
@@ -56,47 +58,48 @@ export async function loadWorldData(release: string, progress: Progress, deploym
   if (problems.length) throw new Error(`manifest: ${problems.join('; ')}`);
   if (manifest.worldReleaseId !== release) throw new Error('World manifest release does not match the selected release');
   validateManifestPaths(manifest);
+  onManifest?.(manifest, base);
   const total = 3 + (manifest.scenery ? 1 : 0) + manifest.cells.length;
   let done = 0;
   const tick = (label: string) => progress(++done, total, label);
-  const [terrain, roads, gameplay, scenery] = await Promise.all([
-    fetchBytes(base + manifest.terrain.path).then(b => { tick('terrain'); return b; }),
-    fetchJson<RoadGraph>(base + manifest.roads.path).then(r => { tick('roads'); return r; }),
-    fetchJson<GameplayBundle>(base + manifest.gameplay.path).then(g => { tick('gameplay'); return g; }),
-    manifest.scenery ? fetchJson<SceneryDocument>(base + manifest.scenery.path).then(s => { tick('scenery'); return s; }) : Promise.resolve(null),
-  ]);
+  let terrain!: Uint8Array, roads!: RoadGraph, gameplay!: GameplayBundle;
+  let scenery: SceneryDocument | null = null;
+  const collisionBytes = new Array<Uint8Array>(manifest.cells.length);
+  // Overlap the large terrain download with collision delivery, while retaining the six-request ceiling.
+  const jobs: (() => Promise<void>)[] = [
+    async () => { terrain = await fetchSimulationPayload(base + manifest.terrain.path, manifest.terrain); tick('terrain'); },
+    async () => { roads = await fetchJson<RoadGraph>(base + manifest.roads.path); tick('roads'); },
+    async () => { gameplay = await fetchJson<GameplayBundle>(base + manifest.gameplay.path); tick('gameplay'); },
+  ];
+  if (manifest.scenery) {
+    const ref = manifest.scenery;
+    jobs.push(async () => { scenery = await fetchJson<SceneryDocument>(base + ref.path); tick('scenery'); });
+  }
+  manifest.cells.forEach((cell, index) => jobs.push(async () => {
+    collisionBytes[index] = await fetchSimulationPayload(base + cell.collision.path, cell.collision);
+    tick(`collision ${cell.id}`);
+  }));
+  await runStartupJobs(jobs);
   const gp = validateGameplayBundle(gameplay);
   if (gp.length) throw new Error(`gameplay: ${gp.join('; ')}`);
-  // Bound startup requests without changing simulation construction order or the collision payloads.
-  const collisionBytes = new Array<Uint8Array>(manifest.cells.length);
-  let nextCell = 0;
-  let collisionFailed = false;
-  await Promise.all(Array.from({ length: Math.min(6, manifest.cells.length) }, async () => {
-    while (!collisionFailed) {
-      const index = nextCell++;
-      const cell = manifest.cells[index];
-      if (!cell) return;
-      try { collisionBytes[index] = await fetchBytes(base + cell.collision.path); tick(`collision ${cell.id}`); }
-      catch (error) { collisionFailed = true; throw error; }
-    }
-  }));
+  // Stable insertion order preserves collision handles and replay hashes despite concurrent delivery.
   const collision = new Map(manifest.cells.map((cell, index) => [cell.id, collisionBytes[index]!]));
   return { release, base, manifest, terrain, roads, gameplay, scenery, collision };
 }
 
 export class GlbLoader {
   readonly loader: GLTFLoader;
-  readonly ktx2: KTX2Loader;
+  readonly ktx2: OwnedKtx2Loader;
 
   constructor(renderer: THREE.WebGLRenderer) {
-    this.ktx2 = new KTX2Loader().setTranscoderPath(basisDecoderUrl(runtimeDeployment())).detectSupport(renderer);
+    this.ktx2 = new OwnedKtx2Loader().setTranscoderPath(basisDecoderUrl(runtimeDeployment())).detectSupport(renderer);
     this.loader = new GLTFLoader().setKTX2Loader(this.ktx2).setMeshoptDecoder(MeshoptDecoder);
   }
 
   async load(url: string, signal?: AbortSignal): Promise<GLTF> {
     if (signal) {
-      // Cell GLBs are self-contained. Fetch directly so leaving the district cancels the download;
-      // parse/transcode cannot be interrupted, so its owner retains the slot and disposes late results.
+      // Fetch directly so leaving a district cancels the GLB. Shared images use immutable same-origin
+      // paths; parsing/transcoding retains its slot until completion and late results are disposed.
       const response = await fetch(url, { signal });
       if (!response.ok) throw new Error(`${url}: ${response.status}`);
       const bytes = await response.arrayBuffer();
