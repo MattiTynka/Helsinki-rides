@@ -1,4 +1,4 @@
-// Both supplied extra cars in the current full city: real keyboard approach,
+// The redistributable supplied extra car in the current full city: real keyboard approach,
 // entry, driving and exit, followed by a fresh deterministic Node replay.
 // node tools/verify/verify-extra-cars.mjs --url http://127.0.0.1:5317/?review=1 --release PATH/TO/RELEASE --out FRESH_EVIDENCE_DIR
 import assert from 'node:assert/strict';
@@ -31,9 +31,15 @@ function payload(ref) {
 }
 const gameplay = JSON.parse(payload(manifest.gameplay).toString('utf8'));
 assert.deepEqual(validateGameplayBundle(gameplay), []);
+const restrictedVehicle = value => typeof value === 'string' && /^(?:vehicle[-_]?)?(?:kaamos|gt[-_]?40)(?:[-_.][A-Za-z0-9_.-]+)?$/i.test(value);
+assert.ok(!manifest.assets.some(asset => restrictedVehicle(asset.id) || restrictedVehicle(path.basename(asset.path, path.extname(asset.path)))),
+  'the published world excludes nonredistributable vehicle assets');
+assert.ok(!gameplay.vehicleDefinitions.some(definition => [definition.id, definition.assetId, definition.interaction?.poses].some(restrictedVehicle)),
+  'the current gameplay excludes nonredistributable vehicle definitions');
+assert.ok(!gameplay.vehicles.some(spawn => restrictedVehicle(spawn.id) || restrictedVehicle(spawn.definition)),
+  'the current gameplay excludes nonredistributable vehicle spawns');
 const cars = [
   { id: 'revontuli', vehicleId: 'car-3', sha256: '7e35d6a031433dbd4054a587da8195737dddddb3c87efc950e9ffd403c0262e7', triangles: 36743 },
-  { id: 'kaamos', vehicleId: 'car-4', sha256: '01d9f51ee1e19637ed479246991891c9a0f0fb54f9f4e87da43ab18583b766f3', triangles: 43489 },
 ];
 const assetChecks = [];
 for (const car of cars) {
@@ -244,7 +250,7 @@ if (!failure && recording) {
     replay = { hash: sim.hash(), ticks: sim.tick, mode: sim.mode };
     assert.equal(replay.hash, recording.hash, 'fresh Node replay matches the browser state hash');
     assert.equal(replay.ticks, recording.ticks);
-    console.log(`[extra-cars] PASS both keyboard cycles and ${recording.ticks}-tick Node replay (${replay.hash})`);
+    console.log(`[extra-cars] PASS ${cars.length} keyboard cycle and ${recording.ticks}-tick Node replay (${replay.hash})`);
   } catch (error) {
     failure = error instanceof Error ? error.stack ?? error.message : String(error);
   } finally {

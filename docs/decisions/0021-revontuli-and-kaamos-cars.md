@@ -1,6 +1,24 @@
 # Two more cars: the Revontuli and the Kaamos
 
-## Integration into the expanded city, 20 October 2026
+## Redistribution correction, 20 October 2026
+
+Kaamos / GT40 is removed from published assets, gameplay definitions and spawns
+following the project owner's report that the source restricts redistribution.
+The integration and acceptance records below are historical; passing technical
+checks did not establish a redistribution license. Restricted packets and any
+Git references containing the model must not remain public or serve as rollback
+downloads. Local source originals may be preserved outside publication.
+
+Revontuli remains. Its source is
+[Bugatti Veyron fully rigged.](https://sketchfab.com/3d-models/bugatti-veyron-fully-rigged-5ca18dc84d074655966a6fe7165aa157)
+by [NoOb StUfFs](https://sketchfab.com/NoObStUfFs),
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), independently verified
+through Sketchfab's public model API. Its game adaptations retain that credit.
+The replacement releases are `senate-20261020-credits` and
+`senate-pages-20261020-credits-tex1024`; exact packet identity is pinned in the
+Pages descriptor. See the [asset credit ledger](../../content/releases/asset-credits.json).
+
+## Historical integration into the expanded city, 20 October 2026
 
 The main expanded world had omitted these optional cars when it was generated.
 The restored release keeps all 304 current cells, collision, terrain, roads,
@@ -18,8 +36,8 @@ policy and full city. Its exact identity is pinned in `content/releases/pages.js
 Both cars are parked beside the Lumi GT at Senate Square: Revontuli at
 `[-35.5, 10]` and Kaamos at `[-41, 10]`, heading 358 degrees. The two model files
 add 3,540,504 bytes, no textures, and reuse their existing fitted Finn interaction
-poses. Asset licenses remain under the supplied-content, terms-pending treatment
-in `content/releases/world-notice.md`.
+poses. At this integration, licenses were recorded as supplied-content terms
+pending. The redistribution correction above supersedes that treatment.
 
 The 18 October measurements and remaining topology/clearance limits below
 describe the unchanged models. Current integration evidence is recorded under

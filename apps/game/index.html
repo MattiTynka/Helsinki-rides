@@ -36,7 +36,25 @@
       <div id="attribution" class="attribution"></div>
     </div>
     <div id="screen" class="screen hidden"><div id="screen-title"></div><div id="screen-sub"></div></div>
-    <div id="loading" class="loading"><div class="loading-box"><div id="loading-text">Loading Senate district…</div><div class="loading-bar"><div id="loading-fill"></div></div><div id="loading-hint">Click to play · WASD run · Alt walk · Shift sprint · Space jump · Quick double Space super jump · F enter/exit · Mouse aim · LMB fire · RMB aim · R reload · H horn · Space handbrake in car · Hold X to recover</div></div></div>
+    <div id="loading" class="loading" aria-labelledby="loading-title">
+      <div class="loading-box">
+        <h1 id="loading-title">Helsinki Rides</h1>
+        <div id="loading-text" role="status">Loading Senate district…</div>
+        <div class="loading-bar"><div id="loading-fill"></div></div>
+        <div id="loading-hint">Click to play · WASD run · Alt walk · Shift sprint · Space jump · Quick double Space super jump · F enter/exit · Mouse aim · LMB fire · RMB aim · R reload · H horn · Space handbrake in car · Hold X to recover</div>
+        <section id="loading-credits" class="loading-credits" aria-labelledby="loading-credits-title">
+          <h2 id="loading-credits-title">Credits &amp; acknowledgements</h2>
+          <ul>
+            <li><strong>Cars:</strong> <a href="https://sketchfab.com/3d-models/ford-mustang-gt-500-with-pro-rig-for-free-f26a29f766844f46910547d6d2cc291d" target="_blank" rel="noopener noreferrer">Ford Mustang GT500</a> adapted as Lumi GT and the patrol car; <a href="https://sketchfab.com/3d-models/bugatti-veyron-fully-rigged-5ca18dc84d074655966a6fe7165aa157" target="_blank" rel="noopener noreferrer">Bugatti Veyron</a> adapted as Revontuli. Models by <a href="https://sketchfab.com/NoObStUfFs" target="_blank" rel="noopener noreferrer">NoOb StUfFs (@NoObStUfFs)</a>, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>. Brand marks and source textures removed; geometry and cabins adapted for the game.</li>
+            <li><strong>City:</strong> 3D city model and geodata © <a href="https://kartta.hel.fi/3d/" target="_blank" rel="noopener noreferrer">City of Helsinki</a>, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>. Converted, tiled, resampled and locally restored.</li>
+            <li><strong><a href="https://www.printables.com/model/486571-helsinki-cathedral-finland" target="_blank" rel="noopener noreferrer">Helsinki Cathedral:</a></strong> Dany Sánchez (MiniWorld3D); optimized by Jukka Seppänen (@kijaidesign), <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>. Placed and light-baked for the game.</li>
+            <li><strong>Character bases:</strong> <a href="https://studio.blender.org/characters/snow/" target="_blank" rel="noopener noreferrer">Snow</a> and <a href="https://studio.blender.org/characters/rain/" target="_blank" rel="noopener noreferrer">Rain</a> © Blender Studio, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>. Adapted as Finn and Poliisi Rain.</li>
+            <li><strong>Road, tram and steps data:</strong> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>, <a href="https://opendatacommons.org/licenses/odbl/1-0/" target="_blank" rel="noopener noreferrer">ODbL 1.0</a>.</li>
+          </ul>
+          <p><a href="https://github.com/MattiTynka/Helsinki-rides/blob/main/THIRD_PARTY_NOTICES.md" target="_blank" rel="noopener noreferrer">Full credits and license notices</a>. Credit links open in a new tab.</p>
+        </section>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

@@ -30,9 +30,23 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #0b0e14; fon
 .screen { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.55); pointer-events: none; }
 #screen-title { font-size: 64px; font-weight: 800; letter-spacing: 6px; text-transform: uppercase; text-shadow: 0 0 16px #000; }
 #screen-sub { font-size: 20px; margin-top: 10px; opacity: 0.9; }
-.loading { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: #0b0e14; cursor: pointer; }
-.loading-box { width: min(560px, 90vw); text-align: center; }
+.loading { position: fixed; inset: 0; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; overscroll-behavior: contain; padding: 24px 16px; background: #0b0e14; cursor: pointer; }
+.loading-box { width: min(740px, 100%); flex-shrink: 0; margin-block: auto; text-align: center; }
+#loading-title { font-size: clamp(26px, 5vw, 34px); margin: 0 0 20px; letter-spacing: .02em; }
 #loading-text { font-size: 20px; margin-bottom: 12px; }
 .loading-bar { height: 8px; background: #22293a; border-radius: 4px; overflow: hidden; }
 #loading-fill { height: 100%; width: 0; background: #7fb2ff; transition: width 150ms linear; }
 #loading-hint { margin-top: 16px; font-size: 13px; opacity: 0.7; line-height: 1.5; }
+.loading-credits { margin-top: 24px; padding-top: 18px; border-top: 1px solid #354056; text-align: left; font-size: 13px; line-height: 1.55; color: #c5d0e1; cursor: default; overflow-wrap: anywhere; }
+.loading-credits h2 { margin: 0 0 12px; font-size: 16px; color: var(--hud); }
+.loading-credits ul { margin: 0; padding-left: 20px; }
+.loading-credits li + li { margin-top: 10px; }
+.loading-credits p { margin: 14px 0 0; }
+.loading-credits strong { color: #ecf2fc; }
+.loading-credits a { color: #a9d1ff; text-underline-offset: .16em; cursor: pointer; }
+.loading-credits a:hover { color: #d7eaff; }
+.loading-credits a:focus-visible { outline: 2px solid #a9d1ff; outline-offset: 3px; border-radius: 2px; }
+@media (max-width: 540px) {
+  .loading { padding: 20px 14px; }
+  .loading-credits { font-size: 12px; }
+}

@@ -18,12 +18,15 @@ async function boot(): Promise<void> {
   loadingText.textContent = 'Click to play';
   loadingFill.style.width = '100%';
   game.start();
-  const begin = () => {
+  const begin = (event: MouseEvent) => {
+    // Keep source/license links usable without consuming the play interaction.
+    if (event.target instanceof Element && event.target.closest('a, #loading-credits')) return;
+    loading.removeEventListener('click', begin);
     loading.classList.add('hidden');
     game.audio.start();
     if (!config.review) canvas.requestPointerLock?.();
   };
-  loading.addEventListener('click', begin, { once: true });
+  loading.addEventListener('click', begin);
   canvas.addEventListener('click', () => game.audio.start());
   // Review controls are a build capability; a URL flag only changes presentation.
   if (__REVIEW_BUILD__ || import.meta.env.DEV) {

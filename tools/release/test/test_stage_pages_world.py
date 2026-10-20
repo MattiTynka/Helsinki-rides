@@ -95,6 +95,11 @@ class PagesWorldTest(unittest.TestCase):
         self.descriptor.update(archiveSha256=sha(data), archiveBytes=len(data))
         self.write_descriptor()
 
+    def set_gameplay(self, gameplay):
+        data = json.dumps(gameplay).encode()
+        self.payloads['gameplay.json'] = data
+        self.manifest['gameplay'] = {'path': 'gameplay.json', 'bytes': len(data), 'sha256': sha(data)}
+
     def test_valid_archive_is_staged_with_receipt_and_exact_payloads(self):
         result = self.stage()
         self.assertEqual(result['status'], 'PASS')
@@ -242,6 +247,73 @@ class PagesWorldTest(unittest.TestCase):
     def test_invalid_source_commit_is_refused(self):
         with self.assertRaises(ValueError):
             pages.stage(self.descriptor_path, self.archive_path, self.output, 'main')
+
+    def test_restricted_vehicle_asset_ids_cannot_return_from_a_historical_packet(self):
+        for identity in ['vehicle-kaamos', 'Kaamos', 'GT40', 'vehicle-GT40-v1']:
+            with self.subTest(identity=identity):
+                self.manifest['assets'][0]['id'] = identity
+                self.build_inputs()
+                self.assert_refused_without_output()
+
+    def test_restricted_vehicle_glb_filenames_are_rejected_even_if_the_asset_is_renamed(self):
+        original_asset = copy.deepcopy(self.manifest['assets'][0])
+        for filename in ['assets/vehicle-kaamos.01d9f51ee1.glb', 'assets/GT40.glb', 'assets/vehicle-gt40-v1.glb']:
+            with self.subTest(filename=filename):
+                self.payloads[filename] = self.payloads.pop('assets/snow.glb')
+                self.manifest['assets'][0] = {**original_asset, 'path': filename}
+                self.build_inputs()
+                self.assert_refused_without_output()
+                self.payloads['assets/snow.glb'] = self.payloads.pop(filename)
+        self.manifest['assets'][0] = original_asset
+
+    def test_known_restricted_glb_digest_is_rejected_after_both_asset_identity_and_filename_are_renamed(self):
+        self.payloads['assets/renamed.glb'] = self.payloads.pop('assets/snow.glb')
+        self.manifest['assets'][0].update(id='vehicle-unrelated', path='assets/renamed.glb',
+                                          sha256=pages.RESTRICTED_VEHICLE_SHA256)
+        self.build_inputs()
+        # The synthetic bytes cannot reproduce a real model digest. Isolate the manifest policy
+        # so this regression proves the explicit known-hash guard, rather than an integrity mismatch.
+        with self.assertRaisesRegex(ValueError, 'nonredistributable vehicle GLB digest'):
+            pages._manifest_refs(json.dumps(self.manifest).encode(), self.descriptor)
+        with self.assertRaisesRegex(ValueError, 'nonredistributable vehicle GLB digest'):
+            self.stage()
+        self.assertFalse((self.output / 'world').exists())
+        self.assertFalse((self.output / 'release-info.json').exists())
+
+    def test_restricted_gameplay_definitions_and_spawns_cannot_be_published(self):
+        cases = [
+            {'vehicleDefinitions': [{'id': 'kaamos', 'assetId': 'renamed'}]},
+            {'vehicleDefinitions': [{'id': 'renamed', 'assetId': 'vehicle-kaamos'}]},
+            {'vehicleDefinitions': [{'id': 'GT40', 'assetId': 'renamed'}]},
+            {'vehicleDefinitions': [{'id': 'renamed', 'label': 'Ford GT40'}]},
+            {'vehicleDefinitions': [{'id': 'renamed', 'interaction': {'poses': 'kaamos'}}]},
+            {'vehicles': [{'id': 'car-4', 'definition': 'kaamos'}]},
+            {'vehicles': [{'id': 'kaamos-parked', 'definition': 'renamed'}]},
+            {'vehicles': [{'id': 'car-4', 'definition': 'vehicle-GT40'}]},
+        ]
+        for gameplay in cases:
+            with self.subTest(gameplay=gameplay):
+                self.set_gameplay(gameplay)
+                self.build_inputs()
+                self.assert_refused_without_output()
+
+    def test_revontuli_and_historical_prose_about_excluded_models_remain_allowed(self):
+        self.manifest['assets'][0]['id'] = 'vehicle-revontuli'
+        self.set_gameplay({'vehicleDefinitions': [{'id': 'revontuli', 'assetId': 'vehicle-revontuli', 'label': 'Revontuli'}],
+                           'vehicles': [{'id': 'car-3', 'definition': 'revontuli'}]})
+        self.manifest['attribution'] = ['Historical note: GT40-derived Kaamos is excluded.']
+        data = b'Historical audit: vehicle-kaamos and GT40.glb were removed; do not redistribute them.'
+        self.payloads['LICENSE.md'] = data
+        self.manifest['publicationFiles'][0] = {'path': 'LICENSE.md', 'bytes': len(data), 'sha256': sha(data)}
+        self.build_inputs()
+        self.assertEqual(self.stage()['status'], 'PASS')
+
+    def test_gameplay_boundary_rejects_invalid_shapes_without_staging(self):
+        for gameplay in [[], {'vehicleDefinitions': None}, {'vehicles': ['invalid']}, {'vehicles': {'id': 'kaamos'}}]:
+            with self.subTest(gameplay=gameplay):
+                self.set_gameplay(gameplay)
+                self.build_inputs()
+                self.assert_refused_without_output()
 
 
 if __name__ == '__main__':
