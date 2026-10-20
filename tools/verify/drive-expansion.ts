@@ -12,6 +12,7 @@ import { game, openGame } from './lib/browser.ts';
 import { clippedRoutePoints, planDriveLeg, type DriveGoal } from './lib/keyboard-route.ts';
 import { keyboardDriveControl } from './lib/keyboard-driving.ts';
 import { buildDrivingRouteHints, previewDrivingRoute, type DrivingRouteHints } from './lib/driving-route-preview.ts';
+import { readSimulationPayload } from './lib/simulation-payload.ts';
 
 const { values } = parseArgs({ options: { url: { type: 'string', default: 'http://127.0.0.1:5317/?review=1' }, release: { type: 'string' }, out: { type: 'string' }, goals: { type: 'string' }, headful: { type: 'boolean', default: false }, 'max-seconds': { type: 'string', default: '600' }, 'max-recoveries': { type: 'string', default: '2' }, 'max-speed': { type: 'string', default: '10' }, 'plan-only': { type: 'boolean', default: false } } });
 assert.ok(values.release && values.out, '--release and --out required'); assert.ok(!existsSync(values.out), 'Use a fresh evidence directory'); mkdirSync(values.out, { recursive: true });
@@ -19,7 +20,8 @@ const releaseDir = values.release, out = values.out, sha = (b: Uint8Array | stri
 const manifestBytes = readFileSync(path.join(releaseDir, 'manifest.json')), manifest = JSON.parse(manifestBytes.toString()) as WorldManifest;
 const readPayload = (p: { path: string; sha256: string }) => { const b = readFileSync(path.join(releaseDir, p.path)); assert.equal(sha(b), p.sha256); return b; };
 const roads = JSON.parse(readPayload(manifest.roads).toString()) as RoadGraph, gameplay = JSON.parse(readPayload(manifest.gameplay).toString()) as GameplayBundle, index = new RoadIndex(roads);
-const terrain = readPayload(manifest.terrain), collisionFiles = manifest.cells.map(c => [c.id, readPayload(c.collision)] as const);
+const terrain = await readSimulationPayload(releaseDir, manifest.terrain);
+const collisionFiles = await Promise.all(manifest.cells.map(async c => [c.id, await readSimulationPayload(releaseDir, c.collision)] as const));
 const startHit = index.nearestLane(-69, 42, [0, 1], 10), returnHit = index.nearestLane(-75, -25, [0, 1], 10); assert.ok(startHit && returnHit);
 const defaultGoals: DriveGoal[] = [
   { label: 'Kluuvi Aleksanterinkatu', xz: [-320, 64], road: 'Aleksanterinkatu' },

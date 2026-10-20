@@ -19,6 +19,22 @@ function deferred<T>() {
   return { promise, resolve, reject };
 }
 
+test('startup waits for nearby coverage while a selected outer cell is still decoding', async () => {
+  const distant = deferred<CellResource>(), near = cell('near', 0), outer = cell('outer', 256);
+  const shown: string[] = [];
+  const stream = new CellVisualStream([near, outer], {
+    load: c => c.id === 'near' ? Promise.resolve(resource()) : distant.promise,
+    show: c => { shown.push(c.id); }, dispose: () => {},
+  }, { ...options, radius: 500, concurrency: 2 });
+  stream.update(focus(64));
+  await stream.settleNear(100);
+  assert.deepEqual(shown, ['near']); assert.equal(stream.stats().pendingCells, 1);
+  distant.resolve(resource()); await stream.settle();
+  assert.deepEqual(shown, ['near', 'outer']);
+  await assert.rejects(stream.settleNear(-1), /radius/);
+  stream.dispose();
+});
+
 test('the safety disk checks ground ownership across seams and accepts either loaded visual tier', () => {
   const cells = [cell('west', 0), cell('east', 128)];
   assert.deepEqual(missingVisualCoverage(cells, 120, 64, 12, new Map([['west', {}]]), new Map()), ['east']);
@@ -232,4 +248,115 @@ test('disposing during an abortable retry stops downloads with no extra failures
   assert.equal(stream.stats().pendingCells, 0); assert.equal(stream.stats().failedLoads, 1);
   assert.equal(stream.stats().cancelledLoads, 1); assert.deepEqual(stream.stats().errors, []);
   assert.deepEqual(stream.stats().errorHistory, ['a: first attempt failed']);
+});
+
+const flushTasks = () => new Promise<void>(resolve => setImmediate(resolve));
+
+test('GPU preparation reserves actual costs before uploads and simultaneous decodes cannot over-admit', async () => {
+  const warm = deferred<void>(), prepared: string[] = [], shown: string[] = [], disposed: string[] = [];
+  const stream: CellVisualStream<CellResource> = new CellVisualStream([cell('a', 0), cell('b', 128)], {
+    load: async () => resource(24),
+    prepare: async c => {
+      prepared.push(c.id);
+      assert.equal(stream.stats().residentTextureMiB, 24, 'the upload already owns its complete reservation');
+      assert.equal(stream.stats().residentCells, 0, 'a reservation is not visible ground coverage');
+      await warm.promise;
+    },
+    show: c => { shown.push(c.id); }, dispose: c => { disposed.push(c.id); },
+  }, { ...options, concurrency: 2 });
+  stream.update(focus(120)); await flushTasks();
+  assert.deepEqual(prepared, ['a']); assert.deepEqual(shown, []); assert.deepEqual(disposed, ['b']);
+  assert.equal(stream.stats().residentTextureMiB, 24); assert.ok(stream.stats().peakTextureMiB <= 30);
+  warm.resolve(); await stream.settle();
+  assert.deepEqual(shown, ['a']); assert.equal(stream.stats().residentCells, 1);
+  stream.dispose(); assert.deepEqual(disposed, ['b', 'a']); assert.equal(stream.stats().residentTextureMiB, 0);
+});
+
+test('GPU preparation also reserves geometry and startup coverage waits until preparation completes', async () => {
+  const warm = deferred<void>(), prepared: string[] = [], shown: string[] = [];
+  const stream = new CellVisualStream([cell('a', 0), cell('b', 128)], {
+    load: async () => ({ textureBytes: 0, geometryBytes: 0.6 * MiB }),
+    prepare: async c => { prepared.push(c.id); await warm.promise; },
+    show: c => { shown.push(c.id); }, dispose: () => {},
+  }, { ...options, concurrency: 2 });
+  stream.update(focus(120));
+  let ready = false;
+  const startup = stream.settleNear(100).then(() => { ready = true; });
+  await flushTasks();
+  assert.deepEqual(prepared, ['a']); assert.deepEqual(shown, []); assert.equal(ready, false);
+  assert.equal(stream.stats().residentCells, 0); assert.equal(stream.stats().residentGeometryMiB, 0.6);
+  warm.resolve(); await startup; await stream.settle();
+  assert.equal(ready, true); assert.deepEqual(shown, ['a']);
+  stream.dispose(); assert.equal(stream.stats().residentGeometryMiB, 0);
+});
+
+test('travel cancels preparation and holds its reservation until late GPU work settles before admitting the next district', async () => {
+  const warm = deferred<void>(), prepared: string[] = [], shown: string[] = [], disposed: string[] = [], loaded: string[] = [];
+  const signals = new Map<string, AbortSignal>();
+  const stream: CellVisualStream<CellResource> = new CellVisualStream([cell('a', 0), cell('b', 1000)], {
+    load: async c => { loaded.push(c.id); return resource(24); },
+    prepare: async (c, _resource, signal) => {
+      prepared.push(c.id); signals.set(c.id, signal);
+      assert.ok(stream.stats().residentTextureMiB <= 30);
+      if (c.id === 'a') await warm.promise;
+    },
+    show: c => { shown.push(c.id); }, dispose: c => { disposed.push(c.id); },
+  }, { ...options, concurrency: 2 });
+  stream.update(focus(64)); await flushTasks();
+  stream.update(focus(1064)); await flushTasks();
+  assert.equal(signals.get('a')!.aborted, true);
+  assert.deepEqual(loaded, ['a', 'b']); assert.deepEqual(prepared, ['a']);
+  assert.deepEqual(disposed, []); assert.deepEqual(shown, []);
+  assert.equal(stream.stats().residentTextureMiB, 24, 'cancelled preparation still owns its allocated GPU resources');
+  warm.resolve(); await stream.settle();
+  assert.deepEqual(loaded, ['a', 'b'], 'waiting for retiring reservations must not cause a reload loop');
+  assert.deepEqual(prepared, ['a', 'b']); assert.deepEqual(disposed, ['a']); assert.deepEqual(shown, ['b']);
+  assert.equal(stream.stats().cancelledLoads, 1); assert.equal(stream.stats().failedLoads, 0);
+  stream.dispose(); assert.deepEqual(disposed, ['a', 'b']); assert.equal(stream.stats().residentTextureMiB, 0);
+});
+
+test('dispose releases ready cells immediately and retains cancelled preparation costs until settlement exactly once', async () => {
+  const warm = deferred<void>(), disposed: string[] = [], shown: string[] = [];
+  const stream = new CellVisualStream([cell('a', 0), cell('b', 128)], {
+    load: async () => resource(10),
+    prepare: async c => { if (c.id === 'b') await warm.promise; },
+    show: c => { shown.push(c.id); }, dispose: c => { disposed.push(c.id); },
+  }, { ...options, concurrency: 2 });
+  stream.update(focus(120)); await flushTasks();
+  assert.deepEqual(shown, ['a']); assert.equal(stream.stats().residentTextureMiB, 20);
+  stream.dispose(); stream.dispose();
+  assert.deepEqual(disposed, ['a']); assert.equal(stream.stats().residentCells, 0);
+  assert.equal(stream.stats().residentTextureMiB, 10);
+  warm.reject(new Error('cancelled upload')); await stream.settle();
+  assert.deepEqual(disposed, ['a', 'b']); assert.equal(stream.stats().residentTextureMiB, 0);
+  assert.equal(stream.stats().residentGeometryMiB, 0); assert.equal(stream.stats().failedLoads, 0);
+  stream.dispose(); assert.deepEqual(disposed, ['a', 'b']);
+});
+
+test('preparation rejection releases its reservation once, preserves fallback and records a retryable failure', async () => {
+  const warm = deferred<void>(); let disposed = 0;
+  const stream = new CellVisualStream([cell('a', 0)], {
+    load: async () => resource(10), prepare: () => warm.promise,
+    show: () => assert.fail('failed upload cannot become visible'), dispose: () => { disposed++; },
+  }, options);
+  stream.update(focus(64)); await flushTasks();
+  assert.equal(stream.stats().residentTextureMiB, 10);
+  warm.reject(new Error('texture upload failed')); await stream.settle();
+  assert.equal(disposed, 1); assert.equal(stream.stats().residentTextureMiB, 0);
+  assert.equal(stream.stats().residentGeometryMiB, 0); assert.equal(stream.stats().fallbackCells, 1);
+  assert.deepEqual(stream.stats().errors, ['a: texture upload failed']);
+  stream.dispose(); assert.equal(disposed, 1);
+});
+
+test('a show failure disposes the prepared resource and releases both budgets exactly once', async () => {
+  let prepared = 0, disposed = 0;
+  const stream = new CellVisualStream([cell('a', 0)], {
+    load: async () => resource(10), prepare: async () => { prepared++; },
+    show: () => { throw new Error('cannot mount cell'); }, dispose: () => { disposed++; },
+  }, options);
+  stream.update(focus(64)); await stream.settle();
+  assert.equal(prepared, 1); assert.equal(disposed, 1); assert.equal(stream.stats().residentCells, 0);
+  assert.equal(stream.stats().residentTextureMiB, 0); assert.equal(stream.stats().residentGeometryMiB, 0);
+  assert.deepEqual(stream.stats().errors, ['a: cannot mount cell']);
+  stream.dispose(); assert.equal(disposed, 1);
 });

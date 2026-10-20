@@ -153,7 +153,7 @@ test('unsupported groups, morphs, partial ranges, deformation and invalid geomet
 test('CityScene partitions exclusively low/lod2 and preserves complete cell triangle/memory accounting', async () => {
   for (const [preset, lod, expected] of [['low', 'lod2', 3], ['standard', 'lod2', 1], ['low', 'lod0', 1]] as const) {
     const f = fixture(), originalBytes = geometryBytesOf(f.root);
-    const city = Object.assign(Object.create(CityScene.prototype), { lighting: 'lit', preset }) as CityScene;
+    const city = Object.assign(Object.create(CityScene.prototype), { lighting: 'lit', preset, prepareCell: async () => {} }) as CityScene;
     const loader = { load: async () => ({ scene: f.root }) } as unknown as Parameters<CityScene['loadCell']>[0];
     const descriptor = { id: 'test', visual: { lod0: { path: 'full.glb' }, lod2: { path: 'coarse.glb' } } } as Parameters<CityScene['loadCell']>[2];
     const view = await city.loadCell(loader, '/', descriptor, lod);

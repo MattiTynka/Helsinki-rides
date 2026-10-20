@@ -1,5 +1,6 @@
 // Hand-written structural validators (no schema library): each returns a list of problems, empty when valid.
 import type { GameplayBundle, WorldManifest } from './types.ts';
+import { validateSimulationFileRef } from './payload.ts';
 
 const isNum = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
 const isVec2 = (v: unknown): boolean => Array.isArray(v) && v.length === 2 && v.every(isNum);
@@ -22,6 +23,7 @@ export function validateWorldManifest(m: unknown): string[] {
       ids.add(c.id);
       if (!c.visual?.lod0?.path || !c.visual.lod0.sha256) p.push(`cell ${c.id} has no lod0`);
       if (!c.collision?.path || !c.collision.sha256) p.push(`cell ${c.id} has no collision`);
+      else for (const problem of validateSimulationFileRef(c.collision)) p.push(`cell ${c.id}: ${problem}`);
       if (!Array.isArray(c.buildings)) p.push(`cell ${c.id} has no building records`);
       else for (const b of c.buildings) {
         if (b.match === 'unmatched' && b.collider !== 'citymodel') p.push(`cell ${c.id}: unmatched building ${b.id} without a citymodel collider`);
@@ -29,10 +31,29 @@ export function validateWorldManifest(m: unknown): string[] {
     }
   }
   if (!x.terrain?.path || !isNum(x.terrain.resolution)) p.push('terrain missing');
+  else for (const problem of validateSimulationFileRef(x.terrain)) p.push(`terrain: ${problem}`);
   if (!x.roads?.path) p.push('roads missing');
   if (!x.gameplay?.path) p.push('gameplay missing');
+  for (const asset of x.assets ?? []) if (asset.optimization !== undefined) {
+    const proof = asset.optimization;
+    if (proof.lossless !== true || !/^[0-9a-f]{64}$/.test(proof.sourceSha256) || !/^[0-9a-f]{64}$/.test(proof.semanticSha256)) p.push(`asset ${asset.id}: invalid lossless storage provenance`);
+  }
   if (x.scenery !== undefined && (!x.scenery.path || !x.scenery.sha256)) p.push('scenery must be a file reference');
   if (x.scenery && !x.assets?.some(a => a.kind === 'scenery')) p.push('scenery without a scenery asset');
+  if (x.sharedTextures !== undefined) {
+    if (!Array.isArray(x.sharedTextures)) p.push('sharedTextures must be an array');
+    else {
+      const paths = new Set<string>();
+      for (const ref of x.sharedTextures) {
+        if (!ref || typeof ref.path !== 'string' || ref.path.length > 512
+          || !ref.path.split('/').every((segment: string) => /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(segment))
+          || !/\.(?:ktx2|png)$/.test(ref.path)) p.push('shared texture must be a relative KTX2 or PNG file');
+        else if (paths.has(ref.path)) p.push(`duplicate shared texture ${ref.path}`);
+        else paths.add(ref.path);
+        if (!ref || !Number.isSafeInteger(ref.bytes) || ref.bytes <= 0 || typeof ref.sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(ref.sha256)) p.push('shared texture requires positive bytes and SHA-256');
+      }
+    }
+  }
   if (!Array.isArray(x.sources) || x.sources.length === 0) p.push('sources must list every data source');
   if (!Array.isArray(x.attribution) || x.attribution.length === 0) p.push('attribution missing');
   if (x.lighting !== 'unlit-facades' && x.lighting !== 'lit-facades') p.push('lighting decision missing');

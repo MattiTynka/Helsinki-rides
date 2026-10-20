@@ -11,6 +11,7 @@ import { decodeCommand, initPhysics, Simulation, StaticWorld, yawOf } from '../.
 import { validateGameplayBundle, validateWorldManifest } from '../../packages/world-schema/src/index.ts';
 import { parseGlb, worldMatrices, nodeBounds, transformPoint, triangleCount } from './glb.ts';
 import { game, openGame } from './lib/browser.ts';
+import { readSimulationPayload } from './lib/simulation-payload.ts';
 
 const { values } = parseArgs({ options: {
   url: { type: 'string', default: 'http://127.0.0.1:5317/?review=1' },
@@ -48,11 +49,13 @@ for (const car of cars) {
   assert.equal(gameplay.vehicles.find(v => v.id === car.vehicleId)?.definition, car.id);
   car.asset = manifest.assets.find(a => a.id === `vehicle-${car.id}`);
   assert.ok(car.asset && car.asset.kind === 'vehicle');
-  assert.equal(car.asset.sha256, car.sha256, `${car.id}: accepted exported model`);
+  assert.equal(car.asset.optimization?.lossless === true ? car.asset.optimization.sourceSha256 : car.asset.sha256,
+    car.sha256, `${car.id}: accepted source model, with optional proved lossless storage compression`);
   car.poses = read(`content/assets/finn-vehicle-poses-${car.id}.json`);
   const contract = read(`content/assets/vehicle-${car.id}.contract.json`);
   assert.equal(car.poses.carSha256, car.sha256);
-  assert.equal(manifest.assets.find(a => a.id === 'character-snow')?.sha256, car.poses.sourcePackagedSha256,
+  const finn = manifest.assets.find(a => a.id === 'character-snow');
+  assert.equal(finn?.optimization?.lossless === true ? finn.optimization.sourceSha256 : finn?.sha256, car.poses.sourcePackagedSha256,
     'use the Finn skin these cabin poses were authored for');
   const { poses, ...interaction } = car.definition.interaction;
   assert.equal(poses, car.id);
@@ -80,7 +83,7 @@ for (const car of cars) {
   assert.ok(fl[0] > 0 && fr[0] < 0 && fl[2] > rl[2], `${car.id}: wheel axes`);
   const wheelbase = fl[2] - rl[2], [minimum, maximum] = contract.expectedDimensions.wheelbaseM;
   assert.ok(wheelbase >= minimum && wheelbase <= maximum);
-  assetChecks.push({ id: car.id, sha256: car.sha256, bytes: bytes.length, triangles: car.triangles,
+  assetChecks.push({ id: car.id, sourceSha256: car.sha256, sha256: car.asset.sha256, bytes: bytes.length, triangles: car.triangles,
     materials: json.materials.length, dimensions, wheelbase, validatorErrors: validation.issues.numErrors,
     validatorWarnings: validation.issues.numWarnings });
 }
@@ -108,7 +111,7 @@ try {
     assert.ok(loaded, `${car.id}: the runtime requested its asset before inspection`);
     const response = await page.request.get(loaded);
     assert.ok(response.ok());
-    assert.equal(sha(await response.body()), car.sha256, `${car.id}: served model is the accepted model`);
+    assert.equal(sha(await response.body()), car.asset.sha256, `${car.id}: served model matches the pinned stored representation`);
   }
   const script = await page.locator('script[type="module"][src]').first().getAttribute('src');
   assert.ok(script && /\/assets\/index-[\w-]+\.js$/.test(new URL(script, values.url).pathname), 'verify a compiled review build');
@@ -243,8 +246,8 @@ if (!failure && recording) {
   let world, sim;
   try {
     await initPhysics();
-    world = StaticWorld.fromBytes(new Uint8Array(payload(manifest.terrain)), JSON.parse(payload(manifest.roads).toString('utf8')), gameplay);
-    for (const cell of manifest.cells) world.addCell(cell.id, new Uint8Array(payload(cell.collision)));
+    world = StaticWorld.fromBytes(await readSimulationPayload(values.release, manifest.terrain), JSON.parse(payload(manifest.roads).toString('utf8')), gameplay);
+    for (const cell of manifest.cells) world.addCell(cell.id, await readSimulationPayload(values.release, cell.collision));
     sim = new Simulation(world, { seed: recording.seed });
     for (const command of recording.commands) sim.step(decodeCommand(command));
     replay = { hash: sim.hash(), ticks: sim.tick, mode: sim.mode };

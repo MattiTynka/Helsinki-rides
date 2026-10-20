@@ -9,6 +9,14 @@ export interface FileRef {
   readonly sha256: string;
 }
 
+/** Storage encoding for simulation bytes. Digests/bytes on FileRef always identify the stored file. */
+export interface SimulationFileRef extends FileRef {
+  readonly compression?: 'gzip';
+  /** Required with compression; decoding must reproduce these original simulation bytes exactly. */
+  readonly decodedBytes?: number;
+  readonly decodedSha256?: string;
+}
+
 export interface SourceRecord {
   readonly id: string;
   readonly title: string;
@@ -56,7 +64,7 @@ export interface CellDescriptor {
   /** Runtime XZ bounds [x0, z0, x1, z1], half-open. */
   readonly boundsXZ: [number, number, number, number];
   readonly visual: { readonly lod0: VisualLod; readonly lod1?: VisualLod; readonly lod2?: VisualLod };
-  readonly collision: FileRef & { readonly triangles: number };
+  readonly collision: SimulationFileRef & { readonly triangles: number };
   readonly buildingIds: readonly string[];
   readonly buildings: readonly BuildingRecord[];
   readonly sourceTiles: readonly string[];
@@ -77,10 +85,16 @@ export interface WorldManifest {
   readonly cellSize: number;
   readonly boundsRuntimeXZ: [number, number, number, number];
   readonly cells: readonly CellDescriptor[];
-  readonly terrain: FileRef & { readonly x0: number; readonly z0: number; readonly resolution: number; readonly nx: number; readonly nz: number };
+  readonly terrain: SimulationFileRef & { readonly x0: number; readonly z0: number; readonly resolution: number; readonly nx: number; readonly nz: number };
   readonly roads: FileRef;
   readonly gameplay: FileRef;
-  readonly assets: readonly (FileRef & { readonly id: string; readonly kind: 'character' | 'vehicle' | 'prop' | 'scenery' })[];
+  readonly assets: readonly (FileRef & {
+    readonly id: string; readonly kind: 'character' | 'vehicle' | 'prop' | 'scenery';
+    /** Exact decoded accessor/animation preservation, proved by the offline actor compressor. */
+    readonly optimization?: { readonly lossless: true; readonly sourceSha256: string; readonly semanticSha256: string };
+  })[];
+  /** Content-addressed images referenced by cell GLBs; loaded only when a cell needs them. */
+  readonly sharedTextures?: readonly FileRef[];
   /** Instanced scenery (trees; decision 0006): a SceneryDocument whose instances name nodes of `scenery` assets. */
   readonly scenery?: FileRef;
   readonly simulation: { readonly engine: string; readonly version: string; readonly tickHz: number };

@@ -113,10 +113,13 @@ test('low residency reuses source materials and shared LOD geometry across repea
   assert.equal(disposed, 0); assert.equal(JSON.stringify(document), before); assert.equal(city.sceneryStats().residentInstances, 3);
 });
 
-test('standard preset retains complete original foliage with no distance geometries or distance culling', () => {
+test('standard preset keeps exact near foliage and uses shared whole-card distant tiers', () => {
   const g = geometry(fixture.models[0]!), material = new THREE.MeshBasicMaterial({ name: 'tree_leaves', alphaTest: .5 }), root = new THREE.Group(), node = new THREE.Mesh(g, material); node.name = 'tree-birch'; root.add(node);
   const document = { originId: 'origin', assets: [], instances: [{ id: 'far', asset: 'scenery-trees', node: 'tree-birch', position: [0, 0, -700], yaw: .2, scale: [1, 1, 1] }] } as unknown as SceneryDocument, city = scene('standard');
   const group = city.addScenery(document, new Map([['scenery-trees', root]])); city.prepareSceneryForRender();
-  assert.equal((city as any).sceneryFoliageLods.size, 0); assert.equal((city as any).sceneryCulling, null);
-  const meshes: any[] = []; group.traverse(o => { if ((o as any).isInstancedMesh) meshes.push(o); }); assert.equal(meshes.length, 1); assert.equal(meshes[0].geometry, g); assert.equal(meshes[0].material, material); assert.equal(meshes[0].count, 1);
+  assert.equal((city as any).sceneryFoliageLods.size, 1); assert.ok((city as any).sceneryCulling);
+  const meshes: any[] = []; group.traverse(o => { if ((o as any).isInstancedMesh) meshes.push(o); });
+  assert.equal(meshes.length, 3); assert.equal(meshes[0].geometry, g);
+  for (const mesh of meshes) assert.equal(mesh.material, material);
+  assert.equal(meshes[0].count, 0); assert.equal(meshes[1].count, 0); assert.equal(meshes[2].count, 1);
 });

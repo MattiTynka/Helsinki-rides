@@ -6,6 +6,7 @@ import path from 'node:path';
 import { parseArgs } from 'node:util';
 import { decodeCommand, initPhysics, Simulation, StaticWorld, type EncodedCommand } from '../../packages/sim/src/index.ts';
 import type { WorldManifest } from '../../packages/world-schema/src/index.ts';
+import { readSimulationPayload } from './lib/simulation-payload.ts';
 
 const { values } = parseArgs({ options: { release: { type: 'string' }, recording: { type: 'string' } } });
 if (!values.release || !values.recording) throw new Error('--release and --recording are required');
@@ -16,11 +17,11 @@ if (rec.release !== manifest.worldReleaseId) throw new Error(`recording is from 
 
 await initPhysics();
 const world = StaticWorld.fromBytes(
-  new Uint8Array(readFileSync(path.join(values.release, manifest.terrain.path))),
+  await readSimulationPayload(values.release, manifest.terrain),
   JSON.parse(readFileSync(path.join(values.release, manifest.roads.path), 'utf8')),
   JSON.parse(readFileSync(path.join(values.release, manifest.gameplay.path), 'utf8')),
 );
-for (const c of manifest.cells) world.addCell(c.id, new Uint8Array(readFileSync(path.join(values.release, c.collision.path))));
+for (const c of manifest.cells) world.addCell(c.id, await readSimulationPayload(values.release, c.collision));
 const sim = new Simulation(world, { seed: rec.seed });
 const t0 = performance.now();
 for (const c of rec.commands) sim.step(decodeCommand(c));
