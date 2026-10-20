@@ -134,7 +134,7 @@ test('startup limits collision requests to six and returns manifest order after 
     return new Response(new Uint8Array([index]));
   }) as typeof fetch;
   try {
-    const data = await loadWorldData(release, done => ticks.push(done), local);
+    const data = await loadWorldData(release, done => ticks.push(done), local, undefined, 'all');
     assert.equal(peak, 6);
     assert.equal(active, 0);
     assert.equal(completed.length, 18);

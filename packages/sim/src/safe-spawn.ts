@@ -100,7 +100,8 @@ export class SafeSpawns {
     const heights: number[] = [];
     for (const [px, pz] of footprint.points) {
       const [dx, dz] = rotateXZ(px, pz, c.yaw), x = c.x + dx, z = c.z + dz;
-      if (!this.contains(x, z, 0.05)) return null;
+      // A streamed world may not have this cell's collision registered: the fallback heightfield is not support.
+      if (!this.contains(x, z, 0.05) || !this.world.queryable(x, z)) return null;
       const terrain = this.world.groundHeight(x, z);
       const ray = new RAPIER.Ray({ x, y: terrain + 8, z }, { x: 0, y: -1, z: 0 });
       const hit = this.world.physics.castRayAndGetNormal(ray, 40, false, undefined, groups(GROUP.bullet, GROUP.static));

@@ -1,11 +1,12 @@
 // Dev/test adapter exposed as window.__HELSINKI_GAME__ for the Playwright harnesses (tools/verify). Everything here
 // is read-only inspection or scripted input; it never bypasses the simulation.
-import type { Command, EncodedCommand, GameEvent, SimState } from '@helsinki/sim';
+import { COLLISION_RESIDENCY, type Command, type EncodedCommand, type GameEvent, type SimState } from '@helsinki/sim';
 import type { Game } from './game.ts';
 import type { Lighting } from './config.ts';
 import * as THREE from 'three';
 import { inspectCharacter, type CharacterPoseSnapshot } from './render/character-inspection.ts';
 import type { CellStreamStats } from './world/cell-streaming.ts';
+import type { CollisionStreamStats } from './world/collision-stream.ts';
 
 export interface PresentationSnapshot {
   frameTime: number;
@@ -26,7 +27,7 @@ export interface HelsinkiTestApi {
   ready: boolean;
   state(): SimState;
   tick(): number;
-  stats(): { fps: number; frameMs: number; drawCalls: number; triangles: number; textures: number; geometries: number; cells: number; tick: number };
+  stats(): { fps: number; frameMs: number; drawCalls: number; triangles: number; textures: number; geometries: number; cells: number; tick: number; resolutionScale: number };
   /** Read-only transforms from the actual displayed frame; useful for frame pacing and reticle checks. */
   presentation(): PresentationSnapshot;
   /** Read-only car-local joint/skin measurements of the displayed driver, evaluated only when requested. */
@@ -35,13 +36,17 @@ export interface HelsinkiTestApi {
   events(sinceTick?: number): GameEvent[];
   /** Hold a command (merged over neutral) until cleared; the real input is ignored meanwhile. */
   setCommand(c: Partial<Command> | null): void;
-  /** Advance n ticks immediately with the held (or given) command and render once. */
-  step(n: number, c?: Partial<Command>): SimState;
+  /**
+   * Advance n ticks immediately with the held (or given) command and render once. Returns a promise instead when a
+   * tick has to wait for streamed collision to download.
+   */
+  step(n: number, c?: Partial<Command>): SimState | Promise<SimState>;
   pause(): void;
   resume(): void;
   render(): void;
-  teleport(x: number, z: number, headingDeg?: number): void;
-  dropIn(label: string): void;
+  /** Completes synchronously unless the destination's streamed collision must be downloaded first. */
+  teleport(x: number, z: number, headingDeg?: number): void | Promise<void>;
+  dropIn(label: string): void | Promise<void>;
   camera(): { yaw: number; pitch: number };
   setCamera(yaw: number, pitch: number): void;
   setLighting(l: Lighting): void;
@@ -51,6 +56,10 @@ export interface HelsinkiTestApi {
     coverage: { blocked: boolean; blockedFrames: number; blockedSeconds: number; missingCells: string[] };
     persistentTextureMiB: number; totalTextureBudgetMiB: number } | null;
   awaitVisuals(): Promise<void>;
+  /** Collision residency: the rules a recording replays under (null: every cell resident), resident cells and bytes. */
+  collision(): { residency: string | null; resident: number; blocked: boolean; blockedFrames: number; blockedSeconds: number; missingCells: string[]; stream: CollisionStreamStats | null };
+  /** Officer and patrol models load after startup; ticks wait while police near the player have none. */
+  deferredModels(): { blocked: boolean; blockedFrames: number; blockedSeconds: number; failed: boolean; ready: boolean };
   renderBreakdown(): { triangles: number; drawCalls: number; groups: { id: string; triangles: number; drawCalls: number }[] };
   start(): void;
   hash(): string;
@@ -74,7 +83,7 @@ export function installTestApi(game: Game, onStart: () => void): HelsinkiTestApi
     ready: true,
     state: () => game.state,
     tick: () => game.sim.tick,
-    stats: () => ({ ...game.stats, cells: game.scene.cells.size }),
+    stats: () => ({ ...game.stats, cells: game.scene.cells.size, resolutionScale: game.scene.resolutionScale }),
     presentation: () => presentation(game),
     vehiclePose: () => vehiclePose(game),
     characterPose: id => {
@@ -83,7 +92,16 @@ export function installTestApi(game: Game, onStart: () => void): HelsinkiTestApi
     },
     events: (sinceTick = 0) => game.eventLog.filter(e => e.tick > sinceTick),
     setCommand: c => game.setScripted(c),
-    step: (n, c) => { if (c) game.setScripted(c); game.stepTicks(n); game.syncViews(n / 60); game.render(); return game.state; },
+    step: (n, c) => {
+      if (c) game.setScripted(c);
+      const finish = (): SimState => { game.syncViews(n / 60); game.render(); return game.state; };
+      let left = n - game.stepTicks(n);
+      if (left === 0) return finish();
+      return (async () => {
+        while (left > 0) { await game.collisionLoaded(); await game.actorModelsLoaded(); left -= game.stepTicks(left); }
+        return finish();
+      })();
+    },
     pause: () => { game.paused = true; },
     resume: () => { game.paused = false; },
     render: () => { game.syncViews(0); game.render(); },
@@ -97,6 +115,10 @@ export function installTestApi(game: Game, onStart: () => void): HelsinkiTestApi
       coverage: { ...game.visualLoading, missingCells: game.missingVisualCells() },
       persistentTextureMiB: game.streaming.persistentTextureBytes / 2 ** 20, totalTextureBudgetMiB: game.streaming.totalTextureBudgetBytes / 2 ** 20 } : null,
     awaitVisuals: () => game.awaitVisuals(),
+    collision: () => ({ residency: game.world.streamed ? COLLISION_RESIDENCY : null, resident: game.world.residentCells().length,
+      blocked: game.collisionLoading.blocked, blockedFrames: game.collisionLoading.blockedFrames, blockedSeconds: game.collisionLoading.blockedSeconds,
+      missingCells: game.collisionLoading.missingCells.slice(), stream: game.collision?.stats() ?? null }),
+    deferredModels: () => ({ ...game.modelLoading, ready: game.actorModelsReady() }),
     renderBreakdown: () => renderBreakdown(game),
     start: onStart,
     hash: () => game.sim.hash(),

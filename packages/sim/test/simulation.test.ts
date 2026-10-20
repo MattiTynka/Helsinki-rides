@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { PoliceUnit } from '../src/police.ts';
 import { before, test } from 'node:test';
-import { encodeCollisionBundle, encodeTerrain, type GameplayBundle, type RoadGraph } from '@helsinki/world-schema';
-import { Button, CHARACTER, CLIMB, GROUP, groups, initPhysics, NEUTRAL, RAPIER, Simulation, StaticWorld, VEHICLE_INTERACTION, vehicleExitClips, vehicleExitYaw, wrapAngle, type Command } from '../src/index.ts';
+import { encodeCollisionBundle, encodeTerrain, RoadIndex, type CellDescriptor, type GameplayBundle, type RoadGraph } from '@helsinki/world-schema';
+import { Button, CHARACTER, CLIMB, collisionCellRefs, GROUP, groups, initialCollisionCells, initPhysics, NEUTRAL, RAPIER, reachableCounts, Simulation, StaticWorld, VEHICLE_INTERACTION, vehicleExitClips, vehicleExitYaw, wellConnectedLanes, wrapAngle, type Command } from '../src/index.ts';
 
 // A flat 200 x 200 m world with one car, no roads and no police: enough for the player, vehicle and wanted logic.
 const nx = 41, nz = 41;
@@ -904,4 +904,130 @@ test('ground autostep is restored after landing, while car Space remains a handb
   assert.equal(carSim.playerVehicle?.input.handbrake, true);
   assert.equal(carSim.player.jumpKind, null);
   assert.equal(carSim.log.filter(e => e.type === 'jump').length, 0);
+});
+
+// Collision streaming: a 6 x 1 strip of 128 m cells (x from -64 to 704). The ground is at y = 0 and the fallback
+// heightfield 0.4 m below it, so standing where collision is not resident shows as a drop.
+const strip = Array.from({ length: 6 }, (_, i) => ({ id: `s${i}`, boundsXZ: [-64 + 128 * i, -64, 64 + 128 * i, 64] as [number, number, number, number] }));
+const stripTerrain = encodeTerrain({ x0: -64, z0: -64, resolution: 8, nx: 97, nz: 17, heights: new Float32Array(97 * 17) });
+const stripBytes = new Map(strip.map(({ id, boundsXZ: b }) => [id, encodeCollisionBundle({ originId: 't', frame: 'X-east,Y-up,Z-south', cell: id, surfaceTags: ['road'] }, [{
+  id: 'g', group: 'ground', ref: null,
+  positions: new Float32Array([b[0], 0, b[1], b[2], 0, b[1], b[2], 0, b[3], b[0], 0, b[3]]), indices: new Uint32Array([0, 2, 1, 0, 3, 2]), triangleTags: new Uint16Array([0, 0]),
+}])]));
+// Pinned: the start, both anchors (s0) and the patrol spawn (s2). The far parked car keeps s5 resident.
+const stripGameplay: GameplayBundle = {
+  ...gameplay, playArea: { minX: -64, maxX: 704, minZ: -64, maxZ: 64 },
+  vehicles: [{ id: 'car-1', definition: 'car', position: [-40, -20], headingDeg: 0, occupied: false }, { id: 'far-car', definition: 'car', position: [650, 0], headingDeg: 90, occupied: false }],
+  anchors: gameplay.anchors.map(a => ({ ...a, position: a.kind === 'hospital' ? [-40, 40] : [-40, -40] as [number, number] })),
+  police: { ...gameplay.police, patrolSpawns: [{ position: [250, 40], headingDeg: 0 }] },
+};
+function makeStreamedSim(seed = 1, bytes: ReadonlyMap<string, Uint8Array> = stripBytes): Simulation {
+  const w = StaticWorld.fromBytes(stripTerrain, roads, stripGameplay);
+  w.enableStreaming(strip, id => bytes.get(id));
+  return new Simulation(w, { seed });
+}
+const resident = (sim: Simulation): string[] => sim.world.residentCells().sort();
+const sprintEast = cmd({ moveZ: 1, yaw: Math.PI / 2, buttons: Button.sprint });
+
+test('a streamed world starts with exactly the cells a loader fetches first', () => {
+  const sim = makeStreamedSim();
+  assert.deepEqual(resident(sim), ['s0', 's1', 's2', 's5']);
+  assert.deepEqual(initialCollisionCells(strip, new RoadIndex(roads), stripGameplay).sort(), resident(sim));
+});
+
+test('collision is inserted ahead of a sprinting player, kept under parked cars and released behind', () => {
+  const sim = makeStreamedSim();
+  for (let i = 0; i < 60; i++) sim.step(NEUTRAL);
+  const far = sim.vehicles.get('far-car')!, farY = far.position[1];
+  let lowest = Infinity, insertedS4At = -1;
+  for (let i = 0; i < 6000 && sim.player.position[0] < 420; i++) {
+    sim.step(sprintEast);
+    if (i > 30) lowest = Math.min(lowest, sim.player.position[1]);
+    if (insertedS4At < 0 && resident(sim).includes('s4')) insertedS4At = i;
+  }
+  assert.ok(sim.player.position[0] >= 420, `sprinted to x ${sim.player.position[0]}`);
+  assert.ok(lowest > -0.05, `feet never dropped to the fallback heightfield (lowest ${lowest})`);
+  assert.ok(insertedS4At > 0, 's4 was inserted on the way');
+  assert.deepEqual(resident(sim), ['s0', 's2', 's3', 's4', 's5'], 's1 is beyond every keep ring; pins and the far car keep s0, s2 and s5');
+  assert.ok(Math.abs(far.position[1] - farY) < 0.05, `the far parked car stayed on its ground (${farY} -> ${far.position[1]})`);
+  // Death far from the hospital: the pinned anchor gives real ground, not the fallback heightfield.
+  sim.player.takeDamage(500);
+  sim.step(NEUTRAL);
+  assert.equal(sim.mode, 'wasted');
+  for (let i = 0; i < sim.options.screenTicks + 30; i++) sim.step(NEUTRAL);
+  assert.equal(sim.mode, 'onFoot');
+  assert.ok(Math.hypot(sim.player.position[0] + 40, sim.player.position[2] - 40) < 1 && Math.abs(sim.player.position[1]) < 0.05 && sim.player.grounded,
+    `respawned at ${sim.player.position.join(',')}`);
+});
+
+test('a drop-in inserts the destination at once and the player lands on it after one held step', () => {
+  const sim = makeStreamedSim();
+  for (let i = 0; i < 10; i++) sim.step(NEUTRAL);
+  sim.dropIn([420, 0, 0], 0);
+  assert.ok(resident(sim).includes('s3') && resident(sim).includes('s4'));
+  assert.equal(sim.world.queryable(420, 0), false, 'Rapier queries see new cells only after the next step');
+  sim.step(NEUTRAL);
+  assert.equal(sim.world.queryable(420, 0), true);
+  assert.ok(Math.abs(sim.player.position[1]) < 1e-3, 'held still while the destination registers');
+  for (let i = 0; i < 30; i++) sim.step(NEUTRAL);
+  assert.ok(Math.abs(sim.player.position[1]) < 0.05 && sim.player.grounded, `feet at ${sim.player.position[1]}`);
+});
+
+test('a step whose collision bytes are missing is refused, so the browser must wait for them', () => {
+  const sim = makeStreamedSim(1, new Map([...stripBytes].filter(([id]) => id !== 's3')));
+  let plan = sim.residencyPlan();
+  for (let i = 0; i < 4000 && !plan.insert.includes('s3'); i++) { sim.step(sprintEast); plan = sim.residencyPlan(); }
+  assert.deepEqual(sim.world.unavailable(plan), ['s3']);
+  assert.throws(() => sim.step(sprintEast), /not loaded: s3/);
+});
+
+test('identical command streams give identical hashes and residency in streamed worlds', () => {
+  const a = makeStreamedSim(7), b = makeStreamedSim(7);
+  for (let t = 0; t < 2500; t++) { const c = t % 400 < 300 ? sprintEast : cmd({ moveZ: 1, moveX: 0.4, yaw: Math.PI / 2 }); a.step(c); b.step(c); }
+  assert.equal(a.hash(), b.hash());
+  assert.deepEqual(a.world.residentCells(), b.world.residentCells());
+});
+
+test('a building reaching into a neighbouring square is resident before the player meets it', () => {
+  // s4 (x 448..576) owns a wall standing at x = 200, inside s2's square: buildings cross their owner's square. Measured by
+  // its collision extent s4 is inserted in time and the wall stops the player; measured by its square it would not be.
+  const [x0, x1, z0, z1, h] = [200, 201, -64, 64, 10];
+  const faces = [0, 2, 1, 0, 3, 2, 4, 5, 6, 4, 6, 7, 0, 1, 5, 0, 5, 4, 1, 2, 6, 1, 6, 5, 2, 3, 7, 2, 7, 6, 3, 0, 4, 3, 4, 7];
+  const wall = {
+    id: 'wall', group: 'buildings' as const, ref: null,
+    positions: new Float32Array([x0, 0, z0, x1, 0, z0, x1, 0, z1, x0, 0, z1, x0, h, z0, x1, h, z0, x1, h, z1, x0, h, z1]),
+    // Both windings, so either side of every face collides.
+    indices: new Uint32Array([...faces, ...faces.slice().reverse()]), triangleTags: new Uint16Array(24),
+  };
+  const s4 = strip[4]!.boundsXZ;
+  const bytes = new Map(stripBytes);
+  bytes.set('s4', encodeCollisionBundle({ originId: 't', frame: 'X-east,Y-up,Z-south', cell: 's4', surfaceTags: ['road'] }, [{
+    id: 'g', group: 'ground', ref: null,
+    positions: new Float32Array([s4[0], 0, s4[1], s4[2], 0, s4[1], s4[2], 0, s4[3], s4[0], 0, s4[3]]), indices: new Uint32Array([0, 2, 1, 0, 3, 2]), triangleTags: new Uint16Array([0, 0]),
+  }, wall]));
+  const cells = strip.map(c => ({ id: c.id, collision: { boundsXZ: c.id === 's4' ? [x0, z0, s4[2], s4[3]] : c.boundsXZ } }) as unknown as CellDescriptor);
+  const w = StaticWorld.fromBytes(stripTerrain, roads, stripGameplay);
+  w.enableStreaming(collisionCellRefs(cells)!, id => bytes.get(id));
+  const sim = new Simulation(w, { seed: 1 });
+  let furthest = -Infinity;
+  for (let i = 0; i < 4000; i++) { sim.step(sprintEast); furthest = Math.max(furthest, sim.player.position[0]); }
+  assert.ok(resident(sim).includes('s4'));
+  assert.ok(furthest > 150 && furthest < x0, `the wall at x = ${x0} stopped the player (furthest x ${furthest})`);
+  assert.equal(collisionCellRefs([...cells.slice(1), { id: 'bare', collision: {} } as unknown as CellDescriptor]), null, 'a world without extents does not stream');
+});
+
+test('well-connected lane reach counts equal a breadth-first search from every lane', () => {
+  // Two cycles joined one way, a dead-end tail and a connector to an id that is not a lane.
+  const lane = (id: string, x: number) => ({ id, wayId: 1, name: id, highway: 'residential', surface: 'asphalt', speedLimit: 8, width: 3, from: 'n', to: 'n', points: [[x, 0, 0], [x + 10, 0, 0]] as [number, number, number][], length: 10, index: 0, count: 1 });
+  const ids = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+  const edges = [['a', 'b'], ['b', 'c'], ['c', 'a'], ['c', 'd'], ['d', 'e'], ['e', 'd'], ['e', 'f'], ['g', 'x'], ['a', 'b']];
+  const graph: RoadGraph = { ...roads, lanes: ids.map((id, i) => lane(id, i * 20)), connectors: edges.map(([from, to], i) => ({ id: `k${i}`, node: 'n', from: from!, to: to!, turn: 'straight', points: [[0, 0, 0], [0, 0, 0]], length: 0 })) };
+  const index = new RoadIndex(graph);
+  const bfs = (from: string): number => {
+    const seen = new Set([from]), q = [from];
+    while (q.length) for (const c of index.outgoing.get(q.pop()!) ?? []) if (!seen.has(c.to)) { seen.add(c.to); q.push(c.to); }
+    return seen.size;
+  };
+  assert.deepEqual(reachableCounts(index), ids.map(bfs));
+  assert.deepEqual(wellConnectedLanes(index).lanes.map(l => l.id), ['a', 'b', 'c']);
 });

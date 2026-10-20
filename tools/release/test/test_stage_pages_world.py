@@ -36,6 +36,35 @@ def minimal_glb(document=None):
             + struct.pack('<II', len(binary), 0x004e4942) + binary)
 
 
+def hcol(positions, indices):
+    """An HCOL v2 collision bundle with one collider."""
+    data = struct.pack(f'<{len(positions)}f', *positions)
+    index_offset = len(data)
+    data += struct.pack(f'<{len(indices)}I', *indices)
+    tag_offset = len(data)
+    data += bytes(2 * (len(indices) // 3))
+    header = json.dumps({'colliders': [{
+        'id': 'g', 'group': 'buildings', 'ref': None, 'positions': {'offset': 0, 'count': len(positions)},
+        'indices': {'offset': index_offset, 'count': len(indices)}, 'triangleTags': {'offset': tag_offset, 'count': len(indices) // 3},
+    }]}).encode()
+    header += b'\0' * (-len(header) % 4)
+    return b'HCOL' + struct.pack('<II', 2, len(header)) + header + data
+
+
+def ktx2(width, height, levels, scheme=2):
+    """A KTX2 container laid out like the encoder's: level index, DFD, KVD, then levels smallest first."""
+    dfd, kvd = b'DFD-test', b'KVD-'
+    dfd_offset = 80 + 24 * len(levels)
+    kvd_offset = dfd_offset + len(dfd)
+    cursor, index = kvd_offset + len(kvd), [b''] * len(levels)
+    for level in reversed(range(len(levels))):
+        index[level] = struct.pack('<3Q', cursor, len(levels[level]), 4 * len(levels[level]))
+        cursor += len(levels[level])
+    header = (pages.KTX2_IDENTIFIER + struct.pack('<9I', 0, 1, width, height, 0, 0, 1, len(levels), scheme)
+              + struct.pack('<4I2Q', dfd_offset, len(dfd), kvd_offset, len(kvd), 0, 0))
+    return header + b''.join(index) + dfd + kvd + b''.join(reversed(levels))
+
+
 class PagesWorldTest(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
@@ -294,6 +323,11 @@ class PagesWorldTest(unittest.TestCase):
                 path.unlink()
         (self.output / 'world').rmdir()
 
+    def test_shell_accepts_the_root_service_worker_and_hashed_wasm(self):
+        for name in ['sw.js', 'assets/rapier_wasm3d_bg-Ab12_c.wasm']:
+            (self.output / name).write_bytes(b'public shell')
+        self.assertEqual(self.stage()['status'], 'PASS')
+
     def test_invalid_source_commit_is_refused(self):
         with self.assertRaises(ValueError):
             pages.stage(self.descriptor_path, self.archive_path, self.output, 'main')
@@ -502,6 +536,54 @@ class PagesWorldTest(unittest.TestCase):
             'cells/c0.glb', minimal_glb({'images': [{'uri': '../' + renamed}]}))
         self.build_inputs()
         self.assert_optimized_refused('content-addressed references')
+
+    def test_reduced_textures_must_be_their_source_without_the_top_mip_level(self):
+        textures = self.optimized_textures()
+        levels = [b'level-zero-largest', b'level-one', b'l2']
+        source = ktx2(8, 4, levels)
+        self.payloads.pop(textures[0]['path'])
+        self.manifest['sharedTextures'][0] = source_ref = self.pin_payload(f'textures/{sha(source)}.ktx2', source)
+        self.manifest['cells'][0]['visual']['lod0'] = self.pin_payload(
+            'cells/c0.glb', minimal_glb({'images': [{'uri': '../' + source_ref['path']}]}))
+        original = copy.deepcopy(self.manifest)
+        original_payloads = copy.deepcopy(self.payloads)
+        # Staging succeeds only once per output directory, so the accepted case comes last.
+        cases = [('changed level', ktx2(4, 2, [b'level-onX', b'l2']), source_ref['path']),
+                 ('unhalved size', ktx2(8, 4, levels[1:]), source_ref['path']),
+                 ('other supercompression', ktx2(4, 2, levels[1:], scheme=1), source_ref['path']),
+                 ('png source', ktx2(4, 2, levels[1:]), textures[1]['path']),
+                 ('valid', ktx2(4, 2, levels[1:]), source_ref['path'])]
+        for name, data, source_path in cases:
+            with self.subTest(case=name):
+                self.manifest = copy.deepcopy(original)
+                self.payloads = copy.deepcopy(original_payloads)
+                reduced = self.pin_payload(f'textures-m1/{sha(data)}.ktx2', data)
+                self.manifest['sharedTexturesM1'] = [{**reduced, 'source': source_path}]
+                self.build_inputs()
+                if name == 'valid':
+                    self.assertEqual(self.stage()['status'], 'PASS')
+                else:
+                    self.assert_optimized_refused('reduced texture')
+
+    def test_collision_bounds_must_contain_every_collision_triangle(self):
+        # A wall reaching to x = 200, past its 128 m square; the vertex at 900 is used by no triangle.
+        collision = hcol([0, 0, 0, 200, 0, 0, 200, 10, 64, 900, 0, 900], [0, 1, 2])
+        original = copy.deepcopy(self.manifest)
+        original_payloads = copy.deepcopy(self.payloads)
+        # Staging succeeds only once per output directory, so the accepted case comes last.
+        cases = [('grid square', [0, 0, 128, 128]), ('three numbers', [0, 0, 200]), ('inverted', [200, 0, 0, 64]),
+                 ('valid', [0, 0, 200, 64])]
+        for name, bounds in cases:
+            with self.subTest(case=name):
+                self.manifest = copy.deepcopy(original)
+                self.payloads = copy.deepcopy(original_payloads)
+                self.manifest['cells'][0]['collision'] = {**self.pin_payload('cells/c0.hcol', collision), 'boundsXZ': bounds}
+                self.compress_simulation(self.manifest['cells'][0]['collision'])
+                self.build_inputs()
+                if name == 'valid':
+                    self.assertEqual(self.stage()['status'], 'PASS')
+                else:
+                    self.assert_optimized_refused('boundsXZ')
 
     def test_shared_texture_references_require_the_approved_directory_and_image_extensions(self):
         textures = self.optimized_textures()

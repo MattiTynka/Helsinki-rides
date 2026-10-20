@@ -34,6 +34,109 @@ export function pointAlong(points: readonly Vec3[], s: number): { point: Vec3; t
   return { point: [p[0], p[1], p[2]], tangent: [0, -1] };
 }
 
+/**
+ * Uniform grid over lane segments for nearest-lane queries. A query visits only the segments whose grid cells overlap
+ * the search square, in the original lane/segment order and with the original arithmetic, so it returns exactly the
+ * hit of a linear scan over the same lanes (including ties, which keep the first segment).
+ */
+export class LaneSegmentIndex {
+  private static readonly CELL = 32;
+  private readonly lanes: readonly RoadLane[];
+  private readonly segmentLane: Uint32Array;
+  private readonly segmentPoint: Uint32Array;
+  /** Arc length before each segment, accumulated exactly as the scan does. */
+  private readonly segmentS: Float64Array;
+  private readonly cells = new Map<number, number[]>();
+  private readonly x0: number;
+  private readonly z0: number;
+  private readonly columns: number;
+  private readonly rows: number;
+
+  constructor(lanes: readonly RoadLane[]) {
+    this.lanes = lanes;
+    let count = 0, minX = Infinity, minZ = Infinity, maxX = -Infinity, maxZ = -Infinity;
+    for (const lane of lanes) for (let i = 0; i < lane.points.length; i++) {
+      const p = lane.points[i]!;
+      if (i > 0) count++;
+      minX = Math.min(minX, p[0]); maxX = Math.max(maxX, p[0]); minZ = Math.min(minZ, p[2]); maxZ = Math.max(maxZ, p[2]);
+    }
+    this.segmentLane = new Uint32Array(count);
+    this.segmentPoint = new Uint32Array(count);
+    this.segmentS = new Float64Array(count);
+    const finite = Number.isFinite(minX) && Number.isFinite(maxX) && Number.isFinite(minZ) && Number.isFinite(maxZ);
+    this.x0 = finite ? minX : 0; this.z0 = finite ? minZ : 0;
+    this.columns = finite ? Math.floor((maxX - minX) / LaneSegmentIndex.CELL) + 1 : 0;
+    this.rows = finite ? Math.floor((maxZ - minZ) / LaneSegmentIndex.CELL) + 1 : 0;
+    let k = 0;
+    for (let l = 0; l < lanes.length; l++) {
+      const lane = lanes[l]!;
+      let s = 0;
+      for (let i = 1; i < lane.points.length; i++) {
+        const a = lane.points[i - 1]!, b = lane.points[i]!;
+        const dx = b[0] - a[0], dz = b[2] - a[2];
+        this.segmentLane[k] = l; this.segmentPoint[k] = i; this.segmentS[k] = s;
+        if (finite) {
+          const c0 = this.column(Math.min(a[0], b[0])), c1 = this.column(Math.max(a[0], b[0]));
+          const r0 = this.row(Math.min(a[2], b[2])), r1 = this.row(Math.max(a[2], b[2]));
+          for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
+            const key = r * this.columns + c;
+            let list = this.cells.get(key);
+            if (!list) this.cells.set(key, list = []);
+            list.push(k);
+          }
+        }
+        s += Math.sqrt(dx * dx + dz * dz);
+        k++;
+      }
+    }
+  }
+
+  private column(x: number): number { return Math.min(this.columns - 1, Math.max(0, Math.floor((x - this.x0) / LaneSegmentIndex.CELL))); }
+  private row(z: number): number { return Math.min(this.rows - 1, Math.max(0, Math.floor((z - this.z0) / LaneSegmentIndex.CELL))); }
+
+  /** Nearest lane by XZ distance to its polyline, optionally preferring lanes whose direction matches `heading` (unit XZ). */
+  nearest(x: number, z: number, heading: [number, number] | undefined, maxDistance: number): LaneHit | null {
+    // Pad the square so float rounding at its edge cannot exclude a segment at exactly maxDistance.
+    const reach = maxDistance + 1;
+    let candidates: ArrayLike<number> | null = null;
+    if (this.columns > 0 && Number.isFinite(x) && Number.isFinite(z) && Number.isFinite(reach)) {
+      const c0 = this.column(x - reach), c1 = this.column(x + reach), r0 = this.row(z - reach), r1 = this.row(z + reach);
+      if ((c1 - c0 + 1) * (r1 - r0 + 1) <= 1024 && x + reach >= this.x0 && z + reach >= this.z0
+        && x - reach <= this.x0 + this.columns * LaneSegmentIndex.CELL && z - reach <= this.z0 + this.rows * LaneSegmentIndex.CELL) {
+        const set = new Set<number>();
+        for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) for (const k of this.cells.get(r * this.columns + c) ?? []) set.add(k);
+        candidates = Uint32Array.from(set).sort();
+      } else if ((c1 - c0 + 1) * (r1 - r0 + 1) <= 1024) candidates = [];
+    }
+    let best: LaneHit | null = null;
+    let bestScore = Infinity;
+    const total = candidates ? candidates.length : this.segmentLane.length;
+    for (let j = 0; j < total; j++) {
+      const k = candidates ? candidates[j]! : j;
+      const lane = this.lanes[this.segmentLane[k]!]!, i = this.segmentPoint[k]!, s = this.segmentS[k]!;
+      const a = lane.points[i - 1]!, b = lane.points[i]!;
+      const dx = b[0] - a[0], dz = b[2] - a[2];
+      const len2 = dx * dx + dz * dz;
+      const t = len2 > 0 ? Math.min(1, Math.max(0, ((x - a[0]) * dx + (z - a[2]) * dz) / len2)) : 0;
+      const px = a[0] + dx * t, pz = a[2] + dz * t;
+      const d = Math.hypot(px - x, pz - z);
+      if (d <= maxDistance) {
+        let score = d;
+        if (heading && len2 > 0) {
+          const len = Math.sqrt(len2);
+          const dot = (dx / len) * heading[0] + (dz / len) * heading[1];
+          score += (1 - dot) * 4; // up to 8 m penalty for driving against the lane
+        }
+        if (score < bestScore) {
+          bestScore = score;
+          best = { laneId: lane.id, s: s + Math.sqrt(len2) * t, point: [px, a[1] + (b[1] - a[1]) * t, pz], distance: d };
+        }
+      }
+    }
+    return best;
+  }
+}
+
 export class RoadIndex {
   readonly laneById = new Map<string, RoadLane>();
   readonly connectorById = new Map<string, RoadConnector>();
@@ -41,6 +144,7 @@ export class RoadIndex {
   readonly outgoing = new Map<string, RoadConnector[]>();
   readonly incoming = new Map<string, RoadConnector[]>();
   readonly graph: RoadGraph;
+  private segments: LaneSegmentIndex | null = null;
 
   constructor(graph: RoadGraph) {
     this.graph = graph;
@@ -58,33 +162,8 @@ export class RoadIndex {
 
   /** Nearest lane by XZ distance to its polyline, optionally preferring lanes whose direction matches `heading` (unit XZ). */
   nearestLane(x: number, z: number, heading?: [number, number], maxDistance = 30): LaneHit | null {
-    let best: LaneHit | null = null;
-    let bestScore = Infinity;
-    for (const lane of this.graph.lanes) {
-      let s = 0;
-      for (let i = 1; i < lane.points.length; i++) {
-        const a = lane.points[i - 1]!, b = lane.points[i]!;
-        const dx = b[0] - a[0], dz = b[2] - a[2];
-        const len2 = dx * dx + dz * dz;
-        const t = len2 > 0 ? Math.min(1, Math.max(0, ((x - a[0]) * dx + (z - a[2]) * dz) / len2)) : 0;
-        const px = a[0] + dx * t, pz = a[2] + dz * t;
-        const d = Math.hypot(px - x, pz - z);
-        if (d <= maxDistance) {
-          let score = d;
-          if (heading && len2 > 0) {
-            const len = Math.sqrt(len2);
-            const dot = (dx / len) * heading[0] + (dz / len) * heading[1];
-            score += (1 - dot) * 4; // up to 8 m penalty for driving against the lane
-          }
-          if (score < bestScore) {
-            bestScore = score;
-            best = { laneId: lane.id, s: s + Math.sqrt(len2) * t, point: [px, a[1] + (b[1] - a[1]) * t, pz], distance: d };
-          }
-        }
-        s += Math.sqrt(len2);
-      }
-    }
-    return best;
+    this.segments ??= new LaneSegmentIndex(this.graph.lanes);
+    return this.segments.nearest(x, z, heading, maxDistance);
   }
 
   /**

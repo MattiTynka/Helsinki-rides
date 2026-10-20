@@ -15,6 +15,7 @@ function fixture(captureReplay: boolean) {
       digest() { digests++; return `tick-${tick}`; },
     },
     handleEvents() {},
+    actorModelsReady: () => true,
   };
   return { game: game as unknown as Game, commands, digests: () => digests };
 }

@@ -1,7 +1,7 @@
 // Police (plan section 8): patrol units with a car and one officer each. Units drive the road graph (route
 // following with pure pursuit), pursue directly within sight, box a stopped car in, get out to arrest a player
 // on foot, and fire only when the player is armed at three stars or more. Caps per star from the tuning table.
-import type { LaneHit, RoadLane, Vec3 } from '@helsinki/world-schema';
+import { LaneSegmentIndex, type GameplayBundle, type LaneHit, type RoadIndex, type RoadLane, type Vec3 } from '@helsinki/world-schema';
 import { Character, CHARACTER } from './character.ts';
 import { TICK_HZ } from './commands.ts';
 import { clamp, distanceXZ, normalize, wrapAngle, type V3 } from './math.ts';
@@ -169,6 +169,96 @@ export class PoliceUnit {
   }
 }
 
+interface WellConnected { readonly lanes: readonly RoadLane[]; readonly index: LaneSegmentIndex }
+const wellConnected = new WeakMap<RoadIndex, WellConnected>();
+
+/**
+ * Lanes from which at least 60% of the largest reachable set is reachable, in graph order. The reachable-set sizes are
+ * exact (strongly connected components, then component bitsets in reverse topological order) and computed once per
+ * road index: a breadth-first search from every lane took seconds on the full city graph.
+ */
+export function wellConnectedLanes(roads: RoadIndex): WellConnected {
+  let result = wellConnected.get(roads);
+  if (!result) {
+    const sizes = reachableCounts(roads);
+    const best = Math.max(0, ...sizes);
+    const lanes = roads.graph.lanes.filter((_l, i) => sizes[i]! >= best * 0.6);
+    result = { lanes, index: new LaneSegmentIndex(lanes) };
+    wellConnected.set(roads, result);
+  }
+  return result;
+}
+
+/** For each lane, the number of distinct graph nodes reachable along connectors, itself included. */
+export function reachableCounts(roads: RoadIndex): number[] {
+  const ids = new Map<string, number>();
+  const node = (id: string): number => { let i = ids.get(id); if (i === undefined) ids.set(id, i = ids.size); return i; };
+  for (const lane of roads.graph.lanes) node(lane.id);
+  const edges: number[][] = [];
+  for (const [from, connectors] of roads.outgoing) { const f = node(from); for (const c of connectors) (edges[f] ??= []).push(node(c.to)); }
+  const n = ids.size;
+  // Iterative Tarjan: components complete in reverse topological order (every successor component first).
+  const order = new Int32Array(n).fill(-1), low = new Int32Array(n), component = new Int32Array(n).fill(-1);
+  const stack: number[] = [], onStack = new Uint8Array(n), members: number[][] = [];
+  let counter = 0;
+  for (let root = 0; root < n; root++) {
+    if (order[root] !== -1) continue;
+    const frames: [number, number][] = [[root, 0]];
+    order[root] = low[root] = counter++; stack.push(root); onStack[root] = 1;
+    while (frames.length) {
+      const frame = frames[frames.length - 1]!, v = frame[0], out = edges[v] ?? [];
+      if (frame[1] < out.length) {
+        const w = out[frame[1]++]!;
+        if (order[w] === -1) { order[w] = low[w] = counter++; stack.push(w); onStack[w] = 1; frames.push([w, 0]); }
+        else if (onStack[w]) low[v] = Math.min(low[v]!, order[w]!);
+        continue;
+      }
+      frames.pop();
+      if (frames.length) { const parent = frames[frames.length - 1]![0]; low[parent] = Math.min(low[parent]!, low[v]!); }
+      if (low[v] === order[v]) {
+        const list: number[] = [];
+        let w: number;
+        do { w = stack.pop()!; onStack[w] = 0; component[w] = members.length; list.push(w); } while (w !== v);
+        members.push(list);
+      }
+    }
+  }
+  const words = Math.ceil(members.length / 32);
+  const reach = members.map(() => new Uint32Array(words));
+  const counts = new Float64Array(members.length);
+  for (let c = 0; c < members.length; c++) {
+    const bits = reach[c]!;
+    bits[c >>> 5] = bits[c >>> 5]! | (1 << (c & 31));
+    for (const v of members[c]!) for (const w of edges[v] ?? []) {
+      const d = component[w]!;
+      if (d === c) continue;
+      const other = reach[d]!;
+      for (let i = 0; i < words; i++) bits[i] = bits[i]! | other[i]!;
+    }
+    let total = 0;
+    for (let i = 0; i < words; i++) for (let word = bits[i]!; word !== 0; word = (word & (word - 1)) >>> 0) total += members[(i << 5) + 31 - Math.clz32(word & -word)]!.length;
+    counts[c] = total;
+  }
+  return roads.graph.lanes.map(lane => counts[component[ids.get(lane.id)!]!]!);
+}
+
+/**
+ * Where a patrol starts from a content spawn: snapped to the nearest well-connected lane that runs the way the
+ * content's heading points, so the car starts on a road it can route from and never has to turn round first
+ * (reversing into the Cathedral terrace flipped cars).
+ */
+export function patrolSpawnPlacement(roads: RoadIndex, spawn: GameplayBundle['police']['patrolSpawns'][number]): { xz: [number, number]; yaw: number } {
+  let yaw = headingToYaw(spawn.headingDeg);
+  const dir: [number, number] = [Math.sin(yaw), Math.cos(yaw)];
+  const lane = wellConnectedLanes(roads).index.nearest(spawn.position[0], spawn.position[1], dir, 80) ?? roads.nearestLane(spawn.position[0], spawn.position[1], dir, 40);
+  let xz: [number, number] = [spawn.position[0], spawn.position[1]];
+  if (lane) {
+    xz = [lane.point[0], lane.point[2]];
+    yaw = laneYawAt(roads.laneById.get(lane.laneId)!, lane.s);
+  }
+  return { xz, yaw };
+}
+
 export class PoliceForce {
   readonly sim: Simulation;
   readonly units: PoliceUnit[] = [];
@@ -184,41 +274,13 @@ export class PoliceForce {
 
   constructor(sim: Simulation) {
     this.sim = sim;
-    const roads = sim.world.roads;
-    const reach = (from: string): number => {
-      const seen = new Set<string>([from]);
-      const q = [from];
-      while (q.length) { const id = q.pop()!; for (const c of roads.outgoing.get(id) ?? []) if (!seen.has(c.to)) { seen.add(c.to); q.push(c.to); } }
-      return seen.size;
-    };
-    const sizes = roads.graph.lanes.map(l => reach(l.id));
-    const best = Math.max(0, ...sizes);
-    this.goodLanes = roads.graph.lanes.filter((_l, i) => sizes[i]! >= best * 0.6);
+    this.goodLanes = wellConnectedLanes(sim.world.roads).lanes;
     this.goodLaneIds = new Set(this.goodLanes.map(l => l.id));
   }
 
   /** Nearest well-connected lane to a point, preferring lanes that run along `heading` (unit XZ) when given. */
   nearestGoodLane(x: number, z: number, maxDistance: number, heading?: [number, number]): LaneHit | null {
-    let best: LaneHit | null = null;
-    let bestScore = Infinity;
-    for (const lane of this.goodLanes) {
-      let s = 0;
-      for (let i = 1; i < lane.points.length; i++) {
-        const a = lane.points[i - 1]!, b = lane.points[i]!;
-        const dx = b[0] - a[0], dz = b[2] - a[2];
-        const len2 = dx * dx + dz * dz;
-        const t = len2 > 0 ? clamp(((x - a[0]) * dx + (z - a[2]) * dz) / len2, 0, 1) : 0;
-        const px = a[0] + dx * t, pz = a[2] + dz * t;
-        const d = Math.hypot(px - x, pz - z);
-        if (d <= maxDistance) {
-          let score = d;
-          if (heading && len2 > 0) { const len = Math.sqrt(len2); score += (1 - ((dx / len) * heading[0] + (dz / len) * heading[1])) * 4; } // up to 8 m against the lane
-          if (score < bestScore) { bestScore = score; best = { laneId: lane.id, s: s + Math.sqrt(len2) * t, point: [px, a[1] + (b[1] - a[1]) * t, pz], distance: d }; }
-        }
-        s += Math.sqrt(len2);
-      }
-    }
-    return best;
+    return wellConnectedLanes(this.sim.world.roads).index.nearest(x, z, heading, maxDistance);
   }
 
   states(): PoliceUnitState[] {
@@ -266,17 +328,7 @@ export class PoliceForce {
     const first = this.units.length === 0 && this.sim.wanted.stars === 0 ? pool.find(r => r.i === 0) : undefined;
     const pick = first ?? (pool.length ? this.sim.rng.pick(pool) : ranked[0]);
     if (!pick) return null;
-    // Snap to the nearest well-connected lane that runs the way the content's heading points, so the car starts on a
-    // road it can route from and never has to turn round first (reversing into the Cathedral terrace flipped cars).
-    let yaw = headingToYaw(pick.s.headingDeg);
-    const dir: [number, number] = [Math.sin(yaw), Math.cos(yaw)];
-    const roads = this.sim.world.roads;
-    const lane = this.nearestGoodLane(pick.s.position[0], pick.s.position[1], 80, dir) ?? roads.nearestLane(pick.s.position[0], pick.s.position[1], dir, 40);
-    let xz: [number, number] = [pick.s.position[0], pick.s.position[1]];
-    if (lane) {
-      xz = [lane.point[0], lane.point[2]];
-      yaw = laneYawAt(roads.laneById.get(lane.laneId)!, lane.s);
-    }
+    const { xz, yaw } = patrolSpawnPlacement(this.sim.world.roads, pick.s);
     const id = `police-${++this.serial}`;
     const vehicle = this.sim.spawnVehicle(`${id}-car`, 'patrol', xz, yaw);
     const officer = this.sim.spawnCharacter(`${id}-officer`, [xz[0], vehicle.position[1], xz[1]], yaw, OFFICER_HEALTH);

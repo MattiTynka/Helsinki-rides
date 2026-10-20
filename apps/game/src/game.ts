@@ -1,7 +1,8 @@
 // The game: fixed-step simulation driven by input commands, views synchronised from the sim state every frame
 // (plan section 2 and 15). Nothing in here is simulation logic.
 import * as THREE from 'three';
-import { initPhysics, Simulation, StaticWorld, TICK_SECONDS, NEUTRAL, Button, headingToYaw, encodeCommand, decodeCommand, resolveAimTarget, type Command, type EncodedCommand, type GameEvent, type SimState } from '@helsinki/sim';
+import { initPhysics, Simulation, StaticWorld, TICK_SECONDS, NEUTRAL, Button, headingToYaw, encodeCommand, decodeCommand, resolveAimTarget, groundBelowBundle, type Command, type EncodedCommand, type GameEvent, type SimState, type V3 } from '@helsinki/sim';
+import { parseCollisionBundle } from '@helsinki/world-schema';
 import type { GameConfig, Lighting } from './config.ts';
 import { GameAudio } from './audio/audio.ts';
 import { Input } from './input/input.ts';
@@ -15,17 +16,29 @@ import { VehicleView } from './render/vehicles.ts';
 import { vehicleDoorOpen, vehiclePoses } from './render/native-vehicle-animation.ts';
 import { interpolateState } from './render/interpolation.ts';
 import { Hud, type FrameStats } from './ui/hud.ts';
-import { GlbLoader, loadWorldData, resolveRelease, type Progress, type WorldData } from './world/loader.ts';
+import { GlbLoader, loadWorldData, mark, resolveRelease, type Progress, type WorldData } from './world/loader.ts';
+import { CollisionStream } from './world/collision-stream.ts';
 import { CellVisualStream, missingVisualCoverage, type StreamFocus } from './world/cell-streaming.ts';
 
 const MAX_STEPS_PER_FRAME = 5;
+/** Officer and patrol-car models load after startup; patrols begin at least 150 m from the player. */
+const DEFERRED_ASSETS = new Set(['character-rain', 'vehicle-patrol', 'vehicle-patrol-far-low']);
+/** Police this close to the player can see Finn (90 m) or be shot at (120 m): ticks wait until they have a model. */
+const DEFERRED_MODEL_RANGE = 128;
+const characterAsset = (id: string): string => id.startsWith('police') ? 'character-rain' : 'character-snow';
 declare const __CAPTURE_REPLAY__: boolean;
 
 export interface WorldVisualStreaming {
   readonly detail: CellVisualStream<CellView>;
   readonly fallback: CellVisualStream<CellView>;
-  readonly persistentTextureBytes: number;
+  persistentTextureBytes: number;
   readonly totalTextureBudgetBytes: number;
+  readonly fallbackTextureBudgetBytes: number;
+}
+
+function persistentRoots(assets: AssetLibrary): THREE.Object3D[] {
+  return [...assets.characters.values()].map(a => a.scene)
+    .concat([...assets.vehicles.values()].map(a => a.scene), [...assets.scenery.values()], assets.pistol ? [assets.pistol] : []);
 }
 
 export class Game {
@@ -36,6 +49,8 @@ export class Game {
   readonly loader: GlbLoader;
   readonly assets: AssetLibrary;
   readonly streaming: WorldVisualStreaming | null;
+  /** Streamed collision bytes; null when every cell was loaded at startup (`?collision=all`). */
+  readonly collision: CollisionStream | null;
   readonly cameraRig: ChaseCamera;
   readonly input: Input;
   readonly hud: Hud;
@@ -72,8 +87,14 @@ export class Game {
   private frameStart = 0;
   private running = false;
   readonly visualLoading = { blocked: false, blockedFrames: 0, blockedSeconds: 0, missingCells: [] as string[] };
+  /** Ticks wait while the next step's collision cells (or a drop-in destination's) are still downloading. */
+  readonly collisionLoading = { blocked: false, blockedFrames: 0, blockedSeconds: 0, missingCells: [] as string[], teleporting: false };
+  /** Ticks wait while police near the player have no model yet; `failed` while a failed load waits to be retried. */
+  readonly modelLoading = { blocked: false, blockedFrames: 0, blockedSeconds: 0, failed: false };
+  /** Why the last `stepTicks` stopped early. */
+  private stepBlock: 'collision' | 'models' | null = null;
 
-  private constructor(config: GameConfig, data: WorldData, world: StaticWorld, scene: CityScene, loader: GlbLoader, assets: AssetLibrary, canvas: HTMLCanvasElement, streaming: WorldVisualStreaming | null) {
+  private constructor(config: GameConfig, data: WorldData, world: StaticWorld, scene: CityScene, loader: GlbLoader, assets: AssetLibrary, canvas: HTMLCanvasElement, streaming: WorldVisualStreaming | null, collision: CollisionStream | null) {
     this.config = config;
     this.captureReplay = __CAPTURE_REPLAY__;
     this.data = data;
@@ -82,11 +103,12 @@ export class Game {
     this.loader = loader;
     this.assets = assets;
     this.streaming = streaming;
+    this.collision = collision;
     this.sim = new Simulation(world, { seed: config.seed });
     this.cameraRig = new ChaseCamera(scene.camera);
     this.input = new Input(canvas, config.review);
     this.hud = new Hud(config.hud && !config.review, data.manifest, data.gameplay, data.roads);
-    this.hud.onDropIn = label => this.dropIn(label);
+    this.hud.onDropIn = label => { void this.dropIn(label)?.catch(error => console.error('Drop-in failed', error)); };
     this.audio = new GameAudio(config.audio);
     this.scene.scene.add(this.effects.group);
     this.playerView = new CharacterView(assets, 'character-snow', this.shadowMaterial);
@@ -103,26 +125,28 @@ export class Game {
     const assets = new AssetLibrary();
     let scene!: CityScene, loader!: GlbLoader;
     let assetResult: Promise<{ ok: true } | { ok: false; error: unknown }> = Promise.resolve({ ok: true });
+    mark('helsinki:create');
     const dataReady = loadWorldData(release, progress, undefined, (manifest, base) => {
       const lighting: Lighting = config.lighting ?? (manifest.lighting === 'unlit-facades' ? 'unlit' : 'lit');
       scene = new CityScene(canvas, config.preset, lighting, config.pixelRatioCap);
       loader = new GlbLoader(scene.renderer);
+      if (config.preset === 'low') loader.useReducedTextures(manifest);
       // Observe failures immediately, then propagate them at the joined startup boundary.
-      assetResult = assets.load(loader, base, manifest, config.preset === 'low').then(
+      assetResult = assets.load(loader, base, manifest, config.preset === 'low', asset => !DEFERRED_ASSETS.has(asset.id)).then(
         () => ({ ok: true as const }), error => ({ ok: false as const, error }));
-    });
-    const [data] = await Promise.all([dataReady, initPhysics()]);
-    const world = Game.buildWorld(data);
+    }, config.collision);
+    const [data] = await Promise.all([dataReady, initPhysics().then(() => mark('helsinki:physics-ready'))]);
+    const collision = data.collisionCells ? new CollisionStream(data.base, data.manifest.cells, data.collisionCells, data.collision) : null;
+    const world = Game.buildWorld(data, collision);
     const loaded = await assetResult;
     if (!loaded.ok) throw loaded.error;
+    mark('helsinki:assets-ready');
     progress(1, 1, 'hero assets');
     const hasFallbacks = data.manifest.cells.every(cell => !!cell.visual.lod2);
     if (data.scenery) scene.addScenery(data.scenery, assets.scenery, data.manifest.cellSize, hasFallbacks);
     let streaming: WorldVisualStreaming | null = null;
     if (hasFallbacks) {
-      const persistentRoots = [...assets.characters.values()].map(a => a.scene)
-        .concat([...assets.vehicles.values()].map(a => a.scene), [...assets.scenery.values()], assets.pistol ? [assets.pistol] : []);
-      const persistentTextureBytes = textureBytesOf(persistentRoots);
+      const persistentTextureBytes = textureBytesOf(persistentRoots(assets));
       const totalTextureBudgetBytes = (config.preset === 'low' ? 160 : 320) * 2 ** 20;
       const fallbackBudget = 4 * 2 ** 20;
       const backend = (lod: 'lod0' | 'lod1' | 'lod2') => ({
@@ -143,7 +167,7 @@ export class Game {
         geometryBudgetBytes: (low ? 64 : 96) * 2 ** 20,
         concurrency: 2, level: 'lod2', maxCells: low ? 28 : 42,
       });
-      streaming = { detail, fallback, persistentTextureBytes, totalTextureBudgetBytes };
+      streaming = { detail, fallback, persistentTextureBytes, totalTextureBudgetBytes, fallbackTextureBudgetBytes: fallbackBudget };
       // The fog terminates within the coarse residency ring; outside geometry is not kept hidden in memory.
       scene.scene.fog = new THREE.Fog(0x9fb8d4, low ? 160 : 240, low ? 300 : 420);
       // Fully fogged geometry contributes no visible pixels. Clip it instead of still drawing every
@@ -170,13 +194,40 @@ export class Game {
         progress(++done, data.manifest.cells.length, `cell ${cell.id}`);
       }
     }
-    return new Game(config, data, world, scene, loader, assets, canvas, streaming);
+    mark('helsinki:visuals-ready');
+    const game = new Game(config, data, world, scene, loader, assets, canvas, streaming, collision);
+    mark('helsinki:playable');
+    game.loadDeferredAssets();
+    return game;
   }
 
-  /** Collision world from the release data; manifest order so collider handles match an offline replay. */
-  static buildWorld(data: WorldData): StaticWorld {
+  /**
+   * Officer and patrol models arrive after startup; their textures then come out of the city's texture budget. A failed
+   * load is retried after 2, 4, 8, 16 and then every 30 seconds.
+   */
+  private loadDeferredAssets(attempt = 0): void {
+    this.assets.loadDeferred().then(() => {
+      this.modelLoading.failed = false;
+      mark('helsinki:deferred-assets-ready');
+      const streaming = this.streaming;
+      if (!streaming) return;
+      streaming.persistentTextureBytes = textureBytesOf(persistentRoots(this.assets));
+      streaming.detail.setTextureBudget(streaming.totalTextureBudgetBytes - streaming.persistentTextureBytes - streaming.fallbackTextureBudgetBytes);
+    }, error => {
+      console.error('Police models failed to load; retrying', error);
+      this.modelLoading.failed = true;
+      setTimeout(() => this.loadDeferredAssets(attempt + 1), 1000 * Math.min(30, 2 ** (attempt + 1)));
+    });
+  }
+
+  /**
+   * Collision world from the release data. Streamed: the simulation inserts cells as it moves, exactly as an offline
+   * replay with the same residency rules does. Otherwise every cell in manifest order, so collider handles match.
+   */
+  static buildWorld(data: WorldData, collision: CollisionStream | null): StaticWorld {
     const world = StaticWorld.fromBytes(data.terrain, data.roads, data.gameplay);
-    for (const c of data.manifest.cells) world.addCell(c.id, data.collision.get(c.id)!);
+    if (collision && data.collisionCells) world.enableStreaming(data.collisionCells, id => collision.get(id));
+    else for (const c of data.manifest.cells) world.addCell(c.id, data.collision.get(c.id)!);
     return world;
   }
 
@@ -186,7 +237,7 @@ export class Game {
     this.vehicleViews.clear();
     for (const c of this.characterViews.values()) c.dispose();
     this.characterViews.clear();
-    this.world = Game.buildWorld(this.data);
+    this.world = Game.buildWorld(this.data, this.collision);
     this.sim = new Simulation(this.world, { seed });
     this.commandLog.length = 0;
     this.traceLog.length = 0;
@@ -220,9 +271,15 @@ export class Game {
     return !driving && (command.buttons & (Button.aim | Button.fire)) !== 0 ? { ...command, aimRay: this.cameraRig.aimRay() } : command;
   }
 
-  /** Advance the simulation by whole ticks. */
-  stepTicks(n: number, command?: Command): void {
+  /**
+   * Advance the simulation by whole ticks; returns the ticks stepped, fewer when collision is still downloading or police
+   * near the player are still without a model.
+   */
+  stepTicks(n: number, command?: Command): number {
+    this.stepBlock = null;
     for (let i = 0; i < n; i++) {
+      if (this.collision && !this.collisionReady()) { this.stepBlock = 'collision'; return i; }
+      if (!this.actorModelsReady()) { this.stepBlock = 'models'; return i; }
       // Quantise through the encoding so the browser and a Node replay step bit-identical commands.
       const encoded = encodeCommand(command ?? this.currentCommand());
       if (this.captureReplay) this.commandLog.push(encoded);
@@ -238,6 +295,54 @@ export class Game {
       }
       this.handleEvents(events);
     }
+    return n;
+  }
+
+  /** Whether the next step's collision cells are available; requests the missing ones. */
+  collisionReady(): boolean {
+    if (!this.collision || this.collisionLoading.teleporting) return !this.collisionLoading.teleporting;
+    const missing = this.world.unavailable(this.sim.residencyPlan());
+    this.collisionLoading.missingCells = missing;
+    if (!missing.length) return true;
+    this.collision.request(missing);
+    return false;
+  }
+
+  /** Resolves when the next step can run (inspection harnesses that step many ticks at once). */
+  async collisionLoaded(): Promise<void> {
+    while (this.collision && !this.collisionReady()) {
+      if (this.collisionLoading.missingCells.length) await this.collision.ensure(this.collisionLoading.missingCells);
+      else await new Promise(resolve => setTimeout(resolve, 16));
+    }
+  }
+
+  /**
+   * Whether every police car and officer near the player has its model. Their models load after startup; stepping
+   * without them would let unseen police drive into, arrest or shoot at Finn.
+   */
+  actorModelsReady(): boolean {
+    const [px, , pz] = this.sim.playerPosition;
+    const near = (p: readonly number[]): boolean => Math.hypot(p[0]! - px, p[2]! - pz) <= DEFERRED_MODEL_RANGE;
+    for (const v of this.state.vehicles) {
+      const id = this.sim.definition(v.definition).assetId;
+      if (DEFERRED_ASSETS.has(id) && !this.assets.hasVehicle(id) && near(v.position)) return false;
+    }
+    for (const c of this.state.characters) {
+      const id = characterAsset(c.id);
+      // Seated officers retain their boarding position; their current location follows the vehicle.
+      const position = c.inVehicle ? this.state.vehicles.find(v => v.id === c.inVehicle)?.position ?? c.position : c.position;
+      if (DEFERRED_ASSETS.has(id) && !this.assets.hasCharacter(id) && near(position)) return false;
+    }
+    return true;
+  }
+
+  /** Resolves when `actorModelsReady` (inspection harnesses); a failed load is retried every second. */
+  async actorModelsLoaded(): Promise<void> {
+    while (!this.actorModelsReady()) await this.assets.loadDeferred().catch(() => new Promise(resolve => setTimeout(resolve, 1000)));
+  }
+
+  private modelsWaitingMessage(): string | null {
+    return this.modelLoading.blocked ? this.modelLoading.failed ? 'Could not load the police. Retrying…' : 'Loading the police…' : null;
   }
 
   private handleEvents(events: readonly GameEvent[]): void {
@@ -259,6 +364,7 @@ export class Game {
     this.visualLoading.missingCells = missingCells;
     if (blocked && !this.paused) { this.visualLoading.blockedFrames++; this.visualLoading.blockedSeconds += dt; }
     if (blocked) this.accumulator = 0;
+    let stepBlocked = false;
     if (!this.paused && !blocked) {
       // Mouse look.
       const [dx, dy] = this.input.takeLook();
@@ -267,15 +373,25 @@ export class Game {
       if (this.sim.screen && this.sim.screen.ticks < this.sim.options.screenTicks - 120) this.timeScale = 1;
       this.accumulator += dt * this.timeScale;
       let steps = 0;
-      while (this.accumulator >= TICK_SECONDS && steps < MAX_STEPS_PER_FRAME) { this.stepTicks(1); this.accumulator -= TICK_SECONDS; steps++; }
+      while (this.accumulator >= TICK_SECONDS && steps < MAX_STEPS_PER_FRAME) {
+        if (this.stepTicks(1) === 0) { stepBlocked = true; this.accumulator = 0; break; }
+        this.accumulator -= TICK_SECONDS; steps++;
+      }
       if (steps === MAX_STEPS_PER_FRAME) this.accumulator = 0;
     }
-    this.presentationAlpha = this.paused || blocked ? 1 : this.accumulator / TICK_SECONDS;
+    const collisionBlocked = stepBlocked && this.stepBlock === 'collision', modelBlocked = stepBlocked && this.stepBlock === 'models';
+    this.collisionLoading.blocked = collisionBlocked;
+    if (collisionBlocked) { this.collisionLoading.blockedFrames++; this.collisionLoading.blockedSeconds += dt; }
+    this.modelLoading.blocked = modelBlocked;
+    if (modelBlocked) { this.modelLoading.blockedFrames++; this.modelLoading.blockedSeconds += dt; }
+    const stalled = blocked || stepBlocked;
+    this.presentationAlpha = this.paused || stalled ? 1 : this.accumulator / TICK_SECONDS;
     this.presentationFrameTime = now;
-    const presentation = this.paused || blocked ? this.state : interpolateState(this.previousState, this.state, this.presentationAlpha);
-    this.syncViews(dt, this.paused || blocked ? 0 : dt * this.timeScale, presentation);
+    const presentation = this.paused || stalled ? this.state : interpolateState(this.previousState, this.state, this.presentationAlpha);
+    this.syncViews(dt, this.paused || stalled ? 0 : dt * this.timeScale, presentation);
     this.render();
     const ms = performance.now() - this.frameStart;
+    if (this.config.dynamicResolution && !this.paused) this.scene.adaptResolution(dt, ms);
     this.fpsAcc += dt; this.fpsFrames++;
     if (this.fpsAcc >= 0.5) { this.stats.fps = this.fpsFrames / this.fpsAcc; this.fpsAcc = 0; this.fpsFrames = 0; }
     this.stats.frameMs = this.stats.frameMs * 0.9 + ms * 0.1;
@@ -302,6 +418,7 @@ export class Game {
     for (const v of state.vehicles) {
       seen.add(v.id);
       let view = this.vehicleViews.get(v.id);
+      if (!view && !this.assets.hasVehicle(this.sim.definition(v.definition).assetId)) continue;
       if (!view) { view = new VehicleView(this.assets, v.id, this.sim.definition(v.definition), this.shadowMaterial, this.config.vehicleDetailRange); this.vehicleViews.set(v.id, view); this.scene.scene.add(view.root); }
       const interaction = p.vehicleInteraction?.vehicleId === v.id ? p.vehicleInteraction : null;
       const poses = vehiclePoses(this.sim.definition(v.definition));
@@ -313,7 +430,9 @@ export class Game {
     for (const c of state.characters) {
       seen.add(c.id);
       let view = this.characterViews.get(c.id);
-      if (!view) { view = new CharacterView(this.assets, c.id.startsWith('police') ? 'character-rain' : 'character-snow', this.shadowMaterial); this.characterViews.set(c.id, view); this.scene.scene.add(view.root); }
+      const assetId = characterAsset(c.id);
+      if (!view && !this.assets.hasCharacter(assetId)) continue;
+      if (!view) { view = new CharacterView(this.assets, assetId, this.shadowMaterial); this.characterViews.set(c.id, view); this.scene.scene.add(view.root); }
       view.update(c, characterDt, c.clip === 'aim' || c.clip === 'fire');
       if (c.clip === 'aim' || c.clip === 'fire') {
         // Match the police simulation's torso target, including when Finn is above street level.
@@ -345,21 +464,26 @@ export class Game {
       groundY = new THREE.Vector3(0, upsideDown ? cameraDef.collider.centre[1] + cameraDef.collider.halfExtents[1] : 0, 0).applyQuaternion(q).add(origin).y;
     }
     this.cameraRig.update(state, this.world, cameraDef?.cameraChase ?? null, dt, chaseTarget, focus, groundY);
-    if (this.streaming) {
-      const position = playerVehicle?.position ?? p.position;
+    if (this.streaming || this.collision) {
       const currentVehicle = this.state.vehicles.find(v => v.id === p.inVehicle);
       const current = currentVehicle?.position ?? this.state.player.position;
       const previousVehicle = this.previousState.vehicles.find(v => v.id === p.inVehicle);
       const previous = previousVehicle?.position ?? this.previousState.player.position;
-      const focus: StreamFocus = { x: position[0], z: position[2],
-        velocityX: (current[0] - previous[0]) / TICK_SECONDS, velocityZ: (current[2] - previous[2]) / TICK_SECONDS };
-      this.streaming.fallback.update(focus);
-      this.streaming.detail.update(focus);
-      const failed = this.streaming.fallback.stats().errors.length + this.streaming.detail.stats().errors.length > 0;
-      this.hud.setWorldLoading(this.visualLoading.blocked
-        ? failed ? 'Could not load nearby streets. Retrying…' : 'Loading nearby streets…'
-        : failed ? 'Some nearby buildings could not load. Retrying…' : null);
-    }
+      const velocityX = (current[0] - previous[0]) / TICK_SECONDS, velocityZ = (current[2] - previous[2]) / TICK_SECONDS;
+      this.collision?.update(this.sim.collisionSources(), [velocityX, velocityZ]);
+      const collisionWaiting = this.collisionLoading.blocked || this.collisionLoading.teleporting;
+      const modelsWaiting = this.modelsWaitingMessage();
+      if (this.streaming) {
+        const position = playerVehicle?.position ?? p.position;
+        const focus: StreamFocus = { x: position[0], z: position[2], velocityX, velocityZ };
+        this.streaming.fallback.update(focus);
+        this.streaming.detail.update(focus);
+        const failed = this.streaming.fallback.stats().errors.length + this.streaming.detail.stats().errors.length > 0;
+        this.hud.setWorldLoading(this.visualLoading.blocked || collisionWaiting
+          ? failed ? 'Could not load nearby streets. Retrying…' : 'Loading nearby streets…'
+          : modelsWaiting ?? (failed ? 'Some nearby buildings could not load. Retrying…' : null));
+      } else this.hud.setWorldLoading(collisionWaiting ? 'Loading nearby streets…' : modelsWaiting);
+    } else this.hud.setWorldLoading(this.modelsWaitingMessage());
     this.presentationAimTarget = null;
     if (p.weapon && (p.aiming || p.clip === 'fire')) {
       const ray = this.cameraRig.aimRay();
@@ -373,20 +497,52 @@ export class Game {
 
   // ---- drop-in and scripting ----
 
-  dropIn(label: string): void {
+  dropIn(label: string): void | Promise<void> {
     const g = this.data.gameplay;
     const entry = g.landmarks.find(l => l.label === label) ?? g.addresses.find(a => a.label === label);
     if (!entry) return;
-    this.teleport(entry.position[0], entry.position[1], entry.headingDeg);
+    return this.teleport(entry.position[0], entry.position[1], entry.headingDeg);
   }
 
-  /** Put the player (on foot) at the nearest road point to XZ, facing `headingDeg`. */
-  teleport(x: number, z: number, headingDeg = 0): void {
-    if (this.sim.mode !== 'onFoot') return;
+  /**
+   * Put the player (on foot) at the nearest road point to XZ, facing `headingDeg`. With streamed collision whose
+   * destination bytes are not cached yet, this completes asynchronously and ticks wait meanwhile.
+   */
+  teleport(x: number, z: number, headingDeg = 0): void | Promise<void> {
+    if (this.sim.mode !== 'onFoot' || this.collisionLoading.teleporting) return;
     const lane = this.world.roads.nearestLane(x, z, undefined, 80);
-    const target = lane ? [lane.point[0], lane.point[2]] : [x, z];
-    const g = this.sim.groundPoint(target[0]!, target[1]!);
-    this.sim.player.teleport(g, headingToYaw(headingDeg));
+    const tx = lane ? lane.point[0] : x, tz = lane ? lane.point[2] : z;
+    const collision = this.collision;
+    if (!collision) { this.placePlayer(this.sim.groundPoint(tx, tz), x, z, headingDeg); return; }
+    const missing = (): string[] => [...new Set(this.world.unavailable(this.sim.dropInPlan(tx, tz)).concat(this.world.cellsAt(tx, tz).filter(id => !collision.get(id))))];
+    const finish = (): void => {
+      if (this.sim.mode !== 'onFoot') return;
+      this.placePlayer(this.dropInGround(collision, tx, tz), x, z, headingDeg);
+    };
+    if (!missing().length) { finish(); return; }
+    this.collisionLoading.teleporting = true;
+    return (async () => {
+      try { for (let m = missing(); m.length; m = missing()) await collision.ensure(m); }
+      finally { this.collisionLoading.teleporting = false; }
+      finish();
+    })();
+  }
+
+  /** Ground under a drop-in destination whose collision may not be registered with Rapier yet. */
+  private dropInGround(collision: CollisionStream, x: number, z: number): V3 {
+    if (this.world.queryable(x, z)) return this.sim.groundPoint(x, z);
+    // Mirror the Rapier probe: the highest surface below terrain + 30 m, including the fallback heightfield.
+    const top = this.world.groundHeight(x, z) + 30;
+    let y = this.world.groundHeight(x, z) - 0.4;
+    for (const id of this.world.cellsAt(x, z)) {
+      const h = groundBelowBundle(parseCollisionBundle(collision.get(id)!), x, top, z, 80);
+      if (h !== null) y = Math.max(y, h);
+    }
+    return [x, y, z];
+  }
+
+  private placePlayer(g: V3, x: number, z: number, headingDeg: number): void {
+    this.sim.dropIn(g, headingToYaw(headingDeg));
     // Not a command: logged here so a replay knows a teleport happened after this tick.
     if (this.captureReplay) this.eventLog.push({ tick: this.sim.tick, type: 'dropIn', detail: `${x},${z},${headingDeg}` });
     this.cameraRig.reset(this.sim.player.yaw);

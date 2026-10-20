@@ -91,6 +91,7 @@ export function validateManifestPaths(manifest: WorldManifest): void {
   const references = [manifest.terrain, manifest.roads, manifest.gameplay, ...manifest.assets];
   if (manifest.scenery) references.push(manifest.scenery);
   if (manifest.sharedTextures) references.push(...manifest.sharedTextures);
+  if (manifest.sharedTexturesM1) references.push(...manifest.sharedTexturesM1);
   for (const cell of manifest.cells) {
     references.push(cell.collision, cell.visual.lod0);
     if (cell.visual.lod1) references.push(cell.visual.lod1);

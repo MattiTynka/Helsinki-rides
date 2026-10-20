@@ -5,7 +5,7 @@ import { parseArgs } from 'node:util';
 import path from 'node:path';
 import { chromium } from 'playwright';
 
-const { values } = parseArgs({ options: { url: { type: 'string' }, out: { type: 'string' } } });
+const { values } = parseArgs({ options: { url: { type: 'string' }, out: { type: 'string' }, 'max-startup-mb': { type: 'string' } } });
 if (!values.url || !values.out) throw new Error('--url and a new --out directory are required');
 const url = new URL(values.url);
 if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password
@@ -18,13 +18,15 @@ if (url.hostname === 'mattitynka.github.io' && (url.protocol !== 'https:' || url
 if (existsSync(values.out)) throw new Error('Evidence directories are never overwritten');
 mkdirSync(values.out, { recursive: true });
 const errors = [], failed = [], responses = [], checks = [], captures = [];
-let loadingCredits = [], shortViewport = null;
+let loadingCredits = [], shortViewport = null, startup = null;
 const expectedCellCancellations = [];
 const check = (id, pass, detail) => { checks.push({ id, pass, detail }); console.log(`${pass ? 'PASS' : 'FAIL'} ${id}: ${detail}`); };
 const browser = await chromium.launch({ channel: 'chromium', headless: true,
   args: ['--enable-gpu', '--ignore-gpu-blocklist', '--use-angle=d3d11', '--enable-unsafe-swiftshader', '--autoplay-policy=no-user-gesture-required'] });
 const context = await browser.newContext({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1 });
 const page = await context.newPage();
+// Keep every startup request in Resource Timing (the default buffer holds 250 entries).
+await page.addInitScript(() => performance.setResourceTimingBufferSize(20000));
 const t0 = Date.now();
 let fatal = null;
 try {
@@ -35,6 +37,23 @@ try {
   await page.goto(url.href, { waitUntil: 'load' });
   await page.waitForFunction(() => document.getElementById('loading-text')?.textContent === 'Click to play' || !!window.__HELSINKI_ERROR__, null, { timeout: 300000 });
   check('startup', !await page.evaluate(() => window.__HELSINKI_ERROR__), `ready after ${((Date.now() - t0) / 1000).toFixed(1)} s`);
+  // What "Click to play" cost: bytes per kind of payload (Resource Timing) and the game's startup marks.
+  startup = await page.evaluate(() => {
+    const kind = path => /\.hcol/.test(path) ? 'collision' : /\/terrain\./.test(path) ? 'terrain' : /\/cells\/.*\.glb$/.test(path) ? 'city-models'
+      : /\/textures(?:-m1)?\//.test(path) ? 'city-textures' : /\/world\/.*\/assets\/.*\.glb$/.test(path) ? 'hero-assets' : /\.wasm$/.test(path) ? 'wasm'
+      : /\.js$/.test(path) ? 'javascript' : /\.json$/.test(path) ? 'json' : 'other';
+    const categories = {};
+    for (const entry of performance.getEntriesByType('resource')) {
+      const c = categories[kind(new URL(entry.name).pathname)] ??= { requests: 0, transferBytes: 0, encodedBytes: 0, decodedBytes: 0 };
+      c.requests++; c.transferBytes += entry.transferSize; c.encodedBytes += entry.encodedBodySize; c.decodedBytes += entry.decodedBodySize;
+    }
+    const marks = Object.fromEntries(performance.getEntriesByType('mark').filter(m => m.name.startsWith('helsinki:')).map(m => [m.name, Math.round(m.startTime)]));
+    return { readyMs: Math.round(performance.now()), marks, categories };
+  });
+  const startupBytes = Object.values(startup.categories).reduce((sum, c) => sum + c.encodedBytes, 0);
+  startup.encodedMiB = startupBytes / 2 ** 20;
+  console.log(`startup: ${startup.encodedMiB.toFixed(1)} MiB encoded`, JSON.stringify(Object.fromEntries(Object.entries(startup.categories).map(([k, c]) => [k, `${c.requests} req ${(c.encodedBytes / 2 ** 20).toFixed(1)} MiB`]))));
+  if (values['max-startup-mb']) check('startup-bytes', startupBytes <= Number(values['max-startup-mb']) * 2 ** 20, `${startup.encodedMiB.toFixed(1)} MiB before Click to play (limit ${values['max-startup-mb']} MiB)`);
   assert.equal(await page.locator('#loading-text').textContent(), 'Click to play');
   check('production-capabilities', await page.evaluate(() => typeof window.__HELSINKI_GAME__ === 'undefined'), 'review API absent');
   const info = await page.request.get(new URL('release-info.json', url).href);
@@ -139,7 +158,7 @@ try {
   check('completed', false, error instanceof Error ? error.message : String(error));
   await page.screenshot({ path: path.join(values.out, 'failure.png') }).catch(() => {});
 } finally {
-  writeFileSync(path.join(values.out, 'result.json'), JSON.stringify({ status: checks.every(c => c.pass) && !fatal ? 'PASS' : 'FAIL', url: url.href, browser: browser.version(), checks, loadingCredits, shortViewport, errors, failed, expectedCellCancellations, responses, captures, fatal, appearance: 'CAPTURED_NOT_REVIEWED' }, null, 2) + '\n');
+  writeFileSync(path.join(values.out, 'result.json'), JSON.stringify({ status: checks.every(c => c.pass) && !fatal ? 'PASS' : 'FAIL', url: url.href, browser: browser.version(), checks, startup, loadingCredits, shortViewport, errors, failed, expectedCellCancellations, responses, captures, fatal, appearance: 'CAPTURED_NOT_REVIEWED' }, null, 2) + '\n');
   await context.close(); await browser.close();
 }
 process.exitCode = checks.every(c => c.pass) && !fatal ? 0 : 1;

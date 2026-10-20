@@ -50,7 +50,7 @@ try {
         if (previous?.key === key) previous.count++;
         else runs.push({ key, count: 1, command: decodeCommand(encoded) });
       }
-      await page.evaluate(runs => { const g = window.__HELSINKI_GAME__; for (const run of runs) g.step(run.count, run.command); }, runs);
+      await page.evaluate(async runs => { const g = window.__HELSINKI_GAME__; for (const run of runs) await g.step(run.count, run.command); }, runs);
       tick = end;
     }
     await game.awaitVisuals(page);

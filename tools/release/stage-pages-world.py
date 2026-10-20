@@ -7,9 +7,11 @@ uses tar extraction helpers, follows links, or merges an existing world tree.
 from __future__ import annotations
 
 import argparse
+from array import array
 import gzip
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -41,6 +43,7 @@ ARCHIVE_URL = re.compile(
 SAFE_SEGMENT = re.compile(r'[A-Za-z0-9][A-Za-z0-9._-]*\Z')
 RUNTIME_EXTENSIONS = frozenset({'.glb', '.hcol', '.bin', '.json', '.ktx2', '.png'})
 MAX_SIMULATION_BYTES = 64 * 1024 * 1024
+KTX2_IDENTIFIER = bytes([0xab, 0x4b, 0x54, 0x58, 0x20, 0x32, 0x30, 0xbb, 0x0d, 0x0a, 0x1a, 0x0a])
 PUBLICATION_EXTENSIONS = frozenset({'.json', '.md', '.txt'})
 SHELL_ASSET = re.compile(r'assets/[A-Za-z0-9][A-Za-z0-9_-]*\.(?:js|css|wasm)\Z')
 # The GT40-derived Kaamos model has no redistribution permission. Check runtime identities
@@ -353,6 +356,12 @@ def _validate_optimized_payloads(world: Path, manifest: dict[str, Any], refs: di
     for name in refs:
         if name.endswith('.gz') and _runtime_path(name) and name not in compressed_paths:
             raise ValueError('compressed runtime payload is not a declared simulation input')
+    for cell in manifest['cells']:
+        ref = cell['collision']
+        if 'boundsXZ' in ref:
+            # Decoded sizes were checked above, so the payload fits its declared limit.
+            stored = (world / ref['path']).read_bytes()
+            _verify_collision_bounds(gzip.decompress(stored) if ref.get('compression') == 'gzip' else stored, ref['boundsXZ'])
     textures = manifest.get('sharedTextures', [])
     if not isinstance(textures, list):
         raise ValueError('sharedTextures must be an array')
@@ -364,6 +373,21 @@ def _validate_optimized_payloads(world: Path, manifest: dict[str, Any], refs: di
         if name in texture_paths or name not in refs or Path(name).stem != ref.get('sha256'):
             raise ValueError('shared textures must have unique content-addressed references')
         texture_paths.add(name)
+    reduced = manifest.get('sharedTexturesM1', [])
+    if not isinstance(reduced, list):
+        raise ValueError('sharedTexturesM1 must be an array')
+    reduced_sources = set()
+    for ref in reduced:
+        name = ref.get('path') if isinstance(ref, dict) else None
+        source = ref.get('source') if isinstance(ref, dict) else None
+        if not isinstance(name, str) or re.fullmatch(r'textures-m1/[0-9a-f]{64}\.ktx2', name) is None:
+            raise ValueError('invalid reduced texture reference')
+        if name not in refs or Path(name).stem != ref.get('sha256') or source not in texture_paths or source in reduced_sources:
+            raise ValueError('reduced textures must be unique content-addressed copies of shared KTX2 textures')
+        if not isinstance(source, str) or not source.endswith('.ktx2'):
+            raise ValueError('reduced texture source must be a shared KTX2 texture')
+        _verify_reduced_texture((world / name).read_bytes(), (world / source).read_bytes())
+        reduced_sources.add(source)
     used = set()
     glbs = {ref['path'] for cell in manifest['cells'] for ref in cell['visual'].values()}
     glbs.update(asset['path'] for asset in manifest['assets'])
@@ -394,6 +418,83 @@ def _validate_optimized_payloads(world: Path, manifest: dict[str, Any], refs: di
         raise ValueError('shared texture inventory does not match GLB dependencies')
 
 
+def _ktx2_layout(data: bytes) -> tuple[bytes, int, int, int, bytes, bytes, list[tuple[bytes, int]]]:
+    if len(data) < 80 or data[:12] != KTX2_IDENTIFIER:
+        raise ValueError('reduced texture comparison requires KTX2 files')
+    width, height, _depth, _layers, _faces, count, scheme = struct.unpack_from('<7I', data, 20)
+    dfd_offset, dfd_length, kvd_offset, kvd_length = struct.unpack_from('<4I', data, 48)
+    if count < 1 or len(data) < 80 + 24 * count:
+        raise ValueError('invalid KTX2 level index')
+    levels = []
+    for index in range(count):
+        offset, length, uncompressed = struct.unpack_from('<3Q', data, 80 + 24 * index)
+        if offset + length > len(data):
+            raise ValueError('KTX2 level exceeds its file')
+        levels.append((data[offset:offset + length], uncompressed))
+    if dfd_offset + dfd_length > len(data) or kvd_offset + kvd_length > len(data):
+        raise ValueError('KTX2 descriptor exceeds its file')
+    descriptor = (data[dfd_offset:dfd_offset + dfd_length], data[kvd_offset:kvd_offset + kvd_length])
+    return data[12:20], width, height, scheme, descriptor[0], descriptor[1], levels
+
+
+def _verify_reduced_texture(reduced: bytes, source: bytes) -> None:
+    """A low-preset texture is its source without the top mip level; every remaining level is byte-identical."""
+    small, large = _ktx2_layout(reduced), _ktx2_layout(source)
+    if small[0] != large[0] or small[3] != large[3] or small[3] != 2 or small[4:6] != large[4:6]:
+        raise ValueError('reduced texture changes its format, supercompression or descriptors')
+    if (small[1], small[2]) != (max(1, large[1] >> 1), max(1, large[2] >> 1)) or small[6] != large[6][1:]:
+        raise ValueError('reduced texture is not its source without the top mip level')
+    stored = 80 + 24 * len(small[6]) + len(small[4]) + len(small[5]) + sum(len(level) for level, _ in small[6])
+    if stored != len(reduced):
+        raise ValueError('reduced texture contains unexplained bytes')
+
+
+def _hcol_view(data: bytes, base: int, view: Any, code: str) -> array:
+    values = array(code)
+    if not isinstance(view, dict) or values.itemsize != 4:
+        raise ValueError('invalid collision bundle view')
+    offset, count = view.get('offset'), view.get('count')
+    if type(offset) is not int or type(count) is not int or offset < 0 or count < 0 or base + offset + 4 * count > len(data):
+        raise ValueError('collision bundle view exceeds its payload')
+    values.frombytes(data[base + offset:base + offset + 4 * count])
+    if sys.byteorder != 'little':
+        values.byteswap()
+    return values
+
+
+def _verify_collision_bounds(data: bytes, bounds: Any) -> None:
+    """Streaming residency measures a cell by its recorded collision extent, so it must contain every triangle."""
+    if not isinstance(bounds, list) or len(bounds) != 4 or any(
+            type(value) not in (int, float) or not math.isfinite(value) for value in bounds) \
+            or bounds[0] > bounds[2] or bounds[1] > bounds[3]:
+        raise ValueError('collision boundsXZ must be [x0, z0, x1, z1]')
+    if len(data) < 12 or data[:4] != b'HCOL':
+        raise ValueError('collision bounds require an HCOL collision payload')
+    version, header_length = struct.unpack_from('<II', data, 4)
+    if version != 2 or 12 + header_length > len(data):
+        raise ValueError('unsupported or truncated HCOL collision payload')
+    header = _json(data[12:12 + header_length].rstrip(b'\0'))
+    colliders = header.get('colliders') if isinstance(header, dict) else None
+    if not isinstance(colliders, list) or not all(isinstance(collider, dict) for collider in colliders):
+        raise ValueError('collision payload has no collider list')
+    x0, z0, x1, z1 = bounds
+    for collider in colliders:
+        positions = _hcol_view(data, 12 + header_length, collider.get('positions'), 'f')
+        indices = _hcol_view(data, 12 + header_length, collider.get('indices'), 'I')
+        if not indices:
+            continue
+        xs, zs = positions[0::3], positions[2::3]
+        if xs and x0 <= min(xs) and max(xs) <= x1 and z0 <= min(zs) and max(zs) <= z1:
+            continue
+        # Some vertex lies outside: every vertex a triangle uses must still be inside (NaN never is).
+        for index in indices:
+            if 3 * index + 2 >= len(positions):
+                raise ValueError('collision index exceeds its vertices')
+            x, z = positions[3 * index], positions[3 * index + 2]
+            if not (x0 <= x <= x1 and z0 <= z <= z1):
+                raise ValueError('collision geometry extends beyond its recorded boundsXZ')
+
+
 def _shell_inventory(output: Path) -> tuple[list[str], int]:
     if output.is_symlink() or not output.is_dir():
         raise ValueError('Pages output must be an existing regular directory')
@@ -407,7 +508,7 @@ def _shell_inventory(output: Path) -> tuple[list[str], int]:
         for name in files:
             path = Path(directory) / name
             relative = path.relative_to(output).as_posix()
-            if relative not in {'index.html', 'basis/basis_transcoder.js', 'basis/basis_transcoder.wasm'} and SHELL_ASSET.fullmatch(relative) is None:
+            if relative not in {'index.html', 'sw.js', 'basis/basis_transcoder.js', 'basis/basis_transcoder.wasm'} and SHELL_ASSET.fullmatch(relative) is None:
                 raise ValueError('Pages output contains an unexpected, source, or review file')
             if not path.is_file():
                 raise ValueError('Pages output must contain only regular files')

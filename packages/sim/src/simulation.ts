@@ -13,6 +13,7 @@ import { resolveAimDirection } from './aim.ts';
 import { SafeSpawns } from './safe-spawn.ts';
 import { VEHICLE_INTERACTION, vehicleApproachRoute, vehicleInteractionOf, vehicleDoorClearance, vehicleExitClearance, vehicleExitClips, vehicleExitRoute, vehicleExitYaw, vehiclePosture, type VehicleClip, type VehicleInteractionState } from './vehicle-interaction.ts';
 import { RAPIER, type StaticWorld } from './world.ts';
+import { initialResidencySources, RESIDENCY, source, type ResidencyPlan, type ResidencySource } from './collision-residency.ts';
 
 export type PlayerMode = 'onFoot' | 'entering' | 'driving' | 'exiting' | 'wasted' | 'busted';
 
@@ -155,6 +156,8 @@ export class Simulation {
   private characterSerial = 0;
   private jumpWasDown = false;
   private jumpPressed = false;
+  /** Steps the player holds still after a drop-in, while Rapier registers the destination's collision. */
+  private settleTicks = 0;
   private readonly safeSpawns: SafeSpawns;
 
   constructor(world: StaticWorld, options: SimOptions) {
@@ -166,9 +169,12 @@ export class Simulation {
     for (const d of this.gameplay.vehicleDefinitions) this.defs.set(d.id, d);
     for (const w of this.gameplay.weapons) this.weaponDefs.set(w.id, w);
     this.wanted = new WantedState(this.gameplay.wanted);
+    // A streamed world inserts the start's collision first (the loader fetched exactly these cells).
+    if (world.streamed) world.applyResidency(world.planResidency(initialResidencySources(this.gameplay), Infinity));
     // Rapier's query broadphase is empty until its first step. Prime the static world
     // before validating any spawn and before adding characters or dynamic cars.
     this.world.physics.step();
+    this.world.markStepped();
     this.safeSpawns = new SafeSpawns(world);
     const spawn = this.gameplay.player.spawn;
     const start = this.safeSpawns.character(spawn.position[0], spawn.position[1], headingToYaw(spawn.headingDeg));
@@ -287,11 +293,44 @@ export class Simulation {
 
   // ---- main loop ----
 
+  /** Collision cells the next step inserts and removes (streamed worlds); a caller must have the inserted cells' bytes. */
+  residencyPlan(): ResidencyPlan {
+    return this.world.planResidency(this.collisionSources());
+  }
+
+  /** Residency sources: the player (and, during Wasted / Busted, the respawn anchor), every car and officer on foot. */
+  collisionSources(): ResidencySource[] {
+    const p = this.playerPosition;
+    const sources = [source(p[0], p[2], RESIDENCY.player)];
+    if (this.screen) sources.push(source(this.screen.anchor.position[0], this.screen.anchor.position[1], RESIDENCY.player));
+    for (const v of this.vehicles.values()) sources.push(source(v.position[0], v.position[2], RESIDENCY.actor));
+    for (const c of this.characters.values()) if (!c.inVehicle) sources.push(source(c.position[0], c.position[2], RESIDENCY.actor));
+    return sources;
+  }
+
+  /**
+   * Out-of-band relocation of the player on foot (the drop-in menu, not a command, so not replayable). A streamed
+   * world inserts the destination's collision now; the player then holds still for one step while Rapier registers it.
+   */
+  dropIn(position: V3, yaw: number): void {
+    if (this.world.streamed) {
+      this.world.applyResidency(this.dropInPlan(position[0], position[2]));
+      this.settleTicks = 1;
+    }
+    this.player.teleport(position, yaw);
+  }
+
+  /** Every cell a drop-in at XZ inserts at once, including the rings ahead of need. */
+  dropInPlan(x: number, z: number): ResidencyPlan {
+    return this.world.planResidency([source(x, z, RESIDENCY.player), ...this.collisionSources()], Infinity);
+  }
+
   step(command: Command): GameEvent[] {
     this.tick++;
     this.events = [];
     this.shots = [];
     this.lastCommand = command;
+    if (this.world.streamed) this.world.applyResidency(this.residencyPlan());
     this.jumpPressed = has(command.buttons, Button.jump) && !this.jumpWasDown;
     this.jumpWasDown = has(command.buttons, Button.jump);
     this.inventory.step();
@@ -315,6 +354,7 @@ export class Simulation {
     for (const c of this.characters.values()) if (!c.inVehicle && (c.alive || !c.grounded)) c.move(this.world, c.alive ? c.desiredVx : 0, c.alive ? c.desiredVz : 0);
 
     this.world.physics.step(this.eventQueue);
+    this.world.markStepped();
     this.drainContacts();
 
     if (this.playerVehicle) this.followVehicle();
@@ -362,8 +402,10 @@ export class Simulation {
       const jump = p.requestJump();
       if (jump) this.emit(jump === 'super' ? 'superJump' : 'jump');
     }
-    p.move(this.world, vx, vz);
-    if (!climbing && (vx !== 0 || vz !== 0) && p.tryGrabLedge(this.world, vx, vz)) this.emit('climb');
+    const settling = this.settleTicks > 0;
+    if (settling) this.settleTicks--;
+    else p.move(this.world, vx, vz);
+    if (!settling && !climbing && (vx !== 0 || vz !== 0) && p.tryGrabLedge(this.world, vx, vz)) this.emit('climb');
     // Reload / fire.
     const handsFree = p.jumpPhase !== 'climb';
     if (handsFree && has(command.buttons, Button.reload)) this.inventory.startReload();
