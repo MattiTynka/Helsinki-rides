@@ -17,6 +17,11 @@ export interface SimulationFileRef extends FileRef {
   readonly decodedSha256?: string;
 }
 
+/** A shared KTX2 texture without its top mip level; every remaining level is byte-identical to `source`'s. */
+export interface ReducedTextureRef extends FileRef {
+  readonly source: string;
+}
+
 export interface SourceRecord {
   readonly id: string;
   readonly title: string;
@@ -64,7 +69,11 @@ export interface CellDescriptor {
   /** Runtime XZ bounds [x0, z0, x1, z1], half-open. */
   readonly boundsXZ: [number, number, number, number];
   readonly visual: { readonly lod0: VisualLod; readonly lod1?: VisualLod; readonly lod2?: VisualLod };
-  readonly collision: SimulationFileRef & { readonly triangles: number };
+  readonly collision: SimulationFileRef & {
+    readonly triangles: number;
+    /** XZ extent [x0, z0, x1, z1] of every collider in the bundle; a building can reach far past `boundsXZ`. */
+    readonly boundsXZ?: readonly [number, number, number, number];
+  };
   readonly buildingIds: readonly string[];
   readonly buildings: readonly BuildingRecord[];
   readonly sourceTiles: readonly string[];
@@ -95,6 +104,8 @@ export interface WorldManifest {
   })[];
   /** Content-addressed images referenced by cell GLBs; loaded only when a cell needs them. */
   readonly sharedTextures?: readonly FileRef[];
+  /** Low-preset copies of large shared KTX2 textures at half resolution, used in place of their `source`. */
+  readonly sharedTexturesM1?: readonly ReducedTextureRef[];
   /** Instanced scenery (trees; decision 0006): a SceneryDocument whose instances name nodes of `scenery` assets. */
   readonly scenery?: FileRef;
   readonly simulation: { readonly engine: string; readonly version: string; readonly tickHz: number };

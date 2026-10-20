@@ -1,6 +1,7 @@
 export * from './commands.ts';
 export * from './math.ts';
 export * from './world.ts';
+export * from './collision-residency.ts';
 export * from './vehicle.ts';
 export * from './character.ts';
 export * from './wanted.ts';

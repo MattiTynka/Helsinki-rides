@@ -37,7 +37,8 @@ const sourceFiles = ['apps/game/src/game.ts', 'apps/game/src/testapi.ts', 'apps/
   'apps/game/src/world/loader.ts', 'apps/game/src/render/scene.ts', 'apps/game/src/render/assets.ts',
   'apps/game/src/render/cell-resources.ts', 'apps/game/src/world/owned-ktx2-loader.ts',
   'apps/game/src/render/upload-queue.ts', 'apps/game/src/world/payload.ts',
-  'apps/game/src/world/startup-queue.ts', 'packages/world-schema/src/payload.ts'];
+  'apps/game/src/world/startup-queue.ts', 'apps/game/src/world/collision-stream.ts', 'packages/world-schema/src/payload.ts',
+  'packages/sim/src/collision-residency.ts', 'packages/sim/src/world.ts'];
 const sourceHashes = Object.fromEntries(sourceFiles.filter(file => fs.existsSync(path.join(root, file)))
   .map(file => [file, sha(fs.readFileSync(path.join(root, file)))]));
 const low = values.preset === 'low';

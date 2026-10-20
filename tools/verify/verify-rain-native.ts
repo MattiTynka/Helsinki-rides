@@ -101,12 +101,13 @@ async function uniformSide(label: string, side: 1 | -1, s: SimState): Promise<Si
   const standOff = side < 0 ? 3 : 1.5;
   // Keep teleport, actual road-snapped position, and camera setup in one task so
   // a paused RAF cannot initialise the chase camera between these operations.
-  const framed = await page.evaluate(({ x, z, target, alive, neutral }) => {
+  const framed = await page.evaluate(async ({ x, z, target, alive, neutral }) => {
     const api = (window as InspectionWindow).__HELSINKI_GAME__;
-    api.teleport(x, z);
+    // Both resolve without leaving this task when the destination's collision cells are already loaded.
+    await api.teleport(x, z);
     const actual = api.state().player.position;
     api.setCamera(Math.atan2(target[0]! - actual[0], target[2]! - actual[2]) + .6, alive ? -.08 : -.28);
-    const state = api.step(0, neutral);
+    const state = await api.step(0, neutral);
     return { state, camera: api.presentation().camera.position };
   }, { x: c.position[0] + forward[0]! * side * standOff, z: c.position[2] + forward[1]! * side * standOff,
     target: c.position, alive: c.alive, neutral: NEUTRAL });

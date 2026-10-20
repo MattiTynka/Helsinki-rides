@@ -37,6 +37,9 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #0b0e14; fon
 .loading-bar { height: 8px; background: #22293a; border-radius: 4px; overflow: hidden; }
 #loading-fill { height: 100%; width: 0; background: #7fb2ff; transition: width 150ms linear; }
 #loading-hint { margin-top: 16px; font-size: 13px; opacity: 0.7; line-height: 1.5; }
+.graphics { display: inline-flex; gap: 8px; align-items: center; margin-top: 14px; font-size: 13px; color: #c5d0e1; cursor: default; }
+.graphics select { font: inherit; color: #ecf2fc; background: #22293a; border: 1px solid #354056; border-radius: 4px; padding: 3px 6px; cursor: pointer; }
+.graphics select:focus-visible { outline: 2px solid #a9d1ff; outline-offset: 2px; }
 .loading-credits { margin-top: 24px; padding-top: 18px; border-top: 1px solid #354056; text-align: left; font-size: 13px; line-height: 1.55; color: #c5d0e1; cursor: default; overflow-wrap: anywhere; }
 .loading-credits h2 { margin: 0 0 12px; font-size: 16px; color: var(--hud); }
 .loading-credits ul { margin: 0; padding-left: 20px; }

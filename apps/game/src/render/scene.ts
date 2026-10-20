@@ -48,12 +48,18 @@ export class CityScene {
   lighting: Lighting;
   readonly preset: Preset;
   private readonly uploads = new UploadQueue();
+  private readonly maxPixelRatio: number;
+  private renderScale = 1;
+  private slowSeconds = 0;
+  private fastSeconds = 0;
+  private raiseCooldown = 0;
 
   constructor(canvas: HTMLCanvasElement, preset: Preset, lighting: Lighting, pixelRatioCap: number) {
     this.preset = preset;
     this.lighting = lighting;
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: preset !== 'low', powerPreference: 'high-performance', stencil: false });
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, pixelRatioCap));
+    this.maxPixelRatio = Math.min(devicePixelRatio, pixelRatioCap);
+    this.renderer.setPixelRatio(this.maxPixelRatio);
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.NoToneMapping;
     this.renderer.shadowMap.enabled = false;
@@ -67,6 +73,34 @@ export class CityScene {
     this.scene.add(this.sun);
     this.sky = new THREE.HemisphereLight(0xcfe0f5, 0x6b6558, lighting === 'lit' ? 1.3 : 0.0);
     this.scene.add(this.sky);
+    this.resize();
+  }
+
+  /**
+   * Dynamic resolution. Frames that stay slow while their CPU part is short (a fill-rate bound GPU) lower the
+   * drawing-buffer pixel ratio in steps to 60% of the configured cap; a long run of full-rate frames raises it again.
+   * A display-limited 60 Hz frame never lowers it.
+   */
+  adaptResolution(intervalSeconds: number, cpuMs: number): void {
+    const interval = intervalSeconds * 1000;
+    if (!(interval > 0) || interval > 100) return; // paused, hidden or stalled: not a GPU measurement
+    this.raiseCooldown = Math.max(0, this.raiseCooldown - intervalSeconds);
+    if (interval > 22 && cpuMs < interval * 0.6) { this.slowSeconds += intervalSeconds; this.fastSeconds = 0; }
+    else if (interval < 18) { this.fastSeconds += intervalSeconds; this.slowSeconds = 0; }
+    else { this.slowSeconds = Math.max(0, this.slowSeconds - intervalSeconds); this.fastSeconds = 0; }
+    if (this.slowSeconds > 1.5 && this.renderScale > 0.6) {
+      this.setRenderScale(Math.max(0.6, this.renderScale - 0.15));
+      this.raiseCooldown = 20;
+    } else if (this.fastSeconds > 4 && this.raiseCooldown === 0 && this.renderScale < 1) this.setRenderScale(Math.min(1, this.renderScale + 0.1));
+  }
+
+  get resolutionScale(): number { return this.renderScale; }
+
+  private setRenderScale(scale: number): void {
+    this.renderScale = scale;
+    this.slowSeconds = 0;
+    this.fastSeconds = 0;
+    this.renderer.setPixelRatio(this.maxPixelRatio * scale);
     this.resize();
   }
 

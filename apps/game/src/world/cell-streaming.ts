@@ -126,7 +126,7 @@ export class CellVisualStream<T extends CellResource> {
   private readonly now: () => number;
   private readonly cells: readonly CellDescriptor[];
   private readonly backend: CellStreamBackend<T>;
-  private readonly options: CellStreamOptions;
+  private options: CellStreamOptions;
 
   constructor(cells: readonly CellDescriptor[], backend: CellStreamBackend<T>, options: CellStreamOptions) {
     if (!(options.textureBudgetBytes > 0)) throw new Error('No visual texture budget remains after persistent assets');
@@ -134,6 +134,14 @@ export class CellVisualStream<T extends CellResource> {
     this.backend = backend;
     this.options = options;
     this.now = options.now ?? (() => performance.now());
+  }
+
+  /** Persistent assets loaded after startup reduce the texture budget; resident cells above it are evicted. */
+  setTextureBudget(bytes: number): void {
+    if (!(bytes > 0)) throw new Error('No visual texture budget remains after persistent assets');
+    this.options = { ...this.options, textureBudgetBytes: bytes };
+    this.reselect();
+    this.pump();
   }
 
   update(focus: StreamFocus): void {

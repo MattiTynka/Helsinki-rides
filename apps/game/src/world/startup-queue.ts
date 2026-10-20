@@ -11,3 +11,18 @@ export async function runStartupJobs(jobs: readonly (() => Promise<void>)[]): Pr
     }
   }));
 }
+
+/** Bounded request slots; after `close` (a failed startup), queued requests do not start. */
+export function requestSlots(count: number): (<T>(job: () => Promise<T>) => Promise<T>) & { close(): void } {
+  let active = 0, closed = false;
+  const waiting: (() => void)[] = [];
+  const run = <T>(job: () => Promise<T>): Promise<T> => new Promise<T>((resolve, reject) => {
+    const begin = (): void => {
+      if (closed) { reject(new Error('startup cancelled')); return; }
+      active++;
+      job().then(resolve, reject).finally(() => { active--; waiting.shift()?.(); });
+    };
+    if (active < count) begin(); else waiting.push(begin);
+  });
+  return Object.assign(run, { close: () => { closed = true; for (const begin of waiting.splice(0)) begin(); } });
+}

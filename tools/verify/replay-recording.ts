@@ -4,24 +4,26 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
-import { decodeCommand, initPhysics, Simulation, StaticWorld, type EncodedCommand } from '../../packages/sim/src/index.ts';
+import { decodeCommand, initPhysics, Simulation, type EncodedCommand } from '../../packages/sim/src/index.ts';
 import type { WorldManifest } from '../../packages/world-schema/src/index.ts';
-import { readSimulationPayload } from './lib/simulation-payload.ts';
+import { readSimulationPayload, replayWorld } from './lib/simulation-payload.ts';
 
 const { values } = parseArgs({ options: { release: { type: 'string' }, recording: { type: 'string' } } });
 if (!values.release || !values.recording) throw new Error('--release and --recording are required');
 
 const manifest = JSON.parse(readFileSync(path.join(values.release, 'manifest.json'), 'utf8')) as WorldManifest;
-const rec = JSON.parse(readFileSync(values.recording, 'utf8')) as { release: string; seed: number; ending: string; ticks: number; hash: string; commands: EncodedCommand[] };
+const rec = JSON.parse(readFileSync(values.recording, 'utf8')) as { release: string; seed: number; ending: string; ticks: number; hash: string; commands: EncodedCommand[]; collision?: string };
 if (rec.release !== manifest.worldReleaseId) throw new Error(`recording is from ${rec.release}, --release is ${manifest.worldReleaseId}`);
 
 await initPhysics();
-const world = StaticWorld.fromBytes(
+const collision = new Map<string, Uint8Array>();
+for (const c of manifest.cells) collision.set(c.id, await readSimulationPayload(values.release, c.collision));
+const world = replayWorld(
   await readSimulationPayload(values.release, manifest.terrain),
   JSON.parse(readFileSync(path.join(values.release, manifest.roads.path), 'utf8')),
   JSON.parse(readFileSync(path.join(values.release, manifest.gameplay.path), 'utf8')),
+  manifest.cells, collision, rec.collision,
 );
-for (const c of manifest.cells) world.addCell(c.id, await readSimulationPayload(values.release, c.collision));
 const sim = new Simulation(world, { seed: rec.seed });
 const t0 = performance.now();
 for (const c of rec.commands) sim.step(decodeCommand(c));

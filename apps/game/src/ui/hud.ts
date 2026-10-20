@@ -31,6 +31,10 @@ function exitPrompt(interaction: SimState['player']['vehicleInteraction']): stri
   }
 }
 
+type MapShape =
+  | { readonly kind: 'line'; readonly colour: string; readonly width: number; readonly points: readonly (readonly number[])[] }
+  | { readonly kind: 'anchor'; readonly hospital: boolean; readonly x: number; readonly z: number };
+
 export class Hud {
   private readonly root = el<HTMLDivElement>('hud');
   private readonly stars = el<HTMLDivElement>('stars');
@@ -50,9 +54,15 @@ export class Hud {
   private readonly dropin = el<HTMLSelectElement>('dropin');
   private readonly minimap = el<HTMLCanvasElement>('minimap');
   private readonly mapCtx: CanvasRenderingContext2D;
-  private readonly mapLayer: HTMLCanvasElement;
   private readonly area: GameplayBundle['playArea'];
   private readonly scale = 2; // px per metre on the base layer
+  /** The base layer is drawn lazily in tiles: the whole city at this scale is a 66 MB canvas. */
+  private readonly tileSize = 256;
+  /** Each tile also draws this many pixels of its neighbours, so subpixel-positioned tiles overlap without seams. */
+  private readonly tileGutter = 1;
+  private readonly mapSize: readonly [number, number];
+  private readonly tileShapes = new Map<string, MapShape[]>();
+  private readonly tiles = new Map<string, HTMLCanvasElement>();
   private lastStars = -1;
   private lastWeapon = '';
   private lastPrompt = '';
@@ -73,10 +83,8 @@ export class Hud {
     document.body.append(this.worldLoading);
     this.area = gameplay.playArea;
     this.mapCtx = this.minimap.getContext('2d')!;
-    this.mapLayer = document.createElement('canvas');
-    this.mapLayer.width = Math.ceil((this.area.maxX - this.area.minX) * this.scale);
-    this.mapLayer.height = Math.ceil((this.area.maxZ - this.area.minZ) * this.scale);
-    this.drawBase(roads, gameplay);
+    this.mapSize = [Math.ceil((this.area.maxX - this.area.minX) * this.scale), Math.ceil((this.area.maxZ - this.area.minZ) * this.scale)];
+    this.indexBase(roads, gameplay);
     el<HTMLDivElement>('attribution').textContent = manifest.attribution.join(' · ');
     const labels = [...gameplay.landmarks.map(l => l.label), ...gameplay.addresses.map(a => a.label)];
     for (const l of labels) { const o = document.createElement('option'); o.value = l; o.textContent = l; this.dropin.appendChild(o); }
@@ -92,32 +100,66 @@ export class Hud {
     return [(x - this.area.minX) * this.scale, (z - this.area.minZ) * this.scale];
   }
 
-  private drawBase(roads: RoadGraph, gameplay: GameplayBundle): void {
-    const c = this.mapLayer.getContext('2d')!;
-    c.fillStyle = '#1c2230';
-    c.fillRect(0, 0, this.mapLayer.width, this.mapLayer.height);
-    c.lineCap = 'round';
-    c.lineJoin = 'round';
-    c.strokeStyle = '#3a4458';
-    c.lineWidth = 2;
-    for (const f of roads.footways) this.polyline(c, f.points);
-    for (const lane of roads.lanes) {
-      c.strokeStyle = lane.highway === 'service' ? '#6d7891' : '#c9d2e3';
-      c.lineWidth = lane.highway === 'service' ? 3 : Math.max(4, lane.width * this.scale);
-      this.polyline(c, lane.points);
-    }
-    for (const a of gameplay.anchors) {
-      const [x, y] = this.toMap(a.position[0], a.position[1]);
-      c.fillStyle = a.kind === 'hospital' ? '#ff6b6b' : '#6b9bff';
-      c.beginPath(); c.arc(x, y, 5, 0, Math.PI * 2); c.fill();
-      c.fillStyle = '#fff'; c.font = 'bold 9px sans-serif'; c.fillText(a.kind === 'hospital' ? 'H' : 'P', x - 3, y + 3);
+  /** Assign each base-layer shape, in drawing order, to every tile its stroke or marker can touch. */
+  private indexBase(roads: RoadGraph, gameplay: GameplayBundle): void {
+    const shapes: MapShape[] = [];
+    for (const f of roads.footways) shapes.push({ kind: 'line', colour: '#3a4458', width: 2, points: f.points });
+    for (const lane of roads.lanes) shapes.push({ kind: 'line', colour: lane.highway === 'service' ? '#6d7891' : '#c9d2e3',
+      width: lane.highway === 'service' ? 3 : Math.max(4, lane.width * this.scale), points: lane.points });
+    for (const a of gameplay.anchors) shapes.push({ kind: 'anchor', hospital: a.kind === 'hospital', x: a.position[0], z: a.position[1] });
+    for (const shape of shapes) {
+      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      const points = shape.kind === 'line' ? shape.points.map(p => this.toMap(p[0]!, p[2]!)) : [this.toMap(shape.x, shape.z)];
+      for (const [x, y] of points) { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y); }
+      // Half the stroke plus antialiasing, or the marker's circle and label.
+      const pad = (shape.kind === 'line' ? shape.width / 2 + 2 : 12) + this.tileGutter;
+      if (![x0, y0, x1, y1].every(Number.isFinite)) continue;
+      for (let ty = Math.floor((y0 - pad) / this.tileSize); ty <= Math.floor((y1 + pad) / this.tileSize); ty++) {
+        for (let tx = Math.floor((x0 - pad) / this.tileSize); tx <= Math.floor((x1 + pad) / this.tileSize); tx++) {
+          const key = `${tx},${ty}`;
+          let list = this.tileShapes.get(key);
+          if (!list) this.tileShapes.set(key, list = []);
+          list.push(shape);
+        }
+      }
     }
   }
 
-  private polyline(c: CanvasRenderingContext2D, pts: readonly (readonly number[])[]): void {
-    c.beginPath();
-    pts.forEach((p, i) => { const [x, y] = this.toMap(p[0]!, p[2]!); if (i === 0) c.moveTo(x, y); else c.lineTo(x, y); });
-    c.stroke();
+  /** One base-layer tile, drawn on first use with the original full-layer commands, translated. */
+  private tile(tx: number, ty: number): HTMLCanvasElement | null {
+    const key = `${tx},${ty}`;
+    const cached = this.tiles.get(key);
+    if (cached) { this.tiles.delete(key); this.tiles.set(key, cached); return cached; }
+    const ox = tx * this.tileSize, oy = ty * this.tileSize;
+    const width = Math.min(this.tileSize, this.mapSize[0] - ox), height = Math.min(this.tileSize, this.mapSize[1] - oy);
+    if (tx < 0 || ty < 0 || width <= 0 || height <= 0) return null;
+    const g = this.tileGutter, canvas = document.createElement('canvas');
+    canvas.width = width + 2 * g; canvas.height = height + 2 * g;
+    const c = canvas.getContext('2d')!;
+    c.translate(g - ox, g - oy);
+    // The gutter never extends the map beyond the original full layer's edges.
+    c.beginPath(); c.rect(0, 0, this.mapSize[0], this.mapSize[1]); c.clip();
+    c.fillStyle = '#1c2230';
+    c.fillRect(ox - g, oy - g, width + 2 * g, height + 2 * g);
+    c.lineCap = 'round';
+    c.lineJoin = 'round';
+    for (const shape of this.tileShapes.get(key) ?? []) {
+      if (shape.kind === 'line') {
+        c.strokeStyle = shape.colour;
+        c.lineWidth = shape.width;
+        c.beginPath();
+        shape.points.forEach((p, i) => { const [x, y] = this.toMap(p[0]!, p[2]!); if (i === 0) c.moveTo(x, y); else c.lineTo(x, y); });
+        c.stroke();
+      } else {
+        const [x, y] = this.toMap(shape.x, shape.z);
+        c.fillStyle = shape.hospital ? '#ff6b6b' : '#6b9bff';
+        c.beginPath(); c.arc(x, y, 5, 0, Math.PI * 2); c.fill();
+        c.fillStyle = '#fff'; c.font = 'bold 9px sans-serif'; c.fillText(shape.hospital ? 'H' : 'P', x - 3, y + 3);
+      }
+    }
+    this.tiles.set(key, canvas);
+    if (this.tiles.size > 24) this.tiles.delete(this.tiles.keys().next().value!);
+    return canvas;
   }
 
   update(state: SimState, stats: FrameStats, dt: number, events: readonly GameEvent[] = state.events): void {
@@ -171,7 +213,13 @@ export class Hud {
     c.save();
     c.clearRect(0, 0, size, size);
     c.beginPath(); c.arc(size / 2, size / 2, size / 2 - 1, 0, Math.PI * 2); c.clip();
-    c.drawImage(this.mapLayer, px - size / 2, py - size / 2, size, size, 0, 0, size, size);
+    const left = px - size / 2, top = py - size / 2;
+    for (let ty = Math.floor(top / this.tileSize); ty <= Math.floor((top + size) / this.tileSize); ty++) {
+      for (let tx = Math.floor(left / this.tileSize); tx <= Math.floor((left + size) / this.tileSize); tx++) {
+        const tile = this.tile(tx, ty);
+        if (tile) c.drawImage(tile, tx * this.tileSize - this.tileGutter - left, ty * this.tileSize - this.tileGutter - top);
+      }
+    }
     const dot = (x: number, z: number, colour: string, r = 4) => { const [mx, my] = this.toMap(x, z); c.fillStyle = colour; c.beginPath(); c.arc(mx - px + size / 2, my - py + size / 2, r, 0, Math.PI * 2); c.fill(); };
     for (const v of state.vehicles) if (v.definition === 'patrol') dot(v.position[0], v.position[2], v.sirenOn ? '#4f7dff' : '#8fa6e8', 4);
     for (const ch of state.characters) if (ch.inVehicle === null && ch.alive) dot(ch.position[0], ch.position[2], '#8fa6e8', 3);

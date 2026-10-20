@@ -108,9 +108,11 @@ Standard also uses conservative posed-character culling, per-instance scenery
 culling and existing whole-card foliage LODs. Close foliage retains its complete
 source geometry. Pixel ratio, camera and movement behavior are unchanged.
 
-The complete deterministic collision/terrain world remains resident after
-loading. Compression reduces delivery bytes; it does not reduce decoded physics
-memory. Collision streaming and newly retopologized NPC bodies are separate
+Compression reduces delivery bytes; it does not reduce decoded physics memory.
+Collision cells now stream deterministically and the low preset can use a
+half-resolution texture tier; see
+[decision 0022](decisions/0022-web-delivery-collision-streaming-and-texture-tier.md).
+Terrain remains fully resident. Newly retopologized NPC bodies are separate
 future work. Existing texture and geometry residency limits remain in force.
 
 ## Verification

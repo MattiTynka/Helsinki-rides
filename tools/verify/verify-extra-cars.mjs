@@ -7,11 +7,11 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 import validator from 'gltf-validator';
-import { decodeCommand, initPhysics, Simulation, StaticWorld, yawOf } from '../../packages/sim/src/index.ts';
+import { decodeCommand, initPhysics, Simulation, yawOf } from '../../packages/sim/src/index.ts';
 import { validateGameplayBundle, validateWorldManifest } from '../../packages/world-schema/src/index.ts';
 import { parseGlb, worldMatrices, nodeBounds, transformPoint, triangleCount } from './glb.ts';
 import { game, openGame } from './lib/browser.ts';
-import { readSimulationPayload } from './lib/simulation-payload.ts';
+import { readSimulationPayload, replayWorld } from './lib/simulation-payload.ts';
 
 const { values } = parseArgs({ options: {
   url: { type: 'string', default: 'http://127.0.0.1:5317/?review=1' },
@@ -227,7 +227,7 @@ try {
   assert.deepEqual(session.consoleErrors, []);
   recording = await page.evaluate(() => {
     const api = window.__HELSINKI_GAME__;
-    return { release: api.release, seed: api.seed(), ending: 'extra-cars-upright', ticks: api.tick(), hash: api.hash(), commands: api.commands() };
+    return { release: api.release, seed: api.seed(), ending: 'extra-cars-upright', ticks: api.tick(), hash: api.hash(), commands: api.commands(), collision: api.collision().residency ?? undefined };
   });
   assert.equal(recording.commands.length, recording.ticks, 'review recording includes every boot and interaction tick');
   writeFileSync(out('recording.json'), JSON.stringify(recording));
@@ -246,8 +246,9 @@ if (!failure && recording) {
   let world, sim;
   try {
     await initPhysics();
-    world = StaticWorld.fromBytes(await readSimulationPayload(values.release, manifest.terrain), JSON.parse(payload(manifest.roads).toString('utf8')), gameplay);
-    for (const cell of manifest.cells) world.addCell(cell.id, await readSimulationPayload(values.release, cell.collision));
+    const collision = new Map();
+    for (const cell of manifest.cells) collision.set(cell.id, await readSimulationPayload(values.release, cell.collision));
+    world = replayWorld(await readSimulationPayload(values.release, manifest.terrain), JSON.parse(payload(manifest.roads).toString('utf8')), gameplay, manifest.cells, collision, recording.collision);
     sim = new Simulation(world, { seed: recording.seed });
     for (const command of recording.commands) sim.step(decodeCommand(command));
     replay = { hash: sim.hash(), ticks: sim.tick, mode: sim.mode };

@@ -12,7 +12,7 @@ import { game, openGame } from './lib/browser.ts';
 import { clippedRoutePoints, planDriveLeg, type DriveGoal } from './lib/keyboard-route.ts';
 import { keyboardDriveControl } from './lib/keyboard-driving.ts';
 import { buildDrivingRouteHints, previewDrivingRoute, type DrivingRouteHints } from './lib/driving-route-preview.ts';
-import { readSimulationPayload } from './lib/simulation-payload.ts';
+import { readSimulationPayload, replayWorld } from './lib/simulation-payload.ts';
 
 const { values } = parseArgs({ options: { url: { type: 'string', default: 'http://127.0.0.1:5317/?review=1' }, release: { type: 'string' }, out: { type: 'string' }, goals: { type: 'string' }, headful: { type: 'boolean', default: false }, 'max-seconds': { type: 'string', default: '600' }, 'max-recoveries': { type: 'string', default: '2' }, 'max-speed': { type: 'string', default: '10' }, 'plan-only': { type: 'boolean', default: false } } });
 assert.ok(values.release && values.out, '--release and --out required'); assert.ok(!existsSync(values.out), 'Use a fresh evidence directory'); mkdirSync(values.out, { recursive: true });
@@ -180,12 +180,12 @@ finally {
   const scheduling = await page.evaluate(() => (window as unknown as { __driveTiming: unknown }).__driveTiming);
   writeFileSync(path.join(out, 'scheduling.json'), JSON.stringify(scheduling, null, 2) + '\n');
   try {
-    const recording = await page.evaluate(() => { const g = window.__HELSINKI_GAME__!; return { hash: g.hash(), commands: g.commands(), trace: g.trace(), tick: g.tick() }; });
-    writeFileSync(path.join(out, 'recording.json'), JSON.stringify({ release: manifest.worldReleaseId, seed, ending: 'expansion-loop', ticks: recording.commands.length, hash: recording.hash, commands: recording.commands }) + '\n');
+    const recording = await page.evaluate(() => { const g = window.__HELSINKI_GAME__!; return { hash: g.hash(), commands: g.commands(), trace: g.trace(), tick: g.tick(), collision: g.collision().residency }; });
+    writeFileSync(path.join(out, 'recording.json'), JSON.stringify({ release: manifest.worldReleaseId, seed, ending: 'expansion-loop', ticks: recording.commands.length, hash: recording.hash, commands: recording.commands, collision: recording.collision ?? undefined }) + '\n');
     // Release the live browser/GPU before constructing another full static world
     // for replay. Large districts must not pay both browser and replay RAM at once.
     await session.close(); browserClosed = true;
-    const world = StaticWorld.fromBytes(terrain, roads, gameplay); for (const [id, b] of collisionFiles) world.addCell(id, b); const sim = new Simulation(world, { seed });
+    const world = replayWorld(terrain, roads, gameplay, manifest.cells, new Map(collisionFiles), recording.collision); const sim = new Simulation(world, { seed });
     let firstDivergence: { tick: number; browser: string; node: string } | null = null;
     for (const c of recording.commands as EncodedCommand[]) { sim.step(decodeCommand(c)); const b = recording.trace[sim.tick - 1]; if (b !== undefined && !firstDivergence && sim.digest() !== b) firstDivergence = { tick: sim.tick, browser: b, node: sim.digest() }; }
     replayHash = sim.hash(); const replay = { pass: replayHash === recording.hash && sim.tick === recording.tick, browserHash: recording.hash, replayHash, ticks: sim.tick, firstDivergence };

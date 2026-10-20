@@ -3,9 +3,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { parseArgs } from 'node:util';
-import { decodeCommand, initPhysics, Simulation, StaticWorld } from '../../packages/sim/src/index.ts';
+import { decodeCommand, initPhysics, Simulation } from '../../packages/sim/src/index.ts';
 import { vehicleDoorClearance } from '../../packages/sim/src/vehicle-interaction.ts';
-import { readSimulationPayload } from './lib/simulation-payload.ts';
+import { readSimulationPayload, replayWorld } from './lib/simulation-payload.ts';
 const { values } = parseArgs({ options: { release: { type: 'string' }, recording: { type: 'string' }, out: { type: 'string' },
   from: { type: 'string' }, to: { type: 'string' }, stride: { type: 'string', default: '30' } } });
 if (!values.release || !values.recording || !values.out || !values.from || !values.to || fs.existsSync(values.out)) throw new Error('release, recording, from, to and fresh out required');
@@ -14,8 +14,9 @@ const manifestBytes = fs.readFileSync(path.join(values.release, 'manifest.json')
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const payload = ref => { const bytes = fs.readFileSync(path.join(values.release, ref.path)); if (sha(bytes) !== ref.sha256) throw new Error(`Hash mismatch ${ref.path}`); return bytes; };
 await initPhysics();
-const world = StaticWorld.fromBytes(await readSimulationPayload(values.release, manifest.terrain), JSON.parse(payload(manifest.roads)), JSON.parse(payload(manifest.gameplay)));
-for (const cell of manifest.cells) world.addCell(cell.id, await readSimulationPayload(values.release, cell.collision));
+const collision = new Map();
+for (const cell of manifest.cells) collision.set(cell.id, await readSimulationPayload(values.release, cell.collision));
+const world = replayWorld(await readSimulationPayload(values.release, manifest.terrain), JSON.parse(payload(manifest.roads)), JSON.parse(payload(manifest.gameplay)), manifest.cells, collision, recording.collision);
 const sim = new Simulation(world, { seed: recording.seed }), samples = [], events = [], interactionInputs = [];
 try {
   for (const encoded of recording.commands) {

@@ -37,9 +37,33 @@ export class AssetLibrary {
   /** Shared by every distant car; the car materials are flat colours and double-sided. */
   readonly farMaterial = new THREE.MeshStandardMaterial({ name: 'car_far', vertexColors: true, roughness: 0.5, metalness: 0, side: THREE.DoubleSide });
 
-  async load(loader: GlbLoader, base: string, manifest: WorldManifest, _lowPreset = false): Promise<void> {
+  private deferred: (() => Promise<void>) | null = null;
+  private deferredLoad: Promise<void> | null = null;
+  /** Assets loaded completely; a retried deferred load requests only the others. */
+  private readonly loaded = new Set<string>();
+
+  /**
+   * Load the assets play starts with. Assets `startup` leaves out are loaded by `loadDeferred`; until then views
+   * that need them are not created. A near car and its `-far-low` variant must be in the same set.
+   */
+  async load(loader: GlbLoader, base: string, manifest: WorldManifest, _lowPreset = false, startup: (asset: WorldManifest['assets'][number]) => boolean = () => true): Promise<void> {
+    const later = manifest.assets.filter(a => !startup(a));
+    this.deferred = later.length ? () => this.loadSet(loader, base, manifest, later.filter(a => !this.loaded.has(a.id))) : null;
+    await this.loadSet(loader, base, manifest, manifest.assets.filter(startup));
+  }
+
+  /** Load the assets left out of startup. A failed load is not kept: the next call retries the assets still missing. */
+  loadDeferred(): Promise<void> {
+    this.deferredLoad ??= (this.deferred ? this.deferred() : Promise.resolve()).catch((error: unknown) => {
+      this.deferredLoad = null;
+      throw error;
+    });
+    return this.deferredLoad;
+  }
+
+  private async loadSet(loader: GlbLoader, base: string, manifest: WorldManifest, assets: WorldManifest['assets']): Promise<void> {
     const lowFarSources = new Map<string, THREE.Object3D>();
-    await Promise.all(manifest.assets.map(async a => {
+    const results = await Promise.allSettled(assets.map(async a => {
       const candidate = a.id.endsWith('-far-low') ? a.id.slice(0, -'-far-low'.length) : null;
       const lowFarVehicle = candidate && manifest.assets.some(asset => asset.kind === 'vehicle' && asset.id === candidate) ? candidate : null;
       const gltf = await loader.load(base + a.path);
@@ -62,7 +86,14 @@ export class AssetLibrary {
       } else if (a.id === 'prop-pistol') {
         this.pistol = gltf.scene;
       }
+      if (!lowFarVehicle) this.loaded.add(a.id);
     }));
+    const failure = results.find((r): r is PromiseRejectedResult => r.status === 'rejected');
+    if (failure) {
+      // Distant variants not yet applied are released; a retry loads them again with any missing near car.
+      for (const scene of lowFarSources.values()) disposeCellResources(scene);
+      throw failure.reason;
+    }
     // Resolve after every asset loads: network completion order must not select the
     // old geometry or attach a variant to a missing accepted near-car asset.
     for (const [id, scene] of lowFarSources) {
@@ -75,8 +106,12 @@ export class AssetLibrary {
       // buildFarParts owns independent buffers, so the temporary GLB source can
       // be released without retaining a second set of distant geometry/materials.
       disposeCellResources(scene);
+      this.loaded.add(`${id}-far-low`);
     }
   }
+
+  hasCharacter(id: string): boolean { return this.characters.has(id); }
+  hasVehicle(id: string): boolean { return this.vehicles.has(id); }
 
   cloneCharacter(id: string): { root: THREE.Object3D; asset: CharacterAsset } {
     const asset = this.characters.get(id);
