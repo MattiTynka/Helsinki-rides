@@ -1,7 +1,7 @@
 // Police (plan section 8): patrol units with a car and one officer each. Units drive the road graph (route
 // following with pure pursuit), pursue directly within sight, box a stopped car in, get out to arrest a player
 // on foot, and fire only when the player is armed at three stars or more. Caps per star from the tuning table.
-import { LaneSegmentIndex, type GameplayBundle, type LaneHit, type RoadIndex, type RoadLane, type Vec3 } from '@helsinki/world-schema';
+import { LaneSegmentIndex, pointAlong, type GameplayBundle, type LaneHit, type RoadIndex, type RoadLane, type Vec3 } from '@helsinki/world-schema';
 import { Character, CHARACTER } from './character.ts';
 import { TICK_HZ } from './commands.ts';
 import { clamp, distanceXZ, normalize, wrapAngle, type V3 } from './math.ts';
@@ -28,6 +28,8 @@ const ENGAGE_RANGE = 28;
 const OFFICER_HEALTH = 100;
 const FIRE_INTERVAL = Math.round(1.1 * TICK_HZ);
 const DESPAWN_DISTANCE = 140;
+/** Outside police sight, but inside the player's 128m collision need ring, including the car footprint. */
+export const POLICE_DISPATCH = Object.freeze({ minimumDistance: 96, maximumDistance: 124, recycleDistance: 240, abandonedVehicleDistance: 260 });
 /** Lateral acceleration the AI driver allows itself (m/s²), below the tyres' grip so it never rolls. */
 const AI_LATERAL_ACCEL = 7;
 
@@ -69,7 +71,7 @@ class AiDriver {
 
   /** Drive toward the route; returns true when the end is reached (within `stopDistance`). */
   drive(v: Vehicle, targetSpeed: number, stopDistance: number): boolean {
-    if (this.route.length === 0) { v.input.throttle = 0; v.input.brake = 0.6; v.input.steer = 0; return true; }
+    if (this.finished) { v.input.throttle = 0; v.input.brake = 0.6; v.input.steer = 0; return true; }
     const pos = v.position;
     const speed = v.forwardSpeed;
     const lookahead = clamp(4 + Math.abs(speed) * 0.55, 5, 16);
@@ -146,6 +148,9 @@ export class PoliceUnit {
   arrestTicks = 0;
   spawnIndex: number;
   searchTarget: V3 | null = null;
+  /** Local incident point when dispatched; never follows an unseen player's subsequent movement. */
+  dispatchTarget: V3 | null = null;
+  dispatchSeenTick = -1;
   /** Where the officer left the car, to walk back to. */
   parkedAt: V3 | null = null;
   firstBeatDone = false;
@@ -259,23 +264,77 @@ export function patrolSpawnPlacement(roads: RoadIndex, spawn: GameplayBundle['po
   return { xz, yaw };
 }
 
+/** Keep grade-separated roads distinct; nearest XZ alone can select the road beneath a bridge. */
+function laneAtLevel(roads: RoadIndex, position: V3, distance: number, heading?: [number, number]): LaneHit | null {
+  const nearest = roads.nearestLane(position[0], position[2], heading, distance);
+  if (nearest && Math.abs(nearest.point[1] - position[1]) <= 3) return nearest;
+  // The ordinary spatial query is sufficient almost everywhere. Only stacked/off-road cases need this scan.
+  let best: LaneHit | null = null, score = Infinity;
+  for (const lane of roads.graph.lanes) {
+    let s = 0;
+    for (let i = 1; i < lane.points.length; i++) {
+      const a = lane.points[i - 1]!, b = lane.points[i]!, dx = b[0] - a[0], dz = b[2] - a[2], length = Math.hypot(dx, dz);
+      const t = length ? clamp(((position[0] - a[0]) * dx + (position[2] - a[2]) * dz) / (length * length), 0, 1) : 0;
+      const point: Vec3 = [a[0] + dx * t, a[1] + (b[1] - a[1]) * t, a[2] + dz * t], d = distanceXZ(point, position);
+      const rank = d + (heading && length ? (1 - (dx * heading[0] + dz * heading[1]) / length) * 4 : 0);
+      if (d <= distance && Math.abs(point[1] - position[1]) <= 3 && rank < score) { score = rank; best = { laneId: lane.id, s: s + length * t, point, distance: d }; }
+      s += length;
+    }
+  }
+  return best;
+}
+
+function connectedLaneIds(roads: RoadIndex, start: string, reverse: boolean): Set<string> {
+  const reached = new Set([start]), queue = [start], edges = reverse ? roads.incoming : roads.outgoing;
+  for (let i = 0; i < queue.length; i++) for (const edge of edges.get(queue[i]!) ?? []) {
+    const next = reverse ? edge.from : edge.to;
+    if (roads.laneById.has(next) && !reached.has(next)) { reached.add(next); queue.push(next); }
+  }
+  return reached;
+}
+
+export interface PoliceDispatchCandidate { readonly laneId: string; readonly s: number; readonly point: Vec3; readonly yaw: number }
+
+/** Local graph candidates only. Physical support, residency and occupancy are checked again when spawning. */
+export function policeDispatchCandidates(roads: RoadIndex, player: V3, minimumDistance: number = POLICE_DISPATCH.minimumDistance): PoliceDispatchCandidate[] {
+  const target = laneAtLevel(roads, player, 70);
+  if (!target) return [];
+  const reachable = connectedLaneIds(roads, target.laneId, true), radius = POLICE_DISPATCH.maximumDistance;
+  const lanes = roads.graph.lanes.filter(l => reachable.has(l.id) && l.length >= 8 && l.points.some((p, i) => {
+    const a = l.points[Math.max(0, i - 1)]!;
+    return Math.min(a[0], p[0]) <= player[0] + radius + 18 && Math.max(a[0], p[0]) >= player[0] - radius - 18
+      && Math.min(a[2], p[2]) <= player[2] + radius + 18 && Math.max(a[2], p[2]) >= player[2] - radius - 18;
+  }));
+  const index = new LaneSegmentIndex(lanes), result: PoliceDispatchCandidate[] = [];
+  for (const r of [radius - 4, minimumDistance + 4, (minimumDistance + radius) / 2]) for (let i = 0; i < 24; i++) {
+    const angle = i * Math.PI / 12, dx = Math.sin(angle), dz = Math.cos(angle);
+    const hit = index.nearest(player[0] + dx * r, player[2] + dz * r, [-dx, -dz], 18);
+    if (!hit) continue;
+    const lane = roads.laneById.get(hit.laneId)!, s = clamp(hit.s, 4, lane.length - 4), { point, tangent } = pointAlong(lane.points, s), d = distanceXZ(point, player);
+    if (d < minimumDistance || d > radius || (lane.id === target.laneId && s > target.s)) continue;
+    if (result.some(c => distanceXZ(c.point, point) < 8)) continue;
+    result.push({ laneId: lane.id, s, point, yaw: Math.atan2(tangent[0], tangent[1]) });
+  }
+  return result;
+}
+
 export class PoliceForce {
   readonly sim: Simulation;
   readonly units: PoliceUnit[] = [];
   playerSeen = false;
   arrestProgress = 0;
-  /** Lanes from which most of the graph is reachable; spawns and route targets snap to these. */
+  /** Historical content/inspection query; local dispatch does not discard smaller districts. */
   readonly goodLanes: readonly RoadLane[];
-  private readonly goodLaneIds: Set<string>;
   private serial = 0;
   private boxedTicks = 0;
   private footArrestTicks = 0;
   private respawnTicks = 0;
+  /** Cars protected by player ownership/entry outlive their retired unit, but still need bounded retirement. */
+  private readonly retainedVehicles = new Map<string, Vehicle>();
 
   constructor(sim: Simulation) {
     this.sim = sim;
     this.goodLanes = wellConnectedLanes(sim.world.roads).lanes;
-    this.goodLaneIds = new Set(this.goodLanes.map(l => l.id));
   }
 
   /** Nearest well-connected lane to a point, preferring lanes that run along `heading` (unit XZ) when given. */
@@ -306,6 +365,7 @@ export class PoliceForce {
     this.arrestProgress = 0;
     this.boxedTicks = 0;
     this.footArrestTicks = 0;
+    this.respawnTicks = 0;
     this.spawnInitial();
   }
 
@@ -316,28 +376,38 @@ export class PoliceForce {
     return caps[Math.min(stars, caps.length) - 1] ?? caps[caps.length - 1] ?? 1;
   }
 
-  private spawnUnit(): PoliceUnit | null {
-    const g = this.sim.gameplay;
+  private spawnUnit(replace?: PoliceUnit): PoliceUnit | null {
     const player = this.sim.playerPosition;
-    // Spawn points at least spawnMinDistance from the player; otherwise the farthest.
-    const ranked = g.police.patrolSpawns.map((s, i) => ({ s, i, d: Math.hypot(s.position[0] - player[0], s.position[1] - player[2]) })).sort((a, b) => b.d - a.d);
-    const far = ranked.filter(r => r.d >= g.police.spawnMinDistance);
-    const used = new Set(this.units.map(u => u.spawnIndex));
-    const pool = (far.length ? far : ranked).filter(r => !used.has(r.i));
-    // The first patrol of a quiet city takes the first listed beat (the content's main street); later units are random.
-    const first = this.units.length === 0 && this.sim.wanted.stars === 0 ? pool.find(r => r.i === 0) : undefined;
-    const pick = first ?? (pool.length ? this.sim.rng.pick(pool) : ranked[0]);
-    if (!pick) return null;
-    const { xz, yaw } = patrolSpawnPlacement(this.sim.world.roads, pick.s);
-    const id = `police-${++this.serial}`;
-    const vehicle = this.sim.spawnVehicle(`${id}-car`, 'patrol', xz, yaw);
-    const officer = this.sim.spawnCharacter(`${id}-officer`, [xz[0], vehicle.position[1], xz[1]], yaw, OFFICER_HEALTH);
+    const minimum = clamp(this.sim.gameplay.police.spawnMinDistance, POLICE_DISPATCH.minimumDistance, POLICE_DISPATCH.maximumDistance - 12);
+    const candidates = policeDispatchCandidates(this.sim.world.roads, player, minimum);
+    // Rotate a deterministic candidate order; rejection never falls back to an unqualified coordinate.
+    const first = candidates.length ? Math.floor(this.sim.rng.range(0, candidates.length)) : 0;
+    const id = `police-${this.serial + 1}`;
+    let vehicle: Vehicle | null = null, yaw = 0;
+    const viewYaw = this.sim.tick ? this.sim.lastCommand.yaw : this.sim.player.yaw;
+    for (let i = 0; i < candidates.length; i++) {
+      const candidate = candidates[(first + i) % candidates.length]!;
+      // New cars enter from behind the view, rather than materializing on the street being watched.
+      if ((candidate.point[0] - player[0]) * Math.sin(viewYaw) + (candidate.point[2] - player[2]) * Math.cos(viewYaw) > 0) continue;
+      if ([...this.sim.vehicles.values()].some(v => distanceXZ(v.position, candidate.point) < 12)) continue;
+      vehicle = this.sim.trySpawnVehicle(`${id}-car`, 'patrol', [candidate.point[0], candidate.point[2]], candidate.yaw, candidate.point[1]);
+      if (vehicle) { yaw = candidate.yaw; break; }
+    }
+    if (!vehicle) return null;
+    this.serial++;
+    // The replacement is already physically qualified. Never delete an old unit merely because a local cell is late.
+    if (replace) this.removeUnit(replace);
+    const officer = this.sim.spawnCharacter(`${id}-officer`, vehicle.position, yaw, OFFICER_HEALTH);
     officer.inVehicle = vehicle.id;
     officer.hide();
     vehicle.driver = officer.id;
     vehicle.occupants.add(officer.id);
     vehicle.lightsOn = true;
-    const unit = new PoliceUnit(id, vehicle, officer, pick.i);
+    const unit = new PoliceUnit(id, vehicle, officer, this.serial);
+    if (this.sim.wanted.stars > 0) {
+      unit.dispatchTarget = [...player];
+      unit.dispatchSeenTick = this.sim.wanted.lastSeenTick;
+    }
     this.units.push(unit);
     this.sim.emit('policeSpawn', id);
     return unit;
@@ -346,22 +416,52 @@ export class PoliceForce {
   private removeUnit(u: PoliceUnit): void {
     const i = this.units.indexOf(u);
     if (i >= 0) this.units.splice(i, 1);
-    if (u.vehicle) this.sim.removeVehicle(u.vehicle);
+    if (u.vehicle) {
+      if (!this.sim.removeVehicle(u.vehicle) && this.sim.vehicles.get(u.vehicle.id) === u.vehicle) this.retainedVehicles.set(u.vehicle.id, u.vehicle);
+      else this.retainedVehicles.delete(u.vehicle.id);
+    }
     this.sim.removeCharacter(u.officer);
     this.sim.emit('policeDespawn', u.id);
+  }
+
+  private canRetireFarUnit(u: PoliceUnit, distance: number): boolean {
+    const sim = this.sim;
+    return !u.sees && distanceXZ(u.position, sim.playerPosition) > distance
+      && (!u.vehicle || u.vehicle.id === sim.player.inVehicle || u.vehicle.id === sim.vehicleInteraction?.vehicleId
+        || distanceXZ(u.vehicle.position, sim.playerPosition) > distance);
+  }
+
+  private retireAbandonedVehicles(): void {
+    for (const [id, vehicle] of this.retainedVehicles) {
+      const sim = this.sim;
+      if (sim.vehicles.get(id) !== vehicle) { this.retainedVehicles.delete(id); continue; }
+      if (vehicle.driver || vehicle.occupants.size || sim.player.inVehicle === id || sim.vehicleInteraction?.vehicleId === id) continue;
+      const p = vehicle.position, distance = distanceXZ(p, sim.playerPosition);
+      const t = sim.world.terrain, b = sim.gameplay.playArea;
+      const inside = p[0] >= Math.max(b.minX, t.x0) && p[0] <= Math.min(b.maxX, t.x0 + (t.nx - 1) * t.resolution)
+        && p[2] >= Math.max(b.minZ, t.z0) && p[2] <= Math.min(b.maxZ, t.z0 + (t.nz - 1) * t.resolution);
+      // An off-map body can retire sooner, but a car visible beside the map edge must not pop away.
+      if (distance <= POLICE_DISPATCH.abandonedVehicleDistance && (inside || distance <= DESPAWN_DISTANCE)) continue;
+      if (sim.removeVehicle(vehicle)) this.retainedVehicles.delete(id);
+    }
   }
 
   /** Decisions and driving/walking inputs; runs before the physics step. */
   step(): void {
     const sim = this.sim;
     const stars = sim.wanted.stars;
+    this.retireAbandonedVehicles();
     // Keep the force at the cap for the current star level.
     const cap = this.cap();
-    if (this.units.length < cap) {
-      if (this.respawnTicks > 0) this.respawnTicks--;
-      else { this.spawnUnit(); this.respawnTicks = Math.round((stars > 0 ? 2.5 : 8) * TICK_HZ); }
+    if (this.respawnTicks > 0) this.respawnTicks--;
+    if (this.respawnTicks === 0 && cap > 0) {
+      const stale = this.units.find(u => this.canRetireFarUnit(u, POLICE_DISPATCH.recycleDistance));
+      if (this.units.length < cap || stale) {
+        const spawned = this.spawnUnit(this.units.length >= cap ? stale : undefined);
+        this.respawnTicks = Math.round((spawned ? stars > 0 ? 2.5 : 8 : .25) * TICK_HZ);
+      }
     }
-    for (const u of this.units) {
+    for (const u of [...this.units]) {
       u.stateTicks++;
       if (u.fireTicks > 0) u.fireTicks--;
       if (!u.officer.alive) { this.officerDown(u); continue; }
@@ -370,11 +470,11 @@ export class PoliceForce {
       this.decide(u, stars);
       this.act(u, stars);
     }
-    // Despawn surplus units far from the player when the heat is gone.
-    if (stars === 0) {
+    // A lower wanted cap retires only surplus units already outside sight.
+    if (this.units.length > cap) {
       for (const u of [...this.units]) {
         if (this.units.length <= cap) break;
-        if (distanceXZ(u.position, sim.playerPosition) > DESPAWN_DISTANCE && !u.sees) this.removeUnit(u);
+        if (this.canRetireFarUnit(u, DESPAWN_DISTANCE)) this.removeUnit(u);
       }
     }
   }
@@ -407,11 +507,21 @@ export class PoliceForce {
     const playerPos = sim.playerPosition;
     const d = distanceXZ(u.position, playerPos);
     const playerOnFoot = !sim.playerVehicle;
-    const lastSeen = sim.wanted.lastSeen;
     if (stars === 0) {
+      u.dispatchTarget = null;
       if (u.state !== 'patrol' && u.state !== 'return') u.setState('patrol');
       return;
     }
+    if (u.dispatchTarget && (u.sees || sim.wanted.lastSeenTick > u.dispatchSeenTick)) {
+      u.dispatchTarget = null;
+      u.searchTarget = null;
+      u.driver.replanTicks = 0;
+    }
+    if (!u.dispatchTarget && !sim.wanted.lastSeen && !u.sees) {
+      u.dispatchTarget = [...playerPos];
+      u.dispatchSeenTick = sim.wanted.lastSeenTick;
+    }
+    const lastSeen = u.dispatchTarget ?? sim.wanted.lastSeen;
     if (u.onFoot) {
       // Officers on foot engage while the player is near, otherwise walk back to the car.
       if (playerOnFoot && (u.sees || d < 12) && d < ENGAGE_RANGE * 1.6) u.setState('engage');
@@ -434,7 +544,7 @@ export class PoliceForce {
     if (v) v.sirenOn = stars > 0 && u.state !== 'patrol' && u.state !== 'return' && !u.onFoot;
     switch (u.state) {
       case 'patrol': this.patrol(u); break;
-      case 'respond': this.driveTo(u, sim.wanted.lastSeen ?? sim.playerPosition, 20, 6); break;
+      case 'respond': this.driveTo(u, u.dispatchTarget ?? sim.wanted.lastSeen ?? u.position, 20, 6); break;
       case 'pursue': this.pursue(u); break;
       case 'boxin': this.boxIn(u); break;
       case 'search': this.search(u); break;
@@ -451,11 +561,12 @@ export class PoliceForce {
     if (!v || u.onFoot) { this.returnToCar(u); return; }
     const sim = this.sim;
     if (u.driver.finished || u.driver.replanTicks <= 0) {
-      const lanes = this.goodLanes.length ? this.goodLanes : sim.world.roads.graph.lanes;
+      const here = laneAtLevel(sim.world.roads, v.position, 30, [v.forward[0], v.forward[2]]);
+      const reachable = here ? connectedLaneIds(sim.world.roads, here.laneId, false) : new Set<string>();
+      const lanes = sim.world.roads.graph.lanes.filter(l => reachable.has(l.id) && distanceXZ(l.points[l.points.length - 1]!, v.position) <= 350);
       if (!u.firstBeatDone) {
         // A fresh patrol first drives the length of its own street (the beat), then roams at random.
         u.firstBeatDone = true;
-        const here = sim.world.roads.nearestLane(v.position[0], v.position[2], undefined, 30);
         const name = here ? sim.world.roads.laneById.get(here.laneId)!.name : null;
         let best: RoadLane | null = null, bestD = 0;
         for (const l of lanes) {
@@ -465,7 +576,7 @@ export class PoliceForce {
         }
         if (best) { const p = best.points[best.points.length - 1]!; this.plan(u, [p[0], p[1], p[2]]); }
       }
-      if (u.driver.finished) {
+      if (u.driver.finished && lanes.length) {
         for (let tries = 0; tries < 8; tries++) {
           const lane = sim.rng.pick(lanes);
           const p = lane.points[lane.points.length - 1]!;
@@ -495,7 +606,7 @@ export class PoliceForce {
     const v = u.vehicle;
     if (!v || u.onFoot) { this.returnToCar(u); return; }
     const sim = this.sim;
-    const target = sim.playerPosition;
+    const target = u.sees ? sim.playerPosition : u.dispatchTarget ?? sim.wanted.lastSeen ?? u.position;
     const d = distanceXZ(v.position, target);
     if (d < DIRECT_PURSUIT_RANGE && u.sees) {
       // Direct pursuit: aim a little ahead of the target car.
@@ -528,7 +639,7 @@ export class PoliceForce {
     const v = u.vehicle;
     if (!v || u.onFoot) { this.returnToCar(u); return; }
     const sim = this.sim;
-    const centre = sim.wanted.lastSeen ?? sim.playerPosition;
+    const centre = u.dispatchTarget ?? sim.wanted.lastSeen ?? u.position;
     if (!u.searchTarget || u.driver.finished || u.driver.replanTicks <= 0) {
       const r = sim.gameplay.wanted.searchRadius;
       const a = sim.rng.range(0, Math.PI * 2), rr = sim.rng.range(r * 0.3, r);
@@ -668,20 +779,27 @@ export class PoliceForce {
     if (!v) return false;
     const roads = this.sim.world.roads;
     const f = v.forward;
-    const fromAny = roads.nearestLane(v.position[0], v.position[2], [f[0], f[2]], 40);
-    const from = fromAny && this.goodLaneIds.has(fromAny.laneId) ? fromAny : this.nearestGoodLane(v.position[0], v.position[2], 60) ?? fromAny;
-    const to = this.nearestGoodLane(target[0], target[2], 70) ?? roads.nearestLane(target[0], target[2], undefined, 60);
+    const from = laneAtLevel(roads, v.position, 40, [f[0], f[2]]);
+    const to = laneAtLevel(roads, target, 70);
     if (from && to) {
       const route = roads.route(from.laneId, from.s, to.laneId, to.s);
       if (route) {
-        const pts = roads.routePoints(route);
-        // Trim the end of the last lane after the target's projection.
+        const pts = roads.routePoints(route.slice(0, -1));
+        // routePoints returns whole lanes: leaving the last lane intact drove past the target, then doubled back.
+        const lastLane = roads.laneById.get(to.laneId)!;
+        let s = 0;
+        for (let i = 0; i < lastLane.points.length; i++) {
+          if (i) s += distanceXZ(lastLane.points[i - 1]!, lastLane.points[i]!);
+          if (s >= to.s) break;
+          pts.push(lastLane.points[i]!);
+        }
         pts.push([to.point[0], to.point[1], to.point[2]]);
         u.driver.setRoute(pts, v.position, v.forward);
         return true;
       }
     }
-    u.driver.setRoute([[v.position[0], v.position[1], v.position[2]], [target[0], target[1], target[2]]], v.position, v.forward);
+    // A missing connector is not permission to drive across the intervening water, wall or road level.
+    u.driver.setRoute([], v.position, v.forward);
     return false;
   }
 

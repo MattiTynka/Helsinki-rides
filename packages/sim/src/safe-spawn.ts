@@ -48,11 +48,21 @@ export class SafeSpawns {
   }
 
   vehicle(x: number, z: number, yaw: number, def: VehicleDefinition, excludeBody?: RAPIER.RigidBody, preferRoad = false): Placement {
+    return this.find({ x, z, yaw }, this.vehicleFootprint(def, excludeBody), preferRoad);
+  }
+
+  /** Population spawns either fit here or fail. Recovery's distant fallback would hide a failed local dispatch. */
+  tryVehicle(x: number, z: number, yaw: number, def: VehicleDefinition, expectedY: number): Placement | null {
+    if (!Number.isFinite(expectedY)) return null;
+    return this.validate({ x, z, yaw }, this.vehicleFootprint(def), expectedY);
+  }
+
+  private vehicleFootprint(def: VehicleDefinition, excludeBody?: RAPIER.RigidBody): Footprint {
     const he = def.collider.halfExtents, c = def.collider.centre;
     const halfX = Math.max(Math.abs(c[0]) + he[0], ...def.wheels.map(w => Math.abs(w.position[0]) + def.wheelWidth / 2)) + 0.2;
     const halfZ = Math.max(Math.abs(c[2]) + he[2], ...def.wheels.map(w => Math.abs(w.position[2]) + def.wheelRadius)) + 0.2;
     const boxes = [def.collider, ...(def.collider.skid ? [def.collider.skid] : [])];
-    return this.find({ x, z, yaw }, {
+    return {
       radius: Math.hypot(halfX, halfZ),
       points: [[0, 0], [-halfX, -halfZ], [halfX, -halfZ], [-halfX, halfZ], [halfX, halfZ], ...def.wheels.map(w => [w.position[0], w.position[2]] as const)],
       clearance: (p, angle) => boxes.every(box => {
@@ -62,7 +72,7 @@ export class SafeSpawns {
           { x: 0, y: Math.sin(angle / 2), z: 0, w: Math.cos(angle / 2) }, new RAPIER.Cuboid(...box.halfExtents),
           undefined, groups(GROUP.vehicle, GROUP.static | GROUP.vehicle | GROUP.character), undefined, excludeBody);
       }),
-    }, preferRoad);
+    };
   }
 
   rememberInitial(position: V3, yaw: number): void {
@@ -95,20 +105,24 @@ export class SafeSpawns {
     throw new Error('No supported, clear recovery point exists inside the playable terrain');
   }
 
-  private validate(c: Candidate, footprint: Footprint): Placement | null {
+  private validate(c: Candidate, footprint: Footprint, expectedY?: number): Placement | null {
     if (!Number.isFinite(c.yaw) || !this.contains(c.x, c.z)) return null;
     const heights: number[] = [];
     for (const [px, pz] of footprint.points) {
       const [dx, dz] = rotateXZ(px, pz, c.yaw), x = c.x + dx, z = c.z + dz;
       // A streamed world may not have this cell's collision registered: the fallback heightfield is not support.
       if (!this.contains(x, z, 0.05) || !this.world.queryable(x, z)) return null;
-      const terrain = this.world.groundHeight(x, z);
-      const ray = new RAPIER.Ray({ x, y: terrain + 8, z }, { x: 0, y: -1, z: 0 });
-      const hit = this.world.physics.castRayAndGetNormal(ray, 40, false, undefined, groups(GROUP.bullet, GROUP.static));
+      const originY = expectedY === undefined ? this.world.groundHeight(x, z) + 8 : expectedY + 2;
+      const ray = new RAPIER.Ray({ x, y: originY, z }, { x: 0, y: -1, z: 0 });
+      const hit = this.world.physics.castRayAndGetNormal(ray, expectedY === undefined ? 40 : 4, false, undefined, groups(GROUP.bullet, GROUP.static));
       if (!hit || hit.normal.y < 0.75) return null;
-      const surface = this.world.surfaceAt(hit.collider.handle, null);
+      const surface = this.world.surfaceAt(hit.collider.handle, expectedY === undefined ? null : hit.featureId ?? null);
       if (surface && surface.group !== 'ground' && surface.group !== 'terrain') return null;
-      const y = terrain + 8 - hit.timeOfImpact;
+      // The fallback terrain includes water and unbuilt cells. New actors require actual authored ground at
+      // their road/parking level, including every wheel and corner; recovery retains its existing policy.
+      if (expectedY !== undefined && (!surface || surface.group !== 'ground' || /water|sea|ocean/i.test(surface.tag))) return null;
+      const y = originY - hit.timeOfImpact;
+      if (expectedY !== undefined && Math.abs(y - expectedY) > 1.5) return null;
       if (!Number.isFinite(y) || y < this.world.gameplay.killHeight + 2) return null;
       heights.push(y);
     }
