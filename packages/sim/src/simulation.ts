@@ -6,6 +6,7 @@ import { Character, CHARACTER, FEET_TO_CENTRE, type CharacterClip, type ClimbVie
 import { Button, has, NEUTRAL, TICK_HZ, type Command } from './commands.ts';
 import { clamp, distanceXZ, fnv1a, lengthXZ, normalize, Rng, wrapAngle, yawOf, type Quat, type V3 } from './math.ts';
 import { PoliceForce, type PoliceUnitState } from './police.ts';
+import { ParkedCars } from './parked-cars.ts';
 import { Vehicle } from './vehicle.ts';
 import { WantedState, type Crime, type WantedSnapshot } from './wanted.ts';
 import { fireRay, Inventory, type ShotResult } from './weapons.ts';
@@ -120,6 +121,7 @@ export class Simulation {
   readonly characters = new Map<string, Character>();
   readonly wanted: WantedState;
   readonly police: PoliceForce;
+  readonly parkedCars: ParkedCars;
   /** Events raised this tick. */
   events: GameEvent[] = [];
   readonly log: GameEvent[] = [];
@@ -187,6 +189,7 @@ export class Simulation {
     for (const v of this.gameplay.vehicles) this.spawnVehicle(v.id, v.definition, [v.position[0], v.position[1]], headingToYaw(v.headingDeg));
     this.police = new PoliceForce(this);
     this.police.spawnInitial();
+    this.parkedCars = new ParkedCars(this);
   }
 
   // ---- entity management ----
@@ -223,6 +226,17 @@ export class Simulation {
     const safe = this.safeSpawns.contains(xz[0], xz[1]) ? null : this.safeSpawns.vehicle(xz[0], xz[1], yaw, def);
     const g = safe?.position ?? this.groundPoint(xz[0], xz[1]);
     yaw = safe?.yaw ?? yaw;
+    return this.createVehicle(vid, def, g, yaw);
+  }
+
+  /** A new local actor must have complete, clear ground here; never recover it back to Senate Square. */
+  trySpawnVehicle(id: string, definitionId: string, xz: [number, number], yaw: number, expectedY: number): Vehicle | null {
+    const def = this.definition(definitionId);
+    const placement = this.safeSpawns.tryVehicle(xz[0], xz[1], yaw, def, expectedY);
+    return placement ? this.createVehicle(id, def, placement.position, placement.yaw) : null;
+  }
+
+  private createVehicle(vid: string, def: VehicleDefinition, g: V3, yaw: number): Vehicle {
     const v = new Vehicle(this.world, vid, def, [g[0], g[1] + 0.25, g[2]], yaw);
     this.vehicles.set(vid, v);
     this.colliderVehicle.set(v.collider.handle, v);
@@ -347,6 +361,7 @@ export class Simulation {
     }
 
     this.police.step();
+    this.parkedCars.step();
     // A former police unit may still reference a reserved car. Entry/exit owns its controls.
     if (this.pendingVehicle) this.brakeVehicle(this.pendingVehicle);
     if (this.mode === 'exiting' && this.playerVehicle) this.brakeVehicle(this.playerVehicle);
