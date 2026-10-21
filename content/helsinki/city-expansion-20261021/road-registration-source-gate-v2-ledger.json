@@ -1,0 +1,742 @@
+{
+ "schemaVersion": 1,
+ "kind": "source-bound-swing-gate-entrance-derivative",
+ "input": {
+  "path": "content/helsinki/city-expansion-20261021/road-registration-source-v1.json.gz",
+  "bytes": 1677522,
+  "sha256": "bd245327de8f71bc1415c00027332a215d441a33d297f8cc03762d37aab9ad26",
+  "compression": "gzip",
+  "decodedBytes": 7608601,
+  "decodedSha256": "6098a200c1dc0e6cd700dd3a763131b936885af48856e0bce2489ffd0c205508"
+ },
+ "sourceProfile": {
+  "path": "content/helsinki/city-expansion-20261021/road-gate-access-v1.json",
+  "bytes": 756,
+  "sha256": "89a8140a528fdfaed1a2554953294893dade42c0551e4ca9ea3144098bea6481"
+ },
+ "output": {
+  "path": "content/helsinki/city-expansion-20261021/road-registration-source-gate-v2.json.gz",
+  "bytes": 1677400,
+  "sha256": "8296553ca01fe907735f47a0353274bea32b954e69b56170835451ca3b7abd3a",
+  "compression": "gzip",
+  "decodedBytes": 7607516,
+  "decodedSha256": "f6687439b9e01f79b4231acb4093c538c670e0d4f4c12485833f3ae15605678a"
+ },
+ "sourceProducer": {
+  "path": "tools/world/lib/delivery-city-road-gates.ts",
+  "sha256": "3268b2fd4b3a3d7748a022119ca923a69cfe45a466690adc82a21da167a4d9a0"
+ },
+ "proof": {
+  "kind": "source-bound-swing-gate-entrance",
+  "sourceOsmSha256": "0c158c071166235c743e9ce4e19e22934f71f52894ecf105a198fa63fb03a0c5",
+  "wayId": 36732515,
+  "gateNodeId": 8093324554,
+  "sourceGateTag": "barrier=swing_gate",
+  "photographicGateConfirmation": false,
+  "publicEntranceRetainedLiteral": true,
+  "forward": {
+   "id": "36732515:0:f0",
+   "retainedIndices": [
+    0,
+    2
+   ],
+   "beforeFrom": "n1528653051",
+   "beforeTo": "n1533278041",
+   "afterTo": "n8093324554",
+   "points": [
+    [
+     696.935,
+     7.882,
+     -1759.119
+    ],
+    [
+     699.435,
+     7.818,
+     -1764.856
+    ],
+    [
+     700.19,
+     7.748,
+     -1766.393
+    ]
+   ]
+  },
+  "reverse": {
+   "id": "36732515:0:b0",
+   "retainedIndices": [
+    4,
+    6
+   ],
+   "beforeFrom": "n1533278041",
+   "beforeTo": "n1528653051",
+   "afterFrom": "n8093324554",
+   "points": [
+    [
+     700.19,
+     7.748,
+     -1766.393
+    ],
+    [
+     699.435,
+     7.818,
+     -1764.856
+    ],
+    [
+     696.935,
+     7.882,
+     -1759.119
+    ]
+   ]
+  },
+  "newSourceGateNode": {
+   "id": "n8093324554",
+   "position": [
+    700.1901100948453,
+    7.748,
+    -1766.3928975779563
+   ],
+   "navigationYAuthority": "Arithmetic mean of the two literal source lane gate vertices; independently native-qualified later, never physical geometry"
+  },
+  "removedConnectors": [
+   {
+    "id": "36732515:0:f0>559181816:0:b0",
+    "node": "n1533278041",
+    "from": "36732515:0:f0",
+    "to": "559181816:0:b0",
+    "turn": "right",
+    "points": [
+     [
+      733.172,
+      1.841,
+      -1809.883
+     ],
+     [
+      733.407,
+      1.841,
+      -1809.861
+     ],
+     [
+      733.362,
+      1.84,
+      -1810.022
+     ],
+     [
+      733.172,
+      1.841,
+      -1809.883
+     ]
+    ],
+    "length": 0.638
+   },
+   {
+    "id": "36732515:0:f0>559181816:1:f0",
+    "node": "n1533278041",
+    "from": "36732515:0:f0",
+    "to": "559181816:1:f0",
+    "turn": "left",
+    "points": [
+     [
+      733.172,
+      1.841,
+      -1809.883
+     ],
+     [
+      733.31,
+      1.842,
+      -1809.661
+     ],
+     [
+      733.168,
+      1.842,
+      -1809.622
+     ],
+     [
+      733.172,
+      1.841,
+      -1809.883
+     ]
+    ],
+    "length": 0.669
+   },
+   {
+    "id": "559181816:0:f0>36732515:0:b0",
+    "node": "n1533278041",
+    "from": "559181816:0:f0",
+    "to": "36732515:0:b0",
+    "turn": "left",
+    "points": [
+     [
+      733.172,
+      1.841,
+      -1809.883
+     ],
+     [
+      733.362,
+      1.84,
+      -1810.022
+     ],
+     [
+      733.407,
+      1.841,
+      -1809.861
+     ],
+     [
+      733.172,
+      1.841,
+      -1809.883
+     ]
+    ],
+    "length": 0.638
+   },
+   {
+    "id": "559181816:1:b0>36732515:0:b0",
+    "node": "n1533278041",
+    "from": "559181816:1:b0",
+    "to": "36732515:0:b0",
+    "turn": "right",
+    "points": [
+     [
+      733.172,
+      1.841,
+      -1809.883
+     ],
+     [
+      733.168,
+      1.842,
+      -1809.622
+     ],
+     [
+      733.31,
+      1.842,
+      -1809.661
+     ],
+     [
+      733.172,
+      1.841,
+      -1809.883
+     ]
+    ],
+    "length": 0.669
+   }
+  ],
+  "retainedConnectorsAtPublicNode": [
+   "36732515:0:b0>139916981:0:b0",
+   "36732515:0:b0>139916981:1:f0",
+   "139916981:0:f0>36732515:0:f0",
+   "139916981:1:b0>36732515:0:f0"
+  ],
+  "allOtherSourceNodesLanesConnectorsParkingFootwaysExact": true,
+  "reason": "The exact public OSM source marks node8093324554 as barrier=swing_gate inside this driveway. Retain the literal entrance through that node and terminate game motor topology there. Preserve all physical scenery and walking. The opened April2023 street panorama does not independently confirm the gate or the disputed inner floor level."
+ },
+ "sourceOnlyNativeQualification": "All source gate Y/point values remain navigation metadata until normal native registration; no physical scenery changed.",
+ "entranceNativeManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+ "entranceNativeSamples": [
+  {
+   "kind": "lane",
+   "id": "36732515:0:f0",
+   "index": 0,
+   "point": [
+    696.935,
+    7.882,
+    -1759.119
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.86486822283268,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "lane",
+   "id": "36732515:0:f0",
+   "index": 1,
+   "point": [
+    699.435,
+    7.818,
+    -1764.856
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.802514118754905,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "lane",
+   "id": "36732515:0:f0",
+   "index": 2,
+   "point": [
+    700.19,
+    7.748,
+    -1766.393
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.743360549410851,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0.030490193401371712
+   }
+  },
+  {
+   "kind": "lane",
+   "id": "36732515:0:b0",
+   "index": 0,
+   "point": [
+    700.19,
+    7.748,
+    -1766.393
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.743360549410851,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0.030490193401371712
+   }
+  },
+  {
+   "kind": "lane",
+   "id": "36732515:0:b0",
+   "index": 1,
+   "point": [
+    699.435,
+    7.818,
+    -1764.856
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.802514118754905,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "lane",
+   "id": "36732515:0:b0",
+   "index": 2,
+   "point": [
+    696.935,
+    7.882,
+    -1759.119
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.86486822283268,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "node",
+   "id": "n8093324554",
+   "index": 0,
+   "point": [
+    700.1901100948453,
+    7.748,
+    -1766.3928975779563
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.74334864771361,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0.030490477731805576
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "36732515:0:b0>139916981:0:b0",
+   "index": 0,
+   "point": [
+    696.935,
+    7.882,
+    -1759.119
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.86486822283268,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "36732515:0:b0>139916981:0:b0",
+   "index": 1,
+   "point": [
+    697.111,
+    7.875,
+    -1759.221
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.856534973263742,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "36732515:0:b0>139916981:0:b0",
+   "index": 2,
+   "point": [
+    697.562,
+    7.866,
+    -1759.93
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.858101836919786,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "36732515:0:b0>139916981:0:b0",
+   "index": 3,
+   "point": [
+    697.569,
+    7.874,
+    -1760.478
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.872467327713971,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "36732515:0:b0>139916981:1:f0",
+   "index": 0,
+   "point": [
+    696.935,
+    7.882,
+    -1759.119
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.86486822283268,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "36732515:0:b0>139916981:1:f0",
+   "index": 1,
+   "point": [
+    696.576,
+    7.877,
+    -1758.615
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.866712270021436,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "36732515:0:b0>139916981:1:f0",
+   "index": 2,
+   "point": [
+    696.204,
+    7.87,
+    -1758.116
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.869813654422764,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "36732515:0:b0>139916981:1:f0",
+   "index": 3,
+   "point": [
+    696.277,
+    7.848,
+    -1757.771
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.846525050520892,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "139916981:0:f0>36732515:0:f0",
+   "index": 0,
+   "point": [
+    696.3,
+    7.846,
+    -1757.76
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.8441902422905,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "139916981:0:f0>36732515:0:f0",
+   "index": 1,
+   "point": [
+    696.622,
+    7.836,
+    -1757.917
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.827427805423735,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "139916981:0:f0>36732515:0:f0",
+   "index": 2,
+   "point": [
+    696.782,
+    7.86,
+    -1758.516
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.84577601981163,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "139916981:0:f0>36732515:0:f0",
+   "index": 3,
+   "point": [
+    696.935,
+    7.882,
+    -1759.119
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.86486822283268,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "139916981:1:b0>36732515:0:f0",
+   "index": 0,
+   "point": [
+    697.592,
+    7.872,
+    -1760.467
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.870435270309452,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "139916981:1:b0>36732515:0:f0",
+   "index": 1,
+   "point": [
+    697.178,
+    7.897,
+    -1760.113
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.893939511537553,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "139916981:1:b0>36732515:0:f0",
+   "index": 2,
+   "point": [
+    696.916,
+    7.89,
+    -1759.314
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.8763167285919184,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  },
+  {
+   "kind": "connector",
+   "id": "139916981:1:b0>36732515:0:f0",
+   "index": 3,
+   "point": [
+    696.935,
+    7.882,
+    -1759.119
+   ],
+   "result": {
+    "status": "ACTUAL_SINGLE_LEVEL_GROUND_UPPER_ENVELOPE",
+    "chosen": {
+     "height": 7.86486822283268,
+     "cell": "c_p05_m14",
+     "collider": "g:c_p05_m14",
+     "group": "ground",
+     "tag": "road:asphalt"
+    },
+    "authorities": [],
+    "spread": 0
+   }
+  }
+ ],
+ "unqualifiedEntrancePoints": 0
+}

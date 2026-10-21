@@ -1,0 +1,38 @@
+// Reconstruct each new native atlas before applying measured, opt-in UASTC RDO.
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {parseArgs} from 'node:util';
+import {encodeToKTX2} from 'ktx2-encoder';
+import {buildAtlases,type AtlasInput} from './lib/atlas.ts';
+import {gradeFacade} from './lib/grade.ts';
+import {solidTile,splitBySlope} from './lib/untextured.ts';
+import {readFacadeGlb} from './lib/facade-glb.ts';
+import {dropTopMip,readKtx2Layout,assertSameLevels} from './lib/ktx2-mips.ts';
+import {deliverySha} from './lib/delivery-city-payloads.ts';
+import {bindDeliveryProducer,verifyDeliveryProducer,publicDeliveryProducer} from './lib/delivery-city-provenance.ts';
+
+const flags=['city-model','city-model-sha256','config','config-sha256','native-visual','cells','out','quality'];
+const{values:o}=parseArgs({options:Object.fromEntries(flags.map(k=>[k,{type:'string'as const}]))});for(const k of flags)assert.ok(o[k],`--${k} required`);assert.equal(o.quality,'2','Only the measured native q2 recipe is supported');assert.ok(!fs.existsSync(o.out!),'A cache output must be fresh');
+const producer=bindDeliveryProducer(new URL(import.meta.url)),cityPath=path.join(o['city-model']!,'city-model.json'),cityBytes=fs.readFileSync(cityPath),configBytes=fs.readFileSync(o.config!);assert.equal(deliverySha(cityBytes),o['city-model-sha256']);assert.equal(deliverySha(configBytes),o['config-sha256']);const city=JSON.parse(cityBytes.toString()),config=JSON.parse(configBytes.toString());assert.equal(city.source.snapshot,'city-expansion-new');assert.equal(config.curatedFacades,'none-new-strips');assert.equal(config.cellSize,128);assert.equal(config.atlasSize,2048);
+const binaryPath=path.join(o['city-model']!,city.binary.file),bin=fs.readFileSync(binaryPath);assert.equal(deliverySha(bin),city.binary.sha256);
+const selectedCells=o.cells!.split(',');assert.ok(selectedCells.length&&selectedCells.length<=512&&new Set(selectedCells).size===selectedCells.length);for(const id of selectedCells)assert.match(id,/^c_[mp]\d+_[mp]\d+$/);
+const read=(ref:any,Type:Float32ArrayConstructor|Uint32ArrayConstructor)=>new Type(bin.buffer.slice(bin.byteOffset+ref.offset,bin.byteOffset+ref.offset+ref.bytes));
+const cellId=(x:number,z:number)=>`c_${x<0?'m':'p'}${String(Math.abs(x)).padStart(2,'0')}_${z<0?'m':'p'}${String(Math.abs(z)).padStart(2,'0')}`;
+const sourceFiles=new Map<string,string>(),entries:any[]=[];fs.mkdirSync(path.join(o.out!,'textures'),{recursive:true});
+const store=(bytes:Uint8Array)=>{const sha256=deliverySha(bytes),name=`textures/${sha256}.ktx2`,file=path.join(o.out!,name);if(fs.existsSync(file))assert.equal(deliverySha(fs.readFileSync(file)),sha256);else fs.writeFileSync(file,bytes,{flag:'wx'});return{path:name,bytes:bytes.length,sha256};};
+for(const cell of selectedCells){
+  const buildings=city.buildings.filter((b:any)=>cellId(Math.floor((b.boundsENU.min[0]+b.boundsENU.max[0])/256),Math.floor(-(b.boundsENU.min[1]+b.boundsENU.max[1])/256))===cell),used=new Set<number|string>();assert.ok(buildings.length,`No native source building:${cell}`);
+  for(const b of buildings)for(const p of b.parts){if(p.texture!==null){used.add(p.texture);continue;}const P=read(p.positions,Float32Array)as Float32Array,I=read(p.indices,Uint32Array)as Uint32Array;for(let i=0;i<P.length;i+=3){const north=P[i+1]!;P[i+1]=P[i+2]!;P[i+2]=-north;}const split=splitBySlope(P,I,config.untextured.wallMaxNormalY);if(split.wall.length)used.add('wall');if(split.roof.length)used.add('roof');}
+  const inputs:AtlasInput[]=[];for(const id of used){if(typeof id==='string'){const image=solidTile(config.untextured[id],config.untextured.tileSize);inputs.push({id:`t${id}`,image,width:image.width,height:image.height,cap:image.width});}else{const t=city.textures[id],file=path.join(o['city-model']!,t.file),bytes=fs.readFileSync(file);sourceFiles.set(file,deliverySha(bytes));inputs.push({id:`t${id}`,file,width:t.width,height:t.height,cap:config.texelCap.facade});}}
+  const atlas=await buildAtlases(inputs,config.atlasSize,async(data,w,h)=>gradeFacade(data,w,h,config.facadeGrade)),nativePath=path.join(o['native-visual']!,`${cell}.lod0.glb`),nativeBytes=fs.readFileSync(nativePath),native=readFacadeGlb(nativeBytes),images=(native.json.images??[]).filter((i:any)=>i.name.startsWith(`${cell}_facades_`));assert.equal(atlas.atlases.length,images.length);sourceFiles.set(nativePath,deliverySha(nativeBytes));
+  for(const[index,image]of atlas.atlases.entries()){
+    const view=(native.json.bufferViews as any[])[(images[index]as any).bufferView],baseline=native.bin.subarray(view.byteOffset??0,(view.byteOffset??0)+view.byteLength),options={isUASTC:true,generateMipmap:true,isPerceptual:true,isSetKTX2SRGBTransferFunc:true,needSupercompression:true,qualityLevel:160,compressionLevel:2,uastcLDRQualityLevel:1,imageDecoder:async()=>image};
+    let oldRecipe:Uint8Array,encoded:Uint8Array;const stdout=process.stdout.write.bind(process.stdout);process.stdout.write=(()=>true)as typeof process.stdout.write;try{oldRecipe=await encodeToKTX2(image.data,options);assert.deepEqual(Buffer.from(oldRecipe),baseline,'Atlas replay must reconstruct the exact original native UASTC image, including every mip');encoded=await encodeToKTX2(image.data,{...options,enableRDO:true,rdoQualityLevel:2});}finally{process.stdout.write=stdout;}
+    let before:Uint8Array=baseline,after=encoded;const levels:any[]=[];for(let level=0;level<3;level++){const previousBefore=before,previousAfter=after;before=dropTopMip(before);after=dropTopMip(after);assertSameLevels(previousBefore,before);assertSameLevels(previousAfter,after);levels.push({droppedNativeLevels:level+1,baseline:{sha256:deliverySha(before),bytes:before.length},encoded:{...store(after),width:readKtx2Layout(after).width,height:readKtx2Layout(after).height}});}
+    entries.push({cell,atlas:index,nativeGlbSha256:deliverySha(nativeBytes),nativeImageSha256:deliverySha(baseline),rawRgbaSha256:deliverySha(image.data),nativeDimensions:[image.width,image.height],levels});
+  }
+  console.log(JSON.stringify({cell,atlases:atlas.atlases.length,completed:entries.length}));verifyDeliveryProducer(producer);
+}
+for(const[file,sha]of sourceFiles)assert.equal(deliverySha(fs.readFileSync(file)),sha);assert.equal(deliverySha(fs.readFileSync(cityPath)),o['city-model-sha256']);assert.equal(deliverySha(fs.readFileSync(binaryPath)),city.binary.sha256);assert.equal(deliverySha(fs.readFileSync(o.config!)),o['config-sha256']);verifyDeliveryProducer(producer);
+const cache={schemaVersion:1,kind:'exact-new-native-atlas-rdo-cache',status:'ENCODED_RUNTIME_REVIEW_REQUIRED',quality:2,recipe:{encoder:'ktx2-encoder',sourceDimensionsRetained:true,standard:'existing native mip count retained by application',low:'byte-exact next mip of each final chain'},source:{cityModelSha256:o['city-model-sha256'],binarySha256:city.binary.sha256,configSha256:o['config-sha256']},producer:publicDeliveryProducer(producer),entries};fs.writeFileSync(path.join(o.out!,'cache.json'),JSON.stringify(cache)+'\n',{flag:'wx'});console.log(JSON.stringify({status:cache.status,cells:selectedCells.length,atlases:entries.length,cacheSha256:deliverySha(fs.readFileSync(path.join(o.out!,'cache.json')))}));

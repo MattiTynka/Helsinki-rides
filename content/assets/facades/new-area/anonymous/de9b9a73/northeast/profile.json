@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "id": "anonymous-pengerkuja-white-annex-20261021",
+  "baselineManifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54",
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "art": {
+    "path": "facade.png",
+    "sha256": "60d4ee1d3fa8550c45afe0eb1600fb8db2524934bba2c1f2f7b675d3e275aa92",
+    "width": 1024,
+    "height": 1024,
+    "license": "CC0-1.0",
+    "attribution": "Original observed industrial-annex artwork by Helsinki Rides (2026); historical reference pixels are not reproduced.",
+    "references": [
+      {
+        "title": "Actual Google Street View Pengerkuja4 outdoor court,July2009; opened heading23 toward source annex",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=3PEgwhke6eQ88R6wUDu8lQ&heading=23&pitch=5&fov=100",
+        "role": "appearance-reference-only"
+      }
+    ]
+  },
+  "material": {
+    "name": "anonymous-pengerkuja-white-annex-20261021",
+    "unlit": true,
+    "roughness": 0.95,
+    "doubleSided": false
+  },
+  "charts": [
+    {
+      "id": "anonymous-pengerkuja-white-annex-20261021",
+      "building": "BID_de9b9a73-1c8f-4f5d-adea-1b31de25beb2",
+      "origin": [
+        308.1763916015625,
+        0,
+        -1604.4034423828125
+      ],
+      "uAxis": [
+        0.6068405091261092,
+        0,
+        -0.794823626022506
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -29.029693598302345,
+        4.990078926086426,
+        0,
+        11.850079536437988
+      ],
+      "pixels": [
+        4,
+        4,
+        1016,
+        1016
+      ],
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "cells": [
+    {
+      "id": "c_p02_m13",
+      "buildings": [
+        {
+          "id": "BID_de9b9a73-1c8f-4f5d-adea-1b31de25beb2",
+          "vtj": null
+        }
+      ],
+      "baselineLevels": {
+        "lod0": "d6ae5c4e73fafc5150297236042326bbbd0ec40170018124ba8e7e3d822f0bb2",
+        "lod1": "d6ae5c4e73fafc5150297236042326bbbd0ec40170018124ba8e7e3d822f0bb2",
+        "lod2": "0707bc85ffe45a0ab6f5590d6328c87ebaef483d3c779f2d3dfb73a916d73ac5"
+      },
+      "faces": [
+        {
+          "key": "94169a43baae9f40e98cc8c4:94169a43ed993d41e98cc8c4:ae479143ec993d418faac5c4",
+          "chart": "anonymous-pengerkuja-white-annex-20261021"
+        },
+        {
+          "key": "94169a43baae9f40e98cc8c4:ae479143ec993d418faac5c4:ae479143baae9f408faac5c4",
+          "chart": "anonymous-pengerkuja-white-annex-20261021"
+        }
+      ]
+    }
+  ]
+}

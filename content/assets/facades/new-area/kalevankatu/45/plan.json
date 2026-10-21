@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "id": "kalevankatu-45-southeast-20261021",
+  "building": {
+    "id": "BID_fcde335d-f2d3-4650-a66b-e3ea53ed9602",
+    "vtj": "1030652715",
+    "owner": "c_m10_p04"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    67,
+    68,
+    69
+  ],
+  "frame": {
+    "origin": [
+      -1255.238513994058,
+      558.5980386242603
+    ],
+    "axis": [
+      0.8172735596066559,
+      -0.5762498839634294
+    ],
+    "width": 28.741581592934608
+  },
+  "completeElevationPlane": true,
+  "art": {
+    "wallColour": "#c9bd9a",
+    "groundColour": "#b6aa8e",
+    "surroundColour": "#a79b7b",
+    "frameColour": "#755d44",
+    "glassColour": "#a0a8a0",
+    "groundHeight": 2.7,
+    "rows": [
+      {
+        "bottom": 3.25,
+        "height": 2.35,
+        "width": 1.28,
+        "axes": [
+          1.5967545329408115,
+          4.790263598822435,
+          7.983772664704058,
+          11.177281730585682,
+          14.370790796467304,
+          17.56429986234893,
+          20.75780892823055,
+          23.951317994112173,
+          27.144827059993798
+        ],
+        "header": "arch"
+      },
+      {
+        "bottom": 7.05,
+        "height": 2.25,
+        "width": 1.28,
+        "axes": [
+          1.5967545329408115,
+          4.790263598822435,
+          7.983772664704058,
+          11.177281730585682,
+          14.370790796467304,
+          17.56429986234893,
+          20.75780892823055,
+          23.951317994112173,
+          27.144827059993798
+        ],
+        "header": "flat"
+      },
+      {
+        "bottom": 10.75,
+        "height": 2.1,
+        "width": 1.28,
+        "axes": [
+          1.5967545329408115,
+          4.790263598822435,
+          7.983772664704058,
+          11.177281730585682,
+          14.370790796467304,
+          17.56429986234893,
+          20.75780892823055,
+          23.951317994112173,
+          27.144827059993798
+        ],
+        "header": "triangle"
+      },
+      {
+        "bottom": 14.25,
+        "height": 1.75,
+        "width": 1.24,
+        "axes": [
+          1.5967545329408115,
+          4.790263598822435,
+          7.983772664704058,
+          11.177281730585682,
+          14.370790796467304,
+          17.56429986234893,
+          20.75780892823055,
+          23.951317994112173,
+          27.144827059993798
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 3.4489897911521528,
+        "bottom": 0.3,
+        "width": 1.15,
+        "height": 1.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 7.185395398233652,
+        "bottom": 0.3,
+        "width": 1.15,
+        "height": 1.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 13.508543348679265,
+        "bottom": 0.2,
+        "width": 2,
+        "height": 2.4,
+        "kind": "door"
+      },
+      {
+        "x": 18.96944385133684,
+        "bottom": 0.3,
+        "width": 1.15,
+        "height": 1.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 22.705849458418342,
+        "bottom": 0.3,
+        "width": 1.15,
+        "height": 1.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 26.154839249570493,
+        "bottom": 0.3,
+        "width": 1.15,
+        "height": 1.55,
+        "kind": "glazing"
+      }
+    ],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 2.65,
+        "height": 0.2,
+        "colour": "#8f856e"
+      },
+      {
+        "from": "ground",
+        "offset": 6.25,
+        "height": 0.2,
+        "colour": "#a99d7b"
+      },
+      {
+        "from": "ground",
+        "offset": 9.8,
+        "height": 0.19,
+        "colour": "#9a8d6d"
+      },
+      {
+        "from": "ground",
+        "offset": 13.6,
+        "height": 0.16,
+        "colour": "#a49877"
+      },
+      {
+        "from": "top",
+        "offset": -0.5,
+        "height": 0.24,
+        "colour": "#a89c7a"
+      },
+      {
+        "from": "top",
+        "offset": -0.17,
+        "height": 0.17,
+        "colour": "#9e957e"
+      }
+    ],
+    "rustication": {
+      "bottom": 2.9,
+      "top": 6.2,
+      "spacing": 0.48,
+      "colour": "#a99c7c"
+    }
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Kalevankatu43 and45 fronts, August2024; opened heading324.67/291/350 upper and full-oblique views",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=gZarSRfx7P7wRDaQhnLxSg&heading=291&pitch=20&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual August2024 masonry frontage has FOUR main residential window rows over a low basement/entry level. Cream/sand plaster and dark reddish-brown window frames.",
+    "The lowest residential windows have arched top surrounds in a deeply jointed/rusticated storey; the next row has flat lintels, the next triangular pediments, the top row simpler shorter openings. Broad moulded horizontal string courses separate storeys.",
+    "The actual long frontage has a regular repeated narrow-window rhythm; the original nine-axis module placement is approximate, not a measured ornament survey."
+  ],
+  "limitations": [
+    "Only the exact complete southeast public street plane is selected. Other side/court/roof roles retain native materials until individually qualified.",
+    "Original palette and opening/ornament modules are approximate interpretations of the opened photograph. Native LoD2 dimensions and geometry remain literal; no photograph pixels, graffiti, people or vehicle images are copied.",
+    "Both accepted municipal appearance themes lack images for this exact building."
+  ]
+}

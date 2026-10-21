@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-new-strip-source-authority",
+  "origin": {
+    "id": "senate-square-statue-v2",
+    "crs": "EPSG:3879",
+    "originProjected": [
+      25497350,
+      6672960,
+      7.5
+    ],
+    "heights": "N2000",
+    "runtimeFrame": "X east, Y up, Z south"
+  },
+  "protectedArea": [
+    -1792,
+    -1152,
+    800,
+    450
+  ],
+  "newStrips": [
+    [
+      -1792,
+      -2304,
+      800,
+      -1152
+    ],
+    [
+      -1792,
+      450,
+      800,
+      768
+    ]
+  ],
+  "acceptedSourceManifestSha256": "4506f2c9a0916938961d56d8bd542139c25d33cdea2fc22bbdc9edbde7d6c45d",
+  "policy": "Accepted304cells/1695building IDs never regenerated from the current city-model vintage. Whole new strip-owned buildings retained, including source geometry crossing a boundary. New-vintage building owners inside the protected interior and accepted IDs are excluded; source-null facades require independent original artwork.",
+  "sources": [
+    {
+      "kind": "lod2",
+      "source": {
+        "id": "helsinki-lod2-textured",
+        "title": "City of Helsinki 3D city information model, textured LoD2 buildings (3D Tiles, layer Rakennukset_LOD2_tekstuureilla)",
+        "url": "https://kartta.hel.fi/3d/",
+        "license": "CC BY 4.0 (stated for the city information model on hel.fi/3d; the 3D Tiles service is the city's own distribution of it)",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "attribution": "Buildings: Helsinki 3D city model © City of Helsinki, CC BY 4.0",
+        "heights": "N2000 building elevations; source ECEF coordinates converted through GRS80 to EPSG:3879 after subtracting the accepted senate-square-statue-v2 origin. New vintage qualified independently; accepted geometry remains exact."
+      },
+      "snapshot": {
+        "url": "https://kartta.hel.fi/3d/datasource-data/e5e7158a-52df-45a1-9be0-1be8f2828abd/tileset.json",
+        "tilesetVersion": "305259202062",
+        "retrievedAt": "2026-10-20T21:32:44.925Z",
+        "bytes": 203790192,
+        "sha256": "a05b9bbdb265b7162e3711372d6f17cd7f50d01aea6da2cd8b0b14c6dfda9fc1",
+        "bboxEN": [
+          25495518,
+          6672152,
+          25498190,
+          6675304
+        ],
+        "stripsEN": [
+          {
+            "id": "south",
+            "bbox": [
+              25495518,
+              6672152,
+              25498190,
+              6672550
+            ]
+          },
+          {
+            "id": "north",
+            "bbox": [
+              25495518,
+              6674072,
+              25498190,
+              6675304
+            ]
+          }
+        ],
+        "acquisition": "Independent current-vintage source strip. All selected GLBs fetched and hashed. Accepted previous-vintage source/model/building geometry is not merged or replaced; remove accepted manifest building IDs before new-only conversion is built.",
+        "acceptedPriorVintage": "303357262605",
+        "acceptedPriorIndexSha256": "d86ab2b294bb4f1a3da80a6d34c96ebc2e04f2afa55c0dfbfe91b36d5b720601",
+        "geometryReuseForbidden": true,
+        "newTiles": 542,
+        "newPayloadBytes": 203790192
+      },
+      "tileCount": 542,
+      "rawLedgerSha256": "d5a48b2da878d969c99b0fb2b6217a2d937bddf190280da106c7d600f0cfe8d0"
+    },
+    {
+      "kind": "terrain",
+      "source": {
+        "id": "helsinki-terrain-2021",
+        "title": "City of Helsinki terrain model 2021 (quantized-mesh, layer 2021_terrain \"Maastomalli\")",
+        "url": "https://kartta.hel.fi/3d/",
+        "license": "CC BY 4.0 (plan v3 sections 1 and 18: confirmed by the city for the LoD2, terrain, tree and mesh layers of its 3D map stream)",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "attribution": "Terrain: Helsinki terrain model 2021 © City of Helsinki, CC BY 4.0"
+      },
+      "snapshot": {
+        "url": "https://kartta.hel.fi/3d/datasource-data/4383570b-33a3-4a9f-ae16-93373aff5ffa/",
+        "layerVersion": "1.1708423032937557",
+        "zoom": 18,
+        "retrievedAt": "2026-10-20T21:32:57.386Z",
+        "bytes": 36549482,
+        "sha256": "628f5f296323bceddbbda5726503189d39cb265838bd9bca573594d0537103ea",
+        "bboxEN": [
+          25495518,
+          6672152,
+          25498190,
+          6675304
+        ],
+        "stripsEN": [
+          {
+            "id": "south",
+            "bbox": [
+              25495518,
+              6672152,
+              25498190,
+              6672550
+            ]
+          },
+          {
+            "id": "north",
+            "bbox": [
+              25495518,
+              6674072,
+              25498190,
+              6675304
+            ]
+          }
+        ],
+        "acquisition": "Accepted same-vintage raw index/payload prefix retained after full byte/hash verification and same-volume hardlinks; fetch only missing officially selected URLs.",
+        "newTiles": 1349,
+        "newPayloadBytes": 17651263
+      },
+      "tileCount": 2982,
+      "rawLedgerSha256": "1865e935bb3f7e2df948ead7a0d7ba56533c96ca0d3e95fc6a163e66026de036"
+    },
+    {
+      "kind": "trees/street",
+      "source": {
+        "id": "helsinki-trees-street",
+        "title": "City of Helsinki 3D city model, tree layer Katu_ja_puistopuut: Katu- ja puistopuut (street and park trees, the public tree register)",
+        "url": "https://kartta.hel.fi/3d/",
+        "layer": "Katu_ja_puistopuut",
+        "license": "CC BY 4.0 (plan v3 sections 1 and 18: confirmed by the city for the LoD2, terrain, tree and mesh layers of its 3D map stream)",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "attribution": "Trees: Helsinki 3D city model tree layers © City of Helsinki, CC BY 4.0",
+        "use": "positions, heights, crown and trunk sizes and genus only; the tree meshes in the tiles are not used (own models)"
+      },
+      "snapshot": {
+        "url": "https://kartta.hel.fi/3d/datasource-data/7afdc4b9-9a23-4a6f-a1ae-cf71495a731e/tileset.json",
+        "tilesetVersion": "303007720360",
+        "retrievedAt": "2026-10-20T21:33:00.149Z",
+        "bytes": 17989764,
+        "sha256": "99f5694757162d928a3bb23bc87a3e675f2e0323432809924ad025d7fe26ca78",
+        "bboxEN": [
+          25495518,
+          6672152,
+          25498190,
+          6675304
+        ],
+        "stripsEN": [
+          {
+            "id": "south",
+            "bbox": [
+              25495518,
+              6672152,
+              25498190,
+              6672550
+            ]
+          },
+          {
+            "id": "north",
+            "bbox": [
+              25495518,
+              6674072,
+              25498190,
+              6675304
+            ]
+          }
+        ],
+        "acquisition": "Accepted same-vintage raw index/payload prefix retained after full byte/hash verification and same-volume hardlinks; fetch only missing officially selected URLs.",
+        "newTiles": 328,
+        "newPayloadBytes": 8813980
+      },
+      "tileCount": 709,
+      "rawLedgerSha256": "24f8a833286ff5ca1e9bd4ebc25ada19a36661e625459058889cbe161af01a26"
+    },
+    {
+      "kind": "trees/plot",
+      "source": {
+        "id": "helsinki-trees-plot",
+        "title": "City of Helsinki 3D city model, tree layer Tontti_ja_metsapuut: Tontti- ja metsäpuut (plot and forest trees)",
+        "url": "https://kartta.hel.fi/3d/",
+        "layer": "Tontti_ja_metsapuut",
+        "license": "CC BY 4.0 (plan v3 sections 1 and 18: confirmed by the city for the LoD2, terrain, tree and mesh layers of its 3D map stream)",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "attribution": "Trees: Helsinki 3D city model tree layers © City of Helsinki, CC BY 4.0",
+        "use": "positions, heights, crown and trunk sizes and genus only; the tree meshes in the tiles are not used (own models)"
+      },
+      "snapshot": {
+        "url": "https://kartta.hel.fi/3d/datasource-data/561e9651-878a-45a6-99e3-e4e4704d8001/tileset.json",
+        "tilesetVersion": "300497315794",
+        "retrievedAt": "2026-10-20T21:33:13.613Z",
+        "bytes": 25588148,
+        "sha256": "9cf100c6cb76f50f1c4ab13d98acdf323e2f683b14e694eeaa8f5b39b129ed0c",
+        "bboxEN": [
+          25495518,
+          6672152,
+          25498190,
+          6675304
+        ],
+        "stripsEN": [
+          {
+            "id": "south",
+            "bbox": [
+              25495518,
+              6672152,
+              25498190,
+              6672550
+            ]
+          },
+          {
+            "id": "north",
+            "bbox": [
+              25495518,
+              6674072,
+              25498190,
+              6675304
+            ]
+          }
+        ],
+        "acquisition": "Accepted same-vintage raw index/payload prefix retained after full byte/hash verification and same-volume hardlinks; fetch only missing officially selected URLs.",
+        "newTiles": 1423,
+        "newPayloadBytes": 16115044
+      },
+      "tileCount": 2406,
+      "rawLedgerSha256": "b8f79e6eb473a657cab9ed67b08b150deba9617f0bf35aa1416f29a48f08c500"
+    }
+  ],
+  "lod2PublicIndex": {
+    "path": "lod2-public-tiles-v1.json",
+    "bytes": 180758,
+    "sha256": "e5906fee333f67c8e0bd539648e8b38bb696f1889b81bd1f9699571c0723ff1e"
+  },
+  "models": [
+    {
+      "band": "north",
+      "buildings": 920,
+      "sourceModelSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb"
+    },
+    {
+      "band": "south",
+      "buildings": 310,
+      "sourceModelSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475"
+    }
+  ],
+  "sourceBinarySha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+  "qualifiedOverlap": {
+    "acceptedAndCurrentSharedBuildings": 287,
+    "exactFloat32PositionTriangleSets": 287,
+    "changedCoordinates": 0
+  },
+  "publicSurveyLedger": "survey-public-ledger-v1.json",
+  "publicOsmLedger": "osm-public-ledger-v1.json",
+  "reproduction": "Raw municipal GLB/terrain/tree inputs and private source intermediates are intentionally excluded from source Git. Retrieve the pinned municipal inputs, preserve accepted source terrain words, independently convert/filter the current LoD2 source, and use cells-north/south-v3 configs with --accepted-building-manifest pointing to the exact accepted source manifest. Public OSM/WFS projections keep exact consumed values but need explicit sourceRegistration hash rebinding; their different hashes are never silently substituted. Native cache receipts bind the original producer files and input hashes. No2017mesh input."
+}

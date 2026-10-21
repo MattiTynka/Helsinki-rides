@@ -34,6 +34,15 @@ test('north native band is bound to the complete accepted edge and never widens 
  for(const r of[[-1791,-1152,800,-950],[-1792,-1152,800,-949],[-1792,-1152,799,-950]])assert.throws(()=>planCityFrontier([-1792,-950,800,450],r as [number,number,number,number],'z'),/full northern strip/);
  const west=planCityFrontier([-1350,-950,800,450],[-1792,-950,-1350,450]);assert.equal(west.cut,-1345);assert.deepEqual(west.sourceBand,[-1356,-950,-1345,450]);assert.ok(frontierRuntimeLoweringAllowed(west,-1350,0,10,9));assert.equal(frontierRuntimeLoweringAllowed(west,-1345,0,10,9),false);
 });
+
+test('southern native band mirrors the boundary authority without permitting northern or upward terrain changes',()=>{
+ const accepted=[-1792,-1152,800,450]as const,region=[-1792,450,800,768]as const;
+ const p=planCityFrontier(accepted,region,'z');assert.equal(p.cut,445);assert.equal(p.protectedSide,'north');assert.deepEqual(p.groundRegion,[-1792,445,800,768]);assert.deepEqual(p.sourceBand,[-1792,445,800,456]);
+ assert.ok(frontierRuntimeLoweringAllowed(p,-1792,450,10,9));assert.ok(frontierRuntimeLoweringAllowed(p,800,446,10,9));
+ for(const[x,z,next]of[[0,445,9],[0,444,9],[0,-1152,9],[0,450,11],[0,450,10],[-1793,450,9],[801,450,9],[0,451,9],[0,450,NaN]])assert.equal(frontierRuntimeLoweringAllowed(p,x!,z!,10,next!),false);
+ for(const invalid of[[-1791,450,800,768],[-1792,449,800,768],[-1792,451,800,768],[-1792,450,799,768],[-1792,450,800,450]])assert.throws(()=>planCityFrontier(accepted,invalid as [number,number,number,number],'z'));
+ const n=planCityFrontier([-1792,-450,800,1152],[-1792,-768,800,-450],'z');assert.equal(p.cut,-n.cut);assert.deepEqual(p.sourceBand,[n.sourceBand[0],-n.sourceBand[3],n.sourceBand[2],-n.sourceBand[1]]);
+});
 test('explicit north and south clipping preserves winding, UVs and non-ground HCOL on a Z frontier',()=>{
  const before=mesh(),south=clipFrontierMesh(before,{cut:1,axis:'z',side:'south'}),north=clipFrontierMesh(before,{cut:1,axis:'z',side:'north'});
  for(const [out,inside]of[[south,(z:number)=>z>=1],[north,(z:number)=>z<=1]]as const)for(let i=0;i<out.mesh.attributes.POSITION!.length/3;i++){const z=out.mesh.attributes.POSITION![i*3+2]!;assert.ok(inside(z));assert.equal(out.mesh.attributes.TEXCOORD_0![i*2+1],z);assert.equal(out.mesh.attributes.NORMAL![i*3+1],127);}

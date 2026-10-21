@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import { parseArgs } from 'node:util';
 import { initPhysics, StaticWorld } from '../../packages/sim/src/index.ts';
 import { pointAlong } from '../../packages/world-schema/src/index.ts';
-import { readSimulationPayload } from './lib/simulation-payload.ts';
+import { readRoadGraph, readSimulationPayload } from './lib/simulation-payload.ts';
 
 const { values } = parseArgs({ options: { release: { type: 'string' }, out: { type: 'string' } } });
 if (!values.release || !values.out || fs.existsSync(values.out)) throw new Error('release and fresh out required');
@@ -18,7 +18,7 @@ const payload = ref => {
   return bytes;
 };
 await initPhysics();
-const roads = JSON.parse(payload(manifest.roads)), gameplay = JSON.parse(payload(manifest.gameplay));
+const roads = await readRoadGraph(values.release,manifest.roads), gameplay = JSON.parse(payload(manifest.gameplay));
 const world = StaticWorld.fromBytes(await readSimulationPayload(values.release, manifest.terrain), roads, gameplay);
 for (const cell of manifest.cells) world.addCell(cell.id, await readSimulationPayload(values.release, cell.collision));
 world.physics.step();

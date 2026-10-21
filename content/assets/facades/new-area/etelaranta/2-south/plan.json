@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "id": "etelaranta-2-bernhardinkatu-south-20261021",
+  "building": {
+    "id": "BID_979b25db-6a21-4e9f-937c-032e1df46a5e",
+    "vtj": "103046290V",
+    "owner": "c_m01_p04"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    28,
+    29,
+    103,
+    104,
+    172,
+    173,
+    174
+  ],
+  "frame": {
+    "origin": [
+      -31.762897491455078,
+      648.8533935546875
+    ],
+    "axis": [
+      0.998707182390173,
+      -0.05083270445570985
+    ],
+    "width": 48.8391753978511
+  },
+  "completeElevationSupportPlanes": true,
+  "art": {
+    "wallColour": "#bf8f85",
+    "groundColour": "#b89c6c",
+    "surroundColour": "#e1d9c9",
+    "frameColour": "#7c7f72",
+    "glassColour": "#8e9b94",
+    "groundHeight": 5.3,
+    "rows": [
+      {
+        "bottom": 6.2,
+        "height": 3,
+        "width": 1.45,
+        "axes": [
+          1.4364463352309147,
+          4.309339005692744,
+          7.182231676154574,
+          10.055124346616404,
+          12.928017017078233,
+          15.800909687540063,
+          18.673802358001893,
+          21.54669502846372,
+          24.41958769892555,
+          27.29248036938738,
+          30.165373039849207,
+          33.03826571031104,
+          35.91115838077287,
+          38.7840510512347,
+          41.65694372169653,
+          44.52983639215836,
+          47.40272906262018
+        ],
+        "header": "arch"
+      },
+      {
+        "bottom": 11.1,
+        "height": 2.45,
+        "width": 1.4,
+        "axes": [
+          1.4364463352309147,
+          4.309339005692744,
+          7.182231676154574,
+          10.055124346616404,
+          12.928017017078233,
+          15.800909687540063,
+          18.673802358001893,
+          21.54669502846372,
+          24.41958769892555,
+          27.29248036938738,
+          30.165373039849207,
+          33.03826571031104,
+          35.91115838077287,
+          38.7840510512347,
+          41.65694372169653,
+          44.52983639215836,
+          47.40272906262018
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 1.4364463352309147,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 4.309339005692744,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 7.182231676154574,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 10.055124346616404,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 12.928017017078233,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 15.800909687540063,
+        "bottom": 0.22,
+        "width": 1.15,
+        "height": 4.45,
+        "kind": "door"
+      },
+      {
+        "x": 18.673802358001893,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 21.54669502846372,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 24.41958769892555,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 27.29248036938738,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 30.165373039849207,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 33.03826571031104,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 35.91115838077287,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 38.7840510512347,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 41.65694372169653,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 44.52983639215836,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      },
+      {
+        "x": 47.40272906262018,
+        "bottom": 1.1,
+        "width": 1.45,
+        "height": 3.55,
+        "kind": "glazing"
+      }
+    ],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 5.1,
+        "height": 0.22,
+        "colour": "#d6d0bf"
+      },
+      {
+        "from": "ground",
+        "offset": 10.25,
+        "height": 0.1,
+        "colour": "#d6d0bf"
+      },
+      {
+        "from": "top",
+        "offset": -0.25,
+        "height": 0.2,
+        "colour": "#d6d0bf"
+      }
+    ],
+    "rustication": {
+      "bottom": 0.5,
+      "top": 5,
+      "spacing": 0.6,
+      "colour": "#9e815d"
+    }
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Etelaranta2 south Bernhardinkatu frontage; August2024 panorama19M1fBqWnDEKvrh1CufT6w at60.1636316,24.9520172, headings3/330/40 pitch20-25 opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=19M1fBqWnDEKvrh1CufT6w&heading=3&pitch=25&fov=110",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual south street front has TWO upper window rows above one tall ochre rusticated ground floor: three total storeys. Dusty pink upper plaster, pale grey-green classical surrounds and shallow curved middle-row pediments; rectangular shorter top windows; ornate dentil cornice.",
+    "A timber entry lies west of centre; one dark metal balcony projects above the middle eastern portion. Original artwork approximates these observed features without photographic pixels.",
+    "The seven exact native outward source facets cover three shallow offsets across the full48.8m south street frontage. Small steps and corners stay as source geometry.",
+    "Seventeen approximate opening axes are reference-led original interpretation; window dimensions and fine sculptural ornament are not a measured architectural survey."
+  ],
+  "limitations": [
+    "South Bernhardinkatu front only. East seaward front, west return, inner courts, roofs and thin perpendicular joining facets remain separately pending.",
+    "No people, cars, trees, logos, address text or Google photographic pixels are reproduced.",
+    "Appearance repair only; original mesh, winding, indices, native steps/collision remain unchanged."
+  ],
+  "observedGroundProfile": {
+    "kind": "named-source-floor-profile",
+    "path": "ground-profile.json",
+    "sha256": "faeb9d88da7204a8bc0c5d1b22f8baf1be1f3ec3894dc13ebd7a677db39195eb"
+  }
+}

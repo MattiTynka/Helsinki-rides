@@ -21,6 +21,12 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def startup_jpeg(metadata=b''):
+    def segment(code, payload):
+        return b'\xff' + bytes([code]) + struct.pack('>H', len(payload) + 2) + payload
+    return b'\xff\xd8' + metadata + segment(0xDB, b'quantization') + segment(0xDA, b'scan') + b'raster\xff\x00stuffed\xff\xd9'
+
+
 def minimal_glb(document=None):
     """A real GLB envelope, including a padded JSON chunk and embedded BIN chunk."""
     model = {'asset': {'version': '2.0'}, 'scene': 0, 'scenes': [{}],
@@ -328,6 +334,29 @@ class PagesWorldTest(unittest.TestCase):
             (self.output / name).write_bytes(b'public shell')
         self.assertEqual(self.stage()['status'], 'PASS')
 
+    def test_shell_accepts_only_the_hashed_metadata_free_startup_jpeg(self):
+        path = self.output / 'assets/senate-square-start-C3c2do1Y.jpg'
+        path.write_bytes(startup_jpeg())
+        self.assertEqual(self.stage()['status'], 'PASS')
+
+    def test_shell_refuses_unreviewed_image_names(self):
+        for name in ['photo-C3c2do1Y.jpg', 'senate-square-start.jpg', 'senate-square-start-C3c2do1Y.png']:
+            with self.subTest(name=name):
+                path = self.output / 'assets' / name
+                path.write_bytes(startup_jpeg())
+                with self.assertRaises(ValueError):
+                    pages._shell_inventory(self.output)
+                path.unlink()
+
+    def test_shell_refuses_private_metadata_corrupt_and_oversized_startup_images(self):
+        path = self.output / 'assets/senate-square-start-C3c2do1Y.jpg'
+        private_app1 = b'\xff\xe1' + struct.pack('>H', 15) + b'Exif\x00private!'
+        for payload in [startup_jpeg(private_app1), startup_jpeg() + b'private trailer', b'not-jpeg', b'x' * 1_000_001]:
+            with self.subTest(length=len(payload)):
+                path.write_bytes(payload)
+                with self.assertRaises(ValueError):
+                    pages._shell_inventory(self.output)
+
     def test_invalid_source_commit_is_refused(self):
         with self.assertRaises(ValueError):
             pages.stage(self.descriptor_path, self.archive_path, self.output, 'main')
@@ -504,11 +533,34 @@ class PagesWorldTest(unittest.TestCase):
             self.assert_optimized_refused('decoded simulation exceeds its declared size')
         self.assertEqual(requested_reads, [9])
 
-    def test_runtime_gzip_is_reserved_for_declared_terrain_and_collision_payloads(self):
+    def test_runtime_roads_gzip_requires_complete_simulation_metadata(self):
         self.payloads.pop('roads.json')
         self.manifest['roads'] = self.pin_payload('roads.bin.gz', gzip.compress(b'{}', mtime=0))
         self.build_inputs()
-        self.assert_optimized_refused('not a declared simulation input')
+        self.assert_optimized_refused('compression metadata is incomplete')
+
+    def test_packed_roads_are_decoded_and_bounded_before_pages_mutation(self):
+        fields = {'nodes': ['id', 'kind'], 'lanes': ['id', 'wayId', 'name', 'highway', 'surface', 'speedLimit', 'width', 'from', 'to', 'length', 'index', 'count'], 'connectors': ['id', 'node', 'from', 'to', 'turn', 'length'], 'parking': ['id', 'kind', 'heading'], 'footways': ['id']}
+        header = {'schemaVersion': 1, 'root': {'schemaVersion': 2, 'originId': 'fixture', 'source': dict(id='osm', sha256='a' * 64, attribution='fixture', license='ODbL')}, 'strings': ['footway'], 'groups': {kind: {'fields': names, 'rows': []} for kind, names in fields.items()}}
+        header['groups']['footways']['rows'] = [[0, 0, 2]]
+        text = json.dumps(header, separators=(',', ':')).encode()
+        offset = (32 + len(text) + 7) // 8 * 8
+        binary = b'HROADS01' + struct.pack('<6I', 1, len(text), 2, 0, offset, offset + 48) + text + bytes(offset - 32 - len(text)) + struct.pack('<6d', 0, 3.141592653589793, 0, 1, 2.718281828459045, 1)
+        pages._validate_packed_roads(binary)
+        self.payloads.pop('roads.json')
+        compressed = gzip.compress(binary, mtime=0)
+        self.manifest['roads'] = {**self.pin_payload('roads.bin.gz', compressed), 'compression': 'gzip', 'decodedBytes': len(binary), 'decodedSha256': sha(binary)}
+        self.build_inputs()
+        self.assertEqual(self.stage()['status'], 'PASS')
+
+    def test_packed_road_corruption_and_oversized_ranges_are_refused(self):
+        for size, count, offset, reserved in [(1, 0xffffffff, 40, 0), (1, 0, 32, 0), (1, 0, 40, 1)]:
+            with self.subTest(count=count, offset=offset, reserved=reserved):
+                data = b'HROADS01' + struct.pack('<6I', 1, size, count, reserved, offset, 40) + bytes(8)
+                with self.assertRaisesRegex(ValueError, 'ranges/version/counts'):
+                    pages._validate_packed_roads(data)
+        with self.assertRaisesRegex(ValueError, '8MB'):
+            pages._validate_packed_roads(b'HROADS01' + bytes(8_000_001))
 
     def test_shared_texture_inventory_accepts_content_addressed_ktx2_and_png_dependencies(self):
         textures = self.optimized_textures()

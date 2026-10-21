@@ -1,0 +1,15 @@
+// Public geometry projection: retain source coordinates and only tags consumed by city producers.
+import assert from 'node:assert/strict';
+const tags=new Set(['highway','construction','area','motor_vehicle','vehicle','access','maxspeed','surface','name','ref','oneway','junction','lanes','lanes:forward','lanes:backward','width','est_width','step_count','bridge','tunnel','indoor','layer','barrier','service','foot','bicycle','route','amenity','parking','ferry','natural','water','waterway','intermittent','seasonal','salt','man_made','type','restriction','restriction:motorcar','railway','tracks','gauge','electrified','voltage']);
+// Lane placement and named-road portal boundaries consume these namespaces.
+// Retain them explicitly rather than broadening the projection to arbitrary metadata.
+const producerTag=(key:string)=>tags.has(key)||key==='placement'||['placement:','name:','ref:'].some(prefix=>key.startsWith(prefix));
+type Element={type:string;id:number;lat?:number;lon?:number;nodes?:number[];members?:{type:string;ref:number;role:string}[];tags?:Record<string,string>};
+export function projectPublicCityOsm(source:{elements:Element[]}){
+  const elements=new Map(source.elements.map(e=>[`${e.type}/${e.id}`,e])),keep=new Set<string>(),unresolvedRelationMembers:{relation:number;type:string;id:number}[]=[];
+  const water=(t:Record<string,string>)=>(t.natural==='water'||t.waterway==='riverbank')&&t.water!=='basin'&&t.amenity!=='fountain';
+  function add(key:string){if(keep.has(key))return;const e=elements.get(key);assert.ok(e,`Missing source topology ${key}`);keep.add(key);for(const id of e.nodes??[])add(`node/${id}`);for(const m of e.members??[]){const member=`${m.type}/${m.ref}`;if(elements.has(member))add(member);else unresolvedRelationMembers.push({relation:e.id,type:m.type,id:m.ref});}}
+  for(const e of source.elements){const t=e.tags??{};if(e.type==='way'&&(t.highway||t.natural==='coastline'||water(t)||t.man_made==='pier'||t.barrier==='retaining_wall'||t.route==='ferry'||t.railway==='tram'))add(`way/${e.id}`);if(e.type==='relation'&&(t.type==='restriction'||t.type==='multipolygon'&&water(t)))add(`relation/${e.id}`);}
+  const projected=source.elements.filter(e=>keep.has(`${e.type}/${e.id}`)).map(e=>{const allowed=Object.fromEntries(Object.entries(e.tags??{}).filter(([key])=>producerTag(key)&&(e.type!=='node'||['amenity','parking','ferry','barrier','access'].includes(key))));return{type:e.type,id:e.id,...(e.lat!==undefined?{lat:e.lat,lon:e.lon}:{}),...(e.nodes?{nodes:e.nodes}:{}),...(e.members?{members:e.members.map(m=>({type:m.type,ref:m.ref,role:m.role}))}:{}),...(Object.keys(allowed).length?{tags:allowed}:{})};});
+  return{version:.6,generator:'Helsinki Rides source geometry projection',attribution:'Map data © OpenStreetMap contributors, ODbL1.0; https://www.openstreetmap.org/copyright',sourceTopology:{unresolvedRelationMembers,note:'Existing bounded source omissions are retained explicitly; no topology is invented. Every retained way keeps its complete source node sequence.'},elements:projected};
+}

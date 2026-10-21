@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "id": "uudenmaankatu-34-northwest-20261021",
+  "building": {
+    "id": "BID_ac2c085e-b509-4718-a257-18287de6a5c8",
+    "vtj": "103084938K",
+    "owner": "c_m07_p05"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    52,
+    53
+  ],
+  "frame": {
+    "origin": [
+      -809.6267089843752,
+      689.9299926757815
+    ],
+    "axis": [
+      -0.819486518314394,
+      0.5730984612620703
+    ],
+    "width": 25.265171922565287
+  },
+  "art": {
+    "wallColour": "#d6c69d",
+    "groundColour": "#69655f",
+    "surroundColour": "#9c998c",
+    "frameColour": "#695e4c",
+    "glassColour": "#82928e",
+    "groundHeight": 4.0,
+    "rows": [
+      {
+        "bottom": 4.7,
+        "height": 2.5,
+        "width": 1.15,
+        "axes": [
+          1.804655137326092,
+          5.413965411978276,
+          9.023275686630459,
+          12.632585961282643,
+          16.241896235934828,
+          19.851206510587012,
+          23.460516785239196
+        ],
+        "header": "flat"
+      },
+      {
+        "bottom": 8.6,
+        "height": 2.1,
+        "width": 1.15,
+        "axes": [
+          1.804655137326092,
+          5.413965411978276,
+          9.023275686630459,
+          12.632585961282643,
+          16.241896235934828,
+          19.851206510587012,
+          23.460516785239196
+        ],
+        "header": "flat"
+      },
+      {
+        "bottom": 12.1,
+        "height": 1.9,
+        "width": 1.1,
+        "axes": [
+          1.804655137326092,
+          5.413965411978276,
+          9.023275686630459,
+          12.632585961282643,
+          16.241896235934828,
+          19.851206510587012,
+          23.460516785239196
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 15.7,
+        "height": 0.6,
+        "width": 1.0,
+        "axes": [
+          1.804655137326092,
+          5.413965411978276,
+          9.023275686630459,
+          12.632585961282643,
+          16.241896235934828,
+          19.851206510587012,
+          23.460516785239196
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 2.4,
+        "bottom": 0.2,
+        "width": 3.3,
+        "height": 3.15,
+        "kind": "glazing"
+      },
+      {
+        "x": 7.4,
+        "bottom": 0.2,
+        "width": 4.0,
+        "height": 3.15,
+        "kind": "glazing"
+      },
+      {
+        "x": 12.2,
+        "bottom": 0.2,
+        "width": 3.4,
+        "height": 3.15,
+        "kind": "glazing"
+      },
+      {
+        "x": 16.15,
+        "bottom": 0.2,
+        "width": 1.1,
+        "height": 3.15,
+        "kind": "door"
+      },
+      {
+        "x": 19.25,
+        "bottom": 0.2,
+        "width": 2.0,
+        "height": 3.15,
+        "kind": "passage"
+      },
+      {
+        "x": 23.0,
+        "bottom": 0.2,
+        "width": 3.0,
+        "height": 3.15,
+        "kind": "glazing"
+      }
+    ],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 4.0,
+        "height": 0.2,
+        "colour": "#8e887c"
+      },
+      {
+        "from": "top",
+        "offset": -0.7,
+        "height": 0.18,
+        "colour": "#b4b0a1"
+      },
+      {
+        "from": "top",
+        "offset": -0.18,
+        "height": 0.18,
+        "colour": "#a6a394"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Street View, Uudenmaankatu34 actual northwest front, August2024",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=uFx9J7SMC1w8WBkxKYVAGw&heading=148.81&pitch=25&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual number34 is visible above the timber entry in the opened August2024 panorama.",
+    "Pale warm yellow/ochre upper plaster; three tall residential opening rows and one low attic row; regular narrow divided windows with gray stone surrounds and brown frames.",
+    "Dark gray stone ground shopfronts, reddish timber entry and a dark vehicular passage immediately to its southwest; source wall is planar and all native geometry stays literal."
+  ],
+  "limitations": [
+    "Only the exact planar northwest public street front is selected. Side/court/roof faces retain native materials pending their individual role/reference dispositions.",
+    "Opening placement, palette and ornament are approximate original artwork based on the actually opened panorama. No Google pixels, branding, people or vegetation are copied.",
+    "Both accepted current municipal appearance themes lack images for this exact source building."
+  ],
+  "completeElevationPlane": true
+}

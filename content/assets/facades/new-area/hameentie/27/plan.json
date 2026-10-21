@@ -1,0 +1,9 @@
+{
+ "schemaVersion":1,"id":"hameentie-27-west-20261021",
+ "source":{"cityJsonSha256":"5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb","cityBinSha256":"e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f","originId":"senate-square-statue-v2"},
+ "building":{"id":"BID_92409bd9-5cf9-4140-8e2a-00cf48a04dfa","vtj":"103142224H","owner":"c_p04_m16"},
+ "elevations":[{"id":"south","triangles":[327,328,329,330],"pixels":[2,2,508,1020]},{"id":"middle","triangles":[339,340,341,343],"pixels":[514,2,508,508]},{"id":"north","triangles":[265,266],"pixels":[514,514,508,508]}],
+ "references":[{"title":"Google Street View, Hämeentie 27 opposite number 52, May 2022, eastward view","url":"https://www.google.com/maps/@?api=1&map_action=pano&pano=UKCBpTVNrvWmiGYTlO4CiQ&heading=105&pitch=20&fov=100","role":"appearance-reference-only"}],
+ "observations":["The cream street front immediately north of modern number25 has six upper residential window rows over glazed ground-floor shops.","Pale surrounds, pale vertical piers, restrained ground belt and a plain shallow roof cornice distinguish this front from the pink number23.","The municipal frontage consists of several angled planes. Each plane receives its own exact source chart rather than one projection through the corner."],
+ "limitations":["Only three large northwest-facing street planes are repainted; roof and courtyard faces retain native materials.","Opening widths, colour and regular spacing are original approximations fitted to the selected planes; no surveyed bay count is asserted.","Small roof returns and commercial logos are omitted. No reference photograph pixels, trees or traffic are baked into the wall artwork."]
+}

@@ -171,6 +171,14 @@ addresses, strips image metadata losslessly, and updates the two affected
 Estates hash pins only in the exported checkout. The original photographs remain
 unchanged. Use `--out build/source-release-N` for another export.
 
+Public GeoJSON is scanned as text. The two explicitly selected compressed road
+registration datasets are decoded before scanning, with a 64 MiB bound, strict
+JSON/UTF-8 validation and exactly one complete gzip member without filename,
+comment, extra-header or trailing data. Original facade PNGs are individually
+allowlisted and receive the same image metadata checks as the older assets.
+Before committing, compare Git's complete prospective file list with this
+allowlist; a file omitted from the audit must not be silently added to Git.
+
 Run `python tools/release/source_release.py audit --images` inside the export.
 After its initial commit, add `--git` to check every reachable commit's files and
 metadata. The expected initial identity is the owner-selected public GitHub

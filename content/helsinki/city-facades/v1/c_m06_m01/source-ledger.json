@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 2,
+  "production": {
+    "kind": "original-procedural",
+    "license": "CC0-1.0",
+    "referencePixelsCopied": false,
+    "artSha256": "2160b4d5bbd6606227895dac25f57931f9c0cf88f362ae70c5d5b0700fd7c9f1",
+    "svgSha256": "5eb70686586c9cda769513ebe22f7d0f5e6e2cb7ead8f51f2e8d047e2c821bc1"
+  },
+  "planSha256": "7851414eb8044e77a743d3406e9e19dfc2789d547a5c62005c61a3e7fb7f003a",
+  "source": {
+    "cityJsonSha256": "f39ce86a590c44b87409e887d3cc4df9689995df849bcb31c43fc5be86f1e109",
+    "cityBinSha256": "54880432f726662f3d0801a98dffddd0fdfc9b0b31aca67d400a07214633c9d9",
+    "originId": "senate-square-statue-v2"
+  },
+  "baselineManifestSha256": "18e40f69a271f037b6b23b257fee437cb5716fad68c10cff808833a142ee7607",
+  "cell": "c_m06_m01",
+  "buildings": [
+    {
+      "id": "BID_312fdc5d-b8a8-4cfc-96ed-227ff31464a0",
+      "vtj": "103036835V",
+      "elevations": [
+        {
+          "id": "103036835V-street-g0",
+          "triangles": [
+            746,
+            747,
+            754,
+            755
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "mannerheimintie5-central-southwest",
+          "ground": -0.9099,
+          "artFrame": {
+            "id": "103036835V-public-street",
+            "width": 26.051345351877213,
+            "minY": -3.3299214839935303,
+            "maxY": 23.475690841674805,
+            "startU": 0.030000000003903793
+          },
+          "groundProfile": [
+            [
+              0,
+              -0.9269232155703466
+            ],
+            [
+              0.2899134535187773,
+              -0.9269232155703466
+            ],
+            [
+              3.14896144222527,
+              -0.9278729241419856
+            ],
+            [
+              6.527836337969318,
+              -0.9193414584332711
+            ],
+            [
+              9.776754506953948,
+              -0.9036432005774957
+            ],
+            [
+              13.025672675938635,
+              -0.9099085602957849
+            ],
+            [
+              16.274590844923267,
+              -0.8993381976862138
+            ],
+            [
+              19.523509013907898,
+              -0.8889818874254833
+            ],
+            [
+              22.902383909651945,
+              -0.7355231494413021
+            ],
+            [
+              25.76143189835844,
+              -0.7146115383295466
+            ],
+            [
+              26.051345351877213,
+              -0.7146115383295466
+            ]
+          ],
+          "notes": "Only the actually observed central 25.99m elevation: five upper round arches over five ground shop/passage bays, one taller rectangular row and two higher regular rows, low attic. The centre-right 0.54m source recess shares the same art frame. Corner/tower/flanking planes and the long upper source strip extending outside this frontage are explicitly unchanged."
+        },
+        {
+          "id": "103036835V-street-g20",
+          "triangles": [
+            750,
+            751
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "mannerheimintie5-central-southwest",
+          "ground": -0.9099,
+          "artFrame": {
+            "id": "103036835V-public-street",
+            "width": 26.051345351877213,
+            "minY": -3.3299214839935303,
+            "maxY": 23.475690841674805,
+            "startU": 16.458102707717444
+          },
+          "groundProfile": [
+            [
+              0,
+              -0.9269232155703466
+            ],
+            [
+              0.2899134535187773,
+              -0.9269232155703466
+            ],
+            [
+              3.14896144222527,
+              -0.9278729241419856
+            ],
+            [
+              6.527836337969318,
+              -0.9193414584332711
+            ],
+            [
+              9.776754506953948,
+              -0.9036432005774957
+            ],
+            [
+              13.025672675938635,
+              -0.9099085602957849
+            ],
+            [
+              16.274590844923267,
+              -0.8993381976862138
+            ],
+            [
+              19.523509013907898,
+              -0.8889818874254833
+            ],
+            [
+              22.902383909651945,
+              -0.7355231494413021
+            ],
+            [
+              25.76143189835844,
+              -0.7146115383295466
+            ],
+            [
+              26.051345351877213,
+              -0.7146115383295466
+            ]
+          ],
+          "notes": "Only the actually observed central 25.99m elevation: five upper round arches over five ground shop/passage bays, one taller rectangular row and two higher regular rows, low attic. The centre-right 0.54m source recess shares the same art frame. Corner/tower/flanking planes and the long upper source strip extending outside this frontage are explicitly unchanged."
+        }
+      ],
+      "limitations": [
+        "Only the actually referenced public street elevation is restored. Other side walls, courtyards and roofs retain the municipal baseline.",
+        "Opening dimensions and module spacing are original authored approximations of the observed rhythm, not a measured architectural survey.",
+        "The ground profile is sampled from the pinned baseline HCOL and agrees with the rendered upward ground triangles; no ground or collision geometry is modified."
+      ]
+    }
+  ],
+  "dimensions": "Source plane bounds are exact municipal geometry; opening positions, dimensions and colours are authored approximations fitted to observed architectural rhythm. No survey accuracy is claimed.",
+  "references": [
+    {
+      "title": "Fabianinkatu18 east, actual Google Street View August 2024; four ordinary upper rows, paired tall ground glazing and metal canopy",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=8S8MulJqRtpV5qbCOVBqgg&heading=262&pitch=55",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Fabianinkatu16 east, actual Google Street View August 2024; four upper rows, dark panel grid and a single central recessed passage",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=lk_2cvLd3WGmSuKqAcPt9Q&viewpoint=60.1687065,24.9493244&heading=267.158&pitch=24",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Aleksanterinkatu9 east, actual Google Street View August 2022; four upper rows and a two-level glazed shop base",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=YNvJVI4ZYCT0c50K91Aa8w&viewpoint=60.1690252,24.9485404&heading=357.276&pitch=28",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Aleksanterinkatu9 east, actual Google Street View October 2020 layout reference; three broad four-pane upper groups, not business artwork",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=-k_q7do1jygC40UVRYF9Xw&viewpoint=60.1689237,24.9486087&heading=357.276&pitch=15",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Aleksanterinkatu9 west, actual Google Street View August 2022; four ribbon-glazing rows, two glass shop levels and slim brass canopy stripes",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=nCQzjjEpGgLhuZrL8tsjrQ&viewpoint=60.1690093,24.9477814&heading=357.119&pitch=30",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Etelaesplanadi12 north, actual Google Street View August 2026; six upper bays with ten openings per row, five ground arches and Gothic stonework",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=0VvKis5AhkdZhEhf0Kc20A&viewpoint=60.1671703,24.9480058&heading=177.08&pitch=42",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Fabianinkatu26 east, actual Google Street View August 2024; grey granite five-arch main front, two upper grid-glazing levels, two oriels and north passage",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=gRg-MfXgnWgKSmuTs7CDYQ&viewpoint=60.1708135,24.9491485&heading=266.876&pitch=28",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Fabianinkatu28 east, actual Google Street View August 2024; ochre plaster, three upper rows, two projecting oriels and left-of-centre arched entry",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=7DOHgSuDt3ENrjHKhlU4SA&viewpoint=60.1711783,24.9491061&heading=266.557&pitch=25",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Mannerheimintie5 southwest central face, actual Google Street View August 2024; five main upper arches, three higher rectangular rows and low attic. Unverified flanking corner and tower excluded",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=QHPhTLeT2d0t3BDqflJTtg&viewpoint=60.1694314,24.9394505&heading=53.216&pitch=25",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Hotel Kamp Pohjoisesplanadi25-27 south, actual Google Street View August 2024 including end views heading310 and55; salmon/cream three upper rows, two-axis projecting-face rhythm and low arched attic; whole-front opening count not surveyed",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=6rvMK6aeK4jy6-8wOzr7HA&viewpoint=60.1677871,24.9483249&heading=357.13&pitch=25",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "referenceEvidence": [],
+  "runtimeAcceptance": "REQUIRED"
+}

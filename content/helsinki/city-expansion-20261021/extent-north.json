@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "cellSize": 128,
+  "playArea": {
+    "minX": -1792,
+    "maxX": 800,
+    "minZ": -2304,
+    "maxZ": -1152
+  },
+  "note": "Source-preparation extent only. It does not authorize replacement of accepted cells, source height bits, roads or runtime heightfield."
+}

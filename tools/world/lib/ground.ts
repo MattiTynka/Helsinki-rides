@@ -82,8 +82,9 @@ function cellOf(x: number, y: number, cellSize: number): string {
   return `c_${f(cx)}_${f(cz)}`;
 }
 
-export function buildGround(parts: readonly LocalPolygon[], terrain: TerrainGrid, excludeZones: readonly Ring[], area: { minX: number; maxX: number; minZ: number; maxZ: number }, curb: number, cellSize: number, walls?: Pick<WallsResult, 'cuts' | 'surface'> & Partial<Pick<WallsResult, 'closeGround'>>, boundaries: readonly GroundBoundary[] = []): GroundResult {
-  const classified = parts.map(p => ({ poly: p, cls: classify(p.properties) })).filter((e): e is { poly: LocalPolygon; cls: { level: Level; finish: Finish } } => e.cls !== null);
+export function buildGround(parts: readonly LocalPolygon[], terrain: TerrainGrid, excludeZones: readonly Ring[], area: { minX: number; maxX: number; minZ: number; maxZ: number }, curb: number, cellSize: number, walls?: Pick<WallsResult, 'cuts' | 'surface'> & Partial<Pick<WallsResult, 'closeGround'>>, boundaries: readonly GroundBoundary[] = [], excludedSources:readonly {id:string;rings:Ring[]}[] = []): GroundResult {
+  const excludedIds=new Set(excludedSources.map(p=>p.id));
+  const classified = parts.filter(p=>!excludedIds.has(p.id)).map(p => ({ poly: p, cls: classify(p.properties) })).filter((e): e is { poly: LocalPolygon; cls: { level: Level; finish: Finish } } => e.cls !== null);
   const roadPolys = classified.filter(e => e.cls.level === 'road').map(e => e.poly);
   const roadGrid = new PolygonGrid(roadPolys, 16);
   const heightAt = walls ? walls.surface : (x: number, y: number) => sampleTerrain(terrain, x, -y);
@@ -156,6 +157,7 @@ export function buildGround(parts: readonly LocalPolygon[], terrain: TerrainGrid
   // The authored stair/terrace support owns its footprint. Cut that footprint out of collision too: retaining a
   // whole 4 m terrain quad here could put invisible terrain metres above a straight, width-median stair flight.
   const zoneBoxes = excludeZones.map(z => bbox([z])), cutBoxes = (walls?.cuts ?? []).map(z => bbox([z]));
+  const excludedFallback=excludedSources.map(p=>p.rings),excludedBoxes=excludedFallback.map(r=>bbox(r));
   for (let gx = Math.floor(area.minX / GRID) * GRID; gx < area.maxX; gx += GRID) for (let gz = Math.floor(area.minZ / GRID) * GRID; gz < area.maxZ; gz += GRID) {
     const x0 = gx, x1 = gx + GRID, z0 = gz, z1 = gz + GRID;
     const cell = cellOf(gx + GRID / 2, -(gz + GRID / 2), cellSize);
@@ -164,7 +166,7 @@ export function buildGround(parts: readonly LocalPolygon[], terrain: TerrainGrid
     const uvs = [x0 / 6, -z0 / 6, x1 / 6, -z0 / 6, x1 / 6, -z1 / 6, x0 / 6, -z1 / 6];
     const overlaps = ([a, b, c, d]: [number, number, number, number]) => a < x1 && c > x0 && b < -z0 && d > -z1;
     const nearZones = zoneGeom.filter((_, i) => overlaps(zoneBoxes[i]!)), nearCuts = cutGeom.filter((_, i) => overlaps(cutBoxes[i]!));
-    const near = [...nearZones, ...nearCuts];
+    const near = [...nearZones, ...nearCuts,...excludedFallback.filter((_,i)=>overlaps(excludedBoxes[i]!))];
     // CCW seen from above (+Y): (x0,z0) -> (x0,z1) -> (x1,z1) in a Y-up right-handed frame
     if (!near.length) {
       pieces.push({ cell, finish: 'yard', level: 'road', tag: 'raised:yard', positions, uvs, indices: [0, 3, 2, 0, 2, 1] });

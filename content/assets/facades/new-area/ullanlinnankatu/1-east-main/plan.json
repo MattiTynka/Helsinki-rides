@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "id": "ullanlinnankatu-1-kasarmikatu-main-east-20261021",
+  "building": {
+    "id": "BID_55bf0fcd-8aad-4096-b661-ef1502b76486",
+    "vtj": "103046315N",
+    "owner": "c_m03_p05"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    499,
+    500
+  ],
+  "frame": {
+    "origin": [
+      -241.6451873779297,
+      666.1678466796875
+    ],
+    "axis": [
+      -0.05932613386860306,
+      -0.9982386537497958
+    ],
+    "width": 37.97661897934095
+  },
+  "completeElevationPlane": true,
+  "art": {
+    "wallColour": "#d7b1a3",
+    "groundColour": "#c59b87",
+    "surroundColour": "#e6d6c6",
+    "frameColour": "#787d73",
+    "glassColour": "#9aa8a4",
+    "groundHeight": 3.7,
+    "rows": [
+      {
+        "bottom": 4.3,
+        "height": 2.25,
+        "width": 1.45,
+        "axes": [
+          1.7262099536064068,
+          5.17862986081922,
+          8.631049768032033,
+          12.083469675244846,
+          15.535889582457662,
+          18.988309489670474,
+          22.440729396883288,
+          25.8931493040961,
+          29.345569211308916,
+          32.79798911852173,
+          36.25040902573454
+        ],
+        "header": "flat"
+      },
+      {
+        "bottom": 7.8,
+        "height": 1.9,
+        "width": 1.45,
+        "axes": [
+          1.7262099536064068,
+          5.17862986081922,
+          8.631049768032033,
+          12.083469675244846,
+          15.535889582457662,
+          18.988309489670474,
+          22.440729396883288,
+          25.8931493040961,
+          29.345569211308916,
+          32.79798911852173,
+          36.25040902573454
+        ],
+        "header": "flat"
+      },
+      {
+        "bottom": 11.2,
+        "height": 1.6,
+        "width": 1.45,
+        "axes": [
+          1.7262099536064068,
+          5.17862986081922,
+          8.631049768032033,
+          12.083469675244846,
+          15.535889582457662,
+          18.988309489670474,
+          22.440729396883288,
+          25.8931493040961,
+          29.345569211308916,
+          32.79798911852173,
+          36.25040902573454
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 14.25,
+        "height": 1.35,
+        "width": 1.45,
+        "axes": [
+          1.7262099536064068,
+          5.17862986081922,
+          8.631049768032033,
+          12.083469675244846,
+          15.535889582457662,
+          18.988309489670474,
+          22.440729396883288,
+          25.8931493040961,
+          29.345569211308916,
+          32.79798911852173,
+          36.25040902573454
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 1.7262099536064068,
+        "bottom": 0.65,
+        "width": 2.15,
+        "height": 2.4,
+        "kind": "glazing"
+      },
+      {
+        "x": 5.17862986081922,
+        "bottom": 0.65,
+        "width": 2.15,
+        "height": 2.4,
+        "kind": "glazing"
+      },
+      {
+        "x": 8.631049768032033,
+        "bottom": 0.65,
+        "width": 2.15,
+        "height": 2.4,
+        "kind": "glazing"
+      },
+      {
+        "x": 12.083469675244846,
+        "bottom": 0.3,
+        "width": 1.15,
+        "height": 2.75,
+        "kind": "door"
+      },
+      {
+        "x": 15.535889582457662,
+        "bottom": 0.65,
+        "width": 2.15,
+        "height": 2.4,
+        "kind": "glazing"
+      },
+      {
+        "x": 18.988309489670474,
+        "bottom": 0.65,
+        "width": 2.15,
+        "height": 2.4,
+        "kind": "glazing"
+      },
+      {
+        "x": 22.440729396883288,
+        "bottom": 0.65,
+        "width": 2.15,
+        "height": 2.4,
+        "kind": "glazing"
+      },
+      {
+        "x": 25.8931493040961,
+        "bottom": 0.3,
+        "width": 1.15,
+        "height": 2.75,
+        "kind": "door"
+      },
+      {
+        "x": 29.345569211308916,
+        "bottom": 0.65,
+        "width": 2.15,
+        "height": 2.4,
+        "kind": "glazing"
+      },
+      {
+        "x": 32.79798911852173,
+        "bottom": 0.65,
+        "width": 2.15,
+        "height": 2.4,
+        "kind": "glazing"
+      },
+      {
+        "x": 36.25040902573454,
+        "bottom": 0.65,
+        "width": 2.15,
+        "height": 2.4,
+        "kind": "glazing"
+      }
+    ],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 3.5,
+        "height": 0.2,
+        "colour": "#e8d8c7"
+      },
+      {
+        "from": "top",
+        "offset": -0.25,
+        "height": 0.2,
+        "colour": "#e8d8c7"
+      },
+      {
+        "from": "ground",
+        "offset": 7.2,
+        "height": 0.09,
+        "colour": "#b28677"
+      }
+    ],
+    "rustication": {
+      "bottom": 0.2,
+      "top": 3.5,
+      "spacing": 0.45,
+      "colour": "#ac8776"
+    }
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Kasarmikatu side of Ullanlinnankatu1 source building; August2024 panorama6cSouujYmbyY6FQj831aGA, headings273.4 and245 pitch20\u201325 opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=6cSouujYmbyY6FQj831aGA&heading=245&pitch=25&fov=110",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual outward main east elevation is the muted pink rendered multi-storey building west of the public Kasarmikatu panorama. It has four upper rows above a rusticated shop/door ground storey, pale surrounds, darker narrow panels between some openings and a cream cornice.",
+    "Native main flat elevation499/500 is37.98m long and ends before the raised southern corner tower; that tower and south/west/court elevations are not selected.",
+    "Eleven opening axes and approximate vertical dimensions are an original architectural interpretation of the opened panorama; no metric window survey or exact branding is claimed.",
+    "Source identity and exact face vertices establish geometry. The nearby panorama label26Kasarmikatu is not an alternative municipal building identity.",
+    "All three public elevations use one literal main-native-roof-relative upper-storey datum8.557571464620576m; only shop sills and stone base follow the individually measured nine native exterior floors."
+  ],
+  "limitations": [
+    "Selected main east plane only; raised corner, Ullanlinnankatu south elevation, courtyard and roofs remain pending.",
+    "No Google pixels, people, vehicles, logos or shop signs reproduced.",
+    "Window count/dimensions and subtle ornaments are reference-led approximations, not a measured restoration."
+  ],
+  "observedGroundProfile": {
+    "kind": "source-measured-sloped-shop-base-horizontal-upper-bands",
+    "manifestSha256": "647128c37c0fd8bcd0f7ffad874a9a3c172e6722195c21f5fd1b64b4f951dc39",
+    "sampleHeights": [
+      8.557571464620576,
+      8.37327312531439,
+      8.110969300463287,
+      7.891733689723078,
+      7.678180524792582,
+      7.424544583495978,
+      7.100790107488814,
+      6.861199504900773,
+      6.697105804321257
+    ],
+    "mainNativeRoofY": 25.743934631347656,
+    "horizontalDatumFromMainNativeRoof": -17.18636316672708
+  }
+}

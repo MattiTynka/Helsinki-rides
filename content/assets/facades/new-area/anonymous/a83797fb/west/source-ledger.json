@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "status": "OBSERVED_SOURCE_PLANE_FINISH_RUNTIME_REVIEW_REQUIRED",
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "planSha256": "70c86a40a2527d116a8275f63b02c2aa5fda584b5d3846ba8a0886f763beb130",
+  "building": {
+    "id": "BID_a83797fb-ed94-46e3-9b8f-2f3607c06dbb",
+    "vtj": null,
+    "owner": "c_m02_p05"
+  },
+  "role": "Observed pale coursed stone courtyard enclosure wall beside Kasarmikatu, exact west source plane only",
+  "finish": {
+    "kind": "brick",
+    "colour": "#b5b3a9",
+    "mortarColour": "#9c9b92",
+    "moduleWidth": 1.1,
+    "moduleHeight": 0.5
+  },
+  "completePlane": {
+    "completeNativePlane": true,
+    "sourceTrianglesInExactElevation": 2,
+    "planeToleranceMetres": 0.002
+  },
+  "sourceTriangles": [
+    {
+      "part": 0,
+      "triangle": 18,
+      "key": "19725dc3f6cc8841aee83c44:1f955cc301481d41ec844044:1f955cc3f7cc8841ec844044",
+      "area": 52.58776830561968,
+      "points": [
+        [
+          -220.58250427246094,
+          9.830079078674316,
+          770.076904296875
+        ],
+        [
+          -220.58250427246094,
+          17.100080490112305,
+          770.076904296875
+        ],
+        [
+          -221.44569396972656,
+          17.100078582763672,
+          755.6356201171875
+        ]
+      ]
+    },
+    {
+      "part": 0,
+      "triangle": 19,
+      "key": "19725dc301481d41aee83c44:1f955cc301481d41ec844044:19725dc3f6cc8841aee83c44",
+      "area": 52.587754508757435,
+      "points": [
+        [
+          -220.58250427246094,
+          9.830079078674316,
+          770.076904296875
+        ],
+        [
+          -221.44569396972656,
+          17.100078582763672,
+          755.6356201171875
+        ],
+        [
+          -221.44569396972656,
+          9.830079078674316,
+          755.6356201171875
+        ]
+      ]
+    }
+  ],
+  "geometryUnchanged": true,
+  "ground": {
+    "method": "No floor or opening placement inferred; uninterrupted observed material finish only"
+  },
+  "art": {
+    "sha256": "48373979ccfc200c107985acae9efe4c939a8062608dfa0050f19552e381fd65",
+    "license": "CC0-1.0",
+    "referencePixelsCopied": false
+  },
+  "observations": [
+    "Actual outdoor reference shows a tall plain pale stone-block enclosure along Kasarmikatu with fine horizontal and staggered vertical joints. Court roofs, chimney and ball-stop fence are behind its top, separate from registeredKasarmikatu15.",
+    "Source18/19 is the exact west-facing native plane atX?221.45..?220.58 andZ755.64..770.08; its side, rear and courtyard elevations are not repainted.",
+    "The large-module masonry artwork represents observed stone coursing; the shared brick-pattern renderer is used only as a metric staggered-joint generator, not as evidence the material is clay brick."
+  ],
+  "limitations": [
+    "Block size, palette and joint spacing are approximate original vector artwork, not measured dimensions. No Google photograph pixels or signs are copied.",
+    "A small recessed opening is visible near one end of the observed wall. Its exact source alignment and hidden lower extent are not qualified here, so this bounded finish does not invent an opening or claim full architectural reconstruction.",
+    "No floor, ground, height, doorway, roof or fence geometry is inferred. Native source positions and HCOL remain unchanged."
+  ],
+  "references": [
+    {
+      "title": "Google Street View August2024, Kasarmikatu pale stone courtyard wall opened facing east",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=3PU1lNRz3hgyElyxdTZC0g&heading=86.7&pitch=10&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ]
+}

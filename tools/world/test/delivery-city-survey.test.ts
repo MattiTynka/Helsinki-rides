@@ -1,0 +1,4 @@
+import assert from 'node:assert/strict';
+import {test} from 'node:test';
+import {projectPublicCitySurvey} from '../lib/delivery-city-survey.ts';
+test('municipal projection retains every coordinate and consumed source property without editor metadata',()=>{const geometry={type:'Polygon',coordinates:[[[25497000,6672000],[25497004,6672000],[25497004,6672004],[25497000,6672000]]]},source={features:[{geometry,properties:{osan_id:1,paatyyppi:'Silta',alatyyppi:'Ajorata (Silta)',materiaali:'Asfaltti',paivittaja:'private-editor',email:'private@example.invalid'}}]},projected=projectPublicCitySurvey(source,'street-parts');assert.deepEqual(projected.features[0].geometry,geometry);assert.equal(projected.features[0].properties.osan_id,1);assert.equal(projected.features[0].properties.paatyyppi,'Silta');assert.doesNotMatch(JSON.stringify(projected),/private|email|paivittaja/);});

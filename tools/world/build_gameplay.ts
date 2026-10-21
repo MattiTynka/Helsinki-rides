@@ -1,3 +1,4 @@
+import{readDeliveryRoadFile}from'./lib/delivery-road-file.ts';
 // Bake the gameplay bundle: hand-authored content plus addresses from the city building register, parked-car spawns
 // from the road graph's parking slots, and heights/validation against the terrain.
 //   node tools/world/build_gameplay.ts --content content/helsinki/gameplay.json --origin content/helsinki/world-origin.json \
@@ -16,7 +17,7 @@ if (existsSync(values.out!)) throw new Error(`${values.out} exists; the build wr
 const content = JSON.parse(readFileSync(values.content!, 'utf8'));
 const origin = JSON.parse(readFileSync(values.origin!, 'utf8'));
 const [E0, N0] = origin.originProjected as [number, number, number];
-const roads = JSON.parse(readFileSync(values.roads!, 'utf8')) as RoadGraph;
+const roads = readDeliveryRoadFile(values.roads!);
 const terrain = parseTerrain(new Uint8Array(readFileSync(values.terrain!)));
 const area = content.playArea as { minX: number; maxX: number; minZ: number; maxZ: number };
 const inArea = (x: number, z: number) => x >= area.minX + 2 && x <= area.maxX - 2 && z >= area.minZ + 2 && z <= area.maxZ - 2;

@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "id": "porvoonkatu-10-northeast-20261021",
+  "building": {
+    "id": "BID_3027e548-b62c-49af-868e-39045c31c4cd",
+    "vtj": "1031806225",
+    "owner": "c_m03_m18"
+  },
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    133,
+    134,
+    135,
+    136
+  ],
+  "frame": {
+    "origin": [
+      -300.20718383789057,
+      -2279.210693359375
+    ],
+    "axis": [
+      -0.7641888371516807,
+      -0.6449925745097862
+    ],
+    "width": 50.69883823424652
+  },
+  "completeElevationPlane": true,
+  "art": {
+    "wallColour": "#c5c0b4",
+    "groundColour": "#915642",
+    "surroundColour": "#c9c8ba",
+    "frameColour": "#b9c0b5",
+    "glassColour": "#71878b",
+    "groundHeight": 4.4,
+    "rows": [
+      {
+        "bottom": 5.5,
+        "height": 1.65,
+        "width": 1.45,
+        "axes": [
+          5.069883823424653,
+          11.153744411534236,
+          22.30748882306847,
+          28.898337793520515,
+          34.475209999287635,
+          45.121966028479406,
+          48.67088470487666
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 8.6,
+        "height": 1.65,
+        "width": 1.45,
+        "axes": [
+          5.069883823424653,
+          11.153744411534236,
+          22.30748882306847,
+          28.898337793520515,
+          34.475209999287635,
+          45.121966028479406,
+          48.67088470487666
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 21.800500440726005,
+        "bottom": 1.9,
+        "width": 1.32,
+        "height": 1.6,
+        "kind": "glazing"
+      },
+      {
+        "x": 25.34941911712326,
+        "bottom": 1.9,
+        "width": 1.32,
+        "height": 1.6,
+        "kind": "glazing"
+      },
+      {
+        "x": 28.898337793520515,
+        "bottom": 1.9,
+        "width": 1.32,
+        "height": 1.6,
+        "kind": "glazing"
+      },
+      {
+        "x": 32.447256469917775,
+        "bottom": 1.9,
+        "width": 1.32,
+        "height": 1.6,
+        "kind": "glazing"
+      },
+      {
+        "x": 35.99617514631503,
+        "bottom": 1.9,
+        "width": 1.32,
+        "height": 1.6,
+        "kind": "glazing"
+      },
+      {
+        "x": 43.60100088145201,
+        "bottom": 1.9,
+        "width": 1.32,
+        "height": 1.6,
+        "kind": "glazing"
+      },
+      {
+        "x": 47.149919557849266,
+        "bottom": 1.9,
+        "width": 1.32,
+        "height": 1.6,
+        "kind": "glazing"
+      }
+    ],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 0.02,
+        "height": 0.25,
+        "colour": "#a69d8b"
+      },
+      {
+        "from": "top",
+        "offset": -0.16,
+        "height": 0.16,
+        "colour": "#797d72"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Porvoonkatu school/service frontage, August2024; lower and full upward front opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=XeSLZVPxicpfGpJ89iFUyA&heading=220.39&pitch=20&fov=100",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Google Street View adjoining actual Porvoonkatu streetward oblique, August2024",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=EMhvIj5vxGerQa8TP-lm2w&heading=296.6&pitch=15&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "The actual northeast street elevation has a red-brown square-tiled lower storey, warm grey upper walls, two tall turquoise-tiled glazed stair strips and small square vents below the flat eave.",
+    "Two upper rectangular window bands and the lower row are irregularly spaced around the glass stairs and opaque service-wall areas. Original approximate artwork retains these material/role differences instead of copying a residential facade.",
+    "The referenced school/service frontage differs from the nearby taller Sturenkatu8 elevation. No photographed pixels, logos, graffiti, vehicles or people are reproduced."
+  ],
+  "limitations": [
+    "Only the complete declared native northeast source plane is painted; courtyards, other wings, roof service bodies and small returns retain their native finish until individually qualified.",
+    "Window/stair spacing and colours are approximate reference-led interpretation, not measured facade dimensions. Small mechanical fixtures are simplified.",
+    "Native triangle coordinates, indices, winding and collision remain unchanged.",
+    "The native source plane continues beyond the delivered northern street extent. Nine actual native visual/HCOL pairs qualify only its exact in-bounds outward baseline interval. Artwork on the background remainder uses the same roof-relative architectural datum; no outside floor, access, ground alignment or playable continuation is claimed."
+  ],
+  "deliveryBoundaryProbeRange": [
+    0,
+    36.06387094301117
+  ],
+  "observedGroundProfile": {
+    "kind": "named-source-floor-profile",
+    "path": "ground-profile.json",
+    "sha256": "52e408c29121f7ab093c1266344d870533d1b7ee681b8973a132a87f850177e3"
+  }
+}

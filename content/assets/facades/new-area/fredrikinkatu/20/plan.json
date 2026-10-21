@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "id": "fredrikinkatu-20-northeast-selected-flat-20261021",
+  "building": {
+    "id": "BID_9a745bbe-3b83-4efc-9880-77010cdf0ad7",
+    "vtj": "103084934E",
+    "owner": "c_m06_p05"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    892,
+    893,
+    894,
+    895,
+    896,
+    897,
+    898,
+    899,
+    900,
+    901,
+    902,
+    903
+  ],
+  "frame": {
+    "origin": [
+      -736.4940185546875,
+      749.4169921875
+    ],
+    "axis": [
+      -0.5714185075711343,
+      -0.8206588141275138
+    ],
+    "width": 13.512203814365819
+  },
+  "art": {
+    "wallColour": "#858d81",
+    "groundColour": "#84796d",
+    "surroundColour": "#b4afa2",
+    "frameColour": "#ddd4c6",
+    "glassColour": "#82918e",
+    "groundHeight": 3.7,
+    "rows": [
+      {
+        "bottom": 4.4,
+        "height": 2.35,
+        "width": 0.62,
+        "axes": [
+          1.6214644577238981,
+          2.702440762873164,
+          4.729271335028036,
+          5.810247640177302,
+          8.242444326763149,
+          9.323420631912414,
+          11.350251204067288,
+          12.431227509216553
+        ],
+        "header": "arch"
+      },
+      {
+        "bottom": 8.8,
+        "height": 2.05,
+        "width": 0.72,
+        "axes": [
+          1.6214644577238981,
+          2.702440762873164,
+          4.729271335028036,
+          5.810247640177302,
+          8.242444326763149,
+          9.323420631912414,
+          11.350251204067288,
+          12.431227509216553
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 12.9,
+        "height": 1.65,
+        "width": 0.6,
+        "axes": [
+          1.6214644577238981,
+          2.702440762873164,
+          4.729271335028036,
+          5.810247640177302,
+          8.242444326763149,
+          9.323420631912414,
+          11.350251204067288,
+          12.431227509216553
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 1.8917085340112147,
+        "bottom": 0.28,
+        "width": 2.2,
+        "height": 2.65,
+        "kind": "glazing"
+      },
+      {
+        "x": 5.26975948760267,
+        "bottom": 0.28,
+        "width": 2.2,
+        "height": 2.65,
+        "kind": "glazing"
+      },
+      {
+        "x": 8.647810441194125,
+        "bottom": 0.28,
+        "width": 2.2,
+        "height": 2.65,
+        "kind": "glazing"
+      },
+      {
+        "x": 12.02586139478558,
+        "bottom": 0.28,
+        "width": 2.2,
+        "height": 2.65,
+        "kind": "glazing"
+      }
+    ],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 3.7,
+        "height": 0.18,
+        "colour": "#c5bfae"
+      },
+      {
+        "from": "ground",
+        "offset": 11.95,
+        "height": 0.08,
+        "colour": "#707a70"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Street View August 2024, Fredrikinkatu 20; individual appearance reference only",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=zcaeQh0tNKFb8gSITMTNbg&heading=236.56&pitch=25&fov=100",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Google Street View August 2024, northern selected elevation viewed obliquely",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=zcaeQh0tNKFb8gSITMTNbg&heading=282&pitch=23&fov=80",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "The address lookup opened the actual Fredrikinkatu 20 frontage; this native building ID spans a large multi-wing footprint, so only the enumerated northeast plane is selected.",
+    "Grey sage rough plaster, taupe stone/glazed shop ground storey, three residential rows; lower narrow paired lights have rounded heads, middle rectangular groups and smaller top lights.",
+    "Original simplified paired-light and shop modules approximate the observed selected plane; the model already supplies the roof and gable geometry."
+  ],
+  "limitations": [
+    "Only the twelve enumerated existing facade triangles on this exact northeast elevation plane; no whole-building or whole-street coverage claim.",
+    "The repeated paired-light spacing is an architectural approximation from the visible street reference; courtyard and other elevations remain pending.",
+    "No Google pixels, signage, personal details, people, or vehicles are copied into the artwork."
+  ],
+  "completeElevationPlane": true
+}

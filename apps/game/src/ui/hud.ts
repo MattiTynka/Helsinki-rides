@@ -2,6 +2,7 @@
 // Wasted / Busted screens naming the real destinations, drop-in by address, attribution line.
 import type { SimState } from '@helsinki/sim';
 import type { GameEvent, GameplayBundle, RoadGraph, WorldManifest } from '@helsinki/world-schema';
+import { i18n, placeLabel, type MessageKey } from '../i18n/index.ts';
 
 export interface FrameStats {
   fps: number;
@@ -15,19 +16,19 @@ export interface FrameStats {
 
 const el = <T extends HTMLElement>(id: string): T => document.getElementById(id) as T;
 
-const INTERACTION_NOTES: Partial<Record<string, string>> = {
-  vehicleEntryBlocked: 'The driver’s door is blocked.',
-  vehicleExitBlocked: 'The way out got blocked. Press F to try again.',
-  vehicleExitSqueezed: 'Squeezed out of the car.',
+const INTERACTION_NOTES: Partial<Record<string, MessageKey>> = {
+  vehicleEntryBlocked: 'interaction.entryBlocked',
+  vehicleExitBlocked: 'interaction.exitBlocked',
+  vehicleExitSqueezed: 'interaction.squeezed',
 };
 
 function exitPrompt(interaction: SimState['player']['vehicleInteraction']): string {
   switch (interaction?.clip) {
-    case 'exitPassenger': return 'Driver’s door blocked — climbing across…';
-    case 'exitWindshield': return 'Doors blocked — kicking out the windshield…';
-    case 'exitFlipped': return 'Crawling out…';
-    case 'exitFlippedPassenger': return 'Driver’s door blocked — crawling across…';
-    default: return 'Getting out…';
+    case 'exitPassenger': return i18n.text('interaction.exitPassenger');
+    case 'exitWindshield': return i18n.text('interaction.exitWindshield');
+    case 'exitFlipped': return i18n.text('interaction.exitFlipped');
+    case 'exitFlippedPassenger': return i18n.text('interaction.exitFlippedPassenger');
+    default: return i18n.text('interaction.exiting');
   }
 }
 
@@ -66,7 +67,7 @@ export class Hud {
   private lastStars = -1;
   private lastWeapon = '';
   private lastPrompt = '';
-  private interactionNote = '';
+  private interactionNote: MessageKey | null = null;
   private interactionNoteUntil = 0;
   private previousTime = 0;
   private statsTimer = 0;
@@ -87,13 +88,21 @@ export class Hud {
     this.indexBase(roads, gameplay);
     el<HTMLDivElement>('attribution').textContent = manifest.attribution.join(' · ');
     const labels = [...gameplay.landmarks.map(l => l.label), ...gameplay.addresses.map(a => a.label)];
-    for (const l of labels) { const o = document.createElement('option'); o.value = l; o.textContent = l; this.dropin.appendChild(o); }
+    for (const l of labels) { const o = document.createElement('option'); o.value = l; o.textContent = placeLabel(l); this.dropin.appendChild(o); }
+    i18n.subscribe(() => {
+      for (const option of this.dropin.options) if (option.value) option.textContent = placeLabel(option.value);
+    });
     this.dropin.addEventListener('change', () => { const v = this.dropin.value; this.dropin.value = ''; this.dropin.blur(); if (v && this.onDropIn) this.onDropIn(v); });
   }
 
   setWorldLoading(message: string | null): void {
     this.worldLoading.textContent = message ?? '';
     this.worldLoading.classList.toggle('hidden', !message);
+  }
+
+  showNotice(key: MessageKey, time: number): void {
+    this.interactionNote = key;
+    this.interactionNoteUntil = time + 5;
   }
 
   private toMap(x: number, z: number): [number, number] {
@@ -170,37 +179,47 @@ export class Hud {
       this.lastStars = state.wanted.stars;
       this.stars.innerHTML = Array.from({ length: 5 }, (_, i) => `<span class="${i < state.wanted.stars ? 'on' : 'off'}">★</span>`).join('');
     }
-    this.wantedNote.textContent = state.wanted.stars > 0 ? (state.wanted.searching ? 'searching' : 'spotted') : '';
+    this.wantedNote.textContent = state.wanted.stars > 0 ? i18n.text(state.wanted.searching ? 'wanted.searching' : 'wanted.spotted') : '';
     this.health.style.width = `${Math.max(0, p.health)}%`;
     this.armour.style.width = `${Math.max(0, p.armour)}%`;
-    const w = p.weapon ? `${p.weapon.id.toUpperCase()} ${p.weapon.magazine} / ${p.weapon.reserve}${p.weapon.reloading ? ' …' : ''}` : 'FISTS';
+    const w = p.weapon ? i18n.text('weapon.ammo', {
+      weapon: p.weapon.id === 'pistol' ? i18n.text('weapon.pistol') : p.weapon.id.toUpperCase(),
+      magazine: i18n.number(p.weapon.magazine), reserve: i18n.number(p.weapon.reserve), reloading: p.weapon.reloading ? ' …' : '',
+    }) : i18n.text('weapon.fists');
     if (w !== this.lastWeapon) { this.lastWeapon = w; this.weapon.textContent = w; }
     const car = p.inVehicle ? state.vehicles.find(v => v.id === p.inVehicle) : null;
-    this.speed.textContent = car ? `${Math.round(car.speed * 3.6)} km/h${car.damage !== 'intact' ? ` · ${car.damage}` : ''}` : '';
+    const damageKeys: Readonly<Record<string, MessageKey>> = { smoking: 'vehicle.smoking', burning: 'vehicle.burning', wrecked: 'vehicle.wrecked' };
+    const damageKey = car && Object.hasOwn(damageKeys, car.damage) ? damageKeys[car.damage] : undefined;
+    this.speed.textContent = car ? (car.damage === 'intact'
+      ? i18n.text('vehicle.speed', { speed: i18n.number(car.speed * 3.6) })
+      : i18n.text('vehicle.damagedSpeed', { speed: i18n.number(car.speed * 3.6), damage: damageKey ? i18n.template(damageKey) : car.damage })) : '';
     let prompt = '';
-    if (p.mode === 'onFoot' && p.nearVehicle) prompt = 'F — enter car';
-    else if (p.mode === 'driving') prompt = car && car.damage === 'wrecked' ? 'F — leave the wreck' : '';
-    else if (p.mode === 'entering') prompt = p.vehicleInteraction?.stage === 'approach' ? 'Walking to the driver’s door…' : 'Getting in…';
+    if (p.mode === 'onFoot' && p.nearVehicle) prompt = i18n.text('interaction.enter');
+    else if (p.mode === 'driving') prompt = car && car.damage === 'wrecked' ? i18n.text('interaction.leaveWreck') : '';
+    else if (p.mode === 'entering') prompt = i18n.text(p.vehicleInteraction?.stage === 'approach' ? 'interaction.approach' : 'interaction.entering');
     else if (p.mode === 'exiting') prompt = exitPrompt(p.vehicleInteraction);
     for (const event of events) {
       const note = INTERACTION_NOTES[event.type];
       if (note) { this.interactionNote = note; this.interactionNoteUntil = state.time + 3; }
     }
-    if (state.time < this.interactionNoteUntil && (p.mode === 'onFoot' || p.mode === 'driving')) prompt = this.interactionNote;
-    if (p.recoverProgress > 0 && p.recoverProgress < 1) prompt = `recovering… ${Math.round(p.recoverProgress * 100)}%`;
+    if (state.time < this.interactionNoteUntil && this.interactionNote && (p.mode === 'onFoot' || p.mode === 'driving')) prompt = i18n.template(this.interactionNote);
+    if (p.recoverProgress > 0 && p.recoverProgress < 1) prompt = i18n.text('interaction.recover', { percent: i18n.number(p.recoverProgress * 100) });
     if (prompt !== this.lastPrompt) { this.lastPrompt = prompt; this.prompt.textContent = prompt; }
     this.crosshair.classList.toggle('hidden', !p.aiming);
     this.arrest.classList.toggle('hidden', state.arrestProgress <= 0);
     this.arrestFill.style.width = `${Math.round(state.arrestProgress * 100)}%`;
     if (state.screen) {
       this.screen.classList.remove('hidden');
-      this.screenTitle.textContent = state.screen.kind === 'wasted' ? 'Wasted' : 'Busted';
-      this.screenSub.textContent = state.screen.kind === 'wasted' ? `Taken to ${state.screen.destination}` : `Taken to ${state.screen.destination}`;
+      this.screenTitle.textContent = i18n.text(state.screen.kind === 'wasted' ? 'screen.wasted' : 'screen.busted');
+      this.screenSub.textContent = i18n.text('screen.destination', { destination: placeLabel(state.screen.destination) });
     } else this.screen.classList.add('hidden');
     this.statsTimer += dt;
     if (this.statsTimer > 0.5) {
       this.statsTimer = 0;
-      this.stats.textContent = `${stats.fps.toFixed(0)} fps  ${stats.frameMs.toFixed(1)} ms\n${stats.drawCalls} calls  ${(stats.triangles / 1000).toFixed(0)}k tris\n${stats.textures} tex  tick ${stats.tick}`;
+      this.stats.textContent = i18n.text('stats', {
+        fps: i18n.number(stats.fps), frameMs: i18n.number(stats.frameMs, 1), drawCalls: i18n.number(stats.drawCalls),
+        triangles: i18n.number(stats.triangles / 1000), textures: i18n.number(stats.textures), tick: i18n.number(stats.tick),
+      });
     }
     this.drawMinimap(state);
   }

@@ -11,7 +11,7 @@ import { decodeCommand, initPhysics, Simulation, yawOf } from '../../packages/si
 import { validateGameplayBundle, validateWorldManifest } from '../../packages/world-schema/src/index.ts';
 import { parseGlb, worldMatrices, nodeBounds, transformPoint, triangleCount } from './glb.ts';
 import { game, openGame } from './lib/browser.ts';
-import { readSimulationPayload, replayWorld } from './lib/simulation-payload.ts';
+import { readRoadGraph, readSimulationPayload, replayWorld } from './lib/simulation-payload.ts';
 
 const { values } = parseArgs({ options: {
   url: { type: 'string', default: 'http://127.0.0.1:5317/?review=1' },
@@ -248,7 +248,7 @@ if (!failure && recording) {
     await initPhysics();
     const collision = new Map();
     for (const cell of manifest.cells) collision.set(cell.id, await readSimulationPayload(values.release, cell.collision));
-    world = replayWorld(await readSimulationPayload(values.release, manifest.terrain), JSON.parse(payload(manifest.roads).toString('utf8')), gameplay, manifest.cells, collision, recording.collision);
+    world = replayWorld(await readSimulationPayload(values.release, manifest.terrain), await readRoadGraph(values.release,manifest.roads), gameplay, manifest.cells, collision, recording.collision);
     sim = new Simulation(world, { seed: recording.seed });
     for (const command of recording.commands) sim.step(decodeCommand(command));
     replay = { hash: sim.hash(), ticks: sim.tick, mode: sim.mode };

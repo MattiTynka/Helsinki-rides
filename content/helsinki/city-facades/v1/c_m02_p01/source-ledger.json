@@ -1,0 +1,1745 @@
+{
+  "schemaVersion": 2,
+  "production": {
+    "kind": "original-procedural",
+    "license": "CC0-1.0",
+    "referencePixelsCopied": false,
+    "artSha256": "83c1a0108a3a8c73f3c5d5b4d79a96218dbce029fcc53dd8ddb55863738061de",
+    "svgSha256": "7f3ab089cd9e13fc24528316e1afc0bab579a6f416dc3c816dfcb04843a6a11f"
+  },
+  "planSha256": "7851414eb8044e77a743d3406e9e19dfc2789d547a5c62005c61a3e7fb7f003a",
+  "source": {
+    "cityJsonSha256": "f39ce86a590c44b87409e887d3cc4df9689995df849bcb31c43fc5be86f1e109",
+    "cityBinSha256": "54880432f726662f3d0801a98dffddd0fdfc9b0b31aca67d400a07214633c9d9",
+    "originId": "senate-square-statue-v2"
+  },
+  "baselineManifestSha256": "18e40f69a271f037b6b23b257fee437cb5716fad68c10cff808833a142ee7607",
+  "cell": "c_m02_p01",
+  "buildings": [
+    {
+      "id": "BID_3da327ac-519e-49e3-afec-9f086c2b12ee",
+      "vtj": "1030367814",
+      "elevations": [
+        {
+          "id": "1030367814-street-g8",
+          "triangles": [
+            364,
+            365
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 44.63406647981623
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g9",
+          "triangles": [
+            368,
+            369,
+            833,
+            834,
+            835,
+            900,
+            901
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 0.029248956417710303
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g10",
+          "triangles": [
+            917,
+            918
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 32.32503644581095
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g12",
+          "triangles": [
+            546,
+            547,
+            548,
+            549,
+            550,
+            551,
+            552
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 55.31174982481265
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g14",
+          "triangles": [
+            968,
+            969
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 4.003387475665066
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g16",
+          "triangles": [
+            383,
+            384
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 62.922858917255965
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g17",
+          "triangles": [
+            960,
+            961
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 15.880189846275464
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g19",
+          "triangles": [
+            886,
+            887
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 75.6655132805455
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g20",
+          "triangles": [
+            335,
+            336
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 25.242305942701115
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g34",
+          "triangles": [
+            279,
+            280
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 13.166456250751189
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g45",
+          "triangles": [
+            876,
+            877
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 84.42386724597434
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g54",
+          "triangles": [
+            387,
+            388
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 61.73310954905745
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g59",
+          "triangles": [
+            445,
+            446
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 83.33512218453477
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g63",
+          "triangles": [
+            441,
+            442
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 86.39603502675922
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g69",
+          "triangles": [
+            931
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 31.019161563265754
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g72",
+          "triangles": [
+            929,
+            930
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 31.01916677970792
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g89",
+          "triangles": [
+            839
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 24.42717295693349
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g92",
+          "triangles": [
+            838
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 24.426537791128634
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g94",
+          "triangles": [
+            363
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 54.707673019259325
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g95",
+          "triangles": [
+            362
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 54.70766847373472
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g273",
+          "triangles": [
+            878
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 86.24586487679716
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g284",
+          "triangles": [
+            836,
+            837
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 25.152998469187946
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g287",
+          "triangles": [
+            932
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 32.240275746259655
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        },
+        {
+          "id": "1030367814-street-g291",
+          "triangles": [
+            831,
+            832
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            1022
+          ],
+          "renderer": "kamp-south",
+          "ground": -4.62,
+          "artFrame": {
+            "id": "1030367814-public-street",
+            "width": 87.34933839934988,
+            "minY": -5.589921951293945,
+            "maxY": 24.52606964111328,
+            "startU": 0.029999599831120105
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.424256915746335
+            ],
+            [
+              0.9028933839934712,
+              -4.424256915746335
+            ],
+            [
+              10.504720607921994,
+              -4.491781374082886
+            ],
+            [
+              21.852334599837462,
+              -4.6045451472713985
+            ],
+            [
+              32.76350189975622,
+              -4.64663048045025
+            ],
+            [
+              43.67466919967492,
+              -4.660072395145253
+            ],
+            [
+              54.58583649959368,
+              -4.666715334757523
+            ],
+            [
+              65.49700379951241,
+              -4.668364687848847
+            ],
+            [
+              76.84461779142791,
+              -4.6635659192551175
+            ],
+            [
+              86.44644501535637,
+              -4.677314253425182
+            ],
+            [
+              87.34933839934988,
+              -4.677314253425182
+            ]
+          ],
+          "notes": "Observed cream rusticated ground, three salmon/cream tall window rows, Corinthian upper piers, lower triangular pediments and low round-arched attic. Two axes on approximately 9m projecting source sections and the intervening regular modules are original section-fitted approximations, not an exact count surveyed over the entire 90m compound. Only one clearly observed wooden double portal is authored, near physical X-210m between source groups 10 and 8; its position/width are approximate, all other ground openings are glassshops. Unverified high gables above the lower source street-wall eave near Y14m retain neutral municipal source colour; curved corner/tower and roof/pavilion geometry remains unchanged."
+        }
+      ],
+      "limitations": [
+        "Only the actually referenced public street elevation is restored. Other side walls, courtyards and roofs retain the municipal baseline.",
+        "Opening dimensions and module spacing are original authored approximations of the observed rhythm, not a measured architectural survey.",
+        "The ground profile is sampled from the pinned baseline HCOL and agrees with the rendered upward ground triangles; no ground or collision geometry is modified."
+      ]
+    }
+  ],
+  "dimensions": "Source plane bounds are exact municipal geometry; opening positions, dimensions and colours are authored approximations fitted to observed architectural rhythm. No survey accuracy is claimed.",
+  "references": [
+    {
+      "title": "Fabianinkatu18 east, actual Google Street View August 2024; four ordinary upper rows, paired tall ground glazing and metal canopy",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=8S8MulJqRtpV5qbCOVBqgg&heading=262&pitch=55",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Fabianinkatu16 east, actual Google Street View August 2024; four upper rows, dark panel grid and a single central recessed passage",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=lk_2cvLd3WGmSuKqAcPt9Q&viewpoint=60.1687065,24.9493244&heading=267.158&pitch=24",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Aleksanterinkatu9 east, actual Google Street View August 2022; four upper rows and a two-level glazed shop base",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=YNvJVI4ZYCT0c50K91Aa8w&viewpoint=60.1690252,24.9485404&heading=357.276&pitch=28",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Aleksanterinkatu9 east, actual Google Street View October 2020 layout reference; three broad four-pane upper groups, not business artwork",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=-k_q7do1jygC40UVRYF9Xw&viewpoint=60.1689237,24.9486087&heading=357.276&pitch=15",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Aleksanterinkatu9 west, actual Google Street View August 2022; four ribbon-glazing rows, two glass shop levels and slim brass canopy stripes",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=nCQzjjEpGgLhuZrL8tsjrQ&viewpoint=60.1690093,24.9477814&heading=357.119&pitch=30",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Etelaesplanadi12 north, actual Google Street View August 2026; six upper bays with ten openings per row, five ground arches and Gothic stonework",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=0VvKis5AhkdZhEhf0Kc20A&viewpoint=60.1671703,24.9480058&heading=177.08&pitch=42",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Fabianinkatu26 east, actual Google Street View August 2024; grey granite five-arch main front, two upper grid-glazing levels, two oriels and north passage",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=gRg-MfXgnWgKSmuTs7CDYQ&viewpoint=60.1708135,24.9491485&heading=266.876&pitch=28",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Fabianinkatu28 east, actual Google Street View August 2024; ochre plaster, three upper rows, two projecting oriels and left-of-centre arched entry",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=7DOHgSuDt3ENrjHKhlU4SA&viewpoint=60.1711783,24.9491061&heading=266.557&pitch=25",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Mannerheimintie5 southwest central face, actual Google Street View August 2024; five main upper arches, three higher rectangular rows and low attic. Unverified flanking corner and tower excluded",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=QHPhTLeT2d0t3BDqflJTtg&viewpoint=60.1694314,24.9394505&heading=53.216&pitch=25",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Hotel Kamp Pohjoisesplanadi25-27 south, actual Google Street View August 2024 including end views heading310 and55; salmon/cream three upper rows, two-axis projecting-face rhythm and low arched attic; whole-front opening count not surveyed",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=6rvMK6aeK4jy6-8wOzr7HA&viewpoint=60.1677871,24.9483249&heading=357.13&pitch=25",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "referenceEvidence": [],
+  "runtimeAcceptance": "REQUIRED"
+}

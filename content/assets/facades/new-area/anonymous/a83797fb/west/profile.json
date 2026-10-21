@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "id": "anonymous-kasarmikatu-courtyard-wall-west-20261021",
+  "baselineManifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54",
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "art": {
+    "path": "facade.png",
+    "sha256": "48373979ccfc200c107985acae9efe4c939a8062608dfa0050f19552e381fd65",
+    "width": 512,
+    "height": 512,
+    "license": "CC0-1.0",
+    "attribution": "Original observed architectural material finish by Helsinki Rides (2026); reference pixels are not reproduced.",
+    "references": [
+      {
+        "title": "Google Street View August2024, Kasarmikatu pale stone courtyard wall opened facing east",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=3PU1lNRz3hgyElyxdTZC0g&heading=86.7&pitch=10&fov=100",
+        "role": "appearance-reference-only"
+      }
+    ]
+  },
+  "material": {
+    "name": "anonymous-kasarmikatu-courtyard-wall-west-20261021",
+    "unlit": true,
+    "roughness": 0.95,
+    "doubleSided": false
+  },
+  "charts": [
+    {
+      "id": "anonymous-kasarmikatu-courtyard-wall-west-20261021",
+      "building": "BID_a83797fb-ed94-46e3-9b8f-2f3607c06dbb",
+      "origin": [
+        -220.58250427246094,
+        0,
+        770.076904296875
+      ],
+      "uAxis": [
+        0.05966587402026354,
+        0,
+        0.9982184046977887
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -14.46705862336771,
+        9.830079078674316,
+        0,
+        17.100080490112305
+      ],
+      "pixels": [
+        2,
+        2,
+        508,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "cells": [
+    {
+      "id": "c_m02_p05",
+      "buildings": [
+        {
+          "id": "BID_a83797fb-ed94-46e3-9b8f-2f3607c06dbb",
+          "vtj": null
+        }
+      ],
+      "baselineLevels": {
+        "lod0": "ddc16d6eef17268bdacae9f8b741dfa414cb34400309b95d9821e6e52f8f30ea",
+        "lod1": "ddc16d6eef17268bdacae9f8b741dfa414cb34400309b95d9821e6e52f8f30ea",
+        "lod2": "2c86b68036e72256a25caedecf1dee0e45556c90e626b5b4ea940150c54df02a"
+      },
+      "faces": [
+        {
+          "key": "19725dc3f6cc8841aee83c44:1f955cc301481d41ec844044:1f955cc3f7cc8841ec844044",
+          "chart": "anonymous-kasarmikatu-courtyard-wall-west-20261021"
+        },
+        {
+          "key": "19725dc301481d41aee83c44:1f955cc301481d41ec844044:19725dc3f6cc8841aee83c44",
+          "chart": "anonymous-kasarmikatu-courtyard-wall-west-20261021"
+        }
+      ]
+    }
+  ]
+}

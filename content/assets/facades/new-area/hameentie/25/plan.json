@@ -1,0 +1,8 @@
+{
+ "schemaVersion":1,"id":"hameentie-25-west-20261021",
+ "source":{"cityJsonSha256":"5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb","cityBinSha256":"e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f","originId":"senate-square-statue-v2"},
+ "building":{"id":"BID_bff3f6e9-d355-46dc-a345-12f0cf2fe9e9","vtj":"103142223F","owner":"c_p04_m16"},"triangles":[0,1],
+ "references":[{"title":"Google Street View, Hämeentie 25, September 2025, west street front","url":"https://www.google.com/maps/@?api=1&map_action=pano&pano=b3LJ0MoMyc-XII3qK76Pzw&heading=92.46&pitch=20&fov=100","role":"appearance-reference-only"}],
+ "observations":["Warm beige panel field with six regular residential window rows above a shallow service-window band and shop glazing.","Three sections, each with four window axes; salmon vertical dividers with pale edges. Broader and narrower window groups alternate.","Dark reddish frames, dark flat roof cap and yellow-green shop fascia. Reference was opened at street and upper-window elevations; source west wall spans 37 metres."],
+ "limitations":["Only the source-qualified west street plane is repainted. Unobserved courtyard and party walls receive no invented openings.","Opening sizes and colours are original approximations fitted to the native plane, not an architectural survey. Commercial logos and photographic tree shadows are omitted."]
+}

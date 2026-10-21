@@ -52,7 +52,7 @@ export function patchGroundCollision(bytes:Uint8Array,region:AppendRectangle,pie
 }
 const fromPrimitive=(p:Primitive):FrontierMesh=>({attributes:Object.fromEntries(p.listSemantics().map(s=>[s,p.getAttribute(s)!.getArray()! as GroundAttributeArray])),components:Object.fromEntries(p.listSemantics().map(s=>[s,p.getAttribute(s)!.getElementSize()])),normalized:Object.fromEntries(p.listSemantics().map(s=>[s,p.getAttribute(s)!.getNormalized()])),indices:Uint32Array.from(p.getIndices()!.getArray()!)});
 const identity=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];
-function protectedFrontierPlane(value:unknown):{axis:'x'|'z';cut:number}{
+function protectedFrontierPlane(value:unknown):{axis:'x'|'z';cut:number;positive:boolean}{
   assert.ok(value&&typeof value==='object'&&!Array.isArray(value),'Frontier repair metadata must be an object');const repair=value as Record<string,unknown>;
   assert.ok(repair.schemaVersion===1||repair.schemaVersion===2,'Unsupported frontier repair schema');assert.equal(repair.protectedInteriorPreserved,true,'Frontier protected-interior proof is required');
   const rectangle=(key:string):AppendRectangle=>{const value=repair[key];assert.ok(Array.isArray(value)&&value.length===4&&value.every(v=>typeof v==='number'&&Number.isFinite(v)),`Frontier ${key} must contain four finite coordinates`);return parseAppendRectangle(value.join(','));};
@@ -60,17 +60,17 @@ function protectedFrontierPlane(value:unknown):{axis:'x'|'z';cut:number}{
   if(repair.schemaVersion===1){
     assert.ok(repair.axis===undefined||repair.axis==='x','Legacy frontier must use the X axis');assert.equal(repair.cut,undefined,'Legacy frontier may not carry an explicit-axis cut');
     assert.ok(typeof repair.cutX==='number'&&Number.isFinite(repair.cutX),'Legacy frontier cutX is required');assert.equal(repair.protectedMinX,repair.cutX,'Legacy frontier protection differs from its cut');assert.equal(repair.cutX,region[2]+5,'Legacy frontier must replace exactly five accepted metres');
-    assert.deepEqual(groundRegion,[region[0],region[1],repair.cutX,region[3]],'Legacy frontier ground region differs');assert.deepEqual(sourceBand,[region[2]-6,region[1],repair.cutX,region[3]],'Legacy frontier source band differs');return{axis:'x',cut:repair.cutX};
+    assert.deepEqual(groundRegion,[region[0],region[1],repair.cutX,region[3]],'Legacy frontier ground region differs');assert.deepEqual(sourceBand,[region[2]-6,region[1],repair.cutX,region[3]],'Legacy frontier source band differs');return{axis:'x',cut:repair.cutX,positive:false};
   }
   assert.ok(repair.axis==='x'||repair.axis==='z','Explicit frontier axis is required');assert.ok(typeof repair.cut==='number'&&Number.isFinite(repair.cut),'Explicit frontier cut is required');
   assert.equal(repair.cutX,undefined,'Explicit frontier may not carry a legacy X cut');assert.equal(repair.protectedMinX,undefined,'Explicit frontier may not carry legacy X protection');
   const plan=planCityFrontier(rectangle('acceptedBounds'),region,repair.axis);assert.equal(repair.cut,plan.cut,'Explicit frontier cut differs from its accepted extent');assert.equal(repair.protectedSide,plan.protectedSide,'Explicit frontier protected side differs');assert.deepEqual(groundRegion,plan.groundRegion,'Explicit frontier ground region differs');assert.deepEqual(sourceBand,plan.sourceBand,'Explicit frontier source band differs');
-  return{axis:plan.axis,cut:plan.cut};
+  return{axis:plan.axis,cut:plan.cut,positive:plan.protectedSide==='north'};
 }
 /** A later local patch may lie in newly appended terrain. Its protection rule is a half-plane, not the
  * old accepted-grid lowering exception: points outside old bounds still require the same protected cut. */
 export function outsideProtectedFrontier(repair:unknown,x:number,z:number):boolean{
-  assert.ok(Number.isFinite(x)&&Number.isFinite(z),'Frontier patch coordinates must be finite');const plane=protectedFrontierPlane(repair);return plane.axis==='x'?x<plane.cut:z<plane.cut;
+  assert.ok(Number.isFinite(x)&&Number.isFinite(z),'Frontier patch coordinates must be finite');const plane=protectedFrontierPlane(repair),coordinate=plane.axis==='x'?x:z;return plane.positive?coordinate>plane.cut:coordinate<plane.cut;
 }
 function groundKeys(doc:Awaited<ReturnType<NodeIO['readBinary']>>){const keys=new Map<string,string>();for(const node of doc.getRoot().listNodes())if(node.getMesh()&&node.getName().includes('_ground_')){assert.deepEqual(node.getWorldMatrix(),identity,'Ground patch requires baked world coordinates');const finish=node.getName().split('_ground_')[1]!;for(const primitive of node.getMesh()!.listPrimitives()){const mesh=fromPrimitive(primitive);for(let t=0;t<mesh.indices.length/3;t++)keys.set(frontierTriangleKey(trianglePoints(mesh,t)),finish);}}return keys;}
 function activeCounts(bytes:Uint8Array){const json=readFacadeGlb(bytes).json as any;let triangles=0,drawCalls=0;for(const n of json.nodes)if(n.mesh!==undefined)for(const p of json.meshes[n.mesh].primitives){triangles+=json.accessors[p.indices].count/3;drawCalls++;}return{triangles,drawCalls};}

@@ -1,0 +1,261 @@
+{
+  "schemaVersion": 1,
+  "id": "toinen-linja-10-street-northeast-20261021",
+  "building": {
+    "id": "BID_97689449-416f-4a87-8508-51e4d4571003",
+    "vtj": "1031519730",
+    "owner": "c_m05_m13"
+  },
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "sourceFacets": [
+    {
+      "part": 0,
+      "triangle": 181,
+      "key": "1e1203c4c8e500427364c5c4:4cd804c467f6e0403516c6c4:cad604c462e500429e15c6c4"
+    },
+    {
+      "part": 0,
+      "triangle": 182,
+      "key": "1e1203c4c8e500427364c5c4:870c00c477e60042ad35c4c4:4cd804c467f6e0403516c6c4"
+    },
+    {
+      "part": 0,
+      "triangle": 183,
+      "key": "4817fac325e70042bf08c3c4:4cd804c467f6e0403516c6c4:870c00c477e60042ad35c4c4"
+    },
+    {
+      "part": 0,
+      "triangle": 184,
+      "key": "4817fac325e70042bf08c3c4:cad604c46af6e0409e15c6c4:4cd804c467f6e0403516c6c4"
+    },
+    {
+      "part": 0,
+      "triangle": 185,
+      "key": "1e1203c467f6e0407364c5c4:cad604c46af6e0409e15c6c4:4817fac325e70042bf08c3c4"
+    },
+    {
+      "part": 0,
+      "triangle": 186,
+      "key": "1e1203c467f6e0407364c5c4:4817fac325e70042bf08c3c4:870c00c465f6e040ad35c4c4"
+    },
+    {
+      "part": 0,
+      "triangle": 187,
+      "key": "4817fac325e70042bf08c3c4:4817fac365f6e040bf08c3c4:870c00c465f6e040ad35c4c4"
+    },
+    {
+      "part": 0,
+      "triangle": 180,
+      "key": "4cd804c461e500423516c6c4:cad604c462e500429e15c6c4:4cd804c467f6e0403516c6c4"
+    }
+  ],
+  "frame": {
+    "origin": [
+      -500.1818225860981,
+      -1560.273394865392
+    ],
+    "axis": [
+      -0.7874450600634817,
+      -0.6163848451913305
+    ],
+    "width": 39.61903841680305,
+    "minY": 7.0300774574279785,
+    "maxY": 32.22572708129883
+  },
+  "manifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54",
+  "datum": {
+    "nativeRoofY": 32.22572708129883,
+    "offset": -21.124848585448845
+  },
+  "nineFloorSamples": [
+    {
+      "u": 0.39619038416803054,
+      "x": -499.26103105657324,
+      "z": -1562.0924907341307,
+      "collision": {
+        "height": 11.100878495849985,
+        "cell": "c_m04_m13",
+        "collider": "g:c_m04_m13",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 11.100878495849985,
+        "cell": "c_m04_m13",
+        "key": "1492f9c3d67532410080c3c4:abe6f9c355aa30415506c3c4:37e1f8c3ea0f3241b247c3c4",
+        "node": "c_m04_m13_ground_asphalt"
+      }
+    },
+    {
+      "u": 4.754284610016366,
+      "x": -502.69279082600866,
+      "z": -1564.7787539688595,
+      "collision": {
+        "height": 11.210982194998678,
+        "cell": "c_m04_m13",
+        "collider": "g:c_m04_m13",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 11.210982194998678,
+        "cell": "c_m04_m13",
+        "key": "0000fac319a632418595c3c4:dceefac30ee5334149c4c3c4:0000fcc3d64833410080c3c4",
+        "node": "c_m04_m13_ground_asphalt"
+      }
+    },
+    {
+      "u": 9.904759604200763,
+      "x": -506.74850691715966,
+      "z": -1567.9534287008116,
+      "collision": {
+        "height": 11.388510595708349,
+        "cell": "c_m04_m13",
+        "collider": "g:c_m04_m13",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 11.388510595708349,
+        "cell": "c_m04_m13",
+        "key": "0000fec3b8c936410000c4c4:0000fec3be74374173ccc3c4:e01ffcc32c0435410000c4c4",
+        "node": "c_m04_m13_ground_asphalt"
+      }
+    },
+    {
+      "u": 14.857139406301144,
+      "x": -510.6482339278818,
+      "z": -1571.006000558458,
+      "collision": {
+        "height": 11.544153633859764,
+        "cell": "c_m04_m13",
+        "collider": "g:c_m04_m13",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 11.544153633859764,
+        "cell": "c_m04_m13",
+        "key": "000000c4574238410080c4c4:000000c491ab3941a030c4c4:abadfec3350738410080c4c4",
+        "node": "c_m04_m13_ground_asphalt"
+      }
+    },
+    {
+      "u": 19.809519208401525,
+      "x": -514.5479609386039,
+      "z": -1574.0585724161044,
+      "collision": {
+        "height": 11.622868004079075,
+        "cell": "c_m05_m13",
+        "collider": "g:c_m05_m13",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 11.622868004079075,
+        "cell": "c_m05_m13",
+        "key": "78bf00c41b7d3a4144a0c4c4:996100c48b0e394133cfc4c4:bc9d00c4299c39410000c5c4",
+        "node": "c_m05_m13_ground_asphalt"
+      }
+    },
+    {
+      "u": 24.761899010501907,
+      "x": -518.447687949326,
+      "z": -1577.1111442737506,
+      "collision": {
+        "height": 11.71959279612111,
+        "cell": "c_m05_m13",
+        "collider": "g:c_m05_m13",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 11.71959279612111,
+        "cell": "c_m05_m13",
+        "key": "000001c4935f3a410000c5c4:c67801c4f3183b419d43c5c4:000002c4e0753c410000c5c4",
+        "node": "c_m05_m13_ground_asphalt"
+      }
+    },
+    {
+      "u": 29.714278812602288,
+      "x": -522.347414960048,
+      "z": -1580.163716131397,
+      "collision": {
+        "height": 11.759034306558986,
+        "cell": "c_m05_m13",
+        "collider": "g:c_m05_m13",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 11.759034306558986,
+        "cell": "c_m05_m13",
+        "key": "000002c49a3e3b41b78ac5c4:8d8302c49fdf3c413abec5c4:000003c4ebc13c410080c5c4",
+        "node": "c_m05_m13_ground_asphalt"
+      }
+    },
+    {
+      "u": 34.86475380678669,
+      "x": -526.403131051199,
+      "z": -1583.338390863349,
+      "collision": {
+        "height": 11.842173672428146,
+        "cell": "c_m05_m13",
+        "collider": "g:c_m05_m13",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 11.842173672428146,
+        "cell": "c_m05_m13",
+        "key": "000004c408a23d410000c6c4:000004c44a8f3e4156c1c5c4:882b03c436a73c410000c6c4",
+        "node": "c_m05_m13_ground_asphalt"
+      }
+    },
+    {
+      "u": 39.22284803263502,
+      "x": -529.8348908206345,
+      "z": -1586.024654098078,
+      "collision": {
+        "height": 11.898579605811092,
+        "cell": "c_m05_m13",
+        "collider": "g:c_m05_m13",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 11.898579605811092,
+        "cell": "c_m05_m13",
+        "key": "000004c408a23d410000c6c4:154f04c487873e417658c6c4:4d8b04c44d5a3e41593ac6c4",
+        "node": "c_m05_m13_ground_asphalt"
+      }
+    }
+  ],
+  "qualification": {
+    "artSha256": "f15c74e32bee145de6935f0909f7bd737f78b464cebc9991fa7cf49345e9ed22",
+    "referencesSha256": "1ab789769dbbb63bb788aad53b3ff063f44a2c90b3f7c8829648b8c941a2b370",
+    "observations": [
+      "Actual opened street reference shows a long pale cream rendered front, five horizontal rows of narrow rectangular upper windows, restrained light surrounds and dark gray-green frames.",
+      "Dark green lower storey contains repeated broad glazed shopfronts and narrow entrances beneath a brown-red continuous cornice; no ornate classical pediments or balconies are visible on this plane.",
+      "Upper opening datum remains horizontal and is tied to the selected native roof and exact measured exterior street floors; store glass bottoms and entrances meet the actual sloped street."
+    ]
+  },
+  "finish": {
+    "plinthHeight": 0.18,
+    "plinthColour": "#555b4b",
+    "floorFollowingGlazingIndices": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      10,
+      12,
+      14
+    ]
+  }
+}

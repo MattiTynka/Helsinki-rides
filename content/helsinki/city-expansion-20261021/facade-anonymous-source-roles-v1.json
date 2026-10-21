@@ -1,0 +1,1726 @@
+{
+  "schemaVersion": 1,
+  "status": "ALL_23_REFERENCE_CONTEXTS_OPENED_SIX_SELECTED_ART_COMPONENTS_ACCEPTED_FINAL_BIND_PENDING",
+  "sourceWorkSha256": "1db457ad7d559bdb83f7bbca31833cc33d6d0cb1dcec2f7405c2966ae9b4f51e",
+  "referencePixelsCopied": false,
+  "records": [
+    {
+      "id": "BID_0610c235-1415-44b0-baea-8b606442558a",
+      "band": "north",
+      "owner": "c_p03_m11",
+      "nullWallArea": 176.16240791687147,
+      "representativeVisibleWallArea": 110.34637567442319,
+      "status": "REFERENCE_OPENED_TARGET_OCCLUDED",
+      "references": [
+        {
+          "title": "Google Street View April 2023",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=vNexfuya7VVX-N9omJVaTg&heading=210&pitch=0&fov=100",
+          "role": "appearance-reference-only",
+          "opened": true
+        }
+      ],
+      "observations": [
+        "Actual Kaikukatu3 viewpoint shows brick industrial frontage and an elevated service walkway. Exact small source body lies behind this block and is not resolved; no finish assigned."
+      ],
+      "nativeRoles": [],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          388.576,
+          1403.945,
+          -6.77
+        ],
+        "max": [
+          395.882,
+          1410.926,
+          1.94
+        ]
+      },
+      "sourceTriangles": 12,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_ee5baaa0-11fe-4f34-a8a2-b12649064143",
+          "vtj": "1031423663",
+          "address": "Kaikukatu 3, 00530 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              368.737,
+              1413.064,
+              -3.88
+            ],
+            "max": [
+              416.218,
+              1461.961,
+              23.9
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_0fbf37f9-e87d-425f-89c4-2863e61dbb3d",
+      "band": "north",
+      "owner": "c_p03_m14",
+      "nullWallArea": 135.61862544892938,
+      "representativeVisibleWallArea": 118.00545213762032,
+      "status": "ACTUAL_COURTYARD_REFERENCE_OPENED_NARROW_SERVICE_PIER_FINISH_QUALIFICATION",
+      "references": [
+        {
+          "title": "Outdoor courtyard photosphere nearHameentie38,February2020",
+          "date": "2020-02",
+          "pano": "CIHM0ogKEICAgIDayYjcHw",
+          "camera": [
+            60.1850884,
+            24.9604948
+          ],
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=60.1850813318,24.960517124&heading=267&pitch=55&fov=80"
+        }
+      ],
+      "observations": [
+        "Actual outdoor courtyard sphere shows cream/grey rendered corner and narrow upright plain strip beside glazing. No general residential openings are inferred for the isolated native service-shaft body.",
+        "Source footprint1.9x1.9m andheight23.79m overlaps separately registered Hameentie38,VTJ1031709549; that textured building ownership remains distinct.",
+        "A direct official-panoURL using the user-sphere identifier returned0,0 and was rejected; the actual coordinate lookup restores the observed sphere."
+      ],
+      "nativeRoles": [
+        "Narrow anonymous source service-pier planes only; role/reference qualification must not repaint the adjacent registered main house."
+      ],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          445.189,
+          1731.702,
+          10.59
+        ],
+        "max": [
+          447.093,
+          1733.635,
+          34.38
+        ]
+      },
+      "sourceTriangles": 12,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_75386e61-7a93-46ea-9680-6e926a302e79",
+          "vtj": "1031709549",
+          "address": "Hämeentie 38, 00500 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              414.763,
+              1713.376,
+              8.95
+            ],
+            "max": [
+              452.387,
+              1744.297,
+              35.48
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_1e739818-87c6-42e1-8cc8-50d91637e734",
+      "band": "north",
+      "owner": "c_m14_m14",
+      "nullWallArea": 156.50107088182588,
+      "representativeVisibleWallArea": 156.50107088182588,
+      "status": "ACTUAL_SOURCE_ROLE_REFERENCE_OPENED_SHELTER_VS_KIOSK_SELECTION_REQUIRED",
+      "references": [
+        {
+          "title": "Google Street View1Linnankoskikatu,August2024,Humalistonkuja stop structures",
+          "pano": "Ga53HxuzdqbWyRxRyLCBzw",
+          "date": "2024-08",
+          "camera": [
+            60.1855532,
+            24.9209528
+          ],
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=Ga53HxuzdqbWyRxRyLCBzw&heading=166&pitch=0&fov=100"
+        }
+      ],
+      "observations": [
+        "Low flat-roof tram-terminus shelter is open at its sides with slim columns. An opaque grey utility/kiosk enclosure adjoins it. Native LoD2 closed-wall proxy cannot justify apartment windows or painting every side opaque.",
+        "Actual Google snap moved north of requested public path; heading166used to face actual structures."
+      ],
+      "nativeRoles": [
+        "Differentiate opaque utility enclosure from open shelter source geometry before selecting finish."
+      ],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          -1736.342,
+          1764.947,
+          -1.62
+        ],
+        "max": [
+          -1725.954,
+          1774.161,
+          2.599
+        ]
+      },
+      "sourceTriangles": 44,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_dc2fddcd-3251-4c31-9e06-d4245242021b",
+          "vtj": "1032289858",
+          "address": "Humalistonkatu 1b, 00250 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -1766.991,
+              1725.654,
+              -1.72
+            ],
+            "max": [
+              -1729.948,
+              1771.406,
+              22.331
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_SOURCE_SIMPLE_SHELTER_UTILITY_ROLE_NO_INVENTED_APARTMENT_ART",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_22a3296e-3b10-45c7-87e7-dfd9e0322c53",
+      "band": "north",
+      "owner": "c_p05_m14",
+      "nullWallArea": 54.262398770332354,
+      "representativeVisibleWallArea": 21.80187154053932,
+      "status": "REFERENCE_OPENED_TARGET_OCCLUDED",
+      "references": [
+        {
+          "title": "Google Street View August 2024",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=6lOxIL38iTn-JV7qyPgvSg&heading=178.2&pitch=10&fov=100",
+          "role": "appearance-reference-only",
+          "opened": true
+        }
+      ],
+      "observations": [
+        "Actual lookup snaps to5K?enkuja, about75m north of source annex, showing registered red-brick frontage and rounded gray industrial building. Exact small rear body is blocked by intervening architecture; no finish inferred."
+      ],
+      "nativeRoles": [],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          664.811,
+          1682.807,
+          0.5
+        ],
+        "max": [
+          669.541,
+          1688.684,
+          3.73
+        ]
+      },
+      "sourceTriangles": 12,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_31a42c0f-240d-4905-8d01-6df50dc02ca5",
+          "vtj": "1031423386",
+          "address": "Lintulahdenkuja 10, 00500 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              605.777,
+              1630.845,
+              -5.17
+            ],
+            "max": [
+              685.484,
+              1692.096,
+              25.615
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_2ed9b7ec-f039-4f1b-971f-7a5e62c9eb33",
+      "band": "north",
+      "owner": "c_m14_m14",
+      "nullWallArea": 60.01424276403991,
+      "representativeVisibleWallArea": 60.01424276403991,
+      "status": "ACTUAL_SOURCE_ROLE_REFERENCE_OPENED_SHELTER_VS_KIOSK_SELECTION_REQUIRED",
+      "references": [
+        {
+          "title": "Google Street View1Linnankoskikatu,August2024,Humalistonkuja stop structures",
+          "pano": "Ga53HxuzdqbWyRxRyLCBzw",
+          "date": "2024-08",
+          "camera": [
+            60.1855532,
+            24.9209528
+          ],
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=Ga53HxuzdqbWyRxRyLCBzw&heading=166&pitch=0&fov=100"
+        }
+      ],
+      "observations": [
+        "Low flat-roof tram-terminus shelter is open at its sides with slim columns. An opaque grey utility/kiosk enclosure adjoins it. Native LoD2 closed-wall proxy cannot justify apartment windows or painting every side opaque.",
+        "Actual Google snap moved north of requested public path; heading166used to face actual structures."
+      ],
+      "nativeRoles": [
+        "Differentiate opaque utility enclosure from open shelter source geometry before selecting finish."
+      ],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          -1719.188,
+          1747.711,
+          -1.47
+        ],
+        "max": [
+          -1713.985,
+          1752.872,
+          2.599
+        ]
+      },
+      "sourceTriangles": 12,
+      "adjacentRegisteredSourceWitness": [],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_SOURCE_SIMPLE_SHELTER_UTILITY_ROLE_NO_INVENTED_APARTMENT_ART",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_3b779015-86e2-4ef3-8d72-2a812abf48b7",
+      "band": "north",
+      "owner": "c_p03_m13",
+      "nullWallArea": 63.146116314495686,
+      "representativeVisibleWallArea": 60.464952114831455,
+      "status": "REFERENCE_OPENED_EPHEMERAL_SERVICE_OBJECT",
+      "references": [
+        {
+          "title": "Google Street View May 2021",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=CIHM0ogKEICAgIDq3OLXkAE&heading=303&pitch=0&fov=100",
+          "role": "appearance-reference-only",
+          "opened": true
+        }
+      ],
+      "observations": [
+        "Caisa courtyard has a low rectangular service container or kiosk with flat dark roof and painted/postered metal panels. Separate from registered Caisa building. Ephemeral graphics are not copied and no residential openings inferred."
+      ],
+      "nativeRoles": [],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          408.946,
+          1548.665,
+          -1.46
+        ],
+        "max": [
+          415.094,
+          1556.173,
+          1.6
+        ]
+      },
+      "sourceTriangles": 28,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_a7374690-9fa3-4ba4-98b6-b28d8e8584da",
+          "vtj": "103142361X",
+          "address": "Hämeentie 13a, 00530 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              368.794,
+              1534.099,
+              -1.07
+            ],
+            "max": [
+              412.947,
+              1582.077,
+              18.86
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_SOURCE_EPHEMERAL_SERVICE_CONTAINER_NO_COPIED_GRAPHICS",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_4d9600e4-eb66-48fb-9d8d-9d78bd8431e4",
+      "band": "north",
+      "owner": "c_p03_m17",
+      "nullWallArea": 311.1514492162293,
+      "representativeVisibleWallArea": 122.66148248901408,
+      "status": "REFERENCE_OPENED_TARGET_OCCLUDED",
+      "references": [
+        {
+          "title": "Google Street View August 2022",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=6H0wuDGd55v5VZjDOEXpxg&heading=249.4&pitch=10&fov=100",
+          "role": "appearance-reference-only",
+          "opened": true
+        }
+      ],
+      "observations": [
+        "Actual public path view faces wooded courtyard slope; dense foliage hides the small low native body. Nearby white registered apartment facade is distinct, not finish authority."
+      ],
+      "nativeRoles": [],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          448.568,
+          2150.103,
+          7.563
+        ],
+        "max": [
+          459.956,
+          2155.709,
+          17.563
+        ]
+      },
+      "sourceTriangles": 24,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_ecaa4ba7-4995-4c51-b7db-f28b994ed745",
+          "vtj": "1031805627",
+          "address": "Kinaporinkatu 2, 00500 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              426.106,
+              2095.548,
+              9.298
+            ],
+            "max": [
+              483.838,
+              2150.306,
+              41.32
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_968698df-c401-4f37-b12b-e0d7bf8b4500",
+      "band": "north",
+      "owner": "c_m06_m12",
+      "nullWallArea": 43.39588998090848,
+      "representativeVisibleWallArea": 21.61160311481607,
+      "status": "ACTUAL_LEAFLESS_STREET_REFERENCE_OPENED_REAR_ANNEX_OCCLUDED",
+      "references": [
+        {
+          "title": "Google Street View11Elaintarhantie,April2023",
+          "date": "2023-04",
+          "pano": "PB9hARbM7QJ04qOpNidndw",
+          "camera": [
+            60.1825417,
+            24.9397449
+          ],
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=PB9hARbM7QJ04qOpNidndw&heading=305&pitch=0&fov=100"
+        }
+      ],
+      "observations": [
+        "Actual August2024and leaflessApril2023views opened from public street; target is beyond the pale picket fence in a vegetated villa court.",
+        "The small exact native target is not visibly resolved through the villa/trees in this actual view; no facade window/material claim is made."
+      ],
+      "nativeRoles": [
+        "Small elevated court/service annex; unresolved exact exposed face finish."
+      ],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          -731.843,
+          1480.917,
+          12.59
+        ],
+        "max": [
+          -727.733,
+          1485.876,
+          15.9
+        ]
+      },
+      "sourceTriangles": 16,
+      "adjacentRegisteredSourceWitness": [],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_98dbbd85-20d0-4d2d-872f-1e26c09844c9",
+      "band": "north",
+      "owner": "c_p03_m17",
+      "nullWallArea": 169.13889909643322,
+      "representativeVisibleWallArea": 12.4953116098544,
+      "status": "REFERENCE_OPENED_TARGET_OCCLUDED",
+      "references": [
+        {
+          "title": "Google Street View August 2022",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=6H0wuDGd55v5VZjDOEXpxg&heading=249.4&pitch=10&fov=100",
+          "role": "appearance-reference-only",
+          "opened": true
+        }
+      ],
+      "observations": [
+        "Same actual source courtyard context as adjacent4d9600e4. Trees hide the low service body; no generic windows or finish assigned."
+      ],
+      "nativeRoles": [],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          443.109,
+          2147.427,
+          7.92
+        ],
+        "max": [
+          454.098,
+          2151.107,
+          15.005
+        ]
+      },
+      "sourceTriangles": 16,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_ecaa4ba7-4995-4c51-b7db-f28b994ed745",
+          "vtj": "1031805627",
+          "address": "Kinaporinkatu 2, 00500 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              426.106,
+              2095.548,
+              9.298
+            ],
+            "max": [
+              483.838,
+              2150.306,
+              41.32
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_9c770ccc-889b-4d9c-910e-d17f5922cc7f",
+      "band": "north",
+      "owner": "c_m10_m14",
+      "nullWallArea": 56.74132389770796,
+      "representativeVisibleWallArea": 38.09258651553192,
+      "status": "ACTUAL_REFERENCE_OPENED_WALL_OCCLUSION_ROLE_UNRESOLVED",
+      "references": [
+        {
+          "title": "Google Street View1Mantymakitie,April2023,unobstructed retaining wall and bank",
+          "pano": "muJ_VObUdmBuY-pkO6XKmQ",
+          "date": "2023-04",
+          "camera": [
+            60.1844215,
+            24.9293559
+          ],
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=muJ_VObUdmBuY-pkO6XKmQ&heading=350.3&pitch=0&fov=100"
+        }
+      ],
+      "observations": [
+        "August2024camera is blocked by a parked camper. Actual April2023historical view opened via date UI shows continuous low red/brown brick retaining wall and vegetated bank behind.",
+        "Native target is behind the retaining wall; no exposed opaque kiosk elevation or apartment windows can be inferred from this view."
+      ],
+      "nativeRoles": [
+        "Native target lower/court/bank role remains unresolved; preserve pending further evidence."
+      ],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          -1279.061,
+          1674.5,
+          -4.459
+        ],
+        "max": [
+          -1272.325,
+          1678.911,
+          -1.459
+        ]
+      },
+      "sourceTriangles": 12,
+      "adjacentRegisteredSourceWitness": [],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_a3feee94-1b3e-44ae-ba14-d5f97f5b661a",
+      "band": "north",
+      "owner": "c_p03_m15",
+      "nullWallArea": 74.54561711808283,
+      "representativeVisibleWallArea": 38.08735417603097,
+      "status": "REFERENCE_OPENED_TARGET_EXACT_PLANES_UNRESOLVED",
+      "references": [
+        {
+          "title": "Google Street View February2020",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=60.1856767,24.9605823&heading=272&pitch=10&fov=100",
+          "role": "appearance-reference-only",
+          "opened": true,
+          "pano": "CIHM0ogKEICAgIDayfjmbA",
+          "actualCamera": [
+            60.1856537,
+            24.9608503
+          ]
+        }
+      ],
+      "observations": [
+        "Actual panorama initially looks acrossH?meentie, not toward source. Reoriented by visible panorama controls toward source courtyard frontage: low shop-wing roof and stone-clad frontage sits below taller registeredH42. Exact small5x9m source annex planes are not independently resolved behind this roofline; no ownership merge or guessed openings."
+      ],
+      "nativeRoles": [],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          465.709,
+          1794.737,
+          11.26
+        ],
+        "max": [
+          470.512,
+          1803.749,
+          14.379
+        ]
+      },
+      "sourceTriangles": 12,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_8f0c9ed5-3e4a-48dd-9d01-29f393f92aac",
+          "vtj": "103170957C",
+          "address": "Hämeentie 42, 00500 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              440.058,
+              1779.04,
+              10.185
+            ],
+            "max": [
+              480.187,
+              1812.314,
+              38.688
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_aaf142e9-050c-4c72-bd8f-58a3727c5490",
+      "band": "north",
+      "owner": "c_m03_m17",
+      "nullWallArea": 37.208690010412965,
+      "representativeVisibleWallArea": 37.208690010412965,
+      "status": "REFERENCE_OPENED_TARGET_OCCLUDED",
+      "references": [
+        {
+          "title": "Google Street View March2025 panorama, UI dated April2025",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=60.1891642532,24.9455905468&heading=290&pitch=5&fov=100",
+          "role": "appearance-reference-only",
+          "opened": true,
+          "pano": "CIABIhAGbyfQcASbQmfs6GUADpYu",
+          "actualCamera": [
+            60.1889441,
+            24.946094
+          ]
+        }
+      ],
+      "observations": [
+        "Actual source lookup snaps southeast to Sturenkatu street. Reoriented panorama toward courtyard-side context; registered apartment blocks and low separate architecture enclose exact3.7m-square source utility body. Exact native source planes remain unresolved, so no guessed material/openings."
+      ],
+      "nativeRoles": [],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          -368.652,
+          2170.51,
+          15.82
+        ],
+        "max": [
+          -364.975,
+          2174.176,
+          19.4
+        ]
+      },
+      "sourceTriangles": 12,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_7b6663ed-4ccf-4288-961e-8d434144f8b8",
+          "vtj": "103180628B",
+          "address": "Sturenkatu 6, 00510 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -435.226,
+              2158.176,
+              15.34
+            ],
+            "max": [
+              -352.145,
+              2203.796,
+              35.9
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_c35f2403-751a-410c-af58-ba6a301d2807",
+      "band": "north",
+      "owner": "c_m07_m11",
+      "nullWallArea": 70.3808997346763,
+      "representativeVisibleWallArea": 19.94861898602391,
+      "status": "REFERENCE_OPENED_TARGET_PARTIALLY_OCCLUDED",
+      "references": [
+        {
+          "title": "Google Street View August 2012",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=FBpLGGxAM83INWNb-d9dmg&heading=236&pitch=0&fov=100",
+          "role": "appearance-reference-only",
+          "opened": true
+        }
+      ],
+      "observations": [
+        "Wooded shoreline path with distant small waterside outbuilding through trunks. Exact source body is not sufficiently resolved to assign finish or openings."
+      ],
+      "nativeRoles": [],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          -887.271,
+          1358.149,
+          -0.51
+        ],
+        "max": [
+          -882.014,
+          1364.424,
+          4.1
+        ]
+      },
+      "sourceTriangles": 16,
+      "adjacentRegisteredSourceWitness": [],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_c41b9842-4516-4d2a-bdea-6f497aff7bff",
+      "band": "north",
+      "owner": "c_m03_m14",
+      "nullWallArea": 120.36127313294944,
+      "representativeVisibleWallArea": 44.20070984586973,
+      "status": "ACTUAL_STREET_REFERENCE_OPENED_REAR_SHAFT_OCCLUDED",
+      "references": [
+        {
+          "title": "Google Street View4Kirstinkatu,August2024",
+          "date": "2024-08",
+          "pano": "MT9kqkvMmEonGHY_2iqGEQ",
+          "camera": [
+            60.1858303,
+            24.9469055
+          ],
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=MT9kqkvMmEonGHY_2iqGEQ&heading=149.5&pitch=35&fov=100"
+        }
+      ],
+      "observations": [
+        "Actual street view shows the brick church and later apartment frontage; the exact1.2m-square source shaft is behind/within separate Castreninkatu18 courtyard building extents.",
+        "The visible church spire is not evidence for this separate anonymous source shaft. No green-spire/brickedchurch material is assigned to it."
+      ],
+      "nativeRoles": [
+        "Castreninkatu18 courtyard/roof shaft; exact exposed finish is not qualified by this public street snap."
+      ],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          -272.964,
+          1773.149,
+          16.47
+        ],
+        "max": [
+          -271.678,
+          1774.368,
+          42.9
+        ]
+      },
+      "sourceTriangles": 18,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_28fa5509-119c-4bcb-b68c-b9c7bb75a2d4",
+          "vtj": "1031612818",
+          "address": "Castréninkatu 18, 00530 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -288.269,
+              1773.391,
+              15.5
+            ],
+            "max": [
+              -250.852,
+              1802.819,
+              41.7
+            ]
+          }
+        },
+        {
+          "id": "BID_3b3c990f-5128-419d-8a35-a63b5f6dfee1",
+          "vtj": "1031612829",
+          "address": "Castréninkatu 18, 00530 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -286.928,
+              1756.116,
+              16.43
+            ],
+            "max": [
+              -249.386,
+              1779.433,
+              41.99
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_c5e9d646-e128-4a0e-98db-9d687c673678",
+      "band": "north",
+      "owner": "c_m01_m13",
+      "nullWallArea": 147.0596707233155,
+      "representativeVisibleWallArea": 47.23484755252012,
+      "status": "REFERENCE_OPENED_TARGET_OCCLUDED",
+      "references": [
+        {
+          "title": "Google Street View August2024",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=ItevT-btxiMbGbDZBIMMfw&heading=90&pitch=8&fov=100",
+          "role": "appearance-reference-only",
+          "opened": true,
+          "actualCamera": [
+            60.1838221,
+            24.9498054
+          ]
+        }
+      ],
+      "observations": [
+        "Actual outdoor viewpoint onIt?inenPapinkatu shows separate registered decorative stone/render streetfronts. Exact10.8x13.4m low source body is inside theViideslinja16/18/Nelj?s11 enclosed court behind them; no finish or openings inferred from proxy visibility or neighboring walls."
+      ],
+      "nativeRoles": [],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          -87.029,
+          1577.592,
+          15.89
+        ],
+        "max": [
+          -76.259,
+          1591.028,
+          20.739
+        ]
+      },
+      "sourceTriangles": 66,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_08cbe86a-dd31-4025-bc2a-6bb5e66ef304",
+          "vtj": "103161258H",
+          "address": "Viides linja 18, 00530 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -116.03,
+              1579.905,
+              15.616
+            ],
+            "max": [
+              -62.04,
+              1621.484,
+              43.47
+            ]
+          }
+        },
+        {
+          "id": "BID_6e21775c-e0fb-4836-a5f9-7716f26692bd",
+          "vtj": "103161257F",
+          "address": "Viides linja 16, 00530 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -79.101,
+              1559.764,
+              14.9
+            ],
+            "max": [
+              -35.171,
+              1612.275,
+              37.901
+            ]
+          }
+        },
+        {
+          "id": "BID_c1bdd9b5-4d31-42f8-a2d5-f15d47eb9fc9",
+          "vtj": "1031612519",
+          "address": "Neljäs linja 11, 00530 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -140.473,
+              1529.689,
+              14.49
+            ],
+            "max": [
+              -82.778,
+              1593.875,
+              41.356
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_c67cda04-dfe6-489c-827b-a1bfb123b29b",
+      "band": "north",
+      "owner": "c_p04_m16",
+      "nullWallArea": 200.24252223891213,
+      "representativeVisibleWallArea": 168.8858752972624,
+      "status": "ACTUAL_STREET_REFERENCE_OPENED_REAR_SERVICE_SHAFT_OCCLUDED",
+      "references": [
+        {
+          "title": "Google Street View25Hameentie,September2025",
+          "date": "2025-09",
+          "pano": "hnjEA-C6cwwuPcTVNdltqw",
+          "camera": [
+            60.186903,
+            24.9614959
+          ],
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=hnjEA-C6cwwuPcTVNdltqw&heading=175&pitch=15&fov=100"
+        }
+      ],
+      "observations": [
+        "Actual2025street snap opened; it is west of the source-backed courtyard lookup. The exact source shaft lies east behind the separately registered Hameentie23/25 main frontage.",
+        "Main street facade appearances are already separately authored by the facade worker. They are not permission to paint this hidden rear service structure."
+      ],
+      "nativeRoles": [
+        "Narrow courtyard service/shaft body between Hameentie23/25; exact exposed rear finish unresolved."
+      ],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          532.531,
+          1923.939,
+          12.9
+        ],
+        "max": [
+          535.957,
+          1929.506,
+          25.442
+        ]
+      },
+      "sourceTriangles": 16,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_8d7f285a-a001-45ff-8338-ae442c64b2ca",
+          "vtj": "103142221D",
+          "address": "Hämeentie 23, 00500 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              517.59,
+              1892.125,
+              12.72
+            ],
+            "max": [
+              535.056,
+              1925.376,
+              41.82
+            ]
+          }
+        },
+        {
+          "id": "BID_bff3f6e9-d355-46dc-a345-12f0cf2fe9e9",
+          "vtj": "103142223F",
+          "address": "Hämeentie 25, 00500 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              520.984,
+              1924.363,
+              13.12
+            ],
+            "max": [
+              535.699,
+              1962.168,
+              36.901
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_de9b9a73-1c8f-4f5d-adea-1b31de25beb2",
+      "band": "north",
+      "owner": "c_p02_m13",
+      "nullWallArea": 692.600255588794,
+      "representativeVisibleWallArea": 344.6778390048546,
+      "status": "SOURCE_QUALIFIED_SELECTED_ART_COMPONENT_ACCEPTED_FINAL_BIND_PENDING",
+      "references": [
+        {
+          "title": "Google Street View July2009, low Pengerkuja annex",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=3PEgwhke6eQ88R6wUDu8lQ&heading=23&pitch=5&fov=100",
+          "role": "appearance-reference-only",
+          "opened": true,
+          "actualCamera": [
+            60.1836377,
+            24.9575236
+          ]
+        }
+      ],
+      "observations": [
+        "Actual July2009Pengerkuja reference shows selected low white industrial courtyard front with narrow upright upper lights below flat parapet; exact hidden bay count is not claimed."
+      ],
+      "nativeRoles": [],
+      "repairs": [
+        {
+          "profile": "content/assets/facades/new-area/anonymous/de9b9a73/northeast/profile.json",
+          "profileSha256": "2a243456d5e5d10af413abb0bf73f0f4ca1343f06dadda5514b9eaa5dd7c87b6",
+          "sourcePlan": "content/assets/facades/new-area/anonymous/de9b9a73/northeast/plan.json",
+          "baselineManifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54"
+        }
+      ],
+      "sourceBoundsENU": {
+        "min": [
+          273.271,
+          1581.33,
+          4.99
+        ],
+        "max": [
+          308.176,
+          1618.031,
+          11.85
+        ]
+      },
+      "sourceTriangles": 20,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_0ec0f9da-f469-4d38-ac81-26c315279830",
+          "vtj": "103161318E",
+          "address": "Hämeentie 30, 00530 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              301.292,
+              1564.899,
+              3.62
+            ],
+            "max": [
+              333.354,
+              1603.083,
+              20.88
+            ]
+          }
+        },
+        {
+          "id": "BID_347f5a55-ea91-4bf7-8ac1-6fa69ca0d63e",
+          "vtj": "1031613095",
+          "address": "Pengerkatu 7, 00530 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              238.088,
+              1567.954,
+              7.91
+            ],
+            "max": [
+              273.164,
+              1605.755,
+              38.93
+            ]
+          }
+        },
+        {
+          "id": "BID_608c1920-769d-44df-97f9-1ed243a64358",
+          "vtj": "1031613117",
+          "address": "Pengerkatu 9, 00530 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              261.411,
+              1595.817,
+              8.19
+            ],
+            "max": [
+              296.41,
+              1633.356,
+              39.167
+            ]
+          }
+        },
+        {
+          "id": "BID_7994695c-b7ed-4c10-b021-bf1ea21d30a4",
+          "vtj": "1031613106",
+          "address": "Pengerkatu 7, 00530 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              259.257,
+              1552.471,
+              4.128
+            ],
+            "max": [
+              290.56,
+              1590.05,
+              21.548
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": true,
+      "disposition": "AUTHOR_EXACT_OBSERVED_SOURCE_PLANES",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ],
+      "componentReview": {
+        "kind": "actual-standard-and-low-selected-plane-review",
+        "actualOpened": true,
+        "finalWorldAcceptance": false
+      }
+    },
+    {
+      "id": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "band": "south",
+      "owner": "c_m05_p05",
+      "nullWallArea": 1195.352945141453,
+      "representativeVisibleWallArea": 671.2752886575491,
+      "status": "SOURCE_QUALIFIED_SELECTED_ART_COMPONENT_ACCEPTED_FINAL_BIND_PENDING",
+      "references": [
+        {
+          "title": "Google Street View7IsoRoobertinkatu,April2023,looking at opposite number10 frontage",
+          "pano": "mkPnpzWf6bAeRy4kz5CeOw",
+          "date": "2023-04",
+          "camera": [
+            60.1636924,
+            24.9428147
+          ],
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=mkPnpzWf6bAeRy4kz5CeOw&heading=136&pitch=45&fov=110"
+        }
+      ],
+      "observations": [
+        "Actual April2023reference resolves the outward curved beige/tan rendered frontage opposite displayednumber10. Original32-face source family is authored, deep rear court excluded."
+      ],
+      "nativeRoles": [
+        "Northwest public street plane requires original facade art.",
+        "Side/court/rear planes require separate role disposition."
+      ],
+      "repairs": [
+        {
+          "profile": "content/assets/facades/new-area/anonymous/1851b11d/northwest/profile.json",
+          "profileSha256": "314210ee77f29c8ab747aa46cbd78aacbd4beaf7ca12db12e6688ce37b3b99e7",
+          "sourcePlan": "content/assets/facades/new-area/anonymous/1851b11d/northwest/plan.json",
+          "baselineManifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54"
+        }
+      ],
+      "sourceBoundsENU": {
+        "min": [
+          -527.475,
+          -667.894,
+          4.19
+        ],
+        "max": [
+          -505.575,
+          -644.068,
+          24.844
+        ]
+      },
+      "sourceTriangles": 144,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_521a3bb2-6ad1-43ba-8120-ad4a1c66ba46",
+          "vtj": "103084997F",
+          "address": "Iso Roobertinkatu 12, 00120 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -541.858,
+              -701.741,
+              4
+            ],
+            "max": [
+              -505.464,
+              -654.697,
+              25.06
+            ]
+          }
+        },
+        {
+          "id": "BID_647d3e06-99f5-452a-959d-5b16aa017315",
+          "vtj": "1030848989",
+          "address": "Iso Roobertinkatu 7, 00120 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -567.321,
+              -641.803,
+              4.24
+            ],
+            "max": [
+              -521.046,
+              -587.129,
+              25.932
+            ]
+          }
+        },
+        {
+          "id": "BID_949a4703-d530-48ab-81c1-d8e512d42dca",
+          "vtj": "103085000K",
+          "address": "Iso Roobertinkatu 14, 00120 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -556.632,
+              -712.068,
+              3.43
+            ],
+            "max": [
+              -516.402,
+              -664.708,
+              25.77
+            ]
+          }
+        },
+        {
+          "id": "BID_a906f03c-5d1b-43db-98a5-da9ac821ae2c",
+          "vtj": "103084992A",
+          "address": "Iso Roobertinkatu 8, 00120 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -512.89,
+              -681.303,
+              4.506
+            ],
+            "max": [
+              -475.27,
+              -634.159,
+              26.36
+            ]
+          }
+        },
+        {
+          "id": "BID_f5c7ba19-6ca6-43c7-9eb7-44e32d031526",
+          "vtj": "103084995D",
+          "address": "Iso Roobertinkatu 10, 00120 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -514.01,
+              -691.547,
+              5.82
+            ],
+            "max": [
+              -495.599,
+              -665.735,
+              23.23
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": true,
+      "disposition": "AUTHOR_EXACT_OBSERVED_SOURCE_PLANES",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ],
+      "componentReview": {
+        "kind": "actual-standard-and-low-selected-plane-review",
+        "actualOpened": true,
+        "finalWorldAcceptance": false
+      }
+    },
+    {
+      "id": "BID_4da0d8c0-d65e-4954-9b4b-39e9e3295ff2",
+      "band": "south",
+      "owner": "c_m07_p04",
+      "nullWallArea": 68.74651666206555,
+      "representativeVisibleWallArea": 27.98302906976751,
+      "status": "REFERENCE_OPENED_TARGET_OCCLUDED",
+      "references": [
+        {
+          "title": "Google Street View August2024",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=wP09n1Y1fCib_P8OwN4jNg&heading=83&pitch=8&fov=100",
+          "role": "appearance-reference-only",
+          "opened": true,
+          "actualCamera": [
+            60.164059,
+            24.9374132
+          ]
+        }
+      ],
+      "observations": [
+        "Actual nearest outdoor view onFredrikinkatu faces the intervening registered streetfront. Exact small low source courtyard body lies behindBulevardi22/Uudenmaankatu23/25, not visible through this frontage; registered streetfronts are separately handled by facade worker. No borrowed neighboring openings or guessed utility finish."
+      ],
+      "nativeRoles": [],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          -796.594,
+          -608.853,
+          3.43
+        ],
+        "max": [
+          -791.588,
+          -603.403,
+          7.66
+        ]
+      },
+      "sourceTriangles": 20,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_3f250f15-3ade-4ce3-bff2-35a9fad319bf",
+          "vtj": "1030653645",
+          "address": "Bulevardi 22, 00120 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -834.247,
+              -618.631,
+              3.079
+            ],
+            "max": [
+              -795.395,
+              -562.332,
+              26.914
+            ]
+          }
+        },
+        {
+          "id": "BID_bccca51b-778f-4db4-b453-c5598e5cd8d6",
+          "vtj": "103065370B",
+          "address": "Uudenmaankatu 25, 00120 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -809.562,
+              -653.983,
+              2.63
+            ],
+            "max": [
+              -761.139,
+              -603.873,
+              29.042
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_7964932c-72ff-4dd1-b762-c397a100d451",
+      "band": "south",
+      "owner": "c_m07_p04",
+      "nullWallArea": 150.636477582022,
+      "representativeVisibleWallArea": 45.18488706952768,
+      "status": "REFERENCE_OPENED_TARGET_OCCLUDED",
+      "references": [
+        {
+          "title": "Google Street View August2024",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=wP09n1Y1fCib_P8OwN4jNg&heading=83&pitch=8&fov=100",
+          "role": "appearance-reference-only",
+          "opened": true,
+          "actualCamera": [
+            60.164059,
+            24.9374132
+          ]
+        }
+      ],
+      "observations": [
+        "Actual nearest outdoor view onFredrikinkatu faces the intervening registered streetfront. Exact small low source courtyard body lies behindBulevardi22/Uudenmaankatu23/25, not visible through this frontage; registered streetfronts are separately handled by facade worker. No borrowed neighboring openings or guessed utility finish."
+      ],
+      "nativeRoles": [],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          -788.441,
+          -610.105,
+          3.31
+        ],
+        "max": [
+          -781.751,
+          -602.226,
+          10.969
+        ]
+      },
+      "sourceTriangles": 20,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_b338ce4d-0b5b-4725-8320-7b8f5a682972",
+          "vtj": "103065371C",
+          "address": "Uudenmaankatu 23, 00120 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -784.343,
+              -638.382,
+              3.177
+            ],
+            "max": [
+              -737.705,
+              -588.458,
+              25.15
+            ]
+          }
+        },
+        {
+          "id": "BID_bccca51b-778f-4db4-b453-c5598e5cd8d6",
+          "vtj": "103065370B",
+          "address": "Uudenmaankatu 25, 00120 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -809.562,
+              -653.983,
+              2.63
+            ],
+            "max": [
+              -761.139,
+              -603.873,
+              29.042
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    },
+    {
+      "id": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+      "band": "south",
+      "owner": "c_m03_p04",
+      "nullWallArea": 1511.9118268061573,
+      "representativeVisibleWallArea": 1511.9118268061573,
+      "status": "SOURCE_QUALIFIED_SELECTED_ART_COMPONENT_ACCEPTED_FINAL_BIND_PENDING",
+      "references": [
+        {
+          "title": "Google Street View10Pieni Roobertinkatu,August2024",
+          "pano": "hXe3i75LBj563jrRGEBE9Q",
+          "date": "2024-08",
+          "camera": [
+            60.1641997,
+            24.9456784
+          ],
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=hXe3i75LBj563jrRGEBE9Q&heading=355&pitch=28&fov=100"
+        },
+        {
+          "title": "Google Street View29Korkeavuorenkatu,August2024",
+          "pano": "iDZ6bFm2VW-hNkQ0Zof41A",
+          "date": "2024-08",
+          "camera": [
+            60.1643716,
+            24.9460622
+          ],
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=iDZ6bFm2VW-hNkQ0Zof41A&heading=275&pitch=28&fov=100"
+        }
+      ],
+      "observations": [
+        "Actual August2024two streetfront references resolve modern red/brown masonry office with pale stone base and tall office glazing. Exact south/east andfour corner-return planes authored; north/west neighboring party walls excluded."
+      ],
+      "nativeRoles": [
+        "Observed south/east public glazing frontages require original facade art.",
+        "West/north source planes face neighboring buildings; no invented windows or finish qualification from proxy absence."
+      ],
+      "repairs": [
+        {
+          "profile": "content/assets/facades/new-area/anonymous/96ce40d5/south/profile.json",
+          "profileSha256": "ccb777656fb8a2dc7c9a7e91733039419cdf7f7d9bd6519fa7c27ee8c1478293",
+          "sourcePlan": "content/assets/facades/new-area/anonymous/96ce40d5/south/plan.json",
+          "baselineManifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54"
+        },
+        {
+          "profile": "content/assets/facades/new-area/anonymous/96ce40d5/east/profile.json",
+          "profileSha256": "17060a1adb7a3dff2ae89c0633d4c05fdcc11c84d515a1398aa3347fee2bca44",
+          "sourcePlan": "content/assets/facades/new-area/anonymous/96ce40d5/east/plan.json",
+          "baselineManifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54"
+        },
+        {
+          "profile": "content/assets/facades/new-area/anonymous/96ce40d5/corner/profile.json",
+          "profileSha256": "57b0e42e791e04b867702017e0c53e1cf93e4b68d8530e470655f76f7850798b",
+          "sourcePlan": "content/assets/facades/new-area/anonymous/96ce40d5/corner/plan.json",
+          "baselineManifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54"
+        }
+      ],
+      "sourceBoundsENU": {
+        "min": [
+          -369.798,
+          -586.023,
+          7.21
+        ],
+        "max": [
+          -350.166,
+          -566.613,
+          28.7
+        ]
+      },
+      "sourceTriangles": 78,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_35a85f82-1a06-417a-b4c7-b4bffe99f040",
+          "vtj": "103046257T",
+          "address": "Pieni Roobertinkatu 9, 00130 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -393.992,
+              -587.26,
+              5.67
+            ],
+            "max": [
+              -368.718,
+              -549.079,
+              32.85
+            ]
+          }
+        },
+        {
+          "id": "BID_e73ba5c7-a21d-4f21-81bf-9df21c9c328e",
+          "vtj": "103046262Y",
+          "address": "Korkeavuorenkatu 22, 00130 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -370.271,
+              -567.684,
+              7.889
+            ],
+            "max": [
+              -352.024,
+              -541.065,
+              23.4
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": true,
+      "disposition": "AUTHOR_EXACT_OBSERVED_SOURCE_PLANES",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ],
+      "componentReview": {
+        "kind": "actual-standard-and-low-selected-plane-review",
+        "actualOpened": true,
+        "finalWorldAcceptance": false
+      }
+    },
+    {
+      "id": "BID_a83797fb-ed94-46e3-9b8f-2f3607c06dbb",
+      "band": "south",
+      "owner": "c_m02_p05",
+      "nullWallArea": 628.3064717773678,
+      "representativeVisibleWallArea": 94.58591256066182,
+      "status": "SOURCE_QUALIFIED_SELECTED_ART_COMPONENT_ACCEPTED_FINAL_BIND_PENDING",
+      "references": [
+        {
+          "title": "Google Street View August2024, stone Kasarmikatu enclosure",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=3PU1lNRz3hgyElyxdTZC0g&heading=86.7&pitch=10&fov=100",
+          "role": "appearance-reference-only",
+          "opened": true,
+          "actualCamera": [
+            60.1626419,
+            24.9482224
+          ]
+        }
+      ],
+      "observations": [
+        "Actual August2024Kasarmikatu view shows pale stone-block enclosure wall, with separate court roofs/fence above. Exact west source plane only, no residential window grid."
+      ],
+      "nativeRoles": [],
+      "repairs": [
+        {
+          "profile": "content/assets/facades/new-area/anonymous/a83797fb/west/profile.json",
+          "profileSha256": "60c558792b94857c85054ba4758c3c65d9f79018f734f28ea2722224ba8c5c14",
+          "sourcePlan": "content/assets/facades/new-area/anonymous/a83797fb/west/plan.json",
+          "baselineManifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54"
+        }
+      ],
+      "sourceBoundsENU": {
+        "min": [
+          -221.446,
+          -770.077,
+          9.83
+        ],
+        "max": [
+          -192.228,
+          -754.834,
+          17.1
+        ]
+      },
+      "sourceTriangles": 20,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_538aedc9-3a2c-4514-965b-a84b8ecd8340",
+          "vtj": "1031131931",
+          "address": "Kasarmikatu 15, 00130 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -214.452,
+              -757.934,
+              7.113
+            ],
+            "max": [
+              -143.287,
+              -719.883,
+              26.32
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": true,
+      "disposition": "AUTHOR_EXACT_OBSERVED_SOURCE_PLANES",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ],
+      "componentReview": {
+        "kind": "actual-standard-and-low-selected-plane-review",
+        "actualOpened": true,
+        "finalWorldAcceptance": false
+      }
+    },
+    {
+      "id": "BID_ae6597b5-5390-455a-bd9d-8b29408c9d1a",
+      "band": "south",
+      "owner": "c_m10_p04",
+      "nullWallArea": 134.85397338193786,
+      "representativeVisibleWallArea": 33.173959789343584,
+      "status": "REFERENCE_OPENED_TARGET_OCCLUDED",
+      "references": [
+        {
+          "title": "Google Street View August2024",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=MPJts8MxAAY_mkuooYpcSA&heading=342.2&pitch=8&fov=100",
+          "role": "appearance-reference-only",
+          "opened": true,
+          "actualCamera": [
+            60.163743,
+            24.9310633
+          ]
+        }
+      ],
+      "observations": [
+        "Exact low source body sits insideKalevankatu42/L?nnrotinkatu33?35 court. Actual opened outdoor view shows the intervening separately registeredL?nnrotinkatu street frontage; exact courtyard wall planes are not exposed or resolved. No neighboring windows or material assigned."
+      ],
+      "nativeRoles": [],
+      "repairs": [],
+      "sourceBoundsENU": {
+        "min": [
+          -1196.829,
+          -596.415,
+          1.99
+        ],
+        "max": [
+          -1184.554,
+          -584.049,
+          6.187
+        ]
+      },
+      "sourceTriangles": 12,
+      "adjacentRegisteredSourceWitness": [
+        {
+          "id": "BID_2efdbbd4-1141-4c7a-b25b-31d96cf26f68",
+          "vtj": "103065292U",
+          "address": "Kalevankatu 42, 00180 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -1206.229,
+              -586.454,
+              2.564
+            ],
+            "max": [
+              -1176.46,
+              -560.612,
+              19.79
+            ]
+          }
+        },
+        {
+          "id": "BID_f44de6dc-ae18-41d3-ac69-fa80e7950d8d",
+          "vtj": "103065284K",
+          "address": "Lönnrotinkatu 33-35, 00180 Helsinki Finland",
+          "boundsENU": {
+            "min": [
+              -1245.998,
+              -661.694,
+              0.21
+            ],
+            "max": [
+              -1163.689,
+              -589.271,
+              24.6
+            ]
+          }
+        }
+      ],
+      "referenceTargetResolved": false,
+      "disposition": "RETAIN_NATIVE_SOURCE_PENDING_EXACT_EXPOSED_SURFACE_AUTHORITY",
+      "claimLimits": [
+        "Reference/context was actually opened. A hidden or partly hidden exact target is not classified as absent.",
+        "Adjacent registered source buildings remain independently owned; no geometry or facade identity is merged."
+      ]
+    }
+  ],
+  "scope": {
+    "inputAnonymousBuildings": 23,
+    "sourceQualifiedArtBuildings": 4,
+    "sourceQualifiedProfiles": 6,
+    "selectedSourceFaces": 60,
+    "referencePixelsCopied": false,
+    "unresolvedExactHiddenSurfacesAreNotAbsenceProof": true,
+    "sourceNativeProxyVisibilityNotAStreetReference": true,
+    "notClaimingAllSourceNullWallsAreDefects": true
+  }
+}

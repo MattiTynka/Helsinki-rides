@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "id": "etelaranta-2-bernhardinkatu-south-20261021",
+  "building": {
+    "id": "BID_979b25db-6a21-4e9f-937c-032e1df46a5e",
+    "vtj": "103046290V",
+    "owner": "c_m01_p04"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "sourceFacets": [
+    {
+      "part": 0,
+      "triangle": 28,
+      "key": "6a1afec1d882a8419e362244:e1e9c8c1c9235cbf0b202244:e1e9c8c14d89a8410b202244"
+    },
+    {
+      "part": 0,
+      "triangle": 29,
+      "key": "6a1afec1ca235cbf9e362244:e1e9c8c1c9235cbf0b202244:6a1afec1d882a8419e362244"
+    },
+    {
+      "part": 0,
+      "triangle": 103,
+      "key": "27281c41cc235cbf78962144:27281c41d965a94178962144:78e9c8c11073a94112082244"
+    },
+    {
+      "part": 0,
+      "triangle": 104,
+      "key": "27281c41cc235cbf78962144:78e9c8c11073a94112082244:78e9c8c1cf235cbf12082244"
+    },
+    {
+      "part": 0,
+      "triangle": 172,
+      "key": "82481c4111aba8419aa92144:82481c41cb235cbf9aa92144:c8758741e8b1a84147912144"
+    },
+    {
+      "part": 0,
+      "triangle": 173,
+      "key": "82481c41cb235cbf9aa92144:fa0f8841e0235cbf06912144:c8758741e8b1a84147912144"
+    },
+    {
+      "part": 0,
+      "triangle": 174,
+      "key": "c8758741e8b1a84147912144:fa0f8841e0235cbf06912144:fc0f8841666ea84106912144"
+    }
+  ],
+  "frame": {
+    "origin": [
+      -31.762897491455078,
+      648.8533935546875
+    ],
+    "axis": [
+      0.998707182390173,
+      -0.05083270445570985
+    ],
+    "width": 48.8391753978511,
+    "minY": -0.8599224090576172,
+    "maxY": 21.181182861328125
+  },
+  "manifestSha256": "647128c37c0fd8bcd0f7ffad874a9a3c172e6722195c21f5fd1b64b4f951dc39",
+  "datum": {
+    "nativeRoofY": 21.181182861328125,
+    "offset": -16.084261564109337
+  },
+  "nineFloorSamples": [
+    {
+      "u": 0.48839175397851103,
+      "x": -31.173471730025184,
+      "z": 650.8259816457792,
+      "collision": {
+        "height": 5.096921297218787,
+        "cell": "c_m01_p05",
+        "collider": "g:c_m01_p05",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 5.096921297218787,
+        "cell": "c_m01_p05",
+        "key": "371afec1a66f9d40ce362244:bcf4fcc159c4a4408fe62244:8540f0c1aef8a14004822244",
+        "node": "c_m01_p05_ground_asphalt"
+      }
+    },
+    {
+      "u": 5.860701047742132,
+      "x": -25.80810785232198,
+      "z": 650.5528926352047,
+      "collision": {
+        "height": 5.094118073780857,
+        "cell": "c_m01_p05",
+        "collider": "g:c_m01_p05",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 5.094118073780857,
+        "cell": "c_m01_p05",
+        "key": "0000c0c10a979e40721c2244:0b05dbc1c54ba44028d82244:0000c0c18f95a540b1cc2244",
+        "node": "c_m01_p05_ground_asphalt"
+      }
+    },
+    {
+      "u": 12.209793849462775,
+      "x": -19.46722326958183,
+      "z": 650.2301510772529,
+      "collision": {
+        "height": 5.036064141237378,
+        "cell": "c_m01_p05",
+        "collider": "g:c_m01_p05",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 5.036064141237378,
+        "cell": "c_m01_p05",
+        "key": "0000a0c151b59c40de0e2244:0000a0c1af78a3401cbf2244:6c2b80c18cbf98405b012244",
+        "node": "c_m01_p05_ground_asphalt"
+      }
+    },
+    {
+      "u": 18.314690774194162,
+      "x": -13.370218863100913,
+      "z": 649.9198226561455,
+      "collision": {
+        "height": 4.859544264455389,
+        "cell": "c_m01_p05",
+        "collider": "g:c_m01_p05",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 4.859544264455389,
+        "cell": "c_m01_p05",
+        "key": "000040c147129a40f3a32244:9d0158c1427b9b4006602244:84486bc16e889d4022ad2244",
+        "node": "c_m01_p05_ground_asphalt"
+      }
+    },
+    {
+      "u": 24.41958769892555,
+      "x": -7.273214456619996,
+      "z": 649.609494235038,
+      "collision": {
+        "height": 4.545923083149115,
+        "cell": "c_m01_p05",
+        "collider": "g:c_m01_p05",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 4.545923083149115,
+        "cell": "c_m01_p05",
+        "key": "000000c129a994405e962244:000080c0cb15884000002244:000000c129dc8d4000002244",
+        "node": "c_m01_p05_ground_asphalt"
+      }
+    },
+    {
+      "u": 30.52448462365694,
+      "x": -1.17621005013908,
+      "z": 649.2991658139306,
+      "collision": {
+        "height": 4.294994559580658,
+        "cell": "c_m01_p05",
+        "collider": "g:c_m01_p05",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 4.294994559580658,
+        "cell": "c_m01_p05",
+        "key": "0000000091e1844000002244:cc1b02c03e548c401c822244:00000000bac98840357b2244",
+        "node": "c_m01_p05_ground_asphalt"
+      }
+    },
+    {
+      "u": 36.629381548388324,
+      "x": 4.920794356341833,
+      "z": 648.9888373928231,
+      "collision": {
+        "height": 4.042673909549514,
+        "cell": "c_p00_p05",
+        "collider": "g:c_p00_p05",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 4.042673909549514,
+        "cell": "c_p00_p05",
+        "key": "00000041f1b1774000002244:00008040e130814000002244:00008040c89f8340a06d2244",
+        "node": "c_p00_p05_ground_asphalt"
+      }
+    },
+    {
+      "u": 42.97847435010897,
+      "x": 11.261678939081985,
+      "z": 648.6660958348714,
+      "collision": {
+        "height": 3.69626607819516,
+        "cell": "c_p00_p05",
+        "collider": "g:c_p00_p05",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 3.69626607819516,
+        "cell": "c_p00_p05",
+        "key": "0000004168e87a400c602244:9e3a2a41754a704016572244:00004041d66d684000002244",
+        "node": "c_p00_p05_ground_asphalt"
+      }
+    },
+    {
+      "u": 48.35078364387259,
+      "x": 16.627042816785195,
+      "z": 648.3930068242969,
+      "collision": {
+        "height": 3.2700228533974087,
+        "cell": "c_p00_p05",
+        "collider": "g:c_p00_p05",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 3.2700228533974087,
+        "cell": "c_p00_p05",
+        "key": "15e49a413ee2414000002244:3d438541fb13504000002244:5c8f834161fc53405f432244",
+        "node": "c_p00_p05_ground_asphalt"
+      }
+    }
+  ],
+  "qualification": {
+    "artSha256": "b669f6ad836db9cc9325b369337c6f3c3d9e79b1ae2f15fa2a21b758f63bf43c",
+    "referencesSha256": "9fc371f04912d62d09d1143dc5f71ffadd48eca164c9b0f1bbb2974313c5be87",
+    "observations": [
+      "Actual south street front has TWO upper window rows above one tall ochre rusticated ground floor: three total storeys. Dusty pink upper plaster, pale grey-green classical surrounds and shallow curved middle-row pediments; rectangular shorter top windows; ornate dentil cornice.",
+      "A timber entry lies west of centre; one dark metal balcony projects above the middle eastern portion. Original artwork approximates these observed features without photographic pixels.",
+      "The seven exact native outward source facets cover three shallow offsets across the full48.8m south street frontage. Small steps and corners stay as source geometry.",
+      "Seventeen approximate opening axes are reference-led original interpretation; window dimensions and fine sculptural ornament are not a measured architectural survey."
+    ]
+  },
+  "finish": {
+    "plinthHeight": 0.32,
+    "plinthColour": "#9c998d",
+    "floorFollowingGlazingIndices": []
+  }
+}

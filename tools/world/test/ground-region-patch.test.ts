@@ -14,6 +14,12 @@ import {readFacadeGlb} from '../lib/facade-glb.ts';
 import {retainGroundOutsideRectangle,patchGroundCollision,patchGroundRegion,outsideProtectedFrontier,preserveGroundPatchSidecars} from '../lib/ground-region-patch.ts';
 import {frontierTriangleKey,planCityFrontier,type FrontierMesh} from '../lib/frontier-ground.ts';
 
+test('southern patch protection accepts only the new-facing half-plane from a complete source-bound plan',()=>{
+ const south={schemaVersion:2,protectedInteriorPreserved:true,...planCityFrontier([-1792,-1152,800,450],[-1792,450,800,768],'z')};
+ assert.ok(outsideProtectedFrontier(south,0,446));assert.ok(outsideProtectedFrontier(south,0,700));assert.equal(outsideProtectedFrontier(south,0,445),false);assert.equal(outsideProtectedFrontier(south,0,-1152),false);
+ for(const patch of[{protectedSide:'south'},{cut:444},{sourceBand:[-1792,444,800,456]},{geographicRegion:[-1791,450,800,768]},{groundRegion:[-1792,444,800,768]}])assert.throws(()=>outsideProtectedFrontier({...south,...patch},0,446));
+});
+
 const sha=(b:Uint8Array)=>createHash('sha256').update(b).digest('hex'),region=[-1,-1,1,1]as const;
 const floor=(y=0)=>({cell:'c_p00_p00',finish:'yard' as const,level:'road' as const,tag:'source',positions:[-4,y,-4,4,y,-4,4,y,4,-4,y,4],uvs:[-4,-4,4,-4,4,4,-4,4],indices:[0,2,1,0,3,2]});
 const mesh=(p= floor()):FrontierMesh=>({attributes:{POSITION:Float32Array.from(p.positions),TEXCOORD_0:Float32Array.from(p.uvs),NORMAL:Int8Array.from(p.positions.map((_,i)=>i%3===1?127:0))},components:{POSITION:3,TEXCOORD_0:2,NORMAL:3},normalized:{POSITION:false,TEXCOORD_0:false,NORMAL:true},indices:Uint32Array.from(p.indices)});

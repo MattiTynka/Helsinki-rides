@@ -19,6 +19,7 @@ import { Hud, type FrameStats } from './ui/hud.ts';
 import { GlbLoader, loadWorldData, mark, resolveRelease, type Progress, type WorldData } from './world/loader.ts';
 import { CollisionStream } from './world/collision-stream.ts';
 import { CellVisualStream, missingVisualCoverage, type StreamFocus } from './world/cell-streaming.ts';
+import { i18n } from './i18n/index.ts';
 
 const MAX_STEPS_PER_FRAME = 5;
 /** Officer and patrol-car models load after startup; patrols begin at least 150 m from the player. */
@@ -108,7 +109,10 @@ export class Game {
     this.cameraRig = new ChaseCamera(scene.camera);
     this.input = new Input(canvas, config.review);
     this.hud = new Hud(config.hud && !config.review, data.manifest, data.gameplay, data.roads);
-    this.hud.onDropIn = label => { void this.dropIn(label)?.catch(error => console.error('Drop-in failed', error)); };
+    this.hud.onDropIn = label => { void this.dropIn(label)?.catch(error => {
+      console.error('Drop-in failed', error);
+      this.hud.showNotice('dropin.failed', this.state.time);
+    }); };
     this.audio = new GameAudio(config.audio);
     this.scene.scene.add(this.effects.group);
     this.playerView = new CharacterView(assets, 'character-snow', this.shadowMaterial);
@@ -342,7 +346,7 @@ export class Game {
   }
 
   private modelsWaitingMessage(): string | null {
-    return this.modelLoading.blocked ? this.modelLoading.failed ? 'Could not load the police. Retrying…' : 'Loading the police…' : null;
+    return this.modelLoading.blocked ? i18n.text(this.modelLoading.failed ? 'world.policeFailed' : 'world.police') : null;
   }
 
   private handleEvents(events: readonly GameEvent[]): void {
@@ -484,9 +488,9 @@ export class Game {
         this.streaming.detail.update(focus);
         const failed = this.streaming.fallback.stats().errors.length + this.streaming.detail.stats().errors.length > 0;
         this.hud.setWorldLoading(this.visualLoading.blocked || collisionWaiting
-          ? failed ? 'Could not load nearby streets. Retrying…' : 'Loading nearby streets…'
-          : modelsWaiting ?? (failed ? 'Some nearby buildings could not load. Retrying…' : null));
-      } else this.hud.setWorldLoading(collisionWaiting ? 'Loading nearby streets…' : modelsWaiting);
+          ? i18n.text(failed ? 'world.streetsFailed' : 'world.streets')
+          : modelsWaiting ?? (failed ? i18n.text('world.buildingsFailed') : null));
+      } else this.hud.setWorldLoading(collisionWaiting ? i18n.text('world.streets') : modelsWaiting);
     } else this.hud.setWorldLoading(this.modelsWaitingMessage());
     this.presentationAimTarget = null;
     if (p.weapon && (p.aiming || p.clip === 'fire')) {

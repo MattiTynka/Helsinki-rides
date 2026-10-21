@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "id": "ratakatu-6-norssi-recessed-upper-northwest-20261021",
+  "building": {
+    "id": "BID_2cdd0441-faa4-49a3-8012-978c914478bb",
+    "vtj": "103103748B",
+    "owner": "c_m04_p05"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    286,
+    287
+  ],
+  "frame": {
+    "origin": [
+      -477.20285034179693,
+      750.44189453125
+    ],
+    "axis": [
+      -0.8315133339084985,
+      0.5555047934378009
+    ],
+    "width": 27.317583947768526
+  },
+  "completeElevationPlane": true,
+  "art": {
+    "wallColour": "#dedacd",
+    "groundColour": "#dedacd",
+    "surroundColour": "#d6ccba",
+    "frameColour": "#68796e",
+    "glassColour": "#99a7a0",
+    "groundHeight": 0,
+    "rows": [],
+    "groundOpenings": [],
+    "bands": [],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Norssi entrance/recessed upper northwest wall, August2024; nine upper round arches in three groups and smaller lower arches opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=-FW_InsT6menusWpSjRDCw&heading=145.31&pitch=25&fov=110",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Helsinki City Museum primary record of the separate historic Normaalilyseo school buildings",
+      "url": "https://www.finna.fi/Record/hkm.D707CCFD-AE7E-4C9C-B99F-3418C3088184",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual white/plale plaster and red brick arched school is a different architectural block from the northeast cream Renaissance school within the same municipal BID. One generic facade across both would be incorrect.",
+    "The selected recessed upper plane has nine round-headed tall windows in three groups of three, with a row of smaller round-headed windows below. The front porch partly occludes the smaller lower row from the public street.",
+    "Red brick arches and a small corbelled brick top frieze frame original muted green-grey glazing; no copied shadows, reflections, tree pixels or school lettering.",
+    "Window rows remain at native-top-relative horizontal elevations. The selected wall begins above14.577m and contains no ground door. Nine native visual/HCOL floor samples2m outward were actually matched (8.0799..8.4167m); no missing floor assumption is needed."
+  ],
+  "limitations": [
+    "Only the exact two triangles286/287,298.379m², of this complete recessed upper support plane are authored. Entrance porch, street wings, other historic block, courts and roofs remain pending.",
+    "Original window/brick sizes and colours approximate the actual rhythm within exact existing source dimensions; no survey accuracy is claimed.",
+    "All native geometry and winding remain unchanged; no foreground occluder, sign or photograph is redistributed. Runtime and fresh final integration still required."
+  ]
+}

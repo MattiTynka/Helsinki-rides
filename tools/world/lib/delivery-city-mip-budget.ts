@@ -1,0 +1,33 @@
+// Budget policy for NEW municipal atlases only. The accepted world's original
+// images and Low tier are an immutable exclusion set, regardless of filename.
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import type {WorldManifest,FileRef,ReducedTextureRef} from '../../../packages/world-schema/src/index.ts';
+import {readDeliveryFile} from './delivery-city.ts';
+import {deliverySha} from './delivery-city-payloads.ts';
+import {dropTopMip,assertSameLevels,readKtx2Layout} from './ktx2-mips.ts';
+export interface NewAtlasDrop {
+  source:FileRef;sourceLow:ReducedTextureRef;standard:FileRef;low:ReducedTextureRef;
+  sourceDimensions:[number,number];standardDimensions:[number,number];lowDimensions:[number,number];savingBytes:number;
+}
+/** Greedy largest savings minimizes the number of changed independent atlases:
+ * no set of k atlases can save more than the first k sorted entries. Hash is
+ * the stable tie breaker; pixel values and every retained encoded mip stay exact. */
+export function selectNewAtlasDrops(candidates:readonly NewAtlasDrop[],requiredSavingBytes:number,headroomBytes:number){
+  assert.ok(Number.isSafeInteger(requiredSavingBytes)&&requiredSavingBytes>=0&&Number.isSafeInteger(headroomBytes)&&headroomBytes>=0);const target=requiredSavingBytes+headroomBytes,ordered=[...candidates].sort((a,b)=>b.savingBytes-a.savingBytes||a.source.sha256.localeCompare(b.source.sha256));assert.equal(new Set(ordered.map(p=>p.source.sha256)).size,ordered.length);let savings=0;const selected:NewAtlasDrop[]=[];
+  for(const candidate of ordered){assert.ok(Number.isSafeInteger(candidate.savingBytes)&&candidate.savingBytes>0);if(savings>=target)break;selected.push(candidate);savings+=candidate.savingBytes;}
+  assert.ok(savings>=target,'Eligible NEW atlases cannot satisfy the measured budget');return{selected,savingBytes:savings,requiredSavingBytes,headroomBytes,targetSavingBytes:target,minimumChangedAtlasCount:target===0?0:ordered.findIndex((_,i)=>ordered.slice(0,i+1).reduce((n,p)=>n+p.savingBytes,0)>=target)+1};
+}
+export function planDeliveryNewAtlasBudget(options:{world:string;expectedManifestSha256:string;acceptedWorld:string;expectedAcceptedManifestSha256:string;staging:{root:string;expectedIndexSha256:string}[];requiredSavingBytes:number;headroomBytes:number}){
+  const mb=fs.readFileSync(path.join(options.world,'manifest.json')),ab=fs.readFileSync(path.join(options.acceptedWorld,'manifest.json'));assert.equal(deliverySha(mb),options.expectedManifestSha256);assert.equal(deliverySha(ab),options.expectedAcceptedManifestSha256);const m=JSON.parse(mb.toString())as WorldManifest,a=JSON.parse(ab.toString())as WorldManifest,protectedImages=[...a.sharedTextures??[],...a.sharedTexturesM1??[]],protectedHashes=new Set(protectedImages.map(p=>p.sha256)),protectedPaths=new Set(protectedImages.map(p=>p.path)),eligible=new Map<string,FileRef>(),staging=[];
+  for(const input of options.staging){const bytes=fs.readFileSync(path.join(input.root,'cells.json'));assert.equal(deliverySha(bytes),input.expectedIndexSha256);const index=JSON.parse(bytes.toString()),receipt=JSON.parse(fs.readFileSync(path.join(input.root,'report.json'),'utf8'));assert.equal(receipt.delivery.kind,'new-strip-delivery-staging');assert.equal(receipt.delivery.acceptedBuildingManifestSha256,options.expectedAcceptedManifestSha256);for(const ref of index.sharedTextures as FileRef[])if(!protectedHashes.has(ref.sha256)&&!protectedPaths.has(ref.path)){readDeliveryFile(input.root,ref);const prior=eligible.get(ref.path);if(prior)assert.deepEqual(prior,ref);eligible.set(ref.path,ref);}staging.push({indexSha256:input.expectedIndexSha256,kind:receipt.delivery.kind});}
+  const standard=new Map((m.sharedTextures??[]).map(p=>[p.path,p])),low=new Map((m.sharedTexturesM1??[]).map(p=>[p.source,p])),candidates:NewAtlasDrop[]=[];for(const ref of eligible.values()){
+    const current=standard.get(ref.path);if(!current)continue;assert.deepEqual(current,ref);assert.match(ref.path,new RegExp(`^textures/${ref.sha256}\\.ktx2$`));const bytes=readDeliveryFile(options.world,ref),layout=readKtx2Layout(bytes);if(Math.max(layout.width,layout.height)!==1024)continue;const sourceLow=low.get(ref.path);assert.ok(sourceLow,'Eligible new atlas needs its actual matching Low tier');assert.ok(!protectedHashes.has(sourceLow.sha256)&&!protectedPaths.has(sourceLow.path));const lowBytes=readDeliveryFile(options.world,sourceLow),nextStandard=dropTopMip(bytes);assertSameLevels(bytes,nextStandard);assert.deepEqual(nextStandard,lowBytes,'Current Low tier is not the literal next encoded mip chain');const nextLow=dropTopMip(lowBytes);assertSameLevels(lowBytes,nextLow);const standardSha=deliverySha(nextStandard),lowSha=deliverySha(nextLow),standardRef={path:`textures/${standardSha}.ktx2`,bytes:nextStandard.length,sha256:standardSha},lowRef={path:`textures-m1/${lowSha}.ktx2`,bytes:nextLow.length,sha256:lowSha,source:standardRef.path};assert.ok(!protectedPaths.has(standardRef.path)&&!protectedPaths.has(lowRef.path)&&!protectedHashes.has(standardSha)&&!protectedHashes.has(lowSha));const S=readKtx2Layout(nextStandard),L=readKtx2Layout(nextLow);candidates.push({source:ref,sourceLow,standard:standardRef,low:lowRef,sourceDimensions:[layout.width,layout.height],standardDimensions:[S.width,S.height],lowDimensions:[L.width,L.height],savingBytes:ref.bytes+sourceLow.bytes-standardRef.bytes-lowRef.bytes});
+  }
+  // Independent chain savings are exact only when no candidate aliases another
+  // candidate's source/output path. Refuse an ambiguous census rather than
+  // overstating the cap relief; a union-based solver can handle it explicitly.
+  const paths=candidates.flatMap(c=>[c.source.path,c.sourceLow.path,c.standard.path,c.low.path]);assert.equal(new Set(paths).size,paths.length,'Atlas chains alias; independent byte savings are not valid');
+  const selection=selectNewAtlasDrops(candidates,options.requiredSavingBytes,options.headroomBytes);return{schemaVersion:1,kind:'new-only-lossless-atlas-mip-budget',status:'PLANNED_NOT_APPLIED_VISUAL_REVIEW_REQUIRED',manifestSha256:deliverySha(mb),acceptedManifestSha256:deliverySha(ab),policy:'Minimum number of independently owned NEW1024 atlas chains, largest measured encoded savings first, SHA256 tie break. Standard becomes512 and Low256 (rectangular aspect preserved), with every retained encoded mip literal. No re-encoding. Accepted images/M1 are excluded by both path and hash.',staging,protectedImages,eligibleAtlases:candidates.length,eligibleSavingBytes:candidates.reduce((n,p)=>n+p.savingBytes,0),...selection};
+}

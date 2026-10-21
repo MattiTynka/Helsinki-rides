@@ -1,0 +1,253 @@
+{
+  "schemaVersion": 1,
+  "id": "ullanlinnankatu-1-south-20261021",
+  "building": {
+    "id": "BID_55bf0fcd-8aad-4096-b661-ef1502b76486",
+    "vtj": "103046315N",
+    "owner": "c_m03_p05"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    333,
+    334,
+    335,
+    336,
+    337,
+    338,
+    339,
+    340,
+    341
+  ],
+  "frame": {
+    "origin": [
+      -271.4645080566406,
+      677.218505859375
+    ],
+    "axis": [
+      0.9977890732638834,
+      -0.06646025334890467
+    ],
+    "width": 30.423173317677197
+  },
+  "art": {
+    "wallColour": "#d7b1a3",
+    "groundColour": "#c59b87",
+    "surroundColour": "#e6d6c6",
+    "frameColour": "#787d73",
+    "glassColour": "#9aa8a4",
+    "groundHeight": 3.7,
+    "rows": [
+      {
+        "bottom": 4.3,
+        "height": 2.25,
+        "width": 1.45,
+        "axes": [
+          1.5211586658838598,
+          4.5634759976515795,
+          7.605793329419299,
+          10.648110661187019,
+          13.690427992954739,
+          16.73274532472246,
+          19.775062656490178,
+          22.817379988257898,
+          25.859697320025617,
+          28.902014651793337
+        ],
+        "header": "flat"
+      },
+      {
+        "bottom": 7.8,
+        "height": 1.9,
+        "width": 1.45,
+        "axes": [
+          1.5211586658838598,
+          4.5634759976515795,
+          7.605793329419299,
+          10.648110661187019,
+          13.690427992954739,
+          16.73274532472246,
+          19.775062656490178,
+          22.817379988257898,
+          25.859697320025617,
+          28.902014651793337
+        ],
+        "header": "flat"
+      },
+      {
+        "bottom": 11.2,
+        "height": 1.6,
+        "width": 1.45,
+        "axes": [
+          1.5211586658838598,
+          4.5634759976515795,
+          7.605793329419299,
+          10.648110661187019,
+          13.690427992954739,
+          16.73274532472246,
+          19.775062656490178,
+          22.817379988257898,
+          25.859697320025617,
+          28.902014651793337
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 14.25,
+        "height": 1.35,
+        "width": 1.45,
+        "axes": [
+          1.5211586658838598,
+          4.5634759976515795,
+          7.605793329419299,
+          10.648110661187019,
+          13.690427992954739,
+          16.73274532472246,
+          19.775062656490178,
+          22.817379988257898,
+          25.859697320025617,
+          28.902014651793337
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 1.5211586658838598,
+        "bottom": 0.65,
+        "width": 1.45,
+        "height": 2.6,
+        "kind": "glazing"
+      },
+      {
+        "x": 4.5634759976515795,
+        "bottom": 0.65,
+        "width": 1.45,
+        "height": 2.6,
+        "kind": "glazing"
+      },
+      {
+        "x": 7.605793329419299,
+        "bottom": 0.65,
+        "width": 1.45,
+        "height": 2.6,
+        "kind": "glazing"
+      },
+      {
+        "x": 10.648110661187019,
+        "bottom": 0.65,
+        "width": 1.45,
+        "height": 2.6,
+        "kind": "glazing"
+      },
+      {
+        "x": 13.690427992954739,
+        "bottom": 0.65,
+        "width": 1.45,
+        "height": 2.6,
+        "kind": "glazing"
+      },
+      {
+        "x": 16.73274532472246,
+        "bottom": 0.65,
+        "width": 1.45,
+        "height": 2.6,
+        "kind": "glazing"
+      },
+      {
+        "x": 19.775062656490178,
+        "bottom": 0.25,
+        "width": 1.15,
+        "height": 2.3,
+        "kind": "door"
+      },
+      {
+        "x": 22.817379988257898,
+        "bottom": 0.65,
+        "width": 1.45,
+        "height": 2.6,
+        "kind": "glazing"
+      },
+      {
+        "x": 25.859697320025617,
+        "bottom": 0.65,
+        "width": 1.45,
+        "height": 2.6,
+        "kind": "glazing"
+      },
+      {
+        "x": 28.902014651793337,
+        "bottom": 0.65,
+        "width": 1.45,
+        "height": 2.6,
+        "kind": "glazing"
+      }
+    ],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 3.5,
+        "height": 0.2,
+        "colour": "#e8d8c7"
+      },
+      {
+        "from": "top",
+        "offset": -0.25,
+        "height": 0.2,
+        "colour": "#e8d8c7"
+      },
+      {
+        "from": "ground",
+        "offset": 7.2,
+        "height": 0.09,
+        "colour": "#b28677"
+      }
+    ],
+    "rustication": {
+      "bottom": 0.2,
+      "top": 3.5,
+      "spacing": 0.45,
+      "colour": "#ac8776"
+    }
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Ullanlinnankatu1 south street front and raised corner; August2024 panorama2jgoAXTZoIjm9ZR1sM5eQQ at60.1633701,24.9474293 heading15 pitch20 opened; Kasarmikatu-side raised corner opened in6cSouujYmbyY6FQj831aGA h245p25",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=2jgoAXTZoIjm9ZR1sM5eQQ&heading=15&pitch=20&fov=110",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "The public south Ullanlinnankatu frontage is the same muted pink rendered corner building, with four horizontal upper rows, rusticated pink ground storey, small dark pink vertical panels, pale window surrounds, and a raised pale attic pavilion at the eastern corner.",
+    "Exact municipal native source street elevations determine the selected silhouette and raised corner; the main roof and pavilion heights remain literal.",
+    "Window axes and dimensions are original approximate architectural interpretations of the actual opened panorama. The separate ornate pink building north of the main Kasarmikatu front and the grey building to the west are not selected.",
+    "All three public elevations use one literal main-native-roof-relative upper-storey datum8.557571464620576m; only shop sills and stone base follow the individually measured nine native exterior floors.",
+    "The entrance retains its original approximate local-floor height below the level ground-storey belt; it is not stretched to a shared glazing head."
+  ],
+  "limitations": [
+    "Selected south and raised east corner elevations only, independent of the already-authored main east front. West/court walls and other unselected faces remain unqualified.",
+    "No Google pixels, vehicles, people, shop signs or logos are reproduced. No new geometry, opening or collision is created.",
+    "Source-native high wall below the pavilion stays unchanged; fine attic sculptures and cornice profile are approximated in original vector artwork."
+  ],
+  "completeElevationSupportPlanes": true,
+  "observedGroundProfile": {
+    "kind": "source-measured-sloped-shop-base-horizontal-upper-bands",
+    "manifestSha256": "647128c37c0fd8bcd0f7ffad874a9a3c172e6722195c21f5fd1b64b4f951dc39",
+    "sampleHeights": [
+      9.512109487107585,
+      9.483229708764568,
+      9.48222126937216,
+      9.477561438557604,
+      9.451151313132778,
+      9.411617709792612,
+      9.352376393373046,
+      9.299747877969379,
+      9.29585135643007
+    ],
+    "mainNativeRoofY": 25.743934631347656,
+    "horizontalDatumFromMainNativeRoof": -17.18636316672708
+  }
+}

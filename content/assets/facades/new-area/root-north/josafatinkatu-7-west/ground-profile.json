@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "id": "josafatinkatu-7-kirstinkatu-west-20261021",
+  "building": {
+    "id": "BID_c71a1b0e-da74-4f02-b378-61afe2bccf0d",
+    "vtj": "103171054H",
+    "owner": "c_m03_m16"
+  },
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "sourceFacets": [
+    {
+      "part": 0,
+      "triangle": 77,
+      "key": "0df895c3220810423b97fcc4:0df895c372856b413b97fcc4:b09294c372856b4192f1f5c4"
+    },
+    {
+      "part": 0,
+      "triangle": 78,
+      "key": "0df895c3220810423b97fcc4:b09294c372856b4192f1f5c4:b09294c31f08104292f1f5c4"
+    }
+  ],
+  "frame": {
+    "origin": [
+      -299.9378967285156,
+      -2020.7259521484375
+    ],
+    "axis": [
+      0.052429940872073026,
+      0.9986246047940891
+    ],
+    "width": 53.25011984235789,
+    "minY": 14.72007942199707,
+    "maxY": 36.00794219970703
+  },
+  "manifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54",
+  "datum": {
+    "nativeRoofY": 36.00794219970703,
+    "offset": -18.80110769961617
+  },
+  "nineFloorSamples": [
+    {
+      "u": 0.5325011984235789,
+      "x": -301.90722693175616,
+      "z": -2020.0893234678654,
+      "collision": {
+        "height": 17.07682331050631,
+        "cell": "c_m03_m16",
+        "collider": "g:c_m03_m16",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 17.07682331050631,
+        "cell": "c_m03_m16",
+        "key": "000096c39da987410080fcc4:000096c3d1e68641dfbcfcc4:93ce97c3c18889410080fcc4",
+        "node": "c_m03_m16_ground_asphalt"
+      }
+    },
+    {
+      "u": 6.390014381082946,
+      "x": -301.60011786193195,
+      "z": -2014.239866680756,
+      "collision": {
+        "height": 17.20683450009086,
+        "cell": "c_m03_m16",
+        "collider": "g:c_m03_m16",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 17.20683450009086,
+        "cell": "c_m03_m16",
+        "key": "000096c3f59688410000fcc4:a3eb96c370cc894117c5fbc4:000096c3f7f188410080fbc4",
+        "node": "c_m03_m16_ground_asphalt"
+      }
+    },
+    {
+      "u": 13.312529960589472,
+      "x": -301.2371707794124,
+      "z": -2007.3268722959904,
+      "collision": {
+        "height": 17.094638542569772,
+        "cell": "c_m03_m16",
+        "collider": "g:c_m03_m16",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 17.094638542569772,
+        "cell": "c_m03_m16",
+        "key": "000096c36c5388410000fbc4:057997c36b4c89410000fbc4:22d996c379f18841b8c9fac4",
+        "node": "c_m03_m16_ground_asphalt"
+      }
+    },
+    {
+      "u": 19.96879494088421,
+      "x": -300.8881832000667,
+      "z": -2000.6797623106388,
+      "collision": {
+        "height": 16.984473823552293,
+        "cell": "c_m03_m16",
+        "collider": "g:c_m03_m16",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 16.984473823552293,
+        "cell": "c_m03_m16",
+        "key": "000096c3e08387410000fac4:d7ce96c3657788414a4cfac4:d74797c3c86b88410a2efac4",
+        "node": "c_m03_m16_ground_asphalt"
+      }
+    },
+    {
+      "u": 26.625059921178945,
+      "x": -300.539195620721,
+      "z": -1994.0326523252872,
+      "collision": {
+        "height": 16.856323473361705,
+        "cell": "c_m03_m16",
+        "collider": "g:c_m03_m16",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 16.856323473361705,
+        "cell": "c_m03_m16",
+        "key": "000096c305ec86410080f9c4:82b896c317598741df51f9c4:000096c3944686410000f9c4",
+        "node": "c_m03_m16_ground_asphalt"
+      }
+    },
+    {
+      "u": 33.28132490147368,
+      "x": -300.1902080413753,
+      "z": -1987.3855423399357,
+      "collision": {
+        "height": 16.668245663422727,
+        "cell": "c_m03_m16",
+        "collider": "g:c_m03_m16",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 16.668245663422727,
+        "cell": "c_m03_m16",
+        "key": "000096c3116285410080f8c4:a49f96c30b9585411758f8c4:000096c334bf84410000f8c4",
+        "node": "c_m03_m16_ground_asphalt"
+      }
+    },
+    {
+      "u": 39.93758988176842,
+      "x": -299.8412204620296,
+      "z": -1980.7384323545841,
+      "collision": {
+        "height": 16.520099848177694,
+        "cell": "c_m03_m16",
+        "collider": "g:c_m03_m16",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 16.520099848177694,
+        "cell": "c_m03_m16",
+        "key": "000096c334bf84410000f8c4:000096c3562384410080f7c4:450195c39c9f83410000f8c4",
+        "node": "c_m03_m16_ground_asphalt"
+      }
+    },
+    {
+      "u": 46.86010546127494,
+      "x": -299.47827337951003,
+      "z": -1973.8254379698185,
+      "collision": {
+        "height": 16.353786506103788,
+        "cell": "c_m03_m16",
+        "collider": "g:c_m03_m16",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 16.353786506103788,
+        "cell": "c_m03_m16",
+        "key": "000096c373cd82410080f6c4:81cb94c3882e82410000f7c4:000096c37a7a83410000f7c4",
+        "node": "c_m03_m16_ground_asphalt"
+      }
+    },
+    {
+      "u": 52.71761864393431,
+      "x": -299.1711643096858,
+      "z": -1967.9759811827091,
+      "collision": {
+        "height": 16.19491135613703,
+        "cell": "c_m03_m16",
+        "collider": "g:c_m03_m16",
+        "group": "ground",
+        "tag": "raised:asphalt"
+      },
+      "visual": {
+        "y": 16.19491135613703,
+        "cell": "c_m03_m16",
+        "key": "000096c30a0882410000f6c4:000096c3dbb18141179bf5c4:bd9594c3966d80410000f6c4",
+        "node": "c_m03_m16_ground_asphalt"
+      }
+    }
+  ],
+  "qualification": {
+    "artSha256": "270c2109274bf9c9594532cf3432a0cad83b47306f47414a4610e46217c6c521",
+    "referencesSha256": "ad1b14ca8916ee03cd93176230d7cb4a717fed963814cf4adf57c47f0d532fe7",
+    "observations": [
+      "The source building west street return facing Kirstinkatu has golden ochre plaster, repeated pairs of broad/narrow dark blue-grey windows and three dark stacked balcony/glazing ribbons.",
+      "A low deep maroon plinth follows the street; horizontal light slab edges and dark glazed balcony railings are observed. There is no invented ground entry on this selected return.",
+      "Flat original LoD2 source wall retains literal geometry; balcony appearance is a reference-led texture motif, not a measured balcony geometry reconstruction."
+    ]
+  },
+  "finish": {
+    "plinthHeight": 1.2,
+    "plinthColour": "#5d4140",
+    "floorFollowingGlazingIndices": []
+  }
+}

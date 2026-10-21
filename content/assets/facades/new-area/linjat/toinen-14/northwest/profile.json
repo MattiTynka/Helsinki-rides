@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "id": "toinen-linja-14-alppikatu-northwest-20261021",
+  "baselineManifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54",
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "art": {
+    "path": "facade.png",
+    "sha256": "ce666cc5c724eae351123e30f93f12133e25794d05887111af8a8b472925972b",
+    "width": 1024,
+    "height": 1024,
+    "license": "CC0-1.0",
+    "attribution": "Original reference-led architectural artwork by Helsinki Rides (2026); reference photographs are not reproduced.",
+    "references": [
+      {
+        "title": "Official Google StreetView Apr2023 actual long red brick Alppikatu side of Toinenlinja14, panoramaNLHV9JjfWSmcUVKu-O_Zpg at60.1844109/24.9403066 heading128.76308 pitch25 actually opened",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=NLHV9JjfWSmcUVKu-O_Zpg&heading=128.76308&pitch=25&fov=105",
+        "role": "appearance-reference-only"
+      }
+    ]
+  },
+  "material": {
+    "name": "toinen-linja-14-alppikatu-northwest-20261021",
+    "unlit": true,
+    "roughness": 0.95,
+    "doubleSided": false
+  },
+  "charts": [
+    {
+      "id": "toinen-linja-14-alppikatu-northwest-20261021-0",
+      "building": "BID_1e92cf3a-dad1-45ff-bc4e-0442ffa1b0d3",
+      "origin": [
+        -689.64892578125,
+        0,
+        -1609.489501953125
+      ],
+      "uAxis": [
+        -0.6163085147949882,
+        0,
+        0.7875048029003989
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -78.01617225099415,
+        6.708078861236572,
+        -1.4210854715202004e-13,
+        30.500078201293945
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "toinen-linja-14-alppikatu-northwest-20261021-1",
+      "building": "BID_1e92cf3a-dad1-45ff-bc4e-0442ffa1b0d3",
+      "origin": [
+        -689.64892578125,
+        0,
+        -1609.489501953125
+      ],
+      "uAxis": [
+        -0.616308514794988,
+        0,
+        0.7875048029003988
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -78.01617225099413,
+        6.708078861236572,
+        -1.1368683772161603e-13,
+        30.500078201293945
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "cells": [
+    {
+      "id": "c_m05_m13",
+      "buildings": [
+        {
+          "id": "BID_1e92cf3a-dad1-45ff-bc4e-0442ffa1b0d3",
+          "vtj": "1031519752"
+        }
+      ],
+      "baselineLevels": {
+        "lod0": "a1bc5027cc67a9349e88f8b5613cf94c1a69d009757570fffcaf93ad6e15dfa8",
+        "lod1": "a1bc5027cc67a9349e88f8b5613cf94c1a69d009757570fffcaf93ad6e15dfa8",
+        "lod2": "dc6de38592d213b3e052a83c8c5f781ecdcc5ad063989ae2358ce0b17b8a7677"
+      },
+      "faces": [
+        {
+          "key": "486420c42900f441afddd0c4:88692cc496a8d640aa2fc9c4:88692cc42800f441aa2fc9c4",
+          "chart": "toinen-linja-14-alppikatu-northwest-20261021-0"
+        },
+        {
+          "key": "486420c42900f441afddd0c4:486420c495a8d640afddd0c4:88692cc496a8d640aa2fc9c4",
+          "chart": "toinen-linja-14-alppikatu-northwest-20261021-1"
+        }
+      ]
+    }
+  ]
+}

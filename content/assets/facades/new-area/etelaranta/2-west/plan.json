@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "id": "etelaranta-2-unioninkatu-west-20261021",
+  "building": {
+    "id": "BID_979b25db-6a21-4e9f-937c-032e1df46a5e",
+    "vtj": "103046290V",
+    "owner": "c_m01_p04"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    107,
+    108
+  ],
+  "frame": {
+    "origin": [
+      -33.29419708251953,
+      619.2028198242188
+    ],
+    "axis": [
+      0.05157611945966468,
+      0.998669066258429
+    ],
+    "width": 29.690089272071205
+  },
+  "completeElevationSupportPlanes": true,
+  "art": {
+    "wallColour": "#bf8f85",
+    "groundColour": "#b89c6c",
+    "surroundColour": "#e1d9c9",
+    "frameColour": "#7c7f72",
+    "glassColour": "#8e9b94",
+    "groundHeight": 5.3,
+    "rows": [
+      {
+        "bottom": 1.1,
+        "height": 3.55,
+        "width": 1.45,
+        "axes": [
+          1.4845044636035603,
+          4.453513390810681,
+          7.4225223180178,
+          10.391531245224922,
+          13.360540172432042,
+          16.329549099639163,
+          19.298558026846283,
+          22.267566954053404,
+          25.236575881260524,
+          28.20558480846764
+        ],
+        "header": "flat"
+      },
+      {
+        "bottom": 6.2,
+        "height": 3,
+        "width": 1.45,
+        "axes": [
+          1.4845044636035603,
+          4.453513390810681,
+          7.4225223180178,
+          10.391531245224922,
+          13.360540172432042,
+          16.329549099639163,
+          19.298558026846283,
+          22.267566954053404,
+          25.236575881260524,
+          28.20558480846764
+        ],
+        "header": "arch"
+      },
+      {
+        "bottom": 11.1,
+        "height": 2.45,
+        "width": 1.4,
+        "axes": [
+          1.4845044636035603,
+          4.453513390810681,
+          7.4225223180178,
+          10.391531245224922,
+          13.360540172432042,
+          16.329549099639163,
+          19.298558026846283,
+          22.267566954053404,
+          25.236575881260524,
+          28.20558480846764
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 5.1,
+        "height": 0.22,
+        "colour": "#d6d0bf"
+      },
+      {
+        "from": "ground",
+        "offset": 10.25,
+        "height": 0.1,
+        "colour": "#d6d0bf"
+      },
+      {
+        "from": "top",
+        "offset": -0.25,
+        "height": 0.2,
+        "colour": "#d6d0bf"
+      }
+    ],
+    "rustication": {
+      "bottom": 0.5,
+      "top": 5,
+      "spacing": 0.6,
+      "colour": "#9e815d"
+    }
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Etel?ranta2 west Unioninkatu return, August2024 panorama uwtTU3oBb1tVlJerUMAXNg at60.1638965,24.9515478 heading87.1 pitch20 opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=uwtTU3oBb1tVlJerUMAXNg&heading=87.1&pitch=20&fov=110",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Google Street View actual leafless west return, April2023 vqOzQ1HvuwGlgpkxLu1K2A, opened from visible timeline; broad pale interwindow pilasters verified against currentAugust2024",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=vqOzQ1HvuwGlgpkxLu1K2A&heading=87.1&pitch=20&fov=110",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "The public west Unioninkatu return continues the same two pink upper rows and tall ochre rusticated main window row, with pale curved middle pediments and pale vertical pilasters.",
+    "Street falls below the main floor; a broad grey granite basement band contains one dark garage/gate and timber entrance doors. These basement openings are separate from the level main window row.",
+    "Ten approximate main-window axes are original architectural interpretation; summer foliage occludes part of the frontage. No hard counted bay or photogrammetric measurement claim.",
+    "Both exact native source facets107/108 form the full west outer plane, not the internal courtyard.",
+    "Opened actualApril2023leafless reference confirms broad pale upper interwindow pilasters; currentAugust2024matches materials and major openings. Scaffolding in2023is omitted."
+  ],
+  "limitations": [
+    "Only the actual outer west Unioninkatu return is selected; inner courts, roof and east seaward frontage remain pending.",
+    "Reference foliage, vehicles, people, signs and Google pixels are not copied.",
+    "Basement opening widths/positions are approximate interpretation of the actually opened visible north portion; no underground doors or new traversable geometry are introduced."
+  ],
+  "observedGroundProfile": {
+    "kind": "named-source-floor-profile",
+    "path": "ground-profile.json",
+    "sha256": "a442a5ee80f9ea95a93b3b0735d6e84d3cb303e0ebfc6fa52dc2e372263493a9"
+  }
+}

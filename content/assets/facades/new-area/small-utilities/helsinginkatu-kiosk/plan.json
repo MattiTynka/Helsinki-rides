@@ -1,0 +1,11 @@
+{
+ "schemaVersion":1,"id":"helsinginkatu-closed-kiosk-north-west-20261021",
+ "building":{"id":"BID_576df9dc-8b51-4d6a-85b9-928273cd7620","vtj":null,"owner":"c_m09_m13"},
+ "source":{"cityJsonSha256":"5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb","cityBinSha256":"e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f","originId":"senate-square-statue-v2"},
+ "planes":[{"id":"west","faces":[{"part":0,"triangle":5},{"part":0,"triangle":6}]},{"id":"north","faces":[{"part":0,"triangle":7},{"part":0,"triangle":8}]}],
+ "completeElevationPlane":true,"role":"Actual closed ice-cream kiosk at the Helsinginkatu/Mäntymäki park crossing; white closed exterior panels",
+ "finish":{"kind":"plain","colour":"#eeeee7"},
+ "references":[{"title":"Google Street View actual closed ice-cream kiosk beside Helsinginkatu park crossing, August2024, north and west panels opened","url":"https://www.google.com/maps/@?api=1&map_action=pano&pano=AQYi-DeKP0FhM5xoo6tBfg&heading=104&pitch=0&fov=100","role":"appearance-reference-only"}],
+ "observations":["The exact small municipal box is a closed ice-cream kiosk, with white exterior graphic panels and a repeated red/green top stripe. It is not an apartment or a bare concrete utility building.","Its north and west panels are actually visible from the public crossing. The kiosk is closed in the reference, so no open hatch, shop interior or invented windows are drawn.","The release artwork uses newly drawn unbranded cone symbols and simple panel/stripe cues. Actual advertising artwork, brand names, lettering, logos and photograph pixels are not reproduced."],
+ "limitations":["Only the four exact north/west source triangles are selected. Unseen east/south panels and the roof remain unchanged and unqualified.","Original cone illustrations communicate the observed kiosk function; they are not facsimiles of the actual advertising panels.","Runtime and final fresh-world review required; no physical geometry, collision or gameplay change."]
+}

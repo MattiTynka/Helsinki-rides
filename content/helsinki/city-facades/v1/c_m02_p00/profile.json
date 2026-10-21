@@ -1,0 +1,564 @@
+{
+  "schemaVersion": 1,
+  "id": "public-reference-facades-20261020-c_m02_p00",
+  "baselineManifestSha256": "18e40f69a271f037b6b23b257fee437cb5716fad68c10cff808833a142ee7607",
+  "source": {
+    "cityJsonSha256": "f39ce86a590c44b87409e887d3cc4df9689995df849bcb31c43fc5be86f1e109",
+    "cityBinSha256": "54880432f726662f3d0801a98dffddd0fdfc9b0b31aca67d400a07214633c9d9",
+    "originId": "senate-square-statue-v2"
+  },
+  "art": {
+    "path": "facade.png",
+    "sha256": "f1257ec20baabf4d90885e5d442b4cd14800558b4d71726f64bd24e25643530a",
+    "width": 1024,
+    "height": 1024,
+    "license": "CC0-1.0",
+    "attribution": "Original reference-led facade artwork by the Helsinki Rides project (2026). Appearance references are not reproduced.",
+    "references": [
+      {
+        "title": "Fabianinkatu18 east, actual Google Street View August 2024; four ordinary upper rows, paired tall ground glazing and metal canopy",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=8S8MulJqRtpV5qbCOVBqgg&heading=262&pitch=55",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Fabianinkatu16 east, actual Google Street View August 2024; four upper rows, dark panel grid and a single central recessed passage",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=lk_2cvLd3WGmSuKqAcPt9Q&viewpoint=60.1687065,24.9493244&heading=267.158&pitch=24",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Aleksanterinkatu9 east, actual Google Street View August 2022; four upper rows and a two-level glazed shop base",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=YNvJVI4ZYCT0c50K91Aa8w&viewpoint=60.1690252,24.9485404&heading=357.276&pitch=28",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Aleksanterinkatu9 east, actual Google Street View October 2020 layout reference; three broad four-pane upper groups, not business artwork",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=-k_q7do1jygC40UVRYF9Xw&viewpoint=60.1689237,24.9486087&heading=357.276&pitch=15",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Aleksanterinkatu9 west, actual Google Street View August 2022; four ribbon-glazing rows, two glass shop levels and slim brass canopy stripes",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=nCQzjjEpGgLhuZrL8tsjrQ&viewpoint=60.1690093,24.9477814&heading=357.119&pitch=30",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Etelaesplanadi12 north, actual Google Street View August 2026; six upper bays with ten openings per row, five ground arches and Gothic stonework",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=0VvKis5AhkdZhEhf0Kc20A&viewpoint=60.1671703,24.9480058&heading=177.08&pitch=42",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Fabianinkatu26 east, actual Google Street View August 2024; grey granite five-arch main front, two upper grid-glazing levels, two oriels and north passage",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=gRg-MfXgnWgKSmuTs7CDYQ&viewpoint=60.1708135,24.9491485&heading=266.876&pitch=28",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Fabianinkatu28 east, actual Google Street View August 2024; ochre plaster, three upper rows, two projecting oriels and left-of-centre arched entry",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=7DOHgSuDt3ENrjHKhlU4SA&viewpoint=60.1711783,24.9491061&heading=266.557&pitch=25",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Mannerheimintie5 southwest central face, actual Google Street View August 2024; five main upper arches, three higher rectangular rows and low attic. Unverified flanking corner and tower excluded",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=QHPhTLeT2d0t3BDqflJTtg&viewpoint=60.1694314,24.9394505&heading=53.216&pitch=25",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Hotel Kamp Pohjoisesplanadi25-27 south, actual Google Street View August 2024 including end views heading310 and55; salmon/cream three upper rows, two-axis projecting-face rhythm and low arched attic; whole-front opening count not surveyed",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=6rvMK6aeK4jy6-8wOzr7HA&viewpoint=60.1677871,24.9483249&heading=357.13&pitch=25",
+        "role": "appearance-reference-only"
+      }
+    ]
+  },
+  "material": {
+    "name": "city-original-c_m02_p00",
+    "unlit": true,
+    "roughness": 0.95,
+    "doubleSided": true
+  },
+  "charts": [
+    {
+      "id": "103036798N-street-g0",
+      "building": "BID_69a14b64-e785-4079-bd2c-a0d07f77d1b3",
+      "origin": [
+        -170.2699098609903,
+        0,
+        50.271549070609
+      ],
+      "uAxis": [
+        -0.056044184440050666,
+        0,
+        -0.9984282895583687
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        -3.9399213790893555,
+        50.08842988883975,
+        21.16347312927246
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        386
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030367770-street-g0",
+      "building": "BID_df39af63-fd91-4239-98d5-cd63def98167",
+      "origin": [
+        -167.77080593337465,
+        0,
+        102.32206211497326
+      ],
+      "uAxis": [
+        -0.049571916103183844,
+        0,
+        -0.9987705568016404
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        -4.419922351837158,
+        34.95581504358395,
+        16.573286056518555
+      ],
+      "pixels": [
+        1,
+        391,
+        510,
+        300
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030367770-street-g5",
+      "building": "BID_df39af63-fd91-4239-98d5-cd63def98167",
+      "origin": [
+        -168.32098264083874,
+        0,
+        102.34932332255416
+      ],
+      "uAxis": [
+        -0.047781531776294794,
+        0,
+        -0.9988578103119136
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        -4.419922351837158,
+        34.95581504358395,
+        16.573286056518555
+      ],
+      "pixels": [
+        1,
+        391,
+        510,
+        300
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030367770-street-g15",
+      "building": "BID_df39af63-fd91-4239-98d5-cd63def98167",
+      "origin": [
+        -168.32095310066222,
+        0,
+        102.34931806478811
+      ],
+      "uAxis": [
+        -0.04778238282783849,
+        0,
+        -0.9988577696005044
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        -4.419922351837158,
+        34.95581504358395,
+        16.573286056518555
+      ],
+      "pixels": [
+        1,
+        391,
+        510,
+        300
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030367770-street-g18",
+      "building": "BID_df39af63-fd91-4239-98d5-cd63def98167",
+      "origin": [
+        -167.76489350661078,
+        0,
+        102.32176790954166
+      ],
+      "uAxis": [
+        -0.04978630607373745,
+        0,
+        -0.9987598929309948
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        -4.419922351837158,
+        34.95581504358395,
+        16.573286056518555
+      ],
+      "pixels": [
+        1,
+        391,
+        510,
+        300
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030367770-street-g19",
+      "building": "BID_df39af63-fd91-4239-98d5-cd63def98167",
+      "origin": [
+        -167.77080592030856,
+        0,
+        102.32206211455195
+      ],
+      "uAxis": [
+        -0.049572351264661314,
+        0,
+        -0.9987705352032034
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        -4.419922351837158,
+        34.95581504358395,
+        16.573286056518555
+      ],
+      "pixels": [
+        1,
+        391,
+        510,
+        300
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "103036803U-street-g2",
+      "building": "BID_8e9da000-3fd2-4711-a113-3edea1824413",
+      "origin": [
+        -216.05756926166313,
+        0,
+        52.43052174522348
+      ],
+      "uAxis": [
+        0.998870408301388,
+        0,
+        -0.047517443321569694
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        -5.522121429443359,
+        23.07890662892512,
+        17.985511779785156
+      ],
+      "pixels": [
+        1,
+        695,
+        510,
+        328
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "103036799P-street-g2",
+      "building": "BID_1ea36404-5433-431d-b4c8-860298504c71",
+      "origin": [
+        -254.43346551297515,
+        0,
+        54.28590472692485
+      ],
+      "uAxis": [
+        0.9987365002132174,
+        0,
+        -0.05025338935688029
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        -5.10172176361084,
+        38.48064748541651,
+        21.270078659057617
+      ],
+      "pixels": [
+        515,
+        391,
+        508,
+        632
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "103036799P-street-g3",
+      "building": "BID_1ea36404-5433-431d-b4c8-860298504c71",
+      "origin": [
+        -254.432055356313,
+        0,
+        54.31375318918352
+      ],
+      "uAxis": [
+        0.9987781606901489,
+        0,
+        -0.049418475577490274
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        -5.10172176361084,
+        38.48064748541651,
+        21.270078659057617
+      ],
+      "pixels": [
+        515,
+        391,
+        508,
+        632
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "103036799P-street-g7",
+      "building": "BID_1ea36404-5433-431d-b4c8-860298504c71",
+      "origin": [
+        -254.4353595230661,
+        0,
+        54.24507851217102
+      ],
+      "uAxis": [
+        0.9988840932002491,
+        0,
+        -0.047228893185379144
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        -5.10172176361084,
+        38.48064748541651,
+        21.270078659057617
+      ],
+      "pixels": [
+        515,
+        391,
+        508,
+        632
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "103036799P-street-g8",
+      "building": "BID_1ea36404-5433-431d-b4c8-860298504c71",
+      "origin": [
+        -254.4380169147995,
+        0,
+        54.18656271404712
+      ],
+      "uAxis": [
+        0.9990788028649051,
+        0,
+        -0.04291323415949758
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        -5.10172176361084,
+        38.48064748541651,
+        21.270078659057617
+      ],
+      "pixels": [
+        515,
+        391,
+        508,
+        632
+      ],
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "cells": [
+    {
+      "id": "c_m02_p00",
+      "buildings": [
+        {
+          "id": "BID_69a14b64-e785-4079-bd2c-a0d07f77d1b3",
+          "vtj": "103036798N"
+        },
+        {
+          "id": "BID_df39af63-fd91-4239-98d5-cd63def98167",
+          "vtj": "1030367770"
+        },
+        {
+          "id": "BID_8e9da000-3fd2-4711-a113-3edea1824413",
+          "vtj": "103036803U"
+        },
+        {
+          "id": "BID_1ea36404-5433-431d-b4c8-860298504c71",
+          "vtj": "103036799P"
+        }
+      ],
+      "baselineLevels": {
+        "lod0": "e4739fc3d9ba4bc892e7f52f228dd384382c3b8a6e4868914f7f88e926129a81",
+        "lod1": "e4739fc3d9ba4bc892e7f52f228dd384382c3b8a6e4868914f7f88e926129a81",
+        "lod2": "70e331c25896587b8c95aef007c862b350830d677fd4a73ad99190998211ed23"
+      },
+      "faces": [
+        {
+          "key": "404b2ac3c84ea941d75f4742:4d132dc3aa277cc08066953e:4d132dc3cb4ea9415b66953e",
+          "chart": "103036798N-street-g0"
+        },
+        {
+          "key": "404b2ac3c84ea941d75f4742:87452ac37b14a74165f74842:4d132dc3aa277cc08066953e",
+          "chart": "103036798N-street-g0"
+        },
+        {
+          "key": "4d132dc3aa277cc08066953e:87452ac37b14a74165f74842:87452ac3ac277cc065f74842",
+          "chart": "103036798N-street-g0"
+        },
+        {
+          "key": "b02329c3641d8441df7e9542:c01b29c3ae1d8441a9be9642:b02329c3fe6f8dc0df7e9542",
+          "chart": "1030367770-street-g0"
+        },
+        {
+          "key": "b02329c3fe6f8dc0df7e9542:c01b29c3ae1d8441a9be9642:d4c228c3e3208441ecbda442",
+          "chart": "1030367770-street-g0"
+        },
+        {
+          "key": "57c228c30af8544182d1a442:b02329c3fe6f8dc0df7e9542:57c228c3a314844182d1a442",
+          "chart": "1030367770-street-g0"
+        },
+        {
+          "key": "57c228c30af8544182d1a442:b5c527c302e454418e95cc42:b02329c3fe6f8dc0df7e9542",
+          "chart": "1030367770-street-g0"
+        },
+        {
+          "key": "b02329c3fe6f8dc0df7e9542:b5c527c302e454418e95cc42:c01b29c301708dc0a9be9642",
+          "chart": "1030367770-street-g0"
+        },
+        {
+          "key": "b5c527c302e454418e95cc42:d4c228c3fc6f8dc0ecbda442:c01b29c301708dc0a9be9642",
+          "chart": "1030367770-street-g0"
+        },
+        {
+          "key": "57c228c3ff6f8dc082d1a442:b5c527c302e454418e95cc42:b5c527c3fe6f8dc08e95cc42",
+          "chart": "1030367770-street-g0"
+        },
+        {
+          "key": "26a429c31796844141809542:26a429c3fd6f8dc041809542:63fd29c3bc22844142ed8642",
+          "chart": "1030367770-street-g5"
+        },
+        {
+          "key": "26a429c3fd6f8dc041809542:a6f829c3fe6f8dc06cb38742:63fd29c3bc22844142ed8642",
+          "chart": "1030367770-street-g5"
+        },
+        {
+          "key": "26a429c31796844141809542:63fd29c3bc22844142ed8642:a6f829c3f28f84416cb38742",
+          "chart": "1030367770-street-g15"
+        },
+        {
+          "key": "63fd29c3bc22844142ed8642:a6f829c3fe6f8dc06cb38742:63fd29c3ff6f8dc042ed8642",
+          "chart": "1030367770-street-g15"
+        },
+        {
+          "key": "57c228c3a314844182d1a442:b02329c3fe6f8dc0df7e9542:d4c228c3e3208441ecbda442",
+          "chart": "1030367770-street-g18"
+        },
+        {
+          "key": "57c228c3ff6f8dc082d1a442:d4c228c3fc6f8dc0ecbda442:b5c527c302e454418e95cc42",
+          "chart": "1030367770-street-g19"
+        },
+        {
+          "key": "110758c338b5b0c065b75142:e20841c337b5b0c058574d42:e20841c354e28f4158574d42",
+          "chart": "103036803U-street-g2"
+        },
+        {
+          "key": "110758c338b5b0c065b75142:e20841c354e28f4158574d42:110758c3da5e8b4165b75142",
+          "chart": "103036803U-street-g2"
+        },
+        {
+          "key": "4c677ec31f29aa4139235942:c0ea70c34c41a3c0566c5642:c0ea70c31f29aa41566c5642",
+          "chart": "103036799P-street-g2"
+        },
+        {
+          "key": "4c677ec31f29aa4139235942:4c677ec34e41a3c039235942:c0ea70c34c41a3c0566c5642",
+          "chart": "103036799P-street-g2"
+        },
+        {
+          "key": "431b5fc31f29aa41210e5342:45e76ac31f29aa41d6635542:431b5fc34c41a3c0210e5342",
+          "chart": "103036799P-street-g3"
+        },
+        {
+          "key": "431b5fc34c41a3c0210e5342:45e76ac31f29aa41d6635542:45e76ac34d41a3c0d6635542",
+          "chart": "103036799P-street-g3"
+        },
+        {
+          "key": "110758c31f29aa4165b75142:431b5fc31f29aa41210e5342:110758c34d41a3c065b75142",
+          "chart": "103036799P-street-g7"
+        },
+        {
+          "key": "110758c34d41a3c065b75142:431b5fc31f29aa41210e5342:431b5fc34c41a3c0210e5342",
+          "chart": "103036799P-street-g7"
+        },
+        {
+          "key": "45e76ac31f29aa41d6635542:c0ea70c31f29aa41566c5642:45e76ac34d41a3c0d6635542",
+          "chart": "103036799P-street-g8"
+        },
+        {
+          "key": "45e76ac34d41a3c0d6635542:c0ea70c31f29aa41566c5642:c0ea70c34c41a3c0566c5642",
+          "chart": "103036799P-street-g8"
+        }
+      ]
+    }
+  ]
+}

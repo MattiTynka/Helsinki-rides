@@ -1,0 +1,6 @@
+import assert from'node:assert/strict';import test from'node:test';import{encodeKtx2}from'../lib/gltf.ts';import{encodeNativeFacadeAtlas,nativeFacadeEncoderRecipe}from'../lib/delivery-new-area-facades-encode.ts';import{readKtx2Layout,dropTopMip,assertSameLevels}from'../lib/ktx2-mips.ts';
+test('Opt-in facade RDO preserves legacy q0 bytes and both original image dimensions and exact Low tail',async()=>{
+ const data=new Uint8Array(128*128*4);for(let y=0;y<128;y++)for(let x=0;x<128;x++){const i=(y*128+x)*4;data[i]=(x*7+y*3)%256;data[i+1]=(x*11+y*13)%256;data[i+2]=(x*y+17)%256;data[i+3]=255;}const before=data.slice(),image={width:128,height:128,data};
+ const legacy=await encodeKtx2(image,'facade'),q0=await encodeNativeFacadeAtlas(image),q0Explicit=await encodeNativeFacadeAtlas(image,0);assert.deepEqual(q0,legacy);assert.deepEqual(q0Explicit,legacy);
+ const q1=await encodeNativeFacadeAtlas(image,1);assert.notDeepEqual(q1,q0);assert.deepEqual(data,before);const old=readKtx2Layout(q0),next=readKtx2Layout(q1);assert.equal(next.width,old.width);assert.equal(next.height,old.height);assert.equal(next.levelCount,old.levelCount);assertSameLevels(q1,dropTopMip(q1));assert.equal(nativeFacadeEncoderRecipe(0).topMipDrops,0);assert.equal(nativeFacadeEncoderRecipe(1).topMipDrops,0);assert.throws(()=>nativeFacadeEncoderRecipe(2 as 1),/Only the measured/);
+});

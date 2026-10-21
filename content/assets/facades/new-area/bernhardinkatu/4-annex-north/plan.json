@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "id": "bernhardinkatu-4-annex-north-20261021",
+  "building": {
+    "id": "BID_b3768187-2d44-4707-8248-2cecc2787a45",
+    "vtj": "103046324Y",
+    "owner": "c_p00_p05"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    213,
+    214,
+    215,
+    216,
+    217,
+    258,
+    259,
+    260,
+    261,
+    274,
+    275,
+    276,
+    277
+  ],
+  "frame": {
+    "origin": [
+      12.894467161872896,
+      661.9849369993821
+    ],
+    "axis": [
+      -0.9986911000464258,
+      0.05114769481811426
+    ],
+    "width": 19.748312733646955
+  },
+  "completeElevationSupportPlanes": true,
+  "art": {
+    "wallColour": "#985c49",
+    "groundColour": "#8e8b7f",
+    "surroundColour": "#d6d2bc",
+    "frameColour": "#dddcc9",
+    "glassColour": "#828f87",
+    "groundHeight": 0,
+    "rows": [
+      {
+        "bottom": 0,
+        "height": 2.65,
+        "width": 1.1,
+        "axes": [
+          1.28,
+          4.52,
+          7.93,
+          11.31,
+          15.27,
+          17.68
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [],
+    "bands": [
+      {
+        "from": "top",
+        "offset": -0.12,
+        "height": 0.12,
+        "colour": "#544c44"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Bernhardinkatu4 north annex, August2024; six pale framed windows, red brick and stone plinth actually opened at headings139 and176",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=sZjBruityRk-NBfLiWxMTA&heading=139&pitch=12&fov=110",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "The publicly visible northern annex is one storey of red-brown exposed brick above a rough grey stone plinth, not a generic multistorey apartment facade.",
+    "Exactly six tall pale framed windows appear on this street front: four separated eastern windows and two grouped nearer the western church gate. Upper transom and vertical divisions are visible.",
+    "Brick pilasters, shallow segmental window heads, a corbelled brick frieze, projecting corner caps and a dark metal cornice are observed; this original chart represents their colour/line cues without adding geometry.",
+    "The street gate is west of this selected wall and is not painted as a doorway in the building. Native small recesses and stepped upper profile remain literal.",
+    "Nine exact native visual/HCOL street samples rise3.6610 to4.7021m over19.748m. Only the stone plinth follows these floor samples. Original horizontal windows use a separately declared datum5.8m below the highest native wall cap; dimensions are appearance approximations, not a physical survey.",
+    "The pale window frame is almost rectangular; the shallow segmental brick head is represented by brick courses, not a large pale arched hood."
+  ],
+  "limitations": [
+    "Only13 exact facets on the three selected native northern support planes are authored. Other sides/courts and the separate German church VTJ103046323X remain unqualified.",
+    "Car foreground partly hides the lowest plinth; use uniform observed stone finish without copying vehicles or inventing basement openings.",
+    "Opening and brick module dimensions are approximate within the unchanged measured source wall, not an architectural survey. No reference pixels reproduced."
+  ],
+  "observedGroundProfile": {
+    "kind": "source-measured-sloped-plinth-horizontal-opening-bands",
+    "manifestSha256": "647128c37c0fd8bcd0f7ffad874a9a3c172e6722195c21f5fd1b64b4f951dc39",
+    "sampleHeights": [
+      3.661027121524032,
+      3.784860287658378,
+      3.953103074864263,
+      4.126093349026964,
+      4.259414156245578,
+      4.352760385320018,
+      4.471213023201838,
+      4.600925586245134,
+      4.702118090039059
+    ],
+    "horizontalDatumFromNativeTop": -5.8
+  }
+}

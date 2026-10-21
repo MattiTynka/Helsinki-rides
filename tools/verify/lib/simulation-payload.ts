@@ -1,6 +1,6 @@
 import { readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
-import { decodeSimulationPayload, validateSimulationFileRef, type CellDescriptor, type GameplayBundle, type RoadGraph, type SimulationFileRef } from '../../../packages/world-schema/src/index.ts';
+import { decodeRoadGraph, decodeSimulationPayload, validateSimulationFileRef, type CellDescriptor, type GameplayBundle, type RoadGraph, type SimulationFileRef } from '../../../packages/world-schema/src/index.ts';
 import { COLLISION_RESIDENCY, collisionCellRefs, StaticWorld } from '../../../packages/sim/src/index.ts';
 
 /** The same decoding and integrity contract as browser startup, before deterministic replay construction. */
@@ -11,6 +11,9 @@ export async function readSimulationPayload(releaseDirectory: string, ref: Simul
   if (statSync(file).size !== ref.bytes) throw new Error(`${ref.path}: stored simulation payload byte length mismatch`);
   return decodeSimulationPayload(new Uint8Array(readFileSync(file)), ref);
 }
+
+/** Roads share the browser's exact integrity, transport and logical parser. */
+export async function readRoadGraph(releaseDirectory:string,ref:SimulationFileRef):Promise<RoadGraph>{return decodeRoadGraph(await readSimulationPayload(releaseDirectory,ref));}
 
 /**
  * The collision world a recording replays in: the browser's streamed residency (the recording names its rules), or

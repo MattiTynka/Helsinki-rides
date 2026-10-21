@@ -160,6 +160,12 @@ export class StaticWorld {
     const toi = (hit as unknown as { timeOfImpact?: number; toi?: number }).timeOfImpact ?? (hit as unknown as { toi: number }).toi;
     return { y: y - toi, surface: this.surfaceAt(hit.collider.handle, null) };
   }
+
+  /** Extra normal-bearing query used only to qualify a spawn seam fallback. */
+  spawnGroundBelow(x:number,y:number,z:number,maxDistance:number){
+    const hit=this.physics.castRayAndGetNormal(new RAPIER.Ray({x,y,z},{x:0,y:-1,z:0}),maxDistance,true,undefined,groups(GROUP.bullet,GROUP.static));
+    return hit?{y:y-hit.timeOfImpact,normalY:hit.normal.y,surface:this.surfaceAt(hit.collider.handle,hit.featureId??null)}:null;
+  }
 }
 
 /**

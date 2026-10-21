@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "id": "kalliolanrinne-3-south-20261021",
+  "building": {
+    "id": "BID_7198f6b1-790d-4a12-8d3c-96b9aadfae76",
+    "vtj": "103180613V",
+    "owner": "c_m03_m17"
+  },
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    24,
+    25
+  ],
+  "frame": {
+    "origin": [
+      -303.77349853515625,
+      -2091.879638671875
+    ],
+    "axis": [
+      0.9986116476708766,
+      -0.05267615339085715
+    ],
+    "width": 37.995652964618074
+  },
+  "completeElevationPlane": true,
+  "art": {
+    "wallColour": "#e0dfd3",
+    "groundColour": "#e0dfd3",
+    "surroundColour": "#d1d0c3",
+    "frameColour": "#dddccd",
+    "glassColour": "#798c8b",
+    "groundHeight": 0.45,
+    "rows": [
+      {
+        "bottom": 0.8,
+        "height": 1.55,
+        "width": 1.3,
+        "axes": [
+          5,
+          8.49945662057726,
+          15.498369861731778,
+          18.997826482309037,
+          22.497283102886296,
+          29.496196344040815,
+          32.995652964618074
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 4.3,
+        "height": 1.55,
+        "width": 1.3,
+        "axes": [
+          5,
+          8.49945662057726,
+          11.998913241154519,
+          15.498369861731778,
+          18.997826482309037,
+          22.497283102886296,
+          25.996739723463556,
+          29.496196344040815,
+          32.995652964618074
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 7.8,
+        "height": 1.55,
+        "width": 1.3,
+        "axes": [
+          5,
+          8.49945662057726,
+          11.998913241154519,
+          15.498369861731778,
+          18.997826482309037,
+          22.497283102886296,
+          25.996739723463556,
+          29.496196344040815,
+          32.995652964618074
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 11.3,
+        "height": 1.55,
+        "width": 1.3,
+        "axes": [
+          5,
+          8.49945662057726,
+          11.998913241154519,
+          15.498369861731778,
+          18.997826482309037,
+          22.497283102886296,
+          25.996739723463556,
+          29.496196344040815,
+          32.995652964618074
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 14.8,
+        "height": 1.55,
+        "width": 1.3,
+        "axes": [
+          5,
+          8.49945662057726,
+          11.998913241154519,
+          15.498369861731778,
+          18.997826482309037,
+          22.497283102886296,
+          25.996739723463556,
+          29.496196344040815,
+          32.995652964618074
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 18.3,
+        "height": 1.55,
+        "width": 1.3,
+        "axes": [
+          5,
+          8.49945662057726,
+          11.998913241154519,
+          15.498369861731778,
+          18.997826482309037,
+          22.497283102886296,
+          25.996739723463556,
+          29.496196344040815,
+          32.995652964618074
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 13.1,
+        "bottom": 0.05,
+        "width": 1.6,
+        "height": 2.6,
+        "kind": "door"
+      },
+      {
+        "x": 26.8,
+        "bottom": 0.05,
+        "width": 1.6,
+        "height": 2.6,
+        "kind": "door"
+      }
+    ],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 0.02,
+        "height": 0.45,
+        "colour": "#79766a"
+      },
+      {
+        "from": "top",
+        "offset": -0.14,
+        "height": 0.14,
+        "colour": "#6a716b"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Kalliolanrinne street fronts, April2023, full lower and upward facade views opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=I1iFP7u2PIIuJRdmPzFAAw&heading=357.13&pitch=18&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual south frontage is a six-storey off-white residential elevation with simple narrow pale-frame windows and two timber glazed entrances.",
+    "Low mottled stone plinth, upright drainpipes and stacks of pale metal-railed balconies at both ends are visible. Balcony artwork remains on the original LoD2 plane; no real balcony geometry is added.",
+    "Nine exact rendered/HCOL street probes show a 2.4–2.6m slope. Upper windows and floor bands stay horizontal at the qualified high-street datum; the low stone plinth and each fixed-height timber entrance follow the local measured floor.",
+    "Six residential rows fill the literal source eave height: the northern block has taller row spacing than the opposite Kalliolanrinne4 front. The end balcony stacks follow the same five upper row heights.",
+    "Each timber entrance retains its individually authored2.6–2.8m height at its local native street floor; it is not stretched to the high end of the whole street. Upper residential window rows remain level."
+  ],
+  "limitations": [
+    "Only the exact complete declared public street-facing source-null wall plane is included. Native side/court/roof and small detail faces are not certified textured.",
+    "Window modules, colours and placements are original approximate reference-led artwork, not surveyed measurements. No Google pixels, signs, graffiti, cars or people are reproduced.",
+    "All native positions, indices, winding and physical collision stay unchanged."
+  ],
+  "observedGroundProfile": {
+    "kind": "source-measured-sloped-plinth-horizontal-opening-bands",
+    "manifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54",
+    "sampleHeights": [
+      15.072039124514847,
+      14.892624548446278,
+      14.686020636012294,
+      14.415178010049413,
+      14.036472157334627,
+      13.660059151567694,
+      13.332831706993218,
+      12.96475356727295,
+      12.642501628121625
+    ],
+    "horizontalDatumFromNativeTop": -20.57783270165703
+  }
+}

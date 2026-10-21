@@ -20,6 +20,9 @@ export class Input {
     this.canvas = canvas;
     this.unlockedMouse = unlockedMouse;
     addEventListener('keydown', e => {
+      // Startup controls keep native Tab/Space/Enter behaviour and never send gameplay commands.
+      if (document.getElementById?.('loading')?.classList.contains('hidden') === false
+        || (e.target && e.target instanceof Element && e.target.closest('button, a, select, input, textarea, [contenteditable="true"]'))) return;
       if (['Space', 'ArrowUp', 'ArrowDown', 'Tab', 'AltLeft', 'AltRight'].includes(e.code)) e.preventDefault();
       if (e.repeat || this.keys.has(e.code)) return;
       this.keys.add(e.code);

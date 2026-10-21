@@ -1,0 +1,1203 @@
+{
+  "schemaVersion": 1,
+  "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021",
+  "baselineManifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54",
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "art": {
+    "path": "facade.png",
+    "sha256": "3ef79356619e82b168ecd6e2fac4a04f5de6738a6d32af67e7b9975ac036dee2",
+    "width": 1024,
+    "height": 1024,
+    "license": "CC0-1.0",
+    "attribution": "Original reference-led architectural artwork by Helsinki Rides (2026); reference photographs are not reproduced.",
+    "references": [
+      {
+        "title": "Google Street View7IsoRoobertinkatu,April2023,looking at opposite number10 frontage",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=mkPnpzWf6bAeRy4kz5CeOw&heading=136&pitch=45&fov=110",
+        "role": "appearance-reference-only"
+      }
+    ]
+  },
+  "material": {
+    "name": "anonymous-1851b11d-iso-roobertinkatu-front-20261021",
+    "unlit": true,
+    "roughness": 0.95,
+    "doubleSided": false
+  },
+  "charts": [
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-0",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.758056640625,
+        0,
+        645.3118286132812
+      ],
+      "uAxis": [
+        -0.12506080823181864,
+        0,
+        0.9921490786390945
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -4.38047053836627,
+        4.190078258514404,
+        22.138886326225148,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-1",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.758056640625,
+        0,
+        645.3118286132812
+      ],
+      "uAxis": [
+        -0.12506080823181862,
+        0,
+        0.9921490786390944
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -4.3804705383662705,
+        4.190078258514404,
+        22.13888632622515,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-2",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.732421875,
+        0,
+        645.1084594726562
+      ],
+      "uAxis": [
+        -0.37251809569794636,
+        0,
+        0.9280249287479166
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -3.3475366742683854,
+        4.190078258514404,
+        17.913315209320455,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-3",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.732421875,
+        0,
+        645.1084594726562
+      ],
+      "uAxis": [
+        -0.37251809569794636,
+        0,
+        0.9280249287479166
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -3.3475366742683854,
+        4.190078258514404,
+        17.913315209320455,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-4",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.6951904296875,
+        0,
+        645.8836669921875
+      ],
+      "uAxis": [
+        0.2159649227849573,
+        0,
+        0.9764011225549095
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -8.4038535441601,
+        4.190078258514404,
+        38.102945507017544,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-5",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.6951904296875,
+        0,
+        645.8836669921875
+      ],
+      "uAxis": [
+        0.2159649227849573,
+        0,
+        0.9764011225549094
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -8.403853544160102,
+        4.190078258514404,
+        38.10294550701756,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-6",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.7457885742188,
+        0,
+        645.6549072265625
+      ],
+      "uAxis": [
+        -0.001108237221172821,
+        0,
+        0.9999993859049422
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -5.446092506662121,
+        4.190078258514404,
+        25.556823212740195,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-7",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.7457885742188,
+        0,
+        645.6549072265625
+      ],
+      "uAxis": [
+        -0.0011082372211728211,
+        0,
+        0.9999993859049422
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -5.446092506662121,
+        4.190078258514404,
+        25.556823212740195,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-8",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.74560546875,
+        0,
+        645.4896850585938
+      ],
+      "uAxis": [
+        0.06983594097411344,
+        0,
+        0.9975584901890517
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -5.891781240035836,
+        4.190078258514404,
+        28.69766879685017,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-9",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.74560546875,
+        0,
+        645.4896850585938
+      ],
+      "uAxis": [
+        0.06983594097411343,
+        0,
+        0.9975584901890516
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -5.891781240035837,
+        4.190078258514404,
+        28.697668796850177,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-10",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.5778198242188,
+        0,
+        646.1017456054688
+      ],
+      "uAxis": [
+        -0.8193931599840466,
+        0,
+        0.5732319333143948
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -3.245271202962082,
+        4.190078258514404,
+        14.554443046597823,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-11",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.5778198242188,
+        0,
+        646.1017456054688
+      ],
+      "uAxis": [
+        -0.8193931599840466,
+        0,
+        0.5732319333143948
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -3.245271202962082,
+        4.190078258514404,
+        14.554443046597823,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-12",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -513.2400512695312,
+        0,
+        644.5272827148438
+      ],
+      "uAxis": [
+        -0.8193996940215523,
+        0,
+        0.5732225932719212
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -0.427186663172641,
+        4.190078258514404,
+        17.37252758523091,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-13",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -513.2400512695312,
+        0,
+        644.5272827148438
+      ],
+      "uAxis": [
+        -0.8193996940215523,
+        0,
+        0.5732225932719212
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -0.427186663172641,
+        4.190078258514404,
+        17.37252758523091,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-14",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.286865234375,
+        0,
+        644.3845825195312
+      ],
+      "uAxis": [
+        -0.80072938113845,
+        0,
+        0.5990262583406797
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -2.02357278961473,
+        4.190078258514404,
+        15.78517414173067,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-15",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.286865234375,
+        0,
+        644.3845825195312
+      ],
+      "uAxis": [
+        -0.80072938113845,
+        0,
+        0.5990262583406798
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -2.02357278961473,
+        4.190078258514404,
+        15.78517414173067,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-16",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.1342163085938,
+        0,
+        644.2703857421875
+      ],
+      "uAxis": [
+        -0.9108695932970882,
+        0,
+        0.4126942984907802
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -1.863817475133402,
+        4.190078258514404,
+        16.24497838828507,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-17",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.1342163085938,
+        0,
+        644.2703857421875
+      ],
+      "uAxis": [
+        -0.910869593297088,
+        0,
+        0.4126942984907802
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -1.8638174751334022,
+        4.190078258514404,
+        16.24497838828507,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-18",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -514.8545532226562,
+        0,
+        644.1436767578125
+      ],
+      "uAxis": [
+        -0.9874043215617215,
+        0,
+        0.15821727390280801
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -1.7006714947934174,
+        4.190078258514404,
+        18.081789017685647,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-19",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -514.8545532226562,
+        0,
+        644.1436767578125
+      ],
+      "uAxis": [
+        -0.9874043215617215,
+        0,
+        0.15821727390280801
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -1.7006714947934174,
+        4.190078258514404,
+        18.081789017685647,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-20",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -514.460693359375,
+        0,
+        644.08056640625
+      ],
+      "uAxis": [
+        -0.9995199036150694,
+        0,
+        0.030983258016586156
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -1.3998079367105087,
+        4.190078258514404,
+        19.87220997832578,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-21",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -514.460693359375,
+        0,
+        644.08056640625
+      ],
+      "uAxis": [
+        -0.9995199036150695,
+        0,
+        0.030983258016586156
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -1.3998079367105087,
+        4.190078258514404,
+        19.872209978325778,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-22",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -514.06689453125,
+        0,
+        644.068359375
+      ],
+      "uAxis": [
+        -0.9672470935547085,
+        0,
+        -0.25383667979622104
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -1.3007145945083236,
+        4.190078258514404,
+        26.208009985086942,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-23",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -514.06689453125,
+        0,
+        644.068359375
+      ],
+      "uAxis": [
+        -0.9672470935547085,
+        0,
+        -0.25383667979622104
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -1.3007145945083236,
+        4.190078258514404,
+        26.208009985086942,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-24",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -513.7747802734375,
+        0,
+        644.14501953125
+      ],
+      "uAxis": [
+        -0.9379861121958242,
+        0,
+        -0.34667283327045256
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -1.1339909303435667,
+        4.190078258514404,
+        30.10098484478681,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-25",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -513.7747802734375,
+        0,
+        644.14501953125
+      ],
+      "uAxis": [
+        -0.9379861121958242,
+        0,
+        -0.34667283327045256
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -1.1339909303435667,
+        4.190078258514404,
+        30.10098484478681,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-26",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -527.4749755859375,
+        0,
+        654.4857788085938
+      ],
+      "uAxis": [
+        -0.8195080838918261,
+        0,
+        0.5730676229171804
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -17.7997145666996,
+        4.190078258514404,
+        3.552713678800501e-15,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-27",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -527.4749755859375,
+        0,
+        654.4857788085938
+      ],
+      "uAxis": [
+        -0.819392200473752,
+        0,
+        0.573233304861801
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -17.79971424992445,
+        4.190078258514404,
+        7.105427357601002e-15,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-28",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -527.4749755859375,
+        0,
+        654.4857788085938
+      ],
+      "uAxis": [
+        -0.819393110033877,
+        0,
+        0.5732320047145053
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -17.799714249577654,
+        4.190078258514404,
+        0,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-29",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.540771484375,
+        0,
+        644.6820678710938
+      ],
+      "uAxis": [
+        -0.6491963245292207,
+        0,
+        0.7606208859988994
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -2.480610267933031,
+        4.190078258514404,
+        15.908353566765527,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-30",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.540771484375,
+        0,
+        644.6820678710938
+      ],
+      "uAxis": [
+        -0.6491840439981132,
+        0,
+        0.7606313673641495
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -2.480620658583921,
+        4.190078258514404,
+        15.908420202846994,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-31",
+      "building": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+      "origin": [
+        -515.540771484375,
+        0,
+        644.6820678710938
+      ],
+      "uAxis": [
+        -0.6491034724518636,
+        0,
+        0.76070012623302
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -2.480688845428308,
+        4.190078258514404,
+        15.908857490575496,
+        21.692611694335938
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "cells": [
+    {
+      "id": "c_m05_p05",
+      "buildings": [
+        {
+          "id": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+          "vtj": null
+        }
+      ],
+      "baselineLevels": {
+        "lod0": "67a315fb87c6e984b22d91cad2270f726c12e9220ac4edf05465aa0facbf8ab5",
+        "lod1": "67a315fb87c6e984b22d91cad2270f726c12e9220ac4edf05465aa0facbf8ab5",
+        "lod2": "6a335553d236f69ffa52dce956674a64e6a4aed3922d2bc83f40bc05fd52358d"
+      },
+      "faces": [
+        {
+          "key": "84f000c421158640f5532144:84f000c4e0429f41f5532144:e0ee00c43bda9e41f1462144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-0"
+        },
+        {
+          "key": "84f000c421158640f5532144:e0ee00c43bda9e41f1462144:e0ee00c41f158640f1462144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-1"
+        },
+        {
+          "key": "16e500c4973f9e418e2e2144:e0ee00c41f158640f1462144:e0ee00c43bda9e41f1462144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-2"
+        },
+        {
+          "key": "16e500c4211586408e2e2144:e0ee00c41f158640f1462144:16e500c4973f9e418e2e2144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-3"
+        },
+        {
+          "key": "7eec00c4211586408e782144:7eec00c4739ea0418e782144:bbef00c45d09a041ea692144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-4"
+        },
+        {
+          "key": "7eec00c4211586408e782144:bbef00c45d09a041ea692144:bbef00c420158640ea692144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-5"
+        },
+        {
+          "key": "b8ef00c435ac9f41575f2144:bbef00c420158640ea692144:bbef00c45d09a041ea692144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-6"
+        },
+        {
+          "key": "b8ef00c420158640575f2144:bbef00c420158640ea692144:b8ef00c435ac9f41575f2144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-7"
+        },
+        {
+          "key": "84f000c4e0429f41f5532144:b8ef00c420158640575f2144:b8ef00c435ac9f41575f2144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-8"
+        },
+        {
+          "key": "84f000c421158640f5532144:b8ef00c420158640575f2144:84f000c4e0429f41f5532144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-9"
+        },
+        {
+          "key": "a95100c4634ead41731f2144:fbe400c4d847a14183862144:fbe400c4634ead4183862144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-10"
+        },
+        {
+          "key": "a95100c4634ead41731f2144:a95100c4d747a141731f2144:fbe400c4d847a14183862144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-11"
+        },
+        {
+          "key": "5d4f00c41688ad41bf212144:f63800c41688ad4113122144:5d4f00c420158640bf212144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-12"
+        },
+        {
+          "key": "5d4f00c420158640bf212144:f63800c41688ad4113122144:f63800c41f15864013122144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-13"
+        },
+        {
+          "key": "5cd200c41f1586409d182144:5cd200c4b7dc9d419d182144:97c800c44bd19d414e112144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-14"
+        },
+        {
+          "key": "5cd200c41f1586409d182144:97c800c44bd19d414e112144:97c800c4201586404e112144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-15"
+        },
+        {
+          "key": "97c800c4201586404e112144:97c800c44bd19d414e112144:b1b600c4d0f19d4132092144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-16"
+        },
+        {
+          "key": "97c800c4201586404e112144:b1b600c4d0f19d4132092144:b1b600c42015864032092144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-17"
+        },
+        {
+          "key": "7c9d00c4386a9e4128052144:b1b600c42015864032092144:b1b600c4d0f19d4132092144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-18"
+        },
+        {
+          "key": "7c9d00c42015864028052144:b1b600c42015864032092144:7c9d00c4386a9e4128052144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-19"
+        },
+        {
+          "key": "488400c488039f4160042144:7c9d00c42015864028052144:7c9d00c4386a9e4128052144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-20"
+        },
+        {
+          "key": "488400c42015864060042144:7c9d00c42015864028052144:488400c488039f4160042144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-21"
+        },
+        {
+          "key": "488400c42015864060042144:488400c488039f4160042144:967100c4b9ac9f4148092144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-22"
+        },
+        {
+          "key": "488400c42015864060042144:967100c4b9ac9f4148092144:967100c42115864048092144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-23"
+        },
+        {
+          "key": "256200c43949a041fd0e2144:967100c42115864048092144:967100c4b9ac9f4148092144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-24"
+        },
+        {
+          "key": "256200c420158640fd0e2144:967100c42115864048092144:256200c43949a041fd0e2144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-25"
+        },
+        {
+          "key": "66de03c421158640179f2344:66de03c4788aad41179f2344:69d803c41688ad41e79a2344",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-26"
+        },
+        {
+          "key": "66de03c421158640179f2344:69d803c41688ad41e79a2344:74e300c41688ad4159892144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-27"
+        },
+        {
+          "key": "66de03c421158640179f2344:74e300c41688ad4159892144:74e300c42115864059892144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-28"
+        },
+        {
+          "key": "5cd200c41f1586409d182144:9ce200c446359e41a72b2144:5cd200c4b7dc9d419d182144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-29"
+        },
+        {
+          "key": "16e500c4211586408e2e2144:9ce200c446359e41a72b2144:5cd200c41f1586409d182144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-30"
+        },
+        {
+          "key": "16e500c4211586408e2e2144:16e500c4973f9e418e2e2144:9ce200c446359e41a72b2144",
+          "chart": "anonymous-1851b11d-iso-roobertinkatu-front-20261021-31"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,299 @@
+{
+  "schemaVersion": 1,
+  "id": "pieni-roobertinkatu-1-3-hotel-south-20261021",
+  "building": {
+    "id": "BID_e21ed751-3931-4b4a-b18c-cd6273bff265",
+    "vtj": "103046274B",
+    "owner": "c_m03_p04"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    268,
+    269,
+    801,
+    802,
+    803,
+    804,
+    805,
+    806,
+    807,
+    808,
+    904,
+    905,
+    906,
+    907
+  ],
+  "frame": {
+    "origin": [
+      -315.1751253887469,
+      583.3972893061289
+    ],
+    "axis": [
+      0.9983841785797712,
+      -0.0568245718118085
+    ],
+    "width": 46.603547382542274
+  },
+  "completeElevationSupportPlanes": true,
+  "art": {
+    "wallColour": "#b4ad9c",
+    "groundColour": "#9d9b8f",
+    "surroundColour": "#c6bfae",
+    "frameColour": "#777873",
+    "glassColour": "#9aa7a3",
+    "groundHeight": 4.55,
+    "rows": [
+      {
+        "bottom": 4.9,
+        "height": 2.02,
+        "width": 2.7,
+        "axes": [
+          1.8,
+          4.65,
+          8.7,
+          12.8,
+          16.9,
+          21,
+          25.1,
+          29.2,
+          33.3,
+          37.4,
+          41.9,
+          44.7
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 8.4,
+        "height": 2.02,
+        "width": 2.7,
+        "axes": [
+          1.8,
+          4.65,
+          8.7,
+          12.8,
+          16.9,
+          21,
+          25.1,
+          29.2,
+          33.3,
+          37.4,
+          41.9,
+          44.7
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 11.9,
+        "height": 2.02,
+        "width": 2.7,
+        "axes": [
+          1.8,
+          4.65,
+          8.7,
+          12.8,
+          16.9,
+          21,
+          25.1,
+          29.2,
+          33.3,
+          37.4,
+          41.9,
+          44.7
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 15.4,
+        "height": 1.65,
+        "width": 2.7,
+        "axes": [
+          1.8,
+          4.65,
+          8.7,
+          12.8,
+          16.9,
+          21,
+          25.1,
+          29.2,
+          33.3,
+          37.4,
+          41.9,
+          44.7
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 18.9,
+        "height": 1.6,
+        "width": 1.65,
+        "axes": [
+          1.8,
+          4.65,
+          41.9,
+          44.7
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 8.7,
+        "bottom": 1.6109509429872966,
+        "width": 3.3,
+        "height": 2.5890490570127036,
+        "kind": "glazing"
+      },
+      {
+        "x": 12.8,
+        "bottom": 1.4310381986275433,
+        "width": 3.3,
+        "height": 2.768961801372457,
+        "kind": "glazing"
+      },
+      {
+        "x": 16.9,
+        "bottom": 1.2180270820311763,
+        "width": 2.1,
+        "height": 2.981972917968824,
+        "kind": "glazing"
+      },
+      {
+        "x": 21,
+        "bottom": 1.0502087222079957,
+        "width": 3.3,
+        "height": 3.1497912777920045,
+        "kind": "glazing"
+      },
+      {
+        "x": 25.1,
+        "bottom": 0.9014666097189586,
+        "width": 3.3,
+        "height": 3.2985333902810416,
+        "kind": "glazing"
+      },
+      {
+        "x": 29.2,
+        "bottom": 0.76764624582674,
+        "width": 3.3,
+        "height": 3.4323537541732603,
+        "kind": "glazing"
+      },
+      {
+        "x": 33.3,
+        "bottom": 0.6319035411334927,
+        "width": 3.3,
+        "height": 3.5680964588665076,
+        "kind": "glazing"
+      },
+      {
+        "x": 37.4,
+        "bottom": 0.4748354630998467,
+        "width": 3.3,
+        "height": 3.7251645369001536,
+        "kind": "glazing"
+      },
+      {
+        "x": 1.8,
+        "bottom": 1.8822306867831569,
+        "width": 1.8,
+        "height": 2.3177693132168433,
+        "kind": "glazing"
+      },
+      {
+        "x": 4.65,
+        "bottom": 1.7735002959834625,
+        "width": 1.8,
+        "height": 2.4264997040165377,
+        "kind": "glazing"
+      },
+      {
+        "x": 41.9,
+        "bottom": 0.2925616500170568,
+        "width": 1.8,
+        "height": 3.9074383499829435,
+        "kind": "glazing"
+      },
+      {
+        "x": 44.7,
+        "bottom": 0.19412089441477284,
+        "width": 1.8,
+        "height": 4.005879105585227,
+        "kind": "glazing"
+      }
+    ],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 4.55,
+        "height": 0.09,
+        "colour": "#77766a"
+      },
+      {
+        "from": "ground",
+        "offset": 8.05,
+        "height": 0.09,
+        "colour": "#77766a"
+      },
+      {
+        "from": "ground",
+        "offset": 11.55,
+        "height": 0.09,
+        "colour": "#77766a"
+      },
+      {
+        "from": "ground",
+        "offset": 15.05,
+        "height": 0.09,
+        "colour": "#77766a"
+      },
+      {
+        "from": "ground",
+        "offset": 18.55,
+        "height": 0.09,
+        "colour": "#77766a"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Lilla Roberts Pieni Roobertinkatu1-3 south front, August2024, full upper front and east oblique opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=qNldlo1mVxIGiof7_EHz2A&heading=357.08&pitch=32&fov=110",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual current Lilla Roberts street front is muted grey-buff stone/render with horizontal dark floor belts, broad multi-light windows and a continuous tall glazed ground floor; it is not an ornamental classical apartment facade.",
+    "The main long frontage has four upper window bands. The projecting raised end blocks rise a further window storey; native step and recess geometry is preserved.",
+    "A wide flat canopy marks the entrance left of the main front centre. Original unbranded line/colour cues represent it without copying signage, people, cars, flags or reflections.",
+    "Eight principal main window modules and two axes on each end block are an explicit approximate reconstruction from the full and oblique views, not a surveyed bay-spacing claim.",
+    "Nine exact native visual/HCOL samples fall7.5272 to5.7377m fromwesttoeast. All upper window rows and cornices remain level at a separately declared datum. Each ground glazing/door bottom follows its interpolated measured street floor; no sloped storeys or below-ground entrances are painted.",
+    "A second western oblique at heading311 confirms tall dark-framed ground glazing in the western end block, and that the hotel entrance is dark metal/glass, not a timber door."
+  ],
+  "limitations": [
+    "Only14 exact source facets spanning the selected modern southern frontage are authored. The separate lower pale eastern wing, western side street, interior courtyards and roofs remain unqualified.",
+    "All window positions/module dimensions and colours are original appearance approximations; source LoD2 roof/raised end-block height and projection remain literal.",
+    "No Google photograph pixels are redistributed. Private asset-fixture review and final fresh post-road/tram binding still required."
+  ],
+  "observedGroundProfile": {
+    "kind": "source-measured-sloped-base-horizontal-opening-bands",
+    "manifestSha256": "647128c37c0fd8bcd0f7ffad874a9a3c172e6722195c21f5fd1b64b4f951dc39",
+    "sampleHeights": [
+      7.527199324603793,
+      7.33162233823497,
+      7.08481568210537,
+      6.782160997187472,
+      6.5542204222062646,
+      6.364132478007544,
+      6.171263832580525,
+      5.91788884946782,
+      5.73765823304308
+    ],
+    "horizontalDatumFromNativeTop": -22.7
+  }
+}

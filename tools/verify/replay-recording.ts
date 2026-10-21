@@ -6,7 +6,7 @@ import path from 'node:path';
 import { parseArgs } from 'node:util';
 import { decodeCommand, initPhysics, Simulation, type EncodedCommand } from '../../packages/sim/src/index.ts';
 import type { WorldManifest } from '../../packages/world-schema/src/index.ts';
-import { readSimulationPayload, replayWorld } from './lib/simulation-payload.ts';
+import { readRoadGraph, readSimulationPayload, replayWorld } from './lib/simulation-payload.ts';
 
 const { values } = parseArgs({ options: { release: { type: 'string' }, recording: { type: 'string' } } });
 if (!values.release || !values.recording) throw new Error('--release and --recording are required');
@@ -20,7 +20,7 @@ const collision = new Map<string, Uint8Array>();
 for (const c of manifest.cells) collision.set(c.id, await readSimulationPayload(values.release, c.collision));
 const world = replayWorld(
   await readSimulationPayload(values.release, manifest.terrain),
-  JSON.parse(readFileSync(path.join(values.release, manifest.roads.path), 'utf8')),
+  await readRoadGraph(values.release,manifest.roads),
   JSON.parse(readFileSync(path.join(values.release, manifest.gameplay.path), 'utf8')),
   manifest.cells, collision, rec.collision,
 );

@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "id": "anonymous-96ce40d5-office-corner-20261021",
+  "baselineManifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54",
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "art": {
+    "path": "facade.png",
+    "sha256": "2cd818ae8d606eee71d63e60851ffebe978ff7ddf631c100ee08e86877d77c1f",
+    "width": 1024,
+    "height": 1024,
+    "license": "CC0-1.0",
+    "attribution": "Original observed architectural material finish by Helsinki Rides (2026); reference pixels are not reproduced.",
+    "references": [
+      {
+        "title": "Google Street View10Pieni Roobertinkatu,August2024",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=hXe3i75LBj563jrRGEBE9Q&heading=355&pitch=28&fov=100",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Google Street View29Korkeavuorenkatu,August2024",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=iDZ6bFm2VW-hNkQ0Zof41A&heading=275&pitch=28&fov=100",
+        "role": "appearance-reference-only"
+      }
+    ]
+  },
+  "material": {
+    "name": "anonymous-96ce40d5-office-corner-20261021",
+    "unlit": true,
+    "roughness": 0.95,
+    "doubleSided": false
+  },
+  "charts": [
+    {
+      "id": "anonymous-96ce40d5-office-corner-20261021-corner-plane-0",
+      "building": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+      "origin": [
+        -350.4856872558594,
+        0,
+        583.4979858398438
+      ],
+      "uAxis": [
+        -0.7245791482581501,
+        0,
+        -0.689191597387471
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -0.4406770753608745,
+        7.210078716278076,
+        0,
+        24.40007972717285
+      ],
+      "pixels": [
+        191,
+        8,
+        26,
+        1008
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-96ce40d5-office-corner-20261021-corner-plane-1",
+      "building": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+      "origin": [
+        -352.00732421875,
+        0,
+        582.1072387695312
+      ],
+      "uAxis": [
+        0.6436174479265144,
+        0,
+        -0.7653473595202118
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -2.7840134001680443,
+        24.40007781982422,
+        0,
+        27.0997314453125
+      ],
+      "pixels": [
+        253,
+        8,
+        164,
+        159
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-96ce40d5-office-corner-20261021-corner-plane-2",
+      "building": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+      "origin": [
+        -352.4031982421875,
+        0,
+        585.7977905273438
+      ],
+      "uAxis": [
+        0.7390078620314875,
+        0,
+        0.673696801132119
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        7.210078239440918,
+        0.3350290626780582,
+        24.40007972717285
+      ],
+      "pixels": [
+        225,
+        8,
+        20,
+        1008
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-96ce40d5-office-corner-20261021-corner-plane-3",
+      "building": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+      "origin": [
+        -352.1556091308594,
+        0,
+        586.0234985351562
+      ],
+      "uAxis": [
+        0.6670368181090135,
+        0,
+        -0.7450247534726634
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        7.210078239440918,
+        2.9821851521796754,
+        24.40007972717285
+      ],
+      "pixels": [
+        8,
+        8,
+        175,
+        1008
+      ],
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "cells": [
+    {
+      "id": "c_m03_p04",
+      "buildings": [
+        {
+          "id": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+          "vtj": null
+        }
+      ],
+      "baselineLevels": {
+        "lod0": "9372a4947a000ae21d6e0a8e3cecb347dd5e360d4d6d6dc9468b3866e6a6d569",
+        "lod1": "9372a4947a000ae21d6e0a8e3cecb347dd5e360d4d6d6dc9468b3866e6a6d569",
+        "lod2": "c5342c0914608fdab4f7b5d06ff1733a0642d29543769b596fb22e7a04100fcb"
+      },
+      "faces": [
+        {
+          "key": "2b3eafc35c33c341dfdf1144:4c15afc35d33c3414ff31144:2b3eafc3f8b8e640dfdf1144",
+          "chart": "anonymous-96ce40d5-office-corner-20261021-corner-plane-0"
+        },
+        {
+          "key": "2b3eafc3f8b8e640dfdf1144:4c15afc35d33c3414ff31144:4c15afc3f7b8e6404ff31144",
+          "chart": "anonymous-96ce40d5-office-corner-20261021-corner-plane-0"
+        },
+        {
+          "key": "4be6b0c340ccd8413b0f1244:f000b0c35c33c341dd861144:f000b0c33bccd841dd861144",
+          "chart": "anonymous-96ce40d5-office-corner-20261021-corner-plane-1"
+        },
+        {
+          "key": "4be6b0c340ccd8413b0f1244:4be6b0c35c33c3413b0f1244:f000b0c35c33c341dd861144",
+          "chart": "anonymous-96ce40d5-office-corner-20261021-corner-plane-1"
+        },
+        {
+          "key": "9c33b0c35d33c3410f731244:9c33b0c3f8b8e6400f731244:eb13b0c3f6b8e64081811244",
+          "chart": "anonymous-96ce40d5-office-corner-20261021-corner-plane-2"
+        },
+        {
+          "key": "9c33b0c35d33c3410f731244:eb13b0c3f6b8e64081811244:eb13b0c35c33c34181811244",
+          "chart": "anonymous-96ce40d5-office-corner-20261021-corner-plane-2"
+        },
+        {
+          "key": "4c15afc3f7b8e6404ff31144:eb13b0c35c33c34181811244:eb13b0c3f6b8e64081811244",
+          "chart": "anonymous-96ce40d5-office-corner-20261021-corner-plane-3"
+        },
+        {
+          "key": "4c15afc35d33c3414ff31144:eb13b0c35c33c34181811244:4c15afc3f7b8e6404ff31144",
+          "chart": "anonymous-96ce40d5-office-corner-20261021-corner-plane-3"
+        }
+      ]
+    }
+  ]
+}

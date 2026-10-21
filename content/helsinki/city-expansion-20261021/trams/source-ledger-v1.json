@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "id": "city-expansion-public-street-tram-axes",
+    "url": "https://www.openstreetmap.org/",
+    "license": "ODbL-1.0",
+    "licenseUrl": "https://opendatacommons.org/licenses/odbl/1-0/",
+    "attribution": "Copyright OpenStreetMap contributors",
+    "retrievedAt": "2026-10-20T21:37:58.341Z"
+  },
+  "chain": {
+    "originalAcquisitionSha256": "2852cec7cadfdbf29c9ab087ae6b7242bc563efd1155acb6fa38632c657299f3",
+    "consumerSnapshotSha256": "4a896ad8d1bbe4d645d8053c45053084bcd0077eaa5cb3b0410f8e4d0ce5b566",
+    "publicProjectionSha256": "86bdbd537cbf4a7731b5f0291f5b916a640418033a9ebddf7d498321989b478a",
+    "publicProjectionProducer": "tools/world/project_delivery_osm.ts",
+    "compilation": "Eight unchanged complete OSM map API responses saved. Accepted element IDs and parsed content retained first, new IDs appended. Conflicts preserve old/fresh witnesses; accepted node coordinates and way node order never replaced.",
+    "cachedAcceptedDatasetSha256": "707388efff3d70d40c3e71898d22dbdb908d1137a67f6dac2e3b13ef26c49c1a",
+    "parts": [
+      {
+        "id": "south-0-west",
+        "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9192731,60.1622462,24.9433424,60.1658309",
+        "sha256": "baeb94c14e02545fb076f4e4459e9ff25d3155f2a8594c94c2e57c2141e7b6e3",
+        "bytes": 4926784
+      },
+      {
+        "id": "south-0-east",
+        "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9433362,60.1622587,24.967403,60.165839",
+        "sha256": "1256d6cb011358287acb60db63438d50ce1e661cf6c2e081e3196ba3b49fd006",
+        "bytes": 2880970
+      },
+      {
+        "id": "north-0-west",
+        "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9192305,60.179479,24.9433127,60.1831774",
+        "sha256": "25f7e90599855ff454d27c6acdb8a8b31c31d92eba16b182cd3ae38c3fe0a00f",
+        "bytes": 5265879
+      },
+      {
+        "id": "north-0-east",
+        "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9433064,60.1794915,24.9673859,60.1831855",
+        "sha256": "ec265df3335d711192dc58d1ff4c47e0ab19d3d1d4a6fe4b0aadd7510afb9901",
+        "bytes": 5302786
+      },
+      {
+        "id": "north-1-west",
+        "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9192215,60.1831649,24.9433064,60.1868633",
+        "sha256": "0d91334aff57435d82d79931b94e57bbdbbc4cd1ee8e22c4aad747f38ba63172",
+        "bytes": 5190435
+      },
+      {
+        "id": "north-1-east",
+        "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9433,60.1831774,24.9673822,60.1868714",
+        "sha256": "e8545fd778cba82556f227cb7d05e81442a66d522310fa526f7af859cb6d1b6b",
+        "bytes": 5992307
+      },
+      {
+        "id": "north-2-west",
+        "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9192124,60.1868508,24.9433,60.1905492",
+        "sha256": "294eeb2178e34b7d43b9f7d1acbe38ab779d849fb7c66e42a0504e1a37ebab04",
+        "bytes": 6131021
+      },
+      {
+        "id": "north-2-east",
+        "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9432937,60.1868633,24.9673786,60.1905573",
+        "sha256": "6251786bfb86d7033b9e0b2e26022368f8360245b360f48e53a58e1ca488eafb",
+        "bytes": 5956994
+      }
+    ],
+    "scope": "New north/south strips only. Accepted old geometry stays protected; this derivative is not a replacement snapshot for the accepted interior."
+  },
+  "selection": {
+    "file": "source-selection-v1.json",
+    "classification": "All 399 intersecting physical tram ways are accounted for: 364 public-street candidates, 33 depot yard holdbacks and 2 unqualified layer-2 bridge holdbacks.",
+    "geometry": "Source node IDs/order, exact source coordinates and consumed tags retain their original values; contributor, editor and contact metadata are absent."
+  },
+  "references": [
+    {
+      "title": "HSL central tram network, valid 31 August to 31 December 2026",
+      "url": "https://staticfiles.hsl.fi/globalassets/matkustaminen/tulostettavat-aikataulut-ja-kartat/reittikartat/liikennevalineittain/ratikka_pysakkijuliste_810x1210_3108-31122026.pdf",
+      "sourcePage": "https://www.hsl.fi/matkustaminen/reitti_ja_asemakartat",
+      "sha256": "52350bc1ad7ca0db75a331497bad759d2a04599c2e8ba88e56dd9d63516d0649",
+      "role": "network-corridor-reference-only",
+      "observation": "The map identifies the Bulevardi/Fredrikinkatu and northern Mannerheimintie, Kallio and Hämeentie corridors. It is schematic and is not used for geometry, gauge or elevation.",
+      "redistributed": false
+    },
+    {
+      "title": "Hämeentie over Junatie, Google Street View, August 2024",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=nWz-_VVMkeDUCCyl_hAKXA&heading=15&pitch=-8",
+      "role": "appearance-reference-only",
+      "observation": "Two embedded tram axes in the asphalt carriageway, separate raised kerbs and a black lattice pedestrian railing. No bridge elevation is inferred from the photograph.",
+      "redistributed": false
+    },
+    {
+      "title": "Bulevardi, Google Street View, August 2024",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=5fMHX8mJq6tcClltjj1aoQ&heading=65&pitch=-15",
+      "role": "appearance-reference-only",
+      "observation": "Paired grooved rails embedded flush in gray paving; no ballast or exposed sleepers.",
+      "redistributed": false
+    }
+  ],
+  "visualArt": {
+    "source": "Existing original procedural rail head/groove/guard stripe",
+    "license": "CC0-1.0"
+  },
+  "publication": {
+    "databaseLicense": "ODbL-1.0",
+    "notice": "Contains information from OpenStreetMap, made available under the Open Database License (ODbL). This source-bound tram axis selection is available under ODbL 1.0.",
+    "source": "https://www.openstreetmap.org/copyright",
+    "referencePixelsRedistributed": false
+  }
+}

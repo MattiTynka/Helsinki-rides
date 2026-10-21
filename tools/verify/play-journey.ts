@@ -12,7 +12,7 @@ import type { Page } from 'playwright';
 import { decodeCommand, initPhysics, Simulation, StaticWorld, type SimState, type EncodedCommand } from '../../packages/sim/src/index.ts';
 import type { WorldManifest } from '../../packages/world-schema/src/index.ts';
 import { game, openGame } from './lib/browser.ts';
-import { readSimulationPayload, replayWorld } from './lib/simulation-payload.ts';
+import { readRoadGraph, readSimulationPayload, replayWorld } from './lib/simulation-payload.ts';
 
 const { values } = parseArgs({ options: {
   url: { type: 'string', default: 'http://127.0.0.1:5317/?review=1' }, release: { type: 'string' }, out: { type: 'string' },
@@ -57,7 +57,7 @@ const patrolCar = (s: SimState) => { const ids = new Set(s.police.map(u => u.veh
 const laneName = (x: number, z: number): { name: string | null; distance: number } | null => { const hit = roadsIndex.nearestLane(x, z, undefined, 15); return hit ? { name: roadsIndex.laneById.get(hit.laneId)!.name, distance: hit.distance } : null; };
 
 // Road index for lane checks and the Node replay.
-const roadsJson = JSON.parse(readFileSync(path.join(values.release, manifest.roads.path), 'utf8'));
+const roadsJson = await readRoadGraph(values.release,manifest.roads);
 const { RoadIndex } = await import('../../packages/world-schema/src/index.ts');
 const roadsIndex = new RoadIndex(roadsJson);
 const gameplayJson = JSON.parse(readFileSync(path.join(values.release, manifest.gameplay.path), 'utf8'));

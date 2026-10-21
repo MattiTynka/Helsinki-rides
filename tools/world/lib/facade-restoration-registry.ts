@@ -41,10 +41,10 @@ export const facadeRestorationSourceFiles: readonly string[] = [
   ...facadeRestorationModules.flatMap(m => [...(m.externalSources ?? []).map(s => s.file), ...(m.supportFiles ?? []).map(s => s.file)])
 ];
 
-export async function createFacadeRestorer(cityDir: string, textures: readonly { file: string; width: number; height: number }[]) {
+export async function createFacadeRestorer(cityDir: string, textures: readonly { file: string; width: number; height: number }[],options?:{newStripOnly:true}) {
   // Expansion appends pages while preserving the original Senate source indices. Keep historical
   // source builds reproducible; an expanded source still has to pass every pinned master hash.
-  const modules = facadeRestorationModules.filter(module =>
+  const modules = (options?.newStripOnly?[]:facadeRestorationModules).filter(module =>
     (module !== esplanadiRestoration || textures.length >= 702) &&
     (module !== finlandiaRestoration || textures.length >= 1019) &&
     (module !== runeberg55aRestoration || textures.length > RUNE_BERG55A_PAGE));

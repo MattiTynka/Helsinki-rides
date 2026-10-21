@@ -1,0 +1,224 @@
+{
+  "schemaVersion": 1,
+  "id": "etelaranta-2-unioninkatu-west-20261021",
+  "building": {
+    "id": "BID_979b25db-6a21-4e9f-937c-032e1df46a5e",
+    "vtj": "103046290V",
+    "owner": "c_m01_p04"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "sourceFacets": [
+    {
+      "part": 0,
+      "triangle": 107,
+      "key": "422d05c22e39a941fbcc1a44:422d05c2e2235cbffbcc1a44:6a1afec1ca235cbf9e362244"
+    },
+    {
+      "part": 0,
+      "triangle": 108,
+      "key": "422d05c22e39a941fbcc1a44:6a1afec1ca235cbf9e362244:6a1afec1d882a8419e362244"
+    }
+  ],
+  "frame": {
+    "origin": [
+      -33.29419708251953,
+      619.2028198242188
+    ],
+    "axis": [
+      0.05157611945966468,
+      0.998669066258429
+    ],
+    "width": 29.690089272071205,
+    "minY": -0.8599225282669067,
+    "maxY": 21.15291976928711
+  },
+  "manifestSha256": "647128c37c0fd8bcd0f7ffad874a9a3c172e6722195c21f5fd1b64b4f951dc39",
+  "datum": {
+    "nativeRoofY": 21.15291976928711,
+    "offset": -16.05599847206832
+  },
+  "nineFloorSamples": [
+    {
+      "u": 0.2969008927207121,
+      "x": -35.27622221912574,
+      "z": 619.6024778004428,
+      "collision": {
+        "height": 3.3342974667250274,
+        "cell": "c_m01_p04",
+        "collider": "g:c_m01_p04",
+        "group": "ground",
+        "tag": "raised:slabs"
+      },
+      "visual": {
+        "y": 3.3342974667250274,
+        "cell": "c_m01_p04",
+        "key": "000010c24cdb594000001b44:6b9f0cc2d639564000001b44:e1c90cc2e4ad53409ecc1a44",
+        "node": "c_m01_p04_ground_slabs"
+      }
+    },
+    {
+      "u": 3.5628107126485444,
+      "x": -35.10777926410866,
+      "z": 622.8640409107944,
+      "collision": {
+        "height": 3.5039907147510565,
+        "cell": "c_m01_p04",
+        "collider": "g:c_m01_p04",
+        "group": "ground",
+        "tag": "raised:slabs"
+      },
+      "visual": {
+        "y": 3.5039907147510565,
+        "cell": "c_m01_p04",
+        "key": "000010c2b507684000001c44:b9000cc2274c60400cc01b44:6b9f0cc2d639564000001b44",
+        "node": "c_m01_p04_ground_slabs"
+      }
+    },
+    {
+      "u": 7.422522318017801,
+      "x": -34.90871031727028,
+      "z": 626.7186154957553,
+      "collision": {
+        "height": 3.714173514853317,
+        "cell": "c_m01_p04",
+        "collider": "g:c_m01_p04",
+        "group": "ground",
+        "tag": "raised:slabs"
+      },
+      "visual": {
+        "y": 3.7141735148533166,
+        "cell": "c_m01_p04",
+        "key": "92370bc2929a6d4079b31c44:e0cb0bc2c9a6634000001c44:cfb30fc2986276403dfb1c44",
+        "node": "c_m01_p04_ground_slabs"
+      }
+    },
+    {
+      "u": 11.133783477026702,
+      "x": -34.71729786838722,
+      "z": 630.4249372120639,
+      "collision": {
+        "height": 3.9264404478510673,
+        "cell": "c_m01_p04",
+        "collider": "g:c_m01_p04",
+        "group": "ground",
+        "tag": "raised:slabs"
+      },
+      "visual": {
+        "y": 3.9264404478510673,
+        "cell": "c_m01_p04",
+        "key": "27ab0bc2ac007e40b2ba1d44:6a6e0ac2d1917b40e7a61d44:c3c60fc201b9764000001d44",
+        "node": "c_m01_p04_ground_slabs"
+      }
+    },
+    {
+      "u": 14.845044636035603,
+      "x": -34.525885419504164,
+      "z": 634.1312589283725,
+      "collision": {
+        "height": 4.1455341794136755,
+        "cell": "c_m01_p04",
+        "collider": "g:c_m01_p04",
+        "group": "ground",
+        "tag": "raised:slabs"
+      },
+      "visual": {
+        "y": 4.1455341794136755,
+        "cell": "c_m01_p04",
+        "key": "38f30ec247e9824000001e44:43a509c218fb8440549a1e44:ca240ac23e61804000001e44",
+        "node": "c_m01_p04_ground_slabs"
+      }
+    },
+    {
+      "u": 18.5563057950445,
+      "x": -34.33447297062111,
+      "z": 637.8375806446811,
+      "collision": {
+        "height": 4.3667594425193865,
+        "cell": "c_m01_p04",
+        "collider": "g:c_m01_p04",
+        "group": "ground",
+        "tag": "raised:slabs"
+      },
+      "visual": {
+        "y": 4.3667594425193865,
+        "cell": "c_m01_p04",
+        "key": "1bdc08c2543c8c40c28d1f44:3f5109c20e03884000001f44:ad1f0ec26ba88a4000001f44",
+        "node": "c_m01_p04_ground_slabs"
+      }
+    },
+    {
+      "u": 22.267566954053404,
+      "x": -34.14306052173805,
+      "z": 641.5439023609897,
+      "collision": {
+        "height": 4.5889625020277,
+        "cell": "c_m01_p05",
+        "collider": "g:c_m01_p05",
+        "group": "ground",
+        "tag": "raised:slabs"
+      },
+      "visual": {
+        "y": 4.5889625020277,
+        "cell": "c_m01_p05",
+        "key": "234c0dc2aa50924000002044:f41208c29d8a93402f812044:b47d08c2bda38f4000002044",
+        "node": "c_m01_p05_ground_slabs"
+      }
+    },
+    {
+      "u": 26.12727855942266,
+      "x": -33.94399157489967,
+      "z": 645.3984769459506,
+      "collision": {
+        "height": 4.7969171045523105,
+        "cell": "c_m01_p05",
+        "collider": "g:c_m01_p05",
+        "group": "ground",
+        "tag": "raised:slabs"
+      },
+      "visual": {
+        "y": 4.7969171045523105,
+        "cell": "c_m01_p05",
+        "key": "29aa07c22c5f974000002144:98780cc24a209a4000002144:cc4907c2fdd899409d742144",
+        "node": "c_m01_p05_ground_slabs"
+      }
+    },
+    {
+      "u": 29.393188379350494,
+      "x": -33.77554861988258,
+      "z": 648.6600400563023,
+      "collision": {
+        "height": 4.948424364687244,
+        "cell": "c_m01_p05",
+        "collider": "g:c_m01_p05",
+        "group": "ground",
+        "tag": "raised:slabs"
+      },
+      "visual": {
+        "y": 4.948424364687244,
+        "cell": "c_m01_p05",
+        "key": "0da50bc221a49f4000002244:26a406c251ab9e40133d2244:9ed606c2bbe39c4000002244",
+        "node": "c_m01_p05_ground_slabs"
+      }
+    }
+  ],
+  "qualification": {
+    "artSha256": "52a6a69666fc87e8192cc00333a0abb73d4924f5e5f42f1420a76f6eaaa7ef5f",
+    "referencesSha256": "81bddfb0fd455a0a9b07bbd7b600c9df46048046cb34a7189a6ad154f724ee34",
+    "observations": [
+      "The public west Unioninkatu return continues the same two pink upper rows and tall ochre rusticated main window row, with pale curved middle pediments and pale vertical pilasters.",
+      "Street falls below the main floor; a broad grey granite basement band contains one dark garage/gate and timber entrance doors. These basement openings are separate from the level main window row.",
+      "Ten approximate main-window axes are original architectural interpretation; summer foliage occludes part of the frontage. No hard counted bay or photogrammetric measurement claim.",
+      "Both exact native source facets107/108 form the full west outer plane, not the internal courtyard.",
+      "Opened actualApril2023leafless reference confirms broad pale upper interwindow pilasters; currentAugust2024matches materials and major openings. Scaffolding in2023is omitted."
+    ]
+  },
+  "finish": {
+    "plinthHeight": 0.32,
+    "plinthColour": "#9c998d",
+    "floorFollowingGlazingIndices": []
+  }
+}

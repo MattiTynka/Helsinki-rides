@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "id": "hietalahdenkatu-7-southwest-20261021",
+  "building": {
+    "id": "BID_2d0b79f5-6354-49e7-9174-8c24b53bf37d",
+    "vtj": "1019028911",
+    "owner": "c_m12_p04"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    42,
+    43,
+    44,
+    45
+  ],
+  "frame": {
+    "origin": [
+      -1436.8940422831602,
+      550.4779658404477
+    ],
+    "axis": [
+      0.5639109754360326,
+      0.8258355839891987
+    ],
+    "width": 31.375507721554357
+  },
+  "completeElevationPlane": true,
+  "art": {
+    "wallColour": "#c5cac5",
+    "groundColour": "#676963",
+    "surroundColour": "#b5b8ac",
+    "frameColour": "#b5beb7",
+    "glassColour": "#8d9996",
+    "groundHeight": 3.3,
+    "rows": [],
+    "groundOpenings": [
+      {
+        "x": 3.1375507721554357,
+        "bottom": 0.5,
+        "width": 3.4,
+        "height": 2.35,
+        "kind": "glazing"
+      },
+      {
+        "x": 7.843876930388589,
+        "bottom": 0.5,
+        "width": 4,
+        "height": 2.35,
+        "kind": "glazing"
+      },
+      {
+        "x": 12.863958165837285,
+        "bottom": 0.5,
+        "width": 4,
+        "height": 2.35,
+        "kind": "glazing"
+      },
+      {
+        "x": 17.256529246854896,
+        "bottom": 0.5,
+        "width": 2.6,
+        "height": 2.35,
+        "kind": "glazing"
+      },
+      {
+        "x": 21.649100327872503,
+        "bottom": 0.1,
+        "width": 1.75,
+        "height": 2.8,
+        "kind": "door"
+      },
+      {
+        "x": 26.669181563321203,
+        "bottom": 0.5,
+        "width": 5.2,
+        "height": 2.35,
+        "kind": "glazing"
+      }
+    ],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 3.15,
+        "height": 0.15,
+        "colour": "#aaafa6"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Hietalahdenkatu7 southwest front, August2024; number7, six glazed ribbons and ground actually opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=PSobv0YC1g0oiElsWUei9A&heading=55.59&pitch=25&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "The actual August2024 facade has SIX continuous upper glazed balcony ribbons, separated by pale grey panel spandrels and light vertical glazing bars; the first is broad/tall and the top narrower.",
+    "Dark rough grey-stone ground storey, wide shop-like glazing and a recessed entry toward the south end. This is a modern panel/glass building, not a generic classical punched-window facade.",
+    "Original twelve-module glazing divisions, reflection tones and panel seams approximate the observed long continuous ribbons without copying reflection images."
+  ],
+  "limitations": [
+    "Only exact complete native southwest main street plane42�45 is selected; other fa�ades/roof/upper setbacks are not repaired by this profile.",
+    "Native LoD2 top corners and roof steps remain literal, so some edge clipping follows source geometry rather than a claim to reconstruct actual balcony depth.",
+    "No photo pixels, reflected trees, people or advertising copied; all artwork original CC0."
+  ]
+}

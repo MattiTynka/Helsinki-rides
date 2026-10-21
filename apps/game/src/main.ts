@@ -2,6 +2,8 @@ import { PRESET_STORAGE_KEY, readConfig } from './config.ts';
 import { Game } from './game.ts';
 import { installTestApi } from './testapi.ts';
 import { runtimeDeployment, worldReleaseUrl } from './world/urls.ts';
+import { i18n, progressLabel } from './i18n/index.ts';
+import { installLanguageChoice } from './ui/language.ts';
 
 declare const __REVIEW_BUILD__: boolean;
 
@@ -9,21 +11,34 @@ const canvas = document.getElementById('view') as HTMLCanvasElement;
 const loading = document.getElementById('loading')!;
 const loadingText = document.getElementById('loading-text')!;
 const loadingFill = document.getElementById('loading-fill') as HTMLDivElement;
+const playButton = document.getElementById('play-button') as HTMLButtonElement | null;
+let startup: { kind: 'initial' } | { kind: 'progress'; done: number; total: number; label: string } | { kind: 'ready' } | { kind: 'failed' } = { kind: 'initial' };
+
+function showStartupStatus(): void {
+  loadingText.textContent = startup.kind === 'progress'
+    ? i18n.text('loading.progress', { label: progressLabel(startup.label), done: i18n.number(startup.done), total: i18n.number(startup.total) })
+    : i18n.text(startup.kind === 'ready' ? 'loading.ready' : startup.kind === 'failed' ? 'loading.failed' : 'loading.initial');
+}
+
+installLanguageChoice();
+showStartupStatus();
+i18n.subscribe(showStartupStatus);
 
 async function boot(): Promise<void> {
   const config = readConfig();
   registerServiceWorker();
   installGraphicsChoice(config.presetSource === 'auto' ? 'auto' : config.preset, config.presetSource === 'url');
   const game = await Game.create(canvas, config, (done, total, label) => {
-    loadingText.textContent = `Loading ${label} (${done}/${total})`;
+    startup = { kind: 'progress', done, total, label }; showStartupStatus();
     loadingFill.style.width = `${Math.round(done / total * 100)}%`;
   });
-  loadingText.textContent = 'Click to play';
+  startup = { kind: 'ready' }; showStartupStatus();
+  if (playButton) playButton.disabled = false;
   loadingFill.style.width = '100%';
   game.start();
   const begin = (event: MouseEvent) => {
     // Keep source/license links usable without consuming the play interaction.
-    if (event.target instanceof Element && event.target.closest('a, #loading-credits, #graphics')) return;
+    if (event.target instanceof Element && event.target.closest('a, #loading-credits, #graphics, #language-choice')) return;
     loading.removeEventListener('click', begin);
     loading.classList.add('hidden');
     game.audio.start();
@@ -44,7 +59,11 @@ function installGraphicsChoice(current: string, fromUrl: boolean): void {
   if (!select) return;
   select.value = current;
   // An explicit ?preset= wins over the saved choice; say so instead of offering a control that would not apply.
-  if (fromUrl) { select.disabled = true; select.title = 'Set by the page address (?preset=)'; }
+  if (fromUrl) {
+    select.disabled = true;
+    const describe = (): void => { select.title = i18n.text('graphics.url'); };
+    describe(); i18n.subscribe(describe);
+  }
   select.addEventListener('change', () => {
     try {
       if (select.value === 'auto') localStorage.removeItem(PRESET_STORAGE_KEY);
@@ -81,5 +100,5 @@ function registerServiceWorker(): void {
 boot().catch(err => {
   console.error(err);
   window.__HELSINKI_ERROR__ = String(err?.stack ?? err);
-  loadingText.textContent = `Failed to start: ${err instanceof Error ? err.message : String(err)}`;
+  startup = { kind: 'failed' }; showStartupStatus();
 });

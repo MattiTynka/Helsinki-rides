@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "id": "toinen-linja-12-103151972Y-northeast-20261021",
+  "building": {
+    "id": "BID_f572dedd-d156-40c9-a021-c429d534f768",
+    "vtj": "103151972Y",
+    "owner": "c_m05_m13"
+  },
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96
+  ],
+  "frame": {
+    "origin": [
+      -544.8619995117186,
+      -1595.1300048828125
+    ],
+    "axis": [
+      -0.7847258703059409,
+      -0.6198429708180805
+    ],
+    "width": 20.790536834367003
+  },
+  "completeElevationPlane": true,
+  "art": {
+    "wallColour": "#e4ddc5",
+    "groundColour": "#d8cba8",
+    "surroundColour": "#eee8d5",
+    "frameColour": "#b6b9a8",
+    "glassColour": "#6a8588",
+    "groundHeight": 0,
+    "rows": [
+      {
+        "bottom": 1.35,
+        "height": 2.5,
+        "width": 2.5,
+        "axes": [
+          3.4
+        ],
+        "header": "flat"
+      },
+      {
+        "bottom": 1.35,
+        "height": 2.5,
+        "width": 3.4,
+        "axes": [
+          17.15
+        ],
+        "header": "flat"
+      },
+      {
+        "bottom": 1.35,
+        "height": 2.5,
+        "width": 0.72,
+        "axes": [
+          8.75,
+          10.95
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 3,
+        "height": 0.85,
+        "width": 1.1,
+        "axes": [
+          9.85
+        ],
+        "header": "flat"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 9.85,
+        "bottom": 0.05,
+        "width": 1.1,
+        "height": 2.6,
+        "kind": "door"
+      }
+    ],
+    "bands": [
+      {
+        "from": "top",
+        "offset": -0.72,
+        "height": 0.14,
+        "colour": "#ded4bc"
+      },
+      {
+        "from": "top",
+        "offset": -0.52,
+        "height": 0.09,
+        "colour": "#bbb295"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Official Google StreetView Aug2024 actual historical timber house front at Toinenlinja12, panorama y9xLq8wvhFLEEkSsptNVPg at60.1840142/24.9422769, headings180/235 pitch12/10 actually opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=y9xLq8wvhFLEEkSsptNVPg&heading=180&pitch=12&fov=110",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "The exact northwestern registered timber body has pale horizontal clapboard above a lower vertical-board apron, ornate white upper X-transoms, light corner/lintel boards and a dark stone plinth.",
+    "Broad window groups flank the narrower central transomed entrance group; a blue-gray door is visible below the central transom. Only one main occupied window storey is observed.",
+    "The corresponding northeast street floor rises across the original plane; upper window sill/head datum remains horizontal while door/base bind the actual nine exterior ground pairs."
+  ],
+  "limitations": [
+    "Original architectural vector interpretation; opening group dimensions are estimated from the oblique reference, not survey.",
+    "This exact registered body remains distinct from adjacent103151970W; no courtyard or opposite-wall openings are inferred.",
+    "No photograph pixels, graffiti, logos or personal details copied. Geometry, roof and physical entrance/collision unchanged."
+  ],
+  "observedGroundProfile": {
+    "kind": "named-source-floor-profile",
+    "path": "ground-profile.json",
+    "sha256": "a4a67ad52eb43d35ad98d1b035f430061b10ee20c3a3cd7ec59fabfba1e95522"
+  }
+}

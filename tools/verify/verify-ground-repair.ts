@@ -11,7 +11,7 @@ import { MeshoptDecoder } from 'meshoptimizer';
 import { initPhysics, StaticWorld, type EncodedCommand, type SimState } from '../../packages/sim/src/index.ts';
 import type { FileRef, GameplayBundle, RoadGraph, WorldManifest } from '../../packages/world-schema/src/index.ts';
 import { game, openGame } from './lib/browser.ts';
-import { readSimulationPayload } from './lib/simulation-payload.ts';
+import { readRoadGraph, readSimulationPayload } from './lib/simulation-payload.ts';
 import { parseGlb } from './glb.ts';
 
 type Point = [number, number, number];
@@ -137,7 +137,7 @@ function visualHeight(x: number, z: number): number | null {
   return Number.isFinite(highest) ? highest : null;
 }
 await initPhysics();
-const terrain = await readSimulationPayload(releaseDir, manifest.terrain), roads = JSON.parse(load(manifest.roads).toString('utf8')) as RoadGraph;
+const terrain = await readSimulationPayload(releaseDir, manifest.terrain), roads = await readRoadGraph(releaseDir,manifest.roads);
 const gameplay = JSON.parse(load(manifest.gameplay).toString('utf8')) as GameplayBundle;
 const collisionWorld = StaticWorld.fromBytes(terrain, roads, gameplay);
 const safetyWorld = StaticWorld.fromBytes(terrain, roads, gameplay);

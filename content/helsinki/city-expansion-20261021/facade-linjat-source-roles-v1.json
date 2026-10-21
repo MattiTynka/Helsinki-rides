@@ -1,0 +1,436 @@
+{
+  "schemaVersion": 1,
+  "status": "PUBLISH_NOW_FREEZE_TWO_REVIEWED_COMPONENTS_ONE_HELD_NINE_REFERENCE_ONLY_OR_HIDDEN",
+  "sourceWorkSha256": "722b450032c102d882ea53c0c265cbc95124ff35099c11c736f77d30855b07ce",
+  "referencePixelsCopied": false,
+  "records": [
+    {
+      "id": "BID_00e099d2-fc6c-4b2a-887f-6b294c9d2414",
+      "vtj": "103170992H",
+      "address": "Castréninkatu 15, 00530 Helsinki Finland",
+      "owner": "c_m02_m13",
+      "sourceNullWallArea": 5509.685539421207,
+      "status": "REFERENCE_QUALIFIED_DETAILED_CHURCH_FINISH_AND_GLAZING_SELECTION_PENDING",
+      "references": [
+        {
+          "title": "Official Google Street View Aug2024 west Kallio church,60.18454/24.9487004",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=ZTyY_3g3k_B2ZWoxBc2Z_w&heading=145&pitch=35&fov=105",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        }
+      ],
+      "observations": [
+        "Detailed Kallio church has gray rough coursed granite walls and tower, actual deep narrow/arched glazing, green-patinated roof details. It is not an apartment-grid facade.",
+        "Actual exterior opened from mapped public western street; initial nearby indoor2019 photosphere was rejected."
+      ],
+      "selectedPlanes": [],
+      "limitations": [
+        "All63 source-null wall planes require separate stone versus glazing/reveal identity before art; public exterior context alone does not authorize repainting every source face uniformly."
+      ]
+    },
+    {
+      "id": "BID_28fa5509-119c-4bcb-b68c-b9c7bb75a2d4",
+      "vtj": "1031612818",
+      "address": "Castréninkatu 18, 00530 Helsinki Finland",
+      "owner": "c_m03_m14",
+      "sourceNullWallArea": 1540.4586701941748,
+      "status": "REFERENCE_QUALIFIED_COMPLEX_ARCHED_FRONT_ART_PENDING",
+      "references": [
+        {
+          "title": "Official Google Street View May2022 northern Alppikatu facade,60.1857603/24.9473527",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=vlOFOUSwAw4M8TRMKObZBA&heading=177.1644&pitch=25&fov=105",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        },
+        {
+          "title": "Official Google Street View May2022 corner context,60.1857723/24.9479164",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=SxgisT4idJXA_TnceP5n0w&heading=267.1983&pitch=20&fov=105",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        }
+      ],
+      "observations": [
+        "Actual tan-brown masonry religious/school facade has three very tall round-arched glazed bays on its main gabled hall, dark granite lower storey with lower arched openings, narrow side-tower windows and a green metal steeple.",
+        "A generic residential window grid would destroy the actual front role; exact arched glazing/source reveal selection is required."
+      ],
+      "selectedPlanes": [
+        {
+          "plane": 0,
+          "role": "actual northern arched hall and annex elevation; exact glazing mapping pending"
+        },
+        {
+          "plane": 2,
+          "role": "eastern corner return partly observed"
+        }
+      ],
+      "limitations": [
+        "Photo appearance only; no measured arch dimensions, physical openings or entrance/collision authority inferred."
+      ]
+    },
+    {
+      "id": "BID_d21f2ceb-1943-41ee-a1ae-100b0769e3ea",
+      "vtj": "103161224D",
+      "address": "Kolmas linja 21, 00530 Helsinki Finland",
+      "owner": "c_m03_m13",
+      "sourceNullWallArea": 365.2053130570105,
+      "status": "HIDDEN_INTERIOR_ANNEX_RETAIN_NATIVE_WITH_REFERENCE_LIMITATION",
+      "references": [
+        {
+          "title": "Official Google Street View Aug2024 public Kolmaslinja street frontage and courtyard gate,60.1834743/24.9465029",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=-x6A8wz_ROoADql10-sqGQ&heading=42&pitch=18&fov=105",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        }
+      ],
+      "observations": [
+        "Native small14.6m-high annex lies behind the actual tall street buildings and gated entry; its exact source planes are not exposed in this street reference.",
+        "Initial courtyard lookup returned an indoor pub photosphere and was explicitly rejected as exterior evidence."
+      ],
+      "selectedPlanes": [],
+      "limitations": [
+        "Hidden native wall finish/openings remain unresolved; no invented windows, blank-wall repaint or claim that real annex is absent. Public OSM court-footway mapping does not make a closed reference gate transparent."
+      ]
+    },
+    {
+      "id": "BID_2d6e8e0a-7fc9-473b-aa1b-332705b86a70",
+      "vtj": "1031612209",
+      "address": "Neljäs linja 18, 00530 Helsinki Finland",
+      "owner": "c_m02_m13",
+      "sourceNullWallArea": 5029.206517486912,
+      "status": "REFERENCE_QUALIFIED_CLASSICAL_STREET_FRONT_SOURCE_SELECTION_PENDING",
+      "references": [
+        {
+          "title": "Official Google Street View May2022 actual Neljaslinja18 front; upper central blur recorded",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=N6nEt6d3r2qMw7A-cDhgAg&heading=218.23445&pitch=25&fov=110",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        },
+        {
+          "title": "Official Google Street View July2019 full unblurred Neljaslinja18 upper facade opened",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=tuamJ6ttQDOTTXfxnteC5w&heading=218.23&pitch=35&fov=110",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        }
+      ],
+      "observations": [
+        "Actual front has five horizontal upper rows of tall upright dark-green framed windows, eight repeated bays, pale gray-green render, continuous narrow cornice bands and restrained classical surrounds.",
+        "Lower principal row has taller framed openings with small outer decorative pilaster/capital motifs; broad ground shopfront glazing and timber side entrances sit on a gray stone base.",
+        "2020 image shows construction scaffold and2022 upper centre is blurred; actual2019 full exterior was consulted for storey/roof arrangement, not represented as current2026 survey."
+      ],
+      "selectedPlanes": [],
+      "limitations": [
+        "Largest43.94m source plane is not automatically the actual street elevation; complete observed street-face selection and paired floor registry still pending.",
+        "No architectural measurements or physical openings inferred from reference."
+      ]
+    },
+    {
+      "id": "BID_1dad4993-7200-4a61-af48-282224ed9a3a",
+      "vtj": "103161225E",
+      "address": "Neljäs linja 22, 00530 Helsinki Finland",
+      "owner": "c_m02_m13",
+      "sourceNullWallArea": 771.3554970486674,
+      "status": "REFERENCE_QUALIFIED_PROJECTING_BAY_STREET_PLANES_PENDING",
+      "references": [
+        {
+          "title": "Official Google Street View Aug2024 actual Neljaslinja22 street facade,60.1840494/24.9481142",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=MzwVaE5xEvQtG6VN7eeB1Q&heading=217.67262&pitch=22&fov=105",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        }
+      ],
+      "observations": [
+        "White/offwhite modern frontage has real projecting bay geometry, wide horizontal black-framed windows, small dark vents, dark lower storey and timber entrance.",
+        "Largest source plane0 is the southwest BACK court wall, whereas actual street-visible faces are smaller source bay planes70/71 and neighboring34..69; no back repaint from front proxy."
+      ],
+      "selectedPlanes": [
+        {
+          "triangles": [
+            70,
+            71
+          ],
+          "role": "one actual wide street bay; further complete source-front selection pending"
+        }
+      ],
+      "limitations": [
+        "Top attic row and full wide-front bay coordinates still need complete upward reference and source projection; no generic grid applied yet."
+      ]
+    },
+    {
+      "id": "BID_97689449-416f-4a87-8508-51e4d4571003",
+      "vtj": "1031519730",
+      "address": "Toinen linja 10, 00530 Helsinki Finland",
+      "owner": "c_m05_m13",
+      "sourceNullWallArea": 2384.299548782336,
+      "status": "SOURCE_QUALIFIED_COMPONENT_REVIEWED_FINAL_SOURCE_PROFILE_BIND_PENDING",
+      "references": [
+        {
+          "title": "Official Google Street View Aug2024 actual Toinenlinja10 frontage viewed from29Toinenlinja,60.1836652/24.94313",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=PX2kJe2Ihv1AH4AVsj8K2A&heading=217.59&pitch=25&fov=105",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        },
+        {
+          "title": "Same actual panorama left-front detail opened",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=PX2kJe2Ihv1AH4AVsj8K2A&heading=199&pitch=20&fov=105",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        }
+      ],
+      "observations": [
+        "Long cream rendered street front, five upper rows of narrow rectangular windows, restrained surrounds and green-gray frames. Dark green shopfront lower storey with repeated broad glazing/entrances and brown-red cornice.",
+        "Eight exact complete coplanar original source faces181..187+180 are selected; tiny180 was found by complete-plane gate and included. No geometry changed."
+      ],
+      "selectedPlanes": [
+        {
+          "part": 0,
+          "triangles": [
+            181,
+            182,
+            183,
+            184,
+            185,
+            186,
+            187,
+            180
+          ],
+          "profile": "content/assets/facades/new-area/linjat/toinen-10/front/profile.json"
+        }
+      ],
+      "limitations": [
+        "CC0 original vector art; repeated bay dimensions are estimated from reference, not survey. Runtime Standard/Low review and final post-tram binding pending."
+      ],
+      "review": {
+        "path": "build/city-expansion-20261021/linjat-art/toinen10-component-review-v1.json",
+        "sha256": "e53b7bb854fdd4e82f377bb31ed0339c96a578c37e86ff6c572dc09a6d4838c4",
+        "actualStandardFrames": 2,
+        "actualLowFrames": 2
+      },
+      "authoredProfile": {
+        "path": "content/assets/facades/new-area/linjat/toinen-10/front/profile.json",
+        "sha256": "6a2367f86e7ae474619f5db9ca604a402fd528b0226b5d6276ce1d685c87339e"
+      }
+    },
+    {
+      "id": "BID_d3012bf8-3f87-42b4-a8fd-703889223554",
+      "vtj": "103151970W",
+      "address": "Toinen linja 12, 00530 Helsinki Finland",
+      "owner": "c_m05_m13",
+      "sourceNullWallArea": 304.2973989113231,
+      "status": "REFERENCE_QUALIFIED_HISTORIC_TIMBER_HOUSE_ORIGINAL_ART_PENDING",
+      "references": [
+        {
+          "title": "Official Google Street View Aug2024 two historic timber houses at Wallininkatu/Toinenlinja context",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=F7ePwQ0lCSNElm44KDMIKA&heading=113.840467&pitch=15&fov=105",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        },
+        {
+          "title": "Official Google Street View Aug2024 complete two-house street front,60.1840142/24.9422769",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=y9xLq8wvhFLEEkSsptNVPg&heading=180&pitch=12&fov=105",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        },
+        {
+          "title": "Same official panorama closer main timber-window and door detail",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=y9xLq8wvhFLEEkSsptNVPg&heading=235&pitch=10&fov=105",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        }
+      ],
+      "observations": [
+        "Two distinct low historic timber buildings, pale horizontal clapboard, lighter ornate upright window/transom trim, dark stone basement, metal roofs and courtyard wings; no apartment-grid or plain masonry proxy.",
+        "Right/northwestern body visible in Toinenlinja view has grouped narrow and broad transomed windows, a central blue-gray doorway, lighter corner boards, lower vertical boarding and continuous timber cornice."
+      ],
+      "selectedPlanes": [],
+      "limitations": [
+        "Each registered body keeps distinct exact source planes; facade openings on partly hidden court wings remain unqualified. Original board/trim artwork pending."
+      ]
+    },
+    {
+      "id": "BID_f572dedd-d156-40c9-a021-c429d534f768",
+      "vtj": "103151972Y",
+      "address": "Toinen linja 12, 00530 Helsinki Finland",
+      "owner": "c_m05_m13",
+      "sourceNullWallArea": 478.7648541042207,
+      "status": "AUTHORED_COMPONENT_HELD_NATIVE_BASE_STRIP_NOT_RELEASE_QUALIFIED",
+      "references": [
+        {
+          "title": "Official Google Street View Aug2024 two historic timber houses at Wallininkatu/Toinenlinja context",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=F7ePwQ0lCSNElm44KDMIKA&heading=113.840467&pitch=15&fov=105",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        },
+        {
+          "title": "Official Google Street View Aug2024 complete two-house street front,60.1840142/24.9422769",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=y9xLq8wvhFLEEkSsptNVPg&heading=180&pitch=12&fov=105",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        },
+        {
+          "title": "Same official panorama closer main timber-window and door detail",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=y9xLq8wvhFLEEkSsptNVPg&heading=235&pitch=10&fov=105",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        }
+      ],
+      "observations": [
+        "Two distinct low historic timber buildings, pale horizontal clapboard, lighter ornate upright window/transom trim, dark stone basement, metal roofs and courtyard wings; no apartment-grid or plain masonry proxy.",
+        "Right/northwestern body visible in Toinenlinja view has grouped narrow and broad transomed windows, a central blue-gray doorway, lighter corner boards, lower vertical boarding and continuous timber cornice."
+      ],
+      "selectedPlanes": [],
+      "limitations": [
+        "Each registered body keeps distinct exact source planes; facade openings on partly hidden court wings remain unqualified. Original board/trim artwork pending.",
+        "Actual Standard/Low views reveal a small native wall-base diagonal strip; a strict duplicate-skirt diagnostic was prepared, but no post-removal runtime follow-up was completed before publish-now freeze. Exclude this held art from the current release."
+      ],
+      "authoredProfile": {
+        "path": "content/assets/facades/new-area/linjat/toinen-12-103151972Y/northeast/profile.json",
+        "sha256": "6ea3aad5561cbc5fc551b94e4d19b85a7a40753bd1a094ec8eb48e42de0f1fd9"
+      }
+    },
+    {
+      "id": "BID_1e92cf3a-dad1-45ff-bc4e-0442ffa1b0d3",
+      "vtj": "1031519752",
+      "address": "Toinen linja 14, 00530 Helsinki Finland",
+      "owner": "c_m05_m13",
+      "sourceNullWallArea": 9653.335251101984,
+      "status": "SOURCE_QUALIFIED_COMPONENT_REVIEWED_FINAL_SOURCE_PROFILE_BIND_PENDING",
+      "references": [
+        {
+          "title": "Official Google Street View Apr2023 actual Alppikatu side of Toinenlinja14 complex,60.1844109/24.9403066",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=NLHV9JjfWSmcUVKu-O_Zpg&heading=128.76308&pitch=25&fov=110",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        }
+      ],
+      "observations": [
+        "Actual long red-brick modern office/institution front has five horizontal window bands broken into repeated multi-pane bays by thick vertical brick piers; dark metal frames, pale stone horizontal ledges and full-height glazed stair connectors.",
+        "This is not a classical punched-window grid or a plain red wall. Actual broad source plane0 has the corresponding northwest side orientation."
+      ],
+      "selectedPlanes": [
+        {
+          "plane": 0,
+          "role": "observed long red-brick northwest elevation; exact repeat-group placement pending"
+        }
+      ],
+      "limitations": [
+        "Stair glass planes and other street/court wings remain separately qualified; no unseen openings or geometry added."
+      ],
+      "authoredProfile": {
+        "path": "content/assets/facades/new-area/linjat/toinen-14/northwest/profile.json",
+        "sha256": "cc813873ce94796d873571899b1e959466aaf2c087d23f68a45ec4cb0493caa4"
+      }
+    },
+    {
+      "id": "BID_333c7238-e08a-4a52-ab11-d97e40ab3293",
+      "vtj": "103161255D",
+      "address": "Viides linja 12, 00530 Helsinki Finland",
+      "owner": "c_m01_m13",
+      "sourceNullWallArea": 853.409687801786,
+      "status": "COURTYARD_BODY_REFERENCE_LIMITED_RETAIN_NATIVE_PENDING_EXACT_WALL_APPEARANCE",
+      "references": [
+        {
+          "title": "Official Google Street View Apr2023 Neljaslinja construction context facing registered courtyard body",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=FJA6-5fzJBFeKK-xWr8gSg&heading=51.658043&pitch=25&fov=110",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        },
+        {
+          "title": "Official Google Street View Aug2024 actual Viides12 main-body frontage and adjoining street context",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=3EHsuQhRJ2itpP3QPtJwGg&heading=216&pitch=32&fov=110",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        }
+      ],
+      "observations": [
+        "This is a distinct low registered courtyard body behind the main Viides12 street body. Exact19.38m-wide native courtyard wall cannot inherit the red street-front treatment by address alone.",
+        "Public-source camera was occluded by unrelated construction and neighboring building masses; no claim of demolition or of actual blank utility finish."
+      ],
+      "selectedPlanes": [],
+      "limitations": [
+        "No exact private-court wall/window reference yet; retain native source with explicit appearance limitation instead of invented openings."
+      ]
+    },
+    {
+      "id": "BID_b2a98896-2ad4-402e-af1e-59f77251634a",
+      "vtj": "103161254C",
+      "address": "Viides linja 12, 00530 Helsinki Finland",
+      "owner": "c_m01_m13",
+      "sourceNullWallArea": 1457.433563391327,
+      "status": "REFERENCE_QUALIFIED_RED_JUGEND_STREET_FRONT_ART_PENDING",
+      "references": [
+        {
+          "title": "Official Google Street View Aug2024 exact address12 entrance and lower front,60.1835368/24.9525266",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=3EHsuQhRJ2itpP3QPtJwGg&heading=199.94171&pitch=0&fov=110",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        },
+        {
+          "title": "Same official panorama complete red late-Jugend upper frontage opened",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=3EHsuQhRJ2itpP3QPtJwGg&heading=216&pitch=32&fov=110",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        }
+      ],
+      "observations": [
+        "Standing protected red/orange late-Jugend apartment facade has a rough gray granite lower storey, large round-arched principal-row windows, rectangular upper openings, symmetric projecting bay strips with pale spandrels and shaped gray roof gables.",
+        "Actual address12 is visibly present. Earlier automatically nearest source-camera view looked at an unrelated construction frontage from Neljaslinja; it does not prove this body demolished."
+      ],
+      "selectedPlanes": [
+        {
+          "plane": 0,
+          "role": "actual northeast street elevation; complete native bay/glazing grouping pending"
+        }
+      ],
+      "limitations": [
+        "Original art pending exact projecting/flat source face selection and paired floor binding. No generic grid or demolition assertion."
+      ],
+      "additionalSources": [
+        {
+          "title": "Helsinki municipal building permit2017 original-appearance restoration for Oy Ylanko at Viideslinja12",
+          "url": "https://www.hel.fi/static/rakvv/VIPA/LYV/2017/15-LYVPTK.pdf",
+          "role": "building-identity-and-historical-role-only"
+        },
+        {
+          "title": "Helsinki City Museum registered address building description",
+          "url": "https://www.finna.fi/Record/hkm.CC11C982-397F-48A5-A51B-0B147CC82B7E",
+          "role": "building-identity-and-historical-role-only"
+        }
+      ]
+    },
+    {
+      "id": "BID_08cbe86a-dd31-4025-bc2a-6bb5e66ef304",
+      "vtj": "103161258H",
+      "address": "Viides linja 18, 00530 Helsinki Finland",
+      "owner": "c_m01_m13",
+      "sourceNullWallArea": 2796.092678474416,
+      "status": "REFERENCE_QUALIFIED_PINK_JUGEND_STREET_PLANES_ART_PENDING",
+      "references": [
+        {
+          "title": "Official Google Street View Aug2024 exact Viides18/Agricolankatu frontage,60.1841395/24.9509799",
+          "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=abqVjwBUudh4O3mOqGW2Mw&heading=165.5064&pitch=0&fov=110",
+          "role": "appearance-reference-only",
+          "actuallyOpened": true
+        }
+      ],
+      "observations": [
+        "Actual pale pink Jugend front has a granite basement/plinth, narrow basement openings, distinctive trapezoidal lower windows, light multi-pane frames, rounded projecting bays and a dark repeating ornamental frieze above the lower storey.",
+        "Largest native southwest plane is a rear/court elevation, not automatically this street frontage; actual source fronts/curved returns require separate selectors."
+      ],
+      "selectedPlanes": [],
+      "limitations": [
+        "Upper storeys/roof need an additional upward view before exact pattern qualification; no generic apartment grid or proxy backside repaint applied."
+      ]
+    }
+  ],
+  "publishNowScope": {
+    "reviewedComponentVtjs": [
+      "1031519730",
+      "1031519752"
+    ],
+    "heldComponentVtjs": [
+      "103151972Y"
+    ],
+    "newArtStopped": true,
+    "referenceOnlyAndHiddenRecordsRetainOriginalNativeGeometry": true
+  }
+}

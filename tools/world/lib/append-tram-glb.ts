@@ -21,7 +21,7 @@ function serialize(json:any,bin:Uint8Array) {
   out.writeUInt32LE(bin.length,20+padded.length);out.writeUInt32LE(0x004e4942,24+padded.length);Buffer.from(bin).copy(out,28+padded.length);
   return out;
 }
-export async function appendTramVisualGlb(bytes:Uint8Array,mesh:TramMesh,options:{cell:string;coarse:boolean}):Promise<Uint8Array> {
+export async function appendTramVisualGlb(bytes:Uint8Array,mesh:TramMesh,options:{cell:string;coarse:boolean;externalImages?:ReadonlyMap<string,Uint8Array>;coarseLimits?:{meshes:number;primitivesPerMesh:number}}):Promise<Uint8Array> {
   const vertexCount=mesh.positions.length/3;
   assert.equal(mesh.normals.length,mesh.positions.length);assert.equal(mesh.colours.length,mesh.positions.length);assert.equal(mesh.indices.length%3,0);
   assert.equal(mesh.uvs.length,vertexCount*2);
@@ -30,17 +30,24 @@ export async function appendTramVisualGlb(bytes:Uint8Array,mesh:TramMesh,options
   if(!mesh.indices.length)return bytes.slice();
   await Promise.all([MeshoptEncoder.ready,MeshoptDecoder.ready]);
   const raw=readFacadeGlb(bytes);
+  async function decoded(io:NodeIO){
+    if(!options.externalImages)return io.readBinary(bytes);
+    const resources:Record<string,Uint8Array<ArrayBuffer>>={'@glb.bin':new Uint8Array(raw.bin)};
+    for(const image of (raw.json.images??[]) as {uri?:string}[])if(image.uri){const payload=options.externalImages.get(image.uri);assert.ok(payload?.length,`Missing pinned tram image:${image.uri}`);resources[image.uri]=new Uint8Array(payload);}
+    return io.readJSON({json:raw.json as any,resources});
+  }
   if(options.coarse){
     const io=new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({'meshopt.decoder':MeshoptDecoder});
-    const doc=await io.readBinary(bytes),nodes=doc.getRoot().listNodes().filter(n=>n.getMesh());
-    assert.ok(nodes.length>=1&&nodes.length<=3,'Coarse rail append requires bounded existing meshes');
+    const doc=await decoded(io),nodes=doc.getRoot().listNodes().filter(n=>n.getMesh()),limits=options.coarseLimits??{meshes:3,primitivesPerMesh:1};
+    assert.ok(Number.isSafeInteger(limits.meshes)&&limits.meshes>0&&limits.meshes<=32&&Number.isSafeInteger(limits.primitivesPerMesh)&&limits.primitivesPerMesh>0&&limits.primitivesPerMesh<=16,'Invalid coarse rail limits');
+    assert.ok(nodes.length>=1&&nodes.length<=limits.meshes,'Coarse rail append requires bounded existing meshes');
     // A boundary cell can retain multiple accepted coarse meshes after a city
     // append. Rails have baked world positions/colours, so one compatible old
     // primitive can hold them without touching or adding any other draw.
-    for(const candidate of nodes){assert.deepEqual(candidate.getWorldMatrix(),[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);assert.equal(candidate.getMesh()!.listPrimitives().length,1);}
-    const node=nodes.find(candidate=>candidate.getMesh()!.listPrimitives()[0]!.getAttribute('COLOR_0'));assert.ok(node,'Coarse source requires an existing vertex-colour primitive');
-    assert.equal(node.getMesh()!.listPrimitives().length,1,'Coarse rail append must add no draw calls');
-    const p=node.getMesh()!.listPrimitives()[0]!,attributes:GroundGlbAppend['attributes']={},first=p.getAttribute('POSITION')!.getCount();
+    for(const candidate of nodes){assert.deepEqual(candidate.getWorldMatrix(),[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);assert.ok(candidate.getMesh()!.listPrimitives().length<=limits.primitivesPerMesh,'Coarse primitive count exceeds explicit limit');}
+    const node=nodes.find(candidate=>candidate.getMesh()!.listPrimitives().some(p=>p.getAttribute('COLOR_0')));assert.ok(node,'Coarse source requires an existing vertex-colour primitive');
+    const primitiveIndex=node.getMesh()!.listPrimitives().findIndex(p=>!!p.getAttribute('COLOR_0'));
+    const p=node.getMesh()!.listPrimitives()[primitiveIndex]!,attributes:GroundGlbAppend['attributes']={},first=p.getAttribute('POSITION')!.getCount();
     assert.ok(p.getAttribute('COLOR_0'),'Coarse source requires existing vertex colours');
     for(const semantic of p.listSemantics()){
       const a=p.getAttribute(semantic)!;let extra:number[];
@@ -56,7 +63,7 @@ export async function appendTramVisualGlb(bytes:Uint8Array,mesh:TramMesh,options
       }else throw Error(`Unsupported coarse tram attribute${semantic}`);
       (attributes as Record<string,any>)[semantic]={original:a.getArray()!,appended:extra};
     }
-    return appendGroundGlb(bytes,[{nodeName:node.getName(),primitiveIndex:0,attributes,indices:{original:p.getIndices()!.getArray()! as any,appended:mesh.indices.map(i=>i+first)}}]);
+    return appendGroundGlb(bytes,[{nodeName:node.getName(),primitiveIndex,attributes,indices:{original:p.getIndices()!.getArray()! as any,appended:mesh.indices.map(i=>i+first)}}]);
   }
   const json=structuredClone(raw.json) as any;
   assert.ok(json.extensionsRequired?.includes('EXT_meshopt_compression'));
@@ -67,7 +74,7 @@ export async function appendTramVisualGlb(bytes:Uint8Array,mesh:TramMesh,options
   if(oldRailNames.length){
     // An extended cell can contain rails from the previously accepted area. Only
     // disjoint actual Float32 rail footprints may be appended in another phase.
-    const io=new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({'meshopt.decoder':MeshoptDecoder}),doc=await io.readBinary(bytes);
+    const io=new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({'meshopt.decoder':MeshoptDecoder}),doc=await decoded(io);
     const incoming=[] as {ring:Ring;bounds:number[]}[];
     const projected=(p:readonly number[][]):Ring=>p.map(v=>[Math.fround(v[0]!),-Math.fround(v[2]!)]);
     const bounds=(r:Ring)=>[Math.min(...r.map(p=>p[0])),Math.min(...r.map(p=>p[1])),Math.max(...r.map(p=>p[0])),Math.max(...r.map(p=>p[1]))];

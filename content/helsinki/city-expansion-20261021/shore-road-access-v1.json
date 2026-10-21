@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "source-bound-shore-terminal-vehicle-trim",
+  "sourceOsmSha256": "0c158c071166235c743e9ce4e19e22934f71f52894ecf105a198fa63fb03a0c5",
+  "originId": "senate-square-statue-v2",
+  "originProjected": [
+    25497350,
+    6672960,
+    7.5
+  ],
+  "wayId": 122872063,
+  "endpointNodeId": 14057054747,
+  "stopNodeId": 5525650403,
+  "shoreFootwayIds": [
+    122872057,
+    1525576195
+  ],
+  "coastlineWayId": 1103242104,
+  "pierWayId": 68447502,
+  "forwardLaneId": "122872063:2:f0",
+  "backwardLaneId": "122872063:2:b0",
+  "reason": "The current source service way ends at the coastline and a mapped public pier. The reviewed May2017 Street View shows a timber floating pier and shore ramp, not a car road onto the water. Trim only the final exact source edge to the supported public shore walking/cycling junction; do not invent asphalt on water or alter pedestrian records."
+}

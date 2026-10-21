@@ -1,0 +1,339 @@
+{
+  "schemaVersion": 1,
+  "id": "toinen-linja-10-street-northeast-20261021",
+  "baselineManifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54",
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "art": {
+    "path": "facade.png",
+    "sha256": "ddadcb3623c1617df7a0fd382ad4b2b0140fda07a1c7c3a43c45ae4a6915f9f1",
+    "width": 1024,
+    "height": 1024,
+    "license": "CC0-1.0",
+    "attribution": "Original reference-led architectural artwork by Helsinki Rides (2026); reference photographs are not reproduced.",
+    "references": [
+      {
+        "title": "Google Street View actual Toinen linja10 frontage viewed from29Toinenlinja, Aug2024 panoramaPX2kJe2Ihv1AH4AVsj8K2A at60.1836652,24.94313, headings217.59/199 pitch20/25 opened",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=PX2kJe2Ihv1AH4AVsj8K2A&heading=217.59&pitch=25&fov=100",
+        "role": "appearance-reference-only"
+      }
+    ]
+  },
+  "material": {
+    "name": "toinen-linja-10-street-northeast-20261021",
+    "unlit": true,
+    "roughness": 0.95,
+    "doubleSided": false
+  },
+  "charts": [
+    {
+      "id": "toinen-linja-10-street-northeast-20261021-0",
+      "building": "BID_97689449-416f-4a87-8508-51e4d4571003",
+      "origin": [
+        -531.379638671875,
+        0,
+        -1584.6939697265625
+      ],
+      "uAxis": [
+        -0.7874450600635129,
+        0,
+        -0.616384845191355
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -39.61903841680153,
+        7.0300774574279785,
+        3.083755473198835e-12,
+        32.22572708129883
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "toinen-linja-10-street-northeast-20261021-1",
+      "building": "BID_97689449-416f-4a87-8508-51e4d4571003",
+      "origin": [
+        -531.379638671875,
+        0,
+        -1584.6939697265625
+      ],
+      "uAxis": [
+        -0.7874413962985632,
+        0,
+        -0.6163895257021887
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -39.61903841750134,
+        7.0300774574279785,
+        3.154809746774845e-12,
+        32.22572708129883
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "toinen-linja-10-street-northeast-20261021-2",
+      "building": "BID_97689449-416f-4a87-8508-51e4d4571003",
+      "origin": [
+        -531.379638671875,
+        0,
+        -1584.6939697265625
+      ],
+      "uAxis": [
+        -0.7874443843014854,
+        0,
+        -0.6163857084910831
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -39.61903841682529,
+        7.0300774574279785,
+        3.140598892059643e-12,
+        32.22572708129883
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "toinen-linja-10-street-northeast-20261021-3",
+      "building": "BID_97689449-416f-4a87-8508-51e4d4571003",
+      "origin": [
+        -531.379638671875,
+        0,
+        -1584.6939697265625
+      ],
+      "uAxis": [
+        -0.78744349062536,
+        0,
+        -0.6163868501775068
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -39.6190384169299,
+        7.0300774574279785,
+        3.161915174132446e-12,
+        32.22572708129883
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "toinen-linja-10-street-northeast-20261021-4",
+      "building": "BID_97689449-416f-4a87-8508-51e4d4571003",
+      "origin": [
+        -524.2830810546875,
+        0,
+        -1579.1390380859375
+      ],
+      "uAxis": [
+        -0.787445060070605,
+        0,
+        -0.6163848451822945
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -30.60691349833587,
+        7.0300774574279785,
+        9.01212491846875,
+        32.22572708129883
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "toinen-linja-10-street-northeast-20261021-5",
+      "building": "BID_97689449-416f-4a87-8508-51e4d4571003",
+      "origin": [
+        -512.1957397460938,
+        0,
+        -1569.6773681640625
+      ],
+      "uAxis": [
+        -0.7874413963632133,
+        0,
+        -0.6163895256195975
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -15.25676634580507,
+        7.0300774574279785,
+        24.362272071699415,
+        32.22572708129883
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "toinen-linja-10-street-northeast-20261021-6",
+      "building": "BID_97689449-416f-4a87-8508-51e4d4571003",
+      "origin": [
+        -512.1957397460938,
+        0,
+        -1569.6773681640625
+      ],
+      "uAxis": [
+        -0.7874443842403482,
+        0,
+        -0.6163857085691868
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -15.25676634554465,
+        7.0300774574279785,
+        24.36227207128379,
+        32.22572708129883
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "toinen-linja-10-street-northeast-20261021-7",
+      "building": "BID_97689449-416f-4a87-8508-51e4d4571003",
+      "origin": [
+        -531.379638671875,
+        0,
+        -1584.6939697265625
+      ],
+      "uAxis": [
+        -0.7875911059732454,
+        0,
+        -0.6161982228080832
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -39.619039529251054,
+        7.0300774574279785,
+        3.140598892059643e-12,
+        32.22572708129883
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "cells": [
+    {
+      "id": "c_m05_m13",
+      "buildings": [
+        {
+          "id": "BID_97689449-416f-4a87-8508-51e4d4571003",
+          "vtj": "1031519730"
+        }
+      ],
+      "baselineLevels": {
+        "lod0": "a1bc5027cc67a9349e88f8b5613cf94c1a69d009757570fffcaf93ad6e15dfa8",
+        "lod1": "a1bc5027cc67a9349e88f8b5613cf94c1a69d009757570fffcaf93ad6e15dfa8",
+        "lod2": "dc6de38592d213b3e052a83c8c5f781ecdcc5ad063989ae2358ce0b17b8a7677"
+      },
+      "faces": [
+        {
+          "key": "1e1203c4c8e500427364c5c4:4cd804c467f6e0403516c6c4:cad604c462e500429e15c6c4",
+          "chart": "toinen-linja-10-street-northeast-20261021-0"
+        },
+        {
+          "key": "1e1203c4c8e500427364c5c4:870c00c477e60042ad35c4c4:4cd804c467f6e0403516c6c4",
+          "chart": "toinen-linja-10-street-northeast-20261021-1"
+        },
+        {
+          "key": "4817fac325e70042bf08c3c4:4cd804c467f6e0403516c6c4:870c00c477e60042ad35c4c4",
+          "chart": "toinen-linja-10-street-northeast-20261021-2"
+        },
+        {
+          "key": "4817fac325e70042bf08c3c4:cad604c46af6e0409e15c6c4:4cd804c467f6e0403516c6c4",
+          "chart": "toinen-linja-10-street-northeast-20261021-3"
+        },
+        {
+          "key": "1e1203c467f6e0407364c5c4:cad604c46af6e0409e15c6c4:4817fac325e70042bf08c3c4",
+          "chart": "toinen-linja-10-street-northeast-20261021-4"
+        },
+        {
+          "key": "1e1203c467f6e0407364c5c4:4817fac325e70042bf08c3c4:870c00c465f6e040ad35c4c4",
+          "chart": "toinen-linja-10-street-northeast-20261021-5"
+        },
+        {
+          "key": "4817fac325e70042bf08c3c4:4817fac365f6e040bf08c3c4:870c00c465f6e040ad35c4c4",
+          "chart": "toinen-linja-10-street-northeast-20261021-6"
+        },
+        {
+          "key": "4cd804c461e500423516c6c4:cad604c462e500429e15c6c4:4cd804c467f6e0403516c6c4",
+          "chart": "toinen-linja-10-street-northeast-20261021-7"
+        }
+      ]
+    }
+  ]
+}

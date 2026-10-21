@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "id": "sturenkatu-7-northwest-20261021",
+  "building": {
+    "id": "BID_5a60ee03-136c-4f30-a8b2-d0b347a37691",
+    "vtj": "103171062S",
+    "owner": "c_m04_m16"
+  },
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    4,
+    5
+  ],
+  "completeElevationPlane": true,
+  "frame": {
+    "origin": [
+      -405.9678039550781,
+      -2039.7694091796875
+    ],
+    "axis": [
+      -0.5931262152599136,
+      0.8051094911696487
+    ],
+    "width": 20.999909637057726
+  },
+  "art": {
+    "wallColour": "#d5caaa",
+    "groundColour": "#cbc4ad",
+    "surroundColour": "#dcd8c5",
+    "frameColour": "#d9d9cb",
+    "glassColour": "#879a99",
+    "groundHeight": 3.05,
+    "rows": [
+      {
+        "bottom": 3.3,
+        "height": 1.35,
+        "width": 0.82,
+        "axes": [
+          5.249977409264432,
+          8.714962499378956,
+          12.284947137678769,
+          15.749932227793295
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 6.3,
+        "height": 1.35,
+        "width": 0.82,
+        "axes": [
+          5.249977409264432,
+          8.714962499378956,
+          12.284947137678769,
+          15.749932227793295
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 9.3,
+        "height": 1.35,
+        "width": 0.82,
+        "axes": [
+          5.249977409264432,
+          8.714962499378956,
+          12.284947137678769,
+          15.749932227793295
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 12.3,
+        "height": 1.35,
+        "width": 0.82,
+        "axes": [
+          5.249977409264432,
+          8.714962499378956,
+          12.284947137678769,
+          15.749932227793295
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 15.3,
+        "height": 1.35,
+        "width": 0.82,
+        "axes": [
+          5.249977409264432,
+          8.714962499378956,
+          12.284947137678769,
+          15.749932227793295
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 18.3,
+        "height": 1.35,
+        "width": 0.82,
+        "axes": [
+          5.249977409264432,
+          8.714962499378956,
+          12.284947137678769,
+          15.749932227793295
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 10.499954818528863,
+        "bottom": 0.08,
+        "width": 1.35,
+        "height": 2.6,
+        "kind": "door"
+      },
+      {
+        "x": 1.5749932227793295,
+        "bottom": 0.15,
+        "width": 1.0,
+        "height": 2.6,
+        "kind": "passage"
+      },
+      {
+        "x": 5.249977409264432,
+        "bottom": 0.8,
+        "width": 0.82,
+        "height": 1.4,
+        "kind": "glazing"
+      },
+      {
+        "x": 15.749932227793295,
+        "bottom": 0.8,
+        "width": 0.82,
+        "height": 1.4,
+        "kind": "glazing"
+      },
+      {
+        "x": 19.424916414278396,
+        "bottom": 0.8,
+        "width": 0.82,
+        "height": 1.4,
+        "kind": "glazing"
+      }
+    ],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 0.3,
+        "height": 0.14,
+        "colour": "#716655"
+      },
+      {
+        "from": "top",
+        "offset": -0.15,
+        "height": 0.1,
+        "colour": "#777768"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Maps 360pics eu panorama, March 2025, individually inspected Sturenkatu 7 northwest elevation; appearance reference only",
+      "url": "https://www.google.com/maps/@60.1878413,24.9444852,29a,90y,126.27h,115t/data=!3m7!1e1!3m5!1sCIABIhAIN0uG0Qr5b2fs6FsABb7n!2e10!7i7680!8i3840",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Pale cream plaster, six residential window rows above a ground storey. Four central narrow window axes and two outer brown balcony stacks.",
+    "Timber entry, dark plinth and ground-level glazing; the source facade and actual public pavement establish the base."
+  ],
+  "limitations": [
+    "Original simplified architectural artwork; opening/balcony modules approximate observed spacing and do not claim surveyed measurements.",
+    "Only the enumerated complete northwest source plane; other elevations remain pending.",
+    "No reference photograph pixels, people, cars, trees or signage are reproduced."
+  ]
+}

@@ -31,6 +31,9 @@ import { solidTile, splitBySlope } from './lib/untextured.ts';
 import { eraseVegetation, trianglesNearTrees, type PageTriangle, type TreeVolume, type VegetationOptions } from './lib/vegetation.ts';
 import { createFacadeRestorer, facadeRestorationSourceFiles } from './lib/facade-restoration-registry.ts';
 import { clipGroundToRectangle, parseAppendRectangle, readAcceptedGroundCoverage } from './lib/append-city-cells.ts';
+import {bindDeliveryGroundCache,writeDeliveryGroundCache} from './lib/delivery-city-cache.ts';
+import {authorizeNewStripFacades} from './lib/delivery-city-source.ts';
+import {literalWallFaces,qualifyDuplicateUpwardSkirt} from './lib/delivery-duplicate-skirts.ts';
 
 const { values } = parseArgs({ options: {
   'city-model': { type: 'string' }, terrain: { type: 'string' }, footprints: { type: 'string' },
@@ -38,6 +41,9 @@ const { values } = parseArgs({ options: {
   'landmark-models': { type: 'string', default: '' }, 'osm-ledger': { type: 'string' }, 'osm-snapshot': { type: 'string' }, trees: { type: 'string', default: '' },
   'ground-region': { type: 'string' },
   'exclude-ground-cells': { type: 'string' },
+  'ground-exclusions': {type:'string'},
+  'ground-cache-out': {type:'string'},
+  'accepted-building-manifest': {type:'string'},
 } });
 for (const k of ['city-model', 'terrain', 'footprints', 'street-parts', 'landmarks', 'osm-ledger', 'osm-snapshot', 'config', 'origin', 'out'] as const) if (!values[k]) throw new Error(`--${k} is required`);
 if (existsSync(values.out!)) throw new Error(`${values.out} exists; the build writes into a new directory`);
@@ -252,16 +258,21 @@ const treesDoc = values.trees ? JSON.parse(readFileSync(path.join(values.trees, 
 if (treesDoc && treesDoc.originId !== origin.id) throw new Error(`trees origin ${treesDoc.originId} is not ${origin.id}`);
 const trees = treesDoc?.trees ?? [];
 const vegetation = config.vegetation as VegetationOptions | undefined;
+let newStripOnly=false;
+if(config.curatedFacades!==undefined){
+  if(config.curatedFacades!=='none-new-strips'||config.continuation?.kind!=='current-vintage-new-strips-only'||!values['exclude-ground-cells']||!values['accepted-building-manifest'])throw new Error('Unregistered facade pages require explicit isolated new-strip model, accepted cell coverage and actual accepted building manifest');
+  newStripOnly=authorizeNewStripFacades(config,readFileSync(path.join(cityDir,'city-model.json')),readFileSync(path.join(values['exclude-ground-cells'],'cells.json')),readFileSync(values['accepted-building-manifest']));
+}
 const treeVolumes: TreeVolume[] = trees.map(t => ({ x: t.position[0], z: t.position[2], radius: t.crownRadius, base: t.position[1], top: t.position[1] + t.height }));
 const pageTrees = new Map<number, { tri: PageTriangle; trees: TreeVolume[] }[]>();
-if (vegetation && treeVolumes.length) for (const b of buildings) for (const p of b.parts) {
+if (vegetation && treeVolumes.length && !newStripOnly) for (const b of buildings) for (const p of b.parts) {
   if (typeof p.texture !== 'number') continue;
   const near = trianglesNearTrees(p.positions, p.uvs, p.indices, treeVolumes, vegetation);
   if (near.length) pageTrees.set(p.texture, [...(pageTrees.get(p.texture) ?? []), ...near]);
 }
 log(`trees: ${trees.length}; wall triangles behind them on ${pageTrees.size} facade pages`);
 const vegetationReport = new Map<number, { texture: number; file: string; triangles: number; trees: number; size: [number, number]; texels: number }>();
-const facadeRestorer = await createFacadeRestorer(cityDir, city.textures);
+const facadeRestorer = await createFacadeRestorer(cityDir, city.textures,newStripOnly?{newStripOnly:true}:undefined);
 const curatedFacadeReport = new Map<string, unknown>();
 if (pageTrees.size) mkdirSync(path.join(values.out!, 'vegetation'), { recursive: true });
 const prepare = async (d: Uint8Array, w: number, h: number, id: string): Promise<Uint8Array> => {
@@ -286,11 +297,19 @@ const prepare = async (d: Uint8Array, w: number, h: number, id: string): Promise
 
 // Ground-only repairs call the same assembly as a full cell build.
 const groundRegion=values['ground-region']?parseAppendRectangle(values['ground-region']):null;
-const { ground, stairs, terraces, walls, wallAlignment, register, conflicting, osmLedger, osmSnap, runtimeTerrain, coastal, groundWorkArea } = buildDistrictGround({
+const cacheInputPaths={config:values.config!,origin:values.origin!,terrain:path.join(values.terrain!,terrainDoc.file),footprints:values.footprints!,streetParts:values['street-parts']!,osmLedger:values['osm-ledger']!,...(values['ground-exclusions']?{exclusions:values['ground-exclusions']}: {})};
+const cacheBinding=values['ground-cache-out']?bindDeliveryGroundCache(cacheInputPaths):null;
+const assembledGround = buildDistrictGround({
   terrain, footprints, originProjected: origin.originProjected, config,
   osmLedger: values['osm-ledger']!, osmSnapshot: values['osm-snapshot']!, streetParts: values['street-parts']!, log,
   groundWorkArea:groundRegion?{minX:groundRegion[0],minZ:groundRegion[1],maxX:groundRegion[2],maxZ:groundRegion[3]}:undefined,
+  groundExclusions:values['ground-exclusions'],
 });
+const { ground, stairs, terraces, walls, wallAlignment, register, conflicting, osmLedger, osmSnap, runtimeTerrain, coastal, groundWorkArea } = assembledGround;
+if(values['ground-cache-out']){
+  assertCacheSnapshot();writeDeliveryGroundCache(values['ground-cache-out'],{ground,runtimeTerrain,coastal},cacheBinding!,groundRegion);log('Native post-coast ground cache written before clipping');
+}
+function assertCacheSnapshot(){if(sha256(readFileSync(path.resolve(path.dirname(values['osm-ledger']!),osmSnap.path)))!==osmSnap.sha256)throw new Error('Ground OSM changed during native assembly');}
 if(values['exclude-ground-cells']&&!groundRegion)throw new Error('--exclude-ground-cells requires --ground-region');
 const excludedGround=values['exclude-ground-cells']?readAcceptedGroundCoverage(values['exclude-ground-cells'],groundRegion!):null;
 if(groundRegion){
@@ -393,12 +412,17 @@ for (const cid of cellIds) {
     // Skirts: from each wall-bottom edge down to 0.3 m below the lowest ground within 1.5 m.
     const uv = paletteUv(plinth);
     let skirtBottom = Infinity;
+    const originalWallFaces = b.landmark ? [] : literalWallFaces(b.sourceParts);
     for (const e of b.bottomEdges) {
       const mx = (e[0] + e[3]) / 2, mz = (e[2] + e[5]) / 2;
       let low = Infinity;
       for (let dx = -1.5; dx <= 1.5; dx += 0.5) for (let dz = -1.5; dz <= 1.5; dz += 0.5) low = Math.min(low, groundAt(mx + dx, mz + dz));
       const bottom = low - Number(config.skirtBelowGround);
       skirtBottom = Math.min(skirtBottom, bottom);
+      // The collision-prism datum above is deliberately unchanged. A native
+      // basement can already extend below terrain: an upward palette quad then
+      // duplicates the wall and z-fights. Skip only exact, fully covered quads.
+      if (qualifyDuplicateUpwardSkirt(e, bottom, originalWallFaces)) continue;
       const base = palette.positions.length / 3;
       palette.positions.push(e[0], e[1], e[2], e[3], e[4], e[5], e[3], bottom, e[5], e[0], bottom, e[2]);
       palette.uvs.push(uv[0], uv[1], uv[0], uv[1], uv[0], uv[1], uv[0], uv[1]);
@@ -556,6 +580,7 @@ const report = {
   untextured: { options: untextured, buildings: untexturedReport },
   facadeGrade: facadeGrade ?? null,
   ground: ground.stats,
+  ...(assembledGround.groundExclusions?{groundExclusions:assembledGround.groundExclusions}:{}),
   coastal: coastal ? {...coastal,waterPieces:undefined,waterCellCount:coastal.waterPieces.length,
     note:'Source-backed OSM coastline/water; surveyed bridge decks retained; conventional N2000 zero water plane, not a tide measurement. Water has no support collider; derived safety terrain lies below the kill plane.'} : null,
   cells: cellStats,

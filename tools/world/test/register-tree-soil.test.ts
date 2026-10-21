@@ -10,6 +10,7 @@ import { registrationSha256 as sha } from '../lib/tree-ground-registration.ts';
 import { encodeCollisionBundle, parseCollisionBundle } from '../../../packages/world-schema/src/index.ts';
 import { translateRegisteredTreeColliders, type RegistrationTree, type GroundRegistrationSupport } from '../lib/tree-ground-registration.ts';
 import type { TreeBarkProfile } from '../lib/tree-bark-registration.ts';
+import {decodeDeliverySimulation,encodeDeliverySimulation,embedDeliveryImages} from '../lib/delivery-city-payloads.ts';
 
 const tree = (id = 'new', y = -.3): RegistrationTree => ({ id, model: 'tree-birch', position: [2, y, 2], yaw: 0, scale: [1, 1, 1], trunkRadius: .2, colliderHeight: 3.3 });
 const support = (height: number): GroundRegistrationSupport => ({ height, group: 'ground', tag: 'raised:grass', collider: 'g:cell', cell: 'cell' });
@@ -192,6 +193,16 @@ test('fresh-output CLI API binds reviewed inputs, hardlinks untouched payloads a
       acceptedScenery: write('accepted.json', { ...scene, instances: [scene.instances[0]] }), origin: write('origin.json', { id: 'origin', originProjected: [0, 0, 0] }),
       streetParts: write('parts.json', { type: 'FeatureCollection', features: [] }), footprints: write('footprints.json', { type: 'FeatureCollection', features: [] }), asset, plan: path.join(dir, 'plan.json') };
     const beforeIndex = readFileSync(path.join(base, 'cells.json')), beforeScenery = readFileSync(path.join(base, 'scenery.json'));
+    const encoded = encodeDeliverySimulation(collision); writeFileSync(path.join(base, 'encoded.gz'), encoded.bytes);
+    writeFileSync(path.join(base, 'cells.json'), JSON.stringify({ ...index, cells: [{ ...index.cells[0], collision: { ...index.cells[0]!.collision,
+      path: 'encoded.gz', bytes: encoded.bytes.length, sha256: sha(encoded.bytes), compression: encoded.compression, decodedBytes: encoded.decodedBytes, decodedSha256: encoded.decodedSha256 } }] }));
+    let inspectedStoredPayload = false;
+    const deliveryReader = { sourceFiles: [], collision: (cell: any, stored: Uint8Array) => { assert.deepEqual(stored, encoded.bytes); inspectedStoredPayload = true; return decodeDeliverySimulation(stored, cell.collision); }, visual: (_cell: any, stored: Uint8Array) => embedDeliveryImages(stored, new Map()) };
+    const deliveryPlan = path.join(dir, 'delivery-plan.json'), delivery = await registerTreeSoil({ ...options, plan: deliveryPlan, payloadReader: deliveryReader });
+    assert.equal(delivery.unresolved, 0); assert.equal(delivery.corrections, 1); assert.equal(inspectedStoredPayload, true);
+    assert.ok(JSON.parse(readFileSync(deliveryPlan, 'utf8')).authority.inputs.some((p: any) => p.path.endsWith('encoded.gz') && p.sha256 === sha(encoded.bytes)));
+    await assert.rejects(registerTreeSoil({ ...options, plan: path.join(dir, 'invalid-delivery-apply.json'), out: path.join(dir, 'invalid-delivery-out'), payloadReader: deliveryReader }), /planning only/);
+    writeFileSync(path.join(base, 'cells.json'), beforeIndex);
     const planned = await registerTreeSoil(options); assert.equal(planned.corrections, 1); assert.equal(planned.unresolved, 0);
     const out = path.join(dir, 'out'); await registerTreeSoil({ ...options, authority: options.plan, plan: path.join(dir, 'apply-plan.json'), out });
     assert.deepEqual(readFileSync(path.join(base, 'cells.json')), beforeIndex); assert.deepEqual(readFileSync(path.join(base, 'scenery.json')), beforeScenery);

@@ -7,10 +7,18 @@ import os from 'node:os';
 import path from 'node:path';
 import { fetchSimulationPayload } from '../../../apps/game/src/world/payload.ts';
 import { readSimulationPayload } from '../lib/simulation-payload.ts';
+import { readRoadGraph }from'../lib/simulation-payload.ts';
+import {encodePackedRoadGraph,decodeRoadGraph,RoadIndex,type RoadGraph}from'../../../packages/world-schema/src/index.ts';
 
 const sha = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex');
 const original = new Uint8Array(10000).map((_, i) => i % 255), stored = gzipSync(original);
 const ref = { path: 'collision.hcol.gz', bytes: stored.length, sha256: sha(stored), compression: 'gzip' as const, decodedBytes: original.length, decodedSha256: sha(original) };
+
+test('packedF64 roads reach browser and Node replay as the exact same logical routing graph through both HTTPgzip modes',async t=>{
+ const graph:RoadGraph={schemaVersion:2,originId:'fixture',source:{id:'osm',sha256:'a'.repeat(64),attribution:'fixture',license:'ODbL'},nodes:[{id:'a',kind:'end',position:[0,Math.PI,0]},{id:'b',kind:'end',position:[10,Math.E,0]}],lanes:[{id:'lane',wayId:123,name:'Hämeentie',highway:'secondary',surface:'asphalt',speedLimit:10,width:3,from:'a',to:'b',points:[[0,Math.PI,0],[10,Math.E,0]],length:10,index:0,count:1}],connectors:[],parking:[],footways:[]};
+ const packed=encodePackedRoadGraph(graph),compressed=gzipSync(packed),roadRef={path:'roads.bin.gz',bytes:compressed.length,sha256:sha(compressed),compression:'gzip'as const,decodedBytes:packed.length,decodedSha256:sha(packed)},directory=mkdtempSync(path.join(os.tmpdir(),'helsinki-packed-roads-'));
+ try{writeFileSync(path.join(directory,roadRef.path),compressed);const replay=await readRoadGraph(directory,roadRef);assert.deepEqual(replay,graph);for(const decoded of[false,true]){t.mock.method(globalThis,'fetch',async()=>new Response(new Uint8Array(decoded?packed:compressed),{headers:decoded?{'Content-Encoding':'gzip'}:{}}));const browser=decodeRoadGraph(await fetchSimulationPayload('https://example.com/roads.bin.gz',roadRef));assert.deepEqual(browser,replay);assert.deepEqual(new RoadIndex(browser).nearestLane(5,1),new RoadIndex(graph).nearestLane(5,1));}await assert.rejects(readRoadGraph(directory,{...roadRef,decodedSha256:'0'.repeat(64)}),/SHA-256/);}finally{rmSync(directory,{recursive:true});}
+});
 
 test('browser streamed delivery and Node replay decode the same pinned simulation bytes', async t => {
   t.mock.method(globalThis, 'fetch', async () => new Response(stored));

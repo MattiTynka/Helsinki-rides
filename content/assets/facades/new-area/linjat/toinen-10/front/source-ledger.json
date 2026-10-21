@@ -1,0 +1,282 @@
+{
+  "schemaVersion": 1,
+  "status": "SOURCE_BOUND_RUNTIME_REVIEW_REQUIRED",
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "planSha256": "46cf2fff03e23fdd91b4753d723ab35783edcea41ad8d6f5d9f3102ee88827eb",
+  "building": {
+    "id": "BID_97689449-416f-4a87-8508-51e4d4571003",
+    "vtj": "1031519730",
+    "owner": "c_m05_m13"
+  },
+  "sourceTriangles": [
+    {
+      "part": 0,
+      "triangle": 181,
+      "key": "1e1203c4c8e500427364c5c4:4cd804c467f6e0403516c6c4:cad604c462e500429e15c6c4",
+      "area": 113.1485897349394
+    },
+    {
+      "part": 0,
+      "triangle": 182,
+      "key": "1e1203c4c8e500427364c5c4:870c00c477e60042ad35c4c4:4cd804c467f6e0403516c6c4",
+      "area": 193.36523118095704
+    },
+    {
+      "part": 0,
+      "triangle": 183,
+      "key": "4817fac325e70042bf08c3c4:4cd804c467f6e0403516c6c4:870c00c477e60042ad35c4c4",
+      "area": 192.1889136298858
+    },
+    {
+      "part": 0,
+      "triangle": 184,
+      "key": "4817fac325e70042bf08c3c4:cad604c46af6e0409e15c6c4:4cd804c467f6e0403516c6c4",
+      "area": 0.3768161276256406
+    },
+    {
+      "part": 0,
+      "triangle": 185,
+      "key": "1e1203c467f6e0407364c5c4:cad604c46af6e0409e15c6c4:4817fac325e70042bf08c3c4",
+      "area": 113.15634407354335
+    },
+    {
+      "part": 0,
+      "triangle": 186,
+      "key": "1e1203c467f6e0407364c5c4:4817fac325e70042bf08c3c4:870c00c465f6e040ad35c4c4",
+      "area": 193.37847194765098
+    },
+    {
+      "part": 0,
+      "triangle": 187,
+      "key": "4817fac325e70042bf08c3c4:4817fac365f6e040bf08c3c4:870c00c465f6e040ad35c4c4",
+      "area": 192.20206961784334
+    },
+    {
+      "part": 0,
+      "triangle": 180,
+      "key": "4cd804c461e500423516c6c4:cad604c462e500429e15c6c4:4cd804c467f6e0403516c6c4",
+      "area": 0.3768186496043583
+    }
+  ],
+  "geometryUnchanged": true,
+  "completePlane": {
+    "completeNativePlane": true,
+    "sourceTrianglesInExactElevation": 8,
+    "planeToleranceMetres": 0.002
+  },
+  "frame": {
+    "origin": [
+      -500.1818225860981,
+      -1560.273394865392
+    ],
+    "axis": [
+      -0.7874450600634817,
+      -0.6163848451913305
+    ],
+    "width": 39.61903841680305,
+    "minY": 7.0300774574279785,
+    "maxY": 32.22572708129883
+  },
+  "ground": {
+    "method": "Nine actual native visual-ground and HCOL matches outward from the source baseline; conservative highest exterior street floor",
+    "outwardOffsetMetres": 2,
+    "samples": [
+      {
+        "u": 0.39619038416803054,
+        "x": -499.26103105657324,
+        "z": -1562.0924907341307,
+        "collision": {
+          "height": 11.100878495849985,
+          "cell": "c_m04_m13",
+          "collider": "g:c_m04_m13",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 11.100878495849985,
+          "cell": "c_m04_m13",
+          "key": "1492f9c3d67532410080c3c4:abe6f9c355aa30415506c3c4:37e1f8c3ea0f3241b247c3c4",
+          "node": "c_m04_m13_ground_asphalt"
+        }
+      },
+      {
+        "u": 4.754284610016366,
+        "x": -502.69279082600866,
+        "z": -1564.7787539688595,
+        "collision": {
+          "height": 11.210982194998678,
+          "cell": "c_m04_m13",
+          "collider": "g:c_m04_m13",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 11.210982194998678,
+          "cell": "c_m04_m13",
+          "key": "0000fac319a632418595c3c4:dceefac30ee5334149c4c3c4:0000fcc3d64833410080c3c4",
+          "node": "c_m04_m13_ground_asphalt"
+        }
+      },
+      {
+        "u": 9.904759604200763,
+        "x": -506.74850691715966,
+        "z": -1567.9534287008116,
+        "collision": {
+          "height": 11.388510595708349,
+          "cell": "c_m04_m13",
+          "collider": "g:c_m04_m13",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 11.388510595708349,
+          "cell": "c_m04_m13",
+          "key": "0000fec3b8c936410000c4c4:0000fec3be74374173ccc3c4:e01ffcc32c0435410000c4c4",
+          "node": "c_m04_m13_ground_asphalt"
+        }
+      },
+      {
+        "u": 14.857139406301144,
+        "x": -510.6482339278818,
+        "z": -1571.006000558458,
+        "collision": {
+          "height": 11.544153633859764,
+          "cell": "c_m04_m13",
+          "collider": "g:c_m04_m13",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 11.544153633859764,
+          "cell": "c_m04_m13",
+          "key": "000000c4574238410080c4c4:000000c491ab3941a030c4c4:abadfec3350738410080c4c4",
+          "node": "c_m04_m13_ground_asphalt"
+        }
+      },
+      {
+        "u": 19.809519208401525,
+        "x": -514.5479609386039,
+        "z": -1574.0585724161044,
+        "collision": {
+          "height": 11.622868004079075,
+          "cell": "c_m05_m13",
+          "collider": "g:c_m05_m13",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 11.622868004079075,
+          "cell": "c_m05_m13",
+          "key": "78bf00c41b7d3a4144a0c4c4:996100c48b0e394133cfc4c4:bc9d00c4299c39410000c5c4",
+          "node": "c_m05_m13_ground_asphalt"
+        }
+      },
+      {
+        "u": 24.761899010501907,
+        "x": -518.447687949326,
+        "z": -1577.1111442737506,
+        "collision": {
+          "height": 11.71959279612111,
+          "cell": "c_m05_m13",
+          "collider": "g:c_m05_m13",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 11.71959279612111,
+          "cell": "c_m05_m13",
+          "key": "000001c4935f3a410000c5c4:c67801c4f3183b419d43c5c4:000002c4e0753c410000c5c4",
+          "node": "c_m05_m13_ground_asphalt"
+        }
+      },
+      {
+        "u": 29.714278812602288,
+        "x": -522.347414960048,
+        "z": -1580.163716131397,
+        "collision": {
+          "height": 11.759034306558986,
+          "cell": "c_m05_m13",
+          "collider": "g:c_m05_m13",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 11.759034306558986,
+          "cell": "c_m05_m13",
+          "key": "000002c49a3e3b41b78ac5c4:8d8302c49fdf3c413abec5c4:000003c4ebc13c410080c5c4",
+          "node": "c_m05_m13_ground_asphalt"
+        }
+      },
+      {
+        "u": 34.86475380678669,
+        "x": -526.403131051199,
+        "z": -1583.338390863349,
+        "collision": {
+          "height": 11.842173672428146,
+          "cell": "c_m05_m13",
+          "collider": "g:c_m05_m13",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 11.842173672428146,
+          "cell": "c_m05_m13",
+          "key": "000004c408a23d410000c6c4:000004c44a8f3e4156c1c5c4:882b03c436a73c410000c6c4",
+          "node": "c_m05_m13_ground_asphalt"
+        }
+      },
+      {
+        "u": 39.22284803263502,
+        "x": -529.8348908206345,
+        "z": -1586.024654098078,
+        "collision": {
+          "height": 11.898579605811092,
+          "cell": "c_m05_m13",
+          "collider": "g:c_m05_m13",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 11.898579605811092,
+          "cell": "c_m05_m13",
+          "key": "000004c408a23d410000c6c4:154f04c487873e417658c6c4:4d8b04c44d5a3e41593ac6c4",
+          "node": "c_m05_m13_ground_asphalt"
+        }
+      }
+    ],
+    "chosen": 11.898579605811092,
+    "qualifiedObservedProfile": {
+      "kind": "named-source-floor-profile",
+      "path": "ground-profile.json",
+      "sha256": "7c8ef2d06fa3247347a72e9fd85ca5415f73311fa2fbf527f6b0fc6eae74e44e"
+    },
+    "horizontalOpeningDatum": 11.100878495849983
+  },
+  "art": {
+    "sha256": "ddadcb3623c1617df7a0fd382ad4b2b0140fda07a1c7c3a43c45ae4a6915f9f1",
+    "license": "CC0-1.0",
+    "referencePixelsCopied": false
+  },
+  "observations": [
+    "Actual opened street reference shows a long pale cream rendered front, five horizontal rows of narrow rectangular upper windows, restrained light surrounds and dark gray-green frames.",
+    "Dark green lower storey contains repeated broad glazed shopfronts and narrow entrances beneath a brown-red continuous cornice; no ornate classical pediments or balconies are visible on this plane.",
+    "Upper opening datum remains horizontal and is tied to the selected native roof and exact measured exterior street floors; store glass bottoms and entrances meet the actual sloped street."
+  ],
+  "limitations": [
+    "Original vector architectural interpretation; no reference photograph pixels, signage, logos or personal details are reproduced.",
+    "Window dimensions and repeated ground storefront bay layout are game-scale estimates from the oblique reference, not surveyed facade measurements.",
+    "Only the exact complete selected northeast street plane is treated; side/court planes and actual door access remain independently unqualified.",
+    "No source geometry, roof height, physical floor, entrance collision or building ownership is changed."
+  ],
+  "references": [
+    {
+      "title": "Google Street View actual Toinen linja10 frontage viewed from29Toinenlinja, Aug2024 panoramaPX2kJe2Ihv1AH4AVsj8K2A at60.1836652,24.94313, headings217.59/199 pitch20/25 opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=PX2kJe2Ihv1AH4AVsj8K2A&heading=217.59&pitch=25&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ]
+}

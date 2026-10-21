@@ -1,0 +1,339 @@
+{
+  "schemaVersion": 1,
+  "id": "toinen-linja-12-103151972Y-northeast-20261021",
+  "baselineManifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54",
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "art": {
+    "path": "facade.png",
+    "sha256": "7fb5c1f7544282912f8c07363fe21b52d29d027ac21049929db074da522656ba",
+    "width": 1024,
+    "height": 1024,
+    "license": "CC0-1.0",
+    "attribution": "Original reference-led architectural artwork by Helsinki Rides (2026); reference photographs are not reproduced.",
+    "references": [
+      {
+        "title": "Official Google StreetView Aug2024 actual historical timber house front at Toinenlinja12, panorama y9xLq8wvhFLEEkSsptNVPg at60.1840142/24.9422769, headings180/235 pitch12/10 actually opened",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=y9xLq8wvhFLEEkSsptNVPg&heading=180&pitch=12&fov=110",
+        "role": "appearance-reference-only"
+      }
+    ]
+  },
+  "material": {
+    "name": "toinen-linja-12-103151972Y-northeast-20261021",
+    "unlit": true,
+    "roughness": 0.95,
+    "doubleSided": false
+  },
+  "charts": [
+    {
+      "id": "toinen-linja-12-103151972Y-northeast-20261021-0",
+      "building": "BID_f572dedd-d156-40c9-a021-c429d534f768",
+      "origin": [
+        -545.1902465820312,
+        0,
+        -1595.3892822265625
+      ],
+      "uAxis": [
+        -0.7847258703059409,
+        0,
+        -0.6198429708180805
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -0.4182952069422618,
+        10.450078964233398,
+        20.37224162742474,
+        19.942453384399414
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "toinen-linja-12-103151972Y-northeast-20261021-1",
+      "building": "BID_f572dedd-d156-40c9-a021-c429d534f768",
+      "origin": [
+        -545.1902465820312,
+        0,
+        -1595.3892822265625
+      ],
+      "uAxis": [
+        -0.7846851658378313,
+        0,
+        -0.6198944995029841
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -0.4182952078440795,
+        10.450078964233398,
+        20.372241671347936,
+        19.942453384399414
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "toinen-linja-12-103151972Y-northeast-20261021-2",
+      "building": "BID_f572dedd-d156-40c9-a021-c429d534f768",
+      "origin": [
+        -546.98193359375,
+        0,
+        -1596.8046875
+      ],
+      "uAxis": [
+        -0.7846877282872736,
+        0,
+        -0.6198912558468282
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -2.701607371242755,
+        10.450078964233398,
+        18.08892950248341,
+        19.942453384399414
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "toinen-linja-12-103151972Y-northeast-20261021-3",
+      "building": "BID_f572dedd-d156-40c9-a021-c429d534f768",
+      "origin": [
+        -546.98193359375,
+        0,
+        -1596.8046875
+      ],
+      "uAxis": [
+        -0.7846839023428861,
+        0,
+        -0.6198960988778202
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -2.7016073723201357,
+        10.450078964233398,
+        18.088929509697742,
+        19.942453384399414
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "toinen-linja-12-103151972Y-northeast-20261021-4",
+      "building": "BID_f572dedd-d156-40c9-a021-c429d534f768",
+      "origin": [
+        -546.98193359375,
+        0,
+        -1596.8046875
+      ],
+      "uAxis": [
+        -0.7846886301746546,
+        0,
+        -0.6198901141933334
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -2.701607371003676,
+        10.450078964233398,
+        18.088929500883232,
+        19.942453384399414
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "toinen-linja-12-103151972Y-northeast-20261021-5",
+      "building": "BID_f572dedd-d156-40c9-a021-c429d534f768",
+      "origin": [
+        -546.98193359375,
+        0,
+        -1596.8046875
+      ],
+      "uAxis": [
+        -0.784680206695721,
+        0,
+        -0.6199007769151129
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -2.701607373458606,
+        10.450078964233398,
+        18.0889295173205,
+        19.942453384399414
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "toinen-linja-12-103151972Y-northeast-20261021-6",
+      "building": "BID_f572dedd-d156-40c9-a021-c429d534f768",
+      "origin": [
+        -546.98193359375,
+        0,
+        -1596.8046875
+      ],
+      "uAxis": [
+        -0.78466445304667,
+        0,
+        -0.6199207176123173
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -2.7016073793885442,
+        10.450078964233398,
+        18.088929557025104,
+        19.942453384399414
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "toinen-linja-12-103151972Y-northeast-20261021-7",
+      "building": "BID_f572dedd-d156-40c9-a021-c429d534f768",
+      "origin": [
+        -546.98193359375,
+        0,
+        -1596.8046875
+      ],
+      "uAxis": [
+        -0.7846644530466699,
+        0,
+        -0.6199207176123173
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -2.7016073793885442,
+        10.450078964233398,
+        18.088929557025104,
+        19.942453384399414
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "cells": [
+    {
+      "id": "c_m05_m13",
+      "buildings": [
+        {
+          "id": "BID_f572dedd-d156-40c9-a021-c429d534f768",
+          "vtj": "103151972Y"
+        }
+      ],
+      "baselineLevels": {
+        "lod0": "a1bc5027cc67a9349e88f8b5613cf94c1a69d009757570fffcaf93ad6e15dfa8",
+        "lod1": "a1bc5027cc67a9349e88f8b5613cf94c1a69d009757570fffcaf93ad6e15dfa8",
+        "lod2": "dc6de38592d213b3e052a83c8c5f781ecdcc5ad063989ae2358ce0b17b8a7677"
+      },
+      "faces": [
+        {
+          "key": "2b3708c4863327412964c7c4:2d4c08c46b2f9241756cc7c4:2b3708c49d3392412964c7c4",
+          "chart": "toinen-linja-12-103151972Y-northeast-20261021-0"
+        },
+        {
+          "key": "2b3708c4863327412964c7c4:444b0cc4863327419300c9c4:2d4c08c46b2f9241756cc7c4",
+          "chart": "toinen-linja-12-103151972Y-northeast-20261021-1"
+        },
+        {
+          "key": "2d4c08c46b2f9241756cc7c4:444b0cc4863327419300c9c4:d8be08c4222a9241c099c7c4",
+          "chart": "toinen-linja-12-103151972Y-northeast-20261021-2"
+        },
+        {
+          "key": "444b0cc4863327419300c9c4:444b0cc4aeb99e419300c9c4:d8be08c4222a9241c099c7c4",
+          "chart": "toinen-linja-12-103151972Y-northeast-20261021-3"
+        },
+        {
+          "key": "444b0cc4aeb99e419300c9c4:696a0ac4e2d99e41a442c8c4:d8be08c4222a9241c099c7c4",
+          "chart": "toinen-linja-12-103151972Y-northeast-20261021-4"
+        },
+        {
+          "key": "696a0ac4e2d99e41a442c8c4:efed08c46df29e415aacc7c4:d8be08c4222a9241c099c7c4",
+          "chart": "toinen-linja-12-103151972Y-northeast-20261021-5"
+        },
+        {
+          "key": "d8be08c4222a9241c099c7c4:efed08c46df29e415aacc7c4:efed08c4258a9f415aacc7c4",
+          "chart": "toinen-linja-12-103151972Y-northeast-20261021-6"
+        },
+        {
+          "key": "d8be08c4222a9241c099c7c4:efed08c4258a9f415aacc7c4:d8be08c4b1829b41c099c7c4",
+          "chart": "toinen-linja-12-103151972Y-northeast-20261021-7"
+        }
+      ]
+    }
+  ]
+}

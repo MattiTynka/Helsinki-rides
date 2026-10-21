@@ -1,0 +1,587 @@
+{
+  "schemaVersion": 1,
+  "id": "alexander-theatre-original-facades-20261021",
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2",
+    "version": "305259202062"
+  },
+  "building": {
+    "id": "BID_c5ced704-53f1-4da8-8a0c-c9b04be11b42",
+    "vtj": "1030653047",
+    "expectedOwner": "c_m09_p05"
+  },
+  "atlas": [
+    1024,
+    1024
+  ],
+  "frames": [
+    {
+      "id": "bulevardi",
+      "role": "bulevardi",
+      "pixels": [
+        1,
+        1,
+        894,
+        438
+      ],
+      "triangleGroups": [
+        [
+          58,
+          59
+        ],
+        [
+          205,
+          206
+        ],
+        [
+          222,
+          223
+        ],
+        [
+          112,
+          113
+        ],
+        [
+          214
+        ],
+        [
+          50
+        ],
+        [
+          51,
+          52
+        ],
+        [
+          215
+        ],
+        [
+          213
+        ],
+        [
+          44
+        ],
+        [
+          45
+        ],
+        [
+          46,
+          47
+        ],
+        [
+          53
+        ],
+        [
+          111
+        ]
+      ],
+      "normal": [
+        0.5686826924088204,
+        0,
+        0.8225569860834294
+      ],
+      "uAxis": [
+        0.8225569860834294,
+        0,
+        -0.5686826924088204
+      ],
+      "minU": -1283.946731252382,
+      "width": 59.34901366481,
+      "minY": -0.09992191940546036,
+      "maxY": 13.74007797241211,
+      "regions": [
+        {
+          "id": "source-plane-3",
+          "kind": "fitted-wing",
+          "count": 4,
+          "start": 0.03,
+          "end": 12.585622456677156,
+          "eave": 11.450078964233398,
+          "apex": 11.451460838317871
+        },
+        {
+          "id": "source-plane-22",
+          "kind": "fitted-wing",
+          "count": 3,
+          "start": 14.774724502727421,
+          "end": 22.821903186974424,
+          "eave": 12.950078010559082,
+          "apex": 12.950078010559082
+        },
+        {
+          "id": "source-plane-6",
+          "kind": "observed-three-window-wing",
+          "count": 3,
+          "start": 22.82158021033004,
+          "end": 31.388764234705633,
+          "eave": 12.501471519470215,
+          "apex": 12.502592086791992
+        },
+        {
+          "id": "source-plane-15",
+          "kind": "central-balcony",
+          "count": 3,
+          "start": 31.397867640684836,
+          "end": 42.71335020315885,
+          "eave": 12.3069,
+          "apex": 13.74007797241211
+        },
+        {
+          "id": "source-plane-7",
+          "kind": "observed-three-window-wing",
+          "count": 3,
+          "start": 42.70567607996307,
+          "end": 51.26447152955555,
+          "eave": 12.500649452209473,
+          "apex": 12.50139045715332
+        },
+        {
+          "id": "source-plane-9",
+          "kind": "fitted-wing",
+          "count": 3,
+          "start": 51.2637705816924,
+          "end": 59.31901366481,
+          "eave": 12.41299057006836,
+          "apex": 12.42200756072998
+        }
+      ]
+    },
+    {
+      "id": "albertinkatu",
+      "role": "albertinkatu",
+      "pixels": [
+        1,
+        443,
+        894,
+        376
+      ],
+      "triangleGroups": [
+        [
+          172,
+          173,
+          175
+        ],
+        [
+          116,
+          117
+        ],
+        [
+          197,
+          198
+        ],
+        [
+          109,
+          110
+        ],
+        [
+          178,
+          179
+        ],
+        [
+          167,
+          168
+        ],
+        [
+          186
+        ],
+        [
+          187
+        ],
+        [
+          171
+        ],
+        [
+          185
+        ]
+      ],
+      "normal": [
+        0.8246457715262114,
+        0,
+        -0.5656494952741843
+      ],
+      "uAxis": [
+        -0.5656494952741843,
+        0,
+        -0.8246457715262114
+      ],
+      "minU": 21.825782612022493,
+      "width": 30.484480942405693,
+      "minY": -0.09992202371358871,
+      "maxY": 13.740078926086426,
+      "regions": [
+        {
+          "id": "source-plane-12",
+          "kind": "observed-left-wing",
+          "count": 2,
+          "start": 1.033333457460144,
+          "end": 8.407983185366133,
+          "eave": 12.434489250183105,
+          "apex": 12.436681747436523
+        },
+        {
+          "id": "source-plane-2",
+          "kind": "observed-main-three-portals",
+          "count": 3,
+          "start": 9.245009909563036,
+          "end": 21.54247458621458,
+          "eave": 12.295866012573242,
+          "apex": 13.740078926086426
+        },
+        {
+          "id": "source-plane-13",
+          "kind": "observed-right-wing",
+          "count": 2,
+          "start": 22.377303463704862,
+          "end": 29.453089143936978,
+          "eave": 12.411608695983887,
+          "apex": 12.428216934204102
+        }
+      ]
+    },
+    {
+      "id": "albert-attic",
+      "role": "albert-attic",
+      "pixels": [
+        1,
+        823,
+        894,
+        200
+      ],
+      "triangleGroups": [
+        [
+          270,
+          271,
+          272,
+          273,
+          274,
+          275
+        ]
+      ],
+      "normal": [
+        0.8223858037029861,
+        0,
+        -0.5689302152881262
+      ],
+      "uAxis": [
+        -0.5689302152881262,
+        0,
+        -0.8223858037029861
+      ],
+      "minU": 31.08074246215685,
+      "width": 21.76287651457704,
+      "minY": 13.089444160461426,
+      "maxY": 20.375478744506836,
+      "regions": []
+    },
+    {
+      "id": "public-return-32",
+      "role": "plain-return",
+      "pixels": [
+        899,
+        1,
+        11,
+        1022
+      ],
+      "triangleGroups": [
+        [
+          56,
+          57
+        ]
+      ],
+      "normal": [
+        0.8238194560146133,
+        0,
+        -0.566852276957398
+      ],
+      "uAxis": [
+        -0.566852276957398,
+        0,
+        -0.8238194560146133
+      ],
+      "minU": 22.71092169559219,
+      "width": 1.5893990949958243,
+      "minY": -0.0999215692281723,
+      "maxY": 11.451460838317871,
+      "regions": []
+    },
+    {
+      "id": "public-return-33",
+      "role": "plain-return",
+      "pixels": [
+        912,
+        1,
+        11,
+        1022
+      ],
+      "triangleGroups": [
+        [
+          220,
+          221
+        ]
+      ],
+      "normal": [
+        0.819681565198003,
+        0,
+        -0.5728194581842972
+      ],
+      "uAxis": [
+        -0.5728194581842972,
+        0,
+        -0.819681565198003
+      ],
+      "minU": 31.602241543433905,
+      "width": 1.5832698213781078,
+      "minY": -0.0999215841293335,
+      "maxY": 12.50139045715332,
+      "regions": []
+    },
+    {
+      "id": "public-return-38",
+      "role": "plain-return",
+      "pixels": [
+        925,
+        1,
+        11,
+        1022
+      ],
+      "triangleGroups": [
+        [
+          169,
+          170
+        ]
+      ],
+      "normal": [
+        0.5684115035696058,
+        0,
+        0.8227444090419211
+      ],
+      "uAxis": [
+        0.8227444090419211,
+        0,
+        -0.5684115035696058
+      ],
+      "minU": -1224.6445735901389,
+      "width": 1.129596916297769,
+      "minY": -0.09992167353630066,
+      "maxY": 12.410177230834961,
+      "regions": []
+    },
+    {
+      "id": "public-return-51",
+      "role": "plain-return",
+      "pixels": [
+        938,
+        1,
+        11,
+        1022
+      ],
+      "triangleGroups": [
+        [
+          54,
+          55
+        ]
+      ],
+      "normal": [
+        0.8222048245499813,
+        0,
+        -0.5691917308664404
+      ],
+      "uAxis": [
+        -0.5691917308664404,
+        0,
+        -0.8222048245499813
+      ],
+      "minU": 27.14497169559408,
+      "width": 0.5817873946629653,
+      "minY": -0.09992165863513947,
+      "maxY": 12.501471519470215,
+      "regions": []
+    },
+    {
+      "id": "public-return-62",
+      "role": "plain-return",
+      "pixels": [
+        951,
+        1,
+        11,
+        1022
+      ],
+      "triangleGroups": [
+        [
+          165,
+          166
+        ]
+      ],
+      "normal": [
+        0.5853359588048765,
+        0,
+        0.8107908579467186
+      ],
+      "uAxis": [
+        0.8107908579467186,
+        0,
+        -0.5853359588048765
+      ],
+      "minU": -1223.9075457119436,
+      "width": 0.2906534625013228,
+      "minY": -0.09992161393165588,
+      "maxY": 12.434489250183105,
+      "regions": []
+    },
+    {
+      "id": "public-return-66",
+      "role": "plain-return",
+      "pixels": [
+        964,
+        1,
+        11,
+        1022
+      ],
+      "triangleGroups": [
+        [
+          219
+        ]
+      ],
+      "normal": [
+        0.8196457591063371,
+        0,
+        -0.5728706918485151
+      ],
+      "uAxis": [
+        -0.5728706918485151,
+        0,
+        -0.8196457591063371
+      ],
+      "minU": 31.679816686469707,
+      "width": 0.3093097790780894,
+      "minY": -0.099921315908432,
+      "maxY": 12.306863784790039,
+      "regions": []
+    },
+    {
+      "id": "public-return-67",
+      "role": "plain-return",
+      "pixels": [
+        977,
+        1,
+        11,
+        1022
+      ],
+      "triangleGroups": [
+        [
+          183
+        ]
+      ],
+      "normal": [
+        0.5608664633033357,
+        0,
+        0.8279062811342888
+      ],
+      "uAxis": [
+        0.8279062811342888,
+        0,
+        -0.5608664633033357
+      ],
+      "minU": -1225.2554902302122,
+      "width": 0.2810194590948049,
+      "minY": -0.09992129355669022,
+      "maxY": 12.411850929260254,
+      "regions": []
+    },
+    {
+      "id": "public-return-72",
+      "role": "plain-return",
+      "pixels": [
+        990,
+        1,
+        11,
+        1022
+      ],
+      "triangleGroups": [
+        [
+          182
+        ]
+      ],
+      "normal": [
+        0.5609120737969026,
+        0,
+        0.8278753803978338
+      ],
+      "uAxis": [
+        0.8278753803978338,
+        0,
+        -0.5609120737969026
+      ],
+      "minU": -1225.2530539887923,
+      "width": 0.18665964095594972,
+      "minY": -0.09992129355669022,
+      "maxY": 12.411850929260254,
+      "regions": []
+    },
+    {
+      "id": "public-return-73",
+      "role": "plain-return",
+      "pixels": [
+        1003,
+        1,
+        11,
+        1022
+      ],
+      "triangleGroups": [
+        [
+          184
+        ]
+      ],
+      "normal": [
+        0.5608052374412317,
+        0,
+        0.827947755391899
+      ],
+      "uAxis": [
+        0.827947755391899,
+        0,
+        -0.5608052374412317
+      ],
+      "minU": -1225.1320949228746,
+      "width": 0.15435981858905506,
+      "minY": -0.09992125630378723,
+      "maxY": 12.411850929260254,
+      "regions": []
+    }
+  ],
+  "references": [
+    {
+      "title": "Alexander Theatre Bulevardi public front, actual Google Street View August2024; salmon/cream two-storey architecture, source appearance only",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=nb20xWHAbC8f0hANDSZclg&viewpoint=60.1631401,24.933669&heading=341&pitch=20",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Alexander Theatre Bulevardi leafless April2023 front, actual Google Street View; central balcony and three-window flanks, whole-front count occluded",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=WROvLFFlGRzYDR3BqwATUA&viewpoint=60.1631223,24.9336168&heading=341&pitch=0",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Alexander Theatre Albertinkatu main entrance, actual Google Street View August2024 heading203/pitch8/FOV45; three upper windows/four pilasters/three covered ground portals, two-window left wing, separate high semicircular-window gable",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=e4zYUmcmcYtpEungCz84jA&heading=203&pitch=8&fov=45",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Alexander Theatre Albertinkatu leafless April2023, actual Google Street View; independent right-wing two upper/two lower openings, central three portals and high semicircular attic gable",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=CkeCZZfpXvVujdNgsuWn6w&viewpoint=60.1638700,24.9339175&heading=203&pitch=8&fov=45",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Alexander Theatre official English identity/address and Albertinkatu32 public entrance",
+      "url": "https://www.aleksanterinteatteri.fi/briefly-in-english/",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "limitations": [
+    "Only referenced Bulevardi/Albertinkatu public elevations and their small exposed returns are painted; rear walls and unreferenced roofs remain original.",
+    "Bulevardi flanking three-window groups and Albert central three-window/three-portal/four-pilaster grouping are directly observed. Other fitted modules are architectural approximations, not a complete opening survey.",
+    "Albert both wings each have two upper rectangular and two lower arched windows, qualified independently from leafless April2023. The right openings are authored slightly wider/taller; unreferenced short side walls beyond these corners retain the original source.",
+    "Draft source-terrain ground samples are not sufficient for publication. Final authoring must bind actual rendered upward ground and decoded HCOL support against the final B manifest.",
+    "No Google pixels, business lettering or event artwork are production inputs. Geometry, source triangle winding and collision remain unchanged."
+  ]
+}
