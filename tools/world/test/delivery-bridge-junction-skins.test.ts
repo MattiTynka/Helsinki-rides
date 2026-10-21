@@ -1,0 +1,24 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {buildJunctionSideSkins,censusJunctionSideSkins} from '../lib/delivery-bridge-junction-skins.ts';
+import {junctionFaceSha} from '../lib/delivery-bridge-junction-mouths.ts';
+import {buildJunctionTravelProfile} from '../lib/delivery-bridge-junction-profile.ts';
+import {validateJunctionMunicipalJoin} from '../lib/delivery-bridge-junction-source-join.ts';
+import type {JunctionSideEdgeJoin} from '../lib/delivery-bridge-junction-skins.ts';
+import type {JunctionFloorSource} from '../lib/delivery-bridge-junction-surfaces.ts';import type {JunctionTravelProfile} from '../lib/delivery-bridge-junction-profile.ts';import type {Vec3} from '../../../packages/world-schema/src/index.ts';
+const source=(points:[Vec3,Vec3,Vec3],id:number):JunctionFloorSource=>({points,uvs:[[0,0],[1,0],[0,1]],tag:'road:asphalt',source:{cell:'upper',collider:'native',triangle:id,orderedFloat32Sha256:junctionFaceSha(points)},masks:[points.map(p=>[p[0],p[2]])]});
+const sources=[source([[0,0,-1],[20,0,-1],[0,0,1]],0),source([[20,0,-1],[20,0,1],[0,0,1]],1)];
+const bank=(x:number,y:number)=>[-1,1].map(offset=>{const plane:[[number,number,number],[number,number,number],[number,number,number]]=[[x-1,y,-2],[x+1,y,-2],[x,y,2]];return{offset,point:[x,y,offset]as Vec3,plane,source:{cell:'upper',collider:'bank',triangle:0,orderedFloat32Sha256:junctionFaceSha(plane)}};});
+const profile:JunctionTravelProfile={id:'skin-test',sourceWayIds:[1],centres:[{sourceNode:1,x:0,z:0},{sourceNode:2,x:20,z:0}],inner:bank(0,1),outer:bank(20,0),normalSigns:[1,1],velocityRampFraction:.1,maximumLongitudinalGrade:.15};
+test('side closures use both actual encoded floor banks and retain front/back windings',()=>{const result=buildJunctionSideSkins(profile,sources);assert.ok(result.faces.length);assert.equal(result.proof.missingBankIntervals.length,0);assert.equal(result.proof.newHorizontalFloorAddedBySkin,false);assert.ok(result.faces.every(f=>f.role==='curb'&&f.collision&&f.points.every(p=>p[2]===-1||p[2]===1)));assert.equal(result.faces.length%4,0);});
+test('a missing true source bank is inventoried and cannot silently extrapolate or query terrain',()=>{const census=censusJunctionSideSkins(profile,sources.slice(0,1));assert.ok(census.proof.missingBankIntervals.length);assert.throws(()=>buildJunctionSideSkins(profile,sources.slice(0,1)),/missing actual decoded/);});
+test('a registered source-edge skin closes only its exact row and rejects wrong edge, endpoint and lower source',()=>{
+ const edgeZ=Math.fround(-.9995),native=[source([[0,0,edgeZ],[20,0,edgeZ],[0,0,1]],10),source([[20,0,edgeZ],[20,0,1],[0,0,1]],11)],ramp=buildJunctionTravelProfile(profile,.5),n=ramp.proof.transverseKnots;
+ const missing=censusJunctionSideSkins(profile,native).proof.missingBankIntervals as {side:'left';row:number;a:Vec3;b:Vec3;interval:[number,number]}[];
+ const joins=missing.map(m=>{const newBank=[m.a,m.b] as [Vec3,Vec3],parameters=newBank.map(p=>p[0]/20) as [number,number],literalOldBank=parameters.map(t=>[Math.fround(20*t),0,edgeZ]) as [Vec3,Vec3],maximumLateralMetres=Math.max(...newBank.map((p,i)=>Math.hypot(p[0]-literalOldBank[i]![0],p[2]-literalOldBank[i]![2])));return{side:m.side,row:m.row,interval:m.interval,newBank,source:native[0]!.source,edge:0,parameters,literalOldBank,municipalBoundary:{partId:1,ringIndex:0,edgeIndex:0,points:[[0,edgeZ],[20,edgeZ]]},municipalRelation:{kind:'source-boundary',maximumDistanceMetres:maximumLateralMetres},maximumLateralMetres} as JunctionSideEdgeJoin;});
+ assert.ok(joins.length&&ramp.positions.length/n>1);assert.equal(buildJunctionSideSkins(profile,native,joins).proof.missingBankIntervals.length,0);
+ const wrongEdge=structuredClone(joins);wrongEdge[0]!.edge=1;assert.throws(()=>buildJunctionSideSkins(profile,native,wrongEdge));
+ const wrongEndpoint=structuredClone(joins);wrongEndpoint[0]!.parameters[0]=.1;assert.throws(()=>buildJunctionSideSkins(profile,native,wrongEndpoint));
+ const lower=structuredClone(joins);lower[0]!.source.triangle=999;assert.throws(()=>buildJunctionSideSkins(profile,native,lower),/unrelated\/lower/);
+ const j=joins[0]!;validateJunctionMunicipalJoin(j,1,[[[0,edgeZ],[20,edgeZ],[20,1],[0,1],[0,edgeZ]]]);
+ const wrongBoundary=structuredClone(j);wrongBoundary.municipalBoundary.points[0][1]-=1;assert.throws(()=>validateJunctionMunicipalJoin(wrongBoundary,1,[[[0,edgeZ],[20,edgeZ],[20,1],[0,1],[0,edgeZ]]]),/literal municipal edge/);
+});

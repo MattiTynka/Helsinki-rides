@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "id": "bulevardi-11-southeast-20261021",
+  "building": {
+    "id": "BID_a284a548-d944-47d3-a943-50dbeba5ecec",
+    "vtj": "103056070B",
+    "owner": "c_m07_p04"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    306,
+    307,
+    315,
+    316,
+    317,
+    318,
+    319,
+    320,
+    321,
+    322,
+    323,
+    324,
+    325,
+    326,
+    327,
+    328,
+    329,
+    330,
+    331,
+    332,
+    341,
+    342,
+    343,
+    344,
+    349,
+    350,
+    361,
+    362,
+    363,
+    364,
+    365,
+    366,
+    367,
+    368,
+    493,
+    494,
+    495,
+    496,
+    497,
+    498,
+    499,
+    500,
+    501,
+    502,
+    503,
+    504,
+    505,
+    506,
+    507,
+    508,
+    509,
+    510,
+    511,
+    512,
+    513,
+    514,
+    515,
+    516,
+    517,
+    518,
+    519,
+    520,
+    521,
+    522,
+    523,
+    524,
+    525,
+    526,
+    530,
+    531,
+    532,
+    533,
+    534,
+    535
+  ],
+  "frame": {
+    "origin": [
+      -848.5020514155611,
+      564.527776290149
+    ],
+    "axis": [
+      0.8202353641728753,
+      -0.572026177163415
+    ],
+    "width": 36.94912994485139
+  },
+  "references": [
+    {
+      "title": "Google Street View, Bulevardi 11, April2023 leafless adjacent facade view",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=BJf1Vy8PmNgxiZ6eNV17FA&heading=320&pitch=20&fov=100",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Helsinki City Museum, exact building identity and asymmetric Jugend facade description",
+      "url": "https://www.finna.fi/Record/hkm.3C3FE80F-2844-4E75-A5DA-D67F8FA5903D?lng=fi",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual leafless Street View shows reddish brown textured lower plaster, warmer ochre upper plaster, gray pale window frames and dark shop plinth.",
+    "Four rectangular upper window rows plus a smaller upper arched row, varied grouped lights and projecting balconies; actual corner tower and bays come from unchanged native geometry.",
+    "City Museum binds the exact VTJ and documents an asymmetric Jugend facade with several opening forms; the original drawing retains varied axes rather than a generic symmetric classical elevation."
+  ],
+  "limitations": [
+    "Only exact outward southeast street-front facets and their connected forward-facing bay/turret facets are selected; roof and side/courtyard walls retain native materials.",
+    "Window dimensions, spacing and balcony drawing are reference-led approximations, not a measured elevation survey. Street View photos are appearance references only; no pixels, people, trees or commercial branding are copied.",
+    "Both current official appearance themes lack images for this exact source building; no2017model or theme is used."
+  ]
+}

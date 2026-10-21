@@ -1,0 +1,344 @@
+{
+  "schemaVersion": 1,
+  "id": "anonymous-96ce40d5-office-east-20261021",
+  "baselineManifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54",
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "art": {
+    "path": "facade.png",
+    "sha256": "f85b91d3a7ba9c67a1da6a2f5528cd0b15472ba09503969fa4b37af7210d4326",
+    "width": 1024,
+    "height": 1024,
+    "license": "CC0-1.0",
+    "attribution": "Original observed office artwork by Helsinki Rides (2026); no reference pixels copied.",
+    "references": [
+      {
+        "title": "Google Street View10Pieni Roobertinkatu,August2024",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=hXe3i75LBj563jrRGEBE9Q&heading=355&pitch=28&fov=100",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Google Street View29Korkeavuorenkatu,August2024",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=iDZ6bFm2VW-hNkQ0Zof41A&heading=275&pitch=28&fov=100",
+        "role": "appearance-reference-only"
+      }
+    ]
+  },
+  "material": {
+    "name": "anonymous-96ce40d5-office-east-20261021",
+    "unlit": true,
+    "roughness": 0.95,
+    "doubleSided": false
+  },
+  "charts": [
+    {
+      "id": "anonymous-96ce40d5-office-east-20261021-0",
+      "building": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+      "origin": [
+        -351.80419921875,
+        0,
+        566.6134643554688
+      ],
+      "uAxis": [
+        -0.04015072394246745,
+        0,
+        -0.9991936345708452
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -16.925989435761387,
+        7.210078239440918,
+        1.0658141036401503e-14,
+        27.100427627563477
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-96ce40d5-office-east-20261021-1",
+      "building": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+      "origin": [
+        -351.80419921875,
+        0,
+        566.6134643554688
+      ],
+      "uAxis": [
+        -0.040150723942467444,
+        0,
+        -0.9991936345708451
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -16.925989435761387,
+        7.210078239440918,
+        1.4210854715202004e-14,
+        27.100427627563477
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-96ce40d5-office-east-20261021-2",
+      "building": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+      "origin": [
+        -351.3280944824219,
+        0,
+        571.2548828125
+      ],
+      "uAxis": [
+        -0.047197864982424474,
+        0,
+        -0.9988855597820507
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -12.268242807923306,
+        7.210078239440918,
+        4.6577674876932225,
+        27.100427627563477
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-96ce40d5-office-east-20261021-3",
+      "building": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+      "origin": [
+        -351.3280944824219,
+        0,
+        571.2548828125
+      ],
+      "uAxis": [
+        -0.047197864982424474,
+        0,
+        -0.9988855597820506
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -12.268242807923304,
+        7.210078239440918,
+        4.657767487693224,
+        27.100427627563477
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-96ce40d5-office-east-20261021-4",
+      "building": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+      "origin": [
+        -350.58489990234375,
+        0,
+        581.2285766601562
+      ],
+      "uAxis": [
+        -0.043675673361662525,
+        0,
+        -0.9990457624935933
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -2.271576803472044,
+        7.210078239440918,
+        14.654317791572883,
+        27.100427627563477
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-96ce40d5-office-east-20261021-5",
+      "building": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+      "origin": [
+        -350.58489990234375,
+        0,
+        581.2285766601562
+      ],
+      "uAxis": [
+        -0.043675673361662525,
+        0,
+        -0.9990457624935934
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -2.271576803472044,
+        7.210078239440918,
+        14.654317791572883,
+        27.100427627563477
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-96ce40d5-office-east-20261021-6",
+      "building": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+      "origin": [
+        -352.669189453125,
+        0,
+        566.6649780273438
+      ],
+      "uAxis": [
+        -0.04282132953249339,
+        0,
+        -0.9990827461912599
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -16.912060416567094,
+        7.210078239440918,
+        0.013837822328522265,
+        27.100427627563477
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "anonymous-96ce40d5-office-east-20261021-7",
+      "building": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+      "origin": [
+        -352.669189453125,
+        0,
+        566.6649780273438
+      ],
+      "uAxis": [
+        -0.04282132953249338,
+        0,
+        -0.9990827461912598
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        -16.912060416567094,
+        7.210078239440918,
+        0.013837822328522265,
+        27.100427627563477
+      ],
+      "pixels": [
+        2,
+        2,
+        1020,
+        1020
+      ],
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "cells": [
+    {
+      "id": "c_m03_p04",
+      "buildings": [
+        {
+          "id": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+          "vtj": null
+        }
+      ],
+      "baselineLevels": {
+        "lod0": "9372a4947a000ae21d6e0a8e3cecb347dd5e360d4d6d6dc9468b3866e6a6d569",
+        "lod1": "9372a4947a000ae21d6e0a8e3cecb347dd5e360d4d6d6dc9468b3866e6a6d569",
+        "lod2": "c5342c0914608fdab4f7b5d06ff1733a0642d29543769b596fb22e7a04100fcb"
+      },
+      "faces": [
+        {
+          "key": "f0ceafc35d33c341e5d10e44:f0e6afc3f8b8e64043a70d44:f0e6afc35d33c34143a70d44",
+          "chart": "anonymous-96ce40d5-office-east-20261021-0"
+        },
+        {
+          "key": "f0ceafc35d33c341e5d10e44:f0ceafc3f6b8e640e5d10e44:f0e6afc3f8b8e64043a70d44",
+          "chart": "anonymous-96ce40d5-office-east-20261021-1"
+        },
+        {
+          "key": "a26dafc35d33c341124f1144:ffa9afc3f7b8e64050d00e44:ffa9afc35c33c34150d00e44",
+          "chart": "anonymous-96ce40d5-office-east-20261021-2"
+        },
+        {
+          "key": "a26dafc35d33c341124f1144:a26dafc3f6b8e640124f1144:ffa9afc3f7b8e64050d00e44",
+          "chart": "anonymous-96ce40d5-office-east-20261021-3"
+        },
+        {
+          "key": "2b3eafc35c33c341dfdf1144:de4aafc3f7b8e640a14e1144:de4aafc35c33c341a14e1144",
+          "chart": "anonymous-96ce40d5-office-east-20261021-4"
+        },
+        {
+          "key": "2b3eafc35c33c341dfdf1144:2b3eafc3f8b8e640dfdf1144:de4aafc3f7b8e640a14e1144",
+          "chart": "anonymous-96ce40d5-office-east-20261021-5"
+        },
+        {
+          "key": "a855b0c35d33c3418faa0d44:a855b0c3adcdd8418faa0d44:f000b0c33bccd841dd861144",
+          "chart": "anonymous-96ce40d5-office-east-20261021-6"
+        },
+        {
+          "key": "a855b0c35d33c3418faa0d44:f000b0c33bccd841dd861144:f000b0c35c33c341dd861144",
+          "chart": "anonymous-96ce40d5-office-east-20261021-7"
+        }
+      ]
+    }
+  ]
+}

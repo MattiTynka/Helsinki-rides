@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "id": "sturenkatu-8-southeast-20261021",
+  "building": {
+    "id": "BID_b1134491-31c5-468e-b814-07a477424dcc",
+    "vtj": "1031806236",
+    "owner": "c_m03_m18"
+  },
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    140,
+    141,
+    142,
+    143,
+    144,
+    145,
+    146
+  ],
+  "frame": {
+    "origin": [
+      -331.1983947753907,
+      -2189.307861328125
+    ],
+    "axis": [
+      0.648433714069037,
+      -0.7612711202053013
+    ],
+    "width": 46.44703545618472
+  },
+  "completeElevationPlane": true,
+  "art": {
+    "wallColour": "#c5c0ae",
+    "groundColour": "#9c573e",
+    "surroundColour": "#b8b9ac",
+    "frameColour": "#c8cdc5",
+    "glassColour": "#738a8e",
+    "groundHeight": 6.15,
+    "rows": [
+      {
+        "bottom": 0.85,
+        "height": 1.45,
+        "width": 1.15,
+        "axes": [
+          1.4514698580057726,
+          4.354409574017318,
+          13.063228722051953,
+          15.966168438063498,
+          18.869108154075043,
+          21.77204787008659,
+          24.674987586098133,
+          27.57792730210968,
+          30.480867018121224,
+          33.38380673413277,
+          42.092625882167404,
+          44.99556559817895
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 3.85,
+        "height": 1.45,
+        "width": 1.15,
+        "axes": [
+          1.4514698580057726,
+          4.354409574017318,
+          13.063228722051953,
+          15.966168438063498,
+          18.869108154075043,
+          21.77204787008659,
+          24.674987586098133,
+          27.57792730210968,
+          30.480867018121224,
+          33.38380673413277,
+          42.092625882167404,
+          44.99556559817895
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 7.05,
+        "height": 1.45,
+        "width": 1.15,
+        "axes": [
+          1.4514698580057726,
+          4.354409574017318,
+          13.063228722051953,
+          15.966168438063498,
+          18.869108154075043,
+          21.77204787008659,
+          24.674987586098133,
+          27.57792730210968,
+          30.480867018121224,
+          33.38380673413277,
+          42.092625882167404,
+          44.99556559817895
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 10.15,
+        "height": 1.45,
+        "width": 1.15,
+        "axes": [
+          1.4514698580057726,
+          4.354409574017318,
+          13.063228722051953,
+          15.966168438063498,
+          18.869108154075043,
+          21.77204787008659,
+          24.674987586098133,
+          27.57792730210968,
+          30.480867018121224,
+          33.38380673413277,
+          42.092625882167404,
+          44.99556559817895
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 0.04,
+        "height": 0.18,
+        "colour": "#b5b4a3"
+      },
+      {
+        "from": "top",
+        "offset": -0.14,
+        "height": 0.14,
+        "colour": "#77786d"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Maps actual Sturenkatu 8 southeast front, 360pics.eu March2025 capture (UI April2025), opened front and westward oblique views",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=CIABIhAIN0uG0Qr5b2fs6FEAAVYD&heading=309.71&pitch=15&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "The actual four-storey frontage has a red-brown brick lower two storeys and a pale warm grey upper two storeys; its flat roof edge has small square vents.",
+    "Repeated narrow pale-frame rectangular windows flank two full-height blue/green glazed stair strips, with turquoise tile side bands. The approximate stair positions are authored independently; source geometry is retained.",
+    "The opened streetward oblique shows the long plane continuing towards the intersection. A different curved red-brick wing belongs to another source plane and is not included in this plan."
+  ],
+  "limitations": [
+    "Only the exact selected complete source elevation is covered. Other building elevations, courts and roof roles retain their native finish until separately qualified.",
+    "Original artwork interprets the opened reference; palette, opening positions and module dimensions are approximate. No Google image pixels, signs, people, vehicles or personal data are reproduced.",
+    "Native model positions, indices, winding and collision remain unchanged."
+  ]
+}

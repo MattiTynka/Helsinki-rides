@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "kalevankatu-45-observed-northeast-party-wall-20261021",
+  "building": {
+    "id": "BID_fcde335d-f2d3-4650-a66b-e3ea53ed9602",
+    "vtj": "1030652715",
+    "owner": "c_m10_p04"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "faces": [
+    {
+      "part": 0,
+      "triangle": 73
+    },
+    {
+      "part": 0,
+      "triangle": 74
+    },
+    {
+      "part": 0,
+      "triangle": 75
+    },
+    {
+      "part": 0,
+      "triangle": 76
+    },
+    {
+      "part": 0,
+      "triangle": 77
+    }
+  ],
+  "completeElevationPlane": true,
+  "role": "Red-brown exposed masonry party-wall plane above adjacent low wooden43; no openings observed on exposed portion",
+  "finish": {
+    "kind": "brick",
+    "colour": "#986c59",
+    "mortarColour": "#a48370",
+    "moduleWidth": 0.32,
+    "moduleHeight": 0.14
+  },
+  "references": [
+    {
+      "title": "Google Street View August2024, Kalevankatu45 NE exposed brick return above wooden43, opened oblique full upper view",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=gZarSRfx7P7wRDaQhnLxSg&heading=291&pitch=32&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "The actually opened August2024 view shows the tall45 northeast end as a plain reddish-brown exposed masonry plane above the much lower43 wooden roof; it has no windows in that exposed portion.",
+    "Exact source73�77 is the connected first8.7m-deep plane touching the observed45 southeast street-front endpoint; it is geometrically separate from the rear parallel courtyard wings."
+  ],
+  "limitations": [
+    "Uniform original brick finish is qualified by the exposed upper plane. The lower area is occluded by adjacent43 in the reference; no claim about hidden openings or full building coverage is made.",
+    "The surface has no authored windows, floors or doors, and no inferred floor sampling through the adjacent roof. Native shape, corners, winding and HCOL remain literal.",
+    "Brick module and palette are approximate original artwork. No Google photograph pixels or graffiti are copied."
+  ]
+}

@@ -18,11 +18,11 @@ export interface FrontierClip {
 }
 export type FrontierRectangle=readonly [number,number,number,number];
 export interface FrontierPlan {
-  axis:'x'|'z';cut:number;protectedSide:'east'|'south';
+  axis:'x'|'z';cut:number;protectedSide:'east'|'south'|'north';
   geographicRegion:FrontierRectangle;groundRegion:FrontierRectangle;sourceBand:FrontierRectangle;
   acceptedBounds:FrontierRectangle;
 }
-/** Only a full west or north strip can opt into this exception. Its native assembly replaces five
+/** Only a full west, north or south strip can opt into this exception. Its native assembly replaces five
  * accepted metres and six external metres; callers cannot widen that protected-interior exception. */
 export function planCityFrontier(acceptedBounds:FrontierRectangle,region:FrontierRectangle,axis:'x'|'z'='x'):FrontierPlan{
   for(const bounds of[acceptedBounds,region])assert.ok(bounds.length===4&&bounds.every(Number.isFinite)&&bounds[0]<bounds[2]&&bounds[1]<bounds[3],'Invalid frontier rectangle');
@@ -32,12 +32,16 @@ export function planCityFrontier(acceptedBounds:FrontierRectangle,region:Frontie
     assert.ok(x1===ax0&&x0<ax0&&z0===az0&&z1===az1,'Frontier must be one full western strip');assert.ok(ax0+5<ax1,'Accepted terrain is narrower than the protected frontier');
     return{axis,cut:ax0+5,protectedSide:'east',acceptedBounds,geographicRegion:region,groundRegion:[x0,z0,ax0+5,z1],sourceBand:[ax0-6,z0,ax0+5,z1]};
   }
-  assert.ok(z1===az0&&z0<az0&&x0===ax0&&x1===ax1,'Frontier must be one full northern strip');assert.ok(az0+5<az1,'Accepted terrain is shorter than the protected frontier');
-  return{axis,cut:az0+5,protectedSide:'south',acceptedBounds,geographicRegion:region,groundRegion:[x0,z0,x1,az0+5],sourceBand:[x0,az0-6,x1,az0+5]};
+  const north=z1===az0&&z0<az0&&x0===ax0&&x1===ax1;
+  const south=z0===az1&&z1>az1&&x0===ax0&&x1===ax1;
+  assert.ok(north||south,'Frontier must be one full northern strip or one full southern strip');assert.ok(az0+5<az1,'Accepted terrain is shorter than the protected frontier');
+  return north
+    ?{axis,cut:az0+5,protectedSide:'south',acceptedBounds,geographicRegion:region,groundRegion:[x0,z0,x1,az0+5],sourceBand:[x0,az0-6,x1,az0+5]}
+    :{axis,cut:az1-5,protectedSide:'north',acceptedBounds,geographicRegion:region,groundRegion:[x0,az1-5,x1,z1],sourceBand:[x0,az1-5,x1,az1+6]};
 }
 export function frontierRuntimeLoweringAllowed(plan:FrontierPlan,x:number,z:number,previous:number,next:number){
   const [x0,z0,x1,z1]=plan.acceptedBounds;
-  return Number.isFinite(next)&&next<previous&&x>=x0&&x<=x1&&z>=z0&&z<=z1&&(plan.axis==='x'?x<plan.cut:z<plan.cut);
+  return Number.isFinite(next)&&next<previous&&x>=x0&&x<=x1&&z>=z0&&z<=z1&&(plan.axis==='x'?x<plan.cut:plan.protectedSide==='north'?z>plan.cut:z<plan.cut);
 }
 const area3=(a:number[],b:number[],c:number[])=>Math.hypot((b[1]!-a[1]!)*(c[2]!-a[2]!)-(b[2]!-a[2]!)*(c[1]!-a[1]!),(b[2]!-a[2]!)*(c[0]!-a[0]!)-(b[0]!-a[0]!)*(c[2]!-a[2]!),(b[0]!-a[0]!)*(c[1]!-a[1]!)-(b[1]!-a[1]!)*(c[0]!-a[0]!));
 type Vertex=Record<string,number[]>;

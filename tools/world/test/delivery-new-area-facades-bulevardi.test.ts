@@ -1,0 +1,8 @@
+import assert from'node:assert/strict';import test from'node:test';import{chartInProjectedElevation,renderBulevardi22}from'../lib/delivery-new-area-facades-bulevardi.ts';import{chartForSourceTriangles,OriginalWallArt}from'../author_senate_facade_charts.ts';import{facadeChartUv,type FacadeTriangle}from'../lib/facade-charts.ts';
+test('Original shared elevation follows exact angled bay planes without moving them',()=>{
+ const a:FacadeTriangle=[[0,3,0],[2,3,1],[2,23,1]],b:FacadeTriangle=[[0,3,0],[2,23,1],[0,23,0]],source=[a,b],chart=chartForSourceTriangles('native-return','exactBID',source,[2,2,1020,1020]),frame={origin:[0,0]as const,axis:[1,0]as const,width:36,minY:3,maxY:23};
+ assert.ok(chart.uAxis[0]>0,'Fixture must exercise the full source UV projection');
+ const projected=chartInProjectedElevation(chart,source,frame);for(const p of source.flat()){const uv=facadeChartUv(p,projected,1024,1024);assert.ok(Math.abs(uv[0]-(2.5+p[0]/36*1019)/1024)<1e-12);assert.ok(Math.abs(uv[1]-(2.5+(23-p[1])/20*1019)/1024)<1e-12);}
+ assert.deepEqual(source,[a,b]);assert.throws(()=>chartInProjectedElevation(chart,[[[0,3,.01],a[1],a[2]]],frame));const reversed:FacadeTriangle=[a[0],a[2],a[1]];assert.throws(()=>chartInProjectedElevation(chartForSourceTriangles('reversed','exactBID',[reversed],[2,2,1020,1020]),[reversed],frame));
+});
+test('Original Bulevardi elevation has four upper rows and no malformed joined SVG numbers',()=>{const wall=new OriginalWallArt(35.81,3.08,23.05);renderBulevardi22(wall,3.92);const svg=wall.svg([2,2,1020,1020]);assert.equal((svg.match(/data-feature="b22-flat-/g)??[]).length,96);assert.match(svg,/d="M 16\.05 [\d.]+ Q 17\.75 [\d.]+ 19\.45 [\d.]+"/);assert.ok(!/image|href=/.test(svg));});

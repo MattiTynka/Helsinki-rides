@@ -11,10 +11,14 @@ import {validateBytes} from 'gltf-validator';
 import type {FileRef,WorldManifest} from '../../packages/world-schema/src/index.ts';
 import {validateWorldManifest} from '../../packages/world-schema/src/index.ts';
 import {readFacadeGlb} from './lib/facade-glb.ts';
-import {facadeChartSha256 as sha,facadeTriangleKey,validateFacadeTriangle,type FacadeChart,type FacadeChartTarget,type FacadeTriangle} from './lib/facade-charts.ts';
+import {facadeAtlasBytes,facadeChartSha256 as sha,facadeTriangleKey,validateFacadeTriangle,type FacadeChart,type FacadeChartTarget,type FacadeTriangle} from './lib/facade-charts.ts';
 import {applyFacadeChartsToGlb,applyFacadeChartColorsToLod2,inspectFacadeChartTargets,readFacadeChartTriangles} from './lib/facade-chart-glb.ts';
 import {encodeKtx2} from './lib/gltf.ts';
 
+export interface DeliveryFacadeSourceOwner {readonly id:string;readonly vtj:string|null}
+export type DeliveryFacadeCell = {id:string;baselineLevels:Record<string,string>;faces:{key:string;chart:string}[]} & (
+  {building:string;vtj:string;buildings?:never} | {buildings:DeliveryFacadeSourceOwner[];building?:never;vtj?:never}
+);
 export interface DeliveryFacadeProfile {
   schemaVersion:1;
   id:string;
@@ -24,7 +28,17 @@ export interface DeliveryFacadeProfile {
     references:{title:string;url:string;role:'appearance-reference-only'}[]};
   material:{name:string;unlit:boolean;roughness:number;doubleSided:boolean};
   charts:FacadeChart[];
-  cells:{id:string;building:string;vtj:string;baselineLevels:Record<string,string>;faces:{key:string;chart:string}[]}[];
+  cells:DeliveryFacadeCell[];
+}
+/** Preserve legacy single-owner profiles; grouped profiles must name each source owner exactly once. */
+export function deliveryFacadeSourceOwners(cell:DeliveryFacadeCell):readonly DeliveryFacadeSourceOwner[]{
+  if('buildings' in cell){
+    assert.ok(!('building' in cell)&&!('vtj' in cell),'Ambiguous grouped and legacy facade ownership');
+    assert.ok(Array.isArray(cell.buildings)&&cell.buildings.length>0,'Grouped facade source owners required');
+    assert.equal(new Set(cell.buildings.map(b=>b.id)).size,cell.buildings.length,'Duplicate facade source owner');
+    for(const b of cell.buildings)assert.ok(b.id&&(b.vtj===null||typeof b.vtj==='string'&&b.vtj.length),'Source building ID and explicit VTJ or null required');return cell.buildings;
+  }
+  assert.ok(cell.building&&cell.vtj,'Legacy source building ID and VTJ required');return [{id:cell.building,vtj:cell.vtj}];
 }
 const load=(file:string)=>JSON.parse(fs.readFileSync(file,'utf8'));
 function child(root:string,name:string) {
@@ -50,7 +64,7 @@ export function deliveryFacadeImages(root:string,ref:FileRef,bytes:Uint8Array,sh
   return images;
 }
 
-function sourceKeys(city:any,bin:Buffer,building:string,vtj:string) {
+function sourceKeys(city:any,bin:Buffer,building:string,vtj:string|null) {
   const buildings=city.buildings.filter((b:any)=>b.id===building);assert.equal(buildings.length,1,'Unique source building required');assert.equal(buildings[0].vtj,vtj);
   const keys=new Map<string,number>();
   for(const part of buildings[0].parts){
@@ -87,15 +101,24 @@ export async function applyDeliveryFacadeCharts(args:{baseline:string;current:st
   const artBytes=fs.readFileSync(child(path.dirname(profileFile),p.art.path));assert.equal(sha(artBytes),p.art.sha256);assert.ok(p.art.license&&p.art.attribution&&p.art.references.length);
   for(const r of p.art.references){assert.equal(r.role,'appearance-reference-only');assert.ok(/^https:\/\//.test(r.url)&&r.title);}
   const raw=await sharp(artBytes).ensureAlpha().raw().toBuffer({resolveWithObject:true});assert.equal(raw.info.width,p.art.width);assert.equal(raw.info.height,p.art.height);
-  assert.ok(p.art.width<=768&&p.art.height<=768);for(let i=3;i<raw.data.length;i+=4)assert.equal(raw.data[i],255,'Opaque facade art required');
+  const grouped=p.cells.some(c=>'buildings' in c),sideLimit=grouped?1024:768;
+  assert.ok(p.art.width<=sideLimit&&p.art.height<=sideLimit);for(let i=3;i<raw.data.length;i+=4)assert.equal(raw.data[i],255,'Opaque facade art required');
+  const maximumFallbackBytes=grouped?6*1024*1024:3*1024*1024;
+  assert.ok(facadeAtlasBytes(p.art.width,p.art.height)<=maximumFallbackBytes,'Authored atlas exceeds fallback memory budget');
   const image={width:raw.info.width,height:raw.info.height,data:new Uint8Array(raw.data)},atlas=await encodeKtx2(image,'facade');
   const pending=new Map<string,Uint8Array>(),updates:any[]=[];let addedTextureEstimate=0;
   assert.equal(new Set(p.cells.map(c=>c.id)).size,p.cells.length,'Cell entries must be unique');
   for(const selected of p.cells){
     const original=base.cells.find(c=>c.id===selected.id),cell=manifest.cells.find(c=>c.id===selected.id);assert.ok(original&&cell,'Missing owner cell');
-    const record=cell.buildings.find(b=>b.id===selected.building);assert.equal(record?.vtj,selected.vtj,'Wrong source building owner');
-    const source=sourceKeys(city,bin,selected.building,selected.vtj);
-    for(const face of selected.faces){assert.equal(source.get(face.key),1,'Chart target must be exactly one original source building triangle');assert.equal(p.charts.find(c=>c.id===face.chart)?.building,selected.building);}
+    const owners=deliveryFacadeSourceOwners(selected),ownerIds=new Set(owners.map(b=>b.id)),source=new Map<string,ReturnType<typeof sourceKeys>>();
+    for(const owner of owners){
+      assert.equal(cell.buildings.find(b=>b.id===owner.id)?.vtj,owner.vtj,'Wrong source building owner');
+      assert.equal(original.buildings.find(b=>b.id===owner.id)?.vtj,owner.vtj,'Source building is absent from the deployed owner cell');
+      source.set(owner.id,sourceKeys(city,bin,owner.id,owner.vtj));
+    }
+    for(const face of selected.faces){const chart=p.charts.find(c=>c.id===face.chart);assert.ok(chart&&ownerIds.has(chart.building),'Chart owner is not declared in this cell');
+      assert.equal(source.get(chart.building)?.get(face.key),1,'Chart target must be exactly one triangle of its declared original source building');}
+    for(const owner of owners)assert.ok(selected.faces.some(f=>p.charts.find(c=>c.id===f.chart)?.building===owner.id),'Declared source owner has no selected facade faces');
     const next={...cell,visual:{...cell.visual},buildings:[...cell.buildings]},cache=new Map<string,{ref:any;proof:any}>();let coverage:Awaited<ReturnType<typeof inspectFacadeChartTargets>>|undefined;
     const proofs:any[]=[];
     for(const level of ['lod0','lod1','lod2'] as const){
@@ -110,7 +133,7 @@ export async function applyDeliveryFacadeCharts(args:{baseline:string;current:st
       if(level==='lod0')coverage=await inspectFacadeChartTargets(bytes,common);
       assert.ok(coverage,'Detailed coverage must be established before lower tiers');
       const result=level==='lod2'?await applyFacadeChartColorsToLod2(bytes,{...common,image,detailedCoverage:coverage}):await applyFacadeChartsToGlb(bytes,{...common,
-        atlas:{name:p.id,image:atlas,mimeType:'image/ktx2',width:p.art.width,height:p.art.height},maximumFallbackBytes:3*1024*1024,material:p.material,
+        atlas:{name:p.id,image:atlas,mimeType:'image/ktx2',width:p.art.width,height:p.art.height},maximumFallbackBytes,material:p.material,
         extras:{facadeChartProfile:p.id,profileSha256:sha(fs.readFileSync(profileFile)),artSha256:p.art.sha256,license:p.art.license,attribution:p.art.attribution,appearanceReferences:p.art.references,sourceGeometry:'Original municipal triangles and winding unchanged'}});
       const validationOptions={maxIssues:100,externalResourceFunction:async(uri:string)=>{const payload=images.get(uri);assert.ok(payload,'Validator requested an unpinned image');return payload;}};
       const validation=await validateBytes(result.bytes,validationOptions);
@@ -118,10 +141,11 @@ export async function applyDeliveryFacadeCharts(args:{baseline:string;current:st
       const hash=sha(result.bytes),name=`cells/${cell.id}.${level}.${hash.slice(0,16)}.glb`;
       const ref={...old,path:name,sha256:hash,bytes:result.bytes.length,drawCalls:old.drawCalls+result.proof.addedPrimitives,
         atlases:old.atlases+(level==='lod2'?0:1),textureBytesEstimate:old.textureBytesEstimate+result.proof.textureBytesEstimate};
-      assert.ok(ref.drawCalls<=24,'Facade exceeds per-cell draw cap');next.visual[level]=ref;pending.set(name,result.bytes);cache.set(old.path,{ref,proof:result.proof});proofs.push({level,...result.proof});
+      assert.ok(ref.drawCalls<=24,'Facade exceeds per-cell draw cap');if(grouped&&level==='lod2')assert.ok(ref.drawCalls<=3,'Grouped facade exceeds the 3-draw distant-tier cap');
+      next.visual[level]=ref;pending.set(name,result.bytes);cache.set(old.path,{ref,proof:result.proof});proofs.push({level,...result.proof});
       if(level==='lod0')addedTextureEstimate+=result.proof.textureBytesEstimate;
     }
-    next.buildings=next.buildings.map(b=>b.id===selected.building?{...b,texture:'textured'}:b);assert.deepEqual(next.collision,cell.collision);pinned(current,cell.collision);
+    next.buildings=next.buildings.map(b=>ownerIds.has(b.id)?{...b,texture:'textured'}:b);assert.deepEqual(next.collision,cell.collision);pinned(current,cell.collision);
     updates.push({cell:cell.id,before:cell,after:next,proofs});
   }
   fs.mkdirSync(out,{recursive:true});for(const [relative,bytes]of pending){const file=child(out,relative);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,bytes,{flag:'wx'});}

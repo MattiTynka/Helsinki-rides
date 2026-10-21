@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "id": "sturenkatu-13-observed-bay-returns-20261021",
+  "building": {
+    "id": "BID_bb06515d-b65a-4351-89ce-f9dd01822d54",
+    "vtj": "103180609R",
+    "owner": "c_m03_m18"
+  },
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "role": "Four exact perpendicular cream-plastered sides of the two observed projecting street-facing bay windows",
+  "completeElevationPlane": true,
+  "planes": [
+    {
+      "id": "bay-return-0",
+      "faces": [
+        {
+          "part": 0,
+          "triangle": 284
+        },
+        {
+          "part": 0,
+          "triangle": 285
+        },
+        {
+          "part": 0,
+          "triangle": 286
+        }
+      ]
+    },
+    {
+      "id": "bay-return-1",
+      "faces": [
+        {
+          "part": 0,
+          "triangle": 287
+        },
+        {
+          "part": 0,
+          "triangle": 288
+        },
+        {
+          "part": 0,
+          "triangle": 289
+        }
+      ]
+    },
+    {
+      "id": "bay-return-2",
+      "faces": [
+        {
+          "part": 0,
+          "triangle": 290
+        },
+        {
+          "part": 0,
+          "triangle": 291
+        },
+        {
+          "part": 0,
+          "triangle": 292
+        }
+      ]
+    },
+    {
+      "id": "bay-return-3",
+      "faces": [
+        {
+          "part": 0,
+          "triangle": 293
+        },
+        {
+          "part": 0,
+          "triangle": 294
+        },
+        {
+          "part": 0,
+          "triangle": 295
+        }
+      ]
+    }
+  ],
+  "finish": {
+    "kind": "plain",
+    "colour": "#ded6ba"
+  },
+  "references": [
+    {
+      "title": "Google Street View Sturenkatu13 actual northwest street facade, August2024; full front and upward roof/storey view opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=HCgacOYSiFRT1WNv8USLBQ&heading=129.77&pitch=15&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual August2024 exterior reference shows uninterrupted cream plaster on the shallow bay returns; the large windows face the street from the separate forward bay planes.",
+    "Only these four explicitly selected native return planes receive plain material. No opening or new physical geometry is introduced."
+  ],
+  "limitations": [
+    "Plain finish cannot reproduce small fixtures or unmeasured subtle weathering. Other returns and courtyard/party faces remain unqualified.",
+    "No photographic pixels are copied and no hidden opening is inferred."
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "id": "ratakatu-13-central-bay-returns-20261021",
+  "building": {
+    "id": "BID_6daabb09-73ec-4fb4-8be6-fc7e265d44e0",
+    "vtj": "103084998H",
+    "owner": "c_m04_p05"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "planes": [
+    {
+      "id": "west",
+      "faces": [
+        {
+          "part": 0,
+          "triangle": 175
+        },
+        {
+          "part": 0,
+          "triangle": 176
+        }
+      ]
+    },
+    {
+      "id": "east",
+      "faces": [
+        {
+          "part": 0,
+          "triangle": 343
+        },
+        {
+          "part": 0,
+          "triangle": 344
+        },
+        {
+          "part": 0,
+          "triangle": 345
+        }
+      ]
+    }
+  ],
+  "completeElevationPlane": true,
+  "role": "Two opaque narrow return planes of the observed central salmon-plastered street bay",
+  "finish": {
+    "kind": "plain",
+    "colour": "#bb765f"
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Ratakatu13 southeast street front, August2024, salmon Jugend three bays and arched entry actually opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=-FW_InsT6menusWpSjRDCw&heading=324.7&pitch=25&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actually opened August2024 Ratakatu13 facade has continuous salmon plaster on both narrow central-bay returns, without a pale vertical strip or windows.",
+    "Exact source175/176 and343–345 share the literal central-front edge vertices of selected347/348, touch the observed outer street elevation and are geometrically perpendicular rather than image-projectable. Each independent native support plane is complete-checked."
+  ],
+  "limitations": [
+    "Only these two explicitly pinned no-opening return planes receive the uniform original finish. No other side/court wall is selected.",
+    "No generalized normal/area selector, native geometry modification, floor assumption or photo-pixel copying is introduced."
+  ]
+}

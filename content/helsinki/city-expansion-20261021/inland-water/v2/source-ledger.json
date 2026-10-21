@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 1,
+  "kind": "inland-source-separation-evidence",
+  "sources": [
+    {
+      "name": "public-osm-v3",
+      "sha256": "0c158c071166235c743e9ce4e19e22934f71f52894ecf105a198fa63fb03a0c5",
+      "license": "ODbL-1.0",
+      "copyright": "© OpenStreetMap contributors"
+    },
+    {
+      "name": "raw-terrain-index",
+      "sha256": "628f5f296323bceddbbda5726503189d39cb265838bd9bca573594d0537103ea",
+      "license": "CC-BY-4.0",
+      "copyright": "© City of Helsinki"
+    }
+  ],
+  "surveys": [
+    {
+      "type": "way",
+      "id": 649206604,
+      "stats": {
+        "inside": 66,
+        "rim": 60,
+        "nullSamples": 0,
+        "min": 1.5605857963960619,
+        "max": 2.227954676817773
+      },
+      "municipalParts": [
+        "556833",
+        "556834",
+        "556836",
+        "556939",
+        "556990"
+      ]
+    },
+    {
+      "type": "way",
+      "id": 649206605,
+      "stats": {
+        "inside": 121,
+        "rim": 62,
+        "nullSamples": 0,
+        "min": 2.0651029728414225,
+        "max": 2.7782379376789894
+      },
+      "municipalParts": [
+        "556833",
+        "556834",
+        "556836",
+        "556893",
+        "556899",
+        "556935",
+        "556936",
+        "556937"
+      ]
+    },
+    {
+      "type": "way",
+      "id": 725901862,
+      "stats": {
+        "inside": 230,
+        "rim": 74,
+        "nullSamples": 0,
+        "min": 0.3433663230061621,
+        "max": 0.4321505753630972
+      },
+      "municipalParts": [
+        "234462",
+        "557052"
+      ]
+    },
+    {
+      "type": "way",
+      "id": 995397169,
+      "stats": {
+        "inside": 39,
+        "rim": 28,
+        "nullSamples": 0,
+        "min": 25.145082102191296,
+        "max": 25.382358192886137
+      },
+      "municipalParts": [
+        "548406",
+        "548435",
+        "548500"
+      ]
+    },
+    {
+      "type": "way",
+      "id": 1193914867,
+      "stats": {
+        "inside": 27,
+        "rim": 27,
+        "nullSamples": 0,
+        "min": 18.46437556249934,
+        "max": 20.383509439754008
+      },
+      "municipalParts": [
+        "548414",
+        "548435",
+        "548445",
+        "548502"
+      ]
+    },
+    {
+      "type": "way",
+      "id": 126838834,
+      "stats": {
+        "inside": 1425,
+        "rim": 633,
+        "nullSamples": 0,
+        "min": 32.19402758793781,
+        "max": 40.83680050075658
+      },
+      "municipalParts": []
+    },
+    {
+      "type": "way",
+      "id": 126838859,
+      "stats": {
+        "inside": 124,
+        "rim": 81,
+        "nullSamples": 0,
+        "min": 35.55629768460275,
+        "max": 41.30882303633726
+      },
+      "municipalParts": []
+    },
+    {
+      "type": "way",
+      "id": 1032928183,
+      "stats": {
+        "inside": 137,
+        "rim": 70,
+        "nullSamples": 0,
+        "min": 30.714710343489095,
+        "max": 31.29525467404131
+      },
+      "municipalParts": [
+        "346911",
+        "520697",
+        "520703",
+        "520707",
+        "520710"
+      ]
+    },
+    {
+      "type": "way",
+      "id": 1032928184,
+      "stats": {
+        "inside": 58,
+        "rim": 43,
+        "nullSamples": 0,
+        "min": 31.54688232463461,
+        "max": 32.51690859307479
+      },
+      "municipalParts": [
+        "520697",
+        "520703",
+        "520708",
+        "520809",
+        "520811",
+        "520812",
+        "549172"
+      ]
+    },
+    {
+      "type": "way",
+      "id": 1193971945,
+      "stats": {
+        "inside": 24,
+        "rim": 26,
+        "nullSamples": 0,
+        "min": 35.23364046373534,
+        "max": 35.44313105393197
+      },
+      "municipalParts": [
+        "520696",
+        "520797",
+        "520819",
+        "520821",
+        "520822",
+        "520982",
+        "520983"
+      ]
+    },
+    {
+      "type": "relation",
+      "id": 298749,
+      "stats": {
+        "inside": 2339,
+        "rim": 374,
+        "nullSamples": 188,
+        "min": 7.108056607516533,
+        "max": 9.134810370505017
+      },
+      "municipalParts": [
+        "172601",
+        "232098",
+        "348429",
+        "348444",
+        "348448",
+        "348519",
+        "348528",
+        "348541",
+        "348543",
+        "348546",
+        "348548",
+        "348624",
+        "348628",
+        "348629",
+        "348644",
+        "348650",
+        "348654",
+        "348656",
+        "348661",
+        "348674",
+        "348676",
+        "348679",
+        "549357",
+        "549358"
+      ]
+    }
+  ],
+  "method": "Restore the exact removed native 2021 ground/UVs/kerbs, not an authored flat bed. Separate these individually qualified inland source features from the global marine level. Actual inland water/ride architecture remains unmodeled until elevation authority is available; no guessed level or new collision plane. Existing coast, old terrain, bridges and non-ground geometry stay unchanged. Independently covered water from all other source ways, relations and coastlines must remain wet. Reviewed near-coastal feature725901862 is retained unchanged.",
+  "retainedCoastalFeatures": [
+    {
+      "type": "way",
+      "id": 725901862,
+      "tags": {
+        "natural": "water"
+      },
+      "reason": "Near-sea native terrain and the opened bay shoreline reference do not authorize replacing this coastal-context water with dry native ground. Retain its original sea-level water geometry and safety field.",
+      "reference": {
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=i8AwLXuwHFGTCX-lpV5ZIw&heading=90&pitch=-20&fov=90",
+        "capture": "2012-08",
+        "opened": "2026-10-21",
+        "role": "Appearance-only coastal reed and water context; no pixels or photographic metric heights are distributed."
+      }
+    }
+  ]
+}

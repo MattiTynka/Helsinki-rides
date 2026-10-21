@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "kind": "source-bound-new-area-game-vehicle-exclusions",
+  "sourceOsmSha256": "0c158c071166235c743e9ce4e19e22934f71f52894ecf105a198fa63fb03a0c5",
+  "cases": [
+    {
+      "id": "customers-garage-uudenmaankatu",
+      "wayId": 1204627170,
+      "sourceNodeSpan": [
+        11165597473,
+        11164721467,
+        11164721468
+      ],
+      "publicJunctionNodeId": 11164721468,
+      "publicConnectingWayIds": [
+        1496591551
+      ],
+      "parkingEntranceNodeId": 11165597473,
+      "laneIds": [
+        "1204627170:0:f0",
+        "1204627170:0:b0"
+      ],
+      "reason": "Customers-only underground parking branch ends at the source parking entrance beside building VTJ103055962V, with no supported vehicle floor. Retain the real public Uudenmaankatu junction and every public walking record."
+    },
+    {
+      "id": "pengerkuja-gated-terminal",
+      "wayId": 148174325,
+      "sourceNodeSpan": [
+        1528618254,
+        1017984616,
+        1017984818
+      ],
+      "publicJunctionNodeId": 1528618254,
+      "publicConnectingWayIds": [
+        87508458,
+        148174325
+      ],
+      "gateNodeId": 1017984818,
+      "laneIds": [
+        "148174325:1:f0",
+        "148174325:1:b0"
+      ],
+      "reason": "The terminal destination-access branch reaches the mapped gate into an unsupported driveway. Its yard and road have stacked actual levels without qualified vehicle clearance. Retain the preceding public Pengerkuja segment and its public junction."
+    },
+    {
+      "id": "katri-vala-gated-service-terminal",
+      "wayId": 311531353,
+      "sourceNodeSpan": [
+        1502877649,
+        3172044252,
+        3172044251,
+        3172044250
+      ],
+      "publicJunctionNodeId": 1502877649,
+      "publicConnectingWayIds": [
+        138301083,
+        51007384
+      ],
+      "gateNodeId": 3172044251,
+      "laneIds": [
+        "311531353:0:f0",
+        "311531353:0:b0"
+      ],
+      "reason": "The service terminal crosses the mapped gate beside building VTJ103142226K. Actual yard and grass levels do not establish the source vehicle grade or clearance. Retain the public Vilhonvuorenkuja junction and source walking geometry."
+    }
+  ]
+}

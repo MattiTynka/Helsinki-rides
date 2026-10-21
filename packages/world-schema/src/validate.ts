@@ -37,6 +37,7 @@ export function validateWorldManifest(m: unknown): string[] {
   if (!x.terrain?.path || !isNum(x.terrain.resolution)) p.push('terrain missing');
   else for (const problem of validateSimulationFileRef(x.terrain)) p.push(`terrain: ${problem}`);
   if (!x.roads?.path) p.push('roads missing');
+  else for (const problem of validateSimulationFileRef(x.roads)) p.push(`roads: ${problem}`);
   if (!x.gameplay?.path) p.push('gameplay missing');
   for (const asset of x.assets ?? []) if (asset.optimization !== undefined) {
     const proof = asset.optimization;

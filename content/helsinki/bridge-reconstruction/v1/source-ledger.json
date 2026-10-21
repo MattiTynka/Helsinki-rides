@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "municipalStreetParts": {
+      "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs",
+      "sha256": "1d279b175f1f9163bfa0e2f0fdb1984303daa312e686530707c9043b23e87fa8",
+      "license": "CC-BY-4.0",
+      "attribution": "City of Helsinki"
+    },
+    "osm": {
+      "url": "https://www.openstreetmap.org/",
+      "sha256": "2852cec7cadfdbf29c9ab087ae6b7242bc563efd1155acb6fa38632c657299f3",
+      "license": "ODbL-1.0",
+      "attribution": "Copyright OpenStreetMap contributors"
+    }
+  },
+  "references": [
+    {
+      "url": "https://www.hel.fi/hel2/ksv/liitteet/2021_kaava/843_kaupunkirakenne_ja_ymparistohistoriaselvitys.pdf",
+      "sha256": "2775dad59ae22b3f93a4bb2aa2230df526bdfff7e869d9f39beab8ec2f689cc2",
+      "observations": "Historical drawing opened: three granite arches and two piers; current granite parapets are appearance references, not engineering dimensions.",
+      "redistributed": false
+    },
+    {
+      "title": "Pitk\u00e4silta",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=ZMjYUy324aoywQ07GMnQ3g&heading=180&pitch=-20",
+      "role": "appearance-reference-only",
+      "redistributed": false
+    },
+    {
+      "title": "Fredrikinkatu",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=GB22GxhSyL-oQDwr5sJWRQ&heading=325&pitch=-15",
+      "role": "appearance-reference-only",
+      "redistributed": false
+    },
+    {
+      "title": "Kanavakatu canal",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=iAjYgeSwlL6J0BaMB2I60A&heading=125&pitch=-25",
+      "role": "appearance-reference-only",
+      "redistributed": false
+    },
+    {
+      "title": "Hakaniemensilta August2026",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=OY4sFIuFi3sA47oMO3mfwQ&heading=160&pitch=-8",
+      "role": "appearance-reference-only",
+      "redistributed": false
+    },
+    {
+      "url": "https://ahjojulkaisu.hel.fi/C7E2ADE5-2298-C5B4-95BB-7D32E0E00000.pdf",
+      "sha256": "f52262e0fb4e68338246655a6273b25096b27f8f6d1ab5b468954a79d1a5658b",
+      "role": "engineering-layout-reference-only",
+      "redistributed": false
+    },
+    {
+      "url": "https://ahjojulkaisu.hel.fi/8674EFC7-BACB-CD77-9787-7D32DEF00000.pdf",
+      "sha256": "2872272fe0968cd52d0625b50be3a1bc55cfb8ae3bc8691385fb0bac95cd2987",
+      "role": "engineering-layout-reference-only",
+      "redistributed": false
+    },
+    {
+      "title": "Baana below Fredrikinkatu, August2022",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=U7xjP2D4QtqTtfF0Xu5v0Q&heading=57.42&pitch=-8.45",
+      "role": "appearance-reference-only",
+      "observations": "Opened current available underpass view: continuous vertical masonry wingwalls, concrete deep fascia/inner bents, parallel underside girders, asphalt separated walking and cycle space with granite-sett strip. Source geometry supplies dimensions, not the photograph.",
+      "redistributed": false
+    },
+    {
+      "title": "Hakaniemenranta current northern junction, August2026",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=rn4QuuLzYClWQGNo_z7txg&heading=0&pitch=-10&fov=75",
+      "role": "appearance-reference-only",
+      "observations": "The upper bridge descends gently toward the ordinary zebra junction; no abrupt elevated endpoint cliff.",
+      "redistributed": false
+    },
+    {
+      "title": "Canal banks south of Kanavakatu, September2016",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=CIHM0ogKEICAgIDqraOQDg&heading=270&pitch=-20&fov=75",
+      "role": "appearance-reference-only",
+      "observations": "Older2016 photosphere, corroborated by current2024 northern bank view: sloped irregular pink/gray stone revetments, narrow steep waterline toes and flat paved tops. No pixel or metric height values are copied.",
+      "redistributed": false
+    },
+    {
+      "title": "Hakaniemi western lower-walk waterside, September2025",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=GizLA9u0B7ulao26JyEAkQ&heading=260&pitch=-35&fov=75",
+      "role": "appearance-reference-only",
+      "observations": "Opened September2025 view shows the current lower gray walk/red cycle strip and outer vertical pickets, with uninterrupted water immediately outside. No source gravel spur is visible in the central water-side witness area. Current pinned OSM coastline separately confirms water classification.",
+      "redistributed": false
+    }
+  ],
+  "art": {
+    "description": "Original procedural bridge geometry, granite courses and irregular pink/gray revetment stone texture; no map or photograph pixels",
+    "license": "CC0-1.0"
+  },
+  "notice": "Contains information from the City of Helsinki under CC BY4.0 and OpenStreetMap-derived coordinates under ODbL1.0. Reference drawings/photos are not redistributed.",
+  "planGeoreference": {
+    "source": "https://ahjojulkaisu.hel.fi/8674EFC7-BACB-CD77-9787-7D32DEF00000.pdf",
+    "crs": "EPSG:3879",
+    "heightDatum": "N2000",
+    "crosses": [
+      {
+        "pdfPoints": [
+          471.4799805,
+          282.6799927
+        ],
+        "easting": 25497650,
+        "northing": 6673750
+      },
+      {
+        "pdfPoints": [
+          1038.4799805,
+          566.1199951
+        ],
+        "easting": 25497700,
+        "northing": 6673850
+      }
+    ],
+    "pointsPerNorthMetre": 5.67,
+    "pointsPerEastMetre": 5.66880005,
+    "qualification": "Height-oval centres and their leaders are nominal graphical references. They are projected to the actual current mapped bridge and are not survey samples."
+  },
+  "shoreClosureProtocol": {
+    "sourceSha256": "2852cec7cadfdbf29c9ab087ae6b7242bc563efd1155acb6fa38632c657299f3",
+    "sourceUrl": "https://www.openstreetmap.org/relation/298749",
+    "land": "Only current mapped land intersecting the existing authored bridge footprint receives closed granite abutment/earth volumes, strictly below the lowest authored road/walk soffit. Current water channel remains open.",
+    "water": "Only current mapped water intersecting the changed bridge or source-removal footprint, minus original encoded water triangles, receives visual-only water faces at the original encoded global water level. Original water material and distant vertex colour are reused; no collision is added.",
+    "sourceSidewalls": "Frozen original source inventory binds107 original vertical-seal edges and430 oriented facets in two obsolete Silta current-water components. The exact original graph, source coordinates, current-water masks and SHA pins are embedded in the profile. Two edges crossing the current shore retain their land-side fragments. Only named source segments below the measured-5.3 cap are replaced; all other components, including80-segment nearshore gravel, and current high banks are protected. The separately enumerated original HCOL triangle2739 uses its exact footprint intersected with municipal gravel-road58744 and current OSM water, with measured maximum originalY-5.340782. No rectangle or water-mask expansion is used.",
+    "referenceQualification": "Coastline is geometry authority; opened Street View images qualify appearance only and no photograph pixels are redistributed.",
+    "incidentFloorClosure": "The complete original floor adjacency census includes182 source HCOL floor triangles whose original boundary edges contain or overlap the selected107 original seal edges within the existing80micrometre Float32 construction bound. Their exact original projected triangle footprints intersected with current WATER cover176.0038264 square metres. Only original source triangles whose every vertexY<=-5.3 are clipped; true outside fragments and attributes remain original. Long original floor edges can contain shorter rendered sidewall edges, so matching only identical endpoint pairs is insufficient."
+  }
+}

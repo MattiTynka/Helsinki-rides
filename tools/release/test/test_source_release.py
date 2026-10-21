@@ -1,10 +1,12 @@
 import importlib.util
+import gzip
 import json
 from pathlib import Path
 import tempfile
 import unittest
 import os
 import subprocess
+from unittest import mock
 
 SPEC = importlib.util.spec_from_file_location('source_release', Path(__file__).resolve().parents[1] / 'source_release.py')
 release = importlib.util.module_from_spec(SPEC)
@@ -12,6 +14,33 @@ SPEC.loader.exec_module(release)
 
 
 class SourceReleaseTest(unittest.TestCase):
+    def test_compressed_public_source_is_scanned_after_decoding(self):
+        name = sorted(release.COMPRESSED_JSON)[0]
+        text = json.dumps({'path': 'C:' + '/' + 'Users/operator/private'})
+        data = gzip.compress(text.encode(), mtime=0)
+        self.assertTrue(release.selected(name))
+        findings = release.scan_text(name, release.source_text(name, data))
+        self.assertEqual(findings[0]['rule'], 'personal-home-path')
+        self.assertNotIn('operator/private', json.dumps(findings))
+        self.assertFalse(release.selected('content/unreviewed.json.gz'))
+
+    def test_compressed_source_rejects_metadata_corruption_and_decoded_overflow(self):
+        name = sorted(release.COMPRESSED_JSON)[0]
+        good = gzip.compress(json.dumps({'rows': ['repeated'] * 100}).encode(), mtime=0)
+        named = bytearray(good); named[3] = 8
+        for data in [bytes(named), good[:-4], gzip.compress(b'not-json', mtime=0),
+                     good + gzip.compress(b'', mtime=0), good + b'private trailer']:
+            with self.assertRaises((ValueError, OSError, EOFError)):
+                release.source_text(name, data)
+        with mock.patch.object(release, 'MAX_DECODED_SOURCE_BYTES', 32):
+            with self.assertRaisesRegex(ValueError, 'limit'):
+                release.source_text(name, good)
+
+    def test_public_geodata_and_exact_original_art_paths_are_audited(self):
+        self.assertTrue(release.selected('content/helsinki/city-expansion-20261021/footprints-public-v1.geojson'))
+        self.assertTrue(release.selected('content/assets/facades/new-area/anonymous/1851b11d/northwest/facade.png'))
+        self.assertFalse(release.selected('content/assets/facades/new-area/unreviewed/facade.png'))
+
     def test_upload_allowlist_excludes_private_and_generated_files(self):
         for path in ['.env', '.env.production', '.agents/notes.md', '.aws/config.json',
                      'data/raw/input.json', 'models/hero.glb', 'debug.log',

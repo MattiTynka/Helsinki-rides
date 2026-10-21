@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "id": "toinen-linja-14-alppikatu-northwest-20261021",
+  "building": {
+    "id": "BID_1e92cf3a-dad1-45ff-bc4e-0442ffa1b0d3",
+    "vtj": "1031519752",
+    "owner": "c_m05_m13"
+  },
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    583,
+    584
+  ],
+  "frame": {
+    "origin": [
+      -641.5668945312499,
+      -1670.9276123046877
+    ],
+    "axis": [
+      -0.6163085147949882,
+      0.7875048029003989
+    ],
+    "width": 78.01617225099403
+  },
+  "completeElevationPlane": true,
+  "art": {
+    "wallColour": "#ac7459",
+    "groundColour": "#ac7459",
+    "surroundColour": "#795c4e",
+    "frameColour": "#3b4645",
+    "glassColour": "#829593",
+    "groundHeight": 0,
+    "rows": [
+      {
+        "bottom": 0.6,
+        "height": 1.6,
+        "width": 4.85,
+        "axes": [
+          3.250673843791418,
+          9.752021531374254,
+          16.25336921895709,
+          22.754716906539926,
+          29.256064594122762,
+          35.7574122817056,
+          42.258759969288434,
+          48.76010765687127,
+          55.261455344454106,
+          61.76280303203694,
+          68.26415071961978,
+          74.76549840720261
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 4.3,
+        "height": 1.5,
+        "width": 4.85,
+        "axes": [
+          3.250673843791418,
+          9.752021531374254,
+          16.25336921895709,
+          22.754716906539926,
+          29.256064594122762,
+          35.7574122817056,
+          42.258759969288434,
+          48.76010765687127,
+          55.261455344454106,
+          61.76280303203694,
+          68.26415071961978,
+          74.76549840720261
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 8,
+        "height": 1.35,
+        "width": 4.85,
+        "axes": [
+          3.250673843791418,
+          9.752021531374254,
+          16.25336921895709,
+          22.754716906539926,
+          29.256064594122762,
+          35.7574122817056,
+          42.258759969288434,
+          48.76010765687127,
+          55.261455344454106,
+          61.76280303203694,
+          68.26415071961978,
+          74.76549840720261
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 11.7,
+        "height": 1.2,
+        "width": 4.85,
+        "axes": [
+          3.250673843791418,
+          9.752021531374254,
+          16.25336921895709,
+          22.754716906539926,
+          29.256064594122762,
+          35.7574122817056,
+          42.258759969288434,
+          48.76010765687127,
+          55.261455344454106,
+          61.76280303203694,
+          68.26415071961978,
+          74.76549840720261
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 15.4,
+        "height": 1.1,
+        "width": 4.85,
+        "axes": [
+          3.250673843791418,
+          9.752021531374254,
+          16.25336921895709,
+          22.754716906539926,
+          29.256064594122762,
+          35.7574122817056,
+          42.258759969288434,
+          48.76010765687127,
+          55.261455344454106,
+          61.76280303203694,
+          68.26415071961978,
+          74.76549840720261
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [],
+    "bands": [
+      {
+        "from": "top",
+        "offset": -0.28,
+        "height": 0.12,
+        "colour": "#80705c"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Official Google StreetView Apr2023 actual long red brick Alppikatu side of Toinenlinja14, panoramaNLHV9JjfWSmcUVKu-O_Zpg at60.1844109/24.9403066 heading128.76308 pitch25 actually opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=NLHV9JjfWSmcUVKu-O_Zpg&heading=128.76308&pitch=25&fov=105",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "The actual long red brick modern side has five horizontal dark-framed window bands split into repeated wide multi-pane bays by thick brick piers, pale horizontal ledges and narrow inset spandrel fields.",
+    "Opaque brick courses and actual dark horizontal window role are recreated as original vector art; no classical pediments, residential doors or additional storeys are introduced.",
+    "Window bands remain horizontal above the independently measured highest outside floor; the low dark base follows exact native street samples."
+  ],
+  "limitations": [
+    "Original vector interpretation; repeat count and bay/pane sizes are game-scale estimates from the oblique street reference, not surveyed architectural dimensions.",
+    "The exact whole northwest native plane is selected; full-height stair glazing connector and other source wings are separate untreated planes.",
+    "Reference photograph pixels/signs/logos are not copied. No source positions, geometry, floor, entrance or collision changes."
+  ],
+  "observedGroundProfile": {
+    "kind": "named-source-floor-profile",
+    "path": "ground-profile.json",
+    "sha256": "cb93032474bb10321acd21952969e9196244ac729165405e27a861842501bc71"
+  }
+}

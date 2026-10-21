@@ -49,7 +49,7 @@ export interface TramGroundTriangle {
 export interface TramMesh {
   positions:number[]; normals:number[]; colours:number[]; uvs:number[]; indices:number[];
   bindings:{ground:TramGroundTriangle; triangles:number; wayIds:number[]}[];
-  stats:{expectedArea:number; coveredArea:number; missingArea:number; maximumLiftError:number; triangles:number};
+  stats:{expectedArea:number; coveredArea:number; missingArea:number; maximumLiftError:number; triangles:number; excludedExistingArea?:number};
   coverage?:{missingPolygons:MultiPolygon;fringes:TramCoverageFringe[];qualifiedNumericalArea:number;unresolvedArea:number};
 }
 export interface TramCoverageFringe {
@@ -163,7 +163,7 @@ function convexIntersection(a:readonly TramPoint[],b:readonly TramPoint[]):TramP
 
 /** Union source ribbons before draping: turnout and crossing rail intersections
  * share one surface instead of adding coplanar duplicate strips. */
-export function drapeTramFootprints(footprints:readonly TramFootprint[],ground:readonly TramGroundTriangle[],bounds:TramBounds,coarse=false,profile:TramProfile=DEFAULT_TRAM_PROFILE):TramMesh {
+export function drapeTramFootprints(footprints:readonly TramFootprint[],ground:readonly TramGroundTriangle[],bounds:TramBounds,coarse=false,profile:TramProfile=DEFAULT_TRAM_PROFILE,occupied:MultiPolygon=[]):TramMesh {
   validateProfile(profile);
   assert.ok(bounds.maxX>bounds.minX&&bounds.maxZ>bounds.minZ);
   const boundsPolygon=close(boundsRing(bounds)),cellBox=[bounds.minX,bounds.minZ,bounds.maxX,bounds.maxZ];
@@ -185,9 +185,17 @@ export function drapeTramFootprints(footprints:readonly TramFootprint[],ground:r
       targets.push({polygon:owned,colour:[1,1,1],uv:p=>(head.side*((p[0]-origin[0])*normal[0]+(p[1]-origin[1])*normal[1])-inner)/width});
     }
   }
+  const originalArea=targets.reduce((n,t)=>n+multiArea(t.polygon),0);
+  // Earlier accepted rails retain ownership at crossings. Only the new ribbon
+  // is cut, before support/coverage accounting; old geometry is never rewritten.
+  // Expanded source triangles overlap. Normalize their union once, rather
+  // than rebuilding the same large mask for every ribbon in a mainline cell.
+  const occupiedUnion=occupied.length?union(occupied):[];
+  if(occupiedUnion.length)for(const target of targets)target.polygon=difference(target.polygon,occupiedUnion);
+  const excludedExistingArea=originalArea-targets.reduce((n,t)=>n+multiArea(t.polygon),0);
   const sourceBoxes=selected.map(f=>box(f.polygon));
   const surfaces=ground.filter(t=>{const b=box(t.vertices.map(p=>[p[0],p[2]] as TramPoint));return boxesTouch(b,cellBox)&&sourceBoxes.some(s=>boxesTouch(b,s));}).map(plane).sort((a,b)=>a.triangle.id.localeCompare(b.triangle.id));
-  const result:TramMesh={positions:[],normals:[],colours:[],uvs:[],indices:[],bindings:[],stats:{expectedArea:targets.reduce((n,t)=>n+multiArea(t.polygon),0),coveredArea:0,missingArea:0,maximumLiftError:0,triangles:0}};
+  const result:TramMesh={positions:[],normals:[],colours:[],uvs:[],indices:[],bindings:[],stats:{expectedArea:targets.reduce((n,t)=>n+multiArea(t.polygon),0),coveredArea:0,missingArea:0,maximumLiftError:0,triangles:0,...(occupied.length?{excludedExistingArea}:{})}};
   const coveredPolygons:Polygon[]=[];
   for(let surfaceIndex=0;surfaceIndex<surfaces.length;surfaceIndex++){
     const surface=surfaces[surfaceIndex]!,bindings:number[]=[];
@@ -217,12 +225,15 @@ export function drapeTramFootprints(footprints:readonly TramFootprint[],ground:r
         polygon.forEach((ring,i)=>{if(i)holes.push(flat.length/2);const open=ring.length>1&&ring[0]![0]===ring[ring.length-1]![0]&&ring[0]![1]===ring[ring.length-1]![1]?ring.slice(0,-1):ring;for(const p of open)flat.push(...p);});
         const indices=earcut(flat,holes,2);
         for(let i=0;i<indices.length;i+=3){
-          let points=indices.slice(i,i+3).map(id=>[Math.fround(flat[id*2]!),Math.fround(surface.y([flat[id*2]!,flat[id*2+1]!])+profile.liftMetres),Math.fround(flat[id*2+1]!)] as TramVertex);
+          // The source plane must be sampled where the encoded rail vertex
+          // actually lands. At large world coordinates, Float32 XZ rounding
+          // can move a steep-floor sample farther than the 0.1mm lift bound.
+          let points=indices.slice(i,i+3).map(id=>{const x=Math.fround(flat[id*2]!),z=Math.fround(flat[id*2+1]!);return[x,Math.fround(surface.y([x,z])+profile.liftMetres),z] as TramVertex;});
           let signed=cross([points[0]![0],points[0]![2]],[points[1]![0],points[1]![2]],[points[2]![0],points[2]![2]]);
           if(signed===0)continue;if(signed>0){points=[points[0]!,points[2]!,points[1]!];signed=-signed;}
           assert.ok(signed<0,'Tram ribbon must face upward');
           const first=result.positions.length/3;
-          for(const p of points){const error=Math.abs(p[1]-surface.y([p[0],p[2]])-profile.liftMetres);result.stats.maximumLiftError=Math.max(result.stats.maximumLiftError,error);assert.ok(error<=.0001,'Float32 rail exceeded0.1mm support precision');result.positions.push(...p);result.normals.push(...surface.normal);result.colours.push(...target.colour);result.uvs.push(Math.max(0,Math.min(1,target.uv([p[0],p[2]]))),.5);}
+          for(const p of points){const error=Math.abs(p[1]-surface.y([p[0],p[2]])-profile.liftMetres);result.stats.maximumLiftError=Math.max(result.stats.maximumLiftError,error);assert.ok(error<=.0001,`Float32 rail exceeded0.1mm support precision: ${JSON.stringify({position:p,error,source:surface.triangle})}`);result.positions.push(...p);result.normals.push(...surface.normal);result.colours.push(...target.colour);result.uvs.push(Math.max(0,Math.min(1,target.uv([p[0],p[2]]))),.5);}
           result.indices.push(first,first+1,first+2);added++;
         }
         const pb=box(polygon[0]!);

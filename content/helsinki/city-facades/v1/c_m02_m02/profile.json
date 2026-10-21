@@ -1,0 +1,4220 @@
+{
+  "schemaVersion": 1,
+  "id": "public-reference-facades-20261020-c_m02_m02",
+  "baselineManifestSha256": "18e40f69a271f037b6b23b257fee437cb5716fad68c10cff808833a142ee7607",
+  "source": {
+    "cityJsonSha256": "f39ce86a590c44b87409e887d3cc4df9689995df849bcb31c43fc5be86f1e109",
+    "cityBinSha256": "54880432f726662f3d0801a98dffddd0fdfc9b0b31aca67d400a07214633c9d9",
+    "originId": "senate-square-statue-v2"
+  },
+  "art": {
+    "path": "facade.png",
+    "sha256": "d0e0b645a88e2347437c3cac789af5617f1d1aa1c0c4b0a0b59c483a68df0148",
+    "width": 1024,
+    "height": 1024,
+    "license": "CC0-1.0",
+    "attribution": "Original reference-led facade artwork by the Helsinki Rides project (2026). Appearance references are not reproduced.",
+    "references": [
+      {
+        "title": "Fabianinkatu18 east, actual Google Street View August 2024; four ordinary upper rows, paired tall ground glazing and metal canopy",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=8S8MulJqRtpV5qbCOVBqgg&heading=262&pitch=55",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Fabianinkatu16 east, actual Google Street View August 2024; four upper rows, dark panel grid and a single central recessed passage",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=lk_2cvLd3WGmSuKqAcPt9Q&viewpoint=60.1687065,24.9493244&heading=267.158&pitch=24",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Aleksanterinkatu9 east, actual Google Street View August 2022; four upper rows and a two-level glazed shop base",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=YNvJVI4ZYCT0c50K91Aa8w&viewpoint=60.1690252,24.9485404&heading=357.276&pitch=28",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Aleksanterinkatu9 east, actual Google Street View October 2020 layout reference; three broad four-pane upper groups, not business artwork",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=-k_q7do1jygC40UVRYF9Xw&viewpoint=60.1689237,24.9486087&heading=357.276&pitch=15",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Aleksanterinkatu9 west, actual Google Street View August 2022; four ribbon-glazing rows, two glass shop levels and slim brass canopy stripes",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=nCQzjjEpGgLhuZrL8tsjrQ&viewpoint=60.1690093,24.9477814&heading=357.119&pitch=30",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Etelaesplanadi12 north, actual Google Street View August 2026; six upper bays with ten openings per row, five ground arches and Gothic stonework",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=0VvKis5AhkdZhEhf0Kc20A&viewpoint=60.1671703,24.9480058&heading=177.08&pitch=42",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Fabianinkatu26 east, actual Google Street View August 2024; grey granite five-arch main front, two upper grid-glazing levels, two oriels and north passage",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=gRg-MfXgnWgKSmuTs7CDYQ&viewpoint=60.1708135,24.9491485&heading=266.876&pitch=28",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Fabianinkatu28 east, actual Google Street View August 2024; ochre plaster, three upper rows, two projecting oriels and left-of-centre arched entry",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=7DOHgSuDt3ENrjHKhlU4SA&viewpoint=60.1711783,24.9491061&heading=266.557&pitch=25",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Mannerheimintie5 southwest central face, actual Google Street View August 2024; five main upper arches, three higher rectangular rows and low attic. Unverified flanking corner and tower excluded",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=QHPhTLeT2d0t3BDqflJTtg&viewpoint=60.1694314,24.9394505&heading=53.216&pitch=25",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Hotel Kamp Pohjoisesplanadi25-27 south, actual Google Street View August 2024 including end views heading310 and55; salmon/cream three upper rows, two-axis projecting-face rhythm and low arched attic; whole-front opening count not surveyed",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=6rvMK6aeK4jy6-8wOzr7HA&viewpoint=60.1677871,24.9483249&heading=357.13&pitch=25",
+        "role": "appearance-reference-only"
+      }
+    ]
+  },
+  "material": {
+    "name": "city-original-c_m02_m02",
+    "unlit": true,
+    "roughness": 0.95,
+    "doubleSided": true
+  },
+  "charts": [
+    {
+      "id": "1030368124-street-g5",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -180.6310082985756,
+        0,
+        -136.85055558254348
+      ],
+      "uAxis": [
+        -0.05450399023992801,
+        0,
+        -0.9985135527612661
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g14",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -182.6297250700564,
+        0,
+        -136.7415869521679
+      ],
+      "uAxis": [
+        -0.05118491739007793,
+        0,
+        -0.9986891930084009
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g16",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -182.6298676249696,
+        0,
+        -136.74160041489733
+      ],
+      "uAxis": [
+        -0.05117838051985509,
+        0,
+        -0.9986895280152709
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g26",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -180.6309912481008,
+        0,
+        -136.85055651291287
+      ],
+      "uAxis": [
+        -0.05450618510978282,
+        0,
+        -0.9985134329515944
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g40",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -180.63105646299948,
+        0,
+        -136.850552953818
+      ],
+      "uAxis": [
+        -0.054465557109515894,
+        0,
+        -0.9985156498967607
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g41",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -180.63107202761998,
+        0,
+        -136.85055210451475
+      ],
+      "uAxis": [
+        -0.05445385365320635,
+        0,
+        -0.9985162882108208
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g53",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -180.75359126629968,
+        0,
+        -137.13182078214518
+      ],
+      "uAxis": [
+        0.50517181876438,
+        0,
+        -0.8630187909462277
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g55",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -182.62958016463048,
+        0,
+        -136.74160656471815
+      ],
+      "uAxis": [
+        -0.051191890839429766,
+        0,
+        -0.9986888355800738
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g56",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -181.48607866391927,
+        0,
+        -137.6314999275039
+      ],
+      "uAxis": [
+        0.8864058751549329,
+        0,
+        -0.4629088727717557
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g58",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -180.0775853999825,
+        0,
+        -136.92545539610302
+      ],
+      "uAxis": [
+        0.15426980525254902,
+        0,
+        -0.9880287582795051
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g60",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -178.30900335400102,
+        0,
+        -137.42582986167977
+      ],
+      "uAxis": [
+        -0.5939981269579547,
+        0,
+        -0.8044664226494737
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g61",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -178.7096036504301,
+        0,
+        -137.15922603564914
+      ],
+      "uAxis": [
+        -0.4388040111333135,
+        0,
+        -0.8985827951910248
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g62",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -177.52752328460602,
+        0,
+        -138.6273955614149
+      ],
+      "uAxis": [
+        -0.9071297622415601,
+        0,
+        -0.4208510359445143
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g63",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -181.2626206455195,
+        0,
+        -137.44780994307771
+      ],
+      "uAxis": [
+        0.7836527311372928,
+        0,
+        -0.621199160480004
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g64",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -177.7145772175607,
+        0,
+        -138.1592922280398
+      ],
+      "uAxis": [
+        -0.8243048368527895,
+        0,
+        -0.5661462142778098
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g65",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -181.05047266535098,
+        0,
+        -137.2997283044451
+      ],
+      "uAxis": [
+        0.6715069300123977,
+        0,
+        -0.7409982745899781
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g68",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -177.96918438929364,
+        0,
+        -137.76929447968976
+      ],
+      "uAxis": [
+        -0.7234001572572724,
+        0,
+        -0.6904290061115289
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g69",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -180.40995492879807,
+        0,
+        -137.00038359266665
+      ],
+      "uAxis": [
+        0.32325061370928876,
+        0,
+        -0.9463133945668147
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g71",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -180.62879943847656,
+        0,
+        -136.87778394252547
+      ],
+      "uAxis": [
+        0,
+        0,
+        -1
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g72",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -180.63047668245986,
+        0,
+        -136.85058460916883
+      ],
+      "uAxis": [
+        -0.05453245191666595,
+        0,
+        -0.9985119987701483
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g74",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -164.6674933669453,
+        0,
+        -146.23749420162457
+      ],
+      "uAxis": [
+        -0.8602235045355243,
+        0,
+        -0.5099171719452293
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g75",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -179.6385911351753,
+        0,
+        -136.90472994537612
+      ],
+      "uAxis": [
+        -0.05170485828840637,
+        0,
+        -0.9986624092401675
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g76",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -179.63840975696866,
+        0,
+        -136.9047390880308
+      ],
+      "uAxis": [
+        -0.051782865140743504,
+        0,
+        -0.9986583674499582
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g78",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -179.15191975389442,
+        0,
+        -136.98507985516665
+      ],
+      "uAxis": [
+        -0.2613307003921792,
+        0,
+        -0.9652493279109461
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g79",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -179.15174874844445,
+        0,
+        -136.9836976861729
+      ],
+      "uAxis": [
+        -0.2612553394605634,
+        0,
+        -0.9652697279016605
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g80",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -177.22344357195783,
+        0,
+        -137.19800819621418
+      ],
+      "uAxis": [
+        -0.18585314603446337,
+        0,
+        -0.9825775328741708
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g81",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -178.84081071956209,
+        0,
+        -136.96558043961022
+      ],
+      "uAxis": [
+        -0.09781290098045663,
+        0,
+        -0.995204821331663
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g82",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -183.02381424126938,
+        0,
+        -137.03566766677358
+      ],
+      "uAxis": [
+        0.13199463205476317,
+        0,
+        -0.9912504310761875
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g84",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -171.75421755610404,
+        0,
+        -139.17658719188793
+      ],
+      "uAxis": [
+        -0.48058760194558603,
+        0,
+        -0.876946724069479
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g86",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -173.18005530089079,
+        0,
+        -138.46460377337527
+      ],
+      "uAxis": [
+        -0.4041360994571551,
+        0,
+        -0.9146988647175399
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g87",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -170.47696780438957,
+        0,
+        -139.9560032263306
+      ],
+      "uAxis": [
+        -0.5489082536519493,
+        0,
+        -0.8358826048392007
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g88",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -184.23092094198404,
+        0,
+        -137.23607935058251
+      ],
+      "uAxis": [
+        0.19882416292051902,
+        0,
+        -0.9800351790823403
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g90",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -169.27008549683455,
+        0,
+        -140.8347453147768
+      ],
+      "uAxis": [
+        -0.6133537589942191,
+        0,
+        -0.7898083098623748
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g91",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -185.55402791390833,
+        0,
+        -137.55356944010867
+      ],
+      "uAxis": [
+        0.27238562741964967,
+        0,
+        -0.9621881676549571
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g92",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -197.08938123141954,
+        0,
+        -147.17771995378553
+      ],
+      "uAxis": [
+        0.9154439227717976,
+        0,
+        -0.4024455544047953
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g94",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -168.23060622201865,
+        0,
+        -141.72383498885108
+      ],
+      "uAxis": [
+        -0.6688363340499772,
+        0,
+        -0.74340968399301
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g97",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -189.81507241858216,
+        0,
+        -139.35241828010157
+      ],
+      "uAxis": [
+        0.510876521277738,
+        0,
+        -0.8596541048626226
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g98",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -193.84387954353403,
+        0,
+        -142.52154718820805
+      ],
+      "uAxis": [
+        0.7371001755731877,
+        0,
+        -0.6757834943012265
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g99",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -163.99411974921307,
+        0,
+        -147.56096503920983
+      ],
+      "uAxis": [
+        -0.8970810024098825,
+        0,
+        -0.44186612804703673
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g100",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -190.78665369484858,
+        0,
+        -139.95783285754442
+      ],
+      "uAxis": [
+        0.5654794340342254,
+        0,
+        -0.8247623958961344
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g102",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -196.55922452449133,
+        0,
+        -146.16977296063675
+      ],
+      "uAxis": [
+        0.8870231878330197,
+        0,
+        -0.46172487938874074
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g103",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -188.80537102249826,
+        0,
+        -138.80771530282334
+      ],
+      "uAxis": [
+        0.45419848649620226,
+        0,
+        -0.8909005190617856
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g105",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -191.67566582795422,
+        0,
+        -140.59081115819393
+      ],
+      "uAxis": [
+        0.6154704417066983,
+        0,
+        -0.7881599681443873
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g106",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -165.40641148350434,
+        0,
+        -145.02988644251232
+      ],
+      "uAxis": [
+        -0.8201491148396769,
+        0,
+        -0.5721498312747235
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g107",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -192.45520812622547,
+        0,
+        -141.21562873478186
+      ],
+      "uAxis": [
+        0.6592768297637602,
+        0,
+        -0.7519003003966988
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g108",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -193.11371849859404,
+        0,
+        -141.80073810437256
+      ],
+      "uAxis": [
+        0.6962208205654801,
+        0,
+        -0.7178276736175122
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g111",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -167.13807086749193,
+        0,
+        -142.82687911763
+      ],
+      "uAxis": [
+        -0.727400789418551,
+        0,
+        -0.6862128616932714
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g112",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -167.13300090691314,
+        0,
+        -142.8192799937385
+      ],
+      "uAxis": [
+        -0.7273270153872379,
+        0,
+        -0.6862910553751175
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g122",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -166.13675541697745,
+        0,
+        -144.0190105553097
+      ],
+      "uAxis": [
+        -0.7810423539107465,
+        0,
+        -0.6244780551769294
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g124",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -166.128570256011,
+        0,
+        -144.0154855733622
+      ],
+      "uAxis": [
+        -0.7811194267453502,
+        0,
+        -0.6243816470405066
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g128",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -175.76723332778604,
+        0,
+        -137.53666280539403
+      ],
+      "uAxis": [
+        -0.2647419476910445,
+        0,
+        -0.9643192941825608
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g130",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -175.7680039988184,
+        0,
+        -137.53584064054584
+      ],
+      "uAxis": [
+        -0.2646919747163119,
+        0,
+        -0.9643330122529142
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g131",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -186.76053751158372,
+        0,
+        -137.93534107665684
+      ],
+      "uAxis": [
+        0.33966943919430875,
+        0,
+        -0.9405448804163593
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g132",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -186.76308238140555,
+        0,
+        -137.9383718511824
+      ],
+      "uAxis": [
+        0.33984924102012376,
+        0,
+        -0.9404799271531774
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g133",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -174.49761175214397,
+        0,
+        -137.93749988705832
+      ],
+      "uAxis": [
+        -0.33326706575909276,
+        0,
+        -0.9428324680876897
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g134",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -174.49608481412787,
+        0,
+        -137.9369680084269
+      ],
+      "uAxis": [
+        -0.3333310073601405,
+        0,
+        -0.9428098639345442
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g137",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -195.46111924546557,
+        0,
+        -144.4517575673658
+      ],
+      "uAxis": [
+        0.8267746474980878,
+        0,
+        -0.5625332721310027
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g138",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -195.454292028076,
+        0,
+        -144.4604631348059
+      ],
+      "uAxis": [
+        0.8268831155065703,
+        0,
+        -0.562373819883312
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g139",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -196.04881957880954,
+        0,
+        -145.31449134352934
+      ],
+      "uAxis": [
+        0.8590610602904866,
+        0,
+        -0.5118731236279017
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g140",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -196.03767555150304,
+        0,
+        -145.31669742907883
+      ],
+      "uAxis": [
+        0.8589488132007588,
+        0,
+        -0.5120614575429476
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g141",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -187.83752546414877,
+        0,
+        -138.35753255612008
+      ],
+      "uAxis": [
+        0.39992503994025586,
+        0,
+        -0.9165478505941654
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g142",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -187.8328578702994,
+        0,
+        -138.357820879165
+      ],
+      "uAxis": [
+        0.3997111184175882,
+        0,
+        -0.9166411630585659
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g143",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -194.54714173241445,
+        0,
+        -143.2919698253405
+      ],
+      "uAxis": [
+        0.7761539803356198,
+        0,
+        -0.6305434154831644
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g145",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -194.53909499285265,
+        0,
+        -143.29479947443733
+      ],
+      "uAxis": [
+        0.7760500122925617,
+        0,
+        -0.6306713711757611
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g155",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -195.00543038188306,
+        0,
+        -143.85509927375776
+      ],
+      "uAxis": [
+        0.8017612380644282,
+        0,
+        -0.5976444738616722
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368124-street-g156",
+      "building": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "origin": [
+        -195.00598905729112,
+        0,
+        -143.86232412589933
+      ],
+      "uAxis": [
+        0.8019714340202024,
+        0,
+        -0.5973623850022531
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        4.430078029632568,
+        29.83624052412844,
+        25.519514083862305
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        510
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g3",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -182.10604381788278,
+        0,
+        -166.59975868249376
+      ],
+      "uAxis": [
+        -0.06006204423930111,
+        0,
+        -0.9981946457689483
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g4",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -182.17719149273287,
+        0,
+        -166.59571934441914
+      ],
+      "uAxis": [
+        -0.055856901441867446,
+        0,
+        -0.9984387845838689
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g7",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -183.2354012774589,
+        0,
+        -166.53187357401632
+      ],
+      "uAxis": [
+        -0.04982838956988009,
+        0,
+        -0.9987577942588846
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g8",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -182.18407054628298,
+        0,
+        -166.5952572939849
+      ],
+      "uAxis": [
+        -0.05094450243529848,
+        0,
+        -0.9987014857662022
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g19",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -183.23247516093195,
+        0,
+        -166.532117233989
+      ],
+      "uAxis": [
+        -0.050937210709559616,
+        0,
+        -0.998701857695844
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g20",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -183.23244753714096,
+        0,
+        -166.53210456835527
+      ],
+      "uAxis": [
+        -0.05094470820706118,
+        0,
+        -0.998701475269611
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g24",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -180.89433190089323,
+        0,
+        -166.67684316003553
+      ],
+      "uAxis": [
+        -0.09176595198781212,
+        0,
+        -0.9957806033739411
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g25",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -179.2726923170417,
+        0,
+        -166.99494598900523
+      ],
+      "uAxis": [
+        -0.2805174489473383,
+        0,
+        -0.9598489260483013
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g27",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -181.66901491916173,
+        0,
+        -166.64243929521336
+      ],
+      "uAxis": [
+        0.004337531839676279,
+        0,
+        -0.9999905928645227
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g31",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -178.4466652487956,
+        0,
+        -167.29468370721136
+      ],
+      "uAxis": [
+        -0.37144876441674923,
+        0,
+        -0.9284534535523417
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g32",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -182.40855515621266,
+        0,
+        -166.67854227952284
+      ],
+      "uAxis": [
+        0.10035847836722157,
+        0,
+        -0.9949513434433948
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g34",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -177.62804441867922,
+        0,
+        -167.69595708521516
+      ],
+      "uAxis": [
+        -0.45891644882638144,
+        0,
+        -0.8884794274470192
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g35",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -183.10840168856933,
+        0,
+        -166.77498499965495
+      ],
+      "uAxis": [
+        0.19549248656291648,
+        0,
+        -0.98070519917937
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g36",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -176.83110438881616,
+        0,
+        -168.20224183022523
+      ],
+      "uAxis": [
+        -0.5421594828109333,
+        0,
+        -0.8402756066899606
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g37",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -185.5304128446544,
+        0,
+        -166.8741423450745
+      ],
+      "uAxis": [
+        0.15736284086950475,
+        0,
+        -0.9875408529845633
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g38",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -183.7652712560684,
+        0,
+        -166.92150561021933
+      ],
+      "uAxis": [
+        0.28881961355412844,
+        0,
+        -0.9573835338183145
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g39",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -181.6094926743364,
+        0,
+        -166.63722528301156
+      ],
+      "uAxis": [
+        -0.03317674689486229,
+        0,
+        -0.9994495002077265
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g40",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -184.3780441016129,
+        0,
+        -167.10811585962068
+      ],
+      "uAxis": [
+        0.37943620008745954,
+        0,
+        -0.9252179040978342
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g41",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -179.6007447860035,
+        0,
+        -166.80076345611872
+      ],
+      "uAxis": [
+        -0.12847193022470293,
+        0,
+        -0.991713145594198
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g42",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -184.94832431012273,
+        0,
+        -167.3259008644776
+      ],
+      "uAxis": [
+        0.4665811060895918,
+        0,
+        -0.8844784177356807
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g43",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -177.5855891175515,
+        0,
+        -167.16320577160292
+      ],
+      "uAxis": [
+        -0.22258734813308567,
+        0,
+        -0.9749127511993473
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g44",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -175.58579229943234,
+        0,
+        -167.72981585074132
+      ],
+      "uAxis": [
+        -0.3146316224923343,
+        0,
+        -0.9492138547913431
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g45",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -173.62307363741138,
+        0,
+        -168.5036967055514
+      ],
+      "uAxis": [
+        -0.40380334052174116,
+        0,
+        -0.914845813338774
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g46",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -171.72057516826052,
+        0,
+        -169.48529810887746
+      ],
+      "uAxis": [
+        -0.4893128572974057,
+        0,
+        -0.8721083233655373
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g47",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -169.90428706919235,
+        0,
+        -170.67075570449487
+      ],
+      "uAxis": [
+        -0.5703087974811235,
+        0,
+        -0.8214303838522379
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g50",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -182.10596081424754,
+        0,
+        -166.59976367713003
+      ],
+      "uAxis": [
+        -0.060069433726659585,
+        0,
+        -0.9981942011110656
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g51",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -185.88020108848858,
+        0,
+        -166.92522865953254
+      ],
+      "uAxis": [
+        0.1747233670954433,
+        0,
+        -0.9846175628084393
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g52",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -187.7918028978375,
+        0,
+        -167.35149019811774
+      ],
+      "uAxis": [
+        0.2710614040828347,
+        0,
+        -0.9625620578521896
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g53",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -189.63239073715187,
+        0,
+        -167.94872109575795
+      ],
+      "uAxis": [
+        0.36481483515649266,
+        0,
+        -0.9310800911037359
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g54",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -191.38742641328625,
+        0,
+        -168.70477616091335
+      ],
+      "uAxis": [
+        0.45498529318270553,
+        0,
+        -0.890498951704856
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g55",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -193.04594662831383,
+        0,
+        -169.6073846037018
+      ],
+      "uAxis": [
+        0.5406940978531851,
+        0,
+        -0.841219289214608
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g57",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -180.09213646665017,
+        0,
+        -166.7911462001218
+      ],
+      "uAxis": [
+        -0.1870288926280471,
+        0,
+        -0.9823544132961007
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g59",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -183.59077324919934,
+        0,
+        -166.66463065420794
+      ],
+      "uAxis": [
+        0.062341803378374055,
+        0,
+        -0.9980548579870409
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g60",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -182.18401959071005,
+        0,
+        -166.59531097897784
+      ],
+      "uAxis": [
+        -0.050953901457600835,
+        0,
+        -0.9987010062707703
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g61",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -180.09219759259796,
+        0,
+        -166.79214092136607
+      ],
+      "uAxis": [
+        -0.1870434938377643,
+        0,
+        -0.982351633282585
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g64",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -183.5909960802947,
+        0,
+        -166.6654915230165
+      ],
+      "uAxis": [
+        0.062355247332955964,
+        0,
+        -0.9980540181423277
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g66",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -183.5900776679186,
+        0,
+        -166.66374027143746
+      ],
+      "uAxis": [
+        0.06230529539086329,
+        0,
+        -0.9980571377262214
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g68",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -183.23287529840863,
+        0,
+        -166.53211092539337
+      ],
+      "uAxis": [
+        -0.05082591643368526,
+        0,
+        -0.998707527867231
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g69",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -180.09263240082308,
+        0,
+        -166.79004545077203
+      ],
+      "uAxis": [
+        -0.18694859393205318,
+        0,
+        -0.982369697836221
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "id": "1030368102-street-g71",
+      "building": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "origin": [
+        -182.18874858041497,
+        0,
+        -166.59503866425467
+      ],
+      "uAxis": [
+        -0.05535505107180359,
+        0,
+        -0.9984667337076573
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        6.820078372955322,
+        29.834686375406502,
+        29.9500789642334
+      ],
+      "pixels": [
+        1,
+        515,
+        1022,
+        508
+      ],
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "cells": [
+    {
+      "id": "c_m02_m02",
+      "buildings": [
+        {
+          "id": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+          "vtj": "1030368124"
+        },
+        {
+          "id": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+          "vtj": "1030368102"
+        }
+      ],
+      "baselineLevels": {
+        "lod0": "777717fa5a860eecc889a6bca4a77dd714ffa10d8ea63df9f235f8c5b0ce2b60",
+        "lod1": "777717fa5a860eecc889a6bca4a77dd714ffa10d8ea63df9f235f8c5b0ce2b60",
+        "lod2": "a274b7d7a575952b1b1cfd4db06e4593779e2c5e17b2c112746f8ff26375d266"
+      },
+      "faces": [
+        {
+          "key": "42af35c333c38d40d0261cc3:a3b835c3ea8cc241a7d21cc3:42af35c3c87dc241d0261cc3",
+          "chart": "1030368124-street-g5"
+        },
+        {
+          "key": "42af35c333c38d40d0261cc3:c4c035c334c38d408e671dc3:a3b835c3ea8cc241a7d21cc3",
+          "chart": "1030368124-street-g5"
+        },
+        {
+          "key": "28bc35c37c3bbf4119131dc3:c4c035c334c38d408e671dc3:c4c035c36990bf418d671dc3",
+          "chart": "1030368124-street-g5"
+        },
+        {
+          "key": "36cd34c334c38d40cef90bc3:f29135c335c38d40010e1ac3:ee0d35c3130dc2417a9b10c3",
+          "chart": "1030368124-street-g5"
+        },
+        {
+          "key": "ee0d35c3130dc2417a9b10c3:f29135c335c38d40010e1ac3:f29135c39364c241010e1ac3",
+          "chart": "1030368124-street-g5"
+        },
+        {
+          "key": "aab237c3f727cc4153951dc3:ecaf37c351f3cb41d25f1dc3:ecaf37c335c38d40d25f1dc3",
+          "chart": "1030368124-street-g14"
+        },
+        {
+          "key": "aab237c30da8c94153951dc3:aab237c3f727cc4153951dc3:ecaf37c335c38d40d25f1dc3",
+          "chart": "1030368124-street-g14"
+        },
+        {
+          "key": "aab237c30da8c94153951dc3:ecaf37c335c38d40d25f1dc3:c22738c336c38d40418226c3",
+          "chart": "1030368124-street-g14"
+        },
+        {
+          "key": "96b737c369a8c94158f51dc3:c22738c336c38d40418226c3:c22738c397fecb41418226c3",
+          "chart": "1030368124-street-g16"
+        },
+        {
+          "key": "96b737c36820cc4158f51dc3:96b737c369a8c94158f51dc3:c22738c397fecb41418226c3",
+          "chart": "1030368124-street-g16"
+        },
+        {
+          "key": "35cd34c36eafc141cef90bc3:36cd34c334c38d40cef90bc3:ee0d35c3130dc2417a9b10c3",
+          "chart": "1030368124-street-g26"
+        },
+        {
+          "key": "18b434c31c8bc141b22d0ac3:f8a134c3f870c14169e108c3:18b434c334c38d40b22d0ac3",
+          "chart": "1030368124-street-g40"
+        },
+        {
+          "key": "18b434c334c38d40b22d0ac3:f8a134c3f870c14169e108c3:f9a134c334c38d4069e108c3",
+          "chart": "1030368124-street-g41"
+        },
+        {
+          "key": "13d233c32e1aba41c8b90ac3:35ef33c3671bbb4103880ac3:13d233c334c38d40c8b90ac3",
+          "chart": "1030368124-street-g53"
+        },
+        {
+          "key": "13d233c334c38d40c8b90ac3:35ef33c3671bbb4103880ac3:35ef33c337c38d4003880ac3",
+          "chart": "1030368124-street-g53"
+        },
+        {
+          "key": "96b737c369a8c94158f51dc3:aab237c30da8c94153951dc3:c22738c336c38d40418226c3",
+          "chart": "1030368124-street-g55"
+        },
+        {
+          "key": "0c5234c35461be417e3d0ac3:e92634c337c38d4005540ac3:e92634c353f7bc4105540ac3",
+          "chart": "1030368124-street-g56"
+        },
+        {
+          "key": "0c5234c335c38d407e3d0ac3:e92634c337c38d4005540ac3:0c5234c35461be417e3d0ac3",
+          "chart": "1030368124-street-g56"
+        },
+        {
+          "key": "abbf33c336c38d4024080bc3:abbf33c35f66b94124080bc3:b5c633c3b7b0b9410fdb0ac3",
+          "chart": "1030368124-street-g58"
+        },
+        {
+          "key": "abbf33c336c38d4024080bc3:b5c633c3b7b0b9410fdb0ac3:b5c633c334c38d400fdb0ac3",
+          "chart": "1030368124-street-g58"
+        },
+        {
+          "key": "5ce033c3a941ba41718c0bc3:99fa33c333c38d40faaf0bc3:99fa33c3b80bbb41faaf0bc3",
+          "chart": "1030368124-street-g60"
+        },
+        {
+          "key": "5ce033c336c38d40718c0bc3:99fa33c333c38d40faaf0bc3:5ce033c3a941ba41718c0bc3",
+          "chart": "1030368124-street-g60"
+        },
+        {
+          "key": "5ce033c336c38d40718c0bc3:5ce033c3a941ba41718c0bc3:dfce33c37dbfb941a1680bc3",
+          "chart": "1030368124-street-g61"
+        },
+        {
+          "key": "5ce033c336c38d40718c0bc3:dfce33c37dbfb941a1680bc3:dfce33c334c38d40a1680bc3",
+          "chart": "1030368124-street-g61"
+        },
+        {
+          "key": "463434c37dd3bc4184de0bc3:7a5734c333c38d40d9ee0bc3:7a5734c318eebd41d9ee0bc3",
+          "chart": "1030368124-street-g62"
+        },
+        {
+          "key": "463434c334c38d4084de0bc3:7a5734c333c38d40d9ee0bc3:463434c37dd3bc4184de0bc3",
+          "chart": "1030368124-street-g62"
+        },
+        {
+          "key": "6c0834c336c38d40306c0ac3:6c0834c36bf4bb41306c0ac3:e92634c353f7bc4105540ac3",
+          "chart": "1030368124-street-g63"
+        },
+        {
+          "key": "6c0834c336c38d40306c0ac3:e92634c353f7bc4105540ac3:e92634c337c38d4005540ac3",
+          "chart": "1030368124-street-g63"
+        },
+        {
+          "key": "463434c334c38d4084de0bc3:463434c37dd3bc4184de0bc3:7b1434c3d4d6bb41aec80bc3",
+          "chart": "1030368124-street-g64"
+        },
+        {
+          "key": "463434c334c38d4084de0bc3:7b1434c3d4d6bb41aec80bc3:7b1434c333c38d40aec80bc3",
+          "chart": "1030368124-street-g64"
+        },
+        {
+          "key": "35ef33c337c38d4003880ac3:35ef33c3671bbb4103880ac3:6c0834c36bf4bb41306c0ac3",
+          "chart": "1030368124-street-g65"
+        },
+        {
+          "key": "35ef33c337c38d4003880ac3:6c0834c36bf4bb41306c0ac3:6c0834c336c38d40306c0ac3",
+          "chart": "1030368124-street-g65"
+        },
+        {
+          "key": "7b1434c333c38d40aec80bc3:7b1434c3d4d6bb41aec80bc3:99fa33c3b80bbb41faaf0bc3",
+          "chart": "1030368124-street-g68"
+        },
+        {
+          "key": "7b1434c333c38d40aec80bc3:99fa33c3b80bbb41faaf0bc3:99fa33c333c38d40faaf0bc3",
+          "chart": "1030368124-street-g68"
+        },
+        {
+          "key": "13d233c32e1aba41c8b90ac3:b5c633c334c38d400fdb0ac3:b5c633c3b7b0b9410fdb0ac3",
+          "chart": "1030368124-street-g69"
+        },
+        {
+          "key": "13d233c32e1aba41c8b90ac3:13d233c334c38d40c8b90ac3:b5c633c334c38d400fdb0ac3",
+          "chart": "1030368124-street-g69"
+        },
+        {
+          "key": "f9a034c32139ba4159281bc3:f9a034c335c38d401e181bc3:f9a034c336c38d4059281bc3",
+          "chart": "1030368124-street-g71"
+        },
+        {
+          "key": "f9a034c32139ba4159281bc3:f9a034c37047ba418e051bc3:f9a034c335c38d401e181bc3",
+          "chart": "1030368124-street-g71"
+        },
+        {
+          "key": "f9a034c333c38d408e051bc3:f9a034c335c38d401e181bc3:f9a034c37047ba418e051bc3",
+          "chart": "1030368124-street-g71"
+        },
+        {
+          "key": "28bc35c37c3bbf4119131dc3:a3b835c3ea8cc241a7d21cc3:c4c035c334c38d408e671dc3",
+          "chart": "1030368124-street-g72"
+        },
+        {
+          "key": "0d2f35c32c6abe4125071cc3:301a35c33bc4bd41c7fa1bc3:0d2f35c334c38d4025071cc3",
+          "chart": "1030368124-street-g74"
+        },
+        {
+          "key": "0d2f35c334c38d4025071cc3:301a35c33bc4bd41c7fa1bc3:301a35c336c38d40c7fa1bc3",
+          "chart": "1030368124-street-g74"
+        },
+        {
+          "key": "40c233c33069b941033a0bc3:abbf33c35f66b94124080bc3:41c233c334c38d40033a0bc3",
+          "chart": "1030368124-street-g75"
+        },
+        {
+          "key": "41c233c334c38d40033a0bc3:abbf33c35f66b94124080bc3:abbf33c336c38d4024080bc3",
+          "chart": "1030368124-street-g76"
+        },
+        {
+          "key": "40c233c33069b941033a0bc3:dfce33c334c38d40a1680bc3:dfce33c37dbfb941a1680bc3",
+          "chart": "1030368124-street-g78"
+        },
+        {
+          "key": "40c233c33069b941033a0bc3:41c233c334c38d40033a0bc3:dfce33c334c38d40a1680bc3",
+          "chart": "1030368124-street-g79"
+        },
+        {
+          "key": "47a334c35e42ba41cc3f1bc3:b4a734c337c38d4032571bc3:b4a734c30c5dba4132571bc3",
+          "chart": "1030368124-street-g80"
+        },
+        {
+          "key": "47a334c334c38d40cc3f1bc3:b4a734c337c38d4032571bc3:47a334c35e42ba41cc3f1bc3",
+          "chart": "1030368124-street-g80"
+        },
+        {
+          "key": "47a334c334c38d40cc3f1bc3:47a334c35e42ba41cc3f1bc3:f9a034c32139ba4159281bc3",
+          "chart": "1030368124-street-g81"
+        },
+        {
+          "key": "47a334c334c38d40cc3f1bc3:f9a034c32139ba4159281bc3:f9a034c336c38d4059281bc3",
+          "chart": "1030368124-street-g81"
+        },
+        {
+          "key": "f8a334c33f69ba410eef1ac3:f9a034c333c38d408e051bc3:f9a034c37047ba418e051bc3",
+          "chart": "1030368124-street-g82"
+        },
+        {
+          "key": "f8a334c334c38d400eef1ac3:f9a034c333c38d408e051bc3:f8a334c33f69ba410eef1ac3",
+          "chart": "1030368124-street-g82"
+        },
+        {
+          "key": "11c734c336c38d4054a41bc3:11c734c3663ebb4154a41bc3:3cbc34c3c2edba4190901bc3",
+          "chart": "1030368124-street-g84"
+        },
+        {
+          "key": "11c734c336c38d4054a41bc3:3cbc34c3c2edba4190901bc3:3cbc34c334c38d4090901bc3",
+          "chart": "1030368124-street-g84"
+        },
+        {
+          "key": "3cbc34c334c38d4090901bc3:3cbc34c3c2edba4190901bc3:61b334c365adba41857c1bc3",
+          "chart": "1030368124-street-g86"
+        },
+        {
+          "key": "3cbc34c334c38d4090901bc3:61b334c365adba41857c1bc3:61b334c337c38d40857c1bc3",
+          "chart": "1030368124-street-g86"
+        },
+        {
+          "key": "11c734c3663ebb4154a41bc3:f8d234c336c38d4074b61bc3:f8d234c38698bb4174b61bc3",
+          "chart": "1030368124-street-g87"
+        },
+        {
+          "key": "11c734c336c38d4054a41bc3:f8d234c336c38d4074b61bc3:11c734c3663ebb4154a41bc3",
+          "chart": "1030368124-street-g87"
+        },
+        {
+          "key": "45a834c33895ba41dbd91ac3:f8a334c334c38d400eef1ac3:f8a334c33f69ba410eef1ac3",
+          "chart": "1030368124-street-g88"
+        },
+        {
+          "key": "45a834c333c38d40dbd91ac3:f8a334c334c38d400eef1ac3:45a834c33895ba41dbd91ac3",
+          "chart": "1030368124-street-g88"
+        },
+        {
+          "key": "b1df34c315fabb41d6c61bc3:f8d234c38698bb4174b61bc3:b1df34c336c38d40d6c61bc3",
+          "chart": "1030368124-street-g90"
+        },
+        {
+          "key": "b1df34c336c38d40d6c61bc3:f8d234c38698bb4174b61bc3:f8d234c336c38d4074b61bc3",
+          "chart": "1030368124-street-g90"
+        },
+        {
+          "key": "45a834c333c38d40dbd91ac3:45a834c33895ba41dbd91ac3:91ad34c35bc8ba4125c71ac3",
+          "chart": "1030368124-street-g91"
+        },
+        {
+          "key": "45a834c333c38d40dbd91ac3:91ad34c35bc8ba4125c71ac3:91ad34c334c38d4025c71ac3",
+          "chart": "1030368124-street-g91"
+        },
+        {
+          "key": "024a35c39e0fc041b21f1ac3:d53835c335c38d403f271ac3:d53835c3b57fbf413f271ac3",
+          "chart": "1030368124-street-g92"
+        },
+        {
+          "key": "024a35c333c38d40b21f1ac3:d53835c335c38d403f271ac3:024a35c39e0fc041b21f1ac3",
+          "chart": "1030368124-street-g92"
+        },
+        {
+          "key": "0fec34c334c38d4095d41bc3:0fec34c3ca59bc4195d41bc3:b1df34c315fabb41d6c61bc3",
+          "chart": "1030368124-street-g94"
+        },
+        {
+          "key": "0fec34c334c38d4095d41bc3:b1df34c315fabb41d6c61bc3:b1df34c336c38d40d6c61bc3",
+          "chart": "1030368124-street-g94"
+        },
+        {
+          "key": "29cb34c3bcd4bb416c881ac3:bec134c335c38d4045981ac3:bec134c3fe80bb4145981ac3",
+          "chart": "1030368124-street-g97"
+        },
+        {
+          "key": "29cb34c335c38d406c881ac3:bec134c335c38d4045981ac3:29cb34c3bcd4bb416c881ac3",
+          "chart": "1030368124-street-g97"
+        },
+        {
+          "key": "3af134c30d20bd4193591ac3:84fe34c3fa91bd41644d1ac3:3af134c334c38d4093591ac3",
+          "chart": "1030368124-street-g98"
+        },
+        {
+          "key": "3af134c334c38d4093591ac3:84fe34c3fa91bd41644d1ac3:84fe34c335c38d40644d1ac3",
+          "chart": "1030368124-street-g98"
+        },
+        {
+          "key": "0d2f35c32c6abe4125071cc3:8a3e35c334c38d40c60e1cc3:8a3e35c3fee5be41c60e1cc3",
+          "chart": "1030368124-street-g99"
+        },
+        {
+          "key": "0d2f35c32c6abe4125071cc3:0d2f35c334c38d4025071cc3:8a3e35c334c38d40c60e1cc3",
+          "chart": "1030368124-street-g99"
+        },
+        {
+          "key": "29cb34c335c38d406c881ac3:29cb34c3bcd4bb416c881ac3:d0d434c3a329bc41587a1ac3",
+          "chart": "1030368124-street-g100"
+        },
+        {
+          "key": "29cb34c335c38d406c881ac3:d0d434c3a329bc41587a1ac3:d0d434c338c38d40587a1ac3",
+          "chart": "1030368124-street-g100"
+        },
+        {
+          "key": "782a35c333c38d40b92e1ac3:782a35c3e706bf41b92e1ac3:d53835c3b57fbf413f271ac3",
+          "chart": "1030368124-street-g102"
+        },
+        {
+          "key": "782a35c333c38d40b92e1ac3:d53835c3b57fbf413f271ac3:d53835c335c38d403f271ac3",
+          "chart": "1030368124-street-g102"
+        },
+        {
+          "key": "3dba34c333c38d40fda61ac3:3dba34c3733dbb41fda61ac3:bec134c3fe80bb4145981ac3",
+          "chart": "1030368124-street-g103"
+        },
+        {
+          "key": "3dba34c333c38d40fda61ac3:bec134c3fe80bb4145981ac3:bec134c335c38d4045981ac3",
+          "chart": "1030368124-street-g103"
+        },
+        {
+          "key": "7dde34c3107ebc41f46d1ac3:d0d434c338c38d40587a1ac3:d0d434c3a329bc41587a1ac3",
+          "chart": "1030368124-street-g105"
+        },
+        {
+          "key": "7dde34c3107ebc41f46d1ac3:7dde34c336c38d40f46d1ac3:d0d434c338c38d40587a1ac3",
+          "chart": "1030368124-street-g105"
+        },
+        {
+          "key": "301a35c336c38d40c7fa1bc3:301a35c33bc4bd41c7fa1bc3:910d35c36560bd41f9f11bc3",
+          "chart": "1030368124-street-g106"
+        },
+        {
+          "key": "301a35c336c38d40c7fa1bc3:910d35c36560bd41f9f11bc3:910d35c337c38d40f9f11bc3",
+          "chart": "1030368124-street-g106"
+        },
+        {
+          "key": "2ae834c3ecd1bc41eb621ac3:7dde34c336c38d40f46d1ac3:7dde34c3107ebc41f46d1ac3",
+          "chart": "1030368124-street-g107"
+        },
+        {
+          "key": "2ae834c335c38d40eb621ac3:7dde34c336c38d40f46d1ac3:2ae834c3ecd1bc41eb621ac3",
+          "chart": "1030368124-street-g107"
+        },
+        {
+          "key": "2ae834c335c38d40eb621ac3:2ae834c3ecd1bc41eb621ac3:3af134c30d20bd4193591ac3",
+          "chart": "1030368124-street-g108"
+        },
+        {
+          "key": "2ae834c335c38d40eb621ac3:3af134c30d20bd4193591ac3:3af134c334c38d4093591ac3",
+          "chart": "1030368124-street-g108"
+        },
+        {
+          "key": "0fec34c3ca59bc4195d41bc3:21fe34c336c38d40a2e51bc3:22fe34c3ede6bc41a2e51bc3",
+          "chart": "1030368124-street-g111"
+        },
+        {
+          "key": "0fec34c334c38d4095d41bc3:21fe34c336c38d40a2e51bc3:0fec34c3ca59bc4195d41bc3",
+          "chart": "1030368124-street-g112"
+        },
+        {
+          "key": "22fe34c3ede6bc41a2e51bc3:910d35c337c38d40f9f11bc3:910d35c36560bd41f9f11bc3",
+          "chart": "1030368124-street-g122"
+        },
+        {
+          "key": "21fe34c336c38d40a2e51bc3:910d35c337c38d40f9f11bc3:22fe34c3ede6bc41a2e51bc3",
+          "chart": "1030368124-street-g124"
+        },
+        {
+          "key": "b4a734c30c5dba4132571bc3:fbac34c334c38d406c6a1bc3:fbac34c36080ba416b6a1bc3",
+          "chart": "1030368124-street-g128"
+        },
+        {
+          "key": "b4a734c30c5dba4132571bc3:b4a734c337c38d4032571bc3:fbac34c334c38d406c6a1bc3",
+          "chart": "1030368124-street-g130"
+        },
+        {
+          "key": "18b434c335c38d4012b51ac3:91ad34c334c38d4025c71ac3:19b434c34c05bb4112b51ac3",
+          "chart": "1030368124-street-g131"
+        },
+        {
+          "key": "19b434c34c05bb4112b51ac3:91ad34c334c38d4025c71ac3:91ad34c35bc8ba4125c71ac3",
+          "chart": "1030368124-street-g132"
+        },
+        {
+          "key": "61b334c337c38d40857c1bc3:61b334c365adba41857c1bc3:fbac34c36080ba416b6a1bc3",
+          "chart": "1030368124-street-g133"
+        },
+        {
+          "key": "61b334c337c38d40857c1bc3:fbac34c36080ba416b6a1bc3:fbac34c334c38d406c6a1bc3",
+          "chart": "1030368124-street-g134"
+        },
+        {
+          "key": "491d35c335c38d4094361ac3:700f35c338c38d4000401ac3:491d35c39997be4195361ac3",
+          "chart": "1030368124-street-g137"
+        },
+        {
+          "key": "491d35c39997be4195361ac3:700f35c338c38d4000401ac3:700f35c33122be4100401ac3",
+          "chart": "1030368124-street-g138"
+        },
+        {
+          "key": "491d35c335c38d4094361ac3:782a35c3e706bf41b92e1ac3:782a35c333c38d40b92e1ac3",
+          "chart": "1030368124-street-g139"
+        },
+        {
+          "key": "491d35c335c38d4094361ac3:491d35c39997be4195361ac3:782a35c3e706bf41b92e1ac3",
+          "chart": "1030368124-street-g140"
+        },
+        {
+          "key": "18b434c335c38d4012b51ac3:3dba34c3733dbb41fda61ac3:3dba34c333c38d40fda61ac3",
+          "chart": "1030368124-street-g141"
+        },
+        {
+          "key": "18b434c335c38d4012b51ac3:19b434c34c05bb4112b51ac3:3dba34c3733dbb41fda61ac3",
+          "chart": "1030368124-street-g142"
+        },
+        {
+          "key": "1c0a35c3e9f4bd41f8431ac3:1d0a35c335c38d40f8431ac3:84fe34c335c38d40644d1ac3",
+          "chart": "1030368124-street-g143"
+        },
+        {
+          "key": "1c0a35c3e9f4bd41f8431ac3:84fe34c335c38d40644d1ac3:84fe34c3fa91bd41644d1ac3",
+          "chart": "1030368124-street-g145"
+        },
+        {
+          "key": "1d0a35c335c38d40f8431ac3:700f35c33122be4100401ac3:700f35c338c38d4000401ac3",
+          "chart": "1030368124-street-g155"
+        },
+        {
+          "key": "1c0a35c3e9f4bd41f8431ac3:700f35c33122be4100401ac3:1d0a35c335c38d40f8431ac3",
+          "chart": "1030368124-street-g156"
+        },
+        {
+          "key": "0db736c3163eda4095b830c3:7d3d37c3163eda40ce7239c3:0db736c3b8b7e04195b830c3",
+          "chart": "1030368102-street-g3"
+        },
+        {
+          "key": "7d3d37c3163eda40ce7239c3:b30f37c38e17d741d87936c3:dec736c396fdd6410ad031c3",
+          "chart": "1030368102-street-g3"
+        },
+        {
+          "key": "512f37c36659d741468738c3:b30f37c38e17d741d87936c3:7d3d37c3163eda40ce7239c3",
+          "chart": "1030368102-street-g3"
+        },
+        {
+          "key": "512f37c36659d741468738c3:7d3d37c3163eda40ce7239c3:7d3d37c3b829e041ce7239c3",
+          "chart": "1030368102-street-g3"
+        },
+        {
+          "key": "687637c3163eda401e923dc3:8dd737c3153eda40995a44c3:b87637c30dadca41c1973dc3",
+          "chart": "1030368102-street-g4"
+        },
+        {
+          "key": "87c037c390b3ca4114bf42c3:b87637c30dadca41c1973dc3:8dd737c3153eda40995a44c3",
+          "chart": "1030368102-street-g4"
+        },
+        {
+          "key": "87c037c390b3ca4114bf42c3:8dd737c3153eda40995a44c3:8dd737c35ee9ca41995a44c3",
+          "chart": "1030368102-street-g4"
+        },
+        {
+          "key": "105e37c3153eda40a42d29c3:105e37c3892dcf41a42d29c3:a53c37c3c33dcf41d08f26c3",
+          "chart": "1030368102-street-g7"
+        },
+        {
+          "key": "105e37c3153eda40a42d29c3:a53c37c3c33dcf41d08f26c3:a53c37c3163eda40d08f26c3",
+          "chart": "1030368102-street-g7"
+        },
+        {
+          "key": "b85e36c3163eda40713d2ac3:c56736c35d24ca41e3ee2ac3:b85e36c3b527ca41713d2ac3",
+          "chart": "1030368102-street-g8"
+        },
+        {
+          "key": "9d7d36c3173eda40189b2cc3:c56736c35d24ca41e3ee2ac3:b85e36c3163eda40713d2ac3",
+          "chart": "1030368102-street-g8"
+        },
+        {
+          "key": "6f7936c39d45ca412b492cc3:c56736c35d24ca41e3ee2ac3:9d7d36c3173eda40189b2cc3",
+          "chart": "1030368102-street-g8"
+        },
+        {
+          "key": "105e37c3153eda40a42d29c3:3a6b37c3163eda40be2f2ac3:506a37c30229cf41c91d2ac3",
+          "chart": "1030368102-street-g19"
+        },
+        {
+          "key": "105e37c3153eda40a42d29c3:506a37c30229cf41c91d2ac3:105e37c3892dcf41a42d29c3",
+          "chart": "1030368102-street-g20"
+        },
+        {
+          "key": "51a235c3b5e2eb4128b42ec3:d4aa35c3173eda4085102fc3:d4aa35c3a41bef4185102fc3",
+          "chart": "1030368102-street-g24"
+        },
+        {
+          "key": "51a235c3163eda4028b42ec3:d4aa35c3173eda4085102fc3:51a235c3b5e2eb4128b42ec3",
+          "chart": "1030368102-street-g24"
+        },
+        {
+          "key": "2dbc35c343e4ec41a36b2fc3:32d635c3163eda40abc42fc3:32d635c389bde941abc42fc3",
+          "chart": "1030368102-street-g25"
+        },
+        {
+          "key": "2dbc35c3163eda40a36b2fc3:32d635c3163eda40abc42fc3:2dbc35c343e4ec41a36b2fc3",
+          "chart": "1030368102-street-g25"
+        },
+        {
+          "key": "51a235c3163eda4028b42ec3:51a235c3b5e2eb4128b42ec3:b8a235c317ace84167572ec3",
+          "chart": "1030368102-street-g27"
+        },
+        {
+          "key": "51a235c3163eda4028b42ec3:b8a235c317ace84167572ec3:b8a235c3173eda4066572ec3",
+          "chart": "1030368102-street-g27"
+        },
+        {
+          "key": "32d635c389bde941abc42fc3:a6f835c3153eda40c91a30c3:a6f835c32cabe641c91a30c3",
+          "chart": "1030368102-street-g31"
+        },
+        {
+          "key": "32d635c3163eda40abc42fc3:a6f835c3153eda40c91a30c3:32d635c389bde941abc42fc3",
+          "chart": "1030368102-street-g31"
+        },
+        {
+          "key": "07ac35c3667fe5411dfb2dc3:b8a235c3173eda4066572ec3:b8a235c317ace84167572ec3",
+          "chart": "1030368102-street-g32"
+        },
+        {
+          "key": "07ac35c3163eda401dfb2dc3:b8a235c3173eda4066572ec3:07ac35c3667fe5411dfb2dc3",
+          "chart": "1030368102-street-g32"
+        },
+        {
+          "key": "372336c3153eda40326d30c3:372336c36fb4e341326d30c3:a6f835c32cabe641c91a30c3",
+          "chart": "1030368102-street-g34"
+        },
+        {
+          "key": "372336c3153eda40326d30c3:a6f835c32cabe641c91a30c3:a6f835c3153eda40c91a30c3",
+          "chart": "1030368102-street-g34"
+        },
+        {
+          "key": "07ac35c3163eda401dfb2dc3:07ac35c3667fe5411dfb2dc3:29be35c32864e24126a02dc3",
+          "chart": "1030368102-street-g35"
+        },
+        {
+          "key": "07ac35c3163eda401dfb2dc3:29be35c32864e24126a02dc3:29be35c3163eda4026a02dc3",
+          "chart": "1030368102-street-g35"
+        },
+        {
+          "key": "372336c36fb4e341326d30c3:815536c3163eda4023bb30c3:815536c35ce0e04123bb30c3",
+          "chart": "1030368102-street-g36"
+        },
+        {
+          "key": "372336c3153eda40326d30c3:815536c3163eda4023bb30c3:372336c36fb4e341326d30c3",
+          "chart": "1030368102-street-g36"
+        },
+        {
+          "key": "3b5f36c31f93eb41ecb13ac3:985136c3163eda4080073bc3:985136c360bcee4180073bc3",
+          "chart": "1030368102-street-g37"
+        },
+        {
+          "key": "3b5f36c3173eda40ecb13ac3:985136c3163eda4080073bc3:3b5f36c31f93eb41ecb13ac3",
+          "chart": "1030368102-street-g37"
+        },
+        {
+          "key": "29be35c3163eda4026a02dc3:29be35c32864e24126a02dc3:f3d835c3b861df4159472dc3",
+          "chart": "1030368102-street-g38"
+        },
+        {
+          "key": "29be35c3163eda4026a02dc3:f3d835c3b861df4159472dc3:f3d835c3163eda4059472dc3",
+          "chart": "1030368102-street-g38"
+        },
+        {
+          "key": "114f36c3163eda4099b43bc3:114f36c33004ea4199b43bc3:314c36c39340ed41fd5d3bc3",
+          "chart": "1030368102-street-g39"
+        },
+        {
+          "key": "114f36c3163eda4099b43bc3:314c36c39340ed41fd5d3bc3:314c36c3173eda40fd5d3bc3",
+          "chart": "1030368102-street-g39"
+        },
+        {
+          "key": "25fc35c3377fdc4187f12cc3:f3d835c3163eda4059472dc3:f3d835c3b861df4159472dc3",
+          "chart": "1030368102-street-g40"
+        },
+        {
+          "key": "25fc35c3173eda4087f12cc3:f3d835c3163eda4059472dc3:25fc35c3377fdc4187f12cc3",
+          "chart": "1030368102-street-g40"
+        },
+        {
+          "key": "114f36c33004ea4199b43bc3:335a36c3163eda40890a3cc3:335a36c392c9e641890a3cc3",
+          "chart": "1030368102-street-g41"
+        },
+        {
+          "key": "114f36c3163eda4099b43bc3:335a36c3163eda40890a3cc3:114f36c33004ea4199b43bc3",
+          "chart": "1030368102-street-g41"
+        },
+        {
+          "key": "25fc35c3173eda4087f12cc3:25fc35c3377fdc4187f12cc3:6c2736c379c3d9417d9f2cc3",
+          "chart": "1030368102-street-g42"
+        },
+        {
+          "key": "25fc35c3173eda4087f12cc3:6c2736c379c3d9417d9f2cc3:6c2736c3153eda407d9f2cc3",
+          "chart": "1030368102-street-g42"
+        },
+        {
+          "key": "335a36c392c9e641890a3cc3:7d6d36c3163eda40055f3cc3:7d6d36c34298e341055f3cc3",
+          "chart": "1030368102-street-g43"
+        },
+        {
+          "key": "335a36c3163eda40890a3cc3:7d6d36c3163eda40055f3cc3:335a36c392c9e641890a3cc3",
+          "chart": "1030368102-street-g43"
+        },
+        {
+          "key": "7d6d36c34298e341055f3cc3:c18836c3173eda4047b13cc3:c18836c3bb77e04147b13cc3",
+          "chart": "1030368102-street-g44"
+        },
+        {
+          "key": "7d6d36c3163eda40055f3cc3:c18836c3173eda4047b13cc3:7d6d36c34298e341055f3cc3",
+          "chart": "1030368102-street-g44"
+        },
+        {
+          "key": "bfab36c3153eda408e003dc3:bfab36c34b6fdd418e003dc3:c18836c3bb77e04147b13cc3",
+          "chart": "1030368102-street-g45"
+        },
+        {
+          "key": "bfab36c3153eda408e003dc3:c18836c3bb77e04147b13cc3:c18836c3173eda4047b13cc3",
+          "chart": "1030368102-street-g45"
+        },
+        {
+          "key": "26d636c30b86da41214c3dc3:bfab36c34b6fdd418e003dc3:26d636c3163eda40214c3dc3",
+          "chart": "1030368102-street-g46"
+        },
+        {
+          "key": "26d636c3163eda40214c3dc3:bfab36c34b6fdd418e003dc3:bfab36c3153eda408e003dc3",
+          "chart": "1030368102-street-g46"
+        },
+        {
+          "key": "26d636c30b86da41214c3dc3:920737c3163eda4050933dc3:920737c3cac2d74150933dc3",
+          "chart": "1030368102-street-g47"
+        },
+        {
+          "key": "26d636c30b86da41214c3dc3:26d636c3163eda40214c3dc3:920737c3163eda4050933dc3",
+          "chart": "1030368102-street-g47"
+        },
+        {
+          "key": "0db736c3b8b7e04195b830c3:7d3d37c3163eda40ce7239c3:dec736c396fdd6410ad031c3",
+          "chart": "1030368102-street-g50"
+        },
+        {
+          "key": "2f6b36c3d916e941906e3ac3:3b5f36c3173eda40ecb13ac3:3b5f36c31f93eb41ecb13ac3",
+          "chart": "1030368102-street-g51"
+        },
+        {
+          "key": "2f6b36c3163eda40906e3ac3:3b5f36c3173eda40ecb13ac3:2f6b36c3d916e941906e3ac3",
+          "chart": "1030368102-street-g51"
+        },
+        {
+          "key": "2f6b36c3163eda40906e3ac3:2f6b36c3d916e941906e3ac3:ba7d36c3aface641b72c3ac3",
+          "chart": "1030368102-street-g52"
+        },
+        {
+          "key": "2f6b36c3163eda40906e3ac3:ba7d36c3aface641b72c3ac3:ba7d36c3163eda40b72c3ac3",
+          "chart": "1030368102-street-g52"
+        },
+        {
+          "key": "af9636c3ae5ae44105ed39c3:ba7d36c3163eda40b72c3ac3:ba7d36c3aface641b72c3ac3",
+          "chart": "1030368102-street-g53"
+        },
+        {
+          "key": "af9636c3163eda4005ed39c3:ba7d36c3163eda40b72c3ac3:af9636c3ae5ae44105ed39c3",
+          "chart": "1030368102-street-g53"
+        },
+        {
+          "key": "af9636c3163eda4005ed39c3:af9636c3ae5ae44105ed39c3:cfb536c3a426e2411ab039c3",
+          "chart": "1030368102-street-g54"
+        },
+        {
+          "key": "af9636c3163eda4005ed39c3:cfb536c3a426e2411ab039c3:cfb536c3153eda401ab039c3",
+          "chart": "1030368102-street-g54"
+        },
+        {
+          "key": "ccda36c31416e0418e7639c3:cfb536c3153eda401ab039c3:cfb536c3a426e2411ab039c3",
+          "chart": "1030368102-street-g55"
+        },
+        {
+          "key": "ccda36c31416e0418e7639c3:ccda36c3173eda408e7639c3:cfb536c3153eda401ab039c3",
+          "chart": "1030368102-street-g55"
+        },
+        {
+          "key": "2dbc35c3163eda40a36b2fc3:7fad35c3c399ef418a1e2fc3:d4aa35c3173eda4085102fc3",
+          "chart": "1030368102-street-g57"
+        },
+        {
+          "key": "245036c3c299ef41c71e3bc3:985136c3163eda4080073bc3:314c36c3173eda40fd5d3bc3",
+          "chart": "1030368102-street-g59"
+        },
+        {
+          "key": "6f7936c39d45ca412b492cc3:9d7d36c3173eda40189b2cc3:9d7d36c364d4d941179b2cc3",
+          "chart": "1030368102-street-g60"
+        },
+        {
+          "key": "6f7936c39d45ca412b492cc3:9d7d36c364d4d941179b2cc3:6f7936c3e0fad6412b492cc3",
+          "chart": "1030368102-street-g60"
+        },
+        {
+          "key": "2dbc35c3163eda40a36b2fc3:2dbc35c343e4ec41a36b2fc3:7fad35c3c399ef418a1e2fc3",
+          "chart": "1030368102-street-g61"
+        },
+        {
+          "key": "245036c3c299ef41c71e3bc3:314c36c3173eda40fd5d3bc3:314c36c39340ed41fd5d3bc3",
+          "chart": "1030368102-street-g64"
+        },
+        {
+          "key": "245036c3c299ef41c71e3bc3:985136c360bcee4180073bc3:985136c3163eda4080073bc3",
+          "chart": "1030368102-street-g66"
+        },
+        {
+          "key": "3a6b37c3163eda40be2f2ac3:3a6b37c3bb2acf41bf2f2ac3:506a37c30229cf41c91d2ac3",
+          "chart": "1030368102-street-g68"
+        },
+        {
+          "key": "7fad35c3c399ef418a1e2fc3:d4aa35c3a41bef4185102fc3:d4aa35c3173eda4085102fc3",
+          "chart": "1030368102-street-g69"
+        },
+        {
+          "key": "687637c3163eda401e923dc3:b87637c3f759d741c1973dc3:687637c3f38fd7411e923dc3",
+          "chart": "1030368102-street-g71"
+        },
+        {
+          "key": "687637c3163eda401e923dc3:b87637c30dadca41c1973dc3:b87637c3f759d741c1973dc3",
+          "chart": "1030368102-street-g71"
+        }
+      ]
+    }
+  ]
+}

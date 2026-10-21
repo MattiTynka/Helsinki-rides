@@ -10,6 +10,7 @@ import argparse
 from array import array
 import gzip
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -46,6 +47,7 @@ MAX_SIMULATION_BYTES = 64 * 1024 * 1024
 KTX2_IDENTIFIER = bytes([0xab, 0x4b, 0x54, 0x58, 0x20, 0x32, 0x30, 0xbb, 0x0d, 0x0a, 0x1a, 0x0a])
 PUBLICATION_EXTENSIONS = frozenset({'.json', '.md', '.txt'})
 SHELL_ASSET = re.compile(r'assets/[A-Za-z0-9][A-Za-z0-9_-]*\.(?:js|css|wasm)\Z')
+START_SCREEN_IMAGE = re.compile(r'assets/senate-square-start-[A-Za-z0-9_-]{8}\.jpg\Z')
 # The GT40-derived Kaamos model has no redistribution permission. Check runtime identities
 # and known GLB names; historical prose and publication/license documents remain unrestricted.
 RESTRICTED_VEHICLE = re.compile(r'(?:vehicle[-_]?)?(?:kaamos|gt[-_]?40)(?:[-_.][A-Za-z0-9_.-]+)?\Z', re.IGNORECASE)
@@ -325,9 +327,87 @@ def _manifest_refs(data: bytes, descriptor: dict[str, Any]) -> dict[str, dict[st
     return refs
 
 
+def _validate_packed_roads(data: bytes) -> None:
+    """Independent bounded HROADS01 check; legacy JSON packets retain their path.
+
+    Matches packages/world-schema/src/packed-roads.ts. No rounding or coordinate
+    conversion occurs: the simulation reads these exact little-endian doubles.
+    """
+    if not data.startswith(b'HROADS01'):
+        return
+    if not 32 <= len(data) <= 8_000_000:
+        raise ValueError('packed roads exceed the unchanged8MB transport limit')
+    version, size, count, reserved, offset, total = struct.unpack_from('<6I', data, 8)
+    if (version != 1 or reserved != 0 or count > 333_333 or not 0 < size <= 8_000_000 - 32
+            or offset != (32 + size + 7) // 8 * 8 or offset + count * 24 != len(data)
+            or total != len(data) or any(data[32 + size:offset])):
+        raise ValueError('invalid packed road ranges/version/counts')
+    header = _json(data[32:32 + size])
+    fields = {
+        'nodes': ['id', 'kind'],
+        'lanes': ['id', 'wayId', 'name', 'highway', 'surface', 'speedLimit', 'width', 'from', 'to', 'length', 'index', 'count'],
+        'connectors': ['id', 'node', 'from', 'to', 'turn', 'length'],
+        'parking': ['id', 'kind', 'heading'], 'footways': ['id'],
+    }
+    string_fields = {'id', 'kind', 'name', 'highway', 'surface', 'from', 'to', 'node', 'turn'}
+    if (not isinstance(header, dict) or set(header) != {'schemaVersion', 'root', 'strings', 'groups'}
+            or type(header['schemaVersion']) is not int or header['schemaVersion'] != 1):
+        raise ValueError('invalid packed road header')
+    root, strings, groups = header['root'], header['strings'], header['groups']
+    if (not isinstance(root, dict) or set(root) != {'schemaVersion', 'originId', 'source'}
+            or root['schemaVersion'] != 2 or not isinstance(root['originId'], str)
+            or not 0 < len(root['originId']) <= 512 or not isinstance(root['source'], dict)
+            or set(root['source']) != {'id', 'sha256', 'attribution', 'license'}
+            or any(not isinstance(s, str) or len(s) > 4096 for s in root['source'].values())
+            or not isinstance(strings, list) or len(strings) > 100_000
+            or any(not isinstance(s, str) or len(s) > 4096 for s in strings)
+            or not isinstance(groups, dict) or set(groups) != set(fields)):
+        raise ValueError('invalid packed road root/dictionary/groups')
+    next_point, expanded_bytes = 0, len(json.dumps(root).encode())
+    for kind, names in fields.items():
+        table = groups[kind]
+        if (not isinstance(table, dict) or set(table) != {'fields', 'rows'} or table['fields'] != names
+                or not isinstance(table['rows'], list) or len(table['rows']) > 100_000):
+            raise ValueError('invalid packed road table')
+        for row in table['rows']:
+            if not isinstance(row, list) or len(row) != len(names) + 2:
+                raise ValueError('invalid packed road row')
+            start, length = row[-2:]
+            if (type(start) is not int or start != next_point or type(length) is not int
+                    or not 0 < length <= count - next_point or kind == 'nodes' and length != 1):
+                raise ValueError('invalid packed road point interval')
+            record = {}
+            for name, value in zip(names, row):
+                if name in string_fields:
+                    if value is None and name == 'name':
+                        record[name] = None
+                    elif type(value) is int and 0 <= value < len(strings):
+                        record[name] = strings[value]
+                    else:
+                        raise ValueError('invalid packed road string reference')
+                elif value is None and name == 'heading':
+                    record[name] = None
+                elif value == '-0':
+                    record[name] = -0.0
+                elif type(value) in (int, float) and math.isfinite(value):
+                    record[name] = value
+                else:
+                    raise ValueError('invalid packed road scalar')
+            points = list(struct.iter_unpack('<ddd', data[offset + start * 24:offset + (start + length) * 24]))
+            if any(not math.isfinite(n) for point in points for n in point):
+                raise ValueError('nonfinite packed road coordinate')
+            record['position' if kind == 'nodes' else 'points'] = points[0] if kind == 'nodes' else points
+            expanded_bytes += len(json.dumps(record, separators=(',', ':'), ensure_ascii=False).encode()) + 1
+            if expanded_bytes > MAX_SIMULATION_BYTES:
+                raise ValueError('expanded road graph exceeds64MiB')
+            next_point += length
+    if next_point != count:
+        raise ValueError('unclaimed packed road points')
+
+
 def _validate_optimized_payloads(world: Path, manifest: dict[str, Any], refs: dict[str, Any]) -> None:
     """Validate delivery encoding and GLB dependencies before publishing an optimized packet."""
-    simulation = [manifest['terrain'], *(cell['collision'] for cell in manifest['cells'])]
+    simulation = [manifest['terrain'], manifest['roads'], *(cell['collision'] for cell in manifest['cells'])]
     compressed_paths = set()
     for ref in simulation:
         compression = ref.get('compression')
@@ -356,6 +436,9 @@ def _validate_optimized_payloads(world: Path, manifest: dict[str, Any], refs: di
     for name in refs:
         if name.endswith('.gz') and _runtime_path(name) and name not in compressed_paths:
             raise ValueError('compressed runtime payload is not a declared simulation input')
+    roads_ref = manifest['roads']
+    roads_stored = (world / roads_ref['path']).read_bytes()
+    _validate_packed_roads(gzip.decompress(roads_stored) if roads_ref.get('compression') == 'gzip' else roads_stored)
     for cell in manifest['cells']:
         ref = cell['collision']
         if 'boundsXZ' in ref:
@@ -495,6 +578,20 @@ def _verify_collision_bounds(data: bytes, bounds: Any) -> None:
                 raise ValueError('collision geometry extends beyond its recorded boundsXZ')
 
 
+def _validate_start_screen_image(path: Path) -> None:
+    # Only the reviewed startup screenshot belongs in the shell. Reject private
+    # metadata rather than silently stripping bytes from the built artifact.
+    if path.stat().st_size > 1_000_000:
+        raise ValueError('startup screenshot exceeds the shell image limit')
+    spec = importlib.util.spec_from_file_location('image_sanitizer', Path(__file__).with_name('sanitize-images.py'))
+    sanitizer = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(sanitizer)
+    original = path.read_bytes()
+    cleaned, _, _ = sanitizer.sanitize_jpeg(original)
+    if cleaned != original:
+        raise ValueError('startup screenshot contains nonrendering metadata or trailing bytes')
+
+
 def _shell_inventory(output: Path) -> tuple[list[str], int]:
     if output.is_symlink() or not output.is_dir():
         raise ValueError('Pages output must be an existing regular directory')
@@ -508,10 +605,13 @@ def _shell_inventory(output: Path) -> tuple[list[str], int]:
         for name in files:
             path = Path(directory) / name
             relative = path.relative_to(output).as_posix()
-            if relative not in {'index.html', 'sw.js', 'basis/basis_transcoder.js', 'basis/basis_transcoder.wasm'} and SHELL_ASSET.fullmatch(relative) is None:
+            is_start_image = START_SCREEN_IMAGE.fullmatch(relative) is not None
+            if relative not in {'index.html', 'sw.js', 'basis/basis_transcoder.js', 'basis/basis_transcoder.wasm'} and SHELL_ASSET.fullmatch(relative) is None and not is_start_image:
                 raise ValueError('Pages output contains an unexpected, source, or review file')
             if not path.is_file():
                 raise ValueError('Pages output must contain only regular files')
+            if is_start_image:
+                _validate_start_screen_image(path)
             names.append(relative)
             total += path.stat().st_size
     if not {'index.html', 'basis/basis_transcoder.js', 'basis/basis_transcoder.wasm'}.issubset(names):

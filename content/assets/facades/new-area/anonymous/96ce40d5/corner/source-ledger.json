@@ -1,0 +1,310 @@
+{
+  "schemaVersion": 1,
+  "status": "OBSERVED_SOURCE_PLANE_FINISH_RUNTIME_REVIEW_REQUIRED",
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "planSha256": "d47ef7eaed267dbfa2f68a6dc298d40df821fc6d69837e8c447170c3e7b41b08",
+  "building": {
+    "id": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+    "vtj": null,
+    "owner": "c_m03_p04"
+  },
+  "role": "Observed narrow red-masonry office corner returns with shared source-bound stone base",
+  "finish": {
+    "kind": "brick",
+    "colour": "#9b6755",
+    "mortarColour": "#876350",
+    "moduleWidth": 0.5,
+    "moduleHeight": 0.24
+  },
+  "completePlane": [
+    {
+      "chart": "anonymous-96ce40d5-office-corner-20261021-corner-plane-0",
+      "completeNativePlane": true,
+      "sourceTrianglesInExactElevation": 2,
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "chart": "anonymous-96ce40d5-office-corner-20261021-corner-plane-1",
+      "completeNativePlane": true,
+      "sourceTrianglesInExactElevation": 2,
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "chart": "anonymous-96ce40d5-office-corner-20261021-corner-plane-2",
+      "completeNativePlane": true,
+      "sourceTrianglesInExactElevation": 2,
+      "planeToleranceMetres": 0.002
+    },
+    {
+      "chart": "anonymous-96ce40d5-office-corner-20261021-corner-plane-3",
+      "completeNativePlane": true,
+      "sourceTrianglesInExactElevation": 2,
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "physicalPlaneAtlas": {
+    "size": 1024,
+    "pixels": [
+      [
+        191,
+        8,
+        26,
+        1008
+      ],
+      [
+        253,
+        8,
+        164,
+        159
+      ],
+      [
+        225,
+        8,
+        20,
+        1008
+      ],
+      [
+        8,
+        8,
+        175,
+        1008
+      ]
+    ],
+    "sharedPlainTile": false,
+    "texelsPerMetre": 58.638738380528004,
+    "gutter": 8
+  },
+  "sourceTriangles": [
+    {
+      "part": 0,
+      "triangle": 19,
+      "key": "2b3eafc35c33c341dfdf1144:4c15afc35d33c3414ff31144:2b3eafc3f8b8e640dfdf1144",
+      "area": 3.7876191601377815,
+      "points": [
+        [
+          -350.4856872558594,
+          7.210079193115234,
+          583.4979858398438
+        ],
+        [
+          -350.4856872558594,
+          24.40007781982422,
+          583.4979858398438
+        ],
+        [
+          -350.1663818359375,
+          24.40007972717285,
+          583.8016967773438
+        ]
+      ]
+    },
+    {
+      "part": 0,
+      "triangle": 20,
+      "key": "2b3eafc3f8b8e640dfdf1144:4c15afc35d33c3414ff31144:4c15afc3f7b8e6404ff31144",
+      "area": 3.7876196854657924,
+      "points": [
+        [
+          -350.4856872558594,
+          7.210079193115234,
+          583.4979858398438
+        ],
+        [
+          -350.1663818359375,
+          24.40007972717285,
+          583.8016967773438
+        ],
+        [
+          -350.1663818359375,
+          7.210078716278076,
+          583.8016967773438
+        ]
+      ]
+    },
+    {
+      "part": 0,
+      "triangle": 33,
+      "key": "4be6b0c340ccd8413b0f1244:f000b0c35c33c341dd861144:f000b0c33bccd841dd861144",
+      "area": 3.7579226593754287,
+      "points": [
+        [
+          -352.00732421875,
+          24.40007781982422,
+          582.1072387695312
+        ],
+        [
+          -352.00732421875,
+          27.099721908569336,
+          582.1072387695312
+        ],
+        [
+          -353.7991638183594,
+          27.0997314453125,
+          584.2379760742188
+        ]
+      ]
+    },
+    {
+      "part": 0,
+      "triangle": 34,
+      "key": "4be6b0c340ccd8413b0f1244:4be6b0c35c33c3413b0f1244:f000b0c35c33c341dd861144",
+      "area": 3.75793593458581,
+      "points": [
+        [
+          -352.00732421875,
+          24.40007781982422,
+          582.1072387695312
+        ],
+        [
+          -353.7991638183594,
+          27.0997314453125,
+          584.2379760742188
+        ],
+        [
+          -353.7991638183594,
+          24.40007781982422,
+          584.2379760742188
+        ]
+      ]
+    },
+    {
+      "part": 0,
+      "triangle": 58,
+      "key": "9c33b0c35d33c3410f731244:9c33b0c3f8b8e6400f731244:eb13b0c3f6b8e64081811244",
+      "area": 2.8795748831803216,
+      "points": [
+        [
+          -352.4031982421875,
+          24.40007972717285,
+          585.7977905273438
+        ],
+        [
+          -352.4031982421875,
+          7.210079193115234,
+          585.7977905273438
+        ],
+        [
+          -352.1556091308594,
+          7.210078239440918,
+          586.0234985351562
+        ]
+      ]
+    },
+    {
+      "part": 0,
+      "triangle": 59,
+      "key": "9c33b0c35d33c3410f731244:eb13b0c3f6b8e64081811244:eb13b0c35c33c34181811244",
+      "area": 2.8795747234260154,
+      "points": [
+        [
+          -352.4031982421875,
+          24.40007972717285,
+          585.7977905273438
+        ],
+        [
+          -352.1556091308594,
+          7.210078239440918,
+          586.0234985351562
+        ],
+        [
+          -352.1556091308594,
+          24.40007781982422,
+          586.0234985351562
+        ]
+      ]
+    },
+    {
+      "part": 0,
+      "triangle": 60,
+      "key": "4c15afc3f7b8e6404ff31144:eb13b0c35c33c34181811244:eb13b0c3f6b8e64081811244",
+      "area": 25.631880757296965,
+      "points": [
+        [
+          -352.1556091308594,
+          24.40007781982422,
+          586.0234985351562
+        ],
+        [
+          -352.1556091308594,
+          7.210078239440918,
+          586.0234985351562
+        ],
+        [
+          -350.1663818359375,
+          7.210078716278076,
+          583.8016967773438
+        ]
+      ]
+    },
+    {
+      "part": 0,
+      "triangle": 61,
+      "key": "4c15afc35d33c3414ff31144:eb13b0c35c33c34181811244:4c15afc3f7b8e6404ff31144",
+      "area": 25.631882890322007,
+      "points": [
+        [
+          -352.1556091308594,
+          24.40007781982422,
+          586.0234985351562
+        ],
+        [
+          -350.1663818359375,
+          7.210078716278076,
+          583.8016967773438
+        ],
+        [
+          -350.1663818359375,
+          24.40007972717285,
+          583.8016967773438
+        ]
+      ]
+    }
+  ],
+  "geometryUnchanged": true,
+  "ground": {
+    "method": "No floor or opening placement inferred; uninterrupted observed material finish only"
+  },
+  "art": {
+    "sha256": "2cd818ae8d606eee71d63e60851ffebe978ff7ddf631c100ee08e86877d77c1f",
+    "license": "CC0-1.0",
+    "referencePixelsCopied": false
+  },
+  "observations": [
+    "Modern red-brown masonry office with pale stone ground storey and narrow upright glazing bays. Both actual south and east elevations opened.",
+    "South: main glazing portion separated by tall pale ribs; adjacent red strip has smaller isolated upper windows; dark ground entrance and shop glazing. East: similar pale vertical ribs with three regular upper rows and taller bottom office glazing row; narrow side strip has isolated windows.",
+    "Adjacent west dark metal building and east ornate old red-brick building are distinct source structures. No photograph pixels or signs will be copied.",
+    "Initial proxy lookup snapped to an indoor April2020HillsDumplings photosphere and was rejected.",
+    "The narrow corner/return surfaces carry the observed red masonry above the pale stone base, with no invented window openings on those exact planes."
+  ],
+  "limitations": [
+    "Only the exact complete outward-facing native south family is assigned artwork. Native curved segments and roof setback keep their literal geometry.",
+    "Original observed material/opening proportions interpret the actual reference; no logos, signage or photo pixels are reproduced.",
+    "Other source planes are not qualified from these public photographs."
+  ],
+  "references": [
+    {
+      "title": "Google Street View10Pieni Roobertinkatu,August2024",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=hXe3i75LBj563jrRGEBE9Q&heading=355&pitch=28&fov=100",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Google Street View29Korkeavuorenkatu,August2024",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=iDZ6bFm2VW-hNkQ0Zof41A&heading=275&pitch=28&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "sourceBoundStoneBase": {
+    "datum": {
+      "path": "../south/source-ledger.json",
+      "sha256": "e962ce48b1b28b66cd4dc675595af6a7f5922534cceaee6e897184990d49149b",
+      "height": 8.018766475831665
+    },
+    "heightAboveDatum": 3.45,
+    "geometryChanged": false,
+    "method": "Same measured horizontal base-storey datum as exact source south/east fronts; no new floor height is inferred"
+  }
+}

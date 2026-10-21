@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "id": "kalliolanrinne-4-north-20261021",
+  "building": {
+    "id": "BID_07bc68e5-e088-41cc-a7dc-ed34f7fe334c",
+    "vtj": "103171059N",
+    "owner": "c_m03_m17"
+  },
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    23,
+    24
+  ],
+  "frame": {
+    "origin": [
+      -264.7821960449219,
+      -2075.89404296875
+    ],
+    "axis": [
+      -0.9986244216010712,
+      0.05243343000344264
+    ],
+    "width": 37.99926193068396
+  },
+  "completeElevationPlane": true,
+  "art": {
+    "wallColour": "#e4e2d5",
+    "groundColour": "#e4e2d5",
+    "surroundColour": "#c5beaa",
+    "frameColour": "#74624c",
+    "glassColour": "#a3acaa",
+    "groundHeight": 0.5,
+    "rows": [
+      {
+        "bottom": 0.8,
+        "height": 1.7,
+        "width": 2.7,
+        "axes": [
+          3,
+          8.333210321780658,
+          13.666420643561318,
+          24.332841287122637,
+          29.6660516089033,
+          34.99926193068396
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 3.8,
+        "height": 1.7,
+        "width": 2.7,
+        "axes": [
+          3,
+          8.333210321780658,
+          13.666420643561318,
+          18.99963096534198,
+          24.332841287122637,
+          29.6660516089033,
+          34.99926193068396
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 6.8,
+        "height": 1.7,
+        "width": 2.7,
+        "axes": [
+          3,
+          8.333210321780658,
+          13.666420643561318,
+          18.99963096534198,
+          24.332841287122637,
+          29.6660516089033,
+          34.99926193068396
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 9.8,
+        "height": 1.7,
+        "width": 2.7,
+        "axes": [
+          3,
+          8.333210321780658,
+          13.666420643561318,
+          18.99963096534198,
+          24.332841287122637,
+          29.6660516089033,
+          34.99926193068396
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 12.8,
+        "height": 1.7,
+        "width": 2.7,
+        "axes": [
+          3,
+          8.333210321780658,
+          13.666420643561318,
+          18.99963096534198,
+          24.332841287122637,
+          29.6660516089033,
+          34.99926193068396
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 15.8,
+        "height": 1.7,
+        "width": 2.7,
+        "axes": [
+          3,
+          8.333210321780658,
+          13.666420643561318,
+          18.99963096534198,
+          24.332841287122637,
+          29.6660516089033,
+          34.99926193068396
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 18.99963096534198,
+        "bottom": 0.03,
+        "width": 1.65,
+        "height": 2.8,
+        "kind": "door"
+      }
+    ],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 0.02,
+        "height": 0.42,
+        "colour": "#797062"
+      },
+      {
+        "from": "top",
+        "offset": -0.18,
+        "height": 0.18,
+        "colour": "#a39e8b"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Kalliolanrinne street fronts, April2023, full lower and upward facade views opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=I1iFP7u2PIIuJRdmPzFAAw&heading=177.13&pitch=18&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual north frontage is pale cream plaster with six storeys of broad brown timber-frame divided windows; it differs from the narrow pale windows of the opposite building.",
+    "A recessed tall timber glazed doorway and low brown-grey stone plinth are visible. Repeated small square vents punctuate the plaster between windows.",
+    "Source model and original art retain the flat main plane; recessed door depth and unmeasured tiny fittings are not new geometry.",
+    "Nine exact rendered/HCOL street probes show a 2.4–2.6m slope. Upper windows and floor bands stay horizontal at the qualified high-street datum; the low stone plinth and each fixed-height timber entrance follow the local measured floor.",
+    "Each timber entrance retains its individually authored2.6–2.8m height at its local native street floor; it is not stretched to the high end of the whole street. Upper residential window rows remain level."
+  ],
+  "limitations": [
+    "Only the exact complete declared public street-facing source-null wall plane is included. Native side/court/roof and small detail faces are not certified textured.",
+    "Window modules, colours and placements are original approximate reference-led artwork, not surveyed measurements. No Google pixels, signs, graffiti, cars or people are reproduced.",
+    "All native positions, indices, winding and physical collision stay unchanged."
+  ],
+  "observedGroundProfile": {
+    "kind": "source-measured-sloped-plinth-horizontal-opening-bands",
+    "manifestSha256": "071d4a782d12d04e7d1baf8b4c677224ae0b1afc6797d7aed29b5a9731ebed54",
+    "sampleHeights": [
+      12.67215070172396,
+      12.981728806930631,
+      13.357794227781433,
+      13.687272346696886,
+      14.006069201509732,
+      14.33436960833659,
+      14.6669088121202,
+      15.017580871541384,
+      15.254881556136777
+    ],
+    "horizontalDatumFromNativeTop": -18.235436742203067
+  }
+}

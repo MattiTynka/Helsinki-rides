@@ -128,3 +128,26 @@ facades with original artwork informed by Street View. It retains the full
 304-cell map and reduced-texture tier. The committed Pages descriptor remains
 the authority for the current archive and manifest; the live deployment receipt
 binds them to the published source commit.
+
+The [street facade, tram and startup pass](city-facades-and-tram-coverage-2026-10-20.md)
+continues from that deployed source/world pair. It adds nine reference-qualified
+facade elevations, extends physical tram coverage beyond Mannerheimintie, and
+adds an English/Finnish flag choice and screenshot-backed translucent start
+screen. The complete 304-cell map, optimized texture tiers and distance-based
+loading remain. Source profiles and publication notices distinguish original
+artwork, municipal data, OpenStreetMap placement and appearance-only references.
+
+The [21 October city expansion](city-expansion-2026-10-21.md) extends the map
+south towards Aleksanterin teatteri and north through Hakaniemi and Kallio on
+the approach towards Viikki. It retains the accepted old city and delivery
+budgets, adds rebuilt bridge surfaces and completed facade work, and explicitly
+records unfinished areas. Its exact payload is selected by the committed Pages
+descriptor. Native geometry and collision preservation checks are separate from
+the browser and hosted checks; none establishes every street as fully finished.
+
+The screenshot-backed shell admits only the specifically named, content-hashed
+startup JPEG, capped at 1 MB and checked for invalid structure, private metadata
+and trailing bytes. Other image names, review pages, source maps and source files
+remain excluded from the published shell. Release archives use regular USTAR
+entries with zero numeric owner IDs and empty owner names, without local paths,
+PAX records or link entries.

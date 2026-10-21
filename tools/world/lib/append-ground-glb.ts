@@ -10,7 +10,7 @@ export interface GroundGlbAppend {
   nodeName:string;
   primitiveIndex:number;
   attributes:Readonly<Record<string,{original:NumericArray; appended:readonly number[]}>>;
-  indices:{original:NumericArray; appended:readonly number[]};
+  indices:{original:NumericArray; appended:readonly number[]; retainedTriangles?:readonly number[]};
 }
 const align4=(n:number)=>(n+3)&~3;
 const componentType=(a:NumericArray)=>a instanceof Float32Array?5126:a instanceof Uint32Array?5125:a instanceof Uint16Array?5123:a instanceof Int16Array?5122:a instanceof Int8Array?5120:5121;
@@ -26,7 +26,7 @@ export async function appendGroundGlb(bytes:Uint8Array, additions:readonly Groun
   let physical=align4(original.bin.length),logical=align4(json.buffers[virtual].byteLength);
   const pieces:Uint8Array[]=[original.bin,new Uint8Array(physical-original.bin.length)];
   const changed=new Set<string>();
-  function appendAccessor(oldId:number,old:NumericArray,extra:readonly number[],indices=false) {
+  function appendAccessor(oldId:number,old:NumericArray,extra:readonly number[],indices=false,retainedTriangles?:readonly number[]) {
     const accessor=structuredClone(json.accessors[oldId]);
     assert.equal(componentType(old),accessor.componentType,'Decoded accessor component mismatch');
     assert.equal(old.length,accessor.count*sizeOf(accessor.type)!,'Decoded accessor size mismatch');
@@ -35,9 +35,17 @@ export async function appendGroundGlb(bytes:Uint8Array, additions:readonly Groun
     assert.equal(extra.length%components,0);
     let Type=old.constructor as {new(length:number):NumericArray};
     if(indices&&extra.some(i=>i>65535)&&old instanceof Uint16Array)Type=Uint32Array;
-    const array=new Type(old.length+extra.length);array.set(old);array.set(extra,old.length);
+    let base:NumericArray=old;
+    if(retainedTriangles!==undefined){
+      assert.ok(indices&&old.length%3===0,'Only triangle indices can be filtered');
+      let previous=-1;const retained:number[]=[];
+      for(const triangle of retainedTriangles){assert.ok(Number.isSafeInteger(triangle)&&triangle>previous&&triangle<old.length/3,'Retained triangles must be unique ordered source ordinals');previous=triangle;retained.push(...old.subarray(triangle*3,triangle*3+3));}
+      base=new Type(retained.length);base.set(retained);
+    }
+    const array=new Type(base.length+extra.length);array.set(base);array.set(extra,base.length);
+    assert.ok(array.length,'An empty primitive must be removed explicitly');
     if(indices)for(const i of extra)assert.ok(Number.isSafeInteger(i)&&i>=0,'Invalid appended index');
-    assert.deepEqual(Array.from(array.subarray(0,old.length)),Array.from(old),'Original accessor prefix changed');
+    assert.deepEqual(Array.from(array.subarray(0,base.length)),Array.from(base),'Original retained accessor prefix changed');
     for(const x of array)assert.ok(Number.isFinite(x),'Nonfinite appended accessor');
     const count=array.length/components,elementBytes=array.BYTES_PER_ELEMENT*components,stride=indices?elementBytes:align4(elementBytes);
     const source=new Uint8Array(count*stride),raw=new Uint8Array(array.buffer,array.byteOffset,array.byteLength);
@@ -65,7 +73,7 @@ export async function appendGroundGlb(bytes:Uint8Array, additions:readonly Groun
     }
     const finalVertexCount=json.accessors[p.attributes.POSITION].count;
     for(const i of add.indices.appended)assert.ok(i<finalVertexCount,'Appended index exceeds vertex count');
-    assert.equal(add.indices.appended.length%3,0);p.indices=appendAccessor(p.indices,add.indices.original,add.indices.appended,true);
+    assert.equal(add.indices.appended.length%3,0);p.indices=appendAccessor(p.indices,add.indices.original,add.indices.appended,true,add.indices.retainedTriangles);
   }
   const bin=Buffer.concat(pieces);assert.equal(bin.length,physical);assert.deepEqual(bin.subarray(0,original.bin.length),original.bin);
   json.buffers[0].byteLength=physical;json.buffers[virtual].byteLength=logical;

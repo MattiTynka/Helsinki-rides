@@ -95,7 +95,7 @@ export interface WorldManifest {
   readonly boundsRuntimeXZ: [number, number, number, number];
   readonly cells: readonly CellDescriptor[];
   readonly terrain: SimulationFileRef & { readonly x0: number; readonly z0: number; readonly resolution: number; readonly nx: number; readonly nz: number };
-  readonly roads: FileRef;
+  readonly roads: SimulationFileRef;
   readonly gameplay: FileRef;
   readonly assets: readonly (FileRef & {
     readonly id: string; readonly kind: 'character' | 'vehicle' | 'prop' | 'scenery';

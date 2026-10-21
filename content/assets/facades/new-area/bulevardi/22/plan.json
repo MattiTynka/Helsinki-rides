@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "id": "bulevardi-22-northwest-20261021",
+  "building": {
+    "id": "BID_3f250f15-3ade-4ce3-bff2-35a9fad319bf",
+    "vtj": "1030653645",
+    "owner": "c_m07_p04"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    147,
+    148,
+    149,
+    150,
+    221,
+    222,
+    223,
+    224,
+    225,
+    226,
+    435,
+    436,
+    437,
+    440,
+    441,
+    455,
+    456
+  ],
+  "frame": {
+    "origin": [
+      -804.9251098632812,
+      562.331787109375
+    ],
+    "axis": [
+      -0.818837456259,
+      0.574025452595
+    ],
+    "width": 35.80953865579348
+  },
+  "references": [
+    {
+      "title": "Google Street View, Bulevardi22 actual facade number22, April2023 leafless capture BJf1Vy8PmNgxiZ6eNV17FA; opened from August2024 history",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=BJf1Vy8PmNgxiZ6eNV17FA&heading=147.63&pitch=23.44&fov=90",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Google Street View, Bulevardi22, August2024 H3QQsS6IDCTppPicHOItXQ, lower frontage and current yellow plaster",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=H3QQsS6IDCTppPicHOItXQ&heading=147.63&pitch=0&fov=90",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual facade number22 is visible above the central ground entrance; the older panorama camera is labelled11Bulevardi on the opposite pavement, not a building identity source.",
+    "Warmyellow plaster, palecream/lightgray frames, darkgranite plinth, glazedgroundshopfronts, FOURupperwindowrows aboveground.",
+    "Existing native rounded and polygonal projecting bays remain exact; original glazing/plaster wraps their original source facets.",
+    "Upper flat central front has a broad three-light group flanked by narrow windows; shallow cream arch above its middle row; tall white-framed bay windows.",
+    "All geometry comes from exact municipal VTJ1030653645 and native oriented source face keys; photography establishes appearance only."
+  ],
+  "limitations": [
+    "Only the northwest street front and its outward bay facets are selected; side/courtyard walls are not reconstructed by this profile.",
+    "Shopbranding and people/signs/treepixels are omitted. Opening placement is an architectural interpretation of the opened reference, not a measured photogrammetric survey.",
+    "2024and2021 official appearance themes contain no photographs for this exact current native building; no2017model or imagery is used."
+  ]
+}

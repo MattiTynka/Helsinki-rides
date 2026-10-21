@@ -163,14 +163,21 @@ export function filterAcceptedBuildings<T extends {buildings:readonly {id:string
 }
 
 /** Rebase the appended GLB's resource references without decoding/recompressing either BIN. */
-export function appendCityGlb(baseBytes:Uint8Array,extraBytes:Uint8Array):Uint8Array {
+export function appendCityGlb(baseBytes:Uint8Array,extraBytes:Uint8Array,options?:{externalImages:ReadonlyMap<string,Uint8Array>}):Uint8Array {
   const base=readFacadeGlb(baseBytes),extra=readFacadeGlb(extraBytes),a=structuredClone(base.json) as any,b=structuredClone(extra.json) as any;
   const supported=new Set(['EXT_meshopt_compression','KHR_mesh_quantization','KHR_texture_basisu','KHR_materials_unlit','KHR_texture_transform']);
   for(const j of[a,b]){
     for(const e of j.extensionsUsed??[])assert.ok(supported.has(e),`unsupported GLB extension ${e}`);
     assert.ok(!j.animations?.length&&!j.skins?.length&&!j.cameras?.length&&!j.extensions,'city GLB must not contain animation, skins, cameras or root extensions');
     assert.equal(j.scenes.length,1,'city GLB must have one scene');assert.ok(j.buffers.every((v:any)=>!v.uri),'external buffers unsupported');
-    assert.ok((j.images??[]).every((v:any)=>!v.uri&&Number.isInteger(v.bufferView)),'images must be embedded');
+    for(const image of j.images??[]){
+      if(image.uri===undefined){assert.ok(Number.isInteger(image.bufferView),'images must be embedded');continue;}
+      assert.ok(options?.externalImages,'images must be embedded');
+      assert.match(image.uri,/^\.\.\/textures\/([0-9a-f]{64})\.(?:ktx2|png)$/,'Only pinned shared city images are allowed');
+      assert.equal(image.bufferView,undefined,'Image must have exactly one storage location');
+      const payload=options.externalImages.get(image.uri);assert.ok(payload?.length,`Unpinned shared city image ${image.uri}`);
+      assert.equal(sha(payload),image.uri.match(/([0-9a-f]{64})\./)![1],'Shared city image hash mismatch');
+    }
   }
   const keys=['accessors','bufferViews','samplers','textures','images','materials','meshes','nodes'] as const;
   const offset=Object.fromEntries(keys.map(k=>[k,(a[k]??=[]).length])) as Record<typeof keys[number],number>;
@@ -180,7 +187,7 @@ export function appendCityGlb(baseBytes:Uint8Array,extraBytes:Uint8Array):Uint8A
     const c=v.extensions?.EXT_meshopt_compression;if(c){if(c.buffer===0)c.byteOffset=(c.byteOffset??0)+physical;c.buffer=buffer(c.buffer);}
   }
   for(const v of b.accessors??[]){assert.ok(!v.sparse,'sparse city accessors unsupported');if(v.bufferView!==undefined)v.bufferView+=offset.bufferViews;}
-  for(const v of b.images??[])v.bufferView+=offset.bufferViews;
+  for(const v of b.images??[])if(v.bufferView!==undefined)v.bufferView+=offset.bufferViews;
   for(const v of b.textures??[]){if(v.sampler!==undefined)v.sampler+=offset.samplers;if(v.source!==undefined)v.source+=offset.images;if(v.extensions?.KHR_texture_basisu)v.extensions.KHR_texture_basisu.source+=offset.images;}
   const remapTextures=(v:any)=>{if(!v||typeof v!=='object')return;for(const[k,child]of Object.entries(v)){if(k.endsWith('Texture')&&child&&typeof child==='object'&&'index'in child)(child as any).index+=offset.textures;else remapTextures(child);}};
   for(const v of b.materials??[])remapTextures(v);
@@ -242,7 +249,7 @@ export interface FrontierRepairMetadata {
   protectedMinX?:number;
   axis?:'x'|'z';
   cut?:number;
-  protectedSide?:'east'|'south';
+  protectedSide?:'east'|'south'|'north';
   acceptedBounds?:AppendRectangle;
   protectedInteriorPreserved:true;
   evidence:{path:string;sha256:string};

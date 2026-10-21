@@ -1,3 +1,4 @@
+import{readDeliveryRoadFile}from'./lib/delivery-road-file.ts';
 // Trees for the play area from the city's two tree layers (tools/world/fetch_trees.ts; plan section 4.3: positions
 // and heights from the city, own models): every instanced SolitaryVegetationObject is placed exactly (instance
 // translation, node matrix, glTF Y-up to Z-up, tile transform to ECEF, geodetic on GRS80, EPSG:3879, then the
@@ -31,7 +32,7 @@ const origin = JSON.parse(readFileSync(values.origin!, 'utf8'));
 const [E0, N0, H0] = origin.originProjected as [number, number, number];
 const terrainDoc = JSON.parse(readFileSync(path.join(values.terrain!, 'terrain.json'), 'utf8'));
 const terrain = parseTerrain(new Uint8Array(readFileSync(path.join(values.terrain!, terrainDoc.file))));
-const roads = JSON.parse(readFileSync(values.roads!, 'utf8')) as { lanes: { id: string; name: string | null; width: number; points: [number, number, number][] }[] };
+const roads = readDeliveryRoadFile(values.roads!);
 const footprints = loadGeoJsonPolygons(values.footprints!, E0, N0, (p, i) => String(p['vtj_prt'] ?? `register-${p['id'] ?? i}`));
 const fpGrid = new PolygonGrid(footprints, 32);
 const modelReport = JSON.parse(readFileSync(values.models!, 'utf8')).assets['scenery-trees'] as {

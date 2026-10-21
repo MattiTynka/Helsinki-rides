@@ -1,0 +1,2982 @@
+{
+  "schemaVersion": 1,
+  "status": "BASELINE_MATERIAL_CANDIDATES_NOT_ALL_CONFIRMED_DEFECTS",
+  "baselineSourceCommit": "c91c7802b5fd187ad341df490dedb9e91aac48aa",
+  "worldRelease": "senate-20261020-reference-repair-v3",
+  "manifestSha256": "18e40f69a271f037b6b23b257fee437cb5716fad68c10cff808833a142ee7607",
+  "source": {
+    "jsonSha256": "1a9237c7da9321f0cbc9a80401fe76ac094dab03be7ff07b690d7cd3a6f677b3",
+    "binSha256": "9b64e4f39e0325f842d9ed89c4afdaae9286e937b696dee9dbf943ef358c3c55"
+  },
+  "attribution": "Building geometry and register attributes: City of Helsinki, CC BY 4.0. Material analysis: Helsinki Rides project.",
+  "scope": "Census covers all 304 cells and 1,695 building records. The named inventory below contains 134 records with a municipal VTJ identifier; another 59 constant-wall source records lack that identifier. Source-matched wall faces have constant UV coordinates or no image map. Distant vertex-colour LOD is deliberately excluded.",
+  "limitations": [
+    "A constant-colour source wall is a reconstruction candidate, not proof that real architecture should have openings.",
+    "Party walls, buried foundations, plinths and genuinely blank elevations require separate reference qualification.",
+    "Records may be partially restored already. Only individually referenced elevations may receive new artwork.",
+    "This is the frozen before inventory; per-elevation plans and ledgers identify subsequent repairs."
+  ],
+  "coverage": {
+    "cells": 304,
+    "buildingRecords": 1695,
+    "sourceWallTriangles": 175961,
+    "sourceNullWallTriangles": 25967,
+    "metadataFlat": 187,
+    "metadataTextured": 1508,
+    "buildingsWithAnyRemainingConstantWall": 193,
+    "remainingConstantWallArea": 480395.6038194267,
+    "verifiedSharedImagePayloads": 508,
+    "listedRegisteredCandidates": 134,
+    "unlistedRecordsWithoutVtj": 59
+  },
+  "buildings": [
+    {
+      "id": "BID_63ad33e6-d6c9-4774-830a-664fa4bd451f",
+      "vtj": "103036699F",
+      "cell": "c_m01_m04",
+      "address": "Snellmaninkatu 14, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -91.255,
+          0.2,
+          -482.556
+        ],
+        "max": [
+          -14.179,
+          17.2,
+          -425.788
+        ]
+      },
+      "remainingConstantWallAreaM2": 4866.991,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_62d34271-5a7a-4cd8-a1c6-5c803a0c134f",
+      "vtj": "1030272013",
+      "cell": "c_m01_m05",
+      "address": "Unioninkatu 43, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -93.447,
+          -5.33,
+          -625.154
+        ],
+        "max": [
+          -42.026,
+          27.99,
+          -546.67
+        ]
+      },
+      "remainingConstantWallAreaM2": 10140.687,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_dd00d15d-60eb-421f-ab97-372f7f164b23",
+      "vtj": "103027197Y",
+      "cell": "c_m01_m05",
+      "address": "Liisankatu 27, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -42.61,
+          -0.38,
+          -564.983
+        ],
+        "max": [
+          -4.453,
+          26.5,
+          -513.981
+        ]
+      },
+      "remainingConstantWallAreaM2": 5830.083,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_e87616c6-2955-40dc-b517-01c672d4ccd3",
+      "vtj": "1030272002",
+      "cell": "c_m01_m05",
+      "address": "Unioninkatu 43, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -60.494,
+          1.92,
+          -618.221
+        ],
+        "max": [
+          -44.218,
+          18.5,
+          -588.892
+        ]
+      },
+      "remainingConstantWallAreaM2": 1193.346,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_1ce77d32-0bb1-401a-af2b-49fe65f5828e",
+      "vtj": "1030272046",
+      "cell": "c_m01_m06",
+      "address": "Siltavuorenpenger 10, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -48.218,
+          1.499,
+          -669.272
+        ],
+        "max": [
+          -16.7,
+          28.86,
+          -620.033
+        ]
+      },
+      "remainingConstantWallAreaM2": 3569.499,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_70ad03b5-7abc-47e7-b9f7-97a924401ef5",
+      "vtj": "1030271991",
+      "cell": "c_m01_m06",
+      "address": "Unioninkatu 45, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -96.982,
+          -3.66,
+          -693.473
+        ],
+        "max": [
+          -47.909,
+          30.33,
+          -623.726
+        ]
+      },
+      "remainingConstantWallAreaM2": 10896.062,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_98dc70e3-607a-4705-a954-f1373f7d4fa5",
+      "vtj": "103151928J",
+      "cell": "c_m01_m10",
+      "address": "Hämeentie 1, 00530 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -27.382,
+          -4.96,
+          -1234.895
+        ],
+        "max": [
+          12.329,
+          20.5,
+          -1180.991
+        ]
+      },
+      "remainingConstantWallAreaM2": 3521.214,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_8497883d-d7cd-4551-bfbc-2720dc0396ca",
+      "vtj": "103055949E",
+      "cell": "c_m01_p01",
+      "address": "Eteläesplanadi 1, 00130 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -130.589,
+          -3.674,
+          225.026
+        ],
+        "max": [
+          -87.711,
+          5.043,
+          248.755
+        ]
+      },
+      "remainingConstantWallAreaM2": 855.061,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_1c117345-b27e-46b8-9721-e635503b4ad8",
+      "vtj": "1030368080",
+      "cell": "c_m02_m01",
+      "address": "Yliopistonkatu 3, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -250.679,
+          -6.344,
+          -107.144
+        ],
+        "max": [
+          -176.063,
+          27.99,
+          -46.069
+        ]
+      },
+      "remainingConstantWallAreaM2": 7166.888,
+      "alreadyAuthoredWallAreaM2": 2059.825,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_e6fcc14c-949b-4d6c-8a4a-5922cbdf3f99",
+      "vtj": "1030368124",
+      "cell": "c_m02_m02",
+      "address": "Fabianinkatu 26, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -253.894,
+          4.43,
+          -166.509
+        ],
+        "max": [
+          -179.749,
+          30.351,
+          -132.779
+        ]
+      },
+      "remainingConstantWallAreaM2": 5305.952,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_fd93829e-84a5-4f36-901d-b56da6c7a65b",
+      "vtj": "1030368102",
+      "cell": "c_m02_m02",
+      "address": "Fabianinkatu 28, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -219.543,
+          6.82,
+          -196.354
+        ],
+        "max": [
+          -181.634,
+          29.95,
+          -164.595
+        ]
+      },
+      "remainingConstantWallAreaM2": 2977.664,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_49877441-38b6-45b3-8cba-2af05b3c8051",
+      "vtj": "1031519121",
+      "cell": "c_m02_m10",
+      "address": "Siltasaarenkatu 18, 00530 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -224.656,
+          -4.08,
+          -1244.415
+        ],
+        "max": [
+          -148.265,
+          27.83,
+          -1168.023
+        ]
+      },
+      "remainingConstantWallAreaM2": 11646.741,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_1ea36404-5433-431d-b4c8-860298504c71",
+      "vtj": "103036799P",
+      "cell": "c_m02_p00",
+      "address": "Aleksanterinkatu 9, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -262.629,
+          -5.102,
+          23.325
+        ],
+        "max": [
+          -216.028,
+          27.8,
+          54.284
+        ]
+      },
+      "remainingConstantWallAreaM2": 4245.215,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_5ed8393b-3196-4fc5-bfa2-b3265518339f",
+      "vtj": "1030367792",
+      "cell": "c_m02_p00",
+      "address": "Fabianinkatu 14, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -228.862,
+          -5.033,
+          102.333
+        ],
+        "max": [
+          -165.839,
+          15.731,
+          146.765
+        ]
+      },
+      "remainingConstantWallAreaM2": 4680.283,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_69a14b64-e785-4079-bd2c-a0d07f77d1b3",
+      "vtj": "103036798N",
+      "cell": "c_m02_p00",
+      "address": "Fabianinkatu 18, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -195.47,
+          -3.94,
+          0.292
+        ],
+        "max": [
+          -170.272,
+          25.92,
+          51.335
+        ]
+      },
+      "remainingConstantWallAreaM2": 4083.414,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_6fac5009-a4d9-4e81-9cdb-b3a4c0065eac",
+      "vtj": "1030367781",
+      "cell": "c_m02_p00",
+      "address": "Aleksanterinkatu 36b, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -230.744,
+          -4.81,
+          68.297
+        ],
+        "max": [
+          -186.088,
+          19.886,
+          105.322
+        ]
+      },
+      "remainingConstantWallAreaM2": 3904.328,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_8e9da000-3fd2-4711-a113-3edea1824413",
+      "vtj": "103036803U",
+      "cell": "c_m02_p00",
+      "address": "Aleksanterinkatu 9, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -218.945,
+          -5.522,
+          1.102
+        ],
+        "max": [
+          -193.035,
+          25.09,
+          52.429
+        ]
+      },
+      "remainingConstantWallAreaM2": 3398.684,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_df39af63-fd91-4239-98d5-cd63def98167",
+      "vtj": "1030367770",
+      "cell": "c_m02_p00",
+      "address": "Fabianinkatu 16, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -186.815,
+          -4.42,
+          67.463
+        ],
+        "max": [
+          -167.772,
+          20.097,
+          103.044
+        ]
+      },
+      "remainingConstantWallAreaM2": 2231.064,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_3da327ac-519e-49e3-afec-9f086c2b12ee",
+      "vtj": "1030367814",
+      "cell": "c_m02_p01",
+      "address": "Pohjoisesplanadi 25-27, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -257.221,
+          -5.59,
+          137.951
+        ],
+        "max": [
+          -162.508,
+          25.15,
+          182.719
+        ]
+      },
+      "remainingConstantWallAreaM2": 8723.965,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_795788e5-0053-46b8-b2a3-b1eede344011",
+      "vtj": "103036771T",
+      "cell": "c_m02_p01",
+      "address": "Fabianinkatu 27-29, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -153.279,
+          -4.58,
+          105.841
+        ],
+        "max": [
+          -113.869,
+          25.082,
+          176.443
+        ]
+      },
+      "remainingConstantWallAreaM2": 5039.052,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_df16e8ff-23c2-4644-89ed-8c7a88b2a333",
+      "vtj": "103046222N",
+      "cell": "c_m02_p02",
+      "address": "Eteläesplanadi 12, 00130 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -249.865,
+          -2.14,
+          267.763
+        ],
+        "max": [
+          -217.054,
+          26.1,
+          319.857
+        ]
+      },
+      "remainingConstantWallAreaM2": 5814.082,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_42f46417-120e-4e80-83d0-880cbfa33421",
+      "vtj": "1030368168",
+      "cell": "c_m03_m03",
+      "address": "Vuorikatu 20, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -334.328,
+          -5.094,
+          -356.847
+        ],
+        "max": [
+          -277.27,
+          24.799,
+          -323.017
+        ]
+      },
+      "remainingConstantWallAreaM2": 5707.29,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_5af90a53-46a7-426f-b811-403825e66462",
+      "vtj": "103036820C",
+      "cell": "c_m03_m03",
+      "address": "Mikonkatu 23, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -388.221,
+          -5.38,
+          -350.93
+        ],
+        "max": [
+          -326.956,
+          28.35,
+          -289.497
+        ]
+      },
+      "remainingConstantWallAreaM2": 7563.35,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_4fc4d897-5706-45a9-b7ee-efe2d3bda76f",
+      "vtj": "1030462364",
+      "cell": "c_m03_p02",
+      "address": "Korkeavuorenkatu 45, 00130 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -351.848,
+          0.41,
+          322.438
+        ],
+        "max": [
+          -305.106,
+          24.303,
+          351.776
+        ]
+      },
+      "remainingConstantWallAreaM2": 4861.907,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_1905a2a7-36f6-468e-8c0c-e5c4717c0a5e",
+      "vtj": "1030462674",
+      "cell": "c_m03_p03",
+      "address": "Korkeavuorenkatu 39, 00130 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -346.34,
+          7.92,
+          418.942
+        ],
+        "max": [
+          -330.839,
+          31.39,
+          446.717
+        ]
+      },
+      "remainingConstantWallAreaM2": 1678.584,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_e9125805-a1f7-4542-bdde-1d60c24c0d97",
+      "vtj": "103046279H",
+      "cell": "c_m03_p04",
+      "address": "Korkeavuorenkatu 33, 00130 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -342.194,
+          9.87,
+          502.258
+        ],
+        "max": [
+          -324.524,
+          35.27,
+          540.052
+        ]
+      },
+      "remainingConstantWallAreaM2": 2627.924,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_6e02debf-5b6a-467a-8998-29338f4f2634",
+      "vtj": "103046247F",
+      "cell": "c_m04_p02",
+      "address": "Erottajankatu 19, 00130 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -433.561,
+          4.077,
+          331.337
+        ],
+        "max": [
+          -424.833,
+          19.314,
+          368.214
+        ]
+      },
+      "remainingConstantWallAreaM2": 1308.039,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_d6405932-92a7-481e-bda7-6cf5ce9dc1dc",
+      "vtj": "103046255R",
+      "cell": "c_m04_p03",
+      "address": "Erottajankatu 9, 00130 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -425.038,
+          6.89,
+          473.771
+        ],
+        "max": [
+          -411.498,
+          31.16,
+          498.434
+        ]
+      },
+      "remainingConstantWallAreaM2": 1743.038,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_0e571dd9-a7a8-4837-8bbc-c139ac2d52b0",
+      "vtj": "103055987N",
+      "cell": "c_m05_p02",
+      "address": "Bulevardi 1, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -558.822,
+          2.54,
+          315.371
+        ],
+        "max": [
+          -516.286,
+          32.67,
+          352.18
+        ]
+      },
+      "remainingConstantWallAreaM2": 3581.832,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_312fdc5d-b8a8-4cfc-96ed-227ff31464a0",
+      "vtj": "103036835V",
+      "cell": "c_m06_m01",
+      "address": "Mannerheimintie 5, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -718.482,
+          -3.33,
+          -25.707
+        ],
+        "max": [
+          -653.048,
+          35.4,
+          25.463
+        ]
+      },
+      "remainingConstantWallAreaM2": 8096.31,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_2ffdf165-ac61-4abe-95f7-dce7371b8cd4",
+      "vtj": "104043917C",
+      "cell": "c_m06_p00",
+      "address": "Mannerheimintie 14, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -728.594,
+          -7.78,
+          87.662
+        ],
+        "max": [
+          -658.15,
+          31.3,
+          163.729
+        ]
+      },
+      "remainingConstantWallAreaM2": 7889.586,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_6c93f39a-e8dd-4eca-903d-55b1aba362f2",
+      "vtj": "103056008B",
+      "cell": "c_m06_p01",
+      "address": "Kalevankatu 3, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -746.583,
+          -6.42,
+          132.469
+        ],
+        "max": [
+          -690.542,
+          30.002,
+          187.846
+        ]
+      },
+      "remainingConstantWallAreaM2": 7922.951,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_e149f015-586a-43e0-a3f7-11562e9faa30",
+      "vtj": "103056020R",
+      "cell": "c_m06_p01",
+      "address": "Kalevankatu 6, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -757.485,
+          4.55,
+          207.682
+        ],
+        "max": [
+          -710.099,
+          31.97,
+          257.769
+        ]
+      },
+      "remainingConstantWallAreaM2": 3973.617,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_551a4765-1c47-48ab-80fd-46c2a5946917",
+      "vtj": "103056022T",
+      "cell": "c_m06_p02",
+      "address": "Lönnrotinkatu 5, 00120 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -731.991,
+          5.54,
+          244.211
+        ],
+        "max": [
+          -676.688,
+          35.87,
+          301.575
+        ]
+      },
+      "remainingConstantWallAreaM2": 5260.941,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_1bdba8f1-9e82-46d3-8cb8-1551c7177d03",
+      "vtj": "103056058Y",
+      "cell": "c_m07_p02",
+      "address": "Lönnrotinkatu 9, 00120 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -860.194,
+          8.69,
+          334.611
+        ],
+        "max": [
+          -806.052,
+          33.48,
+          391.567
+        ]
+      },
+      "remainingConstantWallAreaM2": 4336.584,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_0e896736-b46a-47a5-83e1-ffe9bf3aec1e",
+      "vtj": "103056074F",
+      "cell": "c_m07_p03",
+      "address": "Fredrikinkatu 41, 00120 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -916.133,
+          4.56,
+          444.4
+        ],
+        "max": [
+          -863.943,
+          27.151,
+          514.527
+        ]
+      },
+      "remainingConstantWallAreaM2": 4690.613,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_57852ed2-3ba8-439a-ab29-aafa68a73cc9",
+      "vtj": "103056075H",
+      "cell": "c_m07_p03",
+      "address": "Lönnrotinkatu 14, 00120 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -873.201,
+          5.7,
+          471.743
+        ],
+        "max": [
+          -857.579,
+          10.339,
+          490.406
+        ]
+      },
+      "remainingConstantWallAreaM2": 198.94,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_5ffdeab4-bdcf-4317-9b88-0798d117a93e",
+      "vtj": "103056071C",
+      "cell": "c_m07_p03",
+      "address": "Fredrikinkatu 39, 00120 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -869.011,
+          4.63,
+          494.053
+        ],
+        "max": [
+          -849.685,
+          8.713,
+          507.947
+        ]
+      },
+      "remainingConstantWallAreaM2": 187.282,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_225ef266-e52b-46c8-b4c7-123cc93aedc8",
+      "vtj": "103055957P",
+      "cell": "c_m08_p01",
+      "address": "Eerikinkatu 7, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -974.886,
+          11.39,
+          216.337
+        ],
+        "max": [
+          -933.41,
+          33.227,
+          257.818
+        ]
+      },
+      "remainingConstantWallAreaM2": 3398.149,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_a4bd2676-abed-4d17-b15d-bbf086b3a2d3",
+      "vtj": "103055958R",
+      "cell": "c_m08_p01",
+      "address": "Annankatu 28, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -950.634,
+          11.141,
+          199.525
+        ],
+        "max": [
+          -909.14,
+          38.06,
+          241.034
+        ]
+      },
+      "remainingConstantWallAreaM2": 3002.916,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_3c6943a9-20c0-4810-b3d9-2ff877378b66",
+      "vtj": "1031902026",
+      "cell": "c_m09_m02",
+      "address": "Pohjoinen Rautatiekatu 11, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1150.466,
+          4.69,
+          -264.669
+        ],
+        "max": [
+          -1099.199,
+          32.6,
+          -207.999
+        ]
+      },
+      "remainingConstantWallAreaM2": 4459.984,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_31acb401-f0ce-43c6-aed2-167cbed5d05e",
+      "vtj": "1031902037",
+      "cell": "c_m09_m03",
+      "address": "Mannerheimintie 30, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1120.42,
+          3.69,
+          -417.519
+        ],
+        "max": [
+          -1016.304,
+          40.6,
+          -264.322
+        ]
+      },
+      "remainingConstantWallAreaM2": 18439.812,
+      "alreadyAuthoredWallAreaM2": 277.806,
+      "sourceGeometryKeysMissing": 3,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_3a0dbe74-3efd-4a9c-acf6-e76f552cd4de",
+      "vtj": "1031902059",
+      "cell": "c_m09_m03",
+      "address": "Eduskuntakatu 4, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1159.364,
+          7.11,
+          -373.576
+        ],
+        "max": [
+          -1097.092,
+          26.31,
+          -270.441
+        ]
+      },
+      "remainingConstantWallAreaM2": 5385.94,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_12f329ca-3e58-4fa9-a6d9-159c25e87dcc",
+      "vtj": "103190220S",
+      "cell": "c_m09_m04",
+      "address": "Museokatu 8, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1145.077,
+          1.17,
+          -502.605
+        ],
+        "max": [
+          -1111.608,
+          23.001,
+          -461.551
+        ]
+      },
+      "remainingConstantWallAreaM2": 2450.129,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_55e4732c-1719-465b-82e0-dade2b1f32c7",
+      "vtj": "103056111N",
+      "cell": "c_m09_p02",
+      "address": "Fredrikinkatu 38, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1051.448,
+          6.086,
+          326.027
+        ],
+        "max": [
+          -1012.968,
+          30.16,
+          359.556
+        ]
+      },
+      "remainingConstantWallAreaM2": 2422.52,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_16fc14c5-6d50-484e-82aa-8d6f541bcdda",
+      "vtj": "103056102C",
+      "cell": "c_m09_p03",
+      "address": "Kalevankatu 28, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1051.331,
+          4.6,
+          417.84
+        ],
+        "max": [
+          -1007.078,
+          26.202,
+          459.866
+        ]
+      },
+      "remainingConstantWallAreaM2": 2522.618,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_35826c62-fe2c-4431-bc6b-523d660e37b2",
+      "vtj": "103056108K",
+      "cell": "c_m09_p03",
+      "address": "Albertinkatu 31, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1101.088,
+          4.18,
+          478.936
+        ],
+        "max": [
+          -1067.801,
+          25.6,
+          514.003
+        ]
+      },
+      "remainingConstantWallAreaM2": 1527.509,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_6a8d9fcb-36f0-4ac5-91c6-f817280b07c1",
+      "vtj": "103056109L",
+      "cell": "c_m09_p03",
+      "address": "Kalevankatu 34, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1115.504,
+          3.71,
+          464.488
+        ],
+        "max": [
+          -1090.487,
+          18.904,
+          498.125
+        ]
+      },
+      "remainingConstantWallAreaM2": 1205.021,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_dad69ba2-2af8-4244-b577-03c1dd42677d",
+      "vtj": "103056101B",
+      "cell": "c_m09_p03",
+      "address": "Lönnrotinkatu 23, 00120 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1057.872,
+          4.04,
+          482.778
+        ],
+        "max": [
+          -1012.181,
+          25.7,
+          532.011
+        ]
+      },
+      "remainingConstantWallAreaM2": 3756.87,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_97012b32-2048-4f4a-a896-786d162c4fec",
+      "vtj": "1031902314",
+      "cell": "c_m10_m03",
+      "address": "Temppelikatu 4, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1284.4,
+          9.65,
+          -348.149
+        ],
+        "max": [
+          -1246.9,
+          35.8,
+          -313.701
+        ]
+      },
+      "remainingConstantWallAreaM2": 2386.025,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_f03b73e9-c603-49c5-85a0-a31dfef514b9",
+      "vtj": "104097923H",
+      "cell": "c_m10_p00",
+      "address": "Kampinkuja 1, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1269.908,
+          4.04,
+          86.958
+        ],
+        "max": [
+          -1200.018,
+          44.994,
+          140.185
+        ]
+      },
+      "remainingConstantWallAreaM2": 7058.215,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_a0c6ae1c-cf2c-4d7c-a28f-ebc941608d0f",
+      "vtj": "1030749114",
+      "cell": "c_m10_p02",
+      "address": "Ruoholahdenkatu 4, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1278.845,
+          -3.84,
+          357.145
+        ],
+        "max": [
+          -1236.879,
+          28.702,
+          408.368
+        ]
+      },
+      "remainingConstantWallAreaM2": 4062.917,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_e3d7edf1-1fd4-4fbf-b8ce-305bbbec8836",
+      "vtj": "1030653900",
+      "cell": "c_m10_p02",
+      "address": "Lapinlahdenkatu 3, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1189.245,
+          4.66,
+          302.15
+        ],
+        "max": [
+          -1156.788,
+          32.95,
+          338.612
+        ]
+      },
+      "remainingConstantWallAreaM2": 3078.615,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_0deb14cb-36b1-4996-b5ca-1b80b965fba0",
+      "vtj": "103065278C",
+      "cell": "c_m10_p03",
+      "address": "Kalevankatu 39a, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1185.413,
+          2.92,
+          470.302
+        ],
+        "max": [
+          -1159.345,
+          13.75,
+          497.18
+        ]
+      },
+      "remainingConstantWallAreaM2": 683.447,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_426ad436-bf3b-48e7-8442-502f265263ee",
+      "vtj": "103065277B",
+      "cell": "c_m10_p03",
+      "address": "Albertinkatu 40, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1212.137,
+          2.55,
+          434.351
+        ],
+        "max": [
+          -1143.57,
+          31.061,
+          481.724
+        ]
+      },
+      "remainingConstantWallAreaM2": 3823.298,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_4f6ffa5f-629f-4302-abab-224e43dbd13c",
+      "vtj": "103065276A",
+      "cell": "c_m10_p03",
+      "address": "Eerikinkatu 36, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1289.645,
+          2.01,
+          458.42
+        ],
+        "max": [
+          -1208.673,
+          31.7,
+          522.663
+        ]
+      },
+      "remainingConstantWallAreaM2": 4022.163,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_6fe7fa70-743b-47be-9968-08cd269d432c",
+      "vtj": "103074921E",
+      "cell": "c_m10_p03",
+      "address": "Eerikinkatu 27, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1291.907,
+          2.048,
+          441.194
+        ],
+        "max": [
+          -1250.892,
+          23.867,
+          481.639
+        ]
+      },
+      "remainingConstantWallAreaM2": 2434.272,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_85e3e6f4-b3fb-42aa-920e-35380943f720",
+      "vtj": "1030652737",
+      "cell": "c_m10_p03",
+      "address": "Kalevankatu 39c, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1212.572,
+          2.65,
+          495.051
+        ],
+        "max": [
+          -1186.222,
+          11,
+          524.558
+        ]
+      },
+      "remainingConstantWallAreaM2": 560.919,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_b3ffc792-bf90-4151-a8e3-359a1ea9ad4f",
+      "vtj": "103074923H",
+      "cell": "c_m10_p03",
+      "address": "Eerikinkatu 23, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1249.381,
+          1.365,
+          399.639
+        ],
+        "max": [
+          -1202.475,
+          24.7,
+          447.634
+        ]
+      },
+      "remainingConstantWallAreaM2": 3048.36,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_9d3a7fcd-0337-4415-a9de-c5d58ca886a9",
+      "vtj": "103199757D",
+      "cell": "c_m11_m05",
+      "address": "Nervanderinkatu 13, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1301.416,
+          7.92,
+          -515.807
+        ],
+        "max": [
+          -1293.333,
+          11.876,
+          -509.256
+        ]
+      },
+      "remainingConstantWallAreaM2": 71.739,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_90d54c2a-51c8-47e7-9dfa-6852b9c04180",
+      "vtj": "103074917A",
+      "cell": "c_m11_p03",
+      "address": "Ruoholahdenkatu 12, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1332.098,
+          3.31,
+          457.2
+        ],
+        "max": [
+          -1324.719,
+          7.202,
+          465.006
+        ]
+      },
+      "remainingConstantWallAreaM2": 69.037,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_bc41af67-30f4-4181-a11f-5f6f1b5a1576",
+      "vtj": "1030749158",
+      "cell": "c_m11_p03",
+      "address": "Ruoholahdenkatu 10, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1332.048,
+          1.75,
+          432.97
+        ],
+        "max": [
+          -1303.252,
+          14.987,
+          461.801
+        ]
+      },
+      "remainingConstantWallAreaM2": 1159.725,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_c1785839-4c59-4b9e-8008-f7ed70ffc898",
+      "vtj": "1030749136",
+      "cell": "c_m11_p03",
+      "address": "Ruoholahdenkatu 8, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1326.844,
+          1.31,
+          391.233
+        ],
+        "max": [
+          -1291.911,
+          31.92,
+          439.911
+        ]
+      },
+      "remainingConstantWallAreaM2": 3789.392,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_d0db2066-c570-4521-a5d8-cdb63911d928",
+      "vtj": "1030749147",
+      "cell": "c_m11_p03",
+      "address": "Ruoholahdenkatu 10, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1350.528,
+          1.49,
+          408.142
+        ],
+        "max": [
+          -1318.16,
+          29.05,
+          440.966
+        ]
+      },
+      "remainingConstantWallAreaM2": 2861.296,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_e7e1b4c8-9bfa-48b3-9aaa-251d23801ee4",
+      "vtj": "103074920D",
+      "cell": "c_m11_p03",
+      "address": "Eerikinkatu 29, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1319.514,
+          2.29,
+          449.65
+        ],
+        "max": [
+          -1274.797,
+          24.6,
+          498.494
+        ]
+      },
+      "remainingConstantWallAreaM2": 2934.592,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_0b22bf8a-2cbc-4419-b315-6dcb85b61a07",
+      "vtj": "103074963T",
+      "cell": "c_m12_p03",
+      "address": "Lastenkodinkatu 2-10, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1489.714,
+          1.46,
+          417.171
+        ],
+        "max": [
+          -1461.544,
+          9.801,
+          432.384
+        ]
+      },
+      "remainingConstantWallAreaM2": 511.573,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_1af3e301-6995-4c8a-a6e4-2c2b8260c85c",
+      "vtj": "103074962S",
+      "cell": "c_m12_p03",
+      "address": "Lastenkodinkatu 2-10, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1531.982,
+          1.06,
+          466.451
+        ],
+        "max": [
+          -1503.689,
+          9.1,
+          481.849
+        ]
+      },
+      "remainingConstantWallAreaM2": 474.541,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_679de822-c208-4be3-bb0e-c9bc1834658b",
+      "vtj": "103074967X",
+      "cell": "c_m12_p03",
+      "address": "Lastenkodinkatu 2-10, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1460.725,
+          1.41,
+          425.011
+        ],
+        "max": [
+          -1437.722,
+          9.5,
+          438.905
+        ]
+      },
+      "remainingConstantWallAreaM2": 408.933,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_c500015b-3cd2-404d-916c-2e355d5ff600",
+      "vtj": "103074958M",
+      "cell": "c_m12_p03",
+      "address": "Lastenkodinkatu 2-10, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1535.592,
+          1.12,
+          447.67
+        ],
+        "max": [
+          -1506.846,
+          9.012,
+          463.142
+        ]
+      },
+      "remainingConstantWallAreaM2": 471.327,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_d837178a-e568-45a1-85eb-339bc67b131e",
+      "vtj": "103074956K",
+      "cell": "c_m12_p03",
+      "address": "Lastenkodinkatu 2-10, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1524.629,
+          1.64,
+          407.774
+        ],
+        "max": [
+          -1496.221,
+          9.8,
+          422.997
+        ]
+      },
+      "remainingConstantWallAreaM2": 471.421,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_ebb998e9-6caa-4f10-9a6b-b4789a6e91ac",
+      "vtj": "103074961R",
+      "cell": "c_m12_p03",
+      "address": "Lastenkodinkatu 2-10, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1500.876,
+          0.94,
+          441.231
+        ],
+        "max": [
+          -1485.668,
+          9,
+          469.307
+        ]
+      },
+      "remainingConstantWallAreaM2": 491.246,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_1f53b238-a470-4439-b320-fda05a51041c",
+      "vtj": "103074928N",
+      "cell": "c_m12_p04",
+      "address": "Hietalahdenkatu 9, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1453.912,
+          -0.6,
+          515.104
+        ],
+        "max": [
+          -1430.888,
+          29,
+          537.226
+        ]
+      },
+      "remainingConstantWallAreaM2": 1862.729,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_428536f3-70b4-4ea1-a71c-08797b18f819",
+      "vtj": "1031997196",
+      "cell": "c_m13_m01",
+      "address": "Hietaniemenkatu 12, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1619.146,
+          0.09,
+          -46.35
+        ],
+        "max": [
+          -1591.291,
+          25.8,
+          -22.125
+        ]
+      },
+      "remainingConstantWallAreaM2": 2170.129,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_7787e8b8-b2c5-4a57-9e99-d0d5f87fbc4d",
+      "vtj": "103199723A",
+      "cell": "c_m13_m01",
+      "address": "Hietaniemenkatu 14, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1672.74,
+          0.68,
+          -53.78
+        ],
+        "max": [
+          -1616.959,
+          22.38,
+          -33.457
+        ]
+      },
+      "remainingConstantWallAreaM2": 3132.135,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_ec10ee3d-b690-4e72-bdf1-50dddd4356b7",
+      "vtj": "103199733M",
+      "cell": "c_m13_m02",
+      "address": "Arkadiankatu 22, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1574.617,
+          2.56,
+          -189.366
+        ],
+        "max": [
+          -1505.061,
+          30.5,
+          -111.288
+        ]
+      },
+      "remainingConstantWallAreaM2": 8726.644,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_d418d672-aeb5-4179-b94a-fcd8e5278d9c",
+      "vtj": "1042385584",
+      "cell": "c_m13_p02",
+      "address": "Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1640.376,
+          1.98,
+          337.414
+        ],
+        "max": [
+          -1626.651,
+          14.2,
+          354.024
+        ]
+      },
+      "remainingConstantWallAreaM2": 550.533,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_6166af11-8951-4e78-92a4-2c47c08cb879",
+      "vtj": "103074957L",
+      "cell": "c_m13_p03",
+      "address": "Lastenkodinkatu 2-10, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1565.15,
+          0.91,
+          439.773
+        ],
+        "max": [
+          -1536.229,
+          9.6,
+          455.181
+        ]
+      },
+      "remainingConstantWallAreaM2": 531.065,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_653a4881-df84-4a86-b244-1e732ccd8d93",
+      "vtj": "103074964U",
+      "cell": "c_m13_p03",
+      "address": "Lastenkodinkatu 2-10, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1592.704,
+          -0.35,
+          445.306
+        ],
+        "max": [
+          -1578.973,
+          7.85,
+          467.878
+        ]
+      },
+      "remainingConstantWallAreaM2": 404.501,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_7b182b1d-f21a-4a4b-be5d-529885be3a08",
+      "vtj": "103074965V",
+      "cell": "c_m13_p03",
+      "address": "Lastenkodinkatu 2-10, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1579.152,
+          1.79,
+          393.988
+        ],
+        "max": [
+          -1565.539,
+          10.001,
+          416.152
+        ]
+      },
+      "remainingConstantWallAreaM2": 412.606,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_aea3adaf-368a-46da-9979-c36c4936598e",
+      "vtj": "103074955J",
+      "cell": "c_m13_p03",
+      "address": "Lastenkodinkatu 2-10, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1553.803,
+          1.71,
+          399.964
+        ],
+        "max": [
+          -1525.316,
+          9.85,
+          415.262
+        ]
+      },
+      "remainingConstantWallAreaM2": 498.515,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_ce0009a0-e3a5-4f1a-a70e-0bfd75740bf1",
+      "vtj": "103074959N",
+      "cell": "c_m13_p03",
+      "address": "Lastenkodinkatu 2-10, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1586.584,
+          0.03,
+          416.857
+        ],
+        "max": [
+          -1571.594,
+          9.4,
+          444.637
+        ]
+      },
+      "remainingConstantWallAreaM2": 566.891,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_d2addc03-df26-4aa4-8591-b8848ceb075a",
+      "vtj": "103074966W",
+      "cell": "c_m13_p03",
+      "address": "Lastenkodinkatu 2-10, 00180 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1592.461,
+          -0.44,
+          472.818
+        ],
+        "max": [
+          -1572.064,
+          8.252,
+          500.629
+        ]
+      },
+      "remainingConstantWallAreaM2": 526.874,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_1d3e2a4f-7174-4459-bceb-35eacdced051",
+      "vtj": "1031997229",
+      "cell": "c_m14_m01",
+      "address": "Leppäsuonkatu 9, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1683.409,
+          1.3,
+          -38.23
+        ],
+        "max": [
+          -1663.271,
+          28.002,
+          0.063
+        ]
+      },
+      "remainingConstantWallAreaM2": 2337.416,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_878e5508-a8b3-42a6-945b-905fd49ea5fe",
+      "vtj": "103199724B",
+      "cell": "c_m14_m01",
+      "address": "Mechelininkatu 3d, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1719.12,
+          0.53,
+          -59.957
+        ],
+        "max": [
+          -1670.793,
+          12,
+          -30.755
+        ]
+      },
+      "remainingConstantWallAreaM2": 1422.705,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_c35cd82d-dc57-4e68-8629-e6c4d5a45a1f",
+      "vtj": "103199865W",
+      "cell": "c_m14_m01",
+      "address": "Mechelininkatu 5a, 00100 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1736.569,
+          0.598,
+          -107.094
+        ],
+        "max": [
+          -1719.81,
+          6.6,
+          -81.596
+        ]
+      },
+      "remainingConstantWallAreaM2": 297.733,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_c933b38f-de41-46ae-932e-581e19ca2004",
+      "vtj": "103020676L",
+      "cell": "c_m15_m07",
+      "address": "Pohjoinen Hesperiankatu 27, 00260 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -1888.646,
+          -0.62,
+          -856.931
+        ],
+        "max": [
+          -1843.858,
+          11.86,
+          -831.888
+        ]
+      },
+      "remainingConstantWallAreaM2": 1324.559,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_fc7cc496-989f-4aa4-af91-5425569ba6c4",
+      "vtj": "103036705N",
+      "cell": "c_p00_m02",
+      "address": "Rauhankatu 17, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -3.5,
+          3.76,
+          -254.932
+        ],
+        "max": [
+          50.948,
+          26.13,
+          -233.273
+        ]
+      },
+      "remainingConstantWallAreaM2": 1953.343,
+      "alreadyAuthoredWallAreaM2": 1137.202,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_ba93fafd-7f7d-413d-b484-1cbb654d6355",
+      "vtj": "103036707R",
+      "cell": "c_p00_m03",
+      "address": "Snellmaninkatu 8, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          -16.53,
+          3.82,
+          -347.15
+        ],
+        "max": [
+          41.439,
+          20.53,
+          -252.384
+        ]
+      },
+      "remainingConstantWallAreaM2": 6140.871,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_64dd62b8-894f-4a53-939d-cc9d2d5ced2c",
+      "vtj": "103036700H",
+      "cell": "c_p00_m04",
+      "address": "Snellmaninkatu 14, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          18.575,
+          -1.28,
+          -470.064
+        ],
+        "max": [
+          41.655,
+          13.2,
+          -423.403
+        ]
+      },
+      "remainingConstantWallAreaM2": 1398.474,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_988a9153-f3e5-4235-90bd-116a7f5629a3",
+      "vtj": "103036701J",
+      "cell": "c_p00_m04",
+      "address": "Snellmaninkatu 14, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          13.866,
+          0.53,
+          -500.899
+        ],
+        "max": [
+          37.727,
+          16.2,
+          -478.096
+        ]
+      },
+      "remainingConstantWallAreaM2": 968.128,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_54e48458-e748-41c3-85af-c90bcd0bd1c0",
+      "vtj": "1030272024",
+      "cell": "c_p00_m05",
+      "address": "Snellmaninkatu 16, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          14.501,
+          1.85,
+          -568.652
+        ],
+        "max": [
+          35.572,
+          29.4,
+          -516.155
+        ]
+      },
+      "remainingConstantWallAreaM2": 3894.951,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_134a555e-7197-4922-9abb-f24c6d9233ee",
+      "vtj": "103036697D",
+      "cell": "c_p00_m06",
+      "address": "Siltavuorenpenger 9, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          7.449,
+          -7.84,
+          -715.835
+        ],
+        "max": [
+          64.256,
+          36.8,
+          -631.451
+        ]
+      },
+      "remainingConstantWallAreaM2": 12509.801,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_369af62f-c571-440e-806a-ac51dfa501c0",
+      "vtj": "103036711V",
+      "cell": "c_p00_m06",
+      "address": "Siltavuorenranta 16, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          44.823,
+          -4.92,
+          -772.978
+        ],
+        "max": [
+          64.975,
+          6.202,
+          -750.772
+        ]
+      },
+      "remainingConstantWallAreaM2": 585.079,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_bf8301a2-2761-493e-8e8a-a0a8e8a0ee67",
+      "vtj": "1030366917",
+      "cell": "c_p00_m06",
+      "address": "Siltavuorenpenger 7, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          1.842,
+          10.3,
+          -681.16
+        ],
+        "max": [
+          21.147,
+          26.05,
+          -660.584
+        ]
+      },
+      "remainingConstantWallAreaM2": 789.051,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_21e7efa4-4405-497a-8d61-8807bca19bc3",
+      "vtj": "103017637K",
+      "cell": "c_p00_p00",
+      "address": "Aleksanterinkatu 14-18, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          76.227,
+          -4.773,
+          52.689
+        ],
+        "max": [
+          133.546,
+          17.63,
+          119.675
+        ]
+      },
+      "remainingConstantWallAreaM2": 5154.214,
+      "alreadyAuthoredWallAreaM2": 671.436,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_4d09523b-0db8-49c5-8cb4-94bce2c8d08a",
+      "vtj": "103017672P",
+      "cell": "c_p01_m02",
+      "address": "Ritarikatu 9, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          187.468,
+          -2.17,
+          -230.557
+        ],
+        "max": [
+          232.448,
+          25.96,
+          -195.497
+        ]
+      },
+      "remainingConstantWallAreaM2": 4677.893,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_da495075-98b0-4ddf-bfcb-9c7b87dc85c7",
+      "vtj": "103017673R",
+      "cell": "c_p01_m02",
+      "address": "Ritarikatu 7, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          190.55,
+          -1.68,
+          -197.538
+        ],
+        "max": [
+          234.279,
+          22.5,
+          -162.667
+        ]
+      },
+      "remainingConstantWallAreaM2": 4534.365,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_09384667-84a0-4179-bfcb-ccfb87dfe1fb",
+      "vtj": "103027071W",
+      "cell": "c_p01_m04",
+      "address": "Mariankatu 21, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          238.002,
+          3.46,
+          -415.424
+        ],
+        "max": [
+          265.51,
+          29.7,
+          -384.142
+        ]
+      },
+      "remainingConstantWallAreaM2": 2895.99,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_fbdf3007-e4bd-41cf-8c39-4d549d403aa3",
+      "vtj": "103027095N",
+      "cell": "c_p01_m04",
+      "address": "Mariankatu 26, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          171.671,
+          2.06,
+          -469.313
+        ],
+        "max": [
+          220.534,
+          26.6,
+          -427.3
+        ]
+      },
+      "remainingConstantWallAreaM2": 4077.722,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_c82a05c4-1570-4e64-9e71-690c6dfba9e9",
+      "vtj": "103027132V",
+      "cell": "c_p01_m05",
+      "address": "Liisankatu 17, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          130.048,
+          4.23,
+          -576.154
+        ],
+        "max": [
+          172.587,
+          40.238,
+          -522.601
+        ]
+      },
+      "remainingConstantWallAreaM2": 6362.239,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_fa2b4658-750e-4ed8-94c3-927f212ea889",
+      "vtj": "103027134X",
+      "cell": "c_p01_m05",
+      "address": "Liisankatu 15, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          171.908,
+          4.392,
+          -552.566
+        ],
+        "max": [
+          202.424,
+          29.669,
+          -524.77
+        ]
+      },
+      "remainingConstantWallAreaM2": 2564.654,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_2330915a-986c-41d3-afc7-9c0b206c1c0e",
+      "vtj": "103027159R",
+      "cell": "c_p01_m06",
+      "address": "Kristianinkatu 11-13, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          226.613,
+          -0.7,
+          -702.684
+        ],
+        "max": [
+          274.928,
+          27.201,
+          -681.868
+        ]
+      },
+      "remainingConstantWallAreaM2": 3485.943,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_3bc4ec63-70f4-4b87-88bd-a0689afa4511",
+      "vtj": "103027153J",
+      "cell": "c_p01_m06",
+      "address": "Kirjatyöntekijänkatu 10, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          199.928,
+          -4.58,
+          -735.212
+        ],
+        "max": [
+          225.515,
+          22.75,
+          -707.811
+        ]
+      },
+      "remainingConstantWallAreaM2": 2261.471,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_6cd43d1c-73be-45f7-a8f6-d0c2fe7c56f8",
+      "vtj": "103027162U",
+      "cell": "c_p01_m06",
+      "address": "Kristianinkatu 19, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          154.233,
+          -1.43,
+          -704.502
+        ],
+        "max": [
+          179.919,
+          32.14,
+          -676.933
+        ]
+      },
+      "remainingConstantWallAreaM2": 3292.011,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_b6626afc-2d03-4784-8601-2d33e87b15f2",
+      "vtj": "103027152H",
+      "cell": "c_p01_m06",
+      "address": "Kirjatyöntekijänkatu 12, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          176.233,
+          -4.21,
+          -733.564
+        ],
+        "max": [
+          200.779,
+          24.1,
+          -708.481
+        ]
+      },
+      "remainingConstantWallAreaM2": 2407.459,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_ecdb504c-cd08-4b64-a54a-5fa25f0c53e8",
+      "vtj": "103027161T",
+      "cell": "c_p01_m06",
+      "address": "Kristianinkatu 17, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          178.834,
+          1.33,
+          -697.617
+        ],
+        "max": [
+          203.665,
+          29.001,
+          -678.602
+        ]
+      },
+      "remainingConstantWallAreaM2": 1942.437,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_ef84709b-4ce2-4cd1-b930-ffa91ee13565",
+      "vtj": "103027151F",
+      "cell": "c_p01_m06",
+      "address": "Oikokatu 15, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          152.538,
+          -2.99,
+          -731.915
+        ],
+        "max": [
+          177.288,
+          29.5,
+          -703.6
+        ]
+      },
+      "remainingConstantWallAreaM2": 2845.825,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_cd5696b3-bb16-4aad-b2e3-cb1ee2fa2b08",
+      "vtj": "1032494093",
+      "cell": "c_p01_p00",
+      "address": "Mariankatu 2, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          196.902,
+          -4.99,
+          84.516
+        ],
+        "max": [
+          251.813,
+          15.59,
+          158.652
+        ]
+      },
+      "remainingConstantWallAreaM2": 4564.507,
+      "alreadyAuthoredWallAreaM2": 810.231,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_ac186d47-44be-4527-a8d8-d54a261ec2f2",
+      "vtj": "103792894V",
+      "cell": "c_p01_p01",
+      "address": "Keisarinluodonlaituri 1, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          176.932,
+          -5.99,
+          233.308
+        ],
+        "max": [
+          184.953,
+          -2.3,
+          240.31
+        ]
+      },
+      "remainingConstantWallAreaM2": 96.793,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_9a46dd48-ee3e-4ab1-a3fa-4f99b02a4b5b",
+      "vtj": "1030176577",
+      "cell": "c_p02_m01",
+      "address": "Pohjoisranta 2, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          358.454,
+          -5.28,
+          -117.928
+        ],
+        "max": [
+          380.159,
+          22.601,
+          -39.852
+        ]
+      },
+      "remainingConstantWallAreaM2": 4237.749,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_e41aa6c6-e9fc-4f10-a934-a0a62b119776",
+      "vtj": "103017646V",
+      "cell": "c_p02_m01",
+      "address": "Meritullinkatu 4, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          302.358,
+          -6.92,
+          -66.964
+        ],
+        "max": [
+          348.747,
+          26.3,
+          -36.721
+        ]
+      },
+      "remainingConstantWallAreaM2": 4702.948,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_73c87e50-ab90-45ed-9d72-6b3a0a9496f8",
+      "vtj": "103017670M",
+      "cell": "c_p02_m02",
+      "address": "Kirkkokatu 5, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          277.443,
+          -2.42,
+          -234.551
+        ],
+        "max": [
+          310.915,
+          23.4,
+          -167.642
+        ]
+      },
+      "remainingConstantWallAreaM2": 5053.129,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_91aa85d4-43c6-4b05-9980-0ff63a084d87",
+      "vtj": "103017662C",
+      "cell": "c_p02_m02",
+      "address": "Meritullinkatu 3, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          356.045,
+          -6.01,
+          -158.734
+        ],
+        "max": [
+          383.222,
+          18.4,
+          -117.206
+        ]
+      },
+      "remainingConstantWallAreaM2": 2727.725,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_b304daa0-3cb9-4a2a-b2a9-efdc1375f40b",
+      "vtj": "103017671N",
+      "cell": "c_p02_m02",
+      "address": "Mariankatu 13b, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          247.874,
+          -2.33,
+          -232.198
+        ],
+        "max": [
+          278.067,
+          26.22,
+          -191.747
+        ]
+      },
+      "remainingConstantWallAreaM2": 3949.644,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_d6fa64c9-c5ef-425e-933b-540950fbc850",
+      "vtj": "103017667J",
+      "cell": "c_p02_m02",
+      "address": "Mariankatu 13a, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          250.025,
+          -2.92,
+          -192.682
+        ],
+        "max": [
+          280.874,
+          23.02,
+          -165.877
+        ]
+      },
+      "remainingConstantWallAreaM2": 2759.197,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_fe690430-191e-4020-9238-0302120422b5",
+      "vtj": "103017665F",
+      "cell": "c_p02_m02",
+      "address": "Kirkkokatu 1b, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          353.413,
+          -4.78,
+          -205.17
+        ],
+        "max": [
+          383.115,
+          20.36,
+          -172.328
+        ]
+      },
+      "remainingConstantWallAreaM2": 2635.216,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_14dc8926-6c7e-4c4a-adca-8f455c250d5f",
+      "vtj": "103027042Y",
+      "cell": "c_p02_m03",
+      "address": "Vironkatu 4, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          272.93,
+          6.07,
+          -312.072
+        ],
+        "max": [
+          303.562,
+          29.1,
+          -296.704
+        ]
+      },
+      "remainingConstantWallAreaM2": 1879.935,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_24df1b29-19ff-4de9-ad2f-7d177c13bfbe",
+      "vtj": "1030270751",
+      "cell": "c_p02_m03",
+      "address": "Meritullinkatu 14, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          286.403,
+          6.37,
+          -359.222
+        ],
+        "max": [
+          333.195,
+          31.701,
+          -325.122
+        ]
+      },
+      "remainingConstantWallAreaM2": 4500.145,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_a7833928-d29d-40f0-a8de-9157f7f1c436",
+      "vtj": "1030270452",
+      "cell": "c_p02_m03",
+      "address": "Mariankatu 15a, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          244.492,
+          0.57,
+          -277.021
+        ],
+        "max": [
+          276.507,
+          24.301,
+          -244.239
+        ]
+      },
+      "remainingConstantWallAreaM2": 2582.621,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_d6d18094-58d3-4ae4-9f09-61a9de9374fb",
+      "vtj": "103027058F",
+      "cell": "c_p02_m03",
+      "address": "Meritullinkatu 9, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          349.117,
+          0.338,
+          -285.994
+        ],
+        "max": [
+          399.879,
+          25.255,
+          -250.394
+        ]
+      },
+      "remainingConstantWallAreaM2": 4570.014,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_ab31acbf-19ba-453e-b90a-a9b5e49b6121",
+      "vtj": "1030271061",
+      "cell": "c_p02_m04",
+      "address": "Maurinkatu 2, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          340.052,
+          -3.81,
+          -462.089
+        ],
+        "max": [
+          414.348,
+          26.41,
+          -433.286
+        ]
+      },
+      "remainingConstantWallAreaM2": 6078.331,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_fc820d45-c0c1-45c5-9dc6-b12ed2f1ec78",
+      "vtj": "1030271725",
+      "cell": "c_p02_m06",
+      "address": "Meritullinkatu 33, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          328.395,
+          2.59,
+          -673.095
+        ],
+        "max": [
+          356.809,
+          30.86,
+          -635.267
+        ]
+      },
+      "remainingConstantWallAreaM2": 2986.577,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_582cc5c9-65ce-4d61-ab46-f8f1b31b5731",
+      "vtj": "103017640N",
+      "cell": "c_p02_p00",
+      "address": "Mariankatu 1, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          265.81,
+          -5.01,
+          68.82
+        ],
+        "max": [
+          331.538,
+          5.3,
+          89.468
+        ]
+      },
+      "remainingConstantWallAreaM2": 795.23,
+      "alreadyAuthoredWallAreaM2": 634.471,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_7292d186-862f-4233-a2a9-c18789e1ba3e",
+      "vtj": "1030176599",
+      "cell": "c_p03_m01",
+      "address": "Pohjoisranta 2, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          389.597,
+          -6.45,
+          -120.452
+        ],
+        "max": [
+          410.723,
+          14.4,
+          -102.533
+        ]
+      },
+      "remainingConstantWallAreaM2": 1589.232,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_7f599675-2086-4b5a-8335-5a802dc3b6ac",
+      "vtj": "1030176588",
+      "cell": "c_p03_m01",
+      "address": "Pohjoisranta 2, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          379.626,
+          -5.78,
+          -73.236
+        ],
+        "max": [
+          398.777,
+          19.8,
+          -40.383
+        ]
+      },
+      "remainingConstantWallAreaM2": 1994.404,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_4661d544-77d2-4580-bfae-dbc96ac12d44",
+      "vtj": "103017661B",
+      "cell": "c_p03_m02",
+      "address": "Pohjoisranta 4, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          373.832,
+          -5.761,
+          -162.286
+        ],
+        "max": [
+          421.2,
+          30,
+          -118.746
+        ]
+      },
+      "remainingConstantWallAreaM2": 5377.504,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_78906fc2-e303-47a1-a8bd-1b5f0a6f520e",
+      "vtj": "103017663D",
+      "cell": "c_p03_m02",
+      "address": "Pohjoisranta 8, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          381.086,
+          -5.35,
+          -241.263
+        ],
+        "max": [
+          440.136,
+          24.803,
+          -206.132
+        ]
+      },
+      "remainingConstantWallAreaM2": 6097.0,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_1d96b16f-af34-4eb2-b3a6-b3f45d101432",
+      "vtj": "103027056D",
+      "cell": "c_p03_m03",
+      "address": "Pohjoisranta 10, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          397.991,
+          -5.26,
+          -288.02
+        ],
+        "max": [
+          452.736,
+          26.95,
+          -252.999
+        ]
+      },
+      "remainingConstantWallAreaM2": 5675.177,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_cf6c5049-cfdb-4f27-b2cd-c53d137dcd82",
+      "vtj": "103027055C",
+      "cell": "c_p03_m03",
+      "address": "Pohjoisranta 12, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          421.376,
+          -2.7,
+          -309.002
+        ],
+        "max": [
+          430.262,
+          -0.1,
+          -295.152
+        ]
+      },
+      "remainingConstantWallAreaM2": 100.616,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_04a4f8c6-ee09-4528-a278-237e6524083e",
+      "vtj": "103027119E",
+      "cell": "c_p03_m05",
+      "address": "Liisankatu 3, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          368.773,
+          -1.7,
+          -610.452
+        ],
+        "max": [
+          409.032,
+          21.402,
+          -536.704
+        ]
+      },
+      "remainingConstantWallAreaM2": 5186.198,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_2fed3831-2833-486c-94c3-b6264f66d909",
+      "vtj": "1030271116",
+      "cell": "c_p03_m05",
+      "address": "Liisankatu 1, 00170 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          421.913,
+          -4.24,
+          -568.097
+        ],
+        "max": [
+          500.764,
+          17.5,
+          -539.898
+        ]
+      },
+      "remainingConstantWallAreaM2": 4264.161,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_c91c0afd-c55e-4e08-b553-7ba808af3033",
+      "vtj": "103122941F",
+      "cell": "c_p04_p00",
+      "address": "Satamakatu 4, 00160 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          565.205,
+          -5,
+          54.346
+        ],
+        "max": [
+          611.224,
+          25.2,
+          97.464
+        ]
+      },
+      "remainingConstantWallAreaM2": 5308.411,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_bd3433f9-c5f1-4f52-bb47-305a7e53d553",
+      "vtj": "103122978N",
+      "cell": "c_p04_p01",
+      "address": "Kruunuvuorenkatu 3, 00160 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          603.266,
+          -2.7,
+          207.212
+        ],
+        "max": [
+          647.276,
+          20.07,
+          253.61
+        ]
+      },
+      "remainingConstantWallAreaM2": 2780.122,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    },
+    {
+      "id": "BID_3476516e-b8ee-4b9e-914c-1171c46089cf",
+      "vtj": "1031326046",
+      "cell": "c_p05_p02",
+      "address": "Kruunuvuorenkatu 4, 00160 Helsinki Finland",
+      "boundsRuntime": {
+        "min": [
+          652.723,
+          -4.71,
+          291.517
+        ],
+        "max": [
+          781.912,
+          17.49,
+          387.849
+        ]
+      },
+      "remainingConstantWallAreaM2": 5108.956,
+      "alreadyAuthoredWallAreaM2": 0,
+      "sourceGeometryKeysMissing": 0,
+      "reviewStatus": "REFERENCE_AND_RUNTIME_QUALIFICATION_REQUIRED"
+    }
+  ]
+}

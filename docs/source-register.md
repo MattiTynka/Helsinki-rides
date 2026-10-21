@@ -478,3 +478,31 @@ Exact retrieval URLs, hashes, register identities and original failed samples
 are retained in `data/work/city-north-20261019/service-ground/water-static-diagnosis`.
 These finite declarations permit their visible buildings over water; ground,
 terrain and undeclared structure checks remain strict.
+
+## Street facade and tram coverage, 2026-10-20/21
+
+The [city material census and reference repair](city-facades-and-tram-coverage-2026-10-20.md)
+starts from the deployed 304-cell optimized world. Nine selected public
+elevations use original CC0-1.0 SVG artwork in
+[`content/helsinki/city-facades/`](../content/helsinki/city-facades/README.md).
+The source-bound profiles retain the municipal model geometry and unselected
+materials. Google Street View supplies architectural reference only; no Google
+pixels, signs or logos are distributed. Each elevation ledger records the
+actually opened panorama, capture date, selected triangles and the limits of
+the reconstruction. The remaining constant-wall inventory is a qualification
+queue, not evidence that every blank wall needs windows.
+
+Additional tram placement uses the existing frozen `city-north` OpenStreetMap
+snapshot above, with source node order, separate mapped track axes and tags
+retained in a bounded ODbL 1.0 publication extract. HSL's route map applicable
+from 31 August 2026 and opened Street View panoramas corroborate the corridors
+and embedded-track appearance; they supply no production pixels or track
+coordinates. Existing Mannerheimintie rails remain. The original project rail
+strip artwork remains CC0-1.0. Exact placement, overlap subtraction, ground
+qualification and any separately bounded support repairs are documented in
+[`content/helsinki/tram-expansion/`](../content/helsinki/tram-expansion/v1/README.md).
+
+The start-screen image is a metadata-free re-encode of the owner's game
+screenshot. Its depicted third-party assets retain their existing credits;
+the [image provenance](start-screen-2026-10-20.md) records the exact input/output
+hashes and conversion. It contains no map-service imagery.

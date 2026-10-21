@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "id": "bulevardi-13-southeast-20261021",
+  "building": {
+    "id": "BID_c6ce157d-9804-4d6b-af06-21002dc46c97",
+    "vtj": "103056083S",
+    "owner": "c_m07_p04"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    191,
+    192,
+    193,
+    194,
+    195,
+    196,
+    197,
+    198,
+    199,
+    200,
+    201,
+    202,
+    203,
+    204,
+    205,
+    206,
+    207,
+    208,
+    209,
+    210,
+    265,
+    266,
+    267,
+    268,
+    291,
+    292,
+    293,
+    294,
+    295,
+    296,
+    297,
+    298,
+    299,
+    300,
+    301,
+    302,
+    303,
+    304,
+    313,
+    314,
+    315,
+    316,
+    317,
+    318,
+    319,
+    320,
+    475,
+    476,
+    477,
+    478,
+    479,
+    480,
+    481,
+    493,
+    494,
+    495,
+    496,
+    497,
+    498,
+    499,
+    500,
+    501,
+    512,
+    513,
+    514,
+    515,
+    516,
+    517,
+    520,
+    521,
+    522,
+    523,
+    534,
+    535
+  ],
+  "frame": {
+    "origin": [
+      -884.9550781249999,
+      589.7551879882811
+    ],
+    "axis": [
+      0.8199294244718294,
+      -0.5724646180204455
+    ],
+    "width": 30.962406804773764
+  },
+  "references": [
+    {
+      "title": "Google Street View, Bulevardi 13, April2023 leafless adjacent facade view",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=BJf1Vy8PmNgxiZ6eNV17FA&heading=290&pitch=20&fov=45",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Google Street View, Bulevardi13 actual front, August2024",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=k7B_K9xtTo1mnv-m1K8cjg&heading=320&pitch=22&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual August2024 front and April2023 oblique show muted olive gray plaster, dark reddish brown multi-light frames, a dark granite shop base and broad glazing.",
+    "Asymmetric projecting bays and a tall rounded turret remain the municipal geometry; tall rectangular upper openings have divided upper transoms and subtle pale surrounds.",
+    "Opening spacing and partially tree-occluded upper rows are an explicit architectural approximation; no photographed leaves or signage are baked into the new art."
+  ],
+  "limitations": [
+    "Only exact outward southeast street-front facets and their connected forward-facing bay/turret facets are selected; roof and side/courtyard walls retain native materials.",
+    "Window dimensions, spacing and balcony drawing are reference-led approximations, not a measured elevation survey. Street View photos are appearance references only; no pixels, people, trees or commercial branding are copied.",
+    "Both current official appearance themes lack images for this exact source building; no2017model or theme is used."
+  ]
+}

@@ -1,0 +1,882 @@
+{
+  "schemaVersion": 2,
+  "production": {
+    "kind": "original-procedural",
+    "license": "CC0-1.0",
+    "referencePixelsCopied": false,
+    "artSha256": "f1257ec20baabf4d90885e5d442b4cd14800558b4d71726f64bd24e25643530a",
+    "svgSha256": "0b8d74fc244f6b9348a3aac9a932ebd6a4519f26de174b0482677ed59af45295"
+  },
+  "planSha256": "7851414eb8044e77a743d3406e9e19dfc2789d547a5c62005c61a3e7fb7f003a",
+  "source": {
+    "cityJsonSha256": "f39ce86a590c44b87409e887d3cc4df9689995df849bcb31c43fc5be86f1e109",
+    "cityBinSha256": "54880432f726662f3d0801a98dffddd0fdfc9b0b31aca67d400a07214633c9d9",
+    "originId": "senate-square-statue-v2"
+  },
+  "baselineManifestSha256": "18e40f69a271f037b6b23b257fee437cb5716fad68c10cff808833a142ee7607",
+  "cell": "c_m02_p00",
+  "buildings": [
+    {
+      "id": "BID_69a14b64-e785-4079-bd2c-a0d07f77d1b3",
+      "vtj": "103036798N",
+      "elevations": [
+        {
+          "id": "103036798N-street-g0",
+          "triangles": [
+            21,
+            22,
+            23
+          ],
+          "pixels": [
+            1,
+            1,
+            1022,
+            386
+          ],
+          "renderer": "fabianinkatu18-east",
+          "ground": -2.22657,
+          "artFrame": {
+            "id": "103036798N-public-street",
+            "width": 50.08842988883975,
+            "minY": -3.9399213790893555,
+            "maxY": 21.16347312927246,
+            "startU": 0.02999999999840597
+          },
+          "groundProfile": [
+            [
+              0,
+              -3.5094856804771912
+            ],
+            [
+              0.5302842988883956,
+              -3.5094856804771912
+            ],
+            [
+              6.033411586660768,
+              -3.19456622286106
+            ],
+            [
+              12.537107472209938,
+              -2.776018554316415
+            ],
+            [
+              18.790661208314905,
+              -2.49143292954716
+            ],
+            [
+              25.044214944419874,
+              -2.226571367398689
+            ],
+            [
+              31.297768680524843,
+              -1.9144815343904713
+            ],
+            [
+              37.55132241662981,
+              -1.64414146763405
+            ],
+            [
+              44.05501830217898,
+              -1.2848755672128374
+            ],
+            [
+              49.55814558995135,
+              -1.0157257285674992
+            ],
+            [
+              50.08842988883975,
+              -1.0157257285674992
+            ]
+          ],
+          "notes": "Observed four ordinary upper rows and paired tall ground glazing. Repeated axis spacing is fitted to the measured 50m frontage; the higher source roof/setback is not an extra row on this plane."
+        }
+      ],
+      "limitations": [
+        "Only the actually referenced public street elevation is restored. Other side walls, courtyards and roofs retain the municipal baseline.",
+        "Opening dimensions and module spacing are original authored approximations of the observed rhythm, not a measured architectural survey.",
+        "The ground profile is sampled from the pinned baseline HCOL and agrees with the rendered upward ground triangles; no ground or collision geometry is modified."
+      ]
+    },
+    {
+      "id": "BID_df39af63-fd91-4239-98d5-cd63def98167",
+      "vtj": "1030367770",
+      "elevations": [
+        {
+          "id": "1030367770-street-g0",
+          "triangles": [
+            42,
+            43,
+            45,
+            46,
+            47,
+            48,
+            50
+          ],
+          "pixels": [
+            1,
+            391,
+            510,
+            300
+          ],
+          "renderer": "fabianinkatu16-east",
+          "ground": -4.16397,
+          "artFrame": {
+            "id": "1030367770-public-street",
+            "width": 34.95581504358395,
+            "minY": -4.419922351837158,
+            "maxY": 16.573286056518555,
+            "startU": 0.029999999244850528
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.446704756224306
+            ],
+            [
+              0.37895815043583414,
+              -4.446704756224306
+            ],
+            [
+              4.217497805230081,
+              -4.333797835560003
+            ],
+            [
+              8.75395376089598,
+              -4.248176667755229
+            ],
+            [
+              13.115930641343978,
+              -4.174822843808027
+            ],
+            [
+              17.477907521791977,
+              -4.106422207689942
+            ],
+            [
+              21.839884402239974,
+              -4.045298574574445
+            ],
+            [
+              26.201861282687958,
+              -3.9949683575739607
+            ],
+            [
+              30.738317238353872,
+              -3.9629743181669346
+            ],
+            [
+              34.576856893148104,
+              -3.941394322174296
+            ],
+            [
+              34.95581504358395,
+              -3.941394322174296
+            ]
+          ],
+          "notes": "Observed four regular upper rows, panel grid and single central passage. Shared artwork spans both street segments; tiny coplanar edge triangles are included. Number of repeated modules is an explicit fitted approximation."
+        },
+        {
+          "id": "1030367770-street-g5",
+          "triangles": [
+            88,
+            89
+          ],
+          "pixels": [
+            1,
+            391,
+            510,
+            300
+          ],
+          "renderer": "fabianinkatu16-east",
+          "ground": -4.16397,
+          "artFrame": {
+            "id": "1030367770-public-street",
+            "width": 34.95581504358395,
+            "minY": -4.419922351837158,
+            "maxY": 16.573286056518555,
+            "startU": 27.630386554510025
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.446704756224306
+            ],
+            [
+              0.37895815043583414,
+              -4.446704756224306
+            ],
+            [
+              4.217497805230081,
+              -4.333797835560003
+            ],
+            [
+              8.75395376089598,
+              -4.248176667755229
+            ],
+            [
+              13.115930641343978,
+              -4.174822843808027
+            ],
+            [
+              17.477907521791977,
+              -4.106422207689942
+            ],
+            [
+              21.839884402239974,
+              -4.045298574574445
+            ],
+            [
+              26.201861282687958,
+              -3.9949683575739607
+            ],
+            [
+              30.738317238353872,
+              -3.9629743181669346
+            ],
+            [
+              34.576856893148104,
+              -3.941394322174296
+            ],
+            [
+              34.95581504358395,
+              -3.941394322174296
+            ]
+          ],
+          "notes": "Observed four regular upper rows, panel grid and single central passage. Shared artwork spans both street segments; tiny coplanar edge triangles are included. Number of repeated modules is an explicit fitted approximation."
+        },
+        {
+          "id": "1030367770-street-g15",
+          "triangles": [
+            87,
+            90
+          ],
+          "pixels": [
+            1,
+            391,
+            510,
+            300
+          ],
+          "renderer": "fabianinkatu16-east",
+          "ground": -4.16397,
+          "artFrame": {
+            "id": "1030367770-public-street",
+            "width": 34.95581504358395,
+            "minY": -4.419922351837158,
+            "maxY": 16.573286056518555,
+            "startU": 27.630382714239545
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.446704756224306
+            ],
+            [
+              0.37895815043583414,
+              -4.446704756224306
+            ],
+            [
+              4.217497805230081,
+              -4.333797835560003
+            ],
+            [
+              8.75395376089598,
+              -4.248176667755229
+            ],
+            [
+              13.115930641343978,
+              -4.174822843808027
+            ],
+            [
+              17.477907521791977,
+              -4.106422207689942
+            ],
+            [
+              21.839884402239974,
+              -4.045298574574445
+            ],
+            [
+              26.201861282687958,
+              -3.9949683575739607
+            ],
+            [
+              30.738317238353872,
+              -3.9629743181669346
+            ],
+            [
+              34.576856893148104,
+              -3.941394322174296
+            ],
+            [
+              34.95581504358395,
+              -3.941394322174296
+            ]
+          ],
+          "notes": "Observed four regular upper rows, panel grid and single central passage. Shared artwork spans both street segments; tiny coplanar edge triangles are included. Number of repeated modules is an explicit fitted approximation."
+        },
+        {
+          "id": "1030367770-street-g18",
+          "triangles": [
+            44
+          ],
+          "pixels": [
+            1,
+            391,
+            510,
+            300
+          ],
+          "renderer": "fabianinkatu16-east",
+          "ground": -4.16397,
+          "artFrame": {
+            "id": "1030367770-public-street",
+            "width": 34.95581504358395,
+            "minY": -4.419922351837158,
+            "maxY": 16.573286056518555,
+            "startU": 19.9373791017207
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.446704756224306
+            ],
+            [
+              0.37895815043583414,
+              -4.446704756224306
+            ],
+            [
+              4.217497805230081,
+              -4.333797835560003
+            ],
+            [
+              8.75395376089598,
+              -4.248176667755229
+            ],
+            [
+              13.115930641343978,
+              -4.174822843808027
+            ],
+            [
+              17.477907521791977,
+              -4.106422207689942
+            ],
+            [
+              21.839884402239974,
+              -4.045298574574445
+            ],
+            [
+              26.201861282687958,
+              -3.9949683575739607
+            ],
+            [
+              30.738317238353872,
+              -3.9629743181669346
+            ],
+            [
+              34.576856893148104,
+              -3.941394322174296
+            ],
+            [
+              34.95581504358395,
+              -3.941394322174296
+            ]
+          ],
+          "notes": "Observed four regular upper rows, panel grid and single central passage. Shared artwork spans both street segments; tiny coplanar edge triangles are included. Number of repeated modules is an explicit fitted approximation."
+        },
+        {
+          "id": "1030367770-street-g19",
+          "triangles": [
+            49
+          ],
+          "pixels": [
+            1,
+            391,
+            510,
+            300
+          ],
+          "renderer": "fabianinkatu16-east",
+          "ground": -4.16397,
+          "artFrame": {
+            "id": "1030367770-public-street",
+            "width": 34.95581504358395,
+            "minY": -4.419922351837158,
+            "maxY": 16.573286056518555,
+            "startU": 0.029999999471757022
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.446704756224306
+            ],
+            [
+              0.37895815043583414,
+              -4.446704756224306
+            ],
+            [
+              4.217497805230081,
+              -4.333797835560003
+            ],
+            [
+              8.75395376089598,
+              -4.248176667755229
+            ],
+            [
+              13.115930641343978,
+              -4.174822843808027
+            ],
+            [
+              17.477907521791977,
+              -4.106422207689942
+            ],
+            [
+              21.839884402239974,
+              -4.045298574574445
+            ],
+            [
+              26.201861282687958,
+              -3.9949683575739607
+            ],
+            [
+              30.738317238353872,
+              -3.9629743181669346
+            ],
+            [
+              34.576856893148104,
+              -3.941394322174296
+            ],
+            [
+              34.95581504358395,
+              -3.941394322174296
+            ]
+          ],
+          "notes": "Observed four regular upper rows, panel grid and single central passage. Shared artwork spans both street segments; tiny coplanar edge triangles are included. Number of repeated modules is an explicit fitted approximation."
+        }
+      ],
+      "limitations": [
+        "Only the actually referenced public street elevation is restored. Other side walls, courtyards and roofs retain the municipal baseline.",
+        "Opening dimensions and module spacing are original authored approximations of the observed rhythm, not a measured architectural survey.",
+        "The ground profile is sampled from the pinned baseline HCOL and agrees with the rendered upward ground triangles; no ground or collision geometry is modified."
+      ]
+    },
+    {
+      "id": "BID_8e9da000-3fd2-4711-a113-3edea1824413",
+      "vtj": "103036803U",
+      "elevations": [
+        {
+          "id": "103036803U-street-g2",
+          "triangles": [
+            45,
+            46
+          ],
+          "pixels": [
+            1,
+            695,
+            510,
+            328
+          ],
+          "renderer": "aleksanterinkatu9-east-south",
+          "ground": -4.22256,
+          "artFrame": {
+            "id": "103036803U-public-street",
+            "width": 23.07890662892512,
+            "minY": -5.522121429443359,
+            "maxY": 17.985511779785156,
+            "startU": 0.030000000000026006
+          },
+          "groundProfile": [
+            [
+              0,
+              -4.399687963955575
+            ],
+            [
+              0.2601890662892561,
+              -4.399687963955575
+            ],
+            [
+              2.7922687954710157,
+              -4.331607368987721
+            ],
+            [
+              5.784726657231288,
+              -4.2905020740201465
+            ],
+            [
+              8.662089985846931,
+              -4.2741745513269
+            ],
+            [
+              11.539453314462547,
+              -4.222562265357501
+            ],
+            [
+              14.41681664307819,
+              -4.14691578456034
+            ],
+            [
+              17.294179971693836,
+              -4.073005225501198
+            ],
+            [
+              20.286637833454108,
+              -4.007948775077592
+            ],
+            [
+              22.818717562635868,
+              -4.0161770092239335
+            ],
+            [
+              23.07890662892512,
+              -4.0161770092239335
+            ]
+          ],
+          "notes": "Three broad groups of four narrow glazed panes per upper row, confirmed in the clear October2020 historical layout view and corroborated for current four-row/two-shop-level appearance in August2022. Narrow glazed pier strips retained; no businesses or logos copied."
+        }
+      ],
+      "limitations": [
+        "Only the actually referenced public street elevation is restored. Other side walls, courtyards and roofs retain the municipal baseline.",
+        "Opening dimensions and module spacing are original authored approximations of the observed rhythm, not a measured architectural survey.",
+        "The ground profile is sampled from the pinned baseline HCOL and agrees with the rendered upward ground triangles; no ground or collision geometry is modified."
+      ]
+    },
+    {
+      "id": "BID_1ea36404-5433-431d-b4c8-860298504c71",
+      "vtj": "103036799P",
+      "elevations": [
+        {
+          "id": "103036799P-street-g2",
+          "triangles": [
+            76,
+            77
+          ],
+          "pixels": [
+            515,
+            391,
+            508,
+            632
+          ],
+          "renderer": "aleksanterinkatu9-west-south",
+          "ground": -5.04,
+          "artFrame": {
+            "id": "103036799P-public-street",
+            "width": 38.48064748541651,
+            "minY": -5.10172176361084,
+            "maxY": 21.270078659057617,
+            "startU": 0.02999999999999403
+          },
+          "groundProfile": [
+            [
+              0,
+              -5.06013347916891
+            ],
+            [
+              0.4142064748541816,
+              -5.06013347916891
+            ],
+            [
+              4.64047769824998,
+              -5.109589439741418
+            ],
+            [
+              9.635161871354141,
+              -5.101705732032222
+            ],
+            [
+              14.437742807031183,
+              -5.059838870672211
+            ],
+            [
+              19.240323742708256,
+              -5.012565535530075
+            ],
+            [
+              24.042904678385327,
+              -4.957129921541069
+            ],
+            [
+              28.84548561406237,
+              -4.83574082300326
+            ],
+            [
+              33.84016978716653,
+              -4.654198586656169
+            ],
+            [
+              38.06644101056233,
+              -4.418689933524705
+            ],
+            [
+              38.48064748541651,
+              -4.418689933524705
+            ]
+          ],
+          "notes": "Shared continuous four ribbon rows and two-level glazed shop base over the four public projecting source planes. The east party wall and existing textured north/rear record are excluded."
+        },
+        {
+          "id": "103036799P-street-g3",
+          "triangles": [
+            72,
+            73
+          ],
+          "pixels": [
+            515,
+            391,
+            508,
+            632
+          ],
+          "renderer": "aleksanterinkatu9-west-south",
+          "ground": -5.04,
+          "artFrame": {
+            "id": "103036799P-public-street",
+            "width": 38.48064748541651,
+            "minY": -5.10172176361084,
+            "maxY": 21.270078659057617,
+            "startU": 19.55254882262695
+          },
+          "groundProfile": [
+            [
+              0,
+              -5.06013347916891
+            ],
+            [
+              0.4142064748541816,
+              -5.06013347916891
+            ],
+            [
+              4.64047769824998,
+              -5.109589439741418
+            ],
+            [
+              9.635161871354141,
+              -5.101705732032222
+            ],
+            [
+              14.437742807031183,
+              -5.059838870672211
+            ],
+            [
+              19.240323742708256,
+              -5.012565535530075
+            ],
+            [
+              24.042904678385327,
+              -4.957129921541069
+            ],
+            [
+              28.84548561406237,
+              -4.83574082300326
+            ],
+            [
+              33.84016978716653,
+              -4.654198586656169
+            ],
+            [
+              38.06644101056233,
+              -4.418689933524705
+            ],
+            [
+              38.48064748541651,
+              -4.418689933524705
+            ]
+          ],
+          "notes": "Shared continuous four ribbon rows and two-level glazed shop base over the four public projecting source planes. The east party wall and existing textured north/rear record are excluded."
+        },
+        {
+          "id": "103036799P-street-g7",
+          "triangles": [
+            70,
+            71
+          ],
+          "pixels": [
+            515,
+            391,
+            508,
+            632
+          ],
+          "renderer": "aleksanterinkatu9-west-south",
+          "ground": -5.04,
+          "artFrame": {
+            "id": "103036799P-public-street",
+            "width": 38.48064748541651,
+            "minY": -5.10172176361084,
+            "maxY": 21.270078659057617,
+            "startU": 31.36386758730609
+          },
+          "groundProfile": [
+            [
+              0,
+              -5.06013347916891
+            ],
+            [
+              0.4142064748541816,
+              -5.06013347916891
+            ],
+            [
+              4.64047769824998,
+              -5.109589439741418
+            ],
+            [
+              9.635161871354141,
+              -5.101705732032222
+            ],
+            [
+              14.437742807031183,
+              -5.059838870672211
+            ],
+            [
+              19.240323742708256,
+              -5.012565535530075
+            ],
+            [
+              24.042904678385327,
+              -4.957129921541069
+            ],
+            [
+              28.84548561406237,
+              -4.83574082300326
+            ],
+            [
+              33.84016978716653,
+              -4.654198586656169
+            ],
+            [
+              38.06644101056233,
+              -4.418689933524705
+            ],
+            [
+              38.48064748541651,
+              -4.418689933524705
+            ]
+          ],
+          "notes": "Shared continuous four ribbon rows and two-level glazed shop base over the four public projecting source planes. The east party wall and existing textured north/rear record are excluded."
+        },
+        {
+          "id": "103036799P-street-g8",
+          "triangles": [
+            74,
+            75
+          ],
+          "pixels": [
+            515,
+            391,
+            508,
+            632
+          ],
+          "renderer": "aleksanterinkatu9-west-south",
+          "ground": -5.04,
+          "artFrame": {
+            "id": "103036799P-public-street",
+            "width": 38.48064748541651,
+            "minY": -5.10172176361084,
+            "maxY": 21.270078659057617,
+            "startU": 13.533491741119239
+          },
+          "groundProfile": [
+            [
+              0,
+              -5.06013347916891
+            ],
+            [
+              0.4142064748541816,
+              -5.06013347916891
+            ],
+            [
+              4.64047769824998,
+              -5.109589439741418
+            ],
+            [
+              9.635161871354141,
+              -5.101705732032222
+            ],
+            [
+              14.437742807031183,
+              -5.059838870672211
+            ],
+            [
+              19.240323742708256,
+              -5.012565535530075
+            ],
+            [
+              24.042904678385327,
+              -4.957129921541069
+            ],
+            [
+              28.84548561406237,
+              -4.83574082300326
+            ],
+            [
+              33.84016978716653,
+              -4.654198586656169
+            ],
+            [
+              38.06644101056233,
+              -4.418689933524705
+            ],
+            [
+              38.48064748541651,
+              -4.418689933524705
+            ]
+          ],
+          "notes": "Shared continuous four ribbon rows and two-level glazed shop base over the four public projecting source planes. The east party wall and existing textured north/rear record are excluded."
+        }
+      ],
+      "limitations": [
+        "Only the actually referenced public street elevation is restored. Other side walls, courtyards and roofs retain the municipal baseline.",
+        "Opening dimensions and module spacing are original authored approximations of the observed rhythm, not a measured architectural survey.",
+        "The ground profile is sampled from the pinned baseline HCOL and agrees with the rendered upward ground triangles; no ground or collision geometry is modified."
+      ]
+    }
+  ],
+  "dimensions": "Source plane bounds are exact municipal geometry; opening positions, dimensions and colours are authored approximations fitted to observed architectural rhythm. No survey accuracy is claimed.",
+  "references": [
+    {
+      "title": "Fabianinkatu18 east, actual Google Street View August 2024; four ordinary upper rows, paired tall ground glazing and metal canopy",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=8S8MulJqRtpV5qbCOVBqgg&heading=262&pitch=55",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Fabianinkatu16 east, actual Google Street View August 2024; four upper rows, dark panel grid and a single central recessed passage",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=lk_2cvLd3WGmSuKqAcPt9Q&viewpoint=60.1687065,24.9493244&heading=267.158&pitch=24",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Aleksanterinkatu9 east, actual Google Street View August 2022; four upper rows and a two-level glazed shop base",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=YNvJVI4ZYCT0c50K91Aa8w&viewpoint=60.1690252,24.9485404&heading=357.276&pitch=28",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Aleksanterinkatu9 east, actual Google Street View October 2020 layout reference; three broad four-pane upper groups, not business artwork",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=-k_q7do1jygC40UVRYF9Xw&viewpoint=60.1689237,24.9486087&heading=357.276&pitch=15",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Aleksanterinkatu9 west, actual Google Street View August 2022; four ribbon-glazing rows, two glass shop levels and slim brass canopy stripes",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=nCQzjjEpGgLhuZrL8tsjrQ&viewpoint=60.1690093,24.9477814&heading=357.119&pitch=30",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Etelaesplanadi12 north, actual Google Street View August 2026; six upper bays with ten openings per row, five ground arches and Gothic stonework",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=0VvKis5AhkdZhEhf0Kc20A&viewpoint=60.1671703,24.9480058&heading=177.08&pitch=42",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Fabianinkatu26 east, actual Google Street View August 2024; grey granite five-arch main front, two upper grid-glazing levels, two oriels and north passage",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=gRg-MfXgnWgKSmuTs7CDYQ&viewpoint=60.1708135,24.9491485&heading=266.876&pitch=28",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Fabianinkatu28 east, actual Google Street View August 2024; ochre plaster, three upper rows, two projecting oriels and left-of-centre arched entry",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=7DOHgSuDt3ENrjHKhlU4SA&viewpoint=60.1711783,24.9491061&heading=266.557&pitch=25",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Mannerheimintie5 southwest central face, actual Google Street View August 2024; five main upper arches, three higher rectangular rows and low attic. Unverified flanking corner and tower excluded",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=QHPhTLeT2d0t3BDqflJTtg&viewpoint=60.1694314,24.9394505&heading=53.216&pitch=25",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Hotel Kamp Pohjoisesplanadi25-27 south, actual Google Street View August 2024 including end views heading310 and55; salmon/cream three upper rows, two-axis projecting-face rhythm and low arched attic; whole-front opening count not surveyed",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=6rvMK6aeK4jy6-8wOzr7HA&viewpoint=60.1677871,24.9483249&heading=357.13&pitch=25",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "referenceEvidence": [],
+  "runtimeAcceptance": "REQUIRED"
+}

@@ -8,6 +8,7 @@ import {parseArgs} from 'node:util';
 import sharp from 'sharp';
 import {facadeChartSha256 as sha,facadeTriangleKey,validateFacadeTriangle,type FacadeChart,type FacadeTriangle} from './lib/facade-charts.ts';
 import type {DeliveryFacadeProfile} from './apply_delivery_facade_charts.ts';
+import {renderCityFacade,type FacadeGroundSample} from './lib/city-facade-art.ts';
 
 export class OriginalWallArt {
   readonly pieces:string[]=[];
@@ -175,6 +176,26 @@ export interface SenateFacadePlan {
     elevations:{id:string;triangles:number[];pixels:[number,number,number,number];renderer:string;ground:number;notes:string}[];
     limitations:string[]}[];
 }
+export interface GroupedFacadePlan {
+  schemaVersion:2;id:string;baselineManifestSha256:string;
+  source:SenateFacadePlan['source'];references:SenateFacadePlan['references'];referenceEvidence?:SenateFacadePlan['referenceEvidence'];
+  groups:{cell:string;atlas:[number,number];buildings:{id:string;vtj:string;elevations:(SenateFacadePlan['buildings'][number]['elevations'][number]&{artFrame?:SharedFacadeArtFrame;groundProfile?:FacadeGroundSample[]})[];limitations:string[]}[]}[];
+}
+export interface SharedFacadeArtFrame {id:string;width:number;minY:number;maxY:number;startU:number}
+/** Give separate source planes a common elevation image while preserving their exact plane equations. */
+export function chartInSharedArtFrame(chart:FacadeChart,frame:SharedFacadeArtFrame,triangles:readonly FacadeTriangle[]):FacadeChart{
+  assert.ok(frame.id&&[frame.width,frame.minY,frame.maxY,frame.startU].every(Number.isFinite)&&frame.width>0&&frame.maxY>frame.minY,'Invalid shared facade artwork frame');
+  const span=chart.bounds[2]-chart.bounds[0];assert.ok(frame.startU>=-1e-6&&frame.startU+span<=frame.width+1e-5,'Source plane exceeds its shared artwork interval');
+  const shift=chart.bounds[0]-frame.startU,origin=chart.origin.map((v,k)=>v+chart.uAxis[k]!*shift) as unknown as FacadeChart['origin'];
+  const result:FacadeChart={...chart,origin,bounds:[0,frame.minY,frame.width,frame.maxY]};for(const t of triangles)validateFacadeTriangle(t,result);return result;
+}
+function renderFacadeElevation(wall:OriginalWallArt,renderer:string,ground:number,groundProfile?:readonly FacadeGroundSample[]){
+  if(renderer==='archive-centre'||renderer==='archive-wing')renderArchiveWall(wall,renderer,ground);
+  else if(renderer==='porthania-five-ribbons'||renderer==='porthania-low-glass')renderPorthaniaWall(wall,renderer,ground);
+  else if(renderer==='aleksanterinkatu-north')renderAleksanterinkatuNorth(wall,ground);
+  else if(renderer==='porthania-east-five-ribbons'||renderer==='porthania-east-glass-inset'||renderer==='porthania-east-blank-tile')renderPorthaniaEast(wall,renderer,ground);
+  else if(!renderCityFacade(wall,renderer,ground,groundProfile))throw new Error(`Unreviewed facade renderer: ${renderer}`);
+}
 function sourceTriangles(city:any,bin:Buffer,id:string):FacadeTriangle[]{
   const b=city.buildings.find((q:any)=>q.id===id);assert.ok(b&&b.parts.length===1,'This authored selector expects the pinned single-part blank source building');const p=b.parts[0],r=p.positions,s=p.indices;
   const P=new Float32Array(bin.buffer.slice(bin.byteOffset+r.offset,bin.byteOffset+r.offset+r.bytes)),I=new Uint32Array(bin.buffer.slice(bin.byteOffset+s.offset,bin.byteOffset+s.offset+s.bytes));
@@ -185,7 +206,18 @@ export function chartForSourceTriangles(id:string,building:string,triangles:read
   const a=t[1].map((v,k)=>v-t[0][k]!),b=t[2].map((v,k)=>v-t[0][k]!),n=[a[1]!*b[2]!-a[2]!*b[1]!,0,a[0]!*b[1]!-a[1]!*b[0]!],len=Math.hypot(n[0]!,n[2]!);assert.ok(len>0);
   const u=[n[2]!/len,0,-n[0]!/len] as const,origin=[t[0][0],0,t[0][2]] as const,vs=triangles.flatMap(t=>[...t]),us=vs.map(v=>(v[0]-origin[0])*u[0]+(v[2]-origin[2])*u[2]),ys=vs.map(v=>v[1]);
   const chart:FacadeChart={id,building,origin,uAxis:u,vAxis:[0,1,0],bounds:[Math.min(...us),Math.min(...ys),Math.max(...us),Math.max(...ys)],pixels,planeToleranceMetres:.002};
-  for(const t of triangles)validateFacadeTriangle(t,chart);return chart;
+  try{for(const t of triangles)validateFacadeTriangle(t,chart);return chart;}catch(error){
+    // A very thin municipal edge triangle amplifies Float32 Y noise in its cross
+    // product. Fit its horizontal support line to the farthest XZ pair instead;
+    // the same strict 2mm projection gate still rejects genuinely folded walls.
+    let pair:[typeof vs[number],typeof vs[number]]=[vs[0]!,vs[1]!],distance=0;
+    for(let i=0;i<vs.length;i++)for(let j=i+1;j<vs.length;j++){const d=Math.hypot(vs[j]![0]-vs[i]![0],vs[j]![2]-vs[i]![2]);if(d>distance){distance=d;pair=[vs[i]!,vs[j]!];}}
+    if(!distance)throw error;let fitted=[(pair[1][0]-pair[0][0])/distance,0,(pair[1][2]-pair[0][2])/distance] as [number,number,number];
+    if(fitted[0]*u[0]+fitted[2]*u[2]<0)fitted=fitted.map(v=>-v) as typeof fitted;
+    const fittedOrigin=[pair[0][0],0,pair[0][2]] as const,fittedUs=vs.map(v=>(v[0]-fittedOrigin[0])*fitted[0]+(v[2]-fittedOrigin[2])*fitted[2]);
+    const result:FacadeChart={...chart,origin:fittedOrigin,uAxis:fitted,bounds:[Math.min(...fittedUs),Math.min(...ys),Math.max(...fittedUs),Math.max(...ys)]};
+    for(const triangle of triangles)validateFacadeTriangle(triangle,result);return result;
+  }
 }
 export async function authorSenateFacadeCharts(args:{plan:string;cityModel:string;baseline:string;out:string}){
   const plan=JSON.parse(fs.readFileSync(args.plan,'utf8')) as SenateFacadePlan;assert.equal(plan.schemaVersion,1);assert.ok(!fs.existsSync(args.out),'Fresh authored output required');
@@ -198,11 +230,7 @@ export async function authorSenateFacadeCharts(args:{plan:string;cityModel:strin
       const selected=elevation.triangles.map(i=>{assert.ok(Number.isSafeInteger(i)&&triangles[i]);return triangles[i]!;}),chart=chartForSourceTriangles(elevation.id,building.id,selected,elevation.pixels);charts.push(chart);
       for(const t of selected)faces.push({key:facadeTriangleKey(t),chart:chart.id});
       const wall=new OriginalWallArt(chart.bounds[2]-chart.bounds[0],chart.bounds[1],chart.bounds[3]);
-      if(elevation.renderer==='archive-centre'||elevation.renderer==='archive-wing')renderArchiveWall(wall,elevation.renderer,elevation.ground);
-      else if(elevation.renderer==='porthania-five-ribbons'||elevation.renderer==='porthania-low-glass')renderPorthaniaWall(wall,elevation.renderer,elevation.ground);
-      else if(elevation.renderer==='aleksanterinkatu-north')renderAleksanterinkatuNorth(wall,elevation.ground);
-      else if(elevation.renderer==='porthania-east-five-ribbons'||elevation.renderer==='porthania-east-glass-inset'||elevation.renderer==='porthania-east-blank-tile')renderPorthaniaEast(wall,elevation.renderer,elevation.ground);
-      else throw new Error(`Unreviewed facade renderer: ${elevation.renderer}`);
+      renderFacadeElevation(wall,elevation.renderer,elevation.ground);
       pieces.push(wall.svg(elevation.pixels));
     }
     const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${building.atlas[0]}" height="${building.atlas[1]}"><rect width="100%" height="100%" fill="#d9d7cb"/>${pieces.join('')}</svg>`,png=await sharp(Buffer.from(svg)).ensureAlpha().png({compressionLevel:9,adaptiveFiltering:false}).toBuffer();
@@ -219,7 +247,55 @@ export async function authorSenateFacadeCharts(args:{plan:string;cityModel:strin
   }
   return outputs;
 }
+
+/** One atlas and material partition per owner cell, with explicit source ownership for every chart. */
+export async function authorGroupedFacadeCharts(args:{plan:string;cityModel:string;baseline:string;out:string}){
+  const planBytes=fs.readFileSync(args.plan),plan=JSON.parse(planBytes.toString()) as GroupedFacadePlan;
+  assert.equal(plan.schemaVersion,2);assert.ok(plan.id&&plan.groups.length);assert.ok(!fs.existsSync(args.out),'Fresh authored output required');
+  assert.equal(new Set(plan.groups.map(g=>g.cell)).size,plan.groups.length,'Owner cells must be unique');
+  const cityBytes=fs.readFileSync(path.join(args.cityModel,'city-model.json'));assert.equal(sha(cityBytes),plan.source.cityJsonSha256);const city=JSON.parse(cityBytes.toString());
+  const bin=fs.readFileSync(path.join(args.cityModel,city.binary.file));assert.equal(sha(bin),plan.source.cityBinSha256);assert.equal(sha(bin),city.binary.sha256);assert.equal(city.originId,plan.source.originId);
+  const baselineBytes=fs.readFileSync(path.join(args.baseline,'manifest.json'));assert.equal(sha(baselineBytes),plan.baselineManifestSha256);const baseline=JSON.parse(baselineBytes.toString());
+  assert.equal(baseline.origin.id,plan.source.originId);const outputs=[];fs.mkdirSync(args.out,{recursive:true});
+  for(const group of plan.groups){
+    assert.match(group.cell,/^[A-Za-z0-9_-]+$/);assert.ok(group.buildings.length);assert.equal(new Set(group.buildings.map(b=>b.id)).size,group.buildings.length,'Duplicate source owner in atlas group');
+    const [width,height]=group.atlas;assert.ok(Number.isSafeInteger(width)&&Number.isSafeInteger(height)&&width>0&&height>0&&width<=1024&&height<=1024,'Grouped atlas side cap is 1024');
+    const owner=baseline.cells.find((c:any)=>c.id===group.cell);assert.ok(owner,'Missing deployed owner cell');
+    const charts:FacadeChart[]=[],faces:{key:string;chart:string}[]=[],pieces:string[]=[],renderedFrames=new Map<string,string>();
+    for(const building of group.buildings){
+      assert.ok(owner.buildings.some((b:any)=>b.id===building.id&&b.vtj===building.vtj),'Wrong source owner cell');
+      assert.equal(city.buildings.find((b:any)=>b.id===building.id)?.vtj,building.vtj,'Source VTJ mismatch');
+      const triangles=sourceTriangles(city,bin,building.id);assert.ok(building.elevations.length,'Every source owner needs reviewed facade targets');
+      for(const elevation of building.elevations){
+        assert.ok(!charts.some(c=>c.id===elevation.id),'Duplicate grouped chart ID');
+        const p=elevation.pixels;assert.ok(p.length===4&&p.every(Number.isSafeInteger)&&p[0]>=1&&p[1]>=1&&p[2]>=2&&p[3]>=2&&p[0]+p[2]<width&&p[1]+p[3]<height,'Chart pixel rectangle needs an atlas gutter');
+        const selected=elevation.triangles.map(i=>{assert.ok(Number.isSafeInteger(i)&&triangles[i]);return triangles[i]!;}),local=chartForSourceTriangles(elevation.id,building.id,selected,p),frame=elevation.artFrame;
+        const chart=frame?chartInSharedArtFrame(local,frame,selected):local;charts.push(chart);
+        for(const t of selected)faces.push({key:facadeTriangleKey(t),chart:chart.id});
+        const profile=elevation.groundProfile;
+        if(profile){assert.ok(profile.length>=2,'Ground profile needs at least two measured samples');for(let i=0;i<profile.length;i++){const a=profile[i]!;assert.ok(a.length===2&&a.every(Number.isFinite)&&a[0]>=0&&a[0]<=chart.bounds[2]-chart.bounds[0]&&(i===0||a[0]>profile[i-1]![0]),'Invalid measured ground profile');}}
+        const signature=JSON.stringify({width:chart.bounds[2]-chart.bounds[0],minY:chart.bounds[1],maxY:chart.bounds[3],pixels:p,renderer:elevation.renderer,ground:elevation.ground,groundProfile:profile});
+        if(frame&&renderedFrames.has(frame.id)){assert.equal(renderedFrames.get(frame.id),signature,'Shared art frame has inconsistent artwork or atlas placement');continue;}
+        if(frame)renderedFrames.set(frame.id,signature);
+        const wall=new OriginalWallArt(chart.bounds[2]-chart.bounds[0],chart.bounds[1],chart.bounds[3]);renderFacadeElevation(wall,elevation.renderer,elevation.ground,profile);pieces.push(wall.svg(p));
+      }
+    }
+    assert.equal(new Set(faces.map(f=>f.key)).size,faces.length,'A source face may be charted only once per owner cell');
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><rect width="100%" height="100%" fill="#d9d7cb"/>${pieces.join('')}</svg>`,png=await sharp(Buffer.from(svg)).ensureAlpha().png({compressionLevel:9,adaptiveFiltering:false}).toBuffer();
+    const dir=path.join(args.out,group.cell);fs.mkdirSync(dir);fs.writeFileSync(path.join(dir,'facade.svg'),svg);fs.writeFileSync(path.join(dir,'facade.png'),png);
+    const profile:DeliveryFacadeProfile={schemaVersion:1,id:`${plan.id}-${group.cell}`,baselineManifestSha256:plan.baselineManifestSha256,source:plan.source,
+      art:{path:'facade.png',sha256:sha(png),width,height,license:'CC0-1.0',attribution:'Original reference-led facade artwork by the Helsinki Rides project (2026). Appearance references are not reproduced.',references:plan.references},
+      material:{name:`city-original-${group.cell}`,unlit:true,roughness:.95,doubleSided:true},charts,
+      cells:[{id:group.cell,buildings:group.buildings.map(b=>({id:b.id,vtj:b.vtj})),baselineLevels:Object.fromEntries(Object.entries(owner.visual).map(([level,ref]:any)=>[level,ref.sha256])),faces}]};
+    fs.writeFileSync(path.join(dir,'profile.json'),JSON.stringify(profile,null,2)+'\n');
+    const ledger={schemaVersion:2,production:{kind:'original-procedural',license:profile.art.license,referencePixelsCopied:false,artSha256:sha(png),svgSha256:sha(svg)},planSha256:sha(planBytes),source:plan.source,baselineManifestSha256:plan.baselineManifestSha256,
+      cell:group.cell,buildings:group.buildings,dimensions:'Source plane bounds are exact municipal geometry; opening positions, dimensions and colours are authored approximations fitted to observed architectural rhythm. No survey accuracy is claimed.',references:plan.references,referenceEvidence:plan.referenceEvidence??[],runtimeAcceptance:'REQUIRED'};
+    fs.writeFileSync(path.join(dir,'source-ledger.json'),JSON.stringify(ledger,null,2)+'\n');outputs.push({cell:group.cell,owners:group.buildings.length,profile:path.join(dir,'profile.json'),artSha256:sha(png),charts:charts.length,sourceTriangles:faces.length});
+  }
+  return outputs;
+}
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
   const {values}=parseArgs({options:{plan:{type:'string'},'city-model':{type:'string'},baseline:{type:'string'},out:{type:'string'}}});assert.ok(values.plan&&values['city-model']&&values.baseline&&values.out);
-  console.log(JSON.stringify(await authorSenateFacadeCharts({plan:values.plan,cityModel:values['city-model'],baseline:values.baseline,out:values.out}),null,2));
+  const args={plan:values.plan,cityModel:values['city-model'],baseline:values.baseline,out:values.out},version=JSON.parse(fs.readFileSync(values.plan,'utf8')).schemaVersion;
+  console.log(JSON.stringify(await(version===2?authorGroupedFacadeCharts(args):authorSenateFacadeCharts(args)),null,2));
 }

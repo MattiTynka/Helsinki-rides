@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "id": "openstreetmap-tram-axes",
+    "url": "https://www.openstreetmap.org/",
+    "retrievedAt": "2026-10-19T11:10:52.993Z",
+    "originalSha256": "707388efff3d70d40c3e71898d22dbdb908d1137a67f6dac2e3b13ef26c49c1a",
+    "acquisitionLedgerSha256": "d5408fadbc5dd6b46f20e97928d48d86a5fee49d063955d20b43f9e2cb8aaa0e",
+    "license": "ODbL-1.0",
+    "licenseUrl": "https://opendatacommons.org/licenses/odbl/1-0/",
+    "attribution": "Copyright OpenStreetMap contributors",
+    "compilation": {
+      "method": "Complete unfiltered OSM API map response saved unchanged as parts/north.json. Combined data retains all accepted element IDs/content first and appends new IDs. Changed duplicates never replace accepted nodes/ways/relations; exact old/fresh witnesses are recorded.",
+      "lastAcquisitionUrl": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9192378,60.177666,24.9673877,60.1802176",
+      "cachedAcceptedDataset": {
+        "ledger": "data/raw/city-continuation-20261019/osm/ledger.json",
+        "sha256": "d13888acd3b1f9bd0fe1e5d38b6bac9c2085482d4990252901ce0fe5bd34e2d6",
+        "elements": 107428
+      },
+      "parts": [
+        {
+          "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9192378,60.177666,24.9673877,60.1802176",
+          "sha256": "cfae56cb2a1c5e9f3fe6f29059c530afa97afddc9911c28f052773104f30d89f",
+          "bytes": 8843460
+        }
+      ]
+    }
+  },
+  "extraction": {
+    "file": "osm-tracks.json",
+    "sha256": "56a238fa3873597ca3f16031a132011d91878093235a47854849d14df02cc406",
+    "ways": 420,
+    "nodes": 2259,
+    "removed": "OSM contributor user names/UIDs/timestamps and unrelated data; geometry and way tags retain original values."
+  },
+  "visualArt": {
+    "source": "Original procedural 44x4 rail head/groove/guard stripe",
+    "license": "CC0-1.0"
+  },
+  "references": [
+    {
+      "title": "HSL tram network, 31 August to 31 December 2026",
+      "url": "https://staticfiles.hsl.fi/globalassets/matkustaminen/tulostettavat-aikataulut-ja-kartat/reittikartat/liikennevalineittain/ratikka_pysakkijuliste_810x1210_3108-31122026.pdf",
+      "sourcePage": "https://www.hsl.fi/matkustaminen/reitti_ja_asemakartat",
+      "sha256": "52350bc1ad7ca0db75a331497bad759d2a04599c2e8ba88e56dd9d63516d0649",
+      "role": "network-reference-only",
+      "redistributed": false
+    },
+    {
+      "title": "Aleksanterinkatu, Google Street View, August 2024",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=BuvcPILQ9NFQkdsZIJHe4A&heading=90&pitch=-18",
+      "role": "appearance-reference-only",
+      "observation": "Two mapped track axes, four flush grooved rails embedded in rectangular granite setts; no sleepers or ballast.",
+      "redistributed": false
+    },
+    {
+      "title": "Kaivokatu, Google Street View, September 2025",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=IZXXT2j3tsbhLS9OrqmNQQ&heading=90&pitch=-15",
+      "role": "appearance-reference-only",
+      "observation": "Two flush tracks in a central asphalt or gray paved strip beside Ateneum; raised platforms and kerbs remain distinct.",
+      "redistributed": false
+    },
+    {
+      "title": "Kaisaniemenkatu, Google Street View, September 2025",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=a7StkX2mLx01_A73bxLc-Q&heading=35&pitch=-15",
+      "role": "layout-reference-only",
+      "observation": "Separately mapped pair curves beside raised stop platforms; embedded rails without ballast. Panorama rendering artifact makes surface color unsuitable as an authority.",
+      "redistributed": false
+    },
+    {
+      "title": "Bulevardi 3, Google Street View, August 2024",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=5fMHX8mJq6tcClltjj1aoQ&heading=65&pitch=-15",
+      "role": "appearance-reference-only",
+      "observation": "Two track axes and four flush grooved rails in gray granite setts; no exposed sleepers or ballast, with curbed walks and parking outside tracks.",
+      "redistributed": false
+    },
+    {
+      "title": "Kanavakatu 1, Google Street View, August 2024",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=M-LcrRvRjAQaVShx37Zqow&heading=160&pitch=-25",
+      "role": "layout-reference-only",
+      "observation": "Two mapped axes and four flush grooved rails in paved roadway. Pale gray concrete strips within each track and dark asphalt between them; no ballast or sleepers.",
+      "redistributed": false
+    },
+    {
+      "title": "Pitkäsilta, Google Street View, September 2020",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=ZMjYUy324aoywQ07GMnQ3g&heading=180&pitch=-20",
+      "role": "appearance-reference-only",
+      "observation": "Two flush paired grooved tracks in asphalt carriageway with double white center line and raised kerbed sidewalks; no rail step at the bank.",
+      "redistributed": false
+    },
+    {
+      "title": "Fredrikinkatu bridge, Google Street View, August 2024",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=GB22GxhSyL-oQDwr5sJWRQ&heading=325&pitch=-15",
+      "role": "appearance-reference-only",
+      "observation": "Two tracks embedded in asphalt carriageway with pale gray strips within each pair, raised kerbed sidewalks and metal railings. No floating tracks or sleepers.",
+      "redistributed": false
+    },
+    {
+      "title": "Katajanokka canal bridge, Google Street View, August 2024",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=iAjYgeSwlL6J0BaMB2I60A&heading=125&pitch=-25",
+      "role": "appearance-reference-only",
+      "observation": "Four rails flush with paved track strips and asphalt roadway; raised footway, stone posts and metal canal-edge railing. No visible deck seam gap or step.",
+      "redistributed": false
+    }
+  ],
+  "publication": {
+    "files": [
+      "profile.json",
+      "osm-tracks.json",
+      "source-ledger.json"
+    ],
+    "databaseLicense": "ODbL-1.0",
+    "notice": "This extract and the source-bound tram axis database are OpenStreetMap-derived data, available under the Open Database License 1.0. Contains information from OpenStreetMap, made available under the Open Database License (ODbL).",
+    "source": "https://www.openstreetmap.org/copyright"
+  },
+  "preservation": "Existing 94 unique Mannerheim source way IDs in 96 accepted profile entries remain unchanged. New ribbons are cut against their actual delivered footprints."
+}

@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "id": "josafatinkatu-7-kirstinkatu-west-20261021",
+  "building": {
+    "id": "BID_c71a1b0e-da74-4f02-b378-61afe2bccf0d",
+    "vtj": "103171054H",
+    "owner": "c_m03_m16"
+  },
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    77,
+    78
+  ],
+  "frame": {
+    "origin": [
+      -299.9378967285156,
+      -2020.7259521484375
+    ],
+    "axis": [
+      0.052429940872073026,
+      0.9986246047940891
+    ],
+    "width": 53.25011984235789
+  },
+  "completeElevationPlane": true,
+  "art": {
+    "wallColour": "#c5a56c",
+    "groundColour": "#c5a56c",
+    "surroundColour": "#afa790",
+    "frameColour": "#b6c0bc",
+    "glassColour": "#778b91",
+    "groundHeight": 1.4,
+    "rows": [
+      {
+        "bottom": 1.7,
+        "height": 1.3,
+        "width": 2.2,
+        "axes": [
+          2.2,
+          12.667882823362405,
+          16.15717709781654,
+          26.625059921178945,
+          30.11435419563308,
+          40.58223701899549,
+          44.071531293449624
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 1.7,
+        "height": 1.3,
+        "width": 1.05,
+        "axes": [
+          5.689294274454135,
+          9.17858854890827,
+          19.646471372270675,
+          23.13576564672481,
+          33.603648470087215,
+          37.092942744541354,
+          47.56082556790376,
+          51.050119842357894
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 4.7,
+        "height": 1.3,
+        "width": 2.2,
+        "axes": [
+          2.2,
+          12.667882823362405,
+          16.15717709781654,
+          26.625059921178945,
+          30.11435419563308,
+          40.58223701899549,
+          44.071531293449624
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 4.7,
+        "height": 1.3,
+        "width": 1.05,
+        "axes": [
+          5.689294274454135,
+          9.17858854890827,
+          19.646471372270675,
+          23.13576564672481,
+          33.603648470087215,
+          37.092942744541354,
+          47.56082556790376,
+          51.050119842357894
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 7.7,
+        "height": 1.3,
+        "width": 2.2,
+        "axes": [
+          2.2,
+          12.667882823362405,
+          16.15717709781654,
+          26.625059921178945,
+          30.11435419563308,
+          40.58223701899549,
+          44.071531293449624
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 7.7,
+        "height": 1.3,
+        "width": 1.05,
+        "axes": [
+          5.689294274454135,
+          9.17858854890827,
+          19.646471372270675,
+          23.13576564672481,
+          33.603648470087215,
+          37.092942744541354,
+          47.56082556790376,
+          51.050119842357894
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 10.7,
+        "height": 1.3,
+        "width": 2.2,
+        "axes": [
+          2.2,
+          12.667882823362405,
+          16.15717709781654,
+          26.625059921178945,
+          30.11435419563308,
+          40.58223701899549,
+          44.071531293449624
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 10.7,
+        "height": 1.3,
+        "width": 1.05,
+        "axes": [
+          5.689294274454135,
+          9.17858854890827,
+          19.646471372270675,
+          23.13576564672481,
+          33.603648470087215,
+          37.092942744541354,
+          47.56082556790376,
+          51.050119842357894
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 13.7,
+        "height": 1.3,
+        "width": 2.2,
+        "axes": [
+          2.2,
+          12.667882823362405,
+          16.15717709781654,
+          26.625059921178945,
+          30.11435419563308,
+          40.58223701899549,
+          44.071531293449624
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 13.7,
+        "height": 1.3,
+        "width": 1.05,
+        "axes": [
+          5.689294274454135,
+          9.17858854890827,
+          19.646471372270675,
+          23.13576564672481,
+          33.603648470087215,
+          37.092942744541354,
+          47.56082556790376,
+          51.050119842357894
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 16.7,
+        "height": 1.3,
+        "width": 2.2,
+        "axes": [
+          2.2,
+          12.667882823362405,
+          16.15717709781654,
+          26.625059921178945,
+          30.11435419563308,
+          40.58223701899549,
+          44.071531293449624
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 16.7,
+        "height": 1.3,
+        "width": 1.05,
+        "axes": [
+          5.689294274454135,
+          9.17858854890827,
+          19.646471372270675,
+          23.13576564672481,
+          33.603648470087215,
+          37.092942744541354,
+          47.56082556790376,
+          51.050119842357894
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [],
+    "bands": [
+      {
+        "from": "top",
+        "offset": -0.22,
+        "height": 0.22,
+        "colour": "#91958b"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Street View actual west return of municipal Josafatinkatu7 source building from Kirstinkatu, August2024; visible heading8Kirstinkatu, matching exact source west face",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=rr1xMfeLFNKVIWnUuPjttQ&heading=86.6776&pitch=15&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "The source building west street return facing Kirstinkatu has golden ochre plaster, repeated pairs of broad/narrow dark blue-grey windows and three dark stacked balcony/glazing ribbons.",
+    "A low deep maroon plinth follows the street; horizontal light slab edges and dark glazed balcony railings are observed. There is no invented ground entry on this selected return.",
+    "Flat original LoD2 source wall retains literal geometry; balcony appearance is a reference-led texture motif, not a measured balcony geometry reconstruction."
+  ],
+  "limitations": [
+    "Only the exact complete selected source west return visible from public Kirstinkatu is qualified; address/main south elevation, side/court/roof remain native.",
+    "Architectural modules and colours are approximate original reference-led artwork. No photograph pixels, personal information, signs or graffiti copied. Native XYZ/HCOL/winding unchanged."
+  ],
+  "observedGroundProfile": {
+    "kind": "named-source-floor-profile",
+    "path": "ground-profile.json",
+    "sha256": "c45140adecfd3a3ed858cc294783326f9fd2015ed8830bbf91c0cc5a88737e55"
+  }
+}

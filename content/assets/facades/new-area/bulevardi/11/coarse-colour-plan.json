@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "id": "bulevardi-11-simplified-turret-colour-20261021",
+  "building": {
+    "id": "BID_a284a548-d944-47d3-a943-50dbeba5ecec",
+    "vtj": "103056070B",
+    "owner": "c_m07_p04"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "authorityNativeTriangles": [
+    507,
+    509,
+    510
+  ],
+  "frame": {
+    "origin": [
+      -848.5020514155611,
+      564.527776290149
+    ],
+    "axis": [
+      0.8202353641728753,
+      -0.572026177163415
+    ],
+    "width": 36.94912994485139
+  },
+  "targets": [
+    {
+      "node": "c_m07_p04",
+      "primitive": 0,
+      "triangle": 1279,
+      "key": "228053c4ee15ff41eef20c44:e56853c42b7c644085eb0c44:415553c42c7c644013e50c44",
+      "points": [
+        [
+          -846.0020751953125,
+          31.88570785522461,
+          563.7957763671875
+        ],
+        [
+          -845.6389770507812,
+          3.5700786113739014,
+          563.6799926757812
+        ],
+        [
+          -845.3320922851562,
+          3.5700788497924805,
+          563.5792846679688
+        ]
+      ]
+    },
+    {
+      "node": "c_m07_p04",
+      "primitive": 0,
+      "triangle": 1280,
+      "key": "228053c4ee15ff41eef20c44:415553c42c7c644013e50c44:415553c40029fd4113e50c44",
+      "points": [
+        [
+          -846.0020751953125,
+          31.88570785522461,
+          563.7957763671875
+        ],
+        [
+          -845.3320922851562,
+          3.5700788497924805,
+          563.5792846679688
+        ],
+        [
+          -845.3320922851562,
+          31.64501953125,
+          563.5792846679688
+        ]
+      ]
+    }
+  ],
+  "references": [
+    {
+      "title": "Google Street View, Bulevardi 11, April2023 leafless adjacent facade view",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=BJf1Vy8PmNgxiZ6eNV17FA&heading=320&pitch=20&fov=100",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Helsinki City Museum, exact building identity and asymmetric Jugend facade description",
+      "url": "https://www.finna.fi/Record/hkm.3C3FE80F-2844-4E75-A5DA-D67F8FA5903D?lng=fi",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "The three selected detailed turret triangles simplify into two source coarse triangles. The observed brown plaster continues across this narrow strip.",
+    "All four coarse outline vertices are exact vertices of these three individually enumerated native triangles. A separate elevation containment proof and normal gate are mandatory."
+  ],
+  "limitations": [
+    "Colour only. Coarse tier intentionally has no window texture. No invented image correspondence or change to geometry/index/accessor/UV/draw count."
+  ],
+  "exactSimplificationDifference": [
+    {
+      "targetKey": "228053c4ee15ff41eef20c44:e56853c42b7c644085eb0c44:415553c42c7c644013e50c44",
+      "sourceTopologySha256": "a3e1c2730422f4dce3dddc345ed809c458654146a2534ac7186f846a78746b11",
+      "targetPointsSha256": "5bb2cf3492f82e5f848e1dc1ce6f049a5aaf7ff00120133750e9456c73963967",
+      "difference": [],
+      "differenceSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "outsideAreaMetres2": 0
+    },
+    {
+      "targetKey": "228053c4ee15ff41eef20c44:415553c42c7c644013e50c44:415553c40029fd4113e50c44",
+      "sourceTopologySha256": "a3e1c2730422f4dce3dddc345ed809c458654146a2534ac7186f846a78746b11",
+      "targetPointsSha256": "de2142fbc3fddd4976b30d9ea6a5f1347d71b39dbbfd8ef797880f217f3179a1",
+      "difference": [
+        [
+          [
+            [
+              2.4692920230547246,
+              31.88570785522461
+            ],
+            [
+              2.8333492642377953,
+              31.753795623779297
+            ],
+            [
+              3.1426746184480523,
+              31.64501953125
+            ],
+            [
+              2.4692920230547246,
+              31.88570785522461
+            ]
+          ]
+        ]
+      ],
+      "differenceSha256": "7a9e2a25b51c9db61f1aadb5978addd6b6702b0d05b53a0d30a4a8f84732fa64",
+      "outsideAreaMetres2": 0.0006015367818008599
+    }
+  ],
+  "authorityNativeFaces": [
+    {
+      "triangle": 507,
+      "key": "228053c4ee15ff41eef20c44:e56853c42b7c644085eb0c44:e56853c4c607fe4185eb0c44",
+      "points": [
+        [
+          -845.6389770507812,
+          3.5700786113739014,
+          563.6799926757812
+        ],
+        [
+          -845.6389770507812,
+          31.753795623779297,
+          563.6799926757812
+        ],
+        [
+          -846.0020751953125,
+          31.88570785522461,
+          563.7957763671875
+        ]
+      ]
+    },
+    {
+      "triangle": 509,
+      "key": "415553c40029fd4113e50c44:e56853c4c607fe4185eb0c44:415553c42c7c644013e50c44",
+      "points": [
+        [
+          -845.3320922851562,
+          3.5700788497924805,
+          563.5792846679688
+        ],
+        [
+          -845.3320922851562,
+          31.64501953125,
+          563.5792846679688
+        ],
+        [
+          -845.6389770507812,
+          31.753795623779297,
+          563.6799926757812
+        ]
+      ]
+    },
+    {
+      "triangle": 510,
+      "key": "415553c42c7c644013e50c44:e56853c4c607fe4185eb0c44:e56853c42b7c644085eb0c44",
+      "points": [
+        [
+          -845.3320922851562,
+          3.5700788497924805,
+          563.5792846679688
+        ],
+        [
+          -845.6389770507812,
+          31.753795623779297,
+          563.6799926757812
+        ],
+        [
+          -845.6389770507812,
+          3.5700786113739014,
+          563.6799926757812
+        ]
+      ]
+    }
+  ]
+}

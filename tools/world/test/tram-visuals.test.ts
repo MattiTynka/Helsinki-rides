@@ -33,6 +33,16 @@ test('rail triangles follow the exact sloping ground plane plus3mm and clip at c
  for(let i=0;i<mesh.positions.length;i+=3){const[x,y,z]=mesh.positions.slice(i,i+3) as [number,number,number];assert.ok(x>=0&&x<=10&&z>=-2&&z<=2);assert.ok(Math.abs(y-x*.1-.003)<1e-6);}
  assert.equal(new Set(mesh.bindings.flatMap(b=>b.ground.collision.triangles)).size,2);
 });
+
+test('large-world Float32 rail XZ is rounded before evaluating its unchanged native support plane',()=>{
+ const source:TramGroundTriangle={id:'native-north-slope',vertices:[[-841.7383422851562,-1.956791639328003,-1774.408447265625],[-840,-3.0196754932403564,-1776],[-841.7943115234375,-1.3396251201629639,-1774.6549072265625]],visual:{node:'source_ground_slabs',primitive:0,triangle:1305},collision:{collider:'native-ground',triangles:[6636]},tag:'road:slabs'};
+ const before=structuredClone(source),f=tramFootprints([track(12,[[1,-843,-1772],[2,-839,-1778]])]);
+ const mesh=drapeTramFootprints(f,[source],{minX:-896,maxX:-768,minZ:-1792,maxZ:-1664});
+ assert.ok(mesh.stats.triangles>0);assert.ok(mesh.stats.maximumLiftError<.000001);
+ assert.deepEqual(source,before,'Rail height correction cannot alter the native floor');
+ const [a,b,c]=source.vertices,den=(b[2]-c[2])*(a[0]-c[0])+(c[0]-b[0])*(a[2]-c[2]);
+ for(let i=0;i<mesh.positions.length;i+=3){const [x,y,z]=mesh.positions.slice(i,i+3) as [number,number,number],u=((b[2]-c[2])*(x-c[0])+(c[0]-b[0])*(z-c[2]))/den,v=((c[2]-a[2])*(x-c[0])+(a[0]-c[0])*(z-c[2]))/den;assert.equal(x,Math.fround(x));assert.equal(z,Math.fround(z));assert.ok(Math.abs(y-(u*a[1]+v*b[1]+(1-u-v)*c[1])-.003)<.000001);}
+});
 test('all source grade breaks survive draping and unsupported rail area stays explicit',()=>{
  const f=tramFootprints([track(12,[[1,0,0],[2,10,0]])]),mesh=drapeTramFootprints(f,ground().slice(0,1),bounds);
  assert.ok(mesh.stats.missingArea>.1);assert.ok(mesh.stats.coveredArea<mesh.stats.expectedArea);

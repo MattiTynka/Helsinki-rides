@@ -157,9 +157,9 @@ try {
   startup = { secondsToReady, secondsToStartedAndSettled: (Date.now() - openedAt) / 1000, heapBytes: first.heapBytes,
     ownedBrowserMemory: await captureOwnedBrowserMemory(session.browser),
     collisionPayloadBytes: manifest.cells.reduce((sum, cell) => sum + cell.collision.bytes, 0), terrainPayloadBytes: manifest.terrain.bytes,
-    network: await page.evaluate(release => { const resources = performance.getEntriesByType('resource').filter(entry => entry.name.includes(`/world/${release}/`));
+    network: await page.evaluate(({release,collisionPaths}) => { const collision = new Set(collisionPaths), resources = performance.getEntriesByType('resource').filter(entry => entry.name.includes(`/world/${release}/`));
       return { worldRequests: resources.length, encodedBytes: resources.reduce((sum, entry) => sum + entry.encodedBodySize, 0),
-        transferredBytes: resources.reduce((sum, entry) => sum + entry.transferSize, 0), collisionRequests: resources.filter(entry => new URL(entry.name).pathname.endsWith('.hcol')).length }; }, manifest.worldReleaseId),
+        transferredBytes: resources.reduce((sum, entry) => sum + entry.transferSize, 0), collisionRequests: resources.filter(entry => collision.has(new URL(entry.name).pathname)).length }; }, {release:manifest.worldReleaseId,collisionPaths:manifest.cells.map(cell=>new URL(cell.collision.path,new URL(`world/${manifest.worldReleaseId}/`,values.url)).pathname)}),
     limitation: 'Readiness includes all resident static collision construction. Payload bytes and Chromium JS heap do not measure total Rapier/WASM or browser RAM.' };
   check('candidate-identity', true, { release: manifest.worldReleaseId, runtimeUrl, runtimeSha256 });
   check('bounded-startup', first.stream.detail.residentCells < manifest.cells.length && first.stream.fallback.residentCells < manifest.cells.length,

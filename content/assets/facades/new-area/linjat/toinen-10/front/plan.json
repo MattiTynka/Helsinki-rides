@@ -1,0 +1,344 @@
+{
+  "schemaVersion": 1,
+  "id": "toinen-linja-10-street-northeast-20261021",
+  "building": {
+    "id": "BID_97689449-416f-4a87-8508-51e4d4571003",
+    "vtj": "1031519730",
+    "owner": "c_m05_m13"
+  },
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    181,
+    182,
+    183,
+    184,
+    185,
+    186,
+    187,
+    180
+  ],
+  "frame": {
+    "origin": [
+      -500.1818225860981,
+      -1560.273394865392
+    ],
+    "axis": [
+      -0.7874450600634817,
+      -0.6163848451913305
+    ],
+    "width": 39.61903841680305
+  },
+  "completeElevationPlane": true,
+  "art": {
+    "wallColour": "#d5c7a4",
+    "groundColour": "#38534c",
+    "surroundColour": "#c4bda8",
+    "frameColour": "#65756b",
+    "glassColour": "#93a5a1",
+    "groundHeight": 3.8,
+    "rows": [
+      {
+        "bottom": 4.35,
+        "height": 2.5,
+        "width": 1.12,
+        "axes": [
+          0.9904759604200762,
+          2.9714278812602286,
+          4.952379802100381,
+          6.933331722940534,
+          8.914283643780687,
+          10.895235564620839,
+          12.876187485460992,
+          14.857139406301144,
+          16.838091327141296,
+          18.819043247981448,
+          20.799995168821603,
+          22.780947089661755,
+          24.761899010501907,
+          26.74285093134206,
+          28.72380285218221,
+          30.704754773022366,
+          32.685706693862514,
+          34.66665861470267,
+          36.647610535542825,
+          38.62856245638297
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 8,
+        "height": 2,
+        "width": 1.12,
+        "axes": [
+          0.9904759604200762,
+          2.9714278812602286,
+          4.952379802100381,
+          6.933331722940534,
+          8.914283643780687,
+          10.895235564620839,
+          12.876187485460992,
+          14.857139406301144,
+          16.838091327141296,
+          18.819043247981448,
+          20.799995168821603,
+          22.780947089661755,
+          24.761899010501907,
+          26.74285093134206,
+          28.72380285218221,
+          30.704754773022366,
+          32.685706693862514,
+          34.66665861470267,
+          36.647610535542825,
+          38.62856245638297
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 11.4,
+        "height": 1.9,
+        "width": 1.12,
+        "axes": [
+          0.9904759604200762,
+          2.9714278812602286,
+          4.952379802100381,
+          6.933331722940534,
+          8.914283643780687,
+          10.895235564620839,
+          12.876187485460992,
+          14.857139406301144,
+          16.838091327141296,
+          18.819043247981448,
+          20.799995168821603,
+          22.780947089661755,
+          24.761899010501907,
+          26.74285093134206,
+          28.72380285218221,
+          30.704754773022366,
+          32.685706693862514,
+          34.66665861470267,
+          36.647610535542825,
+          38.62856245638297
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 14.7,
+        "height": 1.75,
+        "width": 1.12,
+        "axes": [
+          0.9904759604200762,
+          2.9714278812602286,
+          4.952379802100381,
+          6.933331722940534,
+          8.914283643780687,
+          10.895235564620839,
+          12.876187485460992,
+          14.857139406301144,
+          16.838091327141296,
+          18.819043247981448,
+          20.799995168821603,
+          22.780947089661755,
+          24.761899010501907,
+          26.74285093134206,
+          28.72380285218221,
+          30.704754773022366,
+          32.685706693862514,
+          34.66665861470267,
+          36.647610535542825,
+          38.62856245638297
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 18,
+        "height": 1.55,
+        "width": 1.12,
+        "axes": [
+          0.9904759604200762,
+          2.9714278812602286,
+          4.952379802100381,
+          6.933331722940534,
+          8.914283643780687,
+          10.895235564620839,
+          12.876187485460992,
+          14.857139406301144,
+          16.838091327141296,
+          18.819043247981448,
+          20.799995168821603,
+          22.780947089661755,
+          24.761899010501907,
+          26.74285093134206,
+          28.72380285218221,
+          30.704754773022366,
+          32.685706693862514,
+          34.66665861470267,
+          36.647610535542825,
+          38.62856245638297
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 1.4361901426091104,
+        "bottom": 0.3,
+        "width": 2.6,
+        "height": 2.8,
+        "kind": "glazing"
+      },
+      {
+        "x": 3.813332447617294,
+        "bottom": 0.08,
+        "width": 1.05,
+        "height": 2.75,
+        "kind": "door"
+      },
+      {
+        "x": 6.388569944709492,
+        "bottom": 0.3,
+        "width": 2.6,
+        "height": 2.8,
+        "kind": "glazing"
+      },
+      {
+        "x": 8.765712249717675,
+        "bottom": 0.08,
+        "width": 1.05,
+        "height": 2.75,
+        "kind": "door"
+      },
+      {
+        "x": 11.340949746809873,
+        "bottom": 0.3,
+        "width": 2.6,
+        "height": 2.8,
+        "kind": "glazing"
+      },
+      {
+        "x": 13.718092051818056,
+        "bottom": 0.08,
+        "width": 1.05,
+        "height": 2.75,
+        "kind": "door"
+      },
+      {
+        "x": 16.293329548910254,
+        "bottom": 0.3,
+        "width": 2.6,
+        "height": 2.8,
+        "kind": "glazing"
+      },
+      {
+        "x": 18.67047185391844,
+        "bottom": 0.08,
+        "width": 1.05,
+        "height": 2.75,
+        "kind": "door"
+      },
+      {
+        "x": 21.245709351010635,
+        "bottom": 0.3,
+        "width": 2.6,
+        "height": 2.8,
+        "kind": "glazing"
+      },
+      {
+        "x": 23.622851656018817,
+        "bottom": 0.08,
+        "width": 1.05,
+        "height": 2.75,
+        "kind": "door"
+      },
+      {
+        "x": 26.198089153111017,
+        "bottom": 0.3,
+        "width": 2.6,
+        "height": 2.8,
+        "kind": "glazing"
+      },
+      {
+        "x": 28.575231458119198,
+        "bottom": 0.08,
+        "width": 1.05,
+        "height": 2.75,
+        "kind": "door"
+      },
+      {
+        "x": 31.150468955211398,
+        "bottom": 0.3,
+        "width": 2.6,
+        "height": 2.8,
+        "kind": "glazing"
+      },
+      {
+        "x": 33.52761126021958,
+        "bottom": 0.08,
+        "width": 1.05,
+        "height": 2.75,
+        "kind": "door"
+      },
+      {
+        "x": 36.10284875731178,
+        "bottom": 0.3,
+        "width": 2.6,
+        "height": 2.8,
+        "kind": "glazing"
+      },
+      {
+        "x": 38.47999106231996,
+        "bottom": 0.08,
+        "width": 1.05,
+        "height": 2.75,
+        "kind": "door"
+      }
+    ],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 3.55,
+        "height": 0.23,
+        "colour": "#775846"
+      },
+      {
+        "from": "ground",
+        "offset": 3.85,
+        "height": 0.12,
+        "colour": "#e0d2b2"
+      },
+      {
+        "from": "top",
+        "offset": -0.25,
+        "height": 0.16,
+        "colour": "#bdb291"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Toinen linja10 frontage viewed from29Toinenlinja, Aug2024 panoramaPX2kJe2Ihv1AH4AVsj8K2A at60.1836652,24.94313, headings217.59/199 pitch20/25 opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=PX2kJe2Ihv1AH4AVsj8K2A&heading=217.59&pitch=25&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual opened street reference shows a long pale cream rendered front, five horizontal rows of narrow rectangular upper windows, restrained light surrounds and dark gray-green frames.",
+    "Dark green lower storey contains repeated broad glazed shopfronts and narrow entrances beneath a brown-red continuous cornice; no ornate classical pediments or balconies are visible on this plane.",
+    "Upper opening datum remains horizontal and is tied to the selected native roof and exact measured exterior street floors; store glass bottoms and entrances meet the actual sloped street."
+  ],
+  "limitations": [
+    "Original vector architectural interpretation; no reference photograph pixels, signage, logos or personal details are reproduced.",
+    "Window dimensions and repeated ground storefront bay layout are game-scale estimates from the oblique reference, not surveyed facade measurements.",
+    "Only the exact complete selected northeast street plane is treated; side/court planes and actual door access remain independently unqualified.",
+    "No source geometry, roof height, physical floor, entrance collision or building ownership is changed."
+  ],
+  "observedGroundProfile": {
+    "kind": "named-source-floor-profile",
+    "path": "ground-profile.json",
+    "sha256": "7c8ef2d06fa3247347a72e9fd85ca5415f73311fa2fbf527f6b0fc6eae74e44e"
+  }
+}

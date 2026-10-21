@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "kind": "privacy-minimized-exact-municipal-survey",
+  "producer": "tools/world/project_delivery_survey.ts",
+  "method": "Exact EPSG:3879 Polygon/MultiPolygon geometry and only consumed properties. No editor, contributor, contact or operator metadata. Original acquisition receipts remain private immutable evidence.",
+  "sources": [
+    {
+      "kind": "street-parts",
+      "source": {
+        "id": "helsinki-street-parts-wfs",
+        "title": "City of Helsinki public area register, street and green parts (YLRE_Katu_ja_viherosat_kaikki_alue)",
+        "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs",
+        "layer": "avoindata:YLRE_Katu_ja_viherosat_kaikki_alue",
+        "license": "CC BY 4.0 (City of Helsinki open geographic data terms; layer-level licence text not separately verified)",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "attribution": "Street areas © City of Helsinki, CC BY 4.0"
+      },
+      "snapshot": {
+        "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs",
+        "retrievedAt": "2026-10-20T21:33:24.256Z",
+        "bytes": 81069702,
+        "sha256": "1d279b175f1f9163bfa0e2f0fdb1984303daa312e686530707c9043b23e87fa8",
+        "crs": "urn:ogc:def:crs:EPSG::3879",
+        "bbox": [
+          25495518,
+          6672152,
+          25498190,
+          6675304
+        ],
+        "acquisition": "Accepted parsed source feature prefix preserved exactly; genuinely new stable IDs appended from eight bounded unfiltered WFS parts. Changed duplicate geometries/properties retained as source witnesses, never substituted.",
+        "newFeatures": 9479,
+        "conflicts": 0
+      },
+      "public": {
+        "path": "street-parts-public-v1.geojson",
+        "bytes": 21693793,
+        "sha256": "cff57b6922ae3c768d8959c5c2a4888759fc583eace80f5b3df8d4a1ad13ca9b"
+      },
+      "parts": [
+        {
+          "id": "south-0-west",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3AYLRE_Katu_ja_viherosat_kaikki_alue&srsName=EPSG%3A3879&bbox=25495518%2C6672152%2C25496854%2C6672550&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25495518,
+            6672152,
+            25496854,
+            6672550
+          ],
+          "bytes": 2788609,
+          "sha256": "bf7c418161b039cb1c0dc0ae7d45a732cd5d1c3f36039575e5540d3964e6fc2a"
+        },
+        {
+          "id": "south-0-east",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3AYLRE_Katu_ja_viherosat_kaikki_alue&srsName=EPSG%3A3879&bbox=25496854%2C6672152%2C25498190%2C6672550&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25496854,
+            6672152,
+            25498190,
+            6672550
+          ],
+          "bytes": 1889059,
+          "sha256": "7f211ccc1b4ea18a396bc47e54a9ed6b91430e75bc25a4c101a67c61b3d6d1d6"
+        },
+        {
+          "id": "north-0-west",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3AYLRE_Katu_ja_viherosat_kaikki_alue&srsName=EPSG%3A3879&bbox=25495518%2C6674072%2C25496854%2C6674482.666666667&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25495518,
+            6674072,
+            25496854,
+            6674482.666666667
+          ],
+          "bytes": 2479151,
+          "sha256": "7f84767fe13526a6219bd2c11e8094783fee3975c51c659c3e64dc931ab45c1e"
+        },
+        {
+          "id": "north-0-east",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3AYLRE_Katu_ja_viherosat_kaikki_alue&srsName=EPSG%3A3879&bbox=25496854%2C6674072%2C25498190%2C6674482.666666667&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25496854,
+            6674072,
+            25498190,
+            6674482.666666667
+          ],
+          "bytes": 2879629,
+          "sha256": "e22f0c57388ef35820d2e2d39d086db8d4917c81745f4dadced2254333aeea32"
+        },
+        {
+          "id": "north-1-west",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3AYLRE_Katu_ja_viherosat_kaikki_alue&srsName=EPSG%3A3879&bbox=25495518%2C6674482.666666667%2C25496854%2C6674893.333333333&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25495518,
+            6674482.666666667,
+            25496854,
+            6674893.333333333
+          ],
+          "bytes": 3162802,
+          "sha256": "2db098d08df7b2a6ed6bf838a418370b5a086ced19e932cfc8587e3d7f44198e"
+        },
+        {
+          "id": "north-1-east",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3AYLRE_Katu_ja_viherosat_kaikki_alue&srsName=EPSG%3A3879&bbox=25496854%2C6674482.666666667%2C25498190%2C6674893.333333333&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25496854,
+            6674482.666666667,
+            25498190,
+            6674893.333333333
+          ],
+          "bytes": 3619983,
+          "sha256": "2448cede36b93de27e18ff77c65c07231a2d63d9576fa2538fc2619367bc67ab"
+        },
+        {
+          "id": "north-2-west",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3AYLRE_Katu_ja_viherosat_kaikki_alue&srsName=EPSG%3A3879&bbox=25495518%2C6674893.333333333%2C25496854%2C6675304&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25495518,
+            6674893.333333333,
+            25496854,
+            6675304
+          ],
+          "bytes": 2347603,
+          "sha256": "db8c1d5925153bd6df341e3488b6f0bf4bc1b314402b97ab580a79da9adffdda"
+        },
+        {
+          "id": "north-2-east",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3AYLRE_Katu_ja_viherosat_kaikki_alue&srsName=EPSG%3A3879&bbox=25496854%2C6674893.333333333%2C25498190%2C6675304&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25496854,
+            6674893.333333333,
+            25498190,
+            6675304
+          ],
+          "bytes": 4123367,
+          "sha256": "6bfb2dbc60e034bb36779ee4653828d812dbcfeb771762db887b805472f2a260"
+        }
+      ]
+    },
+    {
+      "kind": "footprints",
+      "source": {
+        "id": "helsinki-building-register-wfs",
+        "title": "City of Helsinki building footprints with register attributes (Rakennukset_alue_rekisteritiedot)",
+        "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs",
+        "layer": "avoindata:Rakennukset_alue_rekisteritiedot",
+        "license": "CC BY 4.0 (City of Helsinki open geographic data terms; layer-level licence text not separately verified)",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "attribution": "Building register © City of Helsinki, CC BY 4.0"
+      },
+      "snapshot": {
+        "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs",
+        "retrievedAt": "2026-10-20T21:33:17.269Z",
+        "bytes": 12291639,
+        "sha256": "64141766b592e035026592904e70e5bc6a7627e0bdab7286fc8d4cb86d8ed314",
+        "crs": "urn:ogc:def:crs:EPSG::3879",
+        "bbox": [
+          25495518,
+          6672152,
+          25498190,
+          6675304
+        ],
+        "acquisition": "Accepted parsed source feature prefix preserved exactly; genuinely new stable IDs appended from eight bounded unfiltered WFS parts. Changed duplicate geometries/properties retained as source witnesses, never substituted.",
+        "newFeatures": 1407,
+        "conflicts": 0
+      },
+      "public": {
+        "path": "footprints-public-v1.geojson",
+        "bytes": 2820375,
+        "sha256": "0ffbb50371c0763e1100a4067aa55ca9e8e3bc0a406b3f992805cb2c25b53208"
+      },
+      "parts": [
+        {
+          "id": "south-0-west",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3ARakennukset_alue_rekisteritiedot&srsName=EPSG%3A3879&bbox=25495518%2C6672152%2C25496854%2C6672550&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25495518,
+            6672152,
+            25496854,
+            6672550
+          ],
+          "bytes": 839417,
+          "sha256": "7122138e25c9a6ea82b0a271439c706232b67e496d2ab9388567ee00e2c6b956"
+        },
+        {
+          "id": "south-0-east",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3ARakennukset_alue_rekisteritiedot&srsName=EPSG%3A3879&bbox=25496854%2C6672152%2C25498190%2C6672550&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25496854,
+            6672152,
+            25498190,
+            6672550
+          ],
+          "bytes": 394378,
+          "sha256": "cde28f90a31ce3d0e9674d344d6fd6b9c198a39af5b67b048433be3eda32e0fc"
+        },
+        {
+          "id": "north-0-west",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3ARakennukset_alue_rekisteritiedot&srsName=EPSG%3A3879&bbox=25495518%2C6674072%2C25496854%2C6674482.666666667&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25495518,
+            6674072,
+            25496854,
+            6674482.666666667
+          ],
+          "bytes": 238048,
+          "sha256": "c95f12b59099f8cc1ab364118e20b761be332d3586e47a70e9db961d829042d3"
+        },
+        {
+          "id": "north-0-east",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3ARakennukset_alue_rekisteritiedot&srsName=EPSG%3A3879&bbox=25496854%2C6674072%2C25498190%2C6674482.666666667&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25496854,
+            6674072,
+            25498190,
+            6674482.666666667
+          ],
+          "bytes": 309123,
+          "sha256": "a4dca676c1b532d4c1819012e43f59ad48c4428db5d46ccbc0a74325a1fe383c"
+        },
+        {
+          "id": "north-1-west",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3ARakennukset_alue_rekisteritiedot&srsName=EPSG%3A3879&bbox=25495518%2C6674482.666666667%2C25496854%2C6674893.333333333&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25495518,
+            6674482.666666667,
+            25496854,
+            6674893.333333333
+          ],
+          "bytes": 353616,
+          "sha256": "cda4f5000c6442ce7fde205d8771bae39b184779f73fc0c41ed5b77ac3e06e7a"
+        },
+        {
+          "id": "north-1-east",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3ARakennukset_alue_rekisteritiedot&srsName=EPSG%3A3879&bbox=25496854%2C6674482.666666667%2C25498190%2C6674893.333333333&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25496854,
+            6674482.666666667,
+            25498190,
+            6674893.333333333
+          ],
+          "bytes": 504158,
+          "sha256": "100bac94c7e6e82675ad5b99926aac2c2594bb3dc2afa9942ae844088128202e"
+        },
+        {
+          "id": "north-2-west",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3ARakennukset_alue_rekisteritiedot&srsName=EPSG%3A3879&bbox=25495518%2C6674893.333333333%2C25496854%2C6675304&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25495518,
+            6674893.333333333,
+            25496854,
+            6675304
+          ],
+          "bytes": 295754,
+          "sha256": "cd3d548df6bd254b5bf0ae33743e443a0a7e1ec63b6fa0b2547edb9639851a1c"
+        },
+        {
+          "id": "north-2-east",
+          "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=avoindata%3ARakennukset_alue_rekisteritiedot&srsName=EPSG%3A3879&bbox=25496854%2C6674893.333333333%2C25498190%2C6675304&maxFeatures=5000&outputFormat=application%2Fjson",
+          "bbox": [
+            25496854,
+            6674893.333333333,
+            25498190,
+            6675304
+          ],
+          "bytes": 484213,
+          "sha256": "3bf8edae78adf31793f95c0717e5b3b6796ed003bea31ae1ec5f0e43437ad525"
+        }
+      ]
+    }
+  ]
+}

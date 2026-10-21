@@ -1,0 +1,409 @@
+{
+  "schemaVersion": 1,
+  "status": "REFERENCE_BOUND_OFFICE_ART_RUNTIME_REVIEW_REQUIRED",
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "planSha256": "a367b9b458f9e3b5549e224b2361f0a885d58a5d2ade3f240d97ff856dcb20ad",
+  "building": {
+    "id": "BID_96ce40d5-24d8-4d90-a39d-58976af1a24d",
+    "vtj": null,
+    "owner": "c_m03_p04"
+  },
+  "side": "south",
+  "completeFacingFamily": true,
+  "sourceTriangles": [
+    {
+      "part": 0,
+      "triangle": 7,
+      "key": "0c63b8c3a4cdd8418a441244:4be6b0c35c33c3413b0f1244:4be6b0c340ccd8413b0f1244",
+      "points": [
+        [
+          -353.7991638183594,
+          24.40007781982422,
+          584.2379760742188
+        ],
+        [
+          -353.7991638183594,
+          27.0997314453125,
+          584.2379760742188
+        ],
+        [
+          -368.7738037109375,
+          27.10041046142578,
+          585.0709228515625
+        ]
+      ],
+      "area": 20.244416165148408
+    },
+    {
+      "part": 0,
+      "triangle": 8,
+      "key": "0c63b8c35c33c3418a441244:4be6b0c35c33c3413b0f1244:0c63b8c3a4cdd8418a441244",
+      "points": [
+        [
+          -353.7991638183594,
+          24.40007781982422,
+          584.2379760742188
+        ],
+        [
+          -368.7738037109375,
+          27.10041046142578,
+          585.0709228515625
+        ],
+        [
+          -368.7738037109375,
+          24.40007781982422,
+          585.0709228515625
+        ]
+      ],
+      "area": 20.249508034953603
+    },
+    {
+      "part": 0,
+      "triangle": 21,
+      "key": "2d0bb1c35c33c3415a771244:9c33b0c3f8b8e6400f731244:9c33b0c35d33c3410f731244",
+      "points": [
+        [
+          -352.4031982421875,
+          7.210079193115234,
+          585.7977905273438
+        ],
+        [
+          -352.4031982421875,
+          24.40007972717285,
+          585.7977905273438
+        ],
+        [
+          -354.0873107910156,
+          24.40007781982422,
+          585.8648681640625
+        ]
+      ],
+      "area": 14.486424800872042
+    },
+    {
+      "part": 0,
+      "triangle": 22,
+      "key": "2d0bb1c35c33c3415a771244:2d0bb1c3f7b8e6405a771244:9c33b0c3f8b8e6400f731244",
+      "points": [
+        [
+          -352.4031982421875,
+          7.210079193115234,
+          585.7977905273438
+        ],
+        [
+          -354.0873107910156,
+          24.40007781982422,
+          585.8648681640625
+        ],
+        [
+          -354.0873107910156,
+          7.210078716278076,
+          585.8648681640625
+        ]
+      ],
+      "area": 14.48642359534579
+    },
+    {
+      "part": 0,
+      "triangle": 25,
+      "key": "040fb1c35d33c34115641244:361cb6c35d33c3415a811244:040fb1c3f7b8e64015641244",
+      "points": [
+        [
+          -354.1173095703125,
+          7.210078716278076,
+          585.5637817382812
+        ],
+        [
+          -354.1173095703125,
+          24.40007972717285,
+          585.5637817382812
+        ],
+        [
+          -364.22039794921875,
+          24.40007972717285,
+          586.0211181640625
+        ]
+      ],
+      "area": 86.92497209506132
+    },
+    {
+      "part": 0,
+      "triangle": 26,
+      "key": "040fb1c3f7b8e64015641244:361cb6c35d33c3415a811244:361cb6c3f8b8e6405a811244",
+      "points": [
+        [
+          -354.1173095703125,
+          7.210078716278076,
+          585.5637817382812
+        ],
+        [
+          -364.22039794921875,
+          24.40007972717285,
+          586.0211181640625
+        ],
+        [
+          -364.22039794921875,
+          7.210079193115234,
+          586.0211181640625
+        ]
+      ],
+      "area": 86.92496968383071
+    },
+    {
+      "part": 0,
+      "triangle": 29,
+      "key": "925cb8c35d33c3418a7b1244:cf1eb6c3f8b8e6401d6d1244:cf1eb6c35d33c3411d6d1244",
+      "points": [
+        [
+          -364.2406921386719,
+          7.210079193115234,
+          585.7048950195312
+        ],
+        [
+          -364.2406921386719,
+          24.40007972717285,
+          585.7048950195312
+        ],
+        [
+          -368.72320556640625,
+          24.40007972717285,
+          585.9302978515625
+        ]
+      ],
+      "area": 38.57588278461965
+    },
+    {
+      "part": 0,
+      "triangle": 30,
+      "key": "915cb8c3f8b8e6408a7b1244:cf1eb6c3f8b8e6401d6d1244:925cb8c35d33c3418a7b1244",
+      "points": [
+        [
+          -364.2406921386719,
+          7.210079193115234,
+          585.7048950195312
+        ],
+        [
+          -368.72320556640625,
+          24.40007972717285,
+          585.9302978515625
+        ],
+        [
+          -368.7231750488281,
+          7.210079193115234,
+          585.9302978515625
+        ]
+      ],
+      "area": 38.57562081702294
+    }
+  ],
+  "frame": {
+    "origin": [
+      -368.77796238440175,
+      584.9878533491145
+    ],
+    "axis": [
+      0.9987492197274768,
+      -0.04999996093754577
+    ],
+    "width": 16.3137860829846,
+    "minY": 7.210078716278076,
+    "maxY": 27.10041046142578
+  },
+  "ground": {
+    "method": "Nine native street visual/HCOL matches outside exact facade",
+    "samples": [
+      {
+        "u": 0.163137860829846,
+        "x": -368.5400286317836,
+        "z": 586.4778202920368,
+        "collision": {
+          "height": 7.1362217717065,
+          "cell": "c_m03_p04",
+          "collider": "g:c_m03_p04",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 7.1362217717065,
+          "cell": "c_m03_p04",
+          "key": "0000b8c362c3e4405b7e1244:f85bb8c326e7e340d5801244:0000b8c36ccce54000001344",
+          "node": "c_m03_p04_ground_asphalt"
+        }
+      },
+      {
+        "u": 1.957654329958152,
+        "x": -366.7477567084536,
+        "z": 586.3880945386785,
+        "collision": {
+          "height": 7.2281156319238455,
+          "cell": "c_m03_p04",
+          "collider": "g:c_m03_p04",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 7.2281156319238455,
+          "cell": "c_m03_p04",
+          "key": "0000b8c362c3e4405b7e1244:0000b8c36ccce54000001344:f3edb6c3efade840f9761244",
+          "node": "c_m03_p04_ground_asphalt"
+        }
+      },
+      {
+        "u": 4.07844652074615,
+        "x": -364.62961716269996,
+        "z": 586.2820550119825,
+        "collision": {
+          "height": 7.347608875470781,
+          "cell": "c_m03_p04",
+          "collider": "g:c_m03_p04",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 7.347608875470781,
+          "cell": "c_m03_p04",
+          "key": "0000b6c36814ec4091701244:0000b8c36ccce54000001344:0000b6c3ab81ec4000001344",
+          "node": "c_m03_p04_ground_asphalt"
+        }
+      },
+      {
+        "u": 6.117669781119225,
+        "x": -362.5929445225523,
+        "z": 586.1800939286209,
+        "collision": {
+          "height": 7.487441749006017,
+          "cell": "c_m03_p04",
+          "collider": "g:c_m03_p04",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 7.487441749006017,
+          "cell": "c_m03_p04",
+          "key": "0000b6c36814ec4091701244:0000b6c3ab81ec4000001344:ccd0b4c3f7d7f14066681244",
+          "node": "c_m03_p04_ground_asphalt"
+        }
+      },
+      {
+        "u": 8.1568930414923,
+        "x": -360.55627188240453,
+        "z": 586.0781328452592,
+        "collision": {
+          "height": 7.635651727518165,
+          "cell": "c_m03_p04",
+          "collider": "g:c_m03_p04",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 7.635651727518165,
+          "cell": "c_m03_p04",
+          "key": "0000b4c317d0f540c6621244:0000b6c3ab81ec4000001344:0000b4c33c8df34000001344",
+          "node": "c_m03_p04_ground_asphalt"
+        }
+      },
+      {
+        "u": 10.196116301865374,
+        "x": -358.5195992422568,
+        "z": 585.9761717618977,
+        "collision": {
+          "height": 7.751444088760972,
+          "cell": "c_m03_p04",
+          "collider": "g:c_m03_p04",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 7.751444088760971,
+          "cell": "c_m03_p04",
+          "key": "0000b4c317d0f540c6621244:0000b4c33c8df34000001344:a6b3b2c3b38efa40d3591244",
+          "node": "c_m03_p04_ground_asphalt"
+        }
+      },
+      {
+        "u": 12.23533956223845,
+        "x": -356.48292660210905,
+        "z": 585.8742106785361,
+        "collision": {
+          "height": 7.867537786243488,
+          "cell": "c_m03_p04",
+          "collider": "g:c_m03_p04",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 7.867537786243488,
+          "cell": "c_m03_p04",
+          "key": "0000b2c33b1ffd40fc541244:0000b4c33c8df34000001344:0000b2c359abfa4000001344",
+          "node": "c_m03_p04_ground_asphalt"
+        }
+      },
+      {
+        "u": 14.356131753026448,
+        "x": -354.36478705635545,
+        "z": 585.7681711518401,
+        "collision": {
+          "height": 7.953549426558281,
+          "cell": "c_m03_p04",
+          "collider": "g:c_m03_p04",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 7.953549426558281,
+          "cell": "c_m03_p04",
+          "key": "0000b2c33b1ffd40fc541244:0000b2c359abfa4000001344:7f96b0c3792e0041404b1244",
+          "node": "c_m03_p04_ground_asphalt"
+        }
+      },
+      {
+        "u": 16.150648222154754,
+        "x": -352.57251513302543,
+        "z": 585.6784453984818,
+        "collision": {
+          "height": 8.018766475831665,
+          "cell": "c_m03_p04",
+          "collider": "g:c_m03_p04",
+          "group": "ground",
+          "tag": "raised:asphalt"
+        },
+        "visual": {
+          "y": 8.018766475831665,
+          "cell": "c_m03_p04",
+          "key": "0000b0c328c0ff4000001344:0000b0c32edb004132471244:0000b2c359abfa4000001344",
+          "node": "c_m03_p04_ground_asphalt"
+        }
+      }
+    ],
+    "chosen": 8.018766475831665,
+    "sharedStoreyDatum": null
+  },
+  "geometryUnchanged": true,
+  "observations": [
+    "Modern red-brown masonry office with pale stone ground storey and narrow upright glazing bays. Both actual south and east elevations opened.",
+    "South: main glazing portion separated by tall pale ribs; adjacent red strip has smaller isolated upper windows; dark ground entrance and shop glazing. East: similar pale vertical ribs with three regular upper rows and taller bottom office glazing row; narrow side strip has isolated windows.",
+    "Adjacent west dark metal building and east ornate old red-brick building are distinct source structures. No photograph pixels or signs will be copied.",
+    "Initial proxy lookup snapped to an indoor April2020HillsDumplings photosphere and was rejected."
+  ],
+  "limitations": [
+    "Only the exact complete outward-facing native south family is assigned artwork. Native curved segments and roof setback keep their literal geometry.",
+    "Original observed material/opening proportions interpret the actual reference; no logos, signage or photo pixels are reproduced.",
+    "Other source planes are not qualified from these public photographs."
+  ],
+  "references": [
+    {
+      "title": "Google Street View10Pieni Roobertinkatu,August2024",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=hXe3i75LBj563jrRGEBE9Q&heading=355&pitch=28&fov=100",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Google Street View29Korkeavuorenkatu,August2024",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=iDZ6bFm2VW-hNkQ0Zof41A&heading=275&pitch=28&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ]
+}

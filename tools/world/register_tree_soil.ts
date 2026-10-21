@@ -15,6 +15,9 @@ import { applyTreeRegistrations, assertRegistrationHash, createTreeSoilInspector
   type RegistrationTree, type TreeRegistrationCorrection, type TreeSoilContext } from './lib/tree-ground-registration.ts';
 import { decodeTreeBarkModels, measureTreeBarkProfile, planTreeCaseSink, qualifyContinuousTreeCase, visibleTreeObstacles,
   type TreeBarkModel, type TreeBarkProfile, type VisibleTreeObstacle } from './lib/tree-bark-registration.ts';
+import {readFullBarkStructureFaces,qualifyFullBarkStructureOmission,type FullBarkStructureBinding} from './lib/tree-structural-registration.ts';
+import {qualifyPreciseLakeTreeSource,qualifyPreciseLakeWaterMask,type PreciseLakeTreeBinding,type PreciseLakeWaterClassification} from './lib/tree-precise-water-registration.ts';
+import {readRetainedShoreBarkNative,qualifyRetainedPreciseLakeBank,type RetainedShoreTreeBinding} from './lib/tree-retained-shore-registration.ts';
 
 interface Index { originId: string; cellSize: number; cells: CellDescriptor[]; [key: string]: unknown }
 interface Scenery { originId: string; assets: { id: string; sha256: string }[]; instances: RegistrationScenery[]; [key: string]: unknown }
@@ -26,10 +29,13 @@ export const treeSoilPolicy = Object.freeze({ sinkMetres: .3, changeThresholdMet
 interface PinnedFile { path: string; sha256: string }
 export interface ReviewedTreeCase {
   id: string; sourcePosition: [number, number, number];
-  kind: 'continuous' | 'omit-source-intersection' | 'omit-ground-barrier' | 'omit-outside-ground' | 'omit-model-water-incompatibility';
+  kind: 'continuous' | 'retain-shore-bank' | 'omit-source-intersection' | 'omit-ground-barrier' | 'omit-outside-ground' | 'omit-model-water-incompatibility';
   reason: string; proof: PinnedFile & { rowSha256: string };
   limits?: { maximumRangeMetres: number; maximumAdjacentStepMetres: number; maximumPlaneResidualMetres: number; maximumSlope: number };
+  fullBarkStructure?:FullBarkStructureBinding;
+  retainedShore?:RetainedShoreTreeBinding;
   waterModel?: { model: string; municipalPart: { id: string; sha256: string }; sourceWater: { id: string; sha256: string };
+    preciseMunicipalWater?:PreciseLakeTreeBinding;
     regularSampleCount: number; reference: { metadata: PinnedFile; image: PinnedFile } };
 }
 interface ReviewedTreeCases {
@@ -51,6 +57,7 @@ export function qualifyReviewedTreeProfile(tree: RegistrationTree, profile: Tree
 export function qualifyReviewedTreeOmission(tree: RegistrationTree, spec: ReviewedTreeCase, context: TreeSoilContext, currentObstacles: readonly VisibleTreeObstacle[], targetObstacles: readonly VisibleTreeObstacle[],
   profile: TreeBarkProfile | undefined, outsideArea: number, points: readonly [number, number][], samples: readonly Support[], visual: readonly Support[], area: ReviewedTreeCases['playArea']) {
   assert.equal(spec.id, tree.id); assert.deepEqual(spec.sourcePosition, tree.position); assert.notEqual(spec.kind, 'continuous');
+  assert.notEqual(spec.kind,'retain-shore-bank','A retained shore case cannot authorize omission');
   assert.notEqual(spec.kind, 'omit-model-water-incompatibility', 'Water/model omissions require the separate complete-domain qualifier');
   assert.equal(points.length, samples.length); assert.equal(points.length, visual.length);
   samples.forEach((p, i) => { assert.equal(!!p, !!visual[i], 'Omission cannot hide visible/collision support disagreement'); if (p) assert.ok(Math.abs(p.height - visual[i]!.height) <= .02); });
@@ -74,6 +81,7 @@ export async function qualifyReviewedWaterModelOmission(tree: RegistrationTree, 
   collision: readonly Support[]; visual: readonly Support[]; denseVisual: readonly Support[];
   parts: readonly LocalPolygon[]; water: readonly LocalPolygon[]; decks: readonly LocalPolygon[];
   waterY: number | undefined; area: ReviewedTreeCases['playArea']; cells: readonly { id: string; bytes: Uint8Array }[];
+  preciseWater?:{sha256:string;polygons:readonly LocalPolygon[];classification:PreciseLakeWaterClassification};model?:TreeBarkModel;
 }) {
   assert.equal(spec.kind, 'omit-model-water-incompatibility'); assert.equal(spec.id, tree.id); assert.deepEqual(spec.sourcePosition, tree.position);
   const binding = spec.waterModel; assert.ok(binding, 'Water/model omission needs explicit source, model and reference bindings'); assert.equal(binding.model, tree.model);
@@ -90,11 +98,15 @@ export async function qualifyReviewedWaterModelOmission(tree: RegistrationTree, 
   const rootArea = polygonArea([[ring]]); assert.ok(rootArea > 1e-6);
   const rectangle: Ring = [[area.minX, -area.maxZ], [area.maxX, -area.maxZ], [area.maxX, -area.minZ], [area.minX, -area.minZ], [area.minX, -area.maxZ]];
   assert.ok(polygonArea(polygonClipping.difference([ring], [rectangle])) <= 1e-8, 'Water/model omission cannot hide an outer-domain defect');
-  const part = parts.find(p => p.id === binding.municipalPart.id), sourceWater = water.find(p => p.id === binding.sourceWater.id);
+  let part:LocalPolygon|undefined;
+  if(binding.preciseMunicipalWater){assert.ok(evidence.preciseWater&&evidence.model,'Precise lake review requires independently pinned source and actual bark');part=qualifyPreciseLakeTreeSource(tree,evidence.model,binding.preciseMunicipalWater,evidence.preciseWater,root);qualifyPreciseLakeWaterMask(binding.preciseMunicipalWater,evidence.preciseWater.classification,water);}
+  else part=parts.find(p=>p.id===binding.municipalPart.id);
+  const sourceWater = water.find(p => p.id === binding.sourceWater.id);
   assert.ok(part && sourceWater, 'Pinned municipal and candidate water polygons must exist');
+  assert.equal(part.id,binding.municipalPart.id,'Reviewed municipal water identity changed');
   assert.equal(sha(JSON.stringify(part)), binding.municipalPart.sha256, 'Municipal water feature changed'); assert.equal(sha(JSON.stringify(sourceWater)), binding.sourceWater.sha256, 'Candidate source-water polygon changed');
-  assert.equal(part.properties['paatyyppi'], 'Muut alueet'); assert.equal(part.properties['alatyyppi'], 'Merivesi-alue');
-  assert.equal(sourceWater.properties['source'], 'OpenStreetMap coastline/water');
+  if(!binding.preciseMunicipalWater){assert.equal(part.properties['paatyyppi'], 'Muut alueet'); assert.equal(part.properties['alatyyppi'], 'Merivesi-alue');}
+  if(!binding.preciseMunicipalWater)assert.equal(sourceWater.properties['source'], 'OpenStreetMap coastline/water');
   for (const polygon of [part, sourceWater]) assert.ok(polygonArea(polygonClipping.difference([ring], polygon.rings)) <= 1e-8, 'Entire actual bark domain must lie inside each independently bound water polygon');
   assert.ok(decks.every(p => polygonArea(polygonClipping.intersection([ring], p.rings)) <= 1e-8), 'Water/model omission cannot remove a supported deck tree');
   assert.ok(Number.isFinite(evidence.waterY), 'Actual candidate water elevation is required');
@@ -199,8 +211,11 @@ export function derivedTreeSoilReport(source: TreeReport, trees: Trees, sourceRe
 export interface RegisterTreeSoilOptions {
   cells: string; sourceTrees: string; sourceReport: string; acceptedScenery: string; origin: string; streetParts: string; footprints: string; asset: string;
   plan: string; out?: string; authority?: string; cases?: string;
+  /** Offline delivery planning only. Stored bytes are hash-checked before conversion. */
+  payloadReader?:{collision:(cell:CellDescriptor,stored:Uint8Array)=>Uint8Array;visual:(cell:CellDescriptor,stored:Uint8Array)=>Uint8Array;sourceFiles:readonly {path:string;sha256:string}[]};
 }
 export async function registerTreeSoil(options: RegisterTreeSoilOptions) {
+  assert.ok(!options.payloadReader||!options.out,'Delivery payload reader supports planning only; delivery application must preserve encoded metadata');
   assert.ok(!existsSync(options.plan), 'Plan receipt exists; choose a fresh immutable path');
   assert.ok(!existsSync(path.join(options.cells, 'tree-soil-registration')), 'Candidate already contains a soil registration');
   if (options.out) { assert.ok(!existsSync(options.out), 'Output exists'); const from = path.resolve(options.cells), to = path.resolve(options.out);
@@ -217,7 +232,7 @@ export async function registerTreeSoil(options: RegisterTreeSoilOptions) {
   assertRegistrationHash(read(options.asset), source.assetSha256, 'source bark asset');
   assert.ok(scenery.assets.some(a => a.id === source.asset && a.sha256 === source.assetSha256));
   updateNewTreeScenery(source, scenery, accepted, []);
-  let reviewed: ReviewedTreeCases | undefined;
+  let reviewed: ReviewedTreeCases | undefined;const preciseWaterByTree=new Map<string,{sha256:string;polygons:LocalPolygon[];classification:PreciseLakeWaterClassification}>();
   if (options.cases) {
     reviewed = json<ReviewedTreeCases>(options.cases); assert.equal(reviewed.schemaVersion, 1); assert.equal(reviewed.kind, 'reviewed-new-tree-soil-cases');
     assertRegistrationHash(read(path.join(options.cells, 'cells.json')), reviewed.baseIndexSha256, 'reviewed case base index');
@@ -231,8 +246,12 @@ export async function registerTreeSoil(options: RegisterTreeSoilOptions) {
       const proofBytes = read(spec.proof.path); assertRegistrationHash(proofBytes, spec.proof.sha256, 'reviewed case proof');
       const proof = JSON.parse(proofBytes.toString('utf8')) as { rows: { id: string; sourcePosition: number[] }[] }, row = proof.rows.find(r => r.id === tree.id); assert.ok(row);
       assert.equal(sha(JSON.stringify(row)), spec.proof.rowSha256, 'Reviewed source case row changed'); assert.deepEqual(row.sourcePosition, tree.position);
+      if(spec.kind==='retain-shore-bank'){
+        const binding=spec.retainedShore;assert.ok(binding,'Missing exact retained-shore source binding');const pin=binding.preciseMunicipalWater,bytes=read(pin.path),classificationBytes=read(pin.retainedWaterReport.path);assertRegistrationHash(bytes,pin.sha256,'reviewed retained-shore municipal lake');assertRegistrationHash(classificationBytes,pin.retainedWaterReport.sha256,'reviewed retained-shore classification');preciseWaterByTree.set(spec.id,{sha256:sha(bytes),polygons:loadGeoJsonPolygons(pin.path,origin.originProjected[0],origin.originProjected[1],p=>String(p['sourceFeatureId'])),classification:{sha256:sha(classificationBytes),report:JSON.parse(classificationBytes.toString())}});
+      }
       if (spec.kind === 'omit-model-water-incompatibility') {
         const binding = spec.waterModel; assert.ok(binding, 'Missing reviewed water/model bindings');
+        if(binding.preciseMunicipalWater){const pin=binding.preciseMunicipalWater,bytes=read(pin.path),classificationBytes=read(pin.retainedWaterReport.path);assertRegistrationHash(bytes,pin.sha256,'reviewed precise municipal lake');assertRegistrationHash(classificationBytes,pin.retainedWaterReport.sha256,'reviewed retained-water classification');preciseWaterByTree.set(spec.id,{sha256:sha(bytes),polygons:loadGeoJsonPolygons(pin.path,origin.originProjected[0],origin.originProjected[1],p=>String(p['sourceFeatureId'])),classification:{sha256:sha(classificationBytes),report:JSON.parse(classificationBytes.toString())}});}
         assert.ok(accepted.instances.every(old => scenery.instances.some(next => next.id === old.id)), 'Water/model omission requires every protected accepted scenery instance');
         const metadataBytes = read(binding.reference.metadata.path), imageBytes = read(binding.reference.image.path);
         assertRegistrationHash(metadataBytes, binding.reference.metadata.sha256, 'water reference metadata'); assertRegistrationHash(imageBytes, binding.reference.image.sha256, 'water reference image');
@@ -254,7 +273,8 @@ export async function registerTreeSoil(options: RegisterTreeSoilOptions) {
   const models = await decodeTreeBarkModels(read(options.asset));
   const hcolCache = new Map<string, CollisionBundle>(), visualCache = new Map<string, CollisionBundle>();
   const near = (points: readonly (readonly [number, number])[]) => index.cells.filter(c => points.some(([x, z]) => x >= c.boundsXZ[0] - 1e-4 && x <= c.boundsXZ[2] + 1e-4 && z >= c.boundsXZ[1] - 1e-4 && z <= c.boundsXZ[3] + 1e-4));
-  const payload = (cell: CellDescriptor, kind: 'collision' | 'visual') => { const p = kind === 'collision' ? cell.collision : cell.visual.lod0, b = read(path.join(options.cells, p.path)); assertRegistrationHash(b, p.sha256, `${cell.id}/${kind}`); return b; };
+  for(const source of options.payloadReader?.sourceFiles??[])assertRegistrationHash(read(source.path),source.sha256,'delivery inspector producer');
+  const payload = (cell: CellDescriptor, kind: 'collision' | 'visual') => { const p = kind === 'collision' ? cell.collision : cell.visual.lod0, b = read(path.join(options.cells, p.path)); assertRegistrationHash(b, p.sha256, `${cell.id}/${kind}`); return options.payloadReader?options.payloadReader[kind](cell,b):b; };
   const collision = (points: readonly [number, number][]) => sampleTreeRegistrationGround(near(points).map(c => {
     let b = hcolCache.get(c.id); if (!b) { b = parseCollisionBundle(payload(c, 'collision')); hcolCache.set(c.id, b); if (hcolCache.size > 6) hcolCache.delete(hcolCache.keys().next().value!); } return b;
   }), points);
@@ -313,9 +333,18 @@ export async function registerTreeSoil(options: RegisterTreeSoilOptions) {
         caseProof = qualifyReviewedTreeProfile(tree, profile, denseContext, [...obstacles, ...currentObstacles], spec);
         const correction = planTreeCaseSink(tree, Array<Support>(9).fill(null), samples.slice(0, 9), profile.range![0], profile.range![0] - .3, .15, 'continuous-soil-sink');
         decision = { ...decision, status: correction.applied ? 'QUALIFIED_Y_CORRECTION' : 'KEEP_ALREADY_PLANTED', reasons: [], correction };
+      } else if(spec.kind==='retain-shore-bank'){
+        assert.ok(spec.retainedShore&&profile.range);const precise=preciseWaterByTree.get(tree.id);assert.ok(precise);const waterY=report.coastal?.waterY;assert.ok(Number.isFinite(waterY));const target=Math.min(profile.range[0]-.3,waterY!-.02),native=await readRetainedShoreBarkNative(tree,model,target,index.cells,payload);
+        const proof=qualifyRetainedPreciseLakeBank(tree,model,spec.retainedShore,{source:precise,water:report.coastal?.mask?.water??[],waterY:waterY!,context:denseContext,points,collision:samples,visual,profile,denseVisual,native});caseProof=proof;
+        const correction=planTreeCaseSink(tree,Array<Support>(9).fill(null),samples.slice(0,9),proof.anchor,proof.target,.15,'shore-bank-sink');decision={...decision,status:correction.applied?'QUALIFIED_Y_CORRECTION':'KEEP_ALREADY_PLANTED',reasons:[],correction};
+      } else if (spec.fullBarkStructure) {
+        assert.equal(spec.kind,'omit-source-intersection');assert.ok(!decision.reasons.includes('visible-collision-mismatch')&&!decision.reasons.includes('incomplete-visible-and-colliding-support'),'Structural omission cannot hide a soil disagreement');
+        const faces=await readFullBarkStructureFaces(spec.fullBarkStructure,index.cells,payload);caseProof=qualifyFullBarkStructureOmission(tree,model,profile,denseContext,spec.fullBarkStructure,faces);
+        omittedIds.add(tree.id);decision={...decision,status:'REVIEWED_OMISSION',reasons:[],correction:null};
       } else if (spec.kind === 'omit-model-water-incompatibility') {
         caseProof = await qualifyReviewedWaterModelOmission(tree, spec, { root, context: denseContext, profile, collision: samples, visual, denseVisual,
           parts, water: report.coastal?.mask?.water ?? [], decks: report.coastal?.decks?.polygons ?? [], waterY: report.coastal?.waterY,
+          preciseWater:preciseWaterByTree.get(tree.id),model,
           area: reviewed.playArea, cells: near(root).map(cell => ({ id: cell.id, bytes: payload(cell, 'visual') })) });
         omittedIds.add(tree.id); decision = { ...decision, status: 'REVIEWED_OMISSION', reasons: [], correction: null };
       } else {
@@ -334,7 +363,7 @@ export async function registerTreeSoil(options: RegisterTreeSoilOptions) {
     if (rows.length % 40 === 0) { global.gc?.(); process.stdout.write(JSON.stringify({ planned: rows.length, total: ordered.length, rssMiB: peakRssBytes / 2 ** 20 }) + '\n'); }
   }
   const producerSources = [import.meta.url, new URL('./lib/tree-ground-registration.ts', import.meta.url).href, new URL('./lib/tree-bark-registration.ts', import.meta.url).href,
-    new URL('./lib/geometry.ts', import.meta.url).href].map(url => { const file = fileURLToPath(url); return { path: file, sha256: sha(read(file)) }; });
+    new URL('./lib/tree-structural-registration.ts',import.meta.url).href,new URL('./lib/tree-precise-water-registration.ts',import.meta.url).href,new URL('./lib/tree-retained-shore-registration.ts',import.meta.url).href,new URL('./lib/geometry.ts', import.meta.url).href].map(url => { const file = fileURLToPath(url); return { path: file, sha256: sha(read(file)) }; });
   const counts = { total: rows.length, corrections: corrections.filter(c => c.applied).length, keep: rows.filter(r => r.status === 'KEEP_ALREADY_PLANTED').length,
     unresolved: rows.filter(r => r.status === 'UNRESOLVED').length, continuous: corrections.filter(c => c.policy === 'continuous-soil-sink').length, omitted: omittedIds.size,
     acceptedSceneryProtected: accepted.instances.length, acceptedSceneryPresent: accepted.instances.filter(p => scenery.instances.some(q => q.id === p.id)).length };

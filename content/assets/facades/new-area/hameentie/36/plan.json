@@ -1,0 +1,9 @@
+{
+ "schemaVersion":1,"id":"hameentie-36-yellow-southeast-20261021",
+ "source":{"cityJsonSha256":"5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb","cityBinSha256":"e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f","originId":"senate-square-statue-v2"},
+ "building":{"id":"BID_1528fbda-702e-4fb5-ba5b-25992a13fd1f","vtj":"103161321J","owner":"c_p03_m14"},
+ "triangles":[559,560],
+ "references":[{"title":"Google Street View, Hämeentie 36 yellow street frontage, May2022","url":"https://www.google.com/maps/@?api=1&map_action=pano&pano=dlNM5T-zQx4s1px9GY8o0A&heading=285&pitch=20&fov=90","role":"appearance-reference-only"}],
+ "observations":["The actual street-facing yellow building has seven plain upper window rows and a brown stone shop base.","Pale window frames, shallow recessed reveals, a light horizontal cornice above the shops, dark fabric shop awnings and a shallow brown roof edge are visible.","The full upper extent was checked with an upward camera rotation in the same May2022 panorama. The drawing uses original regular modules rather than claiming a surveyed bay count."],
+ "limitations":["Only the two exact large southeast-facing street triangles of VTJ103161321J are selected. The other Hämeentie36 building, courtyard, end walls and roof retain native materials.","Plaster colour, window widths and column spacing are original approximations. Weathering, commercial lettering, people and parked vehicles are omitted.","No reference photograph pixels are reproduced. Native positions, winding and collision remain unchanged."]
+}

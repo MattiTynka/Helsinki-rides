@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
+import{gzipSync}from'node:zlib';
 import { test } from 'node:test';
 import type { WorldManifest } from '@helsinki/world-schema';
+import{encodePackedRoadGraph,type RoadGraph}from'@helsinki/world-schema';
 import { GlbLoader, loadWorldData, resolveRelease } from '../src/world/loader.ts';
 import { basisDecoderUrl, createWorldDeployment, selectedRelease, validateManifestPaths, validatePayloadPath, validateReleaseId, validateWorldBaseUrl, verifyManifestHash, worldReleaseUrl, worldRootUrl } from '../src/world/urls.ts';
 
@@ -106,9 +108,11 @@ test('release resolution preserves the current pointer in dev and refuses unconf
   } finally { globalThis.fetch = original; }
 });
 
-test('startup limits collision requests to six and returns manifest order after out-of-order downloads', async () => {
+for(const packedRoads of[false,true])test(`startup with ${packedRoads?'packedF64gzip':'legacyJSON'} roads limits collision requests to six and retains manifest order`, async () => {
   const fixture = manifestFixture(), hashByte = (byte: number) => createHash('sha256').update(new Uint8Array([byte])).digest('hex');
+  const roads:RoadGraph={schemaVersion:2,originId:'test',source:{id:'test',sha256:digest,attribution:'test',license:'test'},nodes:[],lanes:[],connectors:[],parking:[],footways:[]},roadRaw=packedRoads?encodePackedRoadGraph(roads):new TextEncoder().encode(JSON.stringify(roads)),roadBytes=packedRoads?gzipSync(roadRaw):roadRaw,sha=(b:Uint8Array)=>createHash('sha256').update(b).digest('hex');
   const manifest: WorldManifest = { ...fixture, terrain: { ...fixture.terrain, sha256: hashByte(0) },
+    roads:{path:packedRoads?'roads.bin.gz':'roads.json',bytes:roadBytes.length,sha256:sha(roadBytes),...(packedRoads?{compression:'gzip',decodedBytes:roadRaw.length,decodedSha256:sha(roadRaw)}:{})},
     cells: fixture.cells.map((cell, i) => ({ ...cell, collision: { ...cell.collision, sha256: hashByte(i) } })) };
   const gameplay = {
     schemaVersion: 2, player: { spawn: { position: [0, 0] } }, playArea: { minX: 0, maxX: 128, minZ: 0, maxZ: 128 },
@@ -124,7 +128,7 @@ test('startup limits collision requests to six and returns manifest order after 
     const url = String(input);
     if (url.endsWith('manifest.json')) return Response.json(manifest);
     if (url.endsWith('gameplay.json')) return Response.json(gameplay);
-    if (url.endsWith('roads.json')) return Response.json({ lanes: [] });
+    if (url.endsWith(manifest.roads.path)) return new Response(new Uint8Array(roadBytes));
     const match = /cell_(\d+)\.hcol$/.exec(url);
     if (!match) return new Response(new Uint8Array([0]));
     const index = Number(match[1]);

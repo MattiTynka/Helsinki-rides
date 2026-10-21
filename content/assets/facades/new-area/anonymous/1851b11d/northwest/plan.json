@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "id": "anonymous-1851b11d-iso-roobertinkatu-front-20261021",
+  "building": {
+    "id": "BID_1851b11d-47fb-41da-be00-d2cd05383b16",
+    "vtj": null,
+    "owner": "c_m05_p05"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    103,
+    104,
+    105,
+    125,
+    126,
+    127
+  ],
+  "frame": {
+    "origin": [
+      -512.8900146484375,
+      644.2824096679688
+    ],
+    "axis": [
+      -0.8193996940215523,
+      0.5732225932719212
+    ],
+    "width": 17.799714248403546
+  },
+  "art": {
+    "wallColour": "#b4a58a",
+    "groundColour": "#9b9180",
+    "surroundColour": "#c4bba7",
+    "frameColour": "#d4d1be",
+    "glassColour": "#73868e",
+    "groundHeight": 4.3,
+    "rows": [
+      {
+        "bottom": 5.2,
+        "height": 2.65,
+        "width": 1.12,
+        "axes": [
+          4.9999197326976255,
+          7.59987799370039,
+          10.199836254703154,
+          12.799794515705921
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 5.2,
+        "height": 2.65,
+        "width": 1.9,
+        "axes": [
+          1.8499703010981214,
+          15.9997431446324
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 9.25,
+        "height": 2.5,
+        "width": 1.12,
+        "axes": [
+          4.9999197326976255,
+          7.59987799370039,
+          10.199836254703154,
+          12.799794515705921
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 9.25,
+        "height": 2.5,
+        "width": 1.9,
+        "axes": [
+          1.8499703010981214,
+          15.9997431446324
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 13.1,
+        "height": 1.65,
+        "width": 1.12,
+        "axes": [
+          4.9999197326976255,
+          7.59987799370039,
+          10.199836254703154,
+          12.799794515705921
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 13.1,
+        "height": 1.65,
+        "width": 1.9,
+        "axes": [
+          1.8499703010981214,
+          15.9997431446324
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 3.8999373915041478,
+        "bottom": 0,
+        "width": 2.1,
+        "height": 3.2,
+        "kind": "passage"
+      },
+      {
+        "x": 8.499863545585963,
+        "bottom": 0,
+        "width": 1.3,
+        "height": 3.2,
+        "kind": "door"
+      },
+      {
+        "x": 13.699780067591492,
+        "bottom": 0.4,
+        "width": 5.4,
+        "height": 2.7,
+        "kind": "glazing"
+      }
+    ],
+    "bands": [
+      {
+        "from": "top",
+        "offset": -0.35,
+        "height": 0.18,
+        "colour": "#b9b09c"
+      },
+      {
+        "from": "ground",
+        "offset": 4.25,
+        "height": 0.2,
+        "colour": "#a99d85"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Street View7IsoRoobertinkatu,April2023,looking at opposite number10 frontage",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=mkPnpzWf6bAeRy4kz5CeOw&heading=136&pitch=45&fov=110",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Opposite native northwest street plane is a beige/tan rendered apartment frontage with darker rough ground storey, recessed entrance/shopfronts, tall narrow divided windows and decorative rectangular/floral masonry relief panels between upper rows.",
+    "Google camera title7is not the target building number; visible entrance plate10is on the observed facade. No shop names/signs copied.",
+    "The exact native rounded street bay/returns are part of the observed public frontage; every selected planar support is independently checked, so no cream unpainted bay strip remains."
+  ],
+  "limitations": [
+    "Only the exact complete native northwest street-facing family, including rounded bay supports, is selected; rear/courtyard and perpendicular party walls are preserved.",
+    "Original opening modules/palette interpret the actual opened frontage without copied signs/photo pixels; relief ornament is represented conservatively."
+  ],
+  "completeElevationSupportPlanes": true,
+  "selectionEvidence": {
+    "role": "Complete native outward NW street-family including source rounded bay",
+    "baseTriangle": 56,
+    "normalDotMinimum": 0.25,
+    "nativeFrontDepthMin": -0.002,
+    "nativeFrontDepthMax": 1.31,
+    "selectedSourceFaces": 32,
+    "selectedWallArea": 321.03203790908833
+  }
+}

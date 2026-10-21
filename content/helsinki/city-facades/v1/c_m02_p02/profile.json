@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "id": "public-reference-facades-20261020-c_m02_p02",
+  "baselineManifestSha256": "18e40f69a271f037b6b23b257fee437cb5716fad68c10cff808833a142ee7607",
+  "source": {
+    "cityJsonSha256": "f39ce86a590c44b87409e887d3cc4df9689995df849bcb31c43fc5be86f1e109",
+    "cityBinSha256": "54880432f726662f3d0801a98dffddd0fdfc9b0b31aca67d400a07214633c9d9",
+    "originId": "senate-square-statue-v2"
+  },
+  "art": {
+    "path": "facade.png",
+    "sha256": "d493005f922b6e727bd0529d6d6710b6aebb0680a08da70fe74c977630fa1e57",
+    "width": 1024,
+    "height": 1024,
+    "license": "CC0-1.0",
+    "attribution": "Original reference-led facade artwork by the Helsinki Rides project (2026). Appearance references are not reproduced.",
+    "references": [
+      {
+        "title": "Fabianinkatu18 east, actual Google Street View August 2024; four ordinary upper rows, paired tall ground glazing and metal canopy",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=8S8MulJqRtpV5qbCOVBqgg&heading=262&pitch=55",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Fabianinkatu16 east, actual Google Street View August 2024; four upper rows, dark panel grid and a single central recessed passage",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=lk_2cvLd3WGmSuKqAcPt9Q&viewpoint=60.1687065,24.9493244&heading=267.158&pitch=24",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Aleksanterinkatu9 east, actual Google Street View August 2022; four upper rows and a two-level glazed shop base",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=YNvJVI4ZYCT0c50K91Aa8w&viewpoint=60.1690252,24.9485404&heading=357.276&pitch=28",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Aleksanterinkatu9 east, actual Google Street View October 2020 layout reference; three broad four-pane upper groups, not business artwork",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=-k_q7do1jygC40UVRYF9Xw&viewpoint=60.1689237,24.9486087&heading=357.276&pitch=15",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Aleksanterinkatu9 west, actual Google Street View August 2022; four ribbon-glazing rows, two glass shop levels and slim brass canopy stripes",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=nCQzjjEpGgLhuZrL8tsjrQ&viewpoint=60.1690093,24.9477814&heading=357.119&pitch=30",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Etelaesplanadi12 north, actual Google Street View August 2026; six upper bays with ten openings per row, five ground arches and Gothic stonework",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=0VvKis5AhkdZhEhf0Kc20A&viewpoint=60.1671703,24.9480058&heading=177.08&pitch=42",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Fabianinkatu26 east, actual Google Street View August 2024; grey granite five-arch main front, two upper grid-glazing levels, two oriels and north passage",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=gRg-MfXgnWgKSmuTs7CDYQ&viewpoint=60.1708135,24.9491485&heading=266.876&pitch=28",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Fabianinkatu28 east, actual Google Street View August 2024; ochre plaster, three upper rows, two projecting oriels and left-of-centre arched entry",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=7DOHgSuDt3ENrjHKhlU4SA&viewpoint=60.1711783,24.9491061&heading=266.557&pitch=25",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Mannerheimintie5 southwest central face, actual Google Street View August 2024; five main upper arches, three higher rectangular rows and low attic. Unverified flanking corner and tower excluded",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=QHPhTLeT2d0t3BDqflJTtg&viewpoint=60.1694314,24.9394505&heading=53.216&pitch=25",
+        "role": "appearance-reference-only"
+      },
+      {
+        "title": "Hotel Kamp Pohjoisesplanadi25-27 south, actual Google Street View August 2024 including end views heading310 and55; salmon/cream three upper rows, two-axis projecting-face rhythm and low arched attic; whole-front opening count not surveyed",
+        "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=6rvMK6aeK4jy6-8wOzr7HA&viewpoint=60.1677871,24.9483249&heading=357.13&pitch=25",
+        "role": "appearance-reference-only"
+      }
+    ]
+  },
+  "material": {
+    "name": "city-original-c_m02_p02",
+    "unlit": true,
+    "roughness": 0.95,
+    "doubleSided": true
+  },
+  "charts": [
+    {
+      "id": "103046222N-street-g4",
+      "building": "BID_df16e8ff-23c2-4644-89ed-8c7a88b2a333",
+      "origin": [
+        -219.83454088596727,
+        0,
+        267.76196087746894
+      ],
+      "uAxis": [
+        -0.9987022389327717,
+        0,
+        0.05092973542704713
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "bounds": [
+        0,
+        -2.139921188354492,
+        30.099579258731293,
+        24.06117820739746
+      ],
+      "pixels": [
+        1,
+        1,
+        1022,
+        1022
+      ],
+      "planeToleranceMetres": 0.002
+    }
+  ],
+  "cells": [
+    {
+      "id": "c_m02_p02",
+      "buildings": [
+        {
+          "id": "BID_df16e8ff-23c2-4644-89ed-8c7a88b2a333",
+          "vtj": "103046222N"
+        }
+      ],
+      "baselineLevels": {
+        "lod0": "c83f666c5b336e59b4651d1fd44ffd48e42648beec22d7051307cdacce4d7411",
+        "lod1": "c83f666c5b336e59b4651d1fd44ffd48e42648beec22d7051307cdacce4d7411",
+        "lod2": "c6c78bf21674acebef8c6ac2f3ae1a269e6bda6db59ded225a07eed01c394503"
+      },
+      "faces": [
+        {
+          "key": "71fe71c34b7dc0412d728643:e90f66c34b7dc0414b248643:e90f66c352a1ac414b248643",
+          "chart": "103046222N-street-g4"
+        },
+        {
+          "key": "71fe71c34b7dc0412d728643:e90f66c352a1ac414b248643:71fe71c352a1ac412d728643",
+          "chart": "103046222N-street-g4"
+        },
+        {
+          "key": "50dd5bc352a1ac41bae18543:50dd5bc378f408c0bae18543:71fe71c352a1ac412d728643",
+          "chart": "103046222N-street-g4"
+        },
+        {
+          "key": "50dd5bc378f408c0bae18543:77dd79c378f408c08ea58643:71fe71c352a1ac412d728643",
+          "chart": "103046222N-street-g4"
+        },
+        {
+          "key": "71fe71c352a1ac412d728643:77dd79c378f408c08ea58643:77dd79c35e5fab418ea58643",
+          "chart": "103046222N-street-g4"
+        },
+        {
+          "key": "0c8879c352a1ac4160a38643:71fe71c352a1ac412d728643:77dd79c35e5fab418ea58643",
+          "chart": "103046222N-street-g4"
+        }
+      ]
+    }
+  ]
+}

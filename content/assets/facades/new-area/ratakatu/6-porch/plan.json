@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "id": "ratakatu-6-norssi-porch-northwest-20261021",
+  "building": {
+    "id": "BID_2cdd0441-faa4-49a3-8012-978c914478bb",
+    "vtj": "103103748B",
+    "owner": "c_m04_p05"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    270,
+    271,
+    274,
+    275,
+    333,
+    334
+  ],
+  "frame": {
+    "origin": [
+      -480.23229160379105,
+      745.4960491431144
+    ],
+    "axis": [
+      -0.8309091660737752,
+      0.5564080856121553
+    ],
+    "width": 27.682656708278387
+  },
+  "art": {
+    "wallColour": "#dedacd",
+    "groundColour": "#dedacd",
+    "surroundColour": "#d6ccba",
+    "frameColour": "#68796e",
+    "glassColour": "#99a7a0",
+    "groundHeight": 0,
+    "rows": [],
+    "groundOpenings": [],
+    "bands": [],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Norssi entrance/recessed upper northwest wall, August2024; nine upper round arches in three groups and smaller lower arches opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=-FW_InsT6menusWpSjRDCw&heading=145.31&pitch=25&fov=110",
+      "role": "appearance-reference-only"
+    },
+    {
+      "title": "Helsinki City Museum primary record of the separate historic Normaalilyseo school buildings",
+      "url": "https://www.finna.fi/Record/hkm.D707CCFD-AE7E-4C9C-B99F-3418C3088184",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "The same actual August2024 public view shows a forward low porch with three large round-arched glazed windows on each side and a broad red-brick entrance arch in the middle.",
+    "A central timber door with rectangular panels and two narrower arched side lights sit above visible shallow entrance steps. Original geometry, porch projections and stair support remain unchanged.",
+    "Original roof-relative colour/line architecture represents the observed porch. Door/window sizes and the top-relative entrance datum are approximate appearance placements, not surveyed ground or a new collision claim."
+  ],
+  "limitations": [
+    "Only six exact front-facing source facets on the three porch support planes are selected. Narrow side returns, stair geometry, street wings and the other historic school block remain unqualified.",
+    "The separate recessed-upper profile is required for the wall behind this porch. This profile must not be claimed as coverage of the whole school BID.",
+    "No reference pixels, people, cars, text or reflected trees are reproduced. Actual runtime and final fresh-world review required."
+  ],
+  "completeElevationSupportPlanes": true
+}

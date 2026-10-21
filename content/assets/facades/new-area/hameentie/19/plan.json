@@ -1,0 +1,8 @@
+{
+ "schemaVersion":1,"id":"hameentie-19-brick-west-20261021",
+ "source":{"cityJsonSha256":"5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb","cityBinSha256":"e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f","originId":"senate-square-statue-v2"},
+ "building":{"id":"BID_d0761fcb-ae34-4b0a-8b8c-3ba8e2b718a0","vtj":"103142347F","owner":"c_p04_m15"},"triangles":[524,525,526,527],
+ "references":[{"title":"Google Street View, Hämeentie office front opposite number 42, May 2022, heading 75 degrees","url":"https://www.google.com/maps/@?api=1&map_action=pano&pano=KOM4P_ylkuYL9tr4eWU4fQ&heading=75&pitch=20&fov=100","role":"appearance-reference-only"}],
+ "observations":["Long red-brown brick office wing with seven rows of small plain rectangular windows, pale sills and a flat gray roof edge.","The adjacent broad glazing ribbons and rounded corner have different architectural treatments; they are not assigned this small-window chart.","Street hedge and tree occlusion are scenery, not wall features; the original drawing omits their silhouettes."],
+ "limitations":["Only the large exact northwest-facing brick plane is repainted. Source-selected triangles are coplanar parts of the same VTJ building.","Some window axes are obscured by trees in the reference. Regular spacing is an original approximation at 1.8 metre modules; no surveyed column count is claimed.","Unobserved courtyard, party walls, adjacent ribbon-glazed planes and curved corners are excluded from this chart."]
+}

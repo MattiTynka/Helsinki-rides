@@ -14,6 +14,7 @@ import { SafeSpawns } from './safe-spawn.ts';
 import { VEHICLE_INTERACTION, vehicleApproachRoute, vehicleInteractionOf, vehicleDoorClearance, vehicleExitClearance, vehicleExitClips, vehicleExitRoute, vehicleExitYaw, vehiclePosture, type VehicleClip, type VehicleInteractionState } from './vehicle-interaction.ts';
 import { RAPIER, type StaticWorld } from './world.ts';
 import { initialResidencySources, RESIDENCY, source, type ResidencyPlan, type ResidencySource } from './collision-residency.ts';
+import {supportedSpawnGround}from'./spawn-ground.ts';
 
 export type PlayerMode = 'onFoot' | 'entering' | 'driving' | 'exiting' | 'wasted' | 'busted';
 
@@ -211,7 +212,8 @@ export class Simulation {
 
   /** Ground point (feet height) at XZ from the collision world, falling back to the terrain grid. */
   groundPoint(x: number, z: number): V3 {
-    const probe = this.world.groundBelow(x, this.world.groundHeight(x, z) + 30, z, 80);
+    const originY=this.world.groundHeight(x,z)+30,central=this.world.groundBelow(x,originY,z,80);
+    const probe=supportedSpawnGround(central,x,z,(px,pz)=>this.world.spawnGroundBelow(px,originY,pz,80));
     return [x, probe ? probe.y : this.world.groundHeight(x, z), z];
   }
 

@@ -1,0 +1,3601 @@
+{
+ "schemaVersion": 1,
+ "kind": "source-bound-legacy-navigation-bank-transitions",
+ "sourceManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+ "baselineNativeManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+ "scope": "Only accepted navigation metadata on exact original source chords inside existing authored bridge ROAD masks. Physical floor heights are unchanged. These intervals receive no1mm floor-registration success credit.",
+ "rules": [
+  {
+   "id": "legacy-bank-0",
+   "kind": "lanes",
+   "recordId": "4252332:0:f0",
+   "sourceWayIds": [
+    4252332
+   ],
+   "bankXYZ": [
+    -119.37781998076049,
+    -2.0543484456744285,
+    -801.6087636831695
+   ],
+   "bankActualNativeY": -2.099183021180237,
+   "legacyOffsetMetres": 0.044834575505808605,
+   "originalB0Bank": {
+    "height": -2.099182972995129,
+    "cell": "c_m01_m07",
+    "collider": "g:c_m01_m07",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -2.099183021180237,
+    "cell": "c_m01_m07",
+    "collider": "bridge-reconstruction:c_m01_m07:ground:22",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 4.818510834780909e-8,
+   "sourceSegment": 0,
+   "parameterOriginal": 0.830898408305612,
+   "direction": 1,
+   "endOriginalVertex": 1,
+   "endOriginalXYZ": [
+    -119.263,
+    -2.007,
+    -799.507
+   ],
+   "lengthMetres": 2.104897671591742,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_m01_m07",
+    "collision": {
+     "path": "cells/c_m01_m07.tram-support.0dd313fb78aa0590.hcol.gz",
+     "sha256": "0dd313fb78aa05907ce30c619899a163ed03ff219f56d39bdbe2f40e8bcc789e",
+     "bytes": 613391,
+     "triangles": 42240,
+     "compression": "gzip",
+     "decodedBytes": 1963764,
+     "decodedSha256": "e6857ca7f9f584234efb93fcaeb0cb635fdafab3232c0ab01f3244bd671b6732",
+     "boundsXZ": [
+      -128,
+      -899.4006958007812,
+      0,
+      -768
+     ]
+    },
+    "collider": "g:c_m01_m07",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 1425,
+      "points": [
+       [
+        -116,
+        -2.171645164489746,
+        -804
+       ],
+       [
+        -120,
+        -2.183995246887207,
+        -803.9576416015625
+       ],
+       [
+        -119.80526733398438,
+        -2.0508997440338135,
+        -800.1947021484375
+       ]
+      ],
+      "orderedFloat32Sha256": "fe88124438b703102b3796cfb3994f55a07a8cbb8935e0712971384c0a5ebb0d",
+      "height": -2.099182972995129
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_m01_m07",
+    "collision": {
+     "path": "cells/c_m01_m07.bridge.265a82da0b296d2d.hcol.gz",
+     "bytes": 500483,
+     "sha256": "265a82da0b296d2dda53c5061868ed0c080bc48c50ce7c6bb131866aa3fb1f0e",
+     "compression": "gzip",
+     "decodedBytes": 1812172,
+     "decodedSha256": "fc51403f3f4ccd7a0b57e1ae3b9d4473b4ee094a5bff038a7271de3b998f0ea7",
+     "boundsXZ": [
+      -128,
+      -899.4006958007812,
+      0,
+      -768
+     ],
+     "triangles": 23209
+    },
+    "collider": "bridge-reconstruction:c_m01_m07:ground:22",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 18,
+      "points": [
+       [
+        -119.672607421875,
+        -2.099694013595581,
+        -801.5942993164062
+       ],
+       [
+        -118.29137420654297,
+        -2.012223482131958,
+        -800.6608276367188
+       ],
+       [
+        -118.34037780761719,
+        -2.0973846912384033,
+        -801.65966796875
+       ]
+      ],
+      "orderedFloat32Sha256": "d029d35b57c900e986302ebcf76b10ffde8197eb6b4f6a00ba9e4cefe1883ec1",
+      "height": -2.099183021180237
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-1",
+   "kind": "lanes",
+   "recordId": "4252332:0:f1",
+   "sourceWayIds": [
+    4252332
+   ],
+   "bankXYZ": [
+    -122.62328956713989,
+    -2.0945411279198596,
+    -801.4494916711977
+   ],
+   "bankActualNativeY": -2.1962614099503965,
+   "legacyOffsetMetres": 0.10172028203053696,
+   "originalB0Bank": {
+    "height": -2.1962616458159188,
+    "cell": "c_m01_m07",
+    "collider": "g:c_m01_m07",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -2.1962614099503965,
+    "cell": "c_m01_m07",
+    "collider": "bridge-reconstruction:c_m01_m07:ground:22",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 2.3586552222454316e-7,
+   "sourceSegment": 0,
+   "parameterOriginal": 0.8302068230634785,
+   "direction": 1,
+   "endOriginalVertex": 1,
+   "endOriginalXYZ": [
+    -122.508,
+    -2.038,
+    -799.341
+   ],
+   "lengthMetres": 2.1116412602053134,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_m01_m07",
+    "collision": {
+     "path": "cells/c_m01_m07.tram-support.0dd313fb78aa0590.hcol.gz",
+     "sha256": "0dd313fb78aa05907ce30c619899a163ed03ff219f56d39bdbe2f40e8bcc789e",
+     "bytes": 613391,
+     "triangles": 42240,
+     "compression": "gzip",
+     "decodedBytes": 1963764,
+     "decodedSha256": "e6857ca7f9f584234efb93fcaeb0cb635fdafab3232c0ab01f3244bd671b6732",
+     "boundsXZ": [
+      -128,
+      -899.4006958007812,
+      0,
+      -768
+     ]
+    },
+    "collider": "g:c_m01_m07",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 9005,
+      "points": [
+       [
+        -120.00218963623047,
+        -2.185542583465576,
+        -804
+       ],
+       [
+        -124,
+        -2.2914440631866455,
+        -804
+       ],
+       [
+        -124,
+        -2.1993627548217773,
+        -800
+       ]
+      ],
+      "orderedFloat32Sha256": "11dc9adcaadb712867e00579ce09807b9d8de3c41f2183bc7e1d60a4040308e7",
+      "height": -2.1962616458159188
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_m01_m07",
+    "collision": {
+     "path": "cells/c_m01_m07.bridge.265a82da0b296d2d.hcol.gz",
+     "bytes": 500483,
+     "sha256": "265a82da0b296d2dda53c5061868ed0c080bc48c50ce7c6bb131866aa3fb1f0e",
+     "compression": "gzip",
+     "decodedBytes": 1812172,
+     "decodedSha256": "fc51403f3f4ccd7a0b57e1ae3b9d4473b4ee094a5bff038a7271de3b998f0ea7",
+     "boundsXZ": [
+      -128,
+      -899.4006958007812,
+      0,
+      -768
+     ],
+     "triangles": 23209
+    },
+    "collider": "bridge-reconstruction:c_m01_m07:ground:22",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 8,
+      "points": [
+       [
+        -123.672607421875,
+        -2.222872734069824,
+        -801.3980102539062
+       ],
+       [
+        -122.49774169921875,
+        -2.1077470779418945,
+        -800.4544677734375
+       ],
+       [
+        -122.54674530029297,
+        -2.1943202018737793,
+        -801.4532470703125
+       ]
+      ],
+      "orderedFloat32Sha256": "a255b00a62d2c5602f00e52e68f888b1875944258159f4777c83d8179f6b24e7",
+      "height": -2.1962614099503965
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-2",
+   "kind": "lanes",
+   "recordId": "23952343:0:f0",
+   "sourceWayIds": [
+    23952343
+   ],
+   "bankXYZ": [
+    -115.57727412010871,
+    -2.0594468490923648,
+    -801.7952103728652
+   ],
+   "bankActualNativeY": -2.115098112782115,
+   "legacyOffsetMetres": 0.05565126368975015,
+   "originalB0Bank": {
+    "height": -2.1150980914218773,
+    "cell": "c_m01_m07",
+    "collider": "g:c_m01_m07",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -2.115098112782115,
+    "cell": "c_m01_m07",
+    "collider": "bridge-reconstruction:c_m01_m07:ground:22",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 2.1360237578704755e-8,
+   "sourceSegment": 1,
+   "parameterOriginal": 0.1716377191623412,
+   "direction": -1,
+   "endOriginalVertex": 1,
+   "endOriginalXYZ": [
+    -115.493,
+    -2.021,
+    -799.653
+   ],
+   "lengthMetres": 2.143867395370168,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_m01_m07",
+    "collision": {
+     "path": "cells/c_m01_m07.tram-support.0dd313fb78aa0590.hcol.gz",
+     "sha256": "0dd313fb78aa05907ce30c619899a163ed03ff219f56d39bdbe2f40e8bcc789e",
+     "bytes": 613391,
+     "triangles": 42240,
+     "compression": "gzip",
+     "decodedBytes": 1963764,
+     "decodedSha256": "e6857ca7f9f584234efb93fcaeb0cb635fdafab3232c0ab01f3244bd671b6732",
+     "boundsXZ": [
+      -128,
+      -899.4006958007812,
+      0,
+      -768
+     ]
+    },
+    "collider": "g:c_m01_m07",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 1448,
+      "points": [
+       [
+        -115.29205322265625,
+        -2.1748287677764893,
+        -804
+       ],
+       [
+        -116,
+        -2.0586929321289062,
+        -800
+       ],
+       [
+        -115.12548828125,
+        -2.11344313621521,
+        -800.87451171875
+       ]
+      ],
+      "orderedFloat32Sha256": "cec57b0de3778446b96ea69a23bcdd9fff084b5d6ba66bab28f50330f48da79b",
+      "height": -2.1150980914218773
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_m01_m07",
+    "collision": {
+     "path": "cells/c_m01_m07.bridge.265a82da0b296d2d.hcol.gz",
+     "bytes": 500483,
+     "sha256": "265a82da0b296d2dda53c5061868ed0c080bc48c50ce7c6bb131866aa3fb1f0e",
+     "compression": "gzip",
+     "decodedBytes": 1812172,
+     "decodedSha256": "fc51403f3f4ccd7a0b57e1ae3b9d4473b4ee094a5bff038a7271de3b998f0ea7",
+     "boundsXZ": [
+      -128,
+      -899.4006958007812,
+      0,
+      -768
+     ],
+     "triangles": 23209
+    },
+    "collider": "bridge-reconstruction:c_m01_m07:ground:22",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 32,
+      "points": [
+       [
+        -115.672607421875,
+        -2.111107110977173,
+        -801.79052734375
+       ],
+       [
+        -115.12660217285156,
+        -2.0460293292999268,
+        -800.8161010742188
+       ],
+       [
+        -115.17560577392578,
+        -2.131913423538208,
+        -801.81494140625
+       ]
+      ],
+      "orderedFloat32Sha256": "3ddc79a9cc23716a027e42f80955954d6f4a5fea93d2ad9c197bda89b58b70ad",
+      "height": -2.115098112782115
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-3",
+   "kind": "lanes",
+   "recordId": "23952343:0:f1",
+   "sourceWayIds": [
+    23952343
+   ],
+   "bankXYZ": [
+    -112.33056536456205,
+    -2.073089701548073,
+    -801.9545084094792
+   ],
+   "bankActualNativeY": -2.134019497996306,
+   "legacyOffsetMetres": 0.06092979644823293,
+   "originalB0Bank": {
+    "height": -2.134019413098056,
+    "cell": "c_m01_m07",
+    "collider": "g:c_m01_m07",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -2.134019497996306,
+    "cell": "c_m01_m07",
+    "collider": "bridge-reconstruction:c_m01_m07:ground:22",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 8.489824976365412e-8,
+   "sourceSegment": 1,
+   "parameterOriginal": 0.17089031607779867,
+   "direction": -1,
+   "endOriginalVertex": 1,
+   "endOriginalXYZ": [
+    -112.247,
+    -2.029,
+    -799.83
+   ],
+   "lengthMetres": 2.1261512533453795,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_m01_m07",
+    "collision": {
+     "path": "cells/c_m01_m07.tram-support.0dd313fb78aa0590.hcol.gz",
+     "sha256": "0dd313fb78aa05907ce30c619899a163ed03ff219f56d39bdbe2f40e8bcc789e",
+     "bytes": 613391,
+     "triangles": 42240,
+     "compression": "gzip",
+     "decodedBytes": 1963764,
+     "decodedSha256": "e6857ca7f9f584234efb93fcaeb0cb635fdafab3232c0ab01f3244bd671b6732",
+     "boundsXZ": [
+      -128,
+      -899.4006958007812,
+      0,
+      -768
+     ]
+    },
+    "collider": "g:c_m01_m07",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 9224,
+      "points": [
+       [
+        -112,
+        -2.060811996459961,
+        -800
+       ],
+       [
+        -112,
+        -2.2061188220977783,
+        -804
+       ],
+       [
+        -115.12548828125,
+        -2.11344313621521,
+        -800.87451171875
+       ]
+      ],
+      "orderedFloat32Sha256": "2f2fd2110c25f948d1ae42e56f391fb32a61a74a3951685e378d8ab13800545d",
+      "height": -2.134019413098056
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_m01_m07",
+    "collision": {
+     "path": "cells/c_m01_m07.bridge.265a82da0b296d2d.hcol.gz",
+     "bytes": 500483,
+     "sha256": "265a82da0b296d2dda53c5061868ed0c080bc48c50ce7c6bb131866aa3fb1f0e",
+     "compression": "gzip",
+     "decodedBytes": 1812172,
+     "decodedSha256": "fc51403f3f4ccd7a0b57e1ae3b9d4473b4ee094a5bff038a7271de3b998f0ea7",
+     "boundsXZ": [
+      -128,
+      -899.4006958007812,
+      0,
+      -768
+     ],
+     "triangles": 23209
+    },
+    "collider": "bridge-reconstruction:c_m01_m07:ground:22",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 38,
+      "points": [
+       [
+        -112.58353424072266,
+        -2.13525652885437,
+        -801.9420776367188
+       ],
+       [
+        -111.95199584960938,
+        -2.0535318851470947,
+        -800.9718627929688
+       ],
+       [
+        -112.0009994506836,
+        -2.1324079036712646,
+        -801.970703125
+       ]
+      ],
+      "orderedFloat32Sha256": "faa2eb2f027eb39ef0f0533d984ad30db322fbdb067ee5cca785ef902766dec3",
+      "height": -2.134019497996306
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-4",
+   "kind": "lanes",
+   "recordId": "24336450:0:f0",
+   "sourceWayIds": [
+    24336450
+   ],
+   "bankXYZ": [
+    326.73341458881356,
+    -2.631504766330308,
+    139.22317885355713
+   ],
+   "bankActualNativeY": -2.50283498087527,
+   "legacyOffsetMetres": -0.12866978545503827,
+   "originalB0Bank": {
+    "height": -2.5028350719025463,
+    "cell": "c_p02_p01",
+    "collider": "g:c_p02_p01",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -2.50283498087527,
+    "cell": "c_p02_p01",
+    "collider": "bridge-reconstruction:c_p02_p01:ground:14",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 9.10272763832154e-8,
+   "sourceSegment": 0,
+   "parameterOriginal": 0.5057359810262311,
+   "direction": -1,
+   "endOriginalVertex": 0,
+   "endOriginalXYZ": [
+    322.597,
+    -2.587,
+    136.386
+   ],
+   "lengthMetres": 5.015925587328981,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_p02_p01",
+    "collision": {
+     "path": "cells/c_p02_p01.tram-support.c883aeaafc79b72d.hcol.gz",
+     "sha256": "c883aeaafc79b72d255289ce8b3a4ad772a04854aa154fcfb520471652a2a361",
+     "bytes": 449803,
+     "triangles": 33536,
+     "compression": "gzip",
+     "decodedBytes": 1378420,
+     "decodedSha256": "d7f113647ee4138ba6dc7d464791a3ca3abbdad28faecd6195933800830b922b",
+     "boundsXZ": [
+      256,
+      128,
+      384,
+      256
+     ]
+    },
+    "collider": "g:c_p02_p01",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 14602,
+      "points": [
+       [
+        328,
+        -2.5219650268554688,
+        140
+       ],
+       [
+        328,
+        -2.819690465927124,
+        136
+       ],
+       [
+        324.5491638183594,
+        -2.3531899452209473,
+        139.45082092285156
+       ]
+      ],
+      "orderedFloat32Sha256": "6b33c4b528154180ff21b067421ce5e35b593464d550bc438679eecef1c0abdf",
+      "height": -2.5028350719025463
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_p02_p01",
+    "collision": {
+     "path": "cells/c_p02_p01.bridge.8207acf91659b46d.hcol.gz",
+     "bytes": 474194,
+     "sha256": "8207acf91659b46d5cfd4ecee6a1834e79e31c832e581b2c2d7ecbeda655644d",
+     "compression": "gzip",
+     "decodedBytes": 1502452,
+     "decodedSha256": "073083d2c069fa3d4fb2bb3fbb3508a79d82b1728c70d8f5f587efdb0b60dce6",
+     "boundsXZ": [
+      256,
+      128,
+      384,
+      256
+     ],
+     "triangles": 32207
+    },
+    "collider": "bridge-reconstruction:c_p02_p01:ground:14",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 56,
+      "points": [
+       [
+        327.9679870605469,
+        -2.713613748550415,
+        137.39903259277344
+       ],
+       [
+        325.5362548828125,
+        -2.5249383449554443,
+        139.20791625976562
+       ],
+       [
+        326.3644104003906,
+        -2.4398348331451416,
+        139.76840209960938
+       ]
+      ],
+      "orderedFloat32Sha256": "f573dd6a47021de72957ecda1a86fd9aa65201119ca877b98be473983fb8e466",
+      "height": -2.50283498087527
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-5",
+   "kind": "lanes",
+   "recordId": "24336450:0:b0",
+   "sourceWayIds": [
+    24336450
+   ],
+   "bankXYZ": [
+    328.5552797319291,
+    -2.836845076239378,
+    136.53126271594013
+   ],
+   "bankActualNativeY": -2.753239009375143,
+   "legacyOffsetMetres": -0.0836060668642351,
+   "originalB0Bank": {
+    "height": -2.7532390000483473,
+    "cell": "c_p02_p01",
+    "collider": "g:c_p02_p01",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -2.753239009375143,
+    "cell": "c_p02_p01",
+    "collider": "bridge-reconstruction:c_p02_p01:ground:14",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 9.326795780140174e-9,
+   "sourceSegment": 0,
+   "parameterOriginal": 0.4962983212800624,
+   "direction": 1,
+   "endOriginalVertex": 1,
+   "endOriginalXYZ": [
+    324.435,
+    -2.994,
+    133.706
+   ],
+   "lengthMetres": 4.995879750697278,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_p02_p01",
+    "collision": {
+     "path": "cells/c_p02_p01.tram-support.c883aeaafc79b72d.hcol.gz",
+     "sha256": "c883aeaafc79b72d255289ce8b3a4ad772a04854aa154fcfb520471652a2a361",
+     "bytes": 449803,
+     "triangles": 33536,
+     "compression": "gzip",
+     "decodedBytes": 1378420,
+     "decodedSha256": "d7f113647ee4138ba6dc7d464791a3ca3abbdad28faecd6195933800830b922b",
+     "boundsXZ": [
+      256,
+      128,
+      384,
+      256
+     ]
+    },
+    "collider": "g:c_p02_p01",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 14617,
+      "points": [
+       [
+        332,
+        -2.6258504390716553,
+        136
+       ],
+       [
+        328,
+        -2.819690465927124,
+        136
+       ],
+       [
+        328,
+        -2.5219650268554688,
+        140
+       ]
+      ],
+      "orderedFloat32Sha256": "e7e574d916c7db8e08191e3b4f466e3de419fab1bc478d5f5943fe980a9c67ab",
+      "height": -2.7532390000483473
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_p02_p01",
+    "collision": {
+     "path": "cells/c_p02_p01.bridge.8207acf91659b46d.hcol.gz",
+     "bytes": 474194,
+     "sha256": "8207acf91659b46d5cfd4ecee6a1834e79e31c832e581b2c2d7ecbeda655644d",
+     "compression": "gzip",
+     "decodedBytes": 1502452,
+     "decodedSha256": "073083d2c069fa3d4fb2bb3fbb3508a79d82b1728c70d8f5f587efdb0b60dce6",
+     "boundsXZ": [
+      256,
+      128,
+      384,
+      256
+     ],
+     "triangles": 32207
+    },
+    "collider": "bridge-reconstruction:c_p02_p01:ground:14",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 48,
+      "points": [
+       [
+        328.8050231933594,
+        -2.768601655960083,
+        136.16226196289062
+       ],
+       [
+        327.6307067871094,
+        -2.755969762802124,
+        136.1132354736328
+       ],
+       [
+        328.4588623046875,
+        -2.7473080158233643,
+        136.67372131347656
+       ]
+      ],
+      "orderedFloat32Sha256": "5dfc38ddafe0468fe4dd105f38928eb0ce873e655e707ac98152354593257967",
+      "height": -2.753239009375143
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-6",
+   "kind": "lanes",
+   "recordId": "24336450:0:b1",
+   "sourceWayIds": [
+    24336450
+   ],
+   "bankXYZ": [
+    330.3767378609388,
+    -3.0713059145320893,
+    133.8399200075802
+   ],
+   "bankActualNativeY": -2.616168130284936,
+   "legacyOffsetMetres": -0.4551377842471531,
+   "originalB0Bank": {
+    "height": -2.616168152603472,
+    "cell": "c_p02_p01",
+    "collider": "g:c_p02_p01",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -2.616168130284936,
+    "cell": "c_p02_p01",
+    "collider": "bridge-reconstruction:c_p02_p01:ground:14",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 2.2318535908283366e-8,
+   "sourceSegment": 0,
+   "parameterOriginal": 0.49832055489745414,
+   "direction": 1,
+   "endOriginalVertex": 1,
+   "endOriginalXYZ": [
+    326.273,
+    -3.428,
+    131.026
+   ],
+   "lengthMetres": 4.975822569220343,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_p02_p01",
+    "collision": {
+     "path": "cells/c_p02_p01.tram-support.c883aeaafc79b72d.hcol.gz",
+     "sha256": "c883aeaafc79b72d255289ce8b3a4ad772a04854aa154fcfb520471652a2a361",
+     "bytes": 449803,
+     "triangles": 33536,
+     "compression": "gzip",
+     "decodedBytes": 1378420,
+     "decodedSha256": "d7f113647ee4138ba6dc7d464791a3ca3abbdad28faecd6195933800830b922b",
+     "boundsXZ": [
+      256,
+      128,
+      384,
+      256
+     ]
+    },
+    "collider": "g:c_p02_p01",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 14618,
+      "points": [
+       [
+        332,
+        -2.6258504390716553,
+        136
+       ],
+       [
+        332,
+        -2.4622535705566406,
+        132
+       ],
+       [
+        328,
+        -2.819690465927124,
+        136
+       ]
+      ],
+      "orderedFloat32Sha256": "3bccc81f64917fcd5506195f813ed796121b24670896b9e8e81f9020cca9120f",
+      "height": -2.616168152603472
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_p02_p01",
+    "collision": {
+     "path": "cells/c_p02_p01.bridge.8207acf91659b46d.hcol.gz",
+     "bytes": 474194,
+     "sha256": "8207acf91659b46d5cfd4ecee6a1834e79e31c832e581b2c2d7ecbeda655644d",
+     "compression": "gzip",
+     "decodedBytes": 1502452,
+     "decodedSha256": "073083d2c069fa3d4fb2bb3fbb3508a79d82b1728c70d8f5f587efdb0b60dce6",
+     "boundsXZ": [
+      256,
+      128,
+      384,
+      256
+     ],
+     "triangles": 32207
+    },
+    "collider": "bridge-reconstruction:c_p02_p01:ground:14",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 28,
+      "points": [
+       [
+        330.4705810546875,
+        -2.6059489250183105,
+        133.7012481689453
+       ],
+       [
+        329.3304138183594,
+        -2.6719181537628174,
+        133.60177612304688
+       ],
+       [
+        330.1585998535156,
+        -2.639922618865967,
+        134.16226196289062
+       ]
+      ],
+      "orderedFloat32Sha256": "7e04df8a4fc461d3ef49212b7afc4c4b71c860b2c9bc2bc221d03d1ef069b88b",
+      "height": -2.616168130284936
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-7",
+   "kind": "lanes",
+   "recordId": "24336450:0:b2",
+   "sourceWayIds": [
+    24336450
+   ],
+   "bankXYZ": [
+    332.198216373057,
+    -3.3353722845813802,
+    131.14859127585288
+   ],
+   "bankActualNativeY": -2.590039734233159,
+   "legacyOffsetMetres": -0.7453325503482211,
+   "originalB0Bank": {
+    "height": -2.590039786504426,
+    "cell": "c_p02_p01",
+    "collider": "g:c_p02_p01",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -2.590039734233159,
+    "cell": "c_p02_p01",
+    "collider": "bridge-reconstruction:c_p02_p01:ground:14",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 5.2271266870462796e-8,
+   "sourceSegment": 0,
+   "parameterOriginal": 0.5003402966922998,
+   "direction": 1,
+   "endOriginalVertex": 1,
+   "endOriginalXYZ": [
+    328.111,
+    -3.882,
+    128.346
+   ],
+   "lengthMetres": 4.955790102463168,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_p02_p01",
+    "collision": {
+     "path": "cells/c_p02_p01.tram-support.c883aeaafc79b72d.hcol.gz",
+     "sha256": "c883aeaafc79b72d255289ce8b3a4ad772a04854aa154fcfb520471652a2a361",
+     "bytes": 449803,
+     "triangles": 33536,
+     "compression": "gzip",
+     "decodedBytes": 1378420,
+     "decodedSha256": "d7f113647ee4138ba6dc7d464791a3ca3abbdad28faecd6195933800830b922b",
+     "boundsXZ": [
+      256,
+      128,
+      384,
+      256
+     ]
+    },
+    "collider": "g:c_p02_p01",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 14631,
+      "points": [
+       [
+        333.6102294921875,
+        -2.789689540863037,
+        130.3897705078125
+       ],
+       [
+        332,
+        -2.817606210708618,
+        129.34664916992188
+       ],
+       [
+        332,
+        -2.4622535705566406,
+        132
+       ]
+      ],
+      "orderedFloat32Sha256": "c25c7e6734ecedf8c736bf5d8ba9906a4ec6b07746674af5942ae34ccce4271a",
+      "height": -2.590039786504426
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_p02_p01",
+    "collision": {
+     "path": "cells/c_p02_p01.bridge.8207acf91659b46d.hcol.gz",
+     "bytes": 474194,
+     "sha256": "8207acf91659b46d5cfd4ecee6a1834e79e31c832e581b2c2d7ecbeda655644d",
+     "compression": "gzip",
+     "decodedBytes": 1502452,
+     "decodedSha256": "073083d2c069fa3d4fb2bb3fbb3508a79d82b1728c70d8f5f587efdb0b60dce6",
+     "boundsXZ": [
+      256,
+      128,
+      384,
+      256
+     ],
+     "triangles": 32207
+    },
+    "collider": "bridge-reconstruction:c_p02_p01:ground:14",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 0,
+      "points": [
+       [
+        332.4294738769531,
+        -2.6518595218658447,
+        130.80686950683594
+       ],
+       [
+        331.36077880859375,
+        -2.6445233821868896,
+        130.60177612304688
+       ],
+       [
+        332.18896484375,
+        -2.587566614151001,
+        131.16226196289062
+       ]
+      ],
+      "orderedFloat32Sha256": "2b7f3360ffc29e7a562f2416b63126d268dca597dffcf0dfa7684c86c8f990e2",
+      "height": -2.590039734233159
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-8",
+   "kind": "lanes",
+   "recordId": "24467093:0:f0",
+   "sourceWayIds": [
+    24467093
+   ],
+   "bankXYZ": [
+    308.6873503711662,
+    -3.064164539437038,
+    127.17244524376676
+   ],
+   "bankActualNativeY": -3.046485376266883,
+   "legacyOffsetMetres": -0.017679163170154943,
+   "originalB0Bank": {
+    "height": -3.0464853946751758,
+    "cell": "c_p02_p00",
+    "collider": "g:c_p02_p00",
+    "group": "ground",
+    "tag": "road:setts"
+   },
+   "currentBank": {
+    "height": -3.046485376266883,
+    "cell": "c_p02_p00",
+    "collider": "bridge-reconstruction:c_p02_p00:ground:20",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 1.8408292667970727e-8,
+   "sourceSegment": 1,
+   "parameterOriginal": 0.3001906481879679,
+   "direction": 1,
+   "endOriginalVertex": 2,
+   "endOriginalXYZ": [
+    312.91,
+    -2.934,
+    129.908
+   ],
+   "lengthMetres": 5.031304971102503,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_p02_p00",
+    "collision": {
+     "path": "cells/c_p02_p00.tram-support.0b8e3ed77e1c1a6b.hcol.gz",
+     "sha256": "0b8e3ed77e1c1a6bce37485255a3fbdfa127e2b0a3b61ec0a51a5e7a9044ea14",
+     "bytes": 367505,
+     "triangles": 27315,
+     "compression": "gzip",
+     "decodedBytes": 1143432,
+     "decodedSha256": "9eafff037832a62ce01467cb7a97b9b87e92b6b386437b7b3f33e272a848846d",
+     "boundsXZ": [
+      256,
+      -14.861900329589844,
+      384,
+      128
+     ]
+    },
+    "collider": "g:c_p02_p00",
+    "group": "ground",
+    "tag": "road:setts",
+    "faces": [
+     {
+      "triangle": 8726,
+      "points": [
+       [
+        309,
+        -3.03041410446167,
+        127
+       ],
+       [
+        308.5,
+        -3.056382417678833,
+        127
+       ],
+       [
+        308.5,
+        -3.055899143218994,
+        127.5
+       ]
+      ],
+      "orderedFloat32Sha256": "e38dcbb7630aae265c8e9502c0b7a19aa220262d17d05c54826a9a0672c55285",
+      "height": -3.0464853946751758
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_p02_p00",
+    "collision": {
+     "path": "cells/c_p02_p00.bridge.2448fbd574c500d5.hcol.gz",
+     "bytes": 407121,
+     "sha256": "2448fbd574c500d51059b0f47c50ced8e0c12e2988bc1d68b300879372b57a08",
+     "compression": "gzip",
+     "decodedBytes": 1270424,
+     "decodedSha256": "24ede04776bc6a1ac5edb2f8a8e23e97e526e3f2108aba7aab32966655fb17cc",
+     "boundsXZ": [
+      256,
+      -14.861900329589844,
+      384,
+      128
+     ],
+     "triangles": 28185
+    },
+    "collider": "bridge-reconstruction:c_p02_p00:ground:20",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 448,
+      "points": [
+       [
+        310.57659912109375,
+        -2.995922803878784,
+        125.62876892089844
+       ],
+       [
+        309.99737548828125,
+        -2.9803175926208496,
+        125.23677062988281
+       ],
+       [
+        308.3938293457031,
+        -3.0613107681274414,
+        127.60614776611328
+       ]
+      ],
+      "orderedFloat32Sha256": "0c28afa6058713d18840bec19b6c0484d356908c2806973712f0cb6c8cbe035e",
+      "height": -3.046485376266883
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-9",
+   "kind": "lanes",
+   "recordId": "24467093:0:b0",
+   "sourceWayIds": [
+    24467093
+   ],
+   "bankXYZ": [
+    310.50931081045115,
+    -3.108276535114067,
+    124.48039219812799
+   ],
+   "bankActualNativeY": -2.9520111443856,
+   "legacyOffsetMetres": -0.1562653907284668,
+   "originalB0Bank": {
+    "height": -2.9520221590160283,
+    "cell": "c_p02_p00",
+    "collider": "g:c_p02_p00",
+    "group": "ground",
+    "tag": "road:setts"
+   },
+   "currentBank": {
+    "height": -2.9520111443856,
+    "cell": "c_p02_p00",
+    "collider": "bridge-reconstruction:c_p02_p00:ground:20",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 0.000011014630428185512,
+   "sourceSegment": 0,
+   "parameterOriginal": 0.6849119456941414,
+   "direction": -1,
+   "endOriginalVertex": 0,
+   "endOriginalXYZ": [
+    314.677,
+    -3.198,
+    127.181
+   ],
+   "lengthMetres": 4.9661771696360635,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_p02_p00",
+    "collision": {
+     "path": "cells/c_p02_p00.tram-support.0b8e3ed77e1c1a6b.hcol.gz",
+     "sha256": "0b8e3ed77e1c1a6bce37485255a3fbdfa127e2b0a3b61ec0a51a5e7a9044ea14",
+     "bytes": 367505,
+     "triangles": 27315,
+     "compression": "gzip",
+     "decodedBytes": 1143432,
+     "decodedSha256": "9eafff037832a62ce01467cb7a97b9b87e92b6b386437b7b3f33e272a848846d",
+     "boundsXZ": [
+      256,
+      -14.861900329589844,
+      384,
+      128
+     ]
+    },
+    "collider": "g:c_p02_p00",
+    "group": "ground",
+    "tag": "road:setts",
+    "faces": [
+     {
+      "triangle": 8802,
+      "points": [
+       [
+        311,
+        -2.924177646636963,
+        124
+       ],
+       [
+        310.5,
+        -2.953077793121338,
+        124
+       ],
+       [
+        310.5,
+        -2.9525392055511475,
+        124.5
+       ]
+      ],
+      "orderedFloat32Sha256": "aeda0a0b4f0505ca2eacb3fd0d2a0a6333465d48c81bc6eea42ad0c9a148d5b5",
+      "height": -2.9520221590160283
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_p02_p00",
+    "collision": {
+     "path": "cells/c_p02_p00.bridge.2448fbd574c500d5.hcol.gz",
+     "bytes": 407121,
+     "sha256": "2448fbd574c500d51059b0f47c50ced8e0c12e2988bc1d68b300879372b57a08",
+     "compression": "gzip",
+     "decodedBytes": 1270424,
+     "decodedSha256": "24ede04776bc6a1ac5edb2f8a8e23e97e526e3f2108aba7aab32966655fb17cc",
+     "boundsXZ": [
+      256,
+      -14.861900329589844,
+      384,
+      128
+     ],
+     "triangles": 28185
+    },
+    "collider": "bridge-reconstruction:c_p02_p00:ground:20",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 440,
+      "points": [
+       [
+        311.4136047363281,
+        -2.9516899585723877,
+        124.3919906616211
+       ],
+       [
+        310.83441162109375,
+        -2.933748722076416,
+        124
+       ],
+       [
+        310.48828125,
+        -2.9531924724578857,
+        124.51146697998047
+       ]
+      ],
+      "orderedFloat32Sha256": "c87e36d3f7d14435e992d7063330e32c53e11bb2ce26a5af5f1f1ff33ca53872",
+      "height": -2.9520111443856
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-10",
+   "kind": "lanes",
+   "recordId": "24467093:0:b1",
+   "sourceWayIds": [
+    24467093
+   ],
+   "bankXYZ": [
+    312.33118657861627,
+    -3.1885132835066723,
+    121.78841695235101
+   ],
+   "bankActualNativeY": -2.7209261390574713,
+   "legacyOffsetMetres": -0.467587144449201,
+   "originalB0Bank": {
+    "height": -2.720926159391475,
+    "cell": "c_p02_p00",
+    "collider": "g:c_p02_p00",
+    "group": "ground",
+    "tag": "road:setts"
+   },
+   "currentBank": {
+    "height": -2.7209261390574713,
+    "cell": "c_p02_p00",
+    "collider": "bridge-reconstruction:c_p02_p00:ground:20",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 2.033400381407091e-8,
+   "sourceSegment": 0,
+   "parameterOriginal": 0.6701667624871684,
+   "direction": -1,
+   "endOriginalVertex": 0,
+   "endOriginalXYZ": [
+    316.444,
+    -3.537,
+    124.453
+   ],
+   "lengthMetres": 4.900534364427279,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_p02_p00",
+    "collision": {
+     "path": "cells/c_p02_p00.tram-support.0b8e3ed77e1c1a6b.hcol.gz",
+     "sha256": "0b8e3ed77e1c1a6bce37485255a3fbdfa127e2b0a3b61ec0a51a5e7a9044ea14",
+     "bytes": 367505,
+     "triangles": 27315,
+     "compression": "gzip",
+     "decodedBytes": 1143432,
+     "decodedSha256": "9eafff037832a62ce01467cb7a97b9b87e92b6b386437b7b3f33e272a848846d",
+     "boundsXZ": [
+      256,
+      -14.861900329589844,
+      384,
+      128
+     ]
+    },
+    "collider": "g:c_p02_p00",
+    "group": "ground",
+    "tag": "road:setts",
+    "faces": [
+     {
+      "triangle": 9321,
+      "points": [
+       [
+        312.5,
+        -2.7284953594207764,
+        122
+       ],
+       [
+        312.5,
+        -2.691667079925537,
+        121.5
+       ],
+       [
+        312,
+        -2.7522354125976562,
+        122
+       ]
+      ],
+      "orderedFloat32Sha256": "944dac687f4b82999f41520a52883ea7002d4ee1a80036233681cd055612cfb4",
+      "height": -2.720926159391475
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_p02_p00",
+    "collision": {
+     "path": "cells/c_p02_p00.bridge.2448fbd574c500d5.hcol.gz",
+     "bytes": 407121,
+     "sha256": "2448fbd574c500d51059b0f47c50ced8e0c12e2988bc1d68b300879372b57a08",
+     "compression": "gzip",
+     "decodedBytes": 1270424,
+     "decodedSha256": "24ede04776bc6a1ac5edb2f8a8e23e97e526e3f2108aba7aab32966655fb17cc",
+     "boundsXZ": [
+      256,
+      -14.861900329589844,
+      384,
+      128
+     ],
+     "triangles": 28185
+    },
+    "collider": "bridge-reconstruction:c_p02_p00:ground:20",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 420,
+      "points": [
+       [
+        313.0791931152344,
+        -2.750523090362549,
+        121.93098449707031
+       ],
+       [
+        312.5,
+        -2.6945385932922363,
+        121.53898620605469
+       ],
+       [
+        312.18798828125,
+        -2.743309736251831,
+        122
+       ]
+      ],
+      "orderedFloat32Sha256": "32f43a482685d8f8993d206e58bbe4cb0d35e671855c6fffaa22808f037969a1",
+      "height": -2.7209261390574713
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-11",
+   "kind": "lanes",
+   "recordId": "24467093:0:b2",
+   "sourceWayIds": [
+    24467093
+   ],
+   "bankXYZ": [
+    314.1532901745081,
+    -3.3602779668394236,
+    119.09614436160356
+   ],
+   "bankActualNativeY": -2.4605873488648435,
+   "legacyOffsetMetres": -0.89969061797458,
+   "originalB0Bank": {
+    "height": -2.4605872681992245,
+    "cell": "c_p02_p00",
+    "collider": "g:c_p02_p00",
+    "group": "ground",
+    "tag": "road:setts"
+   },
+   "currentBank": {
+    "height": -2.4605873488648435,
+    "cell": "c_p02_p00",
+    "collider": "bridge-reconstruction:c_p02_p00:ground:20",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 8.066561907327241e-8,
+   "sourceSegment": 0,
+   "parameterOriginal": 0.6557384979786587,
+   "direction": -1,
+   "endOriginalVertex": 0,
+   "endOriginalXYZ": [
+    318.211,
+    -3.957,
+    121.725
+   ],
+   "lengthMetres": 4.834862045128335,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_p02_p00",
+    "collision": {
+     "path": "cells/c_p02_p00.tram-support.0b8e3ed77e1c1a6b.hcol.gz",
+     "sha256": "0b8e3ed77e1c1a6bce37485255a3fbdfa127e2b0a3b61ec0a51a5e7a9044ea14",
+     "bytes": 367505,
+     "triangles": 27315,
+     "compression": "gzip",
+     "decodedBytes": 1143432,
+     "decodedSha256": "9eafff037832a62ce01467cb7a97b9b87e92b6b386437b7b3f33e272a848846d",
+     "boundsXZ": [
+      256,
+      -14.861900329589844,
+      384,
+      128
+     ]
+    },
+    "collider": "g:c_p02_p00",
+    "group": "ground",
+    "tag": "road:setts",
+    "faces": [
+     {
+      "triangle": 9572,
+      "points": [
+       [
+        314.5,
+        -2.444563150405884,
+        119
+       ],
+       [
+        314,
+        -2.464512825012207,
+        119
+       ],
+       [
+        314,
+        -2.475905179977417,
+        119.5
+       ]
+      ],
+      "orderedFloat32Sha256": "f5a969c4ed110d2abf0ee61af64412483bd2330aa85d9085c84a128c958aa5a5",
+      "height": -2.4605872681992245
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_p02_p00",
+    "collision": {
+     "path": "cells/c_p02_p00.bridge.2448fbd574c500d5.hcol.gz",
+     "bytes": 407121,
+     "sha256": "2448fbd574c500d51059b0f47c50ced8e0c12e2988bc1d68b300879372b57a08",
+     "compression": "gzip",
+     "decodedBytes": 1270424,
+     "decodedSha256": "24ede04776bc6a1ac5edb2f8a8e23e97e526e3f2108aba7aab32966655fb17cc",
+     "boundsXZ": [
+      256,
+      -14.861900329589844,
+      384,
+      128
+     ],
+     "triangles": 28185
+    },
+    "collider": "bridge-reconstruction:c_p02_p00:ground:20",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 394,
+      "points": [
+       [
+        314.79754638671875,
+        -2.553755283355713,
+        119.3919906616211
+       ],
+       [
+        314.2183532714844,
+        -2.455800771713257,
+        119
+       ],
+       [
+        314.0294189453125,
+        -2.469700336456299,
+        119.27919006347656
+       ]
+      ],
+      "orderedFloat32Sha256": "3a0a814d4f65a3220d0ce922dc6b716aa068d8e3e4bc5d47085bfd37ff1a62f2",
+      "height": -2.4605873488648435
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-12",
+   "kind": "lanes",
+   "recordId": "24959457:0:f0",
+   "sourceWayIds": [
+    24959457
+   ],
+   "bankXYZ": [
+    -1301.4622396619234,
+    6.906285840610391,
+    -71.16221716209506
+   ],
+   "bankActualNativeY": 6.958527797887862,
+   "legacyOffsetMetres": -0.05224195727747105,
+   "originalB0Bank": {
+    "height": 6.958527656145263,
+    "cell": "c_m11_m01",
+    "collider": "g:c_m11_m01",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": 6.958527797887862,
+    "cell": "c_m11_m01",
+    "collider": "bridge-reconstruction:c_m11_m01:ground:26",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 1.4174259899135677e-7,
+   "sourceSegment": 0,
+   "parameterOriginal": 0.14287117893222198,
+   "direction": 1,
+   "endOriginalVertex": 1,
+   "endOriginalXYZ": [
+    -1298.65,
+    6.914,
+    -66.976
+   ],
+   "lengthMetres": 5.043124631051034,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_m11_m01",
+    "collision": {
+     "path": "cells/c_m11_m01.22d1033ab2.hcol.14c6a8a6a2ab.gz",
+     "bytes": 519088,
+     "sha256": "14c6a8a6a2ab3499beba612ab671be843805292d3acf5b2c58864f7d786030b2",
+     "triangles": 33909,
+     "compression": "gzip",
+     "decodedBytes": 1663664,
+     "decodedSha256": "22d1033ab2ddd56e63c77b3afa622ab42f8af27da9644c5c3803f7fa17dbd05b",
+     "boundsXZ": [
+      -1418.30908203125,
+      -135.74510192871094,
+      -1263.248046875,
+      1.5987211554602254e-14
+     ]
+    },
+    "collider": "g:c_m11_m01",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 8878,
+      "points": [
+       [
+        -1301,
+        6.988349437713623,
+        -71.5
+       ],
+       [
+        -1301.5,
+        6.966663837432861,
+        -71.5
+       ],
+       [
+        -1301.5,
+        6.95219612121582,
+        -71
+       ]
+      ],
+      "orderedFloat32Sha256": "1eb5675a5ba44dc3f9f349b7dbbb8d242aef2807d007ca1ddab5c289422d15eb",
+      "height": 6.958527656145263
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_m11_m01",
+    "collision": {
+     "path": "cells/c_m11_m01.bridge.d37bbcaf8093afc8.hcol.gz",
+     "bytes": 708298,
+     "sha256": "d37bbcaf8093afc88a7289f95b94da5bb34dac025310ee43e06bce10ffed32fe",
+     "compression": "gzip",
+     "decodedBytes": 2306284,
+     "decodedSha256": "f8fa0247b90ea77f1f2b2af5dc2170c4d8686f787f6eb15a641507803ebad8b5",
+     "boundsXZ": [
+      -1418.30908203125,
+      -135.74510192871094,
+      -1263.248046875,
+      1.5987211554602254e-14
+     ],
+     "triangles": 41248
+    },
+    "collider": "bridge-reconstruction:c_m11_m01:ground:26",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 2630,
+      "points": [
+       [
+        -1301.4080810546875,
+        6.960944175720215,
+        -71.16459655761719
+       ],
+       [
+        -1301.4219970703125,
+        6.960992813110352,
+        -71.18709564208984
+       ],
+       [
+        -1301.4759521484375,
+        6.957687854766846,
+        -71.15373992919922
+       ]
+      ],
+      "orderedFloat32Sha256": "e263660141df1e3e1d1543909d9bebb34bf141836382c0a3fec32d1224224960",
+      "height": 6.958527797887862
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-13",
+   "kind": "lanes",
+   "recordId": "24959457:0:b0",
+   "sourceWayIds": [
+    24959457
+   ],
+   "bankXYZ": [
+    -1298.9533929204104,
+    6.909229230781422,
+    -72.80716245756892
+   ],
+   "bankActualNativeY": 7.038045015838598,
+   "legacyOffsetMetres": -0.12881578505717606,
+   "originalB0Bank": {
+    "height": 7.038044836809737,
+    "cell": "c_m11_m01",
+    "collider": "g:c_m11_m01",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": 7.038045015838598,
+    "cell": "c_m11_m01",
+    "collider": "bridge-reconstruction:c_m11_m01:ground:26",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 1.7902886106924143e-7,
+   "sourceSegment": 0,
+   "parameterOriginal": 0.8513846145718577,
+   "direction": -1,
+   "endOriginalVertex": 0,
+   "endOriginalXYZ": [
+    -1296.16,
+    6.922,
+    -68.649
+   ],
+   "lengthMetres": 5.009327203460941,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_m11_m01",
+    "collision": {
+     "path": "cells/c_m11_m01.22d1033ab2.hcol.14c6a8a6a2ab.gz",
+     "bytes": 519088,
+     "sha256": "14c6a8a6a2ab3499beba612ab671be843805292d3acf5b2c58864f7d786030b2",
+     "triangles": 33909,
+     "compression": "gzip",
+     "decodedBytes": 1663664,
+     "decodedSha256": "22d1033ab2ddd56e63c77b3afa622ab42f8af27da9644c5c3803f7fa17dbd05b",
+     "boundsXZ": [
+      -1418.30908203125,
+      -135.74510192871094,
+      -1263.248046875,
+      1.5987211554602254e-14
+     ]
+    },
+    "collider": "g:c_m11_m01",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 9389,
+      "points": [
+       [
+        -1298.5,
+        7.022296905517578,
+        -73
+       ],
+       [
+        -1299,
+        7.040921688079834,
+        -73
+       ],
+       [
+        -1299,
+        7.0379638671875,
+        -72.5
+       ]
+      ],
+      "orderedFloat32Sha256": "8c57917805d08e4214060e4664e456bb9d441f0b1b7ac90f863f0b22714e141f",
+      "height": 7.038044836809737
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_m11_m01",
+    "collision": {
+     "path": "cells/c_m11_m01.bridge.d37bbcaf8093afc8.hcol.gz",
+     "bytes": 708298,
+     "sha256": "d37bbcaf8093afc88a7289f95b94da5bb34dac025310ee43e06bce10ffed32fe",
+     "compression": "gzip",
+     "decodedBytes": 2306284,
+     "decodedSha256": "f8fa0247b90ea77f1f2b2af5dc2170c4d8686f787f6eb15a641507803ebad8b5",
+     "boundsXZ": [
+      -1418.30908203125,
+      -135.74510192871094,
+      -1263.248046875,
+      1.5987211554602254e-14
+     ],
+     "triangles": 41248
+    },
+    "collider": "bridge-reconstruction:c_m11_m01:ground:26",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 98,
+      "points": [
+       [
+        -1298.9801025390625,
+        7.038934230804443,
+        -72.78929138183594
+       ],
+       [
+        -1298.1099853515625,
+        6.996120452880859,
+        -72.16834259033203
+       ],
+       [
+        -1298.666015625,
+        7.028477668762207,
+        -72.99944305419922
+       ]
+      ],
+      "orderedFloat32Sha256": "57d49fc494ea0e1c919945f67198657fe30e87c8b7c43706a74c9ec93dedce83",
+      "height": 7.038045015838598
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-14",
+   "kind": "lanes",
+   "recordId": "30288182:0:f0",
+   "sourceWayIds": [
+    30288182
+   ],
+   "bankXYZ": [
+    -111.75483337128661,
+    -2.341450675359482,
+    -726.9501234900249
+   ],
+   "bankActualNativeY": -2.3756086327100174,
+   "legacyOffsetMetres": 0.034157957350535284,
+   "originalB0Bank": {
+    "height": -2.375608600064738,
+    "cell": "c_m01_m06",
+    "collider": "g:c_m01_m06",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -2.3756086327100174,
+    "cell": "c_m01_m06",
+    "collider": "bridge-reconstruction:c_m01_m06:ground:32",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 3.264527936863715e-8,
+   "sourceSegment": 1,
+   "parameterOriginal": 0.899914687947001,
+   "direction": 1,
+   "endOriginalVertex": 2,
+   "endOriginalXYZ": [
+    -111.833,
+    -2.282,
+    -728.565
+   ],
+   "lengthMetres": 1.6167671954594849,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_m01_m06",
+    "collision": {
+     "path": "cells/c_m01_m06.179cd17274.hcol.b95901f7d9bf.gz",
+     "sha256": "b95901f7d9bfc9baa06b86ec9c9f847be1ce2282ef5daa90346892c0000e1e08",
+     "bytes": 453768,
+     "triangles": 34112,
+     "compression": "gzip",
+     "decodedBytes": 1376564,
+     "decodedSha256": "179cd1727496f84df5b55d27e67a8556016fa1f32575a47684548b0d7cc7910d",
+     "boundsXZ": [
+      -128.27200317382812,
+      -768,
+      1.9539925233402755e-14,
+      -620.030029296875
+     ]
+    },
+    "collider": "g:c_m01_m06",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 13717,
+      "points": [
+       [
+        -108,
+        -2.361781358718872,
+        -728
+       ],
+       [
+        -112,
+        -2.3233792781829834,
+        -728
+       ],
+       [
+        -112,
+        -2.51340389251709,
+        -724
+       ]
+      ],
+      "orderedFloat32Sha256": "52cd8e3faa63234dc0023257a910bc36d1f8547faf5f814e8fec967edd093796",
+      "height": -2.375608600064738
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_m01_m06",
+    "collision": {
+     "path": "cells/c_m01_m06.bridge.8a9a6106dff15a9f.hcol.gz",
+     "bytes": 497788,
+     "sha256": "8a9a6106dff15a9f340bd96b0d31f48017191e299c51a30cfaba97e4f2f8719a",
+     "compression": "gzip",
+     "decodedBytes": 1526672,
+     "decodedSha256": "0498a9fc2a2cef30d88922a29bc5d59889c8cfe7ae55081f5ec6a8a7810dc73a",
+     "boundsXZ": [
+      -128.27200317382812,
+      -768,
+      1.9539925233402755e-14,
+      -620.030029296875
+     ],
+     "triangles": 34763
+    },
+    "collider": "bridge-reconstruction:c_m01_m06:ground:32",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 662,
+      "points": [
+       [
+        -112.04618835449219,
+        -2.300161600112915,
+        -727.8794555664062
+       ],
+       [
+        -112,
+        -2.3738255500793457,
+        -726.9381103515625
+       ],
+       [
+        -111.50299835205078,
+        -2.3774402141571045,
+        -726.9624633789062
+       ]
+      ],
+      "orderedFloat32Sha256": "47528ab34edb5c0768fb32b912663f95c7d56ae01888c023d638cdafde91456e",
+      "height": -2.3756086327100174
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-15",
+   "kind": "lanes",
+   "recordId": "30288182:0:f1",
+   "sourceWayIds": [
+    30288182
+   ],
+   "bankXYZ": [
+    -108.50878766153966,
+    -2.3695956531064404,
+    -727.1093794412539
+   ],
+   "bankActualNativeY": -2.3973245063427404,
+   "legacyOffsetMetres": 0.027728853236300033,
+   "originalB0Bank": {
+    "height": -2.397325429464885,
+    "cell": "c_m01_m06",
+    "collider": "g:c_m01_m06",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -2.3973245063427404,
+    "cell": "c_m01_m06",
+    "collider": "bridge-reconstruction:c_m01_m06:ground:32",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 9.231221445027415e-7,
+   "sourceSegment": 1,
+   "parameterOriginal": 0.899856160742195,
+   "direction": 1,
+   "endOriginalVertex": 2,
+   "endOriginalXYZ": [
+    -108.587,
+    -2.303,
+    -728.725
+   ],
+   "lengthMetres": 1.6175125841027422,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_m01_m06",
+    "collision": {
+     "path": "cells/c_m01_m06.179cd17274.hcol.b95901f7d9bf.gz",
+     "sha256": "b95901f7d9bfc9baa06b86ec9c9f847be1ce2282ef5daa90346892c0000e1e08",
+     "bytes": 453768,
+     "triangles": 34112,
+     "compression": "gzip",
+     "decodedBytes": 1376564,
+     "decodedSha256": "179cd1727496f84df5b55d27e67a8556016fa1f32575a47684548b0d7cc7910d",
+     "boundsXZ": [
+      -128.27200317382812,
+      -768,
+      1.9539925233402755e-14,
+      -620.030029296875
+     ]
+    },
+    "collider": "g:c_m01_m06",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 13716,
+      "points": [
+       [
+        -108,
+        -2.5320982933044434,
+        -724
+       ],
+       [
+        -108,
+        -2.361781358718872,
+        -728
+       ],
+       [
+        -112,
+        -2.51340389251709,
+        -724
+       ]
+      ],
+      "orderedFloat32Sha256": "543c2aea4c0a4d9047560e1fabc40f1a2bf4d6f6e40a1a103b5560922dbf86e8",
+      "height": -2.397325429464885
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_m01_m06",
+    "collision": {
+     "path": "cells/c_m01_m06.bridge.8a9a6106dff15a9f.hcol.gz",
+     "bytes": 497788,
+     "sha256": "8a9a6106dff15a9f340bd96b0d31f48017191e299c51a30cfaba97e4f2f8719a",
+     "compression": "gzip",
+     "decodedBytes": 1526672,
+     "decodedSha256": "0498a9fc2a2cef30d88922a29bc5d59889c8cfe7ae55081f5ec6a8a7810dc73a",
+     "boundsXZ": [
+      -128.27200317382812,
+      -768,
+      1.9539925233402755e-14,
+      -620.030029296875
+     ],
+     "triangles": 34763
+    },
+    "collider": "bridge-reconstruction:c_m01_m06:ground:32",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 668,
+      "points": [
+       [
+        -108.95711517333984,
+        -2.326744556427002,
+        -728.031005859375
+       ],
+       [
+        -108.91092681884766,
+        -2.39628267288208,
+        -727.0896606445312
+       ],
+       [
+        -108.3283920288086,
+        -2.397791862487793,
+        -727.1182250976562
+       ]
+      ],
+      "orderedFloat32Sha256": "dc8f2cc0e8908625303e405aa23d325b67ced7c60abd0f8709dae54bcbc1f48e",
+      "height": -2.3973245063427404
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-16",
+   "kind": "lanes",
+   "recordId": "30531137:0:f0",
+   "sourceWayIds": [
+    30531137
+   ],
+   "bankXYZ": [
+    -1288.9289888850358,
+    6.912000155817256,
+    -52.51120084757658
+   ],
+   "bankActualNativeY": 6.9813884563530415,
+   "legacyOffsetMetres": -0.0693883005357856,
+   "originalB0Bank": {
+    "height": 6.9813897586683975,
+    "cell": "c_m11_m01",
+    "collider": "g:c_m11_m01",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": 6.9813884563530415,
+    "cell": "c_m11_m01",
+    "collider": "bridge-reconstruction:c_m11_m01:ground:26",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 0.0000013023153559998946,
+   "sourceSegment": 0,
+   "parameterOriginal": 0.5652196495254446,
+   "direction": -1,
+   "endOriginalVertex": 0,
+   "endOriginalXYZ": [
+    -1291.711,
+    6.873,
+    -56.652
+   ],
+   "lengthMetres": 4.988567275731084,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_m11_m01",
+    "collision": {
+     "path": "cells/c_m11_m01.22d1033ab2.hcol.14c6a8a6a2ab.gz",
+     "bytes": 519088,
+     "sha256": "14c6a8a6a2ab3499beba612ab671be843805292d3acf5b2c58864f7d786030b2",
+     "triangles": 33909,
+     "compression": "gzip",
+     "decodedBytes": 1663664,
+     "decodedSha256": "22d1033ab2ddd56e63c77b3afa622ab42f8af27da9644c5c3803f7fa17dbd05b",
+     "boundsXZ": [
+      -1418.30908203125,
+      -135.74510192871094,
+      -1263.248046875,
+      1.5987211554602254e-14
+     ]
+    },
+    "collider": "g:c_m11_m01",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 11494,
+      "points": [
+       [
+        -1288.5,
+        6.996677398681641,
+        -52.7703742980957
+       ],
+       [
+        -1289,
+        6.978638172149658,
+        -52.5
+       ],
+       [
+        -1288.5,
+        6.998562335968018,
+        -52.5
+       ]
+      ],
+      "orderedFloat32Sha256": "74637b4ee8ec654d644d74d40c82058154f336f9992922671bc232b1ed57c9eb",
+      "height": 6.9813897586683975
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_m11_m01",
+    "collision": {
+     "path": "cells/c_m11_m01.bridge.d37bbcaf8093afc8.hcol.gz",
+     "bytes": 708298,
+     "sha256": "d37bbcaf8093afc88a7289f95b94da5bb34dac025310ee43e06bce10ffed32fe",
+     "compression": "gzip",
+     "decodedBytes": 2306284,
+     "decodedSha256": "f8fa0247b90ea77f1f2b2af5dc2170c4d8686f787f6eb15a641507803ebad8b5",
+     "boundsXZ": [
+      -1418.30908203125,
+      -135.74510192871094,
+      -1263.248046875,
+      1.5987211554602254e-14
+     ],
+     "triangles": 41248
+    },
+    "collider": "bridge-reconstruction:c_m11_m01:ground:26",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 1783,
+      "points": [
+       [
+        -1289.2462158203125,
+        6.927125453948975,
+        -52.83168411254883
+       ],
+       [
+        -1289,
+        6.978889465332031,
+        -52.46367645263672
+       ],
+       [
+        -1288.71630859375,
+        6.98887300491333,
+        -52.65353775024414
+       ]
+      ],
+      "orderedFloat32Sha256": "a9dfc0c342c2f2b0e352a6b6833c026c861d323e1a0ce4f2e89441b976629f27",
+      "height": 6.9813884563530415
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-17",
+   "kind": "lanes",
+   "recordId": "30531137:0:b0",
+   "sourceWayIds": [
+    30531137
+   ],
+   "bankXYZ": [
+    -1286.4358065853366,
+    6.867850084340714,
+    -54.1794642511532
+   ],
+   "bankActualNativeY": 6.80232424778058,
+   "legacyOffsetMetres": 0.06552583656013411,
+   "originalB0Bank": {
+    "height": 6.802324215149138,
+    "cell": "c_m11_m01",
+    "collider": "g:c_m11_m01",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": 6.80232424778058,
+    "cell": "c_m11_m01",
+    "collider": "bridge-reconstruction:c_m11_m01:ground:26",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 3.263144154885822e-8,
+   "sourceSegment": 0,
+   "parameterOriginal": 0.4341338044162186,
+   "direction": 1,
+   "endOriginalVertex": 1,
+   "endOriginalXYZ": [
+    -1289.221,
+    6.809,
+    -58.325
+   ],
+   "lengthMetres": 4.994273621063522,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_m11_m01",
+    "collision": {
+     "path": "cells/c_m11_m01.22d1033ab2.hcol.14c6a8a6a2ab.gz",
+     "bytes": 519088,
+     "sha256": "14c6a8a6a2ab3499beba612ab671be843805292d3acf5b2c58864f7d786030b2",
+     "triangles": 33909,
+     "compression": "gzip",
+     "decodedBytes": 1663664,
+     "decodedSha256": "22d1033ab2ddd56e63c77b3afa622ab42f8af27da9644c5c3803f7fa17dbd05b",
+     "boundsXZ": [
+      -1418.30908203125,
+      -135.74510192871094,
+      -1263.248046875,
+      1.5987211554602254e-14
+     ]
+    },
+    "collider": "g:c_m11_m01",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 12007,
+      "points": [
+       [
+        -1286,
+        6.741185665130615,
+        -54.5
+       ],
+       [
+        -1286.5,
+        6.798460006713867,
+        -54.5
+       ],
+       [
+        -1286.5,
+        6.815958023071289,
+        -54
+       ]
+      ],
+      "orderedFloat32Sha256": "28b9f2af1a51b768b71f19e3daeb63fbb0dccd5373b2c8cf55115245acf4dd0e",
+      "height": 6.802324215149138
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_m11_m01",
+    "collision": {
+     "path": "cells/c_m11_m01.bridge.d37bbcaf8093afc8.hcol.gz",
+     "bytes": 708298,
+     "sha256": "d37bbcaf8093afc88a7289f95b94da5bb34dac025310ee43e06bce10ffed32fe",
+     "compression": "gzip",
+     "decodedBytes": 2306284,
+     "decodedSha256": "f8fa0247b90ea77f1f2b2af5dc2170c4d8686f787f6eb15a641507803ebad8b5",
+     "boundsXZ": [
+      -1418.30908203125,
+      -135.74510192871094,
+      -1263.248046875,
+      1.5987211554602254e-14
+     ],
+     "triangles": 41248
+    },
+    "collider": "bridge-reconstruction:c_m11_m01:ground:26",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 1823,
+      "points": [
+       [
+        -1286.745361328125,
+        6.7749342918396,
+        -54.50509262084961
+       ],
+       [
+        -1286.4991455078125,
+        6.811062812805176,
+        -54.1370849609375
+       ],
+       [
+        -1286.18505859375,
+        6.767729759216309,
+        -54.34723663330078
+       ]
+      ],
+      "orderedFloat32Sha256": "f9603df7856977859d38951cbb5c3a4a271614957c46fa19b8cb265945aab129",
+      "height": 6.80232424778058
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-18",
+   "kind": "lanes",
+   "recordId": "122869893:0:f0",
+   "sourceWayIds": [
+    122869893
+   ],
+   "bankXYZ": [
+    -115.81339705835902,
+    -2.40346776092064,
+    -726.7509773554702
+   ],
+   "bankActualNativeY": -2.41438685651992,
+   "legacyOffsetMetres": 0.010919095599279949,
+   "originalB0Bank": {
+    "height": -2.4143868690165906,
+    "cell": "c_m01_m06",
+    "collider": "g:c_m01_m06",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -2.41438685651992,
+    "cell": "c_m01_m06",
+    "collider": "bridge-reconstruction:c_m01_m06:ground:32",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 1.2496670809269972e-8,
+   "sourceSegment": 1,
+   "parameterOriginal": 0.29694570493061906,
+   "direction": -1,
+   "endOriginalVertex": 1,
+   "endOriginalXYZ": [
+    -115.852,
+    -2.342,
+    -728.421
+   ],
+   "lengthMetres": 1.670468742702381,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_m01_m06",
+    "collision": {
+     "path": "cells/c_m01_m06.179cd17274.hcol.b95901f7d9bf.gz",
+     "sha256": "b95901f7d9bfc9baa06b86ec9c9f847be1ce2282ef5daa90346892c0000e1e08",
+     "bytes": 453768,
+     "triangles": 34112,
+     "compression": "gzip",
+     "decodedBytes": 1376564,
+     "decodedSha256": "179cd1727496f84df5b55d27e67a8556016fa1f32575a47684548b0d7cc7910d",
+     "boundsXZ": [
+      -128.27200317382812,
+      -768,
+      1.9539925233402755e-14,
+      -620.030029296875
+     ]
+    },
+    "collider": "g:c_m01_m06",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 13670,
+      "points": [
+       [
+        -112,
+        -2.3233792781829834,
+        -728
+       ],
+       [
+        -116,
+        -2.3748793601989746,
+        -728
+       ],
+       [
+        -116,
+        -2.509096384048462,
+        -724
+       ]
+      ],
+      "orderedFloat32Sha256": "c115b415032fc09995141d18fa4455569aff9e1f35c547de070522c864c4a678",
+      "height": -2.4143868690165906
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_m01_m06",
+    "collision": {
+     "path": "cells/c_m01_m06.bridge.8a9a6106dff15a9f.hcol.gz",
+     "bytes": 497788,
+     "sha256": "8a9a6106dff15a9f340bd96b0d31f48017191e299c51a30cfaba97e4f2f8719a",
+     "compression": "gzip",
+     "decodedBytes": 1526672,
+     "decodedSha256": "0498a9fc2a2cef30d88922a29bc5d59889c8cfe7ae55081f5ec6a8a7810dc73a",
+     "boundsXZ": [
+      -128.27200317382812,
+      -768,
+      1.9539925233402755e-14,
+      -620.030029296875
+     ],
+     "triangles": 34763
+    },
+    "collider": "bridge-reconstruction:c_m01_m06:ground:32",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 648,
+      "points": [
+       [
+        -116.04618835449219,
+        -2.3398027420043945,
+        -727.6831665039062
+       ],
+       [
+        -116,
+        -2.4170966148376465,
+        -726.7418212890625
+       ],
+       [
+        -114.66777038574219,
+        -2.3977506160736084,
+        -726.8071899414062
+       ]
+      ],
+      "orderedFloat32Sha256": "603059bf2a2954f8f031b590dd1e421f64ffbe11f393c2dd587fb5ec31166062",
+      "height": -2.41438685651992
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-19",
+   "kind": "lanes",
+   "recordId": "122869893:0:f1",
+   "sourceWayIds": [
+    122869893
+   ],
+   "bankXYZ": [
+    -119.06072607223159,
+    -2.4224225460340207,
+    -726.591675726444
+   ],
+   "bankActualNativeY": -2.436317827011351,
+   "legacyOffsetMetres": 0.01389528097733006,
+   "originalB0Bank": {
+    "height": -2.436317940693053,
+    "cell": "c_m01_m06",
+    "collider": "g:c_m01_m06",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -2.436317827011351,
+    "cell": "c_m01_m06",
+    "collider": "bridge-reconstruction:c_m01_m06:ground:32",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 1.1368170227399332e-7,
+   "sourceSegment": 1,
+   "parameterOriginal": 0.30682756069068723,
+   "direction": -1,
+   "endOriginalVertex": 1,
+   "endOriginalXYZ": [
+    -119.1,
+    -2.354,
+    -728.278
+   ],
+   "lengthMetres": 1.686781549871401,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_m01_m06",
+    "collision": {
+     "path": "cells/c_m01_m06.179cd17274.hcol.b95901f7d9bf.gz",
+     "sha256": "b95901f7d9bfc9baa06b86ec9c9f847be1ce2282ef5daa90346892c0000e1e08",
+     "bytes": 453768,
+     "triangles": 34112,
+     "compression": "gzip",
+     "decodedBytes": 1376564,
+     "decodedSha256": "179cd1727496f84df5b55d27e67a8556016fa1f32575a47684548b0d7cc7910d",
+     "boundsXZ": [
+      -128.27200317382812,
+      -768,
+      1.9539925233402755e-14,
+      -620.030029296875
+     ]
+    },
+    "collider": "g:c_m01_m06",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 13626,
+      "points": [
+       [
+        -116,
+        -2.3748793601989746,
+        -728
+       ],
+       [
+        -120,
+        -2.37412166595459,
+        -728
+       ],
+       [
+        -120,
+        -2.550269603729248,
+        -724
+       ]
+      ],
+      "orderedFloat32Sha256": "1a63061d85fb817cc1faaaade215c89a0b6a9389907ba0b59f241770f729bb1f",
+      "height": -2.436317940693053
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_m01_m06",
+    "collision": {
+     "path": "cells/c_m01_m06.bridge.8a9a6106dff15a9f.hcol.gz",
+     "bytes": 497788,
+     "sha256": "8a9a6106dff15a9f340bd96b0d31f48017191e299c51a30cfaba97e4f2f8719a",
+     "compression": "gzip",
+     "decodedBytes": 1526672,
+     "decodedSha256": "0498a9fc2a2cef30d88922a29bc5d59889c8cfe7ae55081f5ec6a8a7810dc73a",
+     "boundsXZ": [
+      -128.27200317382812,
+      -768,
+      1.9539925233402755e-14,
+      -620.030029296875
+     ],
+     "triangles": 34763
+    },
+    "collider": "bridge-reconstruction:c_m01_m06:ground:32",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 638,
+      "points": [
+       [
+        -120.04618835449219,
+        -2.367056369781494,
+        -727.4869384765625
+       ],
+       [
+        -120,
+        -2.438169240951538,
+        -726.5455932617188
+       ],
+       [
+        -118.87413787841797,
+        -2.4359500408172607,
+        -726.600830078125
+       ]
+      ],
+      "orderedFloat32Sha256": "4c62d12506de612a88cce8b61a47d7508b6d1729c62104878e2e0702a6db9f6c",
+      "height": -2.436317827011351
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-20",
+   "kind": "lanes",
+   "recordId": "1130701666:0:f0",
+   "sourceWayIds": [
+    1130701666
+   ],
+   "bankXYZ": [
+    445.9601699719854,
+    -4.677553140077533,
+    -742.9675187069026
+   ],
+   "bankActualNativeY": -4.682928803464695,
+   "legacyOffsetMetres": 0.005375663387162,
+   "originalB0Bank": {
+    "height": -4.6829287422438854,
+    "cell": "c_p03_m06",
+    "collider": "g:c_p03_m06",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -4.682928803464695,
+    "cell": "c_p03_m06",
+    "collider": "bridge-reconstruction:c_p03_m06:ground:31",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 6.122080975501376e-8,
+   "sourceSegment": 5,
+   "parameterOriginal": 0.15866114507237944,
+   "direction": -1,
+   "endOriginalVertex": 5,
+   "endOriginalXYZ": [
+    443.833,
+    -4.672,
+    -744.233
+   ],
+   "lengthMetres": 2.47513534839926,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_p03_m06",
+    "collision": {
+     "path": "cells/c_p03_m06.05fd66249a.hcol.7db2b5ba8bfe.gz",
+     "sha256": "7db2b5ba8bfe190295b5061ceeb2b0898b09975b367172b1ebb5a14fa9860206",
+     "bytes": 353888,
+     "triangles": 26840,
+     "compression": "gzip",
+     "decodedBytes": 1113060,
+     "decodedSha256": "05fd66249a3945448b3595c4350307c6e0de47617ca3ea67c60d05bab1c92b35",
+     "boundsXZ": [
+      379.806396484375,
+      -768,
+      512,
+      -640
+     ]
+    },
+    "collider": "g:c_p03_m06",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 8781,
+      "points": [
+       [
+        448,
+        -4.677154064178467,
+        -744
+       ],
+       [
+        444,
+        -4.673127174377441,
+        -744
+       ],
+       [
+        444,
+        -4.703454971313477,
+        -740
+       ]
+      ],
+      "orderedFloat32Sha256": "d699278f8bc4fe79c2d58828a33f8b7fd79a4f4e7af532be73026647c4de654f",
+      "height": -4.6829287422438854
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_p03_m06",
+    "collision": {
+     "path": "cells/c_p03_m06.bridge.4f47e42c4c54484f.hcol.gz",
+     "bytes": 434248,
+     "sha256": "4f47e42c4c54484fe10b2b9b5efe12e8cd4ea7ec95fe11461db4f4c64c9660c2",
+     "compression": "gzip",
+     "decodedBytes": 1378068,
+     "decodedSha256": "de3ad08291a46204c5845a48dfa8b36d290d1ee3358109975c0a4c256bf10673",
+     "boundsXZ": [
+      379.806396484375,
+      -768,
+      512,
+      -640
+     ],
+     "triangles": 29334
+    },
+    "collider": "bridge-reconstruction:c_p03_m06:ground:31",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 46,
+      "points": [
+       [
+        446.09320068359375,
+        -4.68104362487793,
+        -743.2338256835938
+       ],
+       [
+        444.2489318847656,
+        -4.710801601409912,
+        -741.756591796875
+       ],
+       [
+        445.13427734375,
+        -4.694632530212402,
+        -741.314208984375
+       ]
+      ],
+      "orderedFloat32Sha256": "71c28531b561dc68cf913718a177a0803f6b4ef72ee09b502b3c3c6f5afcb77c",
+      "height": -4.682928803464695
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-21",
+   "kind": "lanes",
+   "recordId": "1130701666:0:f1",
+   "sourceWayIds": [
+    1130701666
+   ],
+   "bankXYZ": [
+    444.504702385537,
+    -4.686446617761757,
+    -740.0538865515716
+   ],
+   "bankActualNativeY": -4.7033809598818594,
+   "legacyOffsetMetres": 0.01693434212010203,
+   "originalB0Bank": {
+    "height": -4.703381077825617,
+    "cell": "c_p03_m06",
+    "collider": "g:c_p03_m06",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -4.7033809598818594,
+    "cell": "c_p03_m06",
+    "collider": "bridge-reconstruction:c_p03_m06:ground:31",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 1.1794375787133049e-7,
+   "sourceSegment": 5,
+   "parameterOriginal": 0.16383455595605384,
+   "direction": -1,
+   "endOriginalVertex": 5,
+   "endOriginalXYZ": [
+    442.376,
+    -4.693,
+    -741.32
+   ],
+   "lengthMetres": 2.476775547053512,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_p03_m06",
+    "collision": {
+     "path": "cells/c_p03_m06.05fd66249a.hcol.7db2b5ba8bfe.gz",
+     "sha256": "7db2b5ba8bfe190295b5061ceeb2b0898b09975b367172b1ebb5a14fa9860206",
+     "bytes": 353888,
+     "triangles": 26840,
+     "compression": "gzip",
+     "decodedBytes": 1113060,
+     "decodedSha256": "05fd66249a3945448b3595c4350307c6e0de47617ca3ea67c60d05bab1c92b35",
+     "boundsXZ": [
+      379.806396484375,
+      -768,
+      512,
+      -640
+     ]
+    },
+    "collider": "g:c_p03_m06",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 8780,
+      "points": [
+       [
+        448,
+        -4.7059431076049805,
+        -740
+       ],
+       [
+        448,
+        -4.677154064178467,
+        -744
+       ],
+       [
+        444,
+        -4.703454971313477,
+        -740
+       ]
+      ],
+      "orderedFloat32Sha256": "336f2ab79d8f26ca2438c9fd58b3a9de3253edff02bae4454a570560ab7d9ac7",
+      "height": -4.703381077825617
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_p03_m06",
+    "collision": {
+     "path": "cells/c_p03_m06.bridge.4f47e42c4c54484f.hcol.gz",
+     "bytes": 434248,
+     "sha256": "4f47e42c4c54484fe10b2b9b5efe12e8cd4ea7ec95fe11461db4f4c64c9660c2",
+     "compression": "gzip",
+     "decodedBytes": 1378068,
+     "decodedSha256": "de3ad08291a46204c5845a48dfa8b36d290d1ee3358109975c0a4c256bf10673",
+     "boundsXZ": [
+      379.806396484375,
+      -768,
+      512,
+      -640
+     ],
+     "triangles": 29334
+    },
+    "collider": "bridge-reconstruction:c_p03_m06:ground:31",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 50,
+      "points": [
+       [
+        444.95513916015625,
+        -4.697171688079834,
+        -740.95556640625
+       ],
+       [
+        443.5946960449219,
+        -4.7257466316223145,
+        -740.4412841796875
+       ],
+       [
+        444.477783203125,
+        -4.703752040863037,
+        -740
+       ]
+      ],
+      "orderedFloat32Sha256": "2742d06df8e0a0614d536dae4e86847f1adc0d0246965161c6d7bd7555a95a28",
+      "height": -4.7033809598818594
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-22",
+   "kind": "lanes",
+   "recordId": "1183974895:0:f0",
+   "sourceWayIds": [
+    1183974895
+   ],
+   "bankXYZ": [
+    449.8068253741259,
+    -4.627562274311318,
+    -750.6678573378811
+   ],
+   "bankActualNativeY": -4.643045531374797,
+   "legacyOffsetMetres": 0.015483257063479527,
+   "originalB0Bank": {
+    "height": -4.643045366525825,
+    "cell": "c_p03_m06",
+    "collider": "g:c_p03_m06",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -4.643045531374797,
+    "cell": "c_p03_m06",
+    "collider": "bridge-reconstruction:c_p03_m06:ground:31",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 1.6484897269464227e-7,
+   "sourceSegment": 7,
+   "parameterOriginal": 0.05513473460243254,
+   "direction": 1,
+   "endOriginalVertex": 8,
+   "endOriginalXYZ": [
+    435.854,
+    -4.363,
+    -758.223
+   ],
+   "lengthMetres": 15.866994566263026,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_p03_m06",
+    "collision": {
+     "path": "cells/c_p03_m06.05fd66249a.hcol.7db2b5ba8bfe.gz",
+     "sha256": "7db2b5ba8bfe190295b5061ceeb2b0898b09975b367172b1ebb5a14fa9860206",
+     "bytes": 353888,
+     "triangles": 26840,
+     "compression": "gzip",
+     "decodedBytes": 1113060,
+     "decodedSha256": "05fd66249a3945448b3595c4350307c6e0de47617ca3ea67c60d05bab1c92b35",
+     "boundsXZ": [
+      379.806396484375,
+      -768,
+      512,
+      -640
+     ]
+    },
+    "collider": "g:c_p03_m06",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 8805,
+      "points": [
+       [
+        452,
+        -4.651484966278076,
+        -752
+       ],
+       [
+        448,
+        -4.620334148406982,
+        -752
+       ],
+       [
+        448,
+        -4.646277904510498,
+        -748
+       ]
+      ],
+      "orderedFloat32Sha256": "224b8305beef1036336095079d3216d6b8d8116acb164c6c57761c44939de467",
+      "height": -4.643045366525825
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_p03_m06",
+    "collision": {
+     "path": "cells/c_p03_m06.bridge.4f47e42c4c54484f.hcol.gz",
+     "bytes": 434248,
+     "sha256": "4f47e42c4c54484fe10b2b9b5efe12e8cd4ea7ec95fe11461db4f4c64c9660c2",
+     "compression": "gzip",
+     "decodedBytes": 1378068,
+     "decodedSha256": "de3ad08291a46204c5845a48dfa8b36d290d1ee3358109975c0a4c256bf10673",
+     "boundsXZ": [
+      379.806396484375,
+      -768,
+      512,
+      -640
+     ],
+     "triangles": 29334
+    },
+    "collider": "bridge-reconstruction:c_p03_m06:ground:31",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 6,
+      "points": [
+       [
+        449.83575439453125,
+        -4.642895221710205,
+        -750.7257690429688
+       ],
+       [
+        448.0489196777344,
+        -4.653964042663574,
+        -749.3961181640625
+       ],
+       [
+        448.9473876953125,
+        -4.647511005401611,
+        -748.9473876953125
+       ]
+      ],
+      "orderedFloat32Sha256": "808cc4737863a0644124a5cfa52914553f90070547360c33dd13227603d559ee",
+      "height": -4.643045531374797
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-23",
+   "kind": "lanes",
+   "recordId": "1208469011:0:f0",
+   "sourceWayIds": [
+    1208469011
+   ],
+   "bankXYZ": [
+    298.29400827477895,
+    -5.196400598524317,
+    -1017.4968647190822
+   ],
+   "bankActualNativeY": -5.475185996292362,
+   "legacyOffsetMetres": 0.27878539776804523,
+   "originalB0Bank": {
+    "height": -5.47518570649383,
+    "cell": "c_p02_m08",
+    "collider": "g:c_p02_m08",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -5.475185996292362,
+    "cell": "c_p02_m08",
+    "collider": "bridge-reconstruction:c_p02_m08:ground:6",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 2.897985318384144e-7,
+   "sourceSegment": 9,
+   "parameterOriginal": 0.7000018027840867,
+   "direction": 1,
+   "endOriginalVertex": 10,
+   "endOriginalXYZ": [
+    299.671,
+    -5.296,
+    -994.985
+   ],
+   "lengthMetres": 22.55393888751105,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_p02_m08",
+    "collision": {
+     "path": "cells/c_p02_m08.18520065c8.hcol.141c842b11ff.gz",
+     "bytes": 327828,
+     "sha256": "141c842b11ff64ceb944fdea33cecf3b129152d10ed69cc3cca4e9f54d2c26d3",
+     "triangles": 21763,
+     "compression": "gzip",
+     "decodedBytes": 1056664,
+     "decodedSha256": "18520065c8a2013dea3326b2eade566a72d20a3589830f3238734165b0446df1",
+     "boundsXZ": [
+      256,
+      -1024,
+      384,
+      -896
+     ]
+    },
+    "collider": "g:c_p02_m08",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 9590,
+      "points": [
+       [
+        299.75518798828125,
+        -5.514195919036865,
+        -1016
+       ],
+       [
+        299.4652404785156,
+        -5.437580108642578,
+        -1019.4652709960938
+       ],
+       [
+        296,
+        -5.4975690841674805,
+        -1016
+       ]
+      ],
+      "orderedFloat32Sha256": "38ea5c8e921b1351f00a398ca144d557d5e53c0e433fcc5a6ea104906d7a242a",
+      "height": -5.47518570649383
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_p02_m08",
+    "collision": {
+     "path": "cells/c_p02_m08.bridge.d7ad233a94280f03.hcol.gz",
+     "bytes": 660681,
+     "sha256": "d7ad233a94280f03c4b4f147637b8b89eecc6bb05691cf0c0c6dbdba39b1a1c3",
+     "compression": "gzip",
+     "decodedBytes": 2232156,
+     "decodedSha256": "f346848c97d44b5d0ab163b9ebec1b5f39b137d9a4693b473411416dae886985",
+     "boundsXZ": [
+      256,
+      -1024,
+      384,
+      -896
+     ],
+     "triangles": 39046
+    },
+    "collider": "bridge-reconstruction:c_p02_m08:ground:6",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 927,
+      "points": [
+       [
+        299.6451416015625,
+        -5.464135646820068,
+        -1016.5588989257812
+       ],
+       [
+        299.6268310546875,
+        -5.480537414550781,
+        -1017.5221557617188
+       ],
+       [
+        297.4814147949219,
+        -5.471923351287842,
+        -1017.4814453125
+       ]
+      ],
+      "orderedFloat32Sha256": "f5f1c5e3996878d271dee08ffe84d717e3913082d39b001b5ee4f3081b6a40d0",
+      "height": -5.475185996292362
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-24",
+   "kind": "lanes",
+   "recordId": "1285902181:0:f0",
+   "sourceWayIds": [
+    1285902181
+   ],
+   "bankXYZ": [
+    306.34931920805826,
+    -5.186795577181757,
+    -1017.6498867381551
+   ],
+   "bankActualNativeY": -5.17054735174645,
+   "legacyOffsetMetres": -0.016248225435306907,
+   "originalB0Bank": {
+    "height": -5.170547510536165,
+    "cell": "c_p02_m08",
+    "collider": "g:c_p02_m08",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -5.17054735174645,
+    "cell": "c_p02_m08",
+    "collider": "bridge-reconstruction:c_p02_m08:ground:6",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 1.587897155985729e-7,
+   "sourceSegment": 2,
+   "parameterOriginal": 0.2840906040254829,
+   "direction": -1,
+   "endOriginalVertex": 2,
+   "endOriginalXYZ": [
+    307.305,
+    -5.301,
+    -996.834
+   ],
+   "lengthMetres": 20.837813380289976,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_p02_m08",
+    "collision": {
+     "path": "cells/c_p02_m08.18520065c8.hcol.141c842b11ff.gz",
+     "bytes": 327828,
+     "sha256": "141c842b11ff64ceb944fdea33cecf3b129152d10ed69cc3cca4e9f54d2c26d3",
+     "triangles": 21763,
+     "compression": "gzip",
+     "decodedBytes": 1056664,
+     "decodedSha256": "18520065c8a2013dea3326b2eade566a72d20a3589830f3238734165b0446df1",
+     "boundsXZ": [
+      256,
+      -1024,
+      384,
+      -896
+     ]
+    },
+    "collider": "g:c_p02_m08",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 9693,
+      "points": [
+       [
+        308,
+        -5.139710903167725,
+        -1016
+       ],
+       [
+        308,
+        -5.121072292327881,
+        -1020
+       ],
+       [
+        304,
+        -5.233065128326416,
+        -1016
+       ]
+      ],
+      "orderedFloat32Sha256": "d2fc230120343d9e371bd51ee2cf1dc38b8fdb8b7852b3d3e9036257ad3eeb0e",
+      "height": -5.170547510536165
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_p02_m08",
+    "collision": {
+     "path": "cells/c_p02_m08.bridge.d7ad233a94280f03.hcol.gz",
+     "bytes": 660681,
+     "sha256": "d7ad233a94280f03c4b4f147637b8b89eecc6bb05691cf0c0c6dbdba39b1a1c3",
+     "compression": "gzip",
+     "decodedBytes": 2232156,
+     "decodedSha256": "f346848c97d44b5d0ab163b9ebec1b5f39b137d9a4693b473411416dae886985",
+     "boundsXZ": [
+      256,
+      -1024,
+      384,
+      -896
+     ],
+     "triangles": 39046
+    },
+    "collider": "bridge-reconstruction:c_p02_m08:ground:6",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 887,
+      "points": [
+       [
+        308.018310546875,
+        -5.174447059631348,
+        -1016.7179565429688
+       ],
+       [
+        308,
+        -5.1318769454956055,
+        -1017.6812133789062
+       ],
+       [
+        306.012451171875,
+        -5.178439140319824,
+        -1017.6434936523438
+       ]
+      ],
+      "orderedFloat32Sha256": "fb701b37e765a98ddd11100a3a9157053b468e11b0339c59aece2117d080ee0e",
+      "height": -5.17054735174645
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-25",
+   "kind": "lanes",
+   "recordId": "1285902181:0:f1",
+   "sourceWayIds": [
+    1285902181
+   ],
+   "bankXYZ": [
+    309.6004542374595,
+    -5.100773360599201,
+    -1017.7116569740153
+   ],
+   "bankActualNativeY": -5.085003502794208,
+   "legacyOffsetMetres": -0.01576985780499296,
+   "originalB0Bank": {
+    "height": -5.085003315362497,
+    "cell": "c_p02_m08",
+    "collider": "g:c_p02_m08",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": -5.085003502794208,
+    "cell": "c_p02_m08",
+    "collider": "bridge-reconstruction:c_p02_m08:ground:6",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 1.8743171104063094e-7,
+   "sourceSegment": 2,
+   "parameterOriginal": 0.28320337467791645,
+   "direction": -1,
+   "endOriginalVertex": 2,
+   "endOriginalXYZ": [
+    310.554,
+    -5.188,
+    -996.952
+   ],
+   "lengthMetres": 20.781544870390235,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_p02_m08",
+    "collision": {
+     "path": "cells/c_p02_m08.18520065c8.hcol.141c842b11ff.gz",
+     "bytes": 327828,
+     "sha256": "141c842b11ff64ceb944fdea33cecf3b129152d10ed69cc3cca4e9f54d2c26d3",
+     "triangles": 21763,
+     "compression": "gzip",
+     "decodedBytes": 1056664,
+     "decodedSha256": "18520065c8a2013dea3326b2eade566a72d20a3589830f3238734165b0446df1",
+     "boundsXZ": [
+      256,
+      -1024,
+      384,
+      -896
+     ]
+    },
+    "collider": "g:c_p02_m08",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 9718,
+      "points": [
+       [
+        312,
+        -5.004275798797607,
+        -1020
+       ],
+       [
+        308,
+        -5.121072292327881,
+        -1020
+       ],
+       [
+        308,
+        -5.139710903167725,
+        -1016
+       ]
+      ],
+      "orderedFloat32Sha256": "6ef51f3995de54b7160a0ee50fa6880a5ae5ed31b574157602e18b3edb874be0",
+      "height": -5.085003315362497
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_p02_m08",
+    "collision": {
+     "path": "cells/c_p02_m08.bridge.d7ad233a94280f03.hcol.gz",
+     "bytes": 660681,
+     "sha256": "d7ad233a94280f03c4b4f147637b8b89eecc6bb05691cf0c0c6dbdba39b1a1c3",
+     "compression": "gzip",
+     "decodedBytes": 2232156,
+     "decodedSha256": "f346848c97d44b5d0ab163b9ebec1b5f39b137d9a4693b473411416dae886985",
+     "boundsXZ": [
+      256,
+      -1024,
+      384,
+      -896
+     ],
+     "triangles": 39046
+    },
+    "collider": "bridge-reconstruction:c_p02_m08:ground:6",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 883,
+      "points": [
+       [
+        309.7320861816406,
+        -5.140571594238281,
+        -1016.75048828125
+       ],
+       [
+        309.7137756347656,
+        -5.081684589385986,
+        -1017.7138061523438
+       ],
+       [
+        309.42413330078125,
+        -5.09016752243042,
+        -1017.7083129882812
+       ]
+      ],
+      "orderedFloat32Sha256": "887cf67343a49532ec807db5d859c97a65472a832010919bdda46462ccb7212e",
+      "height": -5.085003502794208
+     }
+    ]
+   }
+  },
+  {
+   "id": "legacy-bank-26",
+   "kind": "connectors",
+   "recordId": "24959457:0:b0>30287734:0:f0",
+   "sourceWayIds": [
+    24959457,
+    30287734
+   ],
+   "bankXYZ": [
+    -1299.5332646065342,
+    6.918199191836092,
+    -72.41916938292816
+   ],
+   "bankActualNativeY": 7.055775500821126,
+   "legacyOffsetMetres": -0.13757630898503326,
+   "originalB0Bank": {
+    "height": 7.055775514648051,
+    "cell": "c_m11_m01",
+    "collider": "g:c_m11_m01",
+    "group": "ground",
+    "tag": "road:asphalt"
+   },
+   "currentBank": {
+    "height": 7.055775500821126,
+    "cell": "c_m11_m01",
+    "collider": "bridge-reconstruction:c_m11_m01:ground:26",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction"
+   },
+   "physicalBankDifferenceMetres": 1.382692538243191e-8,
+   "sourceSegment": 1,
+   "parameterOriginal": 0.8199191836092555,
+   "direction": 1,
+   "endOriginalVertex": 2,
+   "endOriginalXYZ": [
+    -1299.523,
+    6.92,
+    -72.22
+   ],
+   "lengthMetres": 0.1994337114012786,
+   "qualification": "Navigation metadata only: literal accepted graph bank offset decays monotonically to0 at first retained original inside vertex. Not a1mm registered floor interval.",
+   "baselineNativeWitness": {
+    "worldManifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "cell": "c_m11_m01",
+    "collision": {
+     "path": "cells/c_m11_m01.22d1033ab2.hcol.14c6a8a6a2ab.gz",
+     "bytes": 519088,
+     "sha256": "14c6a8a6a2ab3499beba612ab671be843805292d3acf5b2c58864f7d786030b2",
+     "triangles": 33909,
+     "compression": "gzip",
+     "decodedBytes": 1663664,
+     "decodedSha256": "22d1033ab2ddd56e63c77b3afa622ab42f8af27da9644c5c3803f7fa17dbd05b",
+     "boundsXZ": [
+      -1418.30908203125,
+      -135.74510192871094,
+      -1263.248046875,
+      1.5987211554602254e-14
+     ]
+    },
+    "collider": "g:c_m11_m01",
+    "group": "ground",
+    "tag": "road:asphalt",
+    "faces": [
+     {
+      "triangle": 9354,
+      "points": [
+       [
+        -1299.5,
+        7.028658390045166,
+        -72
+       ],
+       [
+        -1299.5,
+        7.059357166290283,
+        -72.5
+       ],
+       [
+        -1300,
+        7.0494184494018555,
+        -72
+       ]
+      ],
+      "orderedFloat32Sha256": "fe39fff48159bbfd5db9004117eb7beb729d8f20ed488e48a63ca3f2ee4895f0",
+      "height": 7.055775514648051
+     }
+    ]
+   },
+   "canonicalCurrentWitness": {
+    "worldManifestSha256": "58bf2a75de7b0b96fb8722de310fbffc4d15ea6f87eee1c4155efdeed53a120e",
+    "cell": "c_m11_m01",
+    "collision": {
+     "path": "cells/c_m11_m01.bridge.d37bbcaf8093afc8.hcol.gz",
+     "bytes": 708298,
+     "sha256": "d37bbcaf8093afc88a7289f95b94da5bb34dac025310ee43e06bce10ffed32fe",
+     "compression": "gzip",
+     "decodedBytes": 2306284,
+     "decodedSha256": "f8fa0247b90ea77f1f2b2af5dc2170c4d8686f787f6eb15a641507803ebad8b5",
+     "boundsXZ": [
+      -1418.30908203125,
+      -135.74510192871094,
+      -1263.248046875,
+      1.5987211554602254e-14
+     ],
+     "triangles": 41248
+    },
+    "collider": "bridge-reconstruction:c_m11_m01:ground:26",
+    "group": "ground",
+    "tag": "road:asphalt:bridge-reconstruction",
+    "faces": [
+     {
+      "triangle": 86,
+      "points": [
+       [
+        -1299.677001953125,
+        7.055836200714111,
+        -72.32295227050781
+       ],
+       [
+        -1298.9447021484375,
+        7.021965503692627,
+        -71.6097640991211
+       ],
+       [
+        -1299.5008544921875,
+        7.055761814117432,
+        -72.44086456298828
+       ]
+      ],
+      "orderedFloat32Sha256": "fd5dc81a6423070b9ce77f6f8bd6f29045c9a906168bec9bb440034f7645ec78",
+      "height": 7.055775500821126
+     }
+    ]
+   }
+  }
+ ]
+}

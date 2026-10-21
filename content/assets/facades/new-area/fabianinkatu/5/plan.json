@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "id": "fabianinkatu-5-west-20261021",
+  "building": {
+    "id": "BID_aa4c024c-9d74-4e32-91c9-e5f9d407fd41",
+    "vtj": "1030463017",
+    "owner": "c_m01_p04"
+  },
+  "source": {
+    "cityJsonSha256": "795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    125,
+    126
+  ],
+  "frame": {
+    "origin": [
+      -126.47809600830078,
+      606.6179809570312
+    ],
+    "axis": [
+      0.05125540787531877,
+      0.9986855777288138
+    ],
+    "width": 22.21028500184957
+  },
+  "completeElevationPlane": true,
+  "art": {
+    "wallColour": "#c6bdb5",
+    "groundColour": "#b3aaa0",
+    "surroundColour": "#929987",
+    "frameColour": "#655244",
+    "glassColour": "#929f9e",
+    "groundHeight": 3.65,
+    "rows": [
+      {
+        "bottom": 4.2,
+        "height": 2.3,
+        "width": 1.15,
+        "axes": [
+          1.8508570834874642,
+          5.5525712504623925,
+          9.254285417437321,
+          12.955999584412249,
+          16.657713751387178
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 4.2,
+        "height": 2.3,
+        "width": 1.8,
+        "axes": [
+          20.359427918362105
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 7.6,
+        "height": 1.95,
+        "width": 1.15,
+        "axes": [
+          1.8508570834874642,
+          5.5525712504623925,
+          9.254285417437321,
+          12.955999584412249,
+          16.657713751387178
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 7.6,
+        "height": 1.95,
+        "width": 1.8,
+        "axes": [
+          20.359427918362105
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 10.9,
+        "height": 1.65,
+        "width": 1.15,
+        "axes": [
+          1.8508570834874642,
+          5.5525712504623925,
+          9.254285417437321,
+          12.955999584412249,
+          16.657713751387178
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 10.9,
+        "height": 1.65,
+        "width": 1.8,
+        "axes": [
+          20.359427918362105
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 14.15,
+        "height": 1.2,
+        "width": 1.15,
+        "axes": [
+          1.8508570834874642,
+          5.5525712504623925,
+          9.254285417437321,
+          12.955999584412249,
+          16.657713751387178
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 14.15,
+        "height": 1.2,
+        "width": 1.8,
+        "axes": [
+          20.359427918362105
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 2.6652342002219482,
+        "bottom": 0.25,
+        "width": 2.9,
+        "height": 2.95,
+        "kind": "glazing"
+      },
+      {
+        "x": 7.107291200591862,
+        "bottom": 0.25,
+        "width": 2.5,
+        "height": 2.95,
+        "kind": "glazing"
+      },
+      {
+        "x": 10.883039650906289,
+        "bottom": 0.15,
+        "width": 1.7,
+        "height": 3.2,
+        "kind": "door"
+      },
+      {
+        "x": 14.43668525120222,
+        "bottom": 0.25,
+        "width": 2.2,
+        "height": 2.95,
+        "kind": "glazing"
+      },
+      {
+        "x": 17.324022301442664,
+        "bottom": 0.25,
+        "width": 2,
+        "height": 2.95,
+        "kind": "glazing"
+      },
+      {
+        "x": 20.544513626710852,
+        "bottom": 0.15,
+        "width": 2,
+        "height": 3.25,
+        "kind": "passage"
+      }
+    ],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 0,
+        "height": 0.3,
+        "colour": "#8b8780"
+      },
+      {
+        "from": "ground",
+        "offset": 3.65,
+        "height": 0.17,
+        "colour": "#838b7c"
+      },
+      {
+        "from": "top",
+        "offset": -0.35,
+        "height": 0.14,
+        "colour": "#89917e"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Street View actual Fabianinkatu5 west front, August2024, number5/entry and four upper rows actually opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=ZsH95irGdjkOjr2eVOqGlw&heading=86.96&pitch=35&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual August2024 west front bears number5 above its timber double entry. Pale muted pink-grey plaster with green-grey simple stone surrounds and dark brown frames.",
+    "FOUR upper opening rows over ground shop glazing, timber entry and a dark south-end passage. The first upper row is tallest; the highest row is shorter. The south-end window group is broader than the central paired groups.",
+    "The north oblique and frontal views jointly resolve six main opening axes, the southmost broader. Original module widths and positions are approximate, not a measured window survey."
+  ],
+  "limitations": [
+    "Only exact complete native west street plane125/126 is selected, not side/courtyard walls or the entire building.",
+    "No Google photograph pixels, people, advertising or vehicles are copied. Native geometry and all collision remain literal.",
+    "Palette, store division and window module positions approximate the actually opened appearance; detailed heritage ornament is not claimed exact."
+  ]
+}

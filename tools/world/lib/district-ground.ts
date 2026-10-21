@@ -1,3 +1,4 @@
+import{decodeDeliveryRoadFile}from'./delivery-road-file.ts';
 // Shared authored-ground assembly for full city builds and ground-only repairs.
 import { createHash } from 'node:crypto';
 import assert from 'node:assert/strict';
@@ -12,6 +13,7 @@ import { buildEntranceTerraces, buildGround, buildRetainingWalls, buildStairs, f
 import { applyCarriagewayGrade, buildCarriagewayGrade, type CarriagewayGradeOptions } from './carriageway-grade.ts';
 import { buildDrivableCorridorGrade, resolveDrivableCorridors, type DrivableCorridorPlan } from './drivable-corridors.ts';
 import {loadCoastalRegistration} from './coastal-registration.ts';
+import {readDeliveryGroundExclusions} from './delivery-city-ground.ts';
 
 export interface DistrictGroundConfig {
   cellSize: number; playArea: { minX: number; maxX: number; minZ: number; maxZ: number };
@@ -72,6 +74,8 @@ export function buildDistrictGround(options: {
   groundWorkArea?: GroundArea;
   /** Explicit hash-bound offline municipal registration; omitted by every ordinary source build. */
   coastalRegistration?:string;
+  /** Hash-bound new-area Silta source identities; ordinary producers omit this. */
+  groundExclusions?:string;
 }) {
   const { terrain, footprints, config } = options;
   const [E0, N0] = options.originProjected as [number, number, number];
@@ -107,6 +111,7 @@ export function buildDistrictGround(options: {
   }
   // Register flights from the city's street parts typed Portaat (decision 0006) take over the OSM ways that cross them.
   const parts = loadGeoJsonPolygons(options.streetParts, E0, N0, (p, i) => String(p['osan_id'] ?? p['id'] ?? i));
+  const groundExclusions=options.groundExclusions?readDeliveryGroundExclusions(options.groundExclusions,options.streetParts,parts):null;
   const register = registerFlights(parts, stepWays, terrain, area, config.registerStairs as RegisterStairsOptions);
   const registerSpecs = register.flights.flatMap(f => f.spec ? [f.spec] : []);
   log(`register flights: ${register.flights.map(f => `${f.id} ${f.status}${f.spec ? ` ${f.spec.steps} steps, ${f.spec.width.toFixed(1)} m wide${f.osmWay ? ` (${f.osmWay})` : ''}` : ''}`).join('; ') || 'none'}`);
@@ -142,7 +147,7 @@ export function buildDistrictGround(options: {
   if (config.drivableCorridors) {
     assert.ok(config.carriagewayGrade, 'Reviewed corridors require the shared carriageway grade');
     const planBytes = readFileSync(config.drivableCorridors.plan), roadBytes = readFileSync(config.drivableCorridors.roads);
-    const plan = JSON.parse(planBytes.toString('utf8')) as DrivableCorridorPlan, roads = JSON.parse(roadBytes.toString('utf8')) as RoadGraph;
+    const plan = JSON.parse(planBytes.toString('utf8')) as DrivableCorridorPlan, roads = decodeDeliveryRoadFile(roadBytes);
     assert.ok(plan.reviewedGeometry, 'A production corridor plan requires reviewed literal lane geometry');
     const fixedSourceStairs = stairs.zones.map((ring, i) => ({ id: `fixed-source-stair-${i}`, rings: [ring], bbox: [Math.min(...ring.map(p => p[0])), Math.min(...ring.map(p => p[1])), Math.max(...ring.map(p => p[0])), Math.max(...ring.map(p => p[1]))] as [number, number, number, number], properties: {} }));
     const sourceHashes = { roads: sha256(roadBytes), osm: osmSnap.sha256, streetParts: sha256(readFileSync(options.streetParts)) };
@@ -161,7 +166,7 @@ export function buildDistrictGround(options: {
     entry.isDirectory() ? schemaSources(new URL(`${entry.name}/`, directory)) : entry.name.endsWith('.ts') ? [[new URL(entry.name, directory).pathname.split('/packages/').at(-1)!, sha256(readFileSync(new URL(entry.name, directory)))]] : []);
   const fingerprint = options.groundCache ? sha256(JSON.stringify({version:'authored-ground-before-coast-v1',runtime:{node:process.versions.node,v8:process.versions.v8},config,groundWorkArea,originProjected:options.originProjected,
     terrain:{x0:terrain.x0,z0:terrain.z0,nx:terrain.nx,nz:terrain.nz,resolution:terrain.resolution,sha256:sha256(new Uint8Array(terrain.heights.buffer,terrain.heights.byteOffset,terrain.heights.byteLength))},
-    footprints:sha256(JSON.stringify(footprints)),streetParts:sha256(readFileSync(options.streetParts)),osm:osmSnap.sha256,
+    footprints:sha256(JSON.stringify(footprints)),streetParts:sha256(readFileSync(options.streetParts)),osm:osmSnap.sha256,groundExclusions:groundExclusions?.receipt??null,
     drivableCorridorSources:corridorAudit ? {planSha256:corridorAudit.planSha256,roadsSha256:corridorAudit.roadsSha256} : null,
     modules:['district-ground.ts','ground.ts','geometry.ts','carriageway-grade.ts','raw-deck-grade.ts','drivable-corridors.ts','surface-way.ts'].map(file => [file,sha256(readFileSync(new URL(file,import.meta.url)))]),
     worldSchema:schemaSources(new URL('../../../packages/world-schema/src/',import.meta.url)),lock:sha256(readFileSync(new URL('../../../pnpm-lock.yaml',import.meta.url)))})) : null;
@@ -173,7 +178,7 @@ export function buildDistrictGround(options: {
   } else {
   if (fingerprint) log(`ground cache miss: ${fingerprint}`);
   log(`ground assembly area: ${JSON.stringify(groundWorkArea??{assemblyArea,mode:'full'})}`);
-  ground = buildGround(parts, terrain, [...stairs.zones, ...terraces.zones], assemblyArea, Number(config.curbHeight), CELL, walls, stairs.boundaries);
+  ground = buildGround(parts, terrain, [...stairs.zones, ...terraces.zones], assemblyArea, Number(config.curbHeight), CELL, walls, stairs.boundaries,groundExclusions?.sources);
   for (const p of ground.pieces) faceUp(p.positions, p.indices);
   for(const pieces of[stairs.pieces,terraces.pieces,walls.pieces])for(const p of pieces)if(!groundWorkArea||pieceIntersectsArea(p,assemblyArea))ground.pieces.push(p);
   if(groundWorkArea)for(const list of[ground.pieces,ground.kerbs]){const kept=list.filter(p=>pieceIntersectsArea(p,assemblyArea));list.length=0;for(const p of kept)list.push(p);}
@@ -226,5 +231,5 @@ export function buildDistrictGround(options: {
     const lowered = lowerTerrainUnderWater(runtimeTerrain,coastal.mask,coastal.safetyFloorY);
     runtimeTerrain = lowered.terrain; coastal.loweredSamples = lowered.loweredSamples;
   }
-  return { ground, stairs, terraces, walls, wallAlignment: wallAlignment.alignments, register, conflicting, osmLedger, osmSnap, osmBytes, runtimeTerrain, coastal, carriagewayGrade, groundWorkArea };
+  return { ground, stairs, terraces, walls, wallAlignment: wallAlignment.alignments, register, conflicting, osmLedger, osmSnap, osmBytes, runtimeTerrain, coastal, carriagewayGrade, groundWorkArea,...(groundExclusions?{groundExclusions:groundExclusions.receipt}:{}) };
 }

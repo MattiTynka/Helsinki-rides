@@ -108,7 +108,7 @@ export async function inspectFacadeChartTargets(bytes: Uint8Array, options: Char
 }
 
 function validateAtlas(atlas: FacadeAtlas) {
-  assert.ok(atlas.name && atlas.width>0 && atlas.height>0 && atlas.width<=768 && atlas.height<=768);
+  assert.ok(atlas.name && atlas.width>0 && atlas.height>0 && atlas.width<=1024 && atlas.height<=1024);
   const b=Buffer.from(atlas.image);
   if(atlas.mimeType==='image/png'){
     assert.ok(b.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])),'Invalid PNG atlas');
@@ -141,8 +141,9 @@ async function apply(bytes: Uint8Array, options: DetailedChartOptions | DistantC
   let newMaterial:number|undefined,textureBytesEstimate=0,fallbackBytes=0;
   if(!distant){
     const o=options as DetailedChartOptions;validateAtlas(o.atlas);fallbackBytes=facadeAtlasBytes(o.atlas.width,o.atlas.height);
-    assert.ok(fallbackBytes<=o.maximumFallbackBytes && o.maximumFallbackBytes<=3*1024*1024,'Atlas fallback memory exceeds declared cap');
+    assert.ok(fallbackBytes<=o.maximumFallbackBytes && o.maximumFallbackBytes<=6*1024*1024,'Atlas fallback memory exceeds declared cap');
     textureBytesEstimate=o.atlas.mimeType==='image/ktx2'?facadeAtlasBc7Bytes(o.atlas.width,o.atlas.height):fallbackBytes;
+    assert.ok(textureBytesEstimate<=3*1024*1024,'Atlas estimated GPU residency exceeds 3 MiB');
     const viewId=json.bufferViews.length,offset=appendPayload(o.atlas.image);json.bufferViews.push({buffer:0,byteOffset:offset,byteLength:o.atlas.image.length});
     json.images??=[];const image=json.images.length;json.images.push({name:o.atlas.name,mimeType:o.atlas.mimeType,bufferView:viewId});
     json.samplers??=[];const sampler=json.samplers.length;json.samplers.push({magFilter:9729,minFilter:9987,wrapS:33071,wrapT:33071});

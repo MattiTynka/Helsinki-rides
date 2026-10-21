@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "id": "sturenkatu-13-northwest-bayed-20261021",
+  "building": {
+    "id": "BID_bb06515d-b65a-4351-89ce-f9dd01822d54",
+    "vtj": "103180609R",
+    "owner": "c_m03_m18"
+  },
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "triangles": [
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    85,
+    86,
+    111,
+    112,
+    113,
+    114,
+    282,
+    283
+  ],
+  "frame": {
+    "origin": [
+      -273.6282897496305,
+      -2202.161817674753
+    ],
+    "axis": [
+      -0.6517723658767592,
+      0.7584146511502873
+    ],
+    "width": 41.88386030197921
+  },
+  "completeElevationSupportPlanes": true,
+  "art": {
+    "wallColour": "#ded6ba",
+    "groundColour": "#af9c8b",
+    "surroundColour": "#e8e3cf",
+    "frameColour": "#dfdfd2",
+    "glassColour": "#80969a",
+    "groundHeight": 3.15,
+    "rows": [
+      {
+        "bottom": 3.4,
+        "height": 1.68,
+        "width": 1.2,
+        "axes": [
+          3.3,
+          6.4,
+          9.5,
+          18.8,
+          21.65,
+          24.5,
+          27.4,
+          37.1,
+          40.1
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 3.4,
+        "height": 1.68,
+        "width": 2.25,
+        "axes": [
+          14.570777006636943,
+          32.342334876160926
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 6.7,
+        "height": 1.68,
+        "width": 1.2,
+        "axes": [
+          3.3,
+          6.4,
+          9.5,
+          18.8,
+          21.65,
+          24.5,
+          27.4,
+          37.1,
+          40.1
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 6.7,
+        "height": 1.68,
+        "width": 2.25,
+        "axes": [
+          14.570777006636943,
+          32.342334876160926
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 10,
+        "height": 1.68,
+        "width": 1.2,
+        "axes": [
+          3.3,
+          6.4,
+          9.5,
+          18.8,
+          21.65,
+          24.5,
+          27.4,
+          37.1,
+          40.1
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 10,
+        "height": 1.68,
+        "width": 2.25,
+        "axes": [
+          14.570777006636943,
+          32.342334876160926
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 13.3,
+        "height": 1.68,
+        "width": 1.2,
+        "axes": [
+          3.3,
+          6.4,
+          9.5,
+          18.8,
+          21.65,
+          24.5,
+          27.4,
+          37.1,
+          40.1
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 13.3,
+        "height": 1.68,
+        "width": 2.25,
+        "axes": [
+          14.570777006636943,
+          32.342334876160926
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 16.6,
+        "height": 1.68,
+        "width": 1.2,
+        "axes": [
+          3.3,
+          6.4,
+          9.5,
+          18.8,
+          21.65,
+          24.5,
+          27.4,
+          37.1,
+          40.1
+        ],
+        "header": "none"
+      },
+      {
+        "bottom": 16.6,
+        "height": 1.68,
+        "width": 2.25,
+        "axes": [
+          14.570777006636943,
+          32.342334876160926
+        ],
+        "header": "none"
+      }
+    ],
+    "groundOpenings": [
+      {
+        "x": 3,
+        "bottom": 0.35,
+        "width": 2.4,
+        "height": 2.45,
+        "kind": "glazing"
+      },
+      {
+        "x": 6.4,
+        "bottom": 0.35,
+        "width": 2.4,
+        "height": 2.45,
+        "kind": "glazing"
+      },
+      {
+        "x": 9.7,
+        "bottom": 0.35,
+        "width": 2.4,
+        "height": 2.45,
+        "kind": "glazing"
+      },
+      {
+        "x": 37.1,
+        "bottom": 0.35,
+        "width": 2.4,
+        "height": 2.45,
+        "kind": "glazing"
+      },
+      {
+        "x": 40.1,
+        "bottom": 0.35,
+        "width": 2.4,
+        "height": 2.45,
+        "kind": "glazing"
+      },
+      {
+        "x": 14.570777006636943,
+        "bottom": 0.1,
+        "width": 1.85,
+        "height": 2.95,
+        "kind": "glazing"
+      },
+      {
+        "x": 32.342334876160926,
+        "bottom": 0.1,
+        "width": 1.85,
+        "height": 2.95,
+        "kind": "glazing"
+      }
+    ],
+    "bands": [
+      {
+        "from": "ground",
+        "offset": 3.05,
+        "height": 0.2,
+        "colour": "#9c9180"
+      },
+      {
+        "from": "ground",
+        "offset": 0.05,
+        "height": 0.28,
+        "colour": "#978572"
+      },
+      {
+        "from": "top",
+        "offset": -0.2,
+        "height": 0.2,
+        "colour": "#a19a83"
+      }
+    ],
+    "rustication": null
+  },
+  "references": [
+    {
+      "title": "Google Street View Sturenkatu13 actual northwest street facade, August2024; full front and upward roof/storey view opened",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=HCgacOYSiFRT1WNv8USLBQ&heading=129.77&pitch=15&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual August2024 northwest elevation has five upper residential rows, pale cream plaster, two projecting broad window bays and a grey-brown stone shop plinth on the flanks.",
+    "Opening axes follow each literal native flat or projecting bay front. The bay fronts occupy projected intervals12.750743589739837..16.39081042353405 and30.359993980123004..34.324675772198844 metres. Window surrounds stay wholly inside those source planes.",
+    "The central block between bays continues the residential wall down to a sixth ground-storey window row and low basement vents; it does not have continuous shop glazing. The bay feet have tall glazed entrances.",
+    "Opening widths, shop modules and colours are approximate original reference-led interpretation, with no claim of surveyed individual dimensions."
+  ],
+  "limitations": [
+    "Only declared source-null street-facing planes receive this elevation. Four observed narrow bay returns are qualified separately for matching plain cream finish; no opening is painted on their perpendicular planes.",
+    "Farther recessed entrance/court/party/roof faces remain native until separately qualified. All selected support planes include every coplanar source triangle in the full elevation bounds.",
+    "No reference photograph pixels, logos, people, signs or vehicles are reproduced."
+  ]
+}

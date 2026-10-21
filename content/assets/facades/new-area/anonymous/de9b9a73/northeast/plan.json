@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "id": "anonymous-pengerkuja-white-annex-20261021",
+  "building": {
+    "id": "BID_de9b9a73-1c8f-4f5d-adea-1b31de25beb2",
+    "vtj": null,
+    "owner": "c_p02_m13"
+  },
+  "source": {
+    "cityJsonSha256": "5ae2b173cf2c3e0c67835171f7eeafa5ad345d992943955cdeed6cfccd046efb",
+    "cityBinSha256": "e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f",
+    "originId": "senate-square-statue-v2"
+  },
+  "faces": [
+    {
+      "part": 0,
+      "triangle": 7
+    },
+    {
+      "part": 0,
+      "triangle": 8
+    }
+  ],
+  "completeElevationPlane": true,
+  "role": "Long low courtyard industrial/service annex, exact northeast public-facing plane",
+  "finish": {
+    "kind": "plain",
+    "colour": "#d7d5cb"
+  },
+  "references": [
+    {
+      "title": "Actual Google Street View Pengerkuja4 outdoor court,July2009; opened heading23 toward source annex",
+      "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=3PEgwhke6eQ88R6wUDu8lQ&heading=23&pitch=5&fov=100",
+      "role": "appearance-reference-only"
+    }
+  ],
+  "observations": [
+    "Actual outdoor July2009court reference shows a long low white-rendered industrial strip, continuous narrow upright upper lights and a flat parapet/roof edge.",
+    "Initial proxy lookup snapped south of its requested point and looked at the wrong house; actual source coordinates determined heading23toward the observed annex.",
+    "No copied signage or photograph pixels."
+  ],
+  "limitations": [
+    "Historical2009reference only; no claim this is a contemporary2026survey.",
+    "The northern part is partially tree-occluded; original repeated light rhythm is interpreted conservatively, exact hidden bay count is not claimed.",
+    "No street-floor or garage opening height is inferred. Roof-relative upper lights use only the unchanged selected native source envelope. Side/court/rear planes are preserved."
+  ]
+}

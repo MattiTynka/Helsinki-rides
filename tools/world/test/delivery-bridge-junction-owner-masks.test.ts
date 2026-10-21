@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {encodedJunctionOwnerFloors,validateJunctionOwnerMasks}from '../lib/delivery-bridge-junction-owner-masks.ts';
+import type {BridgeFace} from '../lib/bridge-reconstruction.ts';
+const f:BridgeFace={points:[[640.017578125,12,-2188.237060546875],[640.1694946289062,12,-2188.78857421875],[639.67919921875,12,-2188.362060546875]],uvs:[[0,0],[1,0],[0,1]],material:'asphalt',role:'road',collision:true};
+test('cell-edge source cuts bind the actual shipped F32 triangles, rejecting the unsplit wedge',()=>{const before=structuredClone(f),actual=encodedJunctionOwnerFloors([f]);assert.ok(actual.length>1);const masks=actual.map(({face})=>face.points.map(p=>[p[0],p[2]]as[number,number]));assert.doesNotThrow(()=>validateJunctionOwnerMasks([f],[{masks}]));assert.throws(()=>validateJunctionOwnerMasks([f],[{masks:[f.points.map(p=>[p[0],p[2]])]}]),/pre-owner/);const changed=structuredClone(masks);changed[0]![0]![1]+=.00001;assert.throws(()=>validateJunctionOwnerMasks([f],[{masks:changed}]),/unrelated/);assert.deepEqual(f,before);});

@@ -18,6 +18,7 @@ import re
 import shutil
 import subprocess
 import sys
+import zlib
 
 ROOT = Path(__file__).resolve().parents[2]
 ROOT_FILES = {
@@ -27,13 +28,25 @@ ROOT_FILES = {
 }
 SOURCE_DIRS = {'apps', 'packages', 'tools', 'content', 'docs', '.github'}
 OMIT_DIRS = {'node_modules', 'dist', 'dist-pages', '__pycache__', '.git'}
-TEXT_SUFFIXES = {'.ts', '.mjs', '.js', '.py', '.json', '.md', '.yaml', '.yml', '.html', '.css', '.svg'}
+TEXT_SUFFIXES = {'.ts', '.mjs', '.js', '.py', '.json', '.geojson', '.md', '.yaml', '.yml', '.html', '.css', '.svg'}
+COMPRESSED_JSON = {
+    'content/helsinki/city-expansion-20261021/road-registration-source-gate-v2.json.gz',
+    'content/helsinki/city-expansion-20261021/road-registration-source-v1.json.gz',
+}
+MAX_DECODED_SOURCE_BYTES = 64 * 1024 * 1024
 IMAGES = {
+    'apps/game/src/assets/senate-square-start.jpg',
+    'content/helsinki/city-expansion-20261021/theatre-facade/v1/facade.png',
     'content/assets/facades/estates/front-2021.jpg',
     'content/assets/facades/estates/park-2022.jpg',
     'content/assets/facades/esplanadi/catani-valtonen.jpg',
     *(f'content/helsinki/district-expansion/facade-charts/canalside-v{i}/canalside-original.png' for i in (1, 2, 3)),
     *(f'content/helsinki/senate-facades/v1/{vtj}/facade.png' for vtj in ('103017637K', '103036705N', '1030368080')),
+    *(f'content/helsinki/city-facades/v1/{cell}/facade.png' for cell in ('c_m02_p00', 'c_m02_p02', 'c_m02_m02', 'c_m06_m01', 'c_m02_p01')),
+    *(f'content/assets/facades/new-area/{name}/facade.png' for name in (
+        'anonymous/1851b11d/northwest', 'anonymous/96ce40d5/corner', 'anonymous/96ce40d5/east',
+        'anonymous/96ce40d5/south', 'anonymous/a83797fb/west', 'anonymous/de9b9a73/northeast',
+        'linjat/toinen-10/front', 'linjat/toinen-12-103151972Y/northeast', 'linjat/toinen-14/northwest')),
 }
 DECODERS = {'apps/game/public/basis/basis_transcoder.js', 'apps/game/public/basis/basis_transcoder.wasm'}
 PUBLIC_HANDLE = 'MattiTynka'
@@ -58,7 +71,7 @@ def selected(relative: str) -> bool:
         return False
     if p.name.startswith('.env'):
         return False
-    return relative in ROOT_FILES or relative in IMAGES or relative in DECODERS or (
+    return relative in ROOT_FILES or relative in IMAGES or relative in DECODERS or relative in COMPRESSED_JSON or (
         parts[0] in SOURCE_DIRS and p.suffix in TEXT_SUFFIXES)
 
 
@@ -98,6 +111,28 @@ def scan_text(name: str, text: str) -> list[dict]:
     return findings
 
 
+def source_text(name: str, data: bytes) -> str:
+    if name in COMPRESSED_JSON:
+        # The exact two public datasets may be compressed; never skip their
+        # decoded privacy scan or accept filenames/comments in gzip headers.
+        if len(data) < 10 or data[:3] != b'\x1f\x8b\x08' or data[3] != 0:
+            raise ValueError('invalid or metadata-bearing compressed source')
+        decoder = zlib.decompressobj(16 + zlib.MAX_WBITS)
+        try:
+            decoded = decoder.decompress(data, MAX_DECODED_SOURCE_BYTES + 1)
+        except zlib.error as error:
+            raise ValueError('invalid compressed source') from error
+        if len(decoded) > MAX_DECODED_SOURCE_BYTES:
+            raise ValueError('decoded source limit exceeded')
+        if not decoder.eof or decoder.unused_data or decoder.unconsumed_tail:
+            raise ValueError('compressed source must contain exactly one complete member')
+        data = decoded
+        text = data.decode('utf-8-sig')
+        json.loads(text)
+        return text
+    return data.decode('utf-8-sig')
+
+
 def git_output(root: Path, *args: str) -> bytes:
     result = subprocess.run(['git', '-C', str(root), *args], capture_output=True, check=False)
     if result.returncode:
@@ -131,9 +166,9 @@ def audit(root: Path, include_git: bool = False, images: bool = False) -> dict:
             findings.extend(image_findings(name, data))
         if name not in IMAGES and not name.endswith('.wasm'):
             try:
-                findings.extend(scan_text(name, data.decode('utf-8-sig')))
-            except UnicodeDecodeError:
-                findings.append({'file': name, 'rule': 'unexpected-binary'})
+                findings.extend(scan_text(name, source_text(name, data)))
+            except (UnicodeDecodeError, ValueError, OSError, EOFError):
+                findings.append({'file': name, 'rule': 'invalid-compressed-source' if name in COMPRESSED_JSON else 'unexpected-binary'})
         if len(data) > 25_000_000:
             findings.append({'file': name, 'rule': 'oversize-source'})
     commits = 0
@@ -165,9 +200,9 @@ def audit(root: Path, include_git: bool = False, images: bool = False) -> dict:
                     findings.extend(image_findings(name, blob))
                 if name not in IMAGES and not name.endswith('.wasm'):
                     try:
-                        findings.extend(scan_text(name, blob.decode('utf-8-sig')))
-                    except UnicodeDecodeError:
-                        findings.append({'file': name, 'rule': 'unexpected-git-binary'})
+                        findings.extend(scan_text(name, source_text(name, blob)))
+                    except (UnicodeDecodeError, ValueError, OSError, EOFError):
+                        findings.append({'file': name, 'rule': 'invalid-compressed-git-source' if name in COMPRESSED_JSON else 'unexpected-git-binary'})
     return {'schemaVersion': 1, 'status': 'PASS' if not findings else 'FAIL', 'files': len(files),
             'bytes': byte_count, 'commits': commits, 'imageMetadataChecked': images,
             'findings': findings, 'inventory': inventory}

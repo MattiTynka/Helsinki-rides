@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "ratakatu-6-norssi-plain-upper-returns-20261021",
+  "building": {"id":"BID_2cdd0441-faa4-49a3-8012-978c914478bb","vtj":"103103748B","owner":"c_m04_p05"},
+  "source": {"cityJsonSha256":"795fb0f3340d93b1b203f74e258dda8e501e2ac7396849693ba919f487ff6475","cityBinSha256":"e35ddc04f636e73938932e4bae65213f2e5fb6730125c45487a05f576665628f","originId":"senate-square-statue-v2"},
+  "planes": [
+    {"id":"southwest-upper","faces":[{"part":0,"triangle":101},{"part":0,"triangle":102}]},
+    {"id":"northeast-upper","faces":[{"part":0,"triangle":350},{"part":0,"triangle":351},{"part":0,"triangle":352},{"part":0,"triangle":353}]}
+  ],
+  "completeElevationPlane": true,
+  "role": "Observed uninterrupted pale plaster upper return walls facing the open Norssi entrance forecourt; no apartment windows",
+  "finish": {"kind":"plain","colour":"#dedacd"},
+  "references": [{"title":"Google Street View actual Norssi forecourt, August2024, plain upper side returns on both sides of entrance actually opened","url":"https://www.google.com/maps/@?api=1&map_action=pano&pano=-FW_InsT6menusWpSjRDCw&heading=145.31&pitch=25&fov=110","role":"appearance-reference-only"}],
+  "observations": ["The actual forecourt has large unfenestrated pale plaster return walls above the low front porch on both sides. They are genuine plain architectural faces, not missing apartment-window texture.","Only the exact elevated support planes beginning14.577m are selected. Lower side walls, small vents and ground features are not inferred through the porch.","The upper native roof/gable steps are retained exactly. A uniform original pale finish is intentional; no photograph or invented windows are applied."],
+  "limitations": ["Selected source planes only. Thin roof-edge brick trim is not reconstructed by this material-finish profile.","Other wings, lower returns, court facades and the separate northeast school remain pending; this is not complete whole-BID coverage.","Runtime and final post-road/tram binding remain required."]
+}

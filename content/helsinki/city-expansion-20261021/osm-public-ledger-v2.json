@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "id": "osm-city-extension-new-area-consumption",
+    "title": "Reviewed OSM input derivative for new cells only; accepted world records are protected",
+    "url": "https://www.openstreetmap.org",
+    "license": "ODbL 1.0",
+    "licenseUrl": "https://www.openstreetmap.org/copyright",
+    "attribution": "Map data © OpenStreetMap contributors, ODbL 1.0"
+  },
+  "snapshots": {
+    "city-expansion-new-area-public": {
+      "path": "osm-public-v2.json",
+      "bytes": 7555560,
+      "sha256": "91a28d34410b19d31f1553d40055e8e58eaa7b9bd2cc647c171aad1f14f41dd0",
+      "sourceSnapshotSha256": "4a896ad8d1bbe4d645d8053c45053084bcd0077eaa5cb3b0410f8e4d0ce5b566",
+      "scope": "NEW-AREA ONLY: X-1792..800, north Z-2304..-1152 and south Z450..768. Never replace or regenerate accepted world roads/footways from this derivative.",
+      "overrides": [
+        {
+          "type": "way",
+          "id": 24693558,
+          "acceptedVersion": 11,
+          "currentVersion": 12,
+          "sourcePart": "south-0-west",
+          "currentElementSha256": "12a04ed6591b5a7835e85ddcc66b8bc2a8f0afcdc72e2a65a1669c5507447d69",
+          "policy": "Current new-south cycleway segmentation"
+        },
+        {
+          "type": "way",
+          "id": 314475706,
+          "acceptedVersion": 4,
+          "currentVersion": 5,
+          "sourcePart": "south-0-west",
+          "currentElementSha256": "8908b1f81e113eee2cefd77400949bf4cd743b7a896ec470cac2fd6db9d7e5c4",
+          "policy": "Current new-south cycleway segmentation"
+        },
+        {
+          "type": "way",
+          "id": 23815853,
+          "acceptedVersion": 21,
+          "currentVersion": 22,
+          "sourcePart": "north-0-west",
+          "currentElementSha256": "da0086e0e8f9173e3b90f1fa628fb8aaacd624369edc689338930c1c067b43e0",
+          "policy": "Current construction; exclude usable footway in new area"
+        }
+      ],
+      "projection": {
+        "producer": "tools/world/project_delivery_osm.ts",
+        "method": "Exact retained source coordinates, topology and consumed road/coast/tram tags, including lane placement, namespaced public road names/references, and multi-track refusal; contributor/editor/contact metadata removed.",
+        "warning": "The original source-bound road registration hashes identify the full private input. A public-input rebuild must explicitly rebind that projection; do not silently substitute its hash.",
+        "corrects": {
+          "previousPublicProjectionSha256": "86bdbd537cbf4a7731b5f0291f5b916a640418033a9ebddf7d498321989b478a",
+          "previousPublicLedgerSha256": "c1ac012766e09ba858023bd0b9b9c42945ab22acffea2cda3f830152ab0b61be",
+          "reason": "Retain producer-consumed placement and name/ref namespaces and tram tracks. Source coordinates, topology and reviewed new-area overrides are unchanged. Actual source roads were built from the full pinned source snapshot."
+        }
+      },
+      "retrievedAt": "2026-10-20T21:37:58.341Z",
+      "acquisition": {
+        "parentCombinedSnapshotSha256": "2852cec7cadfdbf29c9ab087ae6b7242bc563efd1155acb6fa38632c657299f3",
+        "acquisitionUrl": "https://api.openstreetmap.org/api/0.6/map.json",
+        "bboxEN": [
+          25495518,
+          6672152,
+          25498190,
+          6675304
+        ],
+        "stripsEN": [
+          {
+            "id": "south",
+            "bbox": [
+              25495518,
+              6672152,
+              25498190,
+              6672550
+            ]
+          },
+          {
+            "id": "north",
+            "bbox": [
+              25495518,
+              6674072,
+              25498190,
+              6675304
+            ]
+          }
+        ],
+        "cachedAcceptedSnapshotSha256": "707388efff3d70d40c3e71898d22dbdb908d1137a67f6dac2e3b13ef26c49c1a",
+        "policy": "Eight unchanged complete OSM map API responses saved. Accepted element IDs and parsed content retained first, new IDs appended. Conflicts preserve old/fresh witnesses; accepted node coordinates and way node order never replaced.",
+        "parts": [
+          {
+            "id": "south-0-west",
+            "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9192731,60.1622462,24.9433424,60.1658309",
+            "bbox": [
+              25495518,
+              6672152,
+              25496854,
+              6672550
+            ],
+            "bboxLonLat": [
+              24.9192731,
+              60.1622462,
+              24.9433424,
+              60.1658309
+            ],
+            "bytes": 4926784,
+            "sha256": "baeb94c14e02545fb076f4e4459e9ff25d3155f2a8594c94c2e57c2141e7b6e3"
+          },
+          {
+            "id": "south-0-east",
+            "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9433362,60.1622587,24.967403,60.165839",
+            "bbox": [
+              25496854,
+              6672152,
+              25498190,
+              6672550
+            ],
+            "bboxLonLat": [
+              24.9433362,
+              60.1622587,
+              24.967403,
+              60.165839
+            ],
+            "bytes": 2880970,
+            "sha256": "1256d6cb011358287acb60db63438d50ce1e661cf6c2e081e3196ba3b49fd006"
+          },
+          {
+            "id": "north-0-west",
+            "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9192305,60.179479,24.9433127,60.1831774",
+            "bbox": [
+              25495518,
+              6674072,
+              25496854,
+              6674482.666666667
+            ],
+            "bboxLonLat": [
+              24.9192305,
+              60.179479,
+              24.9433127,
+              60.1831774
+            ],
+            "bytes": 5265879,
+            "sha256": "25f7e90599855ff454d27c6acdb8a8b31c31d92eba16b182cd3ae38c3fe0a00f"
+          },
+          {
+            "id": "north-0-east",
+            "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9433064,60.1794915,24.9673859,60.1831855",
+            "bbox": [
+              25496854,
+              6674072,
+              25498190,
+              6674482.666666667
+            ],
+            "bboxLonLat": [
+              24.9433064,
+              60.1794915,
+              24.9673859,
+              60.1831855
+            ],
+            "bytes": 5302786,
+            "sha256": "ec265df3335d711192dc58d1ff4c47e0ab19d3d1d4a6fe4b0aadd7510afb9901"
+          },
+          {
+            "id": "north-1-west",
+            "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9192215,60.1831649,24.9433064,60.1868633",
+            "bbox": [
+              25495518,
+              6674482.666666667,
+              25496854,
+              6674893.333333333
+            ],
+            "bboxLonLat": [
+              24.9192215,
+              60.1831649,
+              24.9433064,
+              60.1868633
+            ],
+            "bytes": 5190435,
+            "sha256": "0d91334aff57435d82d79931b94e57bbdbbc4cd1ee8e22c4aad747f38ba63172"
+          },
+          {
+            "id": "north-1-east",
+            "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9433,60.1831774,24.9673822,60.1868714",
+            "bbox": [
+              25496854,
+              6674482.666666667,
+              25498190,
+              6674893.333333333
+            ],
+            "bboxLonLat": [
+              24.9433,
+              60.1831774,
+              24.9673822,
+              60.1868714
+            ],
+            "bytes": 5992307,
+            "sha256": "e8545fd778cba82556f227cb7d05e81442a66d522310fa526f7af859cb6d1b6b"
+          },
+          {
+            "id": "north-2-west",
+            "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9192124,60.1868508,24.9433,60.1905492",
+            "bbox": [
+              25495518,
+              6674893.333333333,
+              25496854,
+              6675304
+            ],
+            "bboxLonLat": [
+              24.9192124,
+              60.1868508,
+              24.9433,
+              60.1905492
+            ],
+            "bytes": 6131021,
+            "sha256": "294eeb2178e34b7d43b9f7d1acbe38ab779d849fb7c66e42a0504e1a37ebab04"
+          },
+          {
+            "id": "north-2-east",
+            "url": "https://api.openstreetmap.org/api/0.6/map.json?bbox=24.9432937,60.1868633,24.9673786,60.1905573",
+            "bbox": [
+              25496854,
+              6674893.333333333,
+              25498190,
+              6675304
+            ],
+            "bboxLonLat": [
+              24.9432937,
+              60.1868633,
+              24.9673786,
+              60.1905573
+            ],
+            "bytes": 5956994,
+            "sha256": "6251786bfb86d7033b9e0b2e26022368f8360245b360f48e53a58e1ca488eafb"
+          }
+        ]
+      }
+    }
+  }
+}

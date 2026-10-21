@@ -1,0 +1,13 @@
+{
+ "schemaVersion":1,
+ "kind":"source-bound-swing-gate-entrance",
+ "sourceOsmSha256":"0c158c071166235c743e9ce4e19e22934f71f52894ecf105a198fa63fb03a0c5",
+ "wayId":36732515,
+ "sourceNodeSpan":[1528653051,1036937922,8093324554,426945146,1533278052,1533278042,1533278041],
+ "gateNodeId":8093324554,
+ "gateIndex":2,
+ "publicNodeId":1528653051,
+ "forwardLaneId":"36732515:0:f0",
+ "reverseLaneId":"36732515:0:b0",
+ "reason":"The exact public OSM source marks node8093324554 as barrier=swing_gate inside this driveway. Retain the literal entrance through that node and terminate game motor topology there. Preserve all physical scenery and walking. The opened April2023 street panorama does not independently confirm the gate or the disputed inner floor level."
+}
