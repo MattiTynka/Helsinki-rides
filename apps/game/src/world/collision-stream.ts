@@ -31,9 +31,6 @@ export interface CollisionStreamOptions {
 
 const DEFAULTS: CollisionStreamOptions = { concurrency: 4, cacheBytes: 64 * 2 ** 20, playerMargin: 160, actorMargin: 48, lookaheadSeconds: 4, retrySeconds: 2 };
 
-const distanceToBounds = (x: number, z: number, b: readonly number[]): number =>
-  Math.hypot(Math.max(b[0]! - x, 0, x - b[2]!), Math.max(b[1]! - z, 0, z - b[3]!));
-
 export class CollisionStream {
   private readonly base: string;
   private readonly cells: ReadonlyMap<string, CellDescriptor>;
@@ -86,7 +83,16 @@ export class CollisionStream {
     const ranked: { id: string; d: number }[] = [];
     for (const cell of this.extents) {
       let d = Infinity;
-      for (const f of focus) d = Math.min(d, distanceToBounds(f.x, f.z, cell.boundsXZ) - f.radius);
+      const b = cell.boundsXZ;
+      for (const f of focus) {
+        const dx = Math.max(b[0] - f.x, 0, f.x - b[2]);
+        if (dx > f.radius) continue;
+        const dz = Math.max(b[1] - f.z, 0, f.z - b[3]);
+        if (dz > f.radius) continue;
+        // Only nonpositive ranks enter the queue. A source outside either axis of its circle
+        // cannot affect the minimum rank of a retained cell, even when source radii differ.
+        d = Math.min(d, Math.hypot(dx, dz) - f.radius);
+      }
       if (d <= 0) ranked.push({ id: cell.id, d });
     }
     ranked.sort((a, b) => a.d - b.d || (a.id < b.id ? -1 : 1));

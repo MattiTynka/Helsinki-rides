@@ -163,6 +163,7 @@ export class CharacterView {
 
   /** Called after all animation, aiming and vehicle layers, before the renderer tests visibility. */
   prepareForRender(): void {
+    if (!this.root.visible) return;
     this.skinnedCulling ??= new SkinnedMeshCuller(this.model);
     this.root.updateWorldMatrix(true, false);
     this.root.updateMatrixWorld(true);

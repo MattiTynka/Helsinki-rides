@@ -13,6 +13,63 @@ function cell(id: string, x: number, z = 0, textureMiB = 10): CellDescriptor {
 const focus = (x: number, velocityX = 0) => ({ x, z: 64, velocityX, velocityZ: 0 });
 const options: CellStreamOptions = { textureBudgetBytes: 30 * MiB, geometryBudgetBytes: MiB, radius: 100, lookaheadSeconds: 3, maxLookahead: 180, concurrency: 1 };
 const resource = (textureMiB = 10): CellResource => ({ textureBytes: textureMiB * MiB, geometryBytes: 1200 });
+
+// Frozen exhaustive selector: compare exact selected IDs/order, including memory pressure and hysteresis.
+function exhaustiveSelection(cells: CellDescriptor[], at: ReturnType<typeof focus>, opts: CellStreamOptions,
+  costs: Map<string, number>, resident: Set<string>): string[] {
+  const speed = Math.hypot(at.velocityX, at.velocityZ), lead = Math.min(opts.maxLookahead, speed * opts.lookaheadSeconds);
+  const ux = speed > .01 ? at.velocityX / speed : 0, uz = speed > .01 ? at.velocityZ / speed : 0;
+  const distance = (b: readonly number[], x: number, z: number) => Math.hypot(Math.max(b[0]! - x, 0, x - b[2]!), Math.max(b[1]! - z, 0, z - b[3]!));
+  const ranked = cells.map(c => {
+    const bounds = visualBounds(c), here = distance(bounds, at.x, at.z);
+    let corridor = here;
+    for (let i = 1; i <= 4; i++) corridor = Math.min(corridor, distance(bounds, at.x + ux * lead * i / 4, at.z + uz * lead * i / 4));
+    return { c, here, corridor, rank: Math.min(here, corridor + 35) - (resident.has(c.id) ? 18 : 0) };
+  }).filter(p => p.corridor <= opts.radius).sort((a, b) => a.rank - b.rank || a.here - b.here || a.c.id.localeCompare(b.c.id));
+  let used = 0, geometry = 0;
+  const result: string[] = [];
+  for (const { c } of ranked) {
+    if (result.length >= (opts.maxCells ?? Infinity)) break;
+    const lod = c.visual[opts.level ?? 'lod0'] ?? c.visual.lod0, bytes = costs.get(c.id) ?? lod.textureBytesEstimate / 4;
+    if (bytes > opts.textureBudgetBytes || used + bytes > opts.textureBudgetBytes || geometry + lod.triangles * 108 > (opts.geometryBudgetBytes ?? Infinity)) continue;
+    used += bytes; geometry += lod.triangles * 108; result.push(c.id);
+  }
+  return result;
+}
+
+test('cached bounds and swept broadphase preserve exhaustive visual selection under movement and budgets', () => {
+  const cells: CellDescriptor[] = [];
+  for (let x = -6; x <= 6; x++) for (let z = -6; z <= 6; z++) cells.push(cell(`${x}:${z}`, x * 128, z * 128, (x + z + 12) % 8 + 1));
+  const crossing = cells[0]!;
+  (crossing as unknown as { buildings: unknown[] }).buildings = [{ boundsRuntime: { min: [-900, 0, -800], max: [100, 40, 100] } }];
+  const bounds = new Map(cells.map(c => [c.id, visualBounds(c)]));
+  const costs = new Map(cells.filter((_, i) => i % 3 === 0).map(c => [c.id, MiB]));
+  const resident = new Set(cells.filter((_, i) => i % 4 === 0).map(c => c.id));
+  for (let i = 0; i < 250; i++) {
+    const at = { x: ((i * 137) % 1800) - 900, z: ((i * 239) % 1800) - 900,
+      velocityX: i % 5 ? ((i * 7) % 120) - 60 : 0, velocityZ: i % 5 ? ((i * 11) % 120) - 60 : 0 };
+    const opts = { ...options, radius: i % 3 ? 230 : 0, maxCells: i % 29 + 1, level: i % 2 ? 'lod0' as const : 'lod2' as const };
+    assert.deepEqual(selectVisualCells(cells, at, opts, costs, resident, new Map(), bounds).map(c => c.id), exhaustiveSelection(cells, at, opts, costs, resident));
+  }
+});
+
+test('a stream scans immutable building extents once, and its HUD error query matches diagnostics', async () => {
+  const near = cell('near', 0), far = cell('far', 900);
+  let reads = 0;
+  Object.defineProperty(near, 'buildings', { get: () => { reads++; return []; } });
+  const stream = new CellVisualStream([near, far], { load: async c => {
+    if (c.id === 'near') throw new Error('fixture failure');
+    return resource();
+  }, show: () => {}, dispose: () => {} }, options);
+  assert.equal(reads, 1);
+  stream.update(focus(64)); await stream.settle();
+  assert.equal(stream.hasErrors(), true); assert.equal(stream.stats().errors.length, 1);
+  for (let i = 0; i < 10; i++) { stream.update(focus(64)); stream.stats(); }
+  assert.equal(reads, 1);
+  stream.update(focus(964)); await stream.settle();
+  assert.equal(stream.hasErrors(), false); assert.equal(stream.stats().errors.length, 0);
+  stream.dispose();
+});
 function deferred<T>() {
   let resolve!: (value: T) => void, reject!: (error: Error) => void;
   const promise = new Promise<T>((yes, no) => { resolve = yes; reject = no; });

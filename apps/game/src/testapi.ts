@@ -8,6 +8,7 @@ import { inspectCharacter, type CharacterPoseSnapshot } from './render/character
 import type { CellStreamStats } from './world/cell-streaming.ts';
 import type { CollisionStreamStats } from './world/collision-stream.ts';
 import type { ShootingEffectsSnapshot } from './render/effects.ts';
+import { inspectTextureOwnership, type TextureOwnershipSnapshot } from './review/texture-ownership.ts';
 
 export interface PresentationSnapshot {
   frameTime: number;
@@ -55,6 +56,8 @@ export interface HelsinkiTestApi {
   setLighting(l: Lighting): void;
   /** GPU texture bytes of every texture in the scene (transcoded mip data, or RGBA8 with mips for images). */
   textureMemory(): { textures: number; mib: number; duplicateMiB: number };
+  /** Review-only live material/palette/uniform ownership, deduplicated by actual renderer allocation. */
+  textureOwnership(): TextureOwnershipSnapshot;
   streaming(): { detail: CellStreamStats; fallback: CellStreamStats; scenery: { residentCells: number; residentInstances: number; totalInstances: number };
     coverage: { blocked: boolean; blockedFrames: number; blockedSeconds: number; missingCells: string[] };
     persistentTextureMiB: number; totalTextureBudgetMiB: number } | null;
@@ -115,6 +118,7 @@ export function installTestApi(game: Game, onStart: () => void): HelsinkiTestApi
     setCamera: (yaw, pitch) => { game.cameraRig.yaw = yaw; game.cameraRig.pitch = pitch; },
     setLighting: l => game.setLighting(l),
     textureMemory: () => textureMemory(game),
+    textureOwnership: () => inspectTextureOwnership(game.scene.scene, game.scene.renderer.properties, game.scene.renderer.info.memory.textures),
     streaming: () => game.streaming ? { detail: game.streaming.detail.stats(), fallback: game.streaming.fallback.stats(), scenery: game.scene.sceneryStats(),
       coverage: { ...game.visualLoading, missingCells: game.missingVisualCells() },
       persistentTextureMiB: game.streaming.persistentTextureBytes / 2 ** 20, totalTextureBudgetMiB: game.streaming.totalTextureBudgetBytes / 2 ** 20 } : null,

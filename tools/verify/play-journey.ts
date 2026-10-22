@@ -207,33 +207,68 @@ async function aimAtCar(s: SimState): Promise<void> {
 
 /** Leave the ram contact through real controls before attempting an exit. A pursuit flag can already
  * be true on the collision tick, so it cannot be the stop condition for this movement. */
-async function driveClearOfPatrol(): Promise<{ state: SimState; distance: number; seconds: number }> {
+let driveClearSerial = 0;
+async function driveClearOfPatrol(): Promise<{ state: SimState; distance: number; separation: number; seconds: number }> {
   await releaseAll();
   const initial = await game.state(page), own = initial.vehicles.find(v => v.id === initial.player.inVehicle);
-  if (!own) return { state: initial, distance: 0, seconds: 0 };
+  if (!own) return { state: initial, distance: 0, separation: 0, seconds: 0 };
+  const stem = `drive-clear-${String(++driveClearSerial).padStart(2, '0')}`;
   const patrol = patrolCar(initial), yaw = yawOfQuat(own.rotation);
   const front = patrol ? (patrol.position[0] - own.position[0]) * Math.sin(yaw) + (patrol.position[2] - own.position[2]) * Math.cos(yaw) : 1;
-  const direction = front >= 0 ? -1 : 1;
+  let direction = front >= 0 ? -1 : 1;
+  // Look at all nearby cars, not just the one rammed. Turn the nose away from an
+  // alongside car before its corner pins us against an approaching second patrol.
+  const course = (st: SimState, car: SimState['vehicles'][number]): number => {
+    const heading = yawOfQuat(car.rotation), fx = Math.sin(heading), fz = Math.cos(heading);
+    let adjacentSide = 0, nearest = Infinity;
+    for (const other of st.vehicles) {
+      if (other.id === car.id || Math.abs(other.position[1] - car.position[1]) > 2) continue;
+      const dx = other.position[0] - car.position[0], dz = other.position[2] - car.position[2];
+      const along = dx * fx + dz * fz, side = dx * fz - dz * fx, distance = Math.hypot(dx, dz);
+      if (Math.abs(along) < 3 && Math.abs(side) < 5 && distance < nearest) { nearest = distance; adjacentSide = side; }
+    }
+    return heading + (direction < 0 ? Math.PI : 0) - Math.sign(adjacentSide) * .7;
+  };
+  let desiredCourse = course(initial, own), progressPosition = own.position, progressTick = initial.tick;
+  const decisions: { tick: number; direction: number; course: number; reason: string }[] = [{ tick: initial.tick, direction, course: desiredCourse, reason: 'clear ram and adjacent vehicles' }];
+  const samples: { tick: number; position: readonly number[]; speed: number; direction: number; steer: number; separation: number }[] = [];
   const distance = (st: SimState) => {
     const car = st.vehicles.find(v => v.id === own.id);
     return car ? Math.hypot(car.position[0] - own.position[0], car.position[2] - own.position[2]) : 0;
   };
+  const separation = (st: SimState) => {
+    const car = st.vehicles.find(v => v.id === own.id), pc = st.vehicles.find(v => v.id === patrol?.id);
+    return car && pc ? Math.hypot(car.position[0] - pc.position[0], car.position[2] - pc.position[2]) : Infinity;
+  };
   const state = await loop('driveClear', 8, async st => {
     const car = st.vehicles.find(v => v.id === own.id);
     if (!car || st.player.mode !== 'driving') return;
-    // Reversing away from a head-on ram avoids trying a U-turn against the patrol bumper.
+    if (Math.hypot(car.position[0] - progressPosition[0], car.position[2] - progressPosition[2]) > .4) {
+      progressPosition = car.position; progressTick = st.tick;
+    } else if (st.tick - progressTick > 45 && Math.abs(car.forwardSpeed) < .6) {
+      // A moving patrol can close the chosen gap. A player rocks out and steers,
+      // rather than holding reverse into the same bumper for the entire timeout.
+      direction *= -1;
+      desiredCourse = course(st, car);
+      progressPosition = car.position; progressTick = st.tick;
+      decisions.push({ tick: st.tick, direction, course: desiredCourse, reason: 'blocked for 0.75 seconds' });
+    }
+    const steer = direction * wrap(desiredCourse - yawOfQuat(car.rotation) - (direction < 0 ? Math.PI : 0));
+    await key('KeyA', steer > .06); await key('KeyD', steer < -.06);
     const accelerate = car.forwardSpeed * direction < 3.5;
     await key('KeyW', accelerate && direction > 0);
     await key('KeyS', accelerate && direction < 0);
+    if (!samples.length || st.tick - samples.at(-1)!.tick >= 6) samples.push({ tick: st.tick, position: car.position, speed: car.forwardSpeed, direction, steer, separation: separation(st) });
   }, st => {
     if (st.player.mode !== 'driving') return true;
-    const car = st.vehicles.find(v => v.id === own.id), pc = st.vehicles.find(v => v.id === patrol?.id);
-    const separation = car && pc ? Math.hypot(car.position[0] - pc.position[0], car.position[2] - pc.position[2]) : Infinity;
-    return st.tick - initial.tick >= 180 && distance(st) >= 6 && separation >= 7;
+    return st.tick - initial.tick >= 180 && distance(st) >= 6 && separation(st) >= 7;
   });
-  await key('KeyW', false); await key('KeyS', false);
-  const result = { state, distance: distance(state), seconds: (state.tick - initial.tick) / 60 };
-  note(`  drove clear ${result.distance.toFixed(1)} m over ${result.seconds.toFixed(1)} s using ${direction < 0 ? 'reverse' : 'forward'} controls`);
+  for (const code of ['KeyW', 'KeyS', 'KeyA', 'KeyD']) await key(code, false);
+  const result = { state, distance: distance(state), separation: separation(state), seconds: (state.tick - initial.tick) / 60 };
+  await page.screenshot({ path: path.join(OUT, `${stem}-end.png`) });
+  writeFileSync(path.join(OUT, `${stem}.json`), JSON.stringify({ release, scope: 'Real keyboard driving; no relocation, physics or state overrides.', initial, final: state, decisions, samples,
+    constraints: { timeoutWallSeconds: 8, minimumSimulationSeconds: 3, minimumDistance: 6, minimumPatrolSeparation: 7 }, distance: result.distance, separation: result.separation, seconds: result.seconds }, null, 2) + '\n');
+  note(`  drove clear ${result.distance.toFixed(1)} m over ${result.seconds.toFixed(1)} s, separation ${result.separation.toFixed(1)} m, ${decisions.length} steering manoeuvre(s)`);
   return result;
 }
 
@@ -375,10 +410,12 @@ async function runOnce(run: number): Promise<RunResult> {
   s = await driveToward(() => { const pc = patrolCar(latest); return pc ? [pc.position[0], pc.position[2]] : [-70, -100]; }, 0, 45, 22, async st => { latest = st; return (await game.events(page, sinceTick)).some(e => e.type === 'ramPolice'); }, 45);
   const evAfterRam = await game.events(page, sinceTick);
   check('ramPolice', evAfterRam.some(e => e.type === 'ramPolice') && s.wanted.stars >= 1, `stars ${s.wanted.stars}, events ${evAfterRam.filter(e => e.type === 'ramPolice').length} ramPolice`);
+  await page.screenshot({ path: path.join(OUT, `run-${String(run).padStart(2, '0')}-ram.png`) });
+  writeFileSync(path.join(OUT, `run-${String(run).padStart(2, '0')}-ram.json`), JSON.stringify({ release, state: s, events: evAfterRam.filter(e => e.type === 'ramPolice'), scope: 'Actual ram immediately before the drive-clear manoeuvre.' }, null, 2) + '\n');
   // 6. Actually move clear of the collision, then confirm pursuit with lights and siren.
   const clear = await driveClearOfPatrol();
   s = clear.state;
-  check('driveClear', clear.distance >= 6 && clear.seconds >= 3, `moved ${clear.distance.toFixed(1)} m over ${clear.seconds.toFixed(1)} s`);
+  check('driveClear', clear.distance >= 6 && clear.seconds >= 3 && clear.separation >= 7, `moved ${clear.distance.toFixed(1)} m over ${clear.seconds.toFixed(1)} s, patrol separation ${clear.separation.toFixed(1)} m`);
   const pursuing = s.police.filter(u => u.state === 'pursue' || u.state === 'boxin' || u.state === 'respond');
   const sirens = s.vehicles.filter(v => v.sirenOn && v.lightsOn).length;
   check('pursuit', pursuing.length > 0 && sirens > 0, `${pursuing.length} unit(s) ${pursuing.map(u => u.state).join('/')}, ${sirens} siren(s) on, seen=${s.wanted.seen}`);

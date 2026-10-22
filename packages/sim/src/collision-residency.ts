@@ -80,9 +80,6 @@ export function initialResidencySources(gameplay: GameplayBundle): ResidencySour
   return sources;
 }
 
-const distanceToBounds = (x: number, z: number, b: readonly [number, number, number, number]): number =>
-  Math.hypot(Math.max(b[0] - x, 0, x - b[2]), Math.max(b[1] - z, 0, z - b[3]));
-
 const byUrgency = (a: { id: string; urgency: number }, b: { id: string; urgency: number }): number =>
   a.urgency - b.urgency || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
 
@@ -100,17 +97,49 @@ export class CollisionResidency {
     const all = sources.concat(this.pins);
     const needed: { id: string; urgency: number }[] = [], wanted: { id: string; urgency: number }[] = [], remove: string[] = [];
     for (const cell of this.cells) {
-      let need = false, want = false, keep = false, urgency = Infinity;
+      const b = cell.boundsXZ;
+      if (resident.has(cell.id)) {
+        // Existing cells need only a keep decision, not an insertion priority. Most are close to
+        // one of the first sources; distant sources cannot change that decision once it is true.
+        let keep = false;
+        for (const s of all) {
+          const dx = Math.max(b[0] - s.x, 0, s.x - b[2]);
+          if (dx > s.keep) continue;
+          const dz = Math.max(b[1] - s.z, 0, s.z - b[3]);
+          if (dz > s.keep) continue;
+          if (Math.hypot(dx, dz) <= s.keep) { keep = true; break; }
+        }
+        if (!keep) remove.push(cell.id);
+        continue;
+      }
+      let need = false, want = false, urgency = Infinity;
       for (const s of all) {
-        const d = distanceToBounds(s.x, s.z, cell.boundsXZ);
+        // An axis distance is a conservative lower bound on the Euclidean distance. Avoid the
+        // square root for the many city cells outside both insertion rings.
+        const radius = Math.max(s.need, s.want);
+        const dx = Math.max(b[0] - s.x, 0, s.x - b[2]);
+        if (dx > radius) continue;
+        const dz = Math.max(b[1] - s.z, 0, s.z - b[3]);
+        if (dz > radius) continue;
+        const d = Math.hypot(dx, dz);
         if (d <= s.need) need = true;
         if (d <= s.want) want = true;
-        if (d <= s.keep) keep = true;
         urgency = Math.min(urgency, d - s.need);
       }
-      if (resident.has(cell.id)) { if (!keep) remove.push(cell.id); }
-      else if (need) needed.push({ id: cell.id, urgency });
-      else if (want) wanted.push({ id: cell.id, urgency });
+      if (need) needed.push({ id: cell.id, urgency });
+      else if (want) {
+        // Needed cells already have urgency <= 0, which no skipped source can improve. Wanted
+        // cells can have positive urgency: a source outside its own rings may still rank them
+        // earlier when rings differ. Preserve that exact priority using the same axis bound.
+        for (const s of all) {
+          const dx = Math.max(b[0] - s.x, 0, s.x - b[2]);
+          if (dx - s.need >= urgency) continue;
+          const dz = Math.max(b[1] - s.z, 0, s.z - b[3]);
+          if (dz - s.need >= urgency) continue;
+          urgency = Math.min(urgency, Math.hypot(dx, dz) - s.need);
+        }
+        wanted.push({ id: cell.id, urgency });
+      }
     }
     needed.sort(byUrgency);
     wanted.sort(byUrgency);

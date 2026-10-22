@@ -91,6 +91,21 @@ function vehicleFixture() {
   return { assets, source, geometry, material, texture, lampSources, farBody, farLamp, definition };
 }
 
+test('hidden character bounds wait until the first visible frame and include its latest transform', () => {
+  const f = characterFixture(), view = new CharacterView(f.assets, 'fixture-character', new THREE.MeshBasicMaterial());
+  const mesh = view.model.getObjectByName('skin-0') as InstanceType<typeof THREE.SkinnedMesh>;
+  view.root.visible = false;
+  view.root.position.set(100, 0, 200);
+  view.prepareForRender();
+  assert.equal(mesh.boundingSphere, null);
+  view.root.visible = true;
+  view.prepareForRender();
+  assert.ok(mesh.boundingSphere && Number.isFinite(mesh.boundingSphere.radius));
+  assert.equal(view.root.matrixWorld.elements[12], 100);
+  assert.equal(view.root.matrixWorld.elements[14], 200);
+  view.dispose();
+});
+
 test('vehicle despawn releases every private lamp once across both LODs and retains shared resources', () => {
   const f = vehicleFixture(), parent = new THREE.Group(), shadowMaterial = new THREE.MeshBasicMaterial();
   const sharedDisposals = [f.geometry, f.material, f.texture, ...f.lampSources, f.farBody, f.farLamp, f.assets.farMaterial, shadowMaterial].map(disposalCount);

@@ -74,17 +74,26 @@ export function missingVisualCoverage(cells: readonly CellDescriptor[], x: numbe
 
 /** Select complete cells, never a texture downgrade. A retained cell gets a small hysteresis preference. */
 export function selectVisualCells(cells: readonly CellDescriptor[], focus: StreamFocus, options: CellStreamOptions,
-  costs: ReadonlyMap<string, number>, resident: ReadonlySet<string>, geometryCosts: ReadonlyMap<string, number> = new Map()): CellDescriptor[] {
+  costs: ReadonlyMap<string, number>, resident: ReadonlySet<string>, geometryCosts: ReadonlyMap<string, number> = new Map(),
+  boundsByCell?: ReadonlyMap<string, readonly [number, number, number, number]>): CellDescriptor[] {
   const speed = Math.hypot(focus.velocityX, focus.velocityZ);
   const lead = Math.min(options.maxLookahead, speed * options.lookaheadSeconds);
   const ux = speed > 0.01 ? focus.velocityX / speed : 0, uz = speed > 0.01 ? focus.velocityZ / speed : 0;
-  const ranked = cells.map(cell => {
-    const b = visualBounds(cell), here = distance(b, focus.x, focus.z);
+  const endX = focus.x + ux * lead, endZ = focus.z + uz * lead;
+  const minX = Math.min(focus.x, endX) - options.radius, maxX = Math.max(focus.x, endX) + options.radius;
+  const minZ = Math.min(focus.z, endZ) - options.radius, maxZ = Math.max(focus.z, endZ) + options.radius;
+  const ranked: { cell: CellDescriptor; here: number; corridor: number; rank: number }[] = [];
+  for (const cell of cells) {
+    const b = boundsByCell?.get(cell.id) ?? visualBounds(cell);
+    // Reject only cells outside the entire swept rectangle; exact distances and ordering below stay unchanged.
+    if (b[2] < minX || b[0] > maxX || b[3] < minZ || b[1] > maxZ) continue;
+    const here = distance(b, focus.x, focus.z);
     // Sample the movement corridor, not only its end: a fast car cannot skip the intervening visual cells.
     let corridor = here;
-    for (let i = 1; i <= 4; i++) corridor = Math.min(corridor, distance(b, focus.x + ux * lead * i / 4, focus.z + uz * lead * i / 4));
-    return { cell, here, corridor, rank: Math.min(here, corridor + 35) - (resident.has(cell.id) ? 18 : 0) };
-  }).filter(p => p.corridor <= options.radius).sort((a, b) => a.rank - b.rank || a.here - b.here || a.cell.id.localeCompare(b.cell.id));
+    if (lead > 0 && speed > .01) for (let i = 1; i <= 4; i++) corridor = Math.min(corridor, distance(b, focus.x + ux * lead * i / 4, focus.z + uz * lead * i / 4));
+    if (corridor <= options.radius) ranked.push({ cell, here, corridor, rank: Math.min(here, corridor + 35) - (resident.has(cell.id) ? 18 : 0) });
+  }
+  ranked.sort((a, b) => a.rank - b.rank || a.here - b.here || a.cell.id.localeCompare(b.cell.id));
   let used = 0, geometryUsed = 0;
   const selected: CellDescriptor[] = [];
   for (const { cell } of ranked) {
@@ -125,12 +134,15 @@ export class CellVisualStream<T extends CellResource> {
   private failures = 0;
   private readonly now: () => number;
   private readonly cells: readonly CellDescriptor[];
+  /** A release manifest is immutable for this stream's lifetime. Do not rescan buildings every frame. */
+  private readonly boundsByCell: ReadonlyMap<string, readonly [number, number, number, number]>;
   private readonly backend: CellStreamBackend<T>;
   private options: CellStreamOptions;
 
   constructor(cells: readonly CellDescriptor[], backend: CellStreamBackend<T>, options: CellStreamOptions) {
     if (!(options.textureBudgetBytes > 0)) throw new Error('No visual texture budget remains after persistent assets');
     this.cells = cells;
+    this.boundsByCell = new Map(cells.map(cell => [cell.id, visualBounds(cell)]));
     this.backend = backend;
     this.options = options;
     this.now = options.now ?? (() => performance.now());
@@ -169,12 +181,17 @@ export class CellVisualStream<T extends CellResource> {
     for (;;) {
       this.reselect();
       this.pump();
-      const required = this.desired.filter(cell => distance(visualBounds(cell), this.focus.x, this.focus.z) <= radius);
+      const required = this.desired.filter(cell => distance(this.boundsByCell.get(cell.id)!, this.focus.x, this.focus.z) <= radius);
       if (required.every(cell => this.resident.has(cell.id) || this.errorByCell.has(cell.id))) return;
       const tasks = [...this.pending.values()].map(entry => entry.task);
       if (!tasks.length) return;
       await Promise.race(tasks);
     }
+  }
+
+  /** Ordinary HUD frames need only the error state, not a full residency diagnostic snapshot. */
+  hasErrors(): boolean {
+    return this.errorByCell.size > 0 && this.desired.some(cell => this.errorByCell.has(cell.id));
   }
 
   stats(): CellStreamStats {
@@ -191,7 +208,7 @@ export class CellVisualStream<T extends CellResource> {
       residentGeometryMiB: this.geometryBytes / 2 ** 20, geometryBudgetMiB: this.options.geometryBudgetBytes ? this.options.geometryBudgetBytes / 2 ** 20 : null,
       peakTextureMiB: this.peak / 2 ** 20, loaded: this.loaded, evicted: this.evicted, staleDisposed: this.staleDisposed, cancelledLoads: this.cancelledLoads,
       failedLoads: this.failures, fallbackCells: this.cells.length - this.resident.size,
-      missingNearDetail: this.cells.filter(c => distance(visualBounds(c), this.focus.x, this.focus.z) < 40 && !residentIds.has(c.id)).map(c => c.id),
+      missingNearDetail: this.cells.filter(c => !residentIds.has(c.id) && distance(this.boundsByCell.get(c.id)!, this.focus.x, this.focus.z) < 40).map(c => c.id),
       errors: [...this.errorByCell].filter(([id]) => desiredIds.has(id)).map(([id, message]) => `${id}: ${message}`),
       errorHistory: [...this.failureHistory] };
   }
@@ -215,7 +232,7 @@ export class CellVisualStream<T extends CellResource> {
 
   private reselect(): void {
     if (this.disposed) return;
-    this.desired = selectVisualCells(this.cells, this.focus, this.options, this.costs, new Set(this.resident.keys()), this.geometryCosts);
+    this.desired = selectVisualCells(this.cells, this.focus, this.options, this.costs, new Set(this.resident.keys()), this.geometryCosts, this.boundsByCell);
     const wanted = new Set(this.desired.map(c => c.id));
     for (const [id, entry] of this.pending) if (entry.phase !== 'admitting' && !wanted.has(id)) this.cancel(entry.controller);
     // Eviction precedes loading, so the old and new district never occupy GPU memory together.
