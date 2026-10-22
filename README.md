@@ -25,8 +25,10 @@ city-data download can take a while. Use WASD to move, Space to jump, and F to
 enter or leave a car; the loading screen lists the remaining controls.
 
 The public source repository is `MattiTynka/Helsinki-rides`.
-Original code is [MIT-licensed](LICENSE);
-third-party material retains its [own licenses](THIRD_PARTY_NOTICES.md).
+Original code and documentation are copyright 2026 MattiTynkä,
+[MIT-licensed](LICENSE). Models, textures, animations and map data retain their
+[individual licenses and credits](THIRD_PARTY_NOTICES.md), including CC BY 4.0
+where identified. The MIT grant does not cover these third-party assets.
 The source checkout excludes the generated city and supplied character/car/landmark
 models. Versioned game-world downloads are distributed separately through
 GitHub Releases. Known content credits are retained; the owner will provide the

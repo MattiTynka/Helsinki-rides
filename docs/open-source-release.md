@@ -14,8 +14,19 @@ The source release contains the original TypeScript application, simulation and
 schema packages, authoring/verification scripts, configuration, applicable tests,
 build lockfile, documentation and the explicitly licensed small artwork inputs
 listed below. Original project code and documentation are MIT-licensed, copyright
-2026 Helsinki-rides contributors. Third-party code and content retain their own
+2026 MattiTynkä. Third-party code and content retain their own
 licenses. An existing explicit CC0 artwork dedication is preserved.
+
+MIT remains the code license because this project permits reuse of its original
+software. The proportion of CC BY assets does not require changing the code
+license: [Creative Commons recommends software licenses for code](https://creativecommons.org/faq/#can-i-apply-a-creative-commons-license-to-software)
+and confirms that [including CC material in a collection preserves its own license](https://creativecommons.org/faq/#if-i-create-a-collection-that-includes-a-work-offered-under-a-cc-license-which-licenses-may-i-choose-for-the-collection).
+For each CC BY 4.0 asset, retain the supplied creator/copyright and other required
+notices, its source and license links, and the record of modifications, as
+[the license requires](https://creativecommons.org/licenses/by/4.0/legalcode.en#s3).
+Keep these records with distributed originals and optimized derivatives. ODbL,
+CC0 and other identified terms remain separate; MIT does not clear an asset whose
+redistribution rights are unresolved.
 
 The source export excludes raw downloads, work directories, world releases,
 Blender/source models, dependencies, generated builds, local evidence, accounts,
