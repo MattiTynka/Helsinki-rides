@@ -22,7 +22,8 @@ export function validateSimulationFileRef(value: unknown): string[] {
 
 async function verifyBytes(bytes: Uint8Array, size: number, digest: string, label: string): Promise<void> {
   if (bytes.byteLength !== size) throw new Error(`${label}: simulation payload byte length mismatch`);
-  const actual = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new Uint8Array(bytes).buffer)), byte => byte.toString(16).padStart(2, '0')).join('');
+  const input = bytes.buffer instanceof ArrayBuffer ? new Uint8Array(bytes.buffer, bytes.byteOffset, bytes.byteLength) : new Uint8Array(bytes);
+  const actual = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', input)), byte => byte.toString(16).padStart(2, '0')).join('');
   if (actual !== digest) throw new Error(`${label}: simulation payload SHA-256 mismatch`);
 }
 
@@ -53,7 +54,8 @@ export async function decodeSimulationPayload(stored: Uint8Array, ref: Simulatio
   if (problems.length) throw new Error(`${ref.path}: ${problems.join('; ')}`);
   await verifyBytes(stored, ref.bytes, ref.sha256, ref.path);
   if (!ref.compression) return stored;
-  const stream = new ReadableStream<Uint8Array<ArrayBuffer>>({ start(controller) { controller.enqueue(new Uint8Array(stored)); controller.close(); } });
+  const input = stored.buffer instanceof ArrayBuffer ? new Uint8Array(stored.buffer, stored.byteOffset, stored.byteLength) : new Uint8Array(stored);
+  const stream = new ReadableStream<Uint8Array<ArrayBuffer>>({ start(controller) { controller.enqueue(input); controller.close(); } });
   const decoded = await readDecoded(stream.pipeThrough(new DecompressionStream('gzip')), ref.decodedBytes!);
   await verifyBytes(decoded, ref.decodedBytes!, ref.decodedSha256!, ref.path);
   return decoded;

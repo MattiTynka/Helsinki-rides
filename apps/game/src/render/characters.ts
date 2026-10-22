@@ -12,6 +12,7 @@ import { CharacterCollapse } from './character-collapse.ts';
 import { PedestrianAnimation, pedestrianGaitPhase } from './pedestrian-animation.ts';
 import { NativeVehicleAnimation, type VehiclePoses } from './native-vehicle-animation.ts';
 import { SkinnedMeshCuller } from './skinned-culling.ts';
+import { AnimationCadence, type CharacterPresentationOptions } from './animation-cadence.ts';
 
 const ONE_SHOT = new Set(['fire', 'hit', 'death']);
 
@@ -41,6 +42,7 @@ export class CharacterView {
   private readonly collapsePresentation = new CharacterCollapse();
   private readonly pedestrianAnimation: PedestrianAnimation | null;
   private gaitInitialized = false;
+  private readonly cadence = new AnimationCadence();
 
   constructor(assets: AssetLibrary, assetId: string, shadowMaterial: THREE.Material) {
     const { root, asset } = assets.cloneCharacter(assetId);
@@ -100,7 +102,19 @@ export class CharacterView {
     }
   }
 
-  update(state: CharacterState & { readonly knockdown?: KnockdownPresentation | null }, dt: number, armed: boolean, interaction: PlayerState['vehicleInteraction'] = null, vehicle?: VehicleState, poses?: VehiclePoses): void {
+  update(state: CharacterState & { readonly knockdown?: KnockdownPresentation | null }, dt: number, armed: boolean, interaction: PlayerState['vehicleInteraction'] = null, vehicle?: VehicleState, poses?: VehiclePoses, presentation?: CharacterPresentationOptions): void {
+    // Root placement remains smooth at presentation rate even when distant skeleton poses are sampled.
+    this.root.visible = state.inVehicle === null;
+    this.root.position.set(state.position[0], state.position[1], state.position[2]);
+    this.root.rotation.set(0, state.yaw, 0);
+    const camera = presentation?.cameraPosition;
+    const distance = camera ? Math.hypot(state.position[0] - camera.x, state.position[1] - camera.y, state.position[2] - camera.z) : 0;
+    const urgent = !state.alive || armed || this.shotHoldSeconds > 0 || !!state.knockdown || !!interaction
+      || !state.grounded || !isLocomotionClip(state.clip);
+    const sampledDt = this.cadence.sample(dt, presentation?.mobile === true, distance,
+      `${state.clip}/${state.alive}/${state.aiming}/${state.inVehicle}/${state.jumpPhase}`, urgent);
+    if (sampledDt === null) return;
+    dt = sampledDt;
     this.pedestrianAnimation?.restore();
     if (this.pedestrianAnimation && !this.gaitInitialized) {
       this.gaitInitialized = true;
@@ -120,9 +134,6 @@ export class CharacterView {
     this.firing?.advance(dt, presentingWeapon);
     this.aimCorrection?.restore();
     this.vehicleAnimation?.restore();
-    this.root.visible = state.inVehicle === null;
-    this.root.position.set(state.position[0], state.position[1], state.position[2]);
-    this.root.rotation.set(0, state.yaw, 0);
     // Keep the contact shadow on the supporting surface while the capsule is airborne.
     const groundDistance = state.groundDistance;
     this.shadow.visible = groundDistance !== null && (groundDistance ?? 0) < 5;

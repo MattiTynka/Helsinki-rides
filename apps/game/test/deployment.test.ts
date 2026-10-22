@@ -3,8 +3,9 @@ import { createHash } from 'node:crypto';
 import{gzipSync}from'node:zlib';
 import { test } from 'node:test';
 import type { WorldManifest } from '@helsinki/world-schema';
-import{encodePackedRoadGraph,type RoadGraph}from'@helsinki/world-schema';
+import{encodePackedRoadGraph,encodeTerrain,type RoadGraph}from'@helsinki/world-schema';
 import { GlbLoader, loadWorldData, resolveRelease } from '../src/world/loader.ts';
+import { requestSlots } from '../src/world/startup-queue.ts';
 import { basisDecoderUrl, createWorldDeployment, selectedRelease, validateManifestPaths, validatePayloadPath, validateReleaseId, validateWorldBaseUrl, verifyManifestHash, worldReleaseUrl, worldRootUrl } from '../src/world/urls.ts';
 
 const release = 'senate-20261019-08b1f804';
@@ -12,6 +13,20 @@ const digest = 'a'.repeat(64);
 const local = createWorldDeployment({ appBase: '/', pages: false });
 const pages = createWorldDeployment({ appBase: '/Helsinki-rides/', pages: true });
 const pinned = createWorldDeployment({ appBase: '/Helsinki-rides/', pages: true, worldBaseUrl: 'https://assets.example.org/world/', release, manifestSha256: digest });
+
+test('mobile texture transcoders share the conservative model decode worker limit', () => {
+  const prior = Object.getOwnPropertyDescriptor(globalThis, '__WORLD_DEPLOYMENT__');
+  Object.defineProperty(globalThis, '__WORLD_DEPLOYMENT__', { configurable: true, value: local });
+  try {
+    const renderer = { extensions: { has: () => false } } as unknown as ConstructorParameters<typeof GlbLoader>[0];
+    const loader = new GlbLoader(renderer, { maxConcurrentDecode: 1 });
+    const pool = (loader.ktx2 as unknown as { workerPool: { pool: number } }).workerPool;
+    assert.equal(pool.pool, 1, 'one model must not fan out into the default four transcoder workers');
+  } finally {
+    if (prior) Object.defineProperty(globalThis, '__WORLD_DEPLOYMENT__', prior);
+    else Reflect.deleteProperty(globalThis, '__WORLD_DEPLOYMENT__');
+  }
+});
 
 test('development and Pages URLs retain their application base', () => {
   assert.equal(worldRootUrl(local), '/world/');
@@ -111,7 +126,8 @@ test('release resolution preserves the current pointer in dev and refuses unconf
 for(const packedRoads of[false,true])test(`startup with ${packedRoads?'packedF64gzip':'legacyJSON'} roads limits collision requests to six and retains manifest order`, async () => {
   const fixture = manifestFixture(), hashByte = (byte: number) => createHash('sha256').update(new Uint8Array([byte])).digest('hex');
   const roads:RoadGraph={schemaVersion:2,originId:'test',source:{id:'test',sha256:digest,attribution:'test',license:'test'},nodes:[],lanes:[],connectors:[],parking:[],footways:[]},roadRaw=packedRoads?encodePackedRoadGraph(roads):new TextEncoder().encode(JSON.stringify(roads)),roadBytes=packedRoads?gzipSync(roadRaw):roadRaw,sha=(b:Uint8Array)=>createHash('sha256').update(b).digest('hex');
-  const manifest: WorldManifest = { ...fixture, terrain: { ...fixture.terrain, sha256: hashByte(0) },
+  const terrainBytes = encodeTerrain({x0:0,z0:0,resolution:1,nx:2,nz:2,heights:new Float32Array([0,1,2,3])});
+  const manifest: WorldManifest = { ...fixture, terrain: { ...fixture.terrain, bytes:terrainBytes.length, sha256: sha(terrainBytes) },
     roads:{path:packedRoads?'roads.bin.gz':'roads.json',bytes:roadBytes.length,sha256:sha(roadBytes),...(packedRoads?{compression:'gzip',decodedBytes:roadRaw.length,decodedSha256:sha(roadRaw)}:{})},
     cells: fixture.cells.map((cell, i) => ({ ...cell, collision: { ...cell.collision, sha256: hashByte(i) } })) };
   const gameplay = {
@@ -130,7 +146,7 @@ for(const packedRoads of[false,true])test(`startup with ${packedRoads?'packedF64
     if (url.endsWith('gameplay.json')) return Response.json(gameplay);
     if (url.endsWith(manifest.roads.path)) return new Response(new Uint8Array(roadBytes));
     const match = /cell_(\d+)\.hcol$/.exec(url);
-    if (!match) return new Response(new Uint8Array([0]));
+    if (!match) return new Response(terrainBytes);
     const index = Number(match[1]);
     active++; peak = Math.max(peak, active);
     await new Promise(resolve => setTimeout(resolve, (6 - index % 6) * 3));
@@ -146,6 +162,7 @@ for(const packedRoads of[false,true])test(`startup with ${packedRoads?'packedF64
     assert.deepEqual([...data.collision.keys()], manifest.cells.map(cell => cell.id));
     assert.deepEqual([...data.collision.values()].map(bytes => bytes[0]), Array.from({ length: 18 }, (_, i) => i));
     assert.equal(ticks.at(-1), 21);
+    assert.deepEqual(Array.from(data.terrain.heights),[0,1,2,3],'Startup retains parsed terrain heights rather than the transport allocation');
   } finally { globalThis.fetch = original; }
 });
 
@@ -164,6 +181,7 @@ test('cell GLB downloads receive their abort signal and never parse a cancelled 
   const controller = new AbortController();
   let parses = 0, received: AbortSignal | null | undefined;
   const glb = Object.assign(Object.create(GlbLoader.prototype), {
+    decodeSlots: requestSlots(1),
     loader: { parseAsync: async () => { parses++; throw new Error('unexpected parse'); } },
   }) as GlbLoader;
   globalThis.fetch = (async (_input, options) => {
@@ -183,6 +201,7 @@ test('an abort after a GLB response body arrives prevents parsing', async () => 
   const controller = new AbortController();
   let parses = 0;
   const glb = Object.assign(Object.create(GlbLoader.prototype), {
+    decodeSlots: requestSlots(1),
     loader: { parseAsync: async () => { parses++; throw new Error('unexpected parse'); } },
   }) as GlbLoader;
   globalThis.fetch = (async () => ({ ok: true, arrayBuffer: async () => {
@@ -203,6 +222,7 @@ test('an uninterruptible GLB parse returns its detached resources to the owner a
   const parsing = new Promise<void>(resolve => { started = resolve; });
   let resourceBase: string | undefined;
   const glb = Object.assign(Object.create(GlbLoader.prototype), {
+    decodeSlots: requestSlots(1),
     loader: { parseAsync: (_bytes: ArrayBuffer, base: string) => {
       resourceBase = base; started();
       return new Promise<Parsed>(resolve => { finish = resolve; });
@@ -214,5 +234,32 @@ test('an uninterruptible GLB parse returns its detached resources to the owner a
     await parsing; controller.abort(); finish(parsed);
     assert.equal(await pending, parsed, 'the stream must receive late resources so it can dispose them');
     assert.equal(resourceBase, 'https://assets.example.org/world/release/cells/');
+  } finally { globalThis.fetch = original; }
+});
+
+test('mobile GLB slots serialize cell and hero fetch/parse work and discard cancelled queued districts', async () => {
+  const original = globalThis.fetch;
+  type Parsed = Awaited<ReturnType<GlbLoader['load']>>;
+  const parsed = { scene: { name: 'loaded' } } as unknown as Parsed;
+  let started!: () => void, finish!: (value: Parsed) => void, requests = 0, parses = 0;
+  const parsing = new Promise<void>(resolve => { started = resolve; });
+  const glb = Object.assign(Object.create(GlbLoader.prototype), {
+    decodeSlots: requestSlots(1),
+    loader: { parseAsync: () => { parses++; started(); return new Promise<Parsed>(resolve => { finish = resolve; }); } },
+  }) as GlbLoader;
+  globalThis.fetch = (async () => { requests++; return new Response(new Uint8Array([1,2,3,4])); }) as typeof fetch;
+  try {
+    const first = glb.load('/world/release/assets/player.glb', new AbortController().signal);
+    await parsing;
+    const cancelled = new AbortController();
+    const second = glb.load('/world/release/cells/abandoned.glb', cancelled.signal);
+    const rejected = assert.rejects(second, { name: 'AbortError' });
+    cancelled.abort();
+    assert.equal(requests, 1, 'A queued district cannot start fetching while a hero is parsing');
+    finish(parsed);
+    assert.equal(await first, parsed);
+    await rejected;
+    assert.equal(requests, 1, 'Cancelled queued districts must never fetch');
+    assert.equal(parses, 1);
   } finally { globalThis.fetch = original; }
 });

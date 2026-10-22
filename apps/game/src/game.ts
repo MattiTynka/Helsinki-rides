@@ -21,6 +21,7 @@ import { GlbLoader, loadWorldData, mark, resolveRelease, type Progress, type Wor
 import { CollisionStream } from './world/collision-stream.ts';
 import { CellVisualStream, missingVisualCoverage, type StreamFocus } from './world/cell-streaming.ts';
 import { i18n } from './i18n/index.ts';
+import { FramePacer } from './render/frame-pacing.ts';
 
 const MAX_STEPS_PER_FRAME = 5;
 /** Officer and patrol-car models load after startup; patrols begin at least 150 m from the player. */
@@ -83,6 +84,10 @@ export class Game {
   readonly traceLog: string[] = [];
   scripted: Command | null = null;
   paused = false;
+  /** Presentation pacing does not alter the fixed simulation timestep or command encoding. */
+  targetFrameRate: 30 | 60;
+  private framePacer: FramePacer;
+  onStateChange: ((state: SimState) => void) | null = null;
   timeScale = 1;
   private accumulator = 0;
   private lastNow = 0;
@@ -105,6 +110,8 @@ export class Game {
 
   private constructor(config: GameConfig, data: WorldData, world: StaticWorld, scene: CityScene, loader: GlbLoader, assets: AssetLibrary, canvas: HTMLCanvasElement, streaming: WorldVisualStreaming | null, collision: CollisionStream | null) {
     this.config = config;
+    this.targetFrameRate = config.targetFrameRate ?? 60;
+    this.framePacer = new FramePacer(config.targetFrameRate ?? 0);
     this.captureReplay = __CAPTURE_REPLAY__;
     this.data = data;
     this.world = world;
@@ -140,11 +147,13 @@ export class Game {
     mark('helsinki:create');
     const dataReady = loadWorldData(release, progress, undefined, (manifest, base) => {
       const lighting: Lighting = config.lighting ?? (manifest.lighting === 'unlit-facades' ? 'unlit' : 'lit');
-      scene = new CityScene(canvas, config.preset, lighting, config.pixelRatioCap);
-      loader = new GlbLoader(scene.renderer);
+      scene = new CityScene(canvas, config.preset, lighting, config.pixelRatioCap, {
+        targetFrameRate: config.targetFrameRate, initialRenderScale: config.initialRenderScale, maxRenderPixels: config.maxRenderPixels,
+      });
+      loader = new GlbLoader(scene.renderer, { maxConcurrentDecode: config.mobile ? 1 : 2 });
       if (config.preset === 'low') loader.useReducedTextures(manifest);
       // Observe failures immediately, then propagate them at the joined startup boundary.
-      assetResult = assets.load(loader, base, manifest, config.preset === 'low', asset => !DEFERRED_ASSETS.has(asset.id)).then(
+      assetResult = assets.load(loader, base, manifest, config.preset === 'low', asset => !DEFERRED_ASSETS.has(asset.id), { concurrency: config.mobile ? 1 : 2 }).then(
         () => ({ ok: true as const }), error => ({ ok: false as const, error }));
     }, config.collision);
     const [data] = await Promise.all([dataReady, initPhysics().then(() => mark('helsinki:physics-ready'))]);
@@ -159,7 +168,7 @@ export class Game {
     let streaming: WorldVisualStreaming | null = null;
     if (hasFallbacks) {
       const persistentTextureBytes = textureBytesOf(persistentRoots(assets));
-      const totalTextureBudgetBytes = (config.preset === 'low' ? 160 : 320) * 2 ** 20;
+      const totalTextureBudgetBytes = (config.textureBudgetMb ?? (config.preset === 'low' ? 160 : 320)) * 2 ** 20;
       const fallbackBudget = 4 * 2 ** 20;
       const backend = (lod: 'lod0' | 'lod1' | 'lod2') => ({
         load: (cell: typeof data.manifest.cells[number], signal: AbortSignal) => scene.loadCell(loader, data.base, cell, lod, signal),
@@ -168,30 +177,31 @@ export class Game {
         dispose: (_cell: typeof data.manifest.cells[number], view: CellView) => scene.disposeCell(view),
       });
       const low = config.preset === 'low';
+      const mobile = config.mobile && low;
       const detail = new CellVisualStream(data.manifest.cells, backend(low ? 'lod1' : 'lod0'), {
         textureBudgetBytes: totalTextureBudgetBytes - persistentTextureBytes - fallbackBudget,
-        geometryBudgetBytes: (low ? 96 : 160) * 2 ** 20,
-        radius: low ? 170 : 230, lookaheadSeconds: 3, maxLookahead: 180, concurrency: 2, maxCells: low ? 16 : 28,
+        geometryBudgetBytes: (mobile ? 64 : low ? 96 : 160) * 2 ** 20,
+        radius: mobile ? 140 : low ? 170 : 230, lookaheadSeconds: 3, maxLookahead: 180, concurrency: mobile ? 1 : 2, maxCells: mobile ? 12 : low ? 16 : 28,
         level: low ? 'lod1' : 'lod0',
       });
       const fallback = new CellVisualStream(data.manifest.cells, backend('lod2'), {
-        textureBudgetBytes: fallbackBudget, radius: low ? 300 : 420, lookaheadSeconds: 3, maxLookahead: 180,
-        geometryBudgetBytes: (low ? 64 : 96) * 2 ** 20,
-        concurrency: 2, level: 'lod2', maxCells: low ? 28 : 42,
+        textureBudgetBytes: fallbackBudget, radius: mobile ? 240 : low ? 300 : 420, lookaheadSeconds: 3, maxLookahead: 180,
+        geometryBudgetBytes: (mobile ? 48 : low ? 64 : 96) * 2 ** 20,
+        concurrency: mobile ? 1 : 2, level: 'lod2', maxCells: mobile ? 20 : low ? 28 : 42,
       });
       streaming = { detail, fallback, persistentTextureBytes, totalTextureBudgetBytes, fallbackTextureBudgetBytes: fallbackBudget };
       // The fog terminates within the coarse residency ring; outside geometry is not kept hidden in memory.
-      scene.scene.fog = new THREE.Fog(0x9fb8d4, low ? 160 : 240, low ? 300 : 420);
+      scene.scene.fog = new THREE.Fog(0x9fb8d4, mobile ? 130 : low ? 160 : 240, mobile ? 240 : low ? 300 : 420);
       // Fully fogged geometry contributes no visible pixels. Clip it instead of still drawing every
       // parked car and landmark in the expanded world behind the opaque end of the fog.
-      scene.camera.far = low ? 300 : 420;
+      scene.camera.far = mobile ? 240 : low ? 300 : 420;
       scene.camera.updateProjectionMatrix();
       const [x, z] = data.gameplay.player.spawn.position;
       const focus = { x, z, velocityX: 0, velocityZ: 0 };
       fallback.update(focus);
       detail.update(focus);
       // Wait for the playable neighbourhood. Outer-ring work continues inside the same budgets.
-      await Promise.all([fallback.settleNear(150), detail.settleNear(100)]);
+      await Promise.all([fallback.settleNear(mobile ? 100 : 150), detail.settleNear(mobile ? 72 : 100)]);
       if (fallback.stats().errors.length) throw new Error(`Initial city fallback load failed: ${fallback.stats().errors.join('; ')}`);
       progress(1, 2, 'nearby streets');
       if (detail.stats().errors.length) throw new Error(`Initial city detail load failed: ${detail.stats().errors.join('; ')}`);
@@ -237,7 +247,7 @@ export class Game {
    * replay with the same residency rules does. Otherwise every cell in manifest order, so collider handles match.
    */
   static buildWorld(data: WorldData, collision: CollisionStream | null): StaticWorld {
-    const world = StaticWorld.fromBytes(data.terrain, data.roads, data.gameplay);
+    const world = new StaticWorld(data.terrain, data.roads, data.gameplay);
     if (collision && data.collisionCells) world.enableStreaming(data.collisionCells, id => collision.get(id));
     else for (const c of data.manifest.cells) world.addCell(c.id, data.collision.get(c.id)!);
     return world;
@@ -245,6 +255,7 @@ export class Game {
 
   /** Start a fresh simulation (same seed) without reloading the page or the GPU assets. */
   resetSimulation(seed = this.config.seed): void {
+    this.input.reset();
     this.pendingShots.length = 0;
     this.effects.reset();
     for (const v of this.vehicleViews.values()) v.dispose();
@@ -265,13 +276,34 @@ export class Game {
     this.presentationState = this.state;
     this.cameraRig.reset(this.sim.player.yaw);
     this.syncViews(0);
+    this.onStateChange?.(this.state);
+  }
+
+  setPaused(paused: boolean): void {
+    this.paused = paused;
+    this.input.setActive(!paused);
+    this.accumulator = 0;
+    this.lastNow = performance.now();
+    this.framePacer.reset();
+  }
+
+  setFrameRate(rate: 30 | 60): void {
+    this.targetFrameRate = rate;
+    this.framePacer = new FramePacer(rate);
+    this.scene.setTargetFrameRate(rate);
   }
 
   start(): void {
     if (this.running) return;
     this.running = true;
     this.lastNow = performance.now();
-    const loop = (now: number) => { if (!this.running) return; this.frame(now); requestAnimationFrame(loop); };
+    const loop = (now: number) => {
+      if (!this.running) return;
+      // Input events keep their queues between presentations; a 30 Hz frame steps two 60 Hz commands.
+      // Paused production scenes need only occasional refreshes while downloads finish.
+      if ((!this.paused || this.config.review || now - this.lastNow >= 250) && this.framePacer.shouldRender(now)) this.frame(now);
+      requestAnimationFrame(loop);
+    };
     requestAnimationFrame(loop);
     addEventListener('resize', () => this.scene.resize());
   }
@@ -301,6 +333,9 @@ export class Game {
       this.previousState = this.state;
       const events = this.sim.step(c);
       this.state = this.sim.state();
+      if (this.previousState.player.mode !== this.state.player.mode || this.previousState.player.alive !== this.state.player.alive
+        || events.some(event => event.type === 'respawn' || event.type === 'recover')) this.input?.reset();
+      this.onStateChange?.(this.state);
       if (events.some(event => event.type === 'holster')) {
         // A slow frame can include fire -> holster -> redraw. Cancel at the event boundary rather
         // than checking only its final weapon state, so redraw cannot resurrect the old impulse.
@@ -391,7 +426,7 @@ export class Game {
     if (!this.paused && !blocked) {
       // Mouse look.
       const [dx, dy] = this.input.takeLook();
-      const [gx, gy] = this.input.gamepadLook();
+      const [gx, gy] = this.input.gamepadLook(dt);
       if (this.cameraRig.inCar) this.cameraRig.mouseOffsetInCar(dx + gx); else this.cameraRig.look(dx + gx, dy + gy);
       if (this.sim.screen && this.sim.screen.ticks < this.sim.options.screenTicks - 120) this.timeScale = 1;
       this.accumulator += dt * this.timeScale;
@@ -412,13 +447,15 @@ export class Game {
     if (modelBlocked) { this.modelLoading.blockedFrames++; this.modelLoading.blockedSeconds += dt; }
     const stalled = blocked || collisionBlocked || modelBlocked;
     if (stalled) this.accumulator = 0;
+    // A stalled touch must not queue shots or a camera swing to execute after the street arrives.
+    if (stalled) this.input?.touch?.reset();
     this.presentationAlpha = this.paused || stalled ? 1 : this.accumulator / TICK_SECONDS;
     this.presentationFrameTime = now;
     const presentation = this.paused || stalled ? this.state : interpolateState(this.previousState, this.state, this.presentationAlpha);
     this.syncViews(dt, this.paused || stalled ? 0 : dt * this.timeScale, presentation);
     this.render();
     const ms = performance.now() - this.frameStart;
-    if (this.config.dynamicResolution && !this.paused) this.scene.adaptResolution(dt, ms);
+    if (this.config.dynamicResolution && !this.paused && !stalled) this.scene.adaptResolution(dt, ms);
     this.fpsAcc += dt; this.fpsFrames++;
     if (this.fpsAcc >= 0.5) { this.stats.fps = this.fpsFrames / this.fpsAcc; this.fpsAcc = 0; this.fpsFrames = 0; }
     this.stats.frameMs = this.stats.frameMs * 0.9 + ms * 0.1;
@@ -439,6 +476,7 @@ export class Game {
 
   syncViews(dt: number, characterDt = dt, state = this.state): void {
     this.presentationState = state;
+    this.onStateChange?.(this.state);
     const p = state.player;
     const shots = this.pendingShots.splice(0);
     // Vehicles.
@@ -462,7 +500,8 @@ export class Game {
       if (!view && !this.assets.hasCharacter(assetId)) continue;
       if (!view) { view = new CharacterView(this.assets, assetId, this.shadowMaterial); this.characterViews.set(c.id, view); this.scene.scene.add(view.root); }
       for (const shot of shots) if (shot.shooter === c.id) view.notifyShot();
-      view.update(c, characterDt, c.aiming || c.clip === 'aim' || c.clip === 'fire');
+      view.update(c, characterDt, c.aiming || c.clip === 'aim' || c.clip === 'fire', null, undefined, undefined,
+        { mobile: this.config.mobile, cameraPosition: this.scene.camera.position });
       if (c.aiming || c.clip === 'aim' || c.clip === 'fire' || view.isPresentingShot()) {
         // Match the police simulation's torso target, including when Finn is above street level.
         view.aimAt(new THREE.Vector3(p.position[0], p.position[1] + 1.2, p.position[2]));
@@ -540,6 +579,7 @@ export class Game {
    */
   teleport(x: number, z: number, headingDeg = 0): void | Promise<void> {
     if (this.sim.mode !== 'onFoot' || this.collisionLoading.teleporting) return;
+    this.input.reset();
     const lane = this.world.roads.nearestLane(x, z, undefined, 80);
     const tx = lane ? lane.point[0] : x, tz = lane ? lane.point[2] : z;
     const collision = this.collision;
@@ -551,9 +591,10 @@ export class Game {
     };
     if (!missing().length) { finish(); return; }
     this.collisionLoading.teleporting = true;
+    this.onStateChange?.(this.state);
     return (async () => {
       try { for (let m = missing(); m.length; m = missing()) await collision.ensure(m); }
-      finally { this.collisionLoading.teleporting = false; }
+      finally { this.collisionLoading.teleporting = false; this.onStateChange?.(this.state); }
       finish();
     })();
   }

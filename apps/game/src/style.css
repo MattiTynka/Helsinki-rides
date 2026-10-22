@@ -87,3 +87,70 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #0b0e14; fon
 @media (prefers-reduced-motion: reduce) {
   #loading-fill { transition: none; }
 }
+
+/* HTML controls stay sharp when the 3D drawing buffer is reduced. */
+.touch-controls { --touch-scale: 1; --touch-button: clamp(48px, calc(8.5vmin * var(--touch-scale)), 72px); position: fixed; inset: 0; z-index: 5; pointer-events: none; user-select: none; -webkit-user-select: none; }
+.touch-controls [hidden] { display: none !important; }
+.touch-look { position: absolute; inset: 0 0 0 42%; pointer-events: auto; touch-action: none; }
+.touch-stick { position: absolute; width: calc(var(--touch-button) * 2.5); height: calc(var(--touch-button) * 2.5); left: max(20px, env(safe-area-inset-left)); bottom: max(20px, env(safe-area-inset-bottom)); border: 2px solid #edf5ff88; border-radius: 50%; background: #17233366; pointer-events: auto; touch-action: none; display: grid; place-items: center; }
+.touch-stick::after { content: ''; position: absolute; inset: 22%; border: 1px dashed #ffffff77; border-radius: 50%; pointer-events: none; }
+.touch-stick-guide { position: absolute; bottom: 10%; font-size: 10px; width: 90%; text-align: center; pointer-events: none; text-shadow: 0 1px 3px #000; }
+.touch-stick-knob { width: 38%; height: 38%; border-radius: 50%; background: #d9e8faaa; border: 2px solid #fff9; pointer-events: none; }
+.touch-actions { position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); display: grid; grid-template-columns: repeat(3, var(--touch-button)); grid-template-rows: repeat(3, var(--touch-button)); gap: 8px; pointer-events: none; }
+.touch-button { min-width: 44px; min-height: 44px; padding: 4px; border: 1px solid #dcecff99; border-radius: 15px; color: #fff; background: #142233ad; text-shadow: 0 1px 3px #000; font: 600 clamp(10px, 1.7vmin, 13px)/1.15 system-ui, sans-serif; overflow-wrap: anywhere; pointer-events: auto; touch-action: none; -webkit-tap-highlight-color: transparent; }
+.touch-button.pressed, .touch-button[aria-pressed='true'] { background: #467fa9d9; border-color: #fff; }
+.touch-button:focus-visible { outline: 3px solid #a9d1ff; outline-offset: 2px; }
+.touch-fire { grid-column: 3; grid-row: 2 / 4; border-radius: 22px; background: #773f32ad; font-size: 15px; }
+.touch-aim { grid-column: 3; grid-row: 1; }
+.touch-jump { grid-column: 2; grid-row: 3; }
+.touch-reload { grid-column: 2; grid-row: 2; }
+.touch-holster { grid-column: 2; grid-row: 1; }
+.touch-interact { grid-column: 1; grid-row: 2; }
+.touch-recover { grid-column: 1; grid-row: 1; }
+.touch-accelerate { grid-column: 3; grid-row: 2 / 4; }
+.touch-brake { grid-column: 2; grid-row: 2 / 4; }
+.touch-handbrake { grid-column: 3; grid-row: 1; }
+.touch-horn { grid-column: 2; grid-row: 1; }
+.touch-mirrored .touch-look { inset: 0 42% 0 0; }
+.touch-mirrored .touch-stick { left: auto; right: max(20px, env(safe-area-inset-right)); }
+.touch-mirrored .touch-actions { right: auto; left: max(16px, env(safe-area-inset-left)); }
+.touch-preferences { margin-top: 16px; color: #d6e4f3; font-size: 13px; }
+.touch-preferences summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; gap: 10px; }
+.touch-preferences summary::before { content: '+'; font-size: 18px; }
+.touch-preferences[open] summary::before { content: '−'; }
+.touch-preferences label { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; margin-block: 6px; }
+.touch-preferences select { min-height: 44px; color: #fff; background: #22344a; border: 1px solid #617387; padding: 5px; border-radius: 5px; font: inherit; }
+.touch-preferences input[type='range'] { width: min(46%, 180px); min-height: 44px; accent-color: #b8ddff; }
+.touch-preferences input[type='checkbox'] { width: 24px; height: 24px; accent-color: #b8ddff; }
+.touch-preferences p { font-size: 12px; line-height: 1.6; }
+body.touch-layout #view { touch-action: none; }
+body.touch-layout .top-left { top: max(8px, env(safe-area-inset-top)); left: max(8px, env(safe-area-inset-left)); max-width: 42vw; }
+body.touch-layout #dropin { max-width: 100%; min-height: 36px; font-size: 12px; }
+body.touch-layout .stats { display: none; }
+body.touch-layout .top-right { top: max(8px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); }
+body.touch-layout .stars { font-size: 22px; }
+body.touch-layout .wanted-note { font-size: 10px; letter-spacing: 1px; }
+body.touch-layout .bottom-left { top: 60px; bottom: auto; left: max(8px, env(safe-area-inset-left)); flex-direction: column; align-items: flex-start; gap: 4px; }
+body.touch-layout #minimap { width: clamp(70px, 18vmin, 112px); height: clamp(70px, 18vmin, 112px); border-width: 1px; }
+body.touch-layout .bars { width: clamp(70px, 18vmin, 112px); gap: 3px; }
+body.touch-layout .bar { height: 5px; }
+body.touch-layout .bottom-right { top: 62px; bottom: auto; right: max(12px, env(safe-area-inset-right)); }
+body.touch-layout .weapon { font-size: 13px; }
+body.touch-layout .speed { font-size: 12px; }
+body.touch-layout .prompt { bottom: max(8px, env(safe-area-inset-bottom)); max-width: 35vw; font-size: 11px; text-align: center; }
+body.touch-layout .attribution { max-width: 42vw; font-size: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; bottom: max(2px, env(safe-area-inset-bottom)); }
+body.touch-layout #screen-title { font-size: clamp(32px, 9vw, 64px); }
+body.touch-layout #screen-sub { font-size: 15px; padding-inline: 16px; text-align: center; }
+@media (max-height: 430px) {
+  .touch-controls { --touch-button: clamp(44px, calc(12vmin * var(--touch-scale)), 58px); }
+  .touch-actions { gap: 6px; }
+  .touch-stick { width: calc(var(--touch-button) * 2.4); height: calc(var(--touch-button) * 2.4); }
+  body.touch-layout .bottom-left { top: 48px; }
+}
+@media (orientation: portrait) {
+  .touch-controls { --touch-button: clamp(44px, calc(11vmin * var(--touch-scale)), 60px); }
+  .touch-actions { gap: 5px; right: max(8px, env(safe-area-inset-right)); }
+  .touch-stick { left: max(8px, env(safe-area-inset-left)); width: calc(var(--touch-button) * 2.45); height: calc(var(--touch-button) * 2.45); }
+  .touch-mirrored .touch-stick { left: auto; right: max(8px, env(safe-area-inset-right)); }
+  .touch-mirrored .touch-actions { right: auto; left: max(8px, env(safe-area-inset-left)); }
+}

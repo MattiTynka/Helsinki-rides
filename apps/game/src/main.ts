@@ -4,6 +4,8 @@ import { installTestApi } from './testapi.ts';
 import { runtimeDeployment, worldReleaseUrl } from './world/urls.ts';
 import { i18n, progressLabel } from './i18n/index.ts';
 import { installLanguageChoice } from './ui/language.ts';
+import { TouchControls } from './ui/touch-controls.ts';
+import { SessionControls } from './ui/session-controls.ts';
 
 declare const __REVIEW_BUILD__: boolean;
 
@@ -35,14 +37,16 @@ async function boot(): Promise<void> {
   startup = { kind: 'ready' }; showStartupStatus();
   if (playButton) playButton.disabled = false;
   loadingFill.style.width = '100%';
+  const touch = new TouchControls(canvas, game.input);
+  const session = new SessionControls(game, canvas, touch);
+  if (!config.review) game.setPaused(true);
   game.start();
   const begin = (event: MouseEvent) => {
     // Keep source/license links usable without consuming the play interaction.
-    if (event.target instanceof Element && event.target.closest('a, #loading-credits, #graphics, #language-choice')) return;
+    if (event.target instanceof Element && event.target.closest('a, #loading-credits, #graphics, #language-choice, #touch-preferences')) return;
     loading.removeEventListener('click', begin);
     loading.classList.add('hidden');
-    game.audio.start();
-    if (!config.review) canvas.requestPointerLock?.();
+    session.begin();
   };
   loading.addEventListener('click', begin);
   canvas.addEventListener('click', () => game.audio.start());
@@ -50,7 +54,7 @@ async function boot(): Promise<void> {
   if (__REVIEW_BUILD__ || import.meta.env.DEV) {
     installTestApi(game, () => loading.classList.add('hidden'));
   }
-  if (config.review) loading.classList.add('hidden');
+  if (config.review) { loading.classList.add('hidden'); session.begin(); }
 }
 
 /** The loading screen's graphics choice is saved for later visits; the preset is fixed per page load, so it reloads. */
@@ -101,4 +105,10 @@ boot().catch(err => {
   console.error(err);
   window.__HELSINKI_ERROR__ = String(err?.stack ?? err);
   startup = { kind: 'failed' }; showStartupStatus();
+  if (playButton) {
+    playButton.disabled = false;
+    playButton.dataset.i18n = 'session.reload';
+    playButton.textContent = i18n.text('session.reload');
+    playButton.addEventListener('click', () => location.reload(), { once: true });
+  }
 });
