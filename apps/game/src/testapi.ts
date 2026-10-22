@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import { inspectCharacter, type CharacterPoseSnapshot } from './render/character-inspection.ts';
 import type { CellStreamStats } from './world/cell-streaming.ts';
 import type { CollisionStreamStats } from './world/collision-stream.ts';
+import type { ShootingEffectsSnapshot } from './render/effects.ts';
 
 export interface PresentationSnapshot {
   frameTime: number;
@@ -33,6 +34,8 @@ export interface HelsinkiTestApi {
   /** Read-only car-local joint/skin measurements of the displayed driver, evaluated only when requested. */
   vehiclePose(): { visible: boolean; vehicleId: string; bones: Record<string, number[]>; bounds: { min: number[]; max: number[] }; doors: Record<string, number[]> } | null;
   characterPose(id: string): CharacterPoseSnapshot | null;
+  /** Read-only state of the pooled muzzle lights and tracers from real simulation shots. */
+  shootingEffects(): ShootingEffectsSnapshot;
   events(sinceTick?: number): GameEvent[];
   /** Hold a command (merged over neutral) until cleared; the real input is ignored meanwhile. */
   setCommand(c: Partial<Command> | null): void;
@@ -90,6 +93,7 @@ export function installTestApi(game: Game, onStart: () => void): HelsinkiTestApi
       const view = id === 'player' ? game.playerView : game.characterViews.get(id);
       return view ? inspectCharacter(view, game.scene.camera) : null;
     },
+    shootingEffects: () => game.effects.snapshot(),
     events: (sinceTick = 0) => game.eventLog.filter(e => e.tick > sinceTick),
     setCommand: c => game.setScripted(c),
     step: (n, c) => {
@@ -195,15 +199,10 @@ function vehiclePose(game: Game): ReturnType<HelsinkiTestApi['vehiclePose']> {
 
 function presentation(game: Game): PresentationSnapshot {
   const camera = game.scene.camera;
-  const position = new THREE.Vector3(), rotation = new THREE.Quaternion();
-  const pistol = game.playerView.pistol;
+  const position = new THREE.Vector3();
   let muzzle: PresentationSnapshot['muzzle'] = null;
-  if (pistol?.visible) {
-    pistol.updateWorldMatrix(true, false);
-    pistol.getWorldPosition(position); pistol.getWorldQuaternion(rotation);
-    const direction = new THREE.Vector3(0, 0, 1).applyQuaternion(rotation);
-    // The pistol contract places its origin at the grip and its barrel on local +Z.
-    position.addScaledVector(direction, .14);
+  const direction = new THREE.Vector3();
+  if (game.playerView.muzzlePose(position, direction)) {
     muzzle = { position: position.toArray(), direction: direction.toArray(), screen: position.clone().project(camera).toArray() };
   }
   return {

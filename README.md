@@ -119,7 +119,7 @@ run `pnpm build`, then `pnpm preview` at the same address. Both commands use a s
 cannot silently move to another address.
 
 Click to start. WASD run, hold Alt to walk, Shift sprint, F enter/exit, mouse aim, left button fire, right button aim, R reload,
-H horn, Space jump (quick double Space for a super jump; jump at a wall while moving toward it to grab the ledge and climb up), Space handbrake in a car,
+G holster/surrender, H horn, Space jump (quick double Space for a super jump; jump at a wall while moving toward it to grab the ledge and climb up), Space handbrake in a car,
 hold X to recover a stuck car. The drop-in list (top left) teleports to any address or
 landmark. URL options: `?preset=low`, `?lighting=unlit`, `?seed=N`. A compiled review
 build additionally supports `?review=1` (no HUD overlay, command tracing and mouse

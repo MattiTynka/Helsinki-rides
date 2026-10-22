@@ -1,6 +1,7 @@
 // Police (plan section 8): patrol units with a car and one officer each. Units drive the road graph (route
 // following with pure pursuit), pursue directly within sight, box a stopped car in, get out to arrest a player
-// on foot, and fire only when the player is armed at three stars or more. Caps per star from the tuning table.
+// on foot, and return fire only after the player discharges a weapon in the current encounter.
+// Caps per star come from the tuning table.
 import { LaneSegmentIndex, pointAlong, type GameplayBundle, type LaneHit, type RoadIndex, type RoadLane, type Vec3 } from '@helsinki/world-schema';
 import { Character, CHARACTER } from './character.ts';
 import { TICK_HZ } from './commands.ts';
@@ -378,8 +379,10 @@ export class PoliceForce {
 
   private spawnUnit(replace?: PoliceUnit): PoliceUnit | null {
     const player = this.sim.playerPosition;
+    const incident = this.sim.wanted.stars > 0 ? this.sim.wanted.lastSeen : player;
+    if (!incident) return null;
     const minimum = clamp(this.sim.gameplay.police.spawnMinDistance, POLICE_DISPATCH.minimumDistance, POLICE_DISPATCH.maximumDistance - 12);
-    const candidates = policeDispatchCandidates(this.sim.world.roads, player, minimum);
+    const candidates = policeDispatchCandidates(this.sim.world.roads, incident, minimum);
     // Rotate a deterministic candidate order; rejection never falls back to an unqualified coordinate.
     const first = candidates.length ? Math.floor(this.sim.rng.range(0, candidates.length)) : 0;
     const id = `police-${this.serial + 1}`;
@@ -387,6 +390,10 @@ export class PoliceForce {
     const viewYaw = this.sim.tick ? this.sim.lastCommand.yaw : this.sim.player.yaw;
     for (let i = 0; i < candidates.length; i++) {
       const candidate = candidates[(first + i) % candidates.length]!;
+      const playerDistance = distanceXZ(candidate.point, player);
+      // The player's true position only controls visibility/residency, never the response destination.
+      // An obsolete remote incident must not create a distant unit that immediately recycles again.
+      if (playerDistance < minimum || playerDistance > POLICE_DISPATCH.recycleDistance) continue;
       // New cars enter from behind the view, rather than materializing on the street being watched.
       if ((candidate.point[0] - player[0]) * Math.sin(viewYaw) + (candidate.point[2] - player[2]) * Math.cos(viewYaw) > 0) continue;
       if ([...this.sim.vehicles.values()].some(v => distanceXZ(v.position, candidate.point) < 12)) continue;
@@ -405,7 +412,7 @@ export class PoliceForce {
     vehicle.lightsOn = true;
     const unit = new PoliceUnit(id, vehicle, officer, this.serial);
     if (this.sim.wanted.stars > 0) {
-      unit.dispatchTarget = [...player];
+      unit.dispatchTarget = [...incident];
       unit.dispatchSeenTick = this.sim.wanted.lastSeenTick;
     }
     this.units.push(unit);
@@ -517,10 +524,6 @@ export class PoliceForce {
       u.searchTarget = null;
       u.driver.replanTicks = 0;
     }
-    if (!u.dispatchTarget && !sim.wanted.lastSeen && !u.sees) {
-      u.dispatchTarget = [...playerPos];
-      u.dispatchSeenTick = sim.wanted.lastSeenTick;
-    }
     const lastSeen = u.dispatchTarget ?? sim.wanted.lastSeen;
     if (u.onFoot) {
       // Officers on foot engage while the player is near, otherwise walk back to the car.
@@ -535,7 +538,7 @@ export class PoliceForce {
     } else if (lastSeen) {
       if (u.state === 'pursue' && sim.tick - u.sightTicks < 3 * TICK_HZ) return; // keep chasing briefly
       u.setState(sim.wanted.searching && distanceXZ(u.position, lastSeen) < 25 ? 'search' : 'respond');
-    } else u.setState('respond');
+    } else u.setState('patrol');
   }
 
   private act(u: PoliceUnit, stars: number): void {
@@ -548,7 +551,7 @@ export class PoliceForce {
       case 'pursue': this.pursue(u); break;
       case 'boxin': this.boxIn(u); break;
       case 'search': this.search(u); break;
-      case 'engage': this.engage(u, stars); break;
+      case 'engage': this.engage(u); break;
       case 'return': this.returnToCar(u); break;
       case 'disabled': break;
     }
@@ -652,7 +655,7 @@ export class PoliceForce {
     u.driver.drive(v, 12, 5);
   }
 
-  private engage(u: PoliceUnit, stars: number): void {
+  private engage(u: PoliceUnit): void {
     const sim = this.sim;
     if (!u.onFoot) { this.leaveCar(u); return; }
     const officer = u.officer;
@@ -661,8 +664,7 @@ export class PoliceForce {
     const d = distanceXZ(officer.position, target);
     const dir = normalize([target[0] - officer.position[0], 0, target[2] - officer.position[2]]);
     officer.turnToward(Math.atan2(dir[0], dir[2]), 10);
-    const armed = sim.playerArmed;
-    const shooting = stars >= 3 && armed;
+    const shooting = sim.policeMayFire;
     // Keep distance while shooting, close in to arrest otherwise.
     const standoff = shooting ? 9 : 2.2;
     let speed = 0;
@@ -677,7 +679,9 @@ export class PoliceForce {
     if (u.sidestepTicks > 0) { u.sidestepTicks--; mx = dir[2] * u.sidestepSign * 0.9 + dir[0] * 0.3; mz = -dir[0] * u.sidestepSign * 0.9 + dir[2] * 0.3; }
     officer.desiredVx = mx * speed;
     officer.desiredVz = mz * speed;
-    officer.clip = speed > 4.8 ? 'sprint' : speed > 2 ? 'run' : speed !== 0 ? 'walk' : shooting ? 'aim' : 'idle';
+    // Aim is an upper-body overlay: native locomotion still uses measured speed for the moving legs.
+    // Keep the pistol raised between shots, including frames that contain multiple simulation ticks.
+    officer.clip = shooting && u.sees ? 'aim' : speed > 4.8 ? 'sprint' : speed > 2 ? 'run' : speed !== 0 ? 'walk' : 'idle';
     if (shooting && u.sees && u.fireTicks === 0 && d < 40) {
       u.fireTicks = FIRE_INTERVAL + Math.round(sim.rng.range(0, 12));
       const def = sim.weapon('pistol');

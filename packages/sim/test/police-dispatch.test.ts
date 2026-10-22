@@ -83,7 +83,7 @@ test('newly inserted streamed collision is not used before its first physics ste
     const bytes = encodeCollisionBundle({originId: 'dispatch-test', frame: 'X-east,Y-up,Z-south', cell: 'native', surfaceTags: ['road:asphalt']}, [{id: 'road', group: 'ground', ref: null,
       positions: new Float32Array([-300, 0, -250, 1300, 0, -250, 1300, 0, 250, -300, 0, 250]), indices: new Uint32Array([0, 2, 1, 0, 3, 2]), triangleTags: new Uint16Array([0, 0])}]);
     sim.world.removeCell('native'); sim.world.addCell('native', bytes);
-    sim.wanted.stars = 1;
+    sim.wanted.report('takeCar', sim.tick, true, 0, sim.events, sim.playerPosition);
     sim.police.step();
     assert.equal(sim.police.units.length, 0);
     sim.world.physics.step(); sim.world.markStepped();
@@ -97,7 +97,7 @@ test('a full force recycles only distant unseen units and preserves a nearby pat
   try {
     const old = sim.police.units[0]!;
     sim.player.teleport([1000, 0, 0], 0);
-    sim.wanted.stars = 1;
+    sim.wanted.report('takeCar', sim.tick, true, 0, sim.events, sim.playerPosition);
     old.sees = true;
     sim.police.step();
     assert.equal(sim.police.units[0], old, 'an observed unit is not recycled');
@@ -139,7 +139,8 @@ test('a stolen patrol near the player does not reserve the remote officer\'s res
     old.officer.inVehicle = null; old.officer.teleport([0, 0, 0], 0);
     stolen.occupants.delete(old.officer.id); stolen.occupants.add(sim.player.id);
     stolen.place([1000, .25, 0], 0); stolen.driver = sim.player.id;
-    sim.player.inVehicle = stolen.id; sim.player.hide(); sim.wanted.stars = 1;
+    sim.player.inVehicle = stolen.id; sim.player.hide();
+    sim.wanted.report('takeCar', sim.tick, true, 0, sim.events, sim.playerPosition);
     sim.police.step();
     assert.equal(sim.police.units.length, 1);
     assert.ok(!sim.police.units.includes(old));
@@ -210,10 +211,11 @@ test('abandoned former patrols outside the map retire without making nearby cars
   } finally { sim.world.physics.free(); }
 });
 
-test('local dispatch responds and searches its fixed incident despite stale knowledge from another district', () => {
+test('a newer reported incident supersedes stale knowledge from another district without tracking unseen movement', () => {
   const sim = makeSim(1000, {initial: 0});
   try {
     sim.wanted.stars = 1; sim.wanted.lastSeen = [0, 0, -5]; sim.wanted.lastSeenTick = 10;
+    sim.wanted.report('takeCar', 11, true, 0, sim.events, sim.playerPosition);
     sim.police.step();
     const unit = sim.police.units[0]!;
     assert.ok(unit);

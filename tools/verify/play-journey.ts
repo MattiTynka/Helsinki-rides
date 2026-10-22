@@ -69,10 +69,10 @@ await initPhysics();
 const heightWorld = StaticWorld.fromBytes(terrainBytes, roadsJson, gameplayJson);
 
 /** Closed-loop step: poll state, act, until `done` or timeout (wall-clock seconds). */
-async function loop(label: string, timeoutS: number, act: (s: SimState) => Promise<void>, done: (s: SimState) => boolean): Promise<SimState> {
+async function loop(label: string, timeoutS: number, act: (s: SimState) => Promise<void>, done: (s: SimState) => boolean | Promise<boolean>): Promise<SimState> {
   const start = Date.now();
   let s = await game.state(page);
-  while (!done(s)) {
+  while (!await done(s)) {
     if (Date.now() - start > timeoutS * 1000) { note(`${label}: timeout after ${timeoutS}s`); break; }
     await act(s);
     await sleep(40);
@@ -108,7 +108,7 @@ async function walkToward(target: [number, number], stopWithin: number, timeoutS
  * Drive along the road graph toward a (moving) target with the keyboard: a route is planned on the lane graph and
  * followed with pure pursuit; within `directRange` of the target the car heads straight for it (the ram).
  */
-async function driveToward(target: () => [number, number], stopWithin: number, timeoutS: number, maxSpeed: number, done?: (s: SimState) => boolean, directRange = 0): Promise<SimState> {
+async function driveToward(target: () => [number, number], stopWithin: number, timeoutS: number, maxSpeed: number, done?: (s: SimState) => boolean | Promise<boolean>, directRange = 0): Promise<SimState> {
   let route: number[][] = [];
   let routeIndex = 0;
   let plannedAt = 0;
@@ -192,7 +192,7 @@ async function driveToward(target: () => [number, number], stopWithin: number, t
     await key('KeyW', car.forwardSpeed < wantSpeed && !behind);
     await key('KeyS', car.forwardSpeed > wantSpeed + 3 || behind);
     if (Date.now() - lastLog > 2000) { lastLog = Date.now(); const pc = patrolCar(st); note(`  drive: car ${car.position.map(x => x.toFixed(0))} v=${car.speed.toFixed(1)} → aim ${aim.map(x => x.toFixed(0))} target ${t.map(x => x.toFixed(0))} d=${dTarget.toFixed(0)} route=${route.length}/${routeIndex}${pc ? ` patrol ${pc.position.map(x => x.toFixed(0))} v=${pc.speed.toFixed(1)} ${st.police.map(u => u.state).join('/')}` : ''} stars=${st.wanted.stars}`); }
-  }, st => { const car = st.vehicles.find(v => v.id === st.player.inVehicle); const t = target(); return (done?.(st) ?? false) || (!!car && Math.hypot(t[0] - car.position[0], t[1] - car.position[2]) <= stopWithin); });
+  }, async st => { const car = st.vehicles.find(v => v.id === st.player.inVehicle); const t = target(); return (await done?.(st) ?? false) || (!!car && Math.hypot(t[0] - car.position[0], t[1] - car.position[2]) <= stopWithin); });
   for (const k of ['KeyA', 'KeyD', 'KeyW', 'KeyS']) await key(k, false);
   return s;
 }
@@ -370,7 +370,9 @@ async function runOnce(run: number): Promise<RunResult> {
   // 5. Ram the patrol car: wait for it if it is only reachable the long way round, then chase it head-on.
   s = await waitForPatrol(s, 45, 25);
   let latest: SimState = s;
-  s = await driveToward(() => { const pc = patrolCar(latest); return pc ? [pc.position[0], pc.position[2]] : [-70, -100]; }, 0, 45, 22, st => { latest = st; return st.wanted.stars >= 1 || st.events.some(e => e.type === 'ramPolice'); }, 45);
+  // Theft now raises wanted before this manoeuvre. Observe the persistent event log;
+  // neither an existing star nor a transient per-tick event proves this collision occurred.
+  s = await driveToward(() => { const pc = patrolCar(latest); return pc ? [pc.position[0], pc.position[2]] : [-70, -100]; }, 0, 45, 22, async st => { latest = st; return (await game.events(page, sinceTick)).some(e => e.type === 'ramPolice'); }, 45);
   const evAfterRam = await game.events(page, sinceTick);
   check('ramPolice', evAfterRam.some(e => e.type === 'ramPolice') && s.wanted.stars >= 1, `stars ${s.wanted.stars}, events ${evAfterRam.filter(e => e.type === 'ramPolice').length} ramPolice`);
   // 6. Actually move clear of the collision, then confirm pursuit with lights and siren.
@@ -391,7 +393,7 @@ async function runOnce(run: number): Promise<RunResult> {
   await page.mouse.move(640, 360);
   await page.mouse.down({ button: 'right' });
   await sleep(300);
-  s = await loop('fire', 15, async st => { await aimAtCar(st); await page.mouse.down({ button: 'left' }); await sleep(60); await page.mouse.up({ button: 'left' }); }, st => st.wanted.stars >= 3);
+  s = await loop('fire', 15, async st => { await aimAtCar(st); await page.mouse.down({ button: 'left' }); await sleep(60); await page.mouse.up({ button: 'left' }); }, async st => st.wanted.stars >= 3 && (await game.events(page, tickBeforeFire)).some(e => e.type === 'crime' && e.detail === 'shootAtPolice'));
   const evFire = (await game.events(page, tickBeforeFire));
   check('fireAtPolice', evFire.some(e => e.type === 'fire') && evFire.some(e => e.type === 'crime' && e.detail === 'shootAtPolice') && s.wanted.stars >= 3, `stars ${s.wanted.stars}, ${evFire.filter(e => e.type === 'fire').length} shots`);
   // 9. Be shot at: keep aiming so the officers engage.
@@ -414,6 +416,8 @@ async function runOnce(run: number): Promise<RunResult> {
     check('wasted', s.screen?.kind === 'wasted' && s.screen.destination === gp.anchors.find(a => a.kind === 'hospital')!.destinationName, `screen ${s.screen?.kind ?? 'none'} → ${s.screen?.destination ?? '-'}`);
   } else {
     await page.mouse.up({ button: 'right' });
+    // An explicit real control surrenders; merely releasing aim keeps the selected weapon drawn.
+    await page.keyboard.press('KeyG');
     s = await loop('busted', 45, async st => { await endingLog(st); }, st => st.player.mode === 'busted' || st.player.mode === 'wasted');
     check('busted', s.screen?.kind === 'busted' && s.screen.destination === gp.anchors.find(a => a.kind === 'police')!.destinationName, `screen ${s.screen?.kind ?? 'none'} → ${s.screen?.destination ?? '-'}`);
   }

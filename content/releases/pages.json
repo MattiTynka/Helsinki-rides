@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "worldRelease": "senate-20261021-city-expansion",
-  "manifestSha256": "1178aa4520c9c9bc5c371d85cd7229205a4836a123391f1ec38745448b89f8c1",
+  "worldRelease": "senate-20261022-civilian-response",
+  "manifestSha256": "0bbed03c2ca550c2f957e3d4184af856369b4f06051449acb36534bca37ea337",
   "worldBaseUrl": "https://mattitynka.github.io/Helsinki-rides/world/",
-  "archiveUrl": "https://github.com/MattiTynka/Helsinki-rides/releases/download/pages-city-expansion-20261021/pages-world.tar.gz",
-  "archiveSha256": "609978ecb20b352ead52bfa4b8fa5bc895d424f1783e7739b1504589f7277670",
-  "archiveBytes": 821973518,
-  "worldBytes": 948123955
+  "archiveUrl": "https://github.com/MattiTynka/Helsinki-rides/releases/download/pages-civilian-response-20261022/pages-world.tar.gz",
+  "archiveSha256": "59e20df5a769f0b199903e7f4db42f1afd6b9638ff7ae401e2d0fa7bd9bc302e",
+  "archiveBytes": 824025441,
+  "worldBytes": 951006054
 }

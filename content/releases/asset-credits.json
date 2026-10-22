@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "recordedOn": "2026-10-20",
+  "recordedOn": "2026-10-22",
   "scope": "Public game attribution and source-license evidence; original project code has a separate MIT license.",
   "assets": [
     {
@@ -76,6 +76,44 @@
         "limitation": "The exact supplied STL's original license has not been independently retrieved. The later Nexprint listing corroborates authorship but currently displays a restrictive Standard Digital File License, so it is not used as evidence of the supplied version's CC terms. The supplied model's CC BY 4.0 declaration is recorded separately."
       },
       "changes": "Adapted scale and geographic placement; original game materials and baked lighting; conversion of supplied low-poly STL for runtime."
+    },
+    {
+      "id": "civilian-snow-source",
+      "gameAssetIds": ["character-civilian-snow-black"],
+      "title": "Snow civilian, original dark-skinned game derivative",
+      "author": "Blender Studio",
+      "sourceUrl": "https://studio.blender.org/characters/snow/",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceDerivativeSha256": "611ce9283bf9e0a0032ba7c6a71f51ffef69f8df3db9a5580b141eb6a9b0c4e2",
+      "evidence": "Existing project character provenance in docs/source-register.md; accepted reduced game derivative fingerprinted by tools/assets/prepare_civilian_characters.mjs.",
+      "changes": "Reuses the original 22-joint game rig, clothing, geometry and corrected animation tracks. Textures resized to at most 512 pixels, KTX2 encoded with mipmaps; actor buffers losslessly compressed. Movement provenance is listed separately below."
+    },
+    {
+      "id": "civilian-rain-source",
+      "gameAssetIds": ["character-civilian-rain-black", "character-civilian-rain-white"],
+      "title": "Rain civilians, original dark-skinned derivative and lighter-skinned texture variant",
+      "author": "Blender Studio",
+      "sourceUrl": "https://studio.blender.org/characters/rain/",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceDerivativeSha256": "b5b8fc25dc6f5a8893fb6e7107b98948c6c7c4491c975ff2dd4bb0121ed6522e",
+      "evidence": "Existing project character provenance in docs/source-register.md; accepted reduced game derivative fingerprinted by tools/assets/prepare_civilian_characters.mjs.",
+      "changes": "Reuses the original 22-joint game rig, civilian clothing, geometry and corrected animation tracks. Helsinki Rides creates the lighter complexion by modifying warm skin texels while retaining dark eyebrows and neutral details. Both variants use textures at most 512 pixels, KTX2 with mipmaps and losslessly compressed actor buffers. The white Rain is a texture derivative, not a separate Blender Studio source character."
+    },
+    {
+      "id": "civilian-quaternius-locomotion",
+      "gameAssetIds": ["character-civilian-snow-black", "character-civilian-rain-black", "character-civilian-rain-white"],
+      "title": "Quaternius Universal Animation Library, free Standard edition",
+      "author": "Quaternius",
+      "sourceUrl": "https://quaternius.itch.io/universal-animation-library",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceArchiveSha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724",
+      "sourceGlbSha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997",
+      "licenseFileSha256": "6d01f55c6e4c49a2c9963e147e561945ae2c83958c8ca667d90a6bffdbfac061",
+      "evidence": "Archived Standard edition License.txt explicitly declares CC0 1.0 Universal. Source archive and license hashes were read from the existing 2026-10-17 project ledger; no upstream package is included in the source export.",
+      "changes": "Walk, jog and sprint clips retargeted to the reduced Snow/Rain rigs, with the posture, contacts, cadence and in-place adaptations recorded in content/assets/locomotion.motion.json. Project-authored collapse and other gameplay poses retain their own provenance."
     }
   ],
   "removedAssets": [

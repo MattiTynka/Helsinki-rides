@@ -7,6 +7,7 @@ export class Input {
   private mouseDy = 0;
   private mouseButtons = 0;
   private interactLatch = false;
+  private holsterLatch = false;
   private jumpPresses = 0;
   private jumpPulseLastTick = false;
   private gamepadJumpHeld = false;
@@ -27,13 +28,14 @@ export class Input {
       if (e.repeat || this.keys.has(e.code)) return;
       this.keys.add(e.code);
       if (e.code === 'KeyF' || e.code === 'Enter') this.interactLatch = true;
+      if (e.code === 'KeyG') this.holsterLatch = true;
       if (e.code === 'Space') this.jumpPresses = Math.min(2, this.jumpPresses + 1);
     });
     addEventListener('keyup', e => this.keys.delete(e.code));
     addEventListener('blur', () => {
       this.keys.clear();
       this.jumpPresses = 0; this.jumpPulseLastTick = false; this.gamepadJumpHeld = false;
-      this.interactLatch = false; this.mouseButtons = 0; this.mouseDx = 0; this.mouseDy = 0;
+      this.interactLatch = false; this.holsterLatch = false; this.mouseButtons = 0; this.mouseDx = 0; this.mouseDy = 0;
     });
     canvas.addEventListener('mousedown', e => { this.mouseButtons |= 1 << e.button; if (!this.locked && !this.unlockedMouse) canvas.requestPointerLock?.(); });
     addEventListener('mouseup', e => { this.mouseButtons &= ~(1 << e.button); });
@@ -65,6 +67,7 @@ export class Input {
     let buttons = 0;
     if (this.keys.has('ShiftLeft') || this.keys.has('ShiftRight')) buttons |= Button.sprint;
     if (this.interactLatch) { buttons |= Button.interact; this.interactLatch = false; }
+    if (this.holsterLatch) { if (!driving) buttons |= Button.holster; this.holsterLatch = false; }
     if ((this.mouseButtons & 1) !== 0 && this.mouseActive) buttons |= Button.fire;
     if ((this.mouseButtons & 4) !== 0 && this.mouseActive) buttons |= Button.aim;
     if (driving && this.keys.has('Space')) buttons |= Button.handbrake;

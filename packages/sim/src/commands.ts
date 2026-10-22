@@ -14,6 +14,8 @@ export const Button = {
   recover: 128,
   /** A distinct press; held/repeated key events must not produce repeated jumps. */
   jump: 256,
+  /** Put away the drawn weapon; takes priority over aim, fire and reload on this tick. */
+  holster: 512,
 } as const;
 
 export interface AimRay {

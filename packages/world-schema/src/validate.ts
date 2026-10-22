@@ -6,6 +6,12 @@ const isNum = (v: unknown): v is number => typeof v === 'number' && Number.isFin
 const isVec2 = (v: unknown): boolean => Array.isArray(v) && v.length === 2 && v.every(isNum);
 const isVec3 = (v: unknown): boolean => Array.isArray(v) && v.length === 3 && v.every(isNum);
 
+/** A declared simulated appearance must have an actual drawable character in the same world. */
+export function validateCivilianAssets(variants: GameplayBundle['civilianVariants'], assets: WorldManifest['assets']): string[] {
+  return (variants ?? []).filter(variant => !assets.some(asset => asset.id === `character-civilian-${variant}` && asset.kind === 'character'))
+    .map(variant => `civilian ${variant} has no character asset in this world`);
+}
+
 export function validateWorldManifest(m: unknown): string[] {
   const p: string[] = [];
   const x = m as Partial<WorldManifest>;
@@ -82,6 +88,9 @@ export function validateGameplayBundle(g: unknown): string[] {
   if (!x || typeof x !== 'object') return ['gameplay is not an object'];
   if (x.schemaVersion !== 2) p.push('schemaVersion must be 2');
   if (!x.player || !isVec2(x.player.spawn?.position)) p.push('player.spawn.position must be [x, z]');
+  if (x.civilianVariants !== undefined && (!Array.isArray(x.civilianVariants) || x.civilianVariants.length > 4
+    || x.civilianVariants.some(variant => !['rain-black', 'rain-white', 'snow-black', 'agent47'].includes(variant))
+    || new Set(x.civilianVariants).size !== x.civilianVariants.length)) p.push('civilianVariants must contain unique supported appearances');
   if (!x.playArea || ![x.playArea.minX, x.playArea.maxX, x.playArea.minZ, x.playArea.maxZ].every(isNum)) p.push('playArea missing');
   const defs = new Set<string>();
   for (const d of x.vehicleDefinitions ?? []) {

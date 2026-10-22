@@ -1,8 +1,10 @@
 import * as THREE from 'three';
 import type { CharacterView } from './characters.ts';
+import { PISTOL_MUZZLE } from './character-firing.ts';
 
 export interface CharacterPoseSnapshot {
   assetId: string; profileId: string | null; visible: boolean; current: string | null;
+  shooting: { recoil: number; pairedArms: boolean; wristTargetError: number } | null;
   bones: Record<string, number[]>; localQuaternions: Record<string, number[]>;
   bounds: { min: number[]; max: number[] };
   actions: { name: string; time: number; weight: number; duration: number }[];
@@ -45,6 +47,7 @@ export function inspectCharacter(view: CharacterView, camera: THREE.Camera): Cha
   const direction = pistol ? new THREE.Vector3(0, 0, 1).applyQuaternion(pistol.getWorldQuaternion(new THREE.Quaternion())) : null;
   return {
     assetId: view.asset.id, profileId: view.asset.profile?.id ?? null, visible: view.root.visible, current: view.current,
+    shooting: view.shootingPresentation(),
     bones, localQuaternions, bounds: { min: bounds.min.toArray(), max: bounds.max.toArray() },
     actions: [...view.actions].map(([name, action]) => ({ name, time: action.time, weight: action.getEffectiveWeight(), duration: action.getClip().duration })),
     meshes, materials: [...materials].map(material => {
@@ -52,7 +55,7 @@ export function inspectCharacter(view: CharacterView, camera: THREE.Camera): Cha
       return { name: material.name, mapName: map?.name ?? null, mapWidth: image?.width ?? 0, mapHeight: image?.height ?? 0 };
     }),
     pistol: pistol && direction ? { visible: pistol.visible, socketName: pistol.parent?.name ?? null,
-      position: pistol.localToWorld(new THREE.Vector3(0, 0, .14)).toArray(), direction: direction.toArray() } : null,
+      position: pistol.localToWorld(PISTOL_MUZZLE.clone()).toArray(), direction: direction.toArray() } : null,
     screen: { head: projectedBone('DEF-Head'), chest: projectedBone(view.asset.profile?.upperBodyRoot ?? 'Spine'),
       centre: bounds.getCenter(new THREE.Vector3()).applyMatrix4(view.root.matrixWorld).project(camera).toArray() },
   };

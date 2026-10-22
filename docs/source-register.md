@@ -45,7 +45,7 @@ human-readable index. Rule 18.3 of the plan applies: the public game never reque
 | OpenStreetMap | Road graph (lanes, connectors, turn restrictions, footways for the minimap); flights of steps (width, step count), entrance terraces next to steps ways, retaining walls (decision 0005) | ODbL 1.0 | `senate-district`, bbox 24.9497–24.9557 E / 60.1673–60.1725 N, retrieved 2026-10-16T05:50:36Z, newest element edit 2026-10-15T23:46:18Z, sha256 `4d1e50a8…` | `data/raw/osm/ledger.json` |
 | Owner's **Finn12**, derived from Blender Studio **Snow** (v4.2) | Player with supplied 71-joint native rig and eleven movement clips; six added gameplay actions | Snow CC BY 4.0; supplied Kimodo motion provenance below | Portable source `finn.glb`, sha256 `2d4516c7…`; source scene and inputs fingerprinted | `data/raw/finn12-20261017/ledger.json` |
 | Owner-supplied native **Rain**, derived from Blender Studio Rain | Poliisi officer, 70-joint native rig and eleven supplied movement clips | Rain CC BY 4.0; supplied motion provenance retained | `motion/out/rain.glb`, sha256 `c2aec924…` | `data/raw/rain-native-20261017/ledger.json` |
-| Quaternius Universal Animation Library, free Standard edition | Historical reduced Rain and Snow locomotion; superseded by the supplied native exports | CC0-1.0 | Official itch.io Standard archive retrieved 2026-10-17; archive sha256 `cc73fc4e…`, in-place GLB `69591853…`, root-motion GLB `be684571…`; license saved beside them | `data/raw/quaternius-animation/ual1-standard-20261017/ledger.json` |
+| Quaternius Universal Animation Library, free Standard edition | Reduced Rain and Snow civilian locomotion; native Finn/Poliisi Rain use separate supplied movement | CC0-1.0 | Official itch.io Standard archive retrieved 2026-10-17; archive sha256 `cc73fc4e…`, in-place GLB `69591853…`, root-motion GLB `be684571…`; license saved beside them | `data/raw/quaternius-animation/ual1-standard-20261017/ledger.json` |
 | [Rigged Mustang GT500](https://sketchfab.com/3d-models/ford-mustang-gt-500-with-pro-rig-for-free-f26a29f766844f46910547d6d2cc291d) by NoOb StUfFs, supplied by the owner | Fictional "Lumi GT" sports car and patrol variant; badges, lettering, plates and source textures removed; game geometry, wheels, materials and nodes adapted | CC BY 4.0; independently verified through Sketchfab's public API on 2026-10-20 | `models/ford-mustang-gt-500-with-pro-rig-for-free/source/ford mustang fully rigged.blend`, sha256 `d0494048…` in `data/work/m0/blender-car/blender-report.json` | `content/releases/asset-credits.json` |
 | [Rigged Veyron](https://sketchfab.com/3d-models/bugatti-veyron-fully-rigged-5ca18dc84d074655966a6fe7165aa157) by NoOb StUfFs, supplied by the owner | Fictional Revontuli; emblems, lettering, plates and source textures removed; scale, wheels, cabin, materials and gameplay nodes adapted | CC BY 4.0; independently verified through Sketchfab's public API on 2026-10-20 | Source and adaptation contract: `content/assets/vehicle-revontuli.contract.json` | `content/releases/asset-credits.json` |
 | [Helsinki Cathedral - Finland](https://www.printables.com/model/486571-helsinki-cathedral-finland) by Dany Sánchez / MiniWorld3D, optimized by Jukka Seppänen (@kijaidesign), supplied as low-poly STL | Cathedral visual, scaled and placed on its register building and LoD2 height, materials adapted and light-baked (decision 0005) | CC BY 4.0 per owner declaration on 2026-10-20; authorship corroborated, exact supplied version's original license not independently retrieved | `models/Helsinki-cathedral-lowpoly.stl`, 38,754 triangles, sha256 `4a3fbc3d…` in `data/work/m0/cathedral/placement.json` | `content/releases/asset-credits.json` |
@@ -119,8 +119,9 @@ Patch SHA-256: `eefa0d30c1be79aafd6b838716dadb0c31e193ae9c7fd2ee67dbb18d7e93fa02
 Two source head triangles proved fully hidden beneath the shirt are also removed
 to prevent their interiors poking through; all retained indices stay in order.
 Face-patch SHA-256: `59cb5cecdedfacc695824689e4edaeee61478f0777d5210fc5f2b8279165aa2f`.
-Quaternius is retained as historical provenance; the new Rain officer uses the
-supplied native motion export.
+The Rain officer uses the supplied native motion export. The civilian Snow/Rain
+population added on 22 October 2026 reuses the earlier Quaternius-based movement,
+as described below; this does not change the native officer or player assets.
 
 Finn's later jump phases are newly authored from the same pinned native skeleton
 using this project's Blender pose/IK helpers. No new external motion library or
@@ -140,10 +141,34 @@ MiniWorld3D with optimizations by Jukka Seppänen (@kijaidesign), CC BY 4.0 per
 the supplied-owner declaration. The exact evidence and verification limits are
 in `content/releases/asset-credits.json`. Kaamos / GT40 was removed on
 20 October 2026 following the owner's report of a redistribution restriction.
-Quaternius remains historical provenance for the superseded character assets;
-it is no longer the active officer's locomotion credit. The two House of the Estates photographs
+Quaternius is the civilian Snow/Rain locomotion credit and is not the active
+officer's locomotion credit. The two House of the Estates photographs
 are credited to Josefiina Alanen with their titles, Wikimedia Commons source and CC BY 4.0 license link,
 and are marked as cropped, reprojected and reconstructed.
+
+## Civilian characters, 2026-10-22
+
+The street population reuses the original dark-skinned Snow and Rain game
+derivatives, plus a lighter-skinned Rain texture variant. Character bases are
+Snow and Rain © Blender Studio, CC BY 4.0. The accepted reduced 22-joint sources
+retain their geometry, skin weights, rest transforms and corrected movement
+tracks. Source GLB SHA-256 values are recorded in
+`content/releases/asset-credits.json`; source scenes are not overwritten.
+
+`tools/assets/prepare_civilian_characters.mjs` resizes atlases to at most 512
+pixels, encodes face/eye textures as UASTC and clothing as ETC1S with mipmaps,
+then applies the existing lossless actor compression. The white Rain derivative
+lightens warm skin texels while retaining dark eyebrows and neutral details.
+Walk/run/sprint originate from Quaternius Universal Animation Library, Standard
+edition, CC0-1.0. Its archived `License.txt` and exact archive/GLB hashes are
+recorded in the credit ledger and `content/assets/locomotion.motion.json`.
+The existing project-authored gameplay poses supply collapse and recovery.
+
+`tools/assets/stage_civilian_release.ts` adds only civilian GLBs actually supplied
+to the immutable world and declares their identities in `civilianVariants`.
+The release manifest binds each runtime payload's length and hash; the packaging
+receipt records texture conversions. Source provenance does not substitute for
+the separate runtime animation and visual checks.
 
 ## Central Helsinki expansion, 2026-10-18
 

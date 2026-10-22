@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { GLTFLoader, type GLTF } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import type { GameplayBundle, RoadGraph, SceneryDocument, WorldManifest } from '@helsinki/world-schema';
-import { RoadIndex, decodeRoadGraph, validateGameplayBundle, validateWorldManifest } from '@helsinki/world-schema';
+import { RoadIndex, decodeRoadGraph, validateGameplayBundle, validateWorldManifest, validateCivilianAssets } from '@helsinki/world-schema';
 import { collisionCellRefs, initialCollisionCells, type CollisionCellRef } from '@helsinki/sim';
 import { basisDecoderUrl, runtimeDeployment, selectedRelease, validateManifestPaths, validateReleaseId, verifyManifestHash, worldReleaseUrl, worldRootUrl, type WorldDeployment } from './urls.ts';
 import { fetchSimulationPayload } from './payload.ts';
@@ -84,6 +84,8 @@ export async function loadWorldData(release: string, progress: Progress, deploym
   const gameplayJob = limit(() => fetchJson<GameplayBundle>(base + manifest.gameplay.path)).then(bundle => {
     const gp = validateGameplayBundle(bundle);
     if (gp.length) throw new Error(`gameplay: ${gp.join('; ')}`);
+    const appearances = validateCivilianAssets(bundle.civilianVariants, manifest.assets);
+    if (appearances.length) throw new Error(`gameplay: ${appearances.join('; ')}`);
     tick('gameplay');
     return bundle;
   });

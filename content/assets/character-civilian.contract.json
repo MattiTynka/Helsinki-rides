@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "kind": "character-contract",
+  "note": "Civilian subset of the corrected legacy22-joint rig: idle, walk and fall/recovery only; no weapons, sprinting or vehicle actions. All existing NPC geometry/skin/socket/scale budgets retained.",
+  "axes": {
+    "up": "+Y",
+    "forward": "+Z",
+    "left": "+X",
+    "units": "metres",
+    "scale": 1
+  },
+  "feetAtOrigin": true,
+  "heightMeters": {
+    "min": 1.65,
+    "max": 1.9
+  },
+  "skeleton": {
+    "root": "Hips",
+    "joints": [
+      "Hips",
+      "Spine",
+      "Spine1",
+      "Spine2",
+      "Neck",
+      "Head",
+      "LeftShoulder",
+      "LeftArm",
+      "LeftForeArm",
+      "LeftHand",
+      "RightShoulder",
+      "RightArm",
+      "RightForeArm",
+      "RightHand",
+      "LeftUpLeg",
+      "LeftLeg",
+      "LeftFoot",
+      "LeftToeBase",
+      "RightUpLeg",
+      "RightLeg",
+      "RightFoot",
+      "RightToeBase"
+    ],
+    "parents": {
+      "Spine": "Hips",
+      "Spine1": "Spine",
+      "Spine2": "Spine1",
+      "Neck": "Spine2",
+      "Head": "Neck",
+      "LeftShoulder": "Spine2",
+      "LeftArm": "LeftShoulder",
+      "LeftForeArm": "LeftArm",
+      "LeftHand": "LeftForeArm",
+      "RightShoulder": "Spine2",
+      "RightArm": "RightShoulder",
+      "RightForeArm": "RightArm",
+      "RightHand": "RightForeArm",
+      "LeftUpLeg": "Hips",
+      "LeftLeg": "LeftUpLeg",
+      "LeftFoot": "LeftLeg",
+      "LeftToeBase": "LeftFoot",
+      "RightUpLeg": "Hips",
+      "RightLeg": "RightUpLeg",
+      "RightFoot": "RightLeg",
+      "RightToeBase": "RightFoot"
+    },
+    "maxJoints": 64,
+    "maxInfluencesPerVertex": 4,
+    "optionalExtraJoints": "finger and face joints may be kept if the total stays under maxJoints; they must not be required by any clip"
+  },
+  "sockets": [
+    {
+      "node": "SOCKET_HAND_R",
+      "parentJoint": "RightHand",
+      "purpose": "pistol grip: +Z barrel direction, +Y up, origin at the grip centre"
+    },
+    {
+      "node": "SOCKET_HEAD",
+      "parentJoint": "Head",
+      "purpose": "name tag / headshot sphere centre (0.1 m above eye level)"
+    }
+  ],
+  "fps": 30,
+  "clips": [
+    {
+      "name": "idle",
+      "loop": true,
+      "seconds": 2,
+      "movementSpeed": 0,
+      "note": "relaxed standing breath"
+    },
+    {
+      "name": "walk",
+      "loop": true,
+      "seconds": 1,
+      "movementSpeed": 1.4,
+      "note": "one full stride cycle (two steps); feet planted without skating against a 1.4 m/s forward trajectory"
+    },
+    {
+      "name": "death",
+      "loop": false,
+      "seconds": 1.4,
+      "movementSpeed": 0,
+      "note": "collapse to the ground, last frame held; no gore"
+    }
+  ],
+  "budgets": {
+    "player": {
+      "triangles": 30000,
+      "materials": 6,
+      "textureMaxSize": 1024,
+      "fileBytes": 4000000
+    },
+    "npc": {
+      "triangles": 14000,
+      "materials": 4,
+      "textureMaxSize": 512,
+      "fileBytes": 2500000
+    }
+  },
+  "materials": "baked base colour only (metallic 0, roughness 0.8); no transparency except hair cards; no vertex colours required",
+  "prop": {
+    "id": "prop-pistol",
+    "file": "prop-pistol.glb",
+    "note": "Original low-poly pistol (under 600 triangles, one material, dark grey): origin at the grip centre, barrel along +Z, length 0.19 m, so it drops straight onto SOCKET_HAND_R"
+  }
+}
