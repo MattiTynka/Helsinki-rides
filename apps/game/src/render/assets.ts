@@ -41,12 +41,14 @@ export class AssetLibrary {
   private deferredLoad: Promise<void> | null = null;
   /** Assets loaded completely; a retried deferred load requests only the others. */
   private readonly loaded = new Set<string>();
+  private concurrency = 2;
 
   /**
    * Load the assets play starts with. Assets `startup` leaves out are loaded by `loadDeferred`; until then views
    * that need them are not created. A near car and its `-far-low` variant must be in the same set.
    */
-  async load(loader: GlbLoader, base: string, manifest: WorldManifest, _lowPreset = false, startup: (asset: WorldManifest['assets'][number]) => boolean = () => true): Promise<void> {
+  async load(loader: GlbLoader, base: string, manifest: WorldManifest, _lowPreset = false, startup: (asset: WorldManifest['assets'][number]) => boolean = () => true, options: { readonly concurrency?: number } = {}): Promise<void> {
+    this.concurrency = Math.max(1, Math.min(2, Math.floor(options.concurrency ?? 2) || 1));
     const later = manifest.assets.filter(a => !startup(a));
     this.deferred = later.length ? () => this.loadSet(loader, base, manifest, later.filter(a => !this.loaded.has(a.id))) : null;
     await this.loadSet(loader, base, manifest, manifest.assets.filter(startup));
@@ -63,7 +65,10 @@ export class AssetLibrary {
 
   private async loadSet(loader: GlbLoader, base: string, manifest: WorldManifest, assets: WorldManifest['assets']): Promise<void> {
     const lowFarSources = new Map<string, THREE.Object3D>();
-    const results = await Promise.allSettled(assets.map(async a => {
+    const ordered = [...assets].sort((a, b) => assetPriority(a.id) - assetPriority(b.id));
+    let next = 0;
+    const results: PromiseSettledResult<void>[] = [];
+    const loadAsset = async (a: WorldManifest['assets'][number]): Promise<void> => {
       const candidate = a.id.endsWith('-far-low') ? a.id.slice(0, -'-far-low'.length) : null;
       const lowFarVehicle = candidate && manifest.assets.some(asset => asset.kind === 'vehicle' && asset.id === candidate) ? candidate : null;
       const gltf = await loader.load(base + a.path);
@@ -87,6 +92,14 @@ export class AssetLibrary {
         this.pistol = gltf.scene;
       }
       if (!lowFarVehicle) this.loaded.add(a.id);
+    };
+    // Limit GLB parsing, far-mesh conversion and texture allocation together. Police precede optional civilians.
+    await Promise.all(Array.from({ length: Math.min(this.concurrency, ordered.length) }, async () => {
+      while (next < ordered.length) {
+        const asset = ordered[next++]!;
+        try { await loadAsset(asset); results.push({ status: 'fulfilled', value: undefined }); }
+        catch (reason) { results.push({ status: 'rejected', reason }); }
+      }
     }));
     const failure = results.find((r): r is PromiseRejectedResult => r.status === 'rejected');
     if (failure) {
@@ -137,6 +150,17 @@ export class AssetLibrary {
   clonePistol(): THREE.Object3D | null {
     return this.pistol ? this.pistol.clone(true) : null;
   }
+}
+
+function assetPriority(id: string): number {
+  if (id === 'character-snow') return 0;
+  if (id === 'prop-pistol') return 1;
+  if (id === 'character-rain') return 2;
+  if (id.startsWith('vehicle-patrol')) return 3;
+  if (id.startsWith('vehicle-lumi')) return 4;
+  if (id.startsWith('vehicle-')) return 5;
+  if (id.startsWith('character-civilian-')) return 7;
+  return 6;
 }
 
 /**

@@ -4,6 +4,8 @@
 // f32 resolution, u32 nx, u32 nz, then nx*nz float32 heights.
 export const HTER_MAGIC = 'HTER';
 export const HTER_VERSION = 1;
+/** Lossless prior-row uint32 deltas, split into byte planes before gzip storage. */
+export const HTER_COMPACT_VERSION = 2;
 
 export interface TerrainGrid {
   readonly x0: number;
@@ -29,15 +31,45 @@ export function encodeTerrain(t: TerrainGrid): Uint8Array {
   return out;
 }
 
-export function parseTerrain(bytes: Uint8Array): TerrainGrid {
+/** Smaller gzip input without quantizing heights, including signed zero and every Float32 bit. */
+export function encodeCompactTerrain(t: TerrainGrid): Uint8Array {
+  const out = encodeTerrain(t), dv = new DataView(out.buffer), count = t.heights.length;
+  dv.setUint32(4, HTER_COMPACT_VERSION, true);
+  const source = new DataView(t.heights.buffer, t.heights.byteOffset, t.heights.byteLength);
+  for (let i = 0; i < count; i++) {
+    const delta = (source.getUint32(i * 4, true) - (i >= t.nx ? source.getUint32((i - t.nx) * 4, true) : 0)) >>> 0;
+    for (let plane = 0; plane < 4; plane++) out[28 + plane * count + i] = (delta >>> (plane * 8)) & 255;
+  }
+  return out;
+}
+
+/** `copy:false` is for immutable runtime payloads; authoring callers retain independent, zero-offset height storage. */
+export function parseTerrain(bytes: Uint8Array, options: { copy?: boolean } = {}): TerrainGrid {
+  if (bytes.byteLength < 28) throw new Error('truncated HTER terrain header');
   if (new TextDecoder().decode(bytes.subarray(0, 4)) !== HTER_MAGIC) throw new Error('not an HTER terrain');
   const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
-  if (dv.getUint32(4, true) !== HTER_VERSION) throw new Error('unsupported terrain version');
+  const version = dv.getUint32(4, true);
+  if (version !== HTER_VERSION && version !== HTER_COMPACT_VERSION) throw new Error('unsupported terrain version');
   const nx = dv.getUint32(20, true), nz = dv.getUint32(24, true);
-  const heights = new Float32Array(nx * nz);
-  // Copy so callers never depend on the fetch buffer's alignment.
-  heights.set(new Float32Array(bytes.buffer.slice(bytes.byteOffset + 28, bytes.byteOffset + 28 + nx * nz * 4)));
-  return { x0: dv.getFloat32(8, true), z0: dv.getFloat32(12, true), resolution: dv.getFloat32(16, true), nx, nz, heights };
+  const count = nx * nz, resolution = dv.getFloat32(16, true), x0 = dv.getFloat32(8, true), z0 = dv.getFloat32(12, true);
+  if (nx < 2 || nz < 2 || !Number.isSafeInteger(count) || count > 16_777_216 || bytes.byteLength !== 28 + count * 4) throw new Error('terrain height count or byte length is invalid');
+  if (![x0, z0, resolution].every(Number.isFinite) || resolution <= 0) throw new Error('terrain grid coordinates are invalid');
+  // Native v1 fetch buffers are aligned. Retain their immutable storage instead of making two whole-grid copies.
+  // Unaligned callers receive one allocation, while compact v2 expands directly into its sole height allocation.
+  const aligned = (bytes.byteOffset + 28) % 4 === 0;
+  const heights = version === HTER_VERSION && aligned && options.copy === false
+    ? new Float32Array(bytes.buffer, bytes.byteOffset + 28, count) : new Float32Array(count);
+  if (version === HTER_VERSION && heights.buffer !== bytes.buffer) {
+    const target = new Uint8Array(heights.buffer);
+    target.set(bytes.subarray(28));
+  } else if (version === HTER_COMPACT_VERSION) {
+    const target = new Uint32Array(heights.buffer);
+    for (let i = 0; i < count; i++) {
+      const delta = (bytes[28 + i]! | (bytes[28 + count + i]! << 8) | (bytes[28 + 2 * count + i]! << 16) | (bytes[28 + 3 * count + i]! << 24)) >>> 0;
+      target[i] = (delta + (i >= nx ? target[i - nx]! : 0)) >>> 0;
+    }
+  }
+  return { x0, z0, resolution, nx, nz, heights };
 }
 
 /** Bilinear height at runtime XZ; outside the grid the nearest edge is used. */

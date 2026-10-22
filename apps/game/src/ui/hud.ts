@@ -37,6 +37,7 @@ type MapShape =
   | { readonly kind: 'anchor'; readonly hospital: boolean; readonly x: number; readonly z: number };
 
 export class Hud {
+  touchControls = false;
   private readonly root = el<HTMLDivElement>('hud');
   private readonly stars = el<HTMLDivElement>('stars');
   private readonly wantedNote = el<HTMLDivElement>('wanted-note');
@@ -194,12 +195,12 @@ export class Hud {
       ? i18n.text('vehicle.speed', { speed: i18n.number(car.speed * 3.6) })
       : i18n.text('vehicle.damagedSpeed', { speed: i18n.number(car.speed * 3.6), damage: damageKey ? i18n.template(damageKey) : car.damage })) : '';
     let prompt = '';
-    if (p.mode === 'onFoot' && p.nearVehicle) prompt = i18n.text('interaction.enter');
-    else if (p.mode === 'driving') prompt = car && car.damage === 'wrecked' ? i18n.text('interaction.leaveWreck') : '';
+    if (p.mode === 'onFoot' && p.nearVehicle) prompt = i18n.text(this.touchControls ? 'touch.promptEnter' : 'interaction.enter');
+    else if (p.mode === 'driving') prompt = car && car.damage === 'wrecked' ? i18n.text(this.touchControls ? 'touch.promptWreck' : 'interaction.leaveWreck') : '';
     else if (p.mode === 'entering') prompt = i18n.text(p.vehicleInteraction?.stage === 'approach' ? 'interaction.approach' : 'interaction.entering');
     else if (p.mode === 'exiting') prompt = exitPrompt(p.vehicleInteraction);
     for (const event of events) {
-      const note = INTERACTION_NOTES[event.type];
+      const note = this.touchControls && event.type === 'vehicleExitBlocked' ? 'touch.promptExitBlocked' : INTERACTION_NOTES[event.type];
       if (note) { this.interactionNote = note; this.interactionNoteUntil = state.time + 3; }
     }
     if (state.time < this.interactionNoteUntil && this.interactionNote && (p.mode === 'onFoot' || p.mode === 'driving')) prompt = i18n.template(this.interactionNote);

@@ -51,7 +51,7 @@ export class StaticWorld {
   }
 
   static fromBytes(terrainBytes: Uint8Array, roads: RoadGraph, gameplay: GameplayBundle): StaticWorld {
-    return new StaticWorld(parseTerrain(terrainBytes), roads, gameplay);
+    return new StaticWorld(parseTerrain(terrainBytes, { copy: false }), roads, gameplay);
   }
 
   groundHeight(x: number, z: number): number {

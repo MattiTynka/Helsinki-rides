@@ -3,8 +3,8 @@
 import * as THREE from 'three';
 import { GLTFLoader, type GLTF } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
-import type { GameplayBundle, RoadGraph, SceneryDocument, WorldManifest } from '@helsinki/world-schema';
-import { RoadIndex, decodeRoadGraph, validateGameplayBundle, validateWorldManifest, validateCivilianAssets } from '@helsinki/world-schema';
+import type { GameplayBundle, RoadGraph, SceneryDocument, TerrainGrid, WorldManifest } from '@helsinki/world-schema';
+import { RoadIndex, decodeRoadGraph, parseTerrain, validateGameplayBundle, validateWorldManifest, validateCivilianAssets } from '@helsinki/world-schema';
 import { collisionCellRefs, initialCollisionCells, type CollisionCellRef } from '@helsinki/sim';
 import { basisDecoderUrl, runtimeDeployment, selectedRelease, validateManifestPaths, validateReleaseId, verifyManifestHash, worldReleaseUrl, worldRootUrl, type WorldDeployment } from './urls.ts';
 import { fetchSimulationPayload } from './payload.ts';
@@ -16,7 +16,8 @@ export interface WorldData {
   readonly release: string;
   readonly base: string;
   readonly manifest: WorldManifest;
-  readonly terrain: Uint8Array;
+  /** Parsed immutable heights; compact transport bytes are released before physics allocates its heightfield. */
+  readonly terrain: TerrainGrid;
   readonly roads: RoadGraph;
   readonly gameplay: GameplayBundle;
   /** Null for releases published before instanced scenery (decision 0006). */
@@ -79,7 +80,7 @@ export async function loadWorldData(release: string, progress: Progress, deploym
   // One six-request ceiling shared by terrain, JSON and collision. The start's collision cells follow the
   // road graph and gameplay (they decide the patrol spawns), overlapping the larger terrain download.
   const limit = requestSlots(6);
-  const terrainJob = limit(() => fetchSimulationPayload(base + manifest.terrain.path, manifest.terrain)).then(bytes => { tick('terrain'); return bytes; });
+  const terrainJob = limit(() => fetchSimulationPayload(base + manifest.terrain.path, manifest.terrain)).then(bytes => { const grid = parseTerrain(bytes, { copy: false }); tick('terrain'); return grid; });
   const roadsJob = limit(() => fetchSimulationPayload(base + manifest.roads.path, manifest.roads)).then(bytes => { const graph=decodeRoadGraph(bytes); tick('roads'); return graph; });
   const gameplayJob = limit(() => fetchJson<GameplayBundle>(base + manifest.gameplay.path)).then(bundle => {
     const gp = validateGameplayBundle(bundle);
@@ -120,9 +121,13 @@ export class GlbLoader {
   readonly loader: GLTFLoader;
   readonly ktx2: OwnedKtx2Loader;
   private readonly manager = new THREE.LoadingManager();
+  private readonly decodeSlots: ReturnType<typeof requestSlots>;
 
-  constructor(renderer: THREE.WebGLRenderer) {
-    this.ktx2 = new OwnedKtx2Loader(this.manager).setTranscoderPath(basisDecoderUrl(runtimeDeployment())).detectSupport(renderer);
+  constructor(renderer: THREE.WebGLRenderer, options: { maxConcurrentDecode?: number } = {}) {
+    const count = options.maxConcurrentDecode ?? 2;
+    if (!Number.isSafeInteger(count) || count < 1 || count > 4) throw new Error('GLB decode concurrency must be between one and four');
+    this.decodeSlots = requestSlots(count);
+    this.ktx2 = new OwnedKtx2Loader(this.manager).setWorkerLimit(count).setTranscoderPath(basisDecoderUrl(runtimeDeployment())).detectSupport(renderer);
     this.loader = new GLTFLoader().setKTX2Loader(this.ktx2).setMeshoptDecoder(MeshoptDecoder).register(completeGlbTextures);
   }
 
@@ -141,17 +146,20 @@ export class GlbLoader {
   }
 
   async load(url: string, signal?: AbortSignal): Promise<GLTF> {
-    if (signal) {
-      // Fetch directly so leaving a district cancels the GLB. Shared images use immutable same-origin
-      // paths; parsing/transcoding retains its slot until completion and late results are disposed.
-      const response = await fetch(url, { signal });
-      if (!response.ok) throw new Error(`${url}: ${response.status}`);
-      const bytes = await response.arrayBuffer();
-      signal.throwIfAborted();
-      return this.loader.parseAsync(bytes, THREE.LoaderUtils.extractUrlBase(url));
-    }
-    return new Promise((resolve, reject) => this.loader.load(url, resolve, undefined, reject));
+    return this.decodeSlots(async () => {
+      signal?.throwIfAborted();
+      if (signal) {
+        // Fetch directly so leaving a district cancels the GLB. Shared images use immutable same-origin
+        // paths; parsing/transcoding retains its slot until completion and late results are disposed.
+        const response = await fetch(url, { signal });
+        if (!response.ok) throw new Error(`${url}: ${response.status}`);
+        const bytes = await response.arrayBuffer();
+        signal.throwIfAborted();
+        return this.loader.parseAsync(bytes, THREE.LoaderUtils.extractUrlBase(url));
+      }
+      return new Promise<GLTF>((resolve, reject) => this.loader.load(url, resolve, undefined, reject));
+    });
   }
 
-  dispose(): void { this.ktx2.dispose(); }
+  dispose(): void { this.decodeSlots.close(); this.ktx2.dispose(); }
 }

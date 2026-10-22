@@ -13,6 +13,7 @@ import { UploadQueue } from './upload-queue.ts';
 import { SceneryInstanceCuller } from './scenery-culling.ts';
 import { partitionCoarseCell } from './coarse-batching.ts';
 import { createFoliageLods, type FoliageLods, type SceneryLodLevel } from './scenery-lod.ts';
+import { AdaptiveResolution, drawingPixelRatio, type ResolutionOptions } from './frame-pacing.ts';
 
 export interface CellView {
   readonly id: string;
@@ -49,17 +50,16 @@ export class CityScene {
   readonly preset: Preset;
   private readonly uploads = new UploadQueue();
   private readonly maxPixelRatio: number;
-  private renderScale = 1;
-  private slowSeconds = 0;
-  private fastSeconds = 0;
-  private raiseCooldown = 0;
+  private readonly resolution: AdaptiveResolution;
+  private readonly maxRenderPixels: number;
 
-  constructor(canvas: HTMLCanvasElement, preset: Preset, lighting: Lighting, pixelRatioCap: number) {
+  constructor(canvas: HTMLCanvasElement, preset: Preset, lighting: Lighting, pixelRatioCap: number, options: ResolutionOptions = {}) {
     this.preset = preset;
     this.lighting = lighting;
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: preset !== 'low', powerPreference: 'high-performance', stencil: false });
     this.maxPixelRatio = Math.min(devicePixelRatio, pixelRatioCap);
-    this.renderer.setPixelRatio(this.maxPixelRatio);
+    this.resolution = new AdaptiveResolution(options);
+    this.maxRenderPixels = options.maxRenderPixels ?? Number.POSITIVE_INFINITY;
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.NoToneMapping;
     this.renderer.shadowMap.enabled = false;
@@ -82,30 +82,16 @@ export class CityScene {
    * A display-limited 60 Hz frame never lowers it.
    */
   adaptResolution(intervalSeconds: number, cpuMs: number): void {
-    const interval = intervalSeconds * 1000;
-    if (!(interval > 0) || interval > 100) return; // paused, hidden or stalled: not a GPU measurement
-    this.raiseCooldown = Math.max(0, this.raiseCooldown - intervalSeconds);
-    if (interval > 22 && cpuMs < interval * 0.6) { this.slowSeconds += intervalSeconds; this.fastSeconds = 0; }
-    else if (interval < 18) { this.fastSeconds += intervalSeconds; this.slowSeconds = 0; }
-    else { this.slowSeconds = Math.max(0, this.slowSeconds - intervalSeconds); this.fastSeconds = 0; }
-    if (this.slowSeconds > 1.5 && this.renderScale > 0.6) {
-      this.setRenderScale(Math.max(0.6, this.renderScale - 0.15));
-      this.raiseCooldown = 20;
-    } else if (this.fastSeconds > 4 && this.raiseCooldown === 0 && this.renderScale < 1) this.setRenderScale(Math.min(1, this.renderScale + 0.1));
+    if (this.resolution.update(intervalSeconds, cpuMs)) this.resize();
   }
 
-  get resolutionScale(): number { return this.renderScale; }
+  get resolutionScale(): number { return this.resolution.scale; }
 
-  private setRenderScale(scale: number): void {
-    this.renderScale = scale;
-    this.slowSeconds = 0;
-    this.fastSeconds = 0;
-    this.renderer.setPixelRatio(this.maxPixelRatio * scale);
-    this.resize();
-  }
+  setTargetFrameRate(rate: 30 | 60): void { this.resolution.setTargetFrameRate(rate); }
 
   resize(): void {
-    const w = innerWidth, h = innerHeight;
+    const w = Math.max(1, innerWidth), h = Math.max(1, innerHeight);
+    this.renderer.setPixelRatio(drawingPixelRatio(w, h, this.maxPixelRatio, this.resolution.scale, this.maxRenderPixels));
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();

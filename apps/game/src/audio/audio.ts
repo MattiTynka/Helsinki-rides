@@ -14,7 +14,11 @@ export class GameAudio {
 
   /** Call from a user gesture. */
   start(): void {
-    if (!this.enabled || this.ctx) return;
+    if (!this.enabled) return;
+    if (this.ctx && this.ctx.state !== 'closed') {
+      if (this.ctx.state !== 'running') void this.ctx.resume().catch(error => console.warn('Audio could not resume', error));
+      return;
+    }
     const ctx = new AudioContext();
     this.ctx = ctx;
     this.master = ctx.createGain();
@@ -43,6 +47,10 @@ export class GameAudio {
     const d = this.noise.getChannelData(0);
     for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
     if (ctx.state === 'suspended') void ctx.resume();
+  }
+
+  suspend(): void {
+    if (this.ctx?.state === 'running') void this.ctx.suspend().catch(error => console.warn('Audio could not pause', error));
   }
 
   private burst(duration: number, volume: number, cutoff: number): void {

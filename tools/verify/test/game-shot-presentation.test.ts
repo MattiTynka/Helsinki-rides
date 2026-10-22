@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import { Game } from '../../../apps/game/src/game.ts';
 import { Effects } from '../../../apps/game/src/render/effects.ts';
 import { Button, initPhysics, NEUTRAL, PoliceUnit, Simulation, type SimState, type Shot } from '../../../packages/sim/src/index.ts';
-import { encodeCollisionBundle, encodeTerrain, type GameplayBundle, type RoadGraph } from '../../../packages/world-schema/src/index.ts';
+import { encodeCollisionBundle, type GameplayBundle, type RoadGraph } from '../../../packages/world-schema/src/index.ts';
 
 before(initPhysics);
 const shot = (shooter: string, n: number): Shot => ({ shooter, origin: [n, 1.4, 0], end: [n, 1.4, 12], hit: null, hitId: null });
@@ -30,6 +30,7 @@ function fixture(shotsAt: (tick: number) => Shot[] = tick => tick === 1 ? [shot(
     sim: { screen: null, inventory: { weapon: null }, player: { body: undefined, yaw: 0 },
       step: () => { tick++; return []; }, state: snapshot, collisionSources: () => [] },
     world: { physics: { castRay: () => null } },
+    scene: { camera: { position: { x: 0, y: 1.6, z: -3 } } },
     playerView: view('player'), characterViews: new Map([['police-1', view('police')]]), vehicleViews: new Map(),
     effects: { addShots: (shots: readonly Shot[]) => { calls.push('effects:add'); received.push(...shots); },
       update: (dt: number) => { calls.push('effects:update'); effectSteps.push(dt); }, reset: () => calls.push('effects:reset'),
@@ -39,7 +40,7 @@ function fixture(shotsAt: (tick: number) => Shot[] = tick => tick === 1 ? [shot(
       aimRay: () => ({ origin: [0, 1.6, -2], direction: [0, 0, 1] }) },
     hud: { update: () => calls.push('hud'), setWorldLoading: () => {} }, audio: { update: () => calls.push('audio') },
     modelsWaitingMessage: () => null, actorModelsReady: () => true, collisionReady: () => true,
-    handleEvents: () => {}, input: { takeLook: () => [0, 0], gamepadLook: () => [0, 0] }, currentCommand: () => NEUTRAL,
+    handleEvents: () => {}, input: { reset: () => {}, takeLook: () => [0, 0], gamepadLook: () => [0, 0] }, currentCommand: () => NEUTRAL,
     stepTicks: (n: number): number => Game.prototype.stepTicks.call(context as unknown as Game, n, NEUTRAL),
     syncViews: (dt: number, characterDt = dt, state?: SimState): void => Game.prototype.syncViews.call(context as unknown as Game, dt, characterDt, state ?? context.state),
     render: () => calls.push('render'), missingVisualCells: () => [],
@@ -116,7 +117,7 @@ function makeSimulation(): { sim: Simulation; world: ReturnType<typeof Game.buil
     id: 'ground', group: 'ground', ref: null, positions: new Float32Array([-100, 0, -100, 100, 0, -100, 100, 0, 100, -100, 0, 100]),
     indices: new Uint32Array([0, 2, 1, 0, 3, 2]), triangleTags: new Uint16Array([0, 0]),
   }]);
-  const data = { terrain: encodeTerrain({ x0: -100, z0: -100, nx: 21, nz: 21, resolution: 10, heights: new Float32Array(441) }), roads, gameplay, manifest: { cells: [{ id: 'flat' }] }, collision: new Map([['flat', nativeGround]]) };
+  const data = { terrain: { x0: -100, z0: -100, nx: 21, nz: 21, resolution: 10, heights: new Float32Array(441) }, roads, gameplay, manifest: { cells: [{ id: 'flat' }] }, collision: new Map([['flat', nativeGround]]) };
   const world = Game.buildWorld(data as unknown as Parameters<typeof Game.buildWorld>[0], null);
   return { world, sim: new Simulation(world, { seed: 12 }) };
 }
@@ -193,7 +194,7 @@ test('resetSimulation clears unsent shots and active flashes before presenting t
     playArea: { minX: -100, maxX: 100, minZ: -100, maxZ: 100 },
     police: { ...base.police, initialPatrols: 0, patrolSpawns: [] }, anchors: [] };
   const roads: RoadGraph = { schemaVersion: 2, originId: 'shot-test', source: { id: 'test', sha256: 'x', attribution: 'test', license: 'CC0' }, nodes: [], lanes: [], connectors: [], parking: [], footways: [] };
-  const data = { terrain: encodeTerrain({ x0: -100, z0: -100, nx: 21, nz: 21, resolution: 10, heights: new Float32Array(441) }), roads, gameplay, manifest: { cells: [] }, collision: new Map() };
+  const data = { terrain: { x0: -100, z0: -100, nx: 21, nz: 21, resolution: 10, heights: new Float32Array(441) }, roads, gameplay, manifest: { cells: [] }, collision: new Map() };
   Object.assign(f.context, { data, collision: null });
   Game.prototype.resetSimulation.call(f.context as unknown as Game, 7);
   try {
