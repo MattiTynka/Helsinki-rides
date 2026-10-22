@@ -55,6 +55,8 @@ export interface CharacterState {
   readonly clip: CharacterClip;
   readonly speed: number;
   readonly alive: boolean;
+  /** Fixed-step seconds since lethal damage; absent only in older state consumers. */
+  readonly deathElapsed?: number;
   readonly health: number;
   readonly inVehicle: string | null;
   readonly aiming: boolean;
@@ -990,7 +992,7 @@ export class Simulation {
 
 function characterState(c: Character): CharacterState {
   return {
-    id: c.id, position: c.position, yaw: c.yaw, clip: c.clip, speed: c.speed, alive: c.alive, health: c.health, inVehicle: c.inVehicle, aiming: false,
+    id: c.id, position: c.position, yaw: c.yaw, clip: c.clip, speed: c.speed, alive: c.alive, deathElapsed: c.deathElapsed, health: c.health, inVehicle: c.inVehicle, aiming: false,
     grounded: c.grounded, verticalSpeed: c.verticalSpeed, jumpPhase: c.jumpPhase, jumpPhaseTime: c.jumpPhaseTime, jumpKind: c.jumpKind, groundDistance: c.groundDistance,
     landingSpeed: c.landingSpeed, climb: c.climbView,
   };

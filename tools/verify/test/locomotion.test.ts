@@ -112,7 +112,7 @@ test('full-body states suspend locomotion and held death/one-shots do not restar
   update(view, 'idle', 0, 0.2);
   update(view, 'death', 0, 0.01);
   assert.ok(death.time < 0.1, 'a new death after recovery must restart');
-  assert.equal(death.paused, false);
+  assert.equal(death.paused, true, 'terminal collapse uses an explicit pose sample');
   update(view, 'hit', 0, 0.8);
   assert.equal(view.actions.get('hit')!.paused, true);
   update(view, 'idle', 0, 0.2);

@@ -23,6 +23,7 @@ function character<T extends CharacterState>(before: T | undefined, after: T, t:
   if (!before || before.alive !== after.alive || before.inVehicle !== after.inVehicle || distance(before.position, after.position) > 2) return after;
   return { ...after, position: vector(before.position, after.position, t), yaw: angle(before.yaw, after.yaw, t), speed: lerp(before.speed, after.speed, t),
     verticalSpeed: lerp(before.verticalSpeed, after.verticalSpeed, t),
+    deathElapsed: before.deathElapsed !== undefined && after.deathElapsed !== undefined ? lerp(before.deathElapsed, after.deathElapsed, t) : after.deathElapsed,
     groundDistance: before.groundDistance !== null && after.groundDistance !== null ? lerp(before.groundDistance, after.groundDistance, t) : after.groundDistance,
     jumpPhaseTime: before.jumpPhase === after.jumpPhase && before.jumpKind === after.jumpKind ? lerp(before.jumpPhaseTime, after.jumpPhaseTime, t) : after.jumpPhaseTime,
   };

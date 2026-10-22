@@ -107,6 +107,6 @@ test('native full-body reactions suspend gait, clamp held death and restart on l
   const { view, hips } = fixture(); update(view, 'run', 3.6, .2); const before = phase(view);
   update(view, 'death', 0, 2); assert.equal(phase(view), before); assert.equal(view.actions.get('death')!.paused, true); assert.ok(Math.abs(hips.position.y + 1) < 1e-8);
   const time = view.actions.get('death')!.time; update(view, 'death', 0, .2); assert.equal(view.actions.get('death')!.time, time);
-  update(view, 'idle', 0, .2); update(view, 'death', 0, .01); assert.equal(view.actions.get('death')!.paused, false); assert.ok(view.actions.get('death')!.time < .1);
+  update(view, 'idle', 0, .2); update(view, 'death', 0, .01); assert.equal(view.actions.get('death')!.paused, true, 'death is explicitly sampled'); assert.ok(view.actions.get('death')!.time < .1);
   view.dispose();
 });
