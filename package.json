@@ -1,5 +1,7 @@
 {
   "name": "helsinki-rides",
+  "author": "MattiTynkä",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.28.2",
