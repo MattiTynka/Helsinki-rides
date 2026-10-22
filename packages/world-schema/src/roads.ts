@@ -137,6 +137,49 @@ export class LaneSegmentIndex {
   }
 }
 
+interface RouteQueueEntry { readonly id: string; readonly d: number; readonly order: number }
+
+/** Equal distances retain insertion order, matching the original linear frontier exactly. */
+class RouteQueue {
+  private readonly entries: RouteQueueEntry[] = [];
+  private serial = 0;
+
+  get length(): number { return this.entries.length; }
+
+  private before(a: RouteQueueEntry, b: RouteQueueEntry): boolean {
+    return a.d < b.d || (a.d === b.d && a.order < b.order);
+  }
+
+  push(id: string, d: number): void {
+    const entry = { id, d, order: this.serial++ }, entries = this.entries;
+    let i = entries.length;
+    entries.push(entry);
+    while (i > 0) {
+      const parent = (i - 1) >>> 1;
+      if (!this.before(entry, entries[parent]!)) break;
+      entries[i] = entries[parent]!;
+      i = parent;
+    }
+    entries[i] = entry;
+  }
+
+  pop(): RouteQueueEntry {
+    const entries = this.entries, first = entries[0]!, last = entries.pop()!;
+    if (entries.length) {
+      let i = 0;
+      while (i * 2 + 1 < entries.length) {
+        let child = i * 2 + 1;
+        if (child + 1 < entries.length && this.before(entries[child + 1]!, entries[child]!)) child++;
+        if (!this.before(entries[child]!, last)) break;
+        entries[i] = entries[child]!;
+        i = child;
+      }
+      entries[i] = last;
+    }
+    return first;
+  }
+}
+
 export class RoadIndex {
   readonly laneById = new Map<string, RoadLane>();
   readonly connectorById = new Map<string, RoadConnector>();
@@ -177,12 +220,15 @@ export class RoadIndex {
     const start = this.laneById.get(fromLane);
     if (!start || !this.laneById.has(toLane)) return null;
     dist.set(fromLane, start.length - fromS);
-    const open: { id: string; d: number }[] = [{ id: fromLane, d: start.length - fromS }];
+    const open = new RouteQueue();
+    open.push(fromLane, start.length - fromS);
     const closed = new Set<string>();
     while (open.length) {
-      let bi = 0;
-      for (let i = 1; i < open.length; i++) if (open[i]!.d < open[bi]!.d) bi = i;
-      const { id, d } = open.splice(bi, 1)[0]!;
+      const { id, d } = open.pop();
+      // Lane and connector lengths are nonnegative. No later frontier entry can improve
+      // a goal already cheaper than this distance; equal-cost alternatives keep the first.
+      // Preserve the historical behavior for an out-of-range negative target offset.
+      if (toS >= 0 && d >= (dist.get('$goal') ?? Infinity)) break;
       if (closed.has(id)) continue;
       closed.add(id);
       for (const c of this.outgoing.get(id) ?? []) {
@@ -198,7 +244,7 @@ export class RoadIndex {
           dist.set(c.to, nd);
           prev.set(c.to, c.id);
           prev.set(c.id, id);
-          open.push({ id: c.to, d: nd });
+          open.push(c.to, nd);
         }
       }
     }

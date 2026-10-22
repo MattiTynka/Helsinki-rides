@@ -506,7 +506,7 @@ export class Game {
         const focus: StreamFocus = { x: position[0], z: position[2], velocityX, velocityZ };
         this.streaming.fallback.update(focus);
         this.streaming.detail.update(focus);
-        const failed = this.streaming.fallback.stats().errors.length + this.streaming.detail.stats().errors.length > 0;
+        const failed = this.streaming.fallback.hasErrors() || this.streaming.detail.hasErrors();
         this.hud.setWorldLoading(this.visualLoading.blocked || collisionWaiting
           ? i18n.text(failed ? 'world.streetsFailed' : 'world.streets')
           : modelsWaiting ?? (failed ? i18n.text('world.buildingsFailed') : null));

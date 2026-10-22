@@ -966,6 +966,7 @@ export class Simulation {
     for (const id of [...this.vehicles.keys()].sort()) { const v = this.vehicles.get(id)!; parts.push(`${id}:${r3(v.position)}:${r2(v.yaw)}:${Math.round(v.health)}:${this.playerTakenVehicles.has(v) ? 'taken' : 'untaken'}`); }
     for (const id of [...this.characters.keys()].sort()) { const c = this.characters.get(id)!; parts.push(`${id}:${r3(c.position)}:${Math.round(c.health)}:${c.inVehicle ?? '-'}:${c.jumpDigest}:death${c.deathTicks}`); }
     parts.push(`police:${this.police.units.map(u => `${u.id}=${u.state}`).join(',')}`);
+    parts.push(`policeRoutes:${this.police.routingDigest()}`);
     parts.push(`pedestrians:${this.pedestrians.digest()}`);
     parts.push(`wanted:${this.wanted.digest()}`);
     parts.push(`contacts:${[...this.ramCooldown].sort(([a], [b]) => a.localeCompare(b)).map(([id, tick]) => `${id}:${tick}`).join(",")}`);
@@ -979,6 +980,7 @@ export class Simulation {
     for (const id of ids) { const v = this.vehicles.get(id)!; parts.push(id, r3(v.position), r2(v.yaw), String(Math.round(v.health)), String(this.playerTakenVehicles.has(v))); }
     const cids = [...this.characters.keys()].sort();
     for (const id of cids) { const c = this.characters.get(id)!; parts.push(id, r3(c.position), String(Math.round(c.health)), c.inVehicle ?? '-', c.jumpDigest, String(c.deathTicks)); }
+    parts.push(`policeRoutes:${this.police.routingDigest()}`);
     parts.push(`pedestrians:${this.pedestrians.digest()}`);
     parts.push(`wanted:${this.wanted.digest()}`);
     parts.push(`contacts:${[...this.ramCooldown].sort(([a], [b]) => a.localeCompare(b)).map(([id, tick]) => `${id}:${tick}`).join(",")}`);

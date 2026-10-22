@@ -261,6 +261,132 @@ test('a finished response route stays safely braked until the next replan instea
   } finally { sim.world.physics.free(); }
 });
 
+test('failed patrol planning brakes and waits two seconds before trying routes again', () => {
+  const sim = makeSim();
+  try {
+    const unit = sim.police.units[0]!, vehicle = unit.vehicle!;
+    let attempts = 0;
+    sim.world.roads.route = () => { attempts++; return null; };
+    sim.police.step();
+    const firstAttempts = attempts;
+    assert.ok(firstAttempts > 0 && firstAttempts <= 9, 'first beat plus bounded random alternatives');
+    assert.equal(unit.driver.goal, null);
+    assert.deepEqual(unit.driver.route, []);
+    for (let i = 0; i < 119; i++) sim.police.step();
+    assert.equal(attempts, firstAttempts, 'a failed plan does not run every simulation tick');
+    assert.equal(vehicle.input.throttle, 0);
+    assert.ok(vehicle.input.brake >= .6);
+    sim.police.step();
+    assert.ok(attempts > firstAttempts, 'the retry is bounded, not disabled permanently');
+  } finally { sim.world.physics.free(); }
+});
+
+test('a completed patrol route with no local candidates also observes the retry cooldown', () => {
+  const sim = makeSim();
+  try {
+    const unit = sim.police.units[0]!, vehicle = unit.vehicle!;
+    vehicle.place([0, 10, -5], Math.PI / 2); // no lane on this level
+    unit.driver.setRoute([[...vehicle.position]], vehicle.position);
+    unit.driver.drive(vehicle, 10, 4);
+    unit.driver.replanTicks = 1000;
+    const nearest = sim.world.roads.nearestLane.bind(sim.world.roads);
+    let planningQueries = 0;
+    sim.world.roads.nearestLane = (x, z, heading, distance) => {
+      if (distance === 30) planningQueries++;
+      return nearest(x, z, heading, distance);
+    };
+    sim.police.step();
+    assert.equal(planningQueries, 1);
+    assert.equal(unit.driver.goal, null, 'the reached old goal cannot bypass a failed-plan cooldown');
+    for (let i = 0; i < 119; i++) sim.police.step();
+    assert.equal(planningQueries, 1);
+    sim.police.step();
+    assert.equal(planningQueries, 2);
+  } finally { sim.world.physics.free(); }
+});
+
+test('a successfully completed patrol starts its next route immediately despite the ordinary replan timer', () => {
+  const sim = makeSim();
+  try {
+    const unit = sim.police.units[0]!, vehicle = unit.vehicle!;
+    unit.firstBeatDone = true;
+    unit.driver.setRoute([[...vehicle.position]], vehicle.position);
+    unit.driver.drive(vehicle, 10, 4);
+    unit.driver.replanTicks = 1000;
+    const route = sim.world.roads.route.bind(sim.world.roads);
+    let attempts = 0;
+    sim.world.roads.route = (...args) => { attempts++; return route(...args); };
+    sim.police.step();
+    assert.ok(attempts > 0);
+    assert.ok(!unit.driver.finished && unit.driver.goal !== null);
+    assert.ok(vehicle.input.throttle > 0);
+  } finally { sim.world.physics.free(); }
+});
+
+test('failed response routes retry on their deadline or moved destination, not every tick', () => {
+  const sim = makeSim();
+  try {
+    const unit = sim.police.units[0]!, vehicle = unit.vehicle!;
+    const driveTo = Reflect.get(sim.police, 'driveTo').bind(sim.police) as (unit: PoliceUnit, target: [number, number, number], speed: number, stop: number) => boolean;
+    const route = sim.world.roads.route.bind(sim.world.roads);
+    let attempts = 0;
+    sim.world.roads.route = (...args) => { attempts++; return route(...args); };
+    unit.driver.replanTicks = 1000;
+    driveTo(unit, [1000, 0, -5], 20, 6); // disconnected district
+    assert.equal(attempts, 1, 'a first request is immediate even if another timer was running');
+    assert.equal(unit.driver.goal, null);
+    for (let i = 0; i < 119; i++) driveTo(unit, [1000, 0, -5], 20, 6);
+    assert.equal(attempts, 1, 'the failed route respects its two-second timer');
+    assert.equal(vehicle.input.throttle, 0);
+    assert.ok(vehicle.input.brake >= .6);
+    driveTo(unit, [1000, 0, -5], 20, 6);
+    assert.equal(attempts, 2);
+    driveTo(unit, [1020, 0, -5], 20, 6);
+    assert.equal(attempts, 3, 'a destination moved more than 15m invalidates a failed attempt immediately');
+    driveTo(unit, [1030, 0, -5], 20, 6);
+    assert.equal(attempts, 3, 'minor target motion does not restart route planning every frame');
+  } finally { sim.world.physics.free(); }
+});
+
+test('successful response requests retain the normal moving-target replan behavior', () => {
+  const sim = makeSim();
+  try {
+    const unit = sim.police.units[0]!, vehicle = unit.vehicle!;
+    vehicle.place([-120, .25, -5], Math.PI / 2);
+    const driveTo = Reflect.get(sim.police, 'driveTo').bind(sim.police) as (unit: PoliceUnit, target: [number, number, number], speed: number, stop: number) => boolean;
+    const route = sim.world.roads.route.bind(sim.world.roads);
+    let attempts = 0;
+    sim.world.roads.route = (...args) => { attempts++; return route(...args); };
+    driveTo(unit, [0, 0, -5], 20, 6);
+    assert.deepEqual(unit.driver.goal, [0, 0, -5]);
+    driveTo(unit, [10, 0, -5], 20, 6);
+    assert.equal(attempts, 1);
+    driveTo(unit, [20, 0, -5], 20, 6);
+    assert.equal(attempts, 2);
+    assert.ok(Math.abs(unit.driver.goal![0] - 20) < 1e-9);
+    assert.deepEqual(unit.driver.goal!.slice(1), [0, -5]);
+    assert.ok(vehicle.input.throttle > 0);
+  } finally { sim.world.physics.free(); }
+});
+
+test('failed response destination and retry deadline are part of deterministic simulation identity', () => {
+  const sim = makeSim();
+  try {
+    const unit = sim.police.units[0]!;
+    const driveTo = Reflect.get(sim.police, 'driveTo').bind(sim.police) as (unit: PoliceUnit, target: [number, number, number], speed: number, stop: number) => boolean;
+    driveTo(unit, [1000, 0, -5], 20, 6);
+    const state = sim.state(), hash = sim.hash(), digest = sim.digest();
+    driveTo(unit, [1020, 0, -5], 20, 6);
+    assert.deepEqual(sim.state(), state, 'both failures leave identical visible transforms and controls');
+    assert.notEqual(sim.hash(), hash);
+    assert.notEqual(sim.digest(), digest);
+    const secondHash = sim.hash(), secondDigest = sim.digest();
+    driveTo(unit, [1020, 0, -5], 20, 6);
+    assert.notEqual(sim.hash(), secondHash, 'one elapsed retry tick changes future behavior');
+    assert.notEqual(sim.digest(), secondDigest);
+  } finally { sim.world.physics.free(); }
+});
+
 test('externally removed retained patrols leave no historical tracking entries', () => {
   const sim = makeSim();
   try {

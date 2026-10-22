@@ -55,6 +55,8 @@ class AiDriver {
   reverseTicks = 0;
   replanTicks = 0;
   goal: V3 | null = null;
+  /** Last requested destination survives a failed route, so retries can wait unless it moves. */
+  requestedGoal: V3 | null = null;
 
   setRoute(points: Vec3[], from: V3, forward?: V3): void {
     this.route = points;
@@ -347,6 +349,12 @@ export class PoliceForce {
     return this.units.map(u => ({ id: u.id, state: u.state, vehicleId: u.vehicle?.id ?? null, officerId: u.officer.id, seesPlayer: u.sees, onFoot: u.onFoot }));
   }
 
+  /** Failed requests and their retry deadlines affect later ticks even while every car is stopped. */
+  routingDigest(): string {
+    return [...this.units].sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0).map(u =>
+      `${u.id}:${u.driver.requestedGoal?.map(n => n.toFixed(3)).join(',') ?? '-'}:${u.driver.replanTicks}`).join('|');
+  }
+
   unitOfOfficer(characterId: string): PoliceUnit | null {
     return this.units.find(u => u.officer.id === characterId) ?? null;
   }
@@ -563,7 +571,9 @@ export class PoliceForce {
     const v = u.vehicle;
     if (!v || u.onFoot) { this.returnToCar(u); return; }
     const sim = this.sim;
-    if (u.driver.finished || u.driver.replanTicks <= 0) {
+    // A reached destination starts the next beat immediately. An empty failed plan has no
+    // goal and must wait: retrying eight city routes on every 60 Hz tick caused stalls.
+    if ((u.driver.finished && u.driver.goal !== null) || u.driver.replanTicks <= 0) {
       const here = laneAtLevel(sim.world.roads, v.position, 30, [v.forward[0], v.forward[2]]);
       const reachable = here ? connectedLaneIds(sim.world.roads, here.laneId, false) : new Set<string>();
       const lanes = sim.world.roads.graph.lanes.filter(l => reachable.has(l.id) && distanceXZ(l.points[l.points.length - 1]!, v.position) <= 350);
@@ -587,7 +597,10 @@ export class PoliceForce {
           if (this.plan(u, [p[0], p[1], p[2]])) break;
         }
       }
-      u.driver.replanTicks = 20 * TICK_HZ;
+      // No candidates must also clear the previous completed goal, otherwise it bypasses
+      // the cooldown on the next tick just like a newly completed successful route.
+      if (u.driver.finished) u.driver.setRoute([], v.position);
+      u.driver.replanTicks = (u.driver.finished ? 2 : 20) * TICK_HZ;
     }
     u.driver.replanTicks--;
     const lane = this.laneSpeed(v);
@@ -597,7 +610,7 @@ export class PoliceForce {
   private driveTo(u: PoliceUnit, target: V3, speed: number, stopDistance: number): boolean {
     const v = u.vehicle;
     if (!v || u.onFoot) { this.returnToCar(u); return false; }
-    if (u.driver.replanTicks <= 0 || !u.driver.goal || distanceXZ(u.driver.goal, target) > 15) {
+    if (u.driver.replanTicks <= 0 || !u.driver.requestedGoal || distanceXZ(u.driver.requestedGoal, target) > 15) {
       this.plan(u, target);
       u.driver.replanTicks = 2 * TICK_HZ;
     }
@@ -781,6 +794,7 @@ export class PoliceForce {
   private plan(u: PoliceUnit, target: V3): boolean {
     const v = u.vehicle;
     if (!v) return false;
+    u.driver.requestedGoal = [...target];
     const roads = this.sim.world.roads;
     const f = v.forward;
     const from = laneAtLevel(roads, v.position, 40, [f[0], f[2]]);

@@ -38,7 +38,7 @@ const sourceFiles = ['apps/game/src/game.ts', 'apps/game/src/testapi.ts', 'apps/
   'apps/game/src/render/cell-resources.ts', 'apps/game/src/world/owned-ktx2-loader.ts',
   'apps/game/src/render/upload-queue.ts', 'apps/game/src/world/payload.ts',
   'apps/game/src/world/startup-queue.ts', 'apps/game/src/world/collision-stream.ts', 'packages/world-schema/src/payload.ts',
-  'packages/sim/src/collision-residency.ts', 'packages/sim/src/world.ts'];
+  'packages/sim/src/collision-residency.ts', 'packages/sim/src/world.ts', 'apps/game/src/review/texture-ownership.ts'];
 const sourceHashes = Object.fromEntries(sourceFiles.filter(file => fs.existsSync(path.join(root, file)))
   .map(file => [file, sha(fs.readFileSync(path.join(root, file)))]));
 const low = values.preset === 'low';
@@ -72,7 +72,7 @@ async function readSnapshot(label, phase = 'dwell') {
     const collector = window.__streamResidencyFrames;
     const frames = collector.frames.splice(0);
     return { tick: state.tick, position: state.player.position, mode: state.player.mode,
-      stats: api.stats(), stream: api.streaming(), textureMemory: api.textureMemory(), frames,
+      stats: api.stats(), stream: api.streaming(), textureMemory: api.textureMemory(), textureOwnership: api.textureOwnership(), frames,
       rendererHeapBytes: performance.memory?.usedJSHeapSize ?? null };
   });
   frameCount += data.frames.length;
@@ -145,7 +145,14 @@ async function retainedEndpoint(cycle, label) {
     data.stream.fallback.missingNearDetail.length === 0, data.stream.coverage);
   required(`cycle-${cycle}:pending-settled`, data.stream.detail.pendingCells === 0 && data.stream.fallback.pendingCells === 0,
     { detail: data.stream.detail.pendingCells, fallback: data.stream.fallback.pendingCells });
-  return { cycle, label, stats: data.stats, stream: data.stream, textureMemory: data.textureMemory,
+  const ownership = data.textureOwnership;
+  required(`cycle-${cycle}:gpu-textures-fully-owned`, ownership.unaccountedGpuTextures === 0 && ownership.rendererTextures === data.stats.textures,
+    { rendererTextures: data.stats.textures, ownedGpuTextures: ownership.ownedGpuTextures, unaccounted: ownership.unaccountedGpuTextures });
+  required(`cycle-${cycle}:gpu-texture-storage-measured`, ownership.unmeasuredGpuTextures === 0,
+    { unmeasuredGpuTextures: ownership.unmeasuredGpuTextures, textureIds: ownership.unmeasuredTextureIds });
+  required(`cycle-${cycle}:gpu-texture-byte-budget`, ownership.ownedGpuMiB <= limits.totalTextureMiB + .01,
+    { ownedGpuMiB: ownership.ownedGpuMiB, totalTextureBudgetMiB: limits.totalTextureMiB, sharedBytesSaved: ownership.sharedBytesSaved });
+  return { cycle, label, stats: data.stats, stream: data.stream, textureMemory: data.textureMemory, textureOwnership: ownership,
     position: data.position, beforeGCMetrics: beforeGC, afterGCMetrics: metrics,
     retainedHeapMiB: metrics.JSHeapUsedSize / 2 ** 20, seconds: data.seconds };
 }
@@ -262,12 +269,24 @@ try {
     { before: baseline.stream.fallback.evicted, after: last.stream.fallback.evicted });
   if (returned.length >= 2) {
     const warm = returned[0], later = returned.slice(1);
-    for (const [field, tolerance] of [['geometries', limits.returnGeometriesGrowth], ['textures', limits.returnTexturesGrowth]]) {
+    for (const [field, tolerance] of [['geometries', limits.returnGeometriesGrowth]]) {
       const values = returned.map(endpoint => endpoint.stats[field]);
       required(`bounded-repeat-endpoint-${field}`, later.every(endpoint => endpoint.stats[field] <= warm.stats[field] + tolerance),
         { warmup: values[0], repeated: values.slice(1), allowedGrowth: tolerance,
           rationale: 'Same Senate fixture, camera and settled resident selection; small renderer initialization/race allowance after one full warmup circuit.' });
     }
+    // FileLoader coalesces overlapping KTX2 requests; sequential loads own distinct Sources.
+    // Thus raw GPU counts can vary despite identical live resources. Retain those observations,
+    // but bound logical ownership and orphan allocations instead, with the same +4 allowance.
+    required('bounded-repeat-endpoint-logical-textures', later.every(endpoint =>
+      endpoint.textureOwnership.logicalTextureHandles <= warm.textureOwnership.logicalTextureHandles + limits.returnTexturesGrowth),
+    { warmup: warm.textureOwnership.logicalTextureHandles, repeated: later.map(endpoint => endpoint.textureOwnership.logicalTextureHandles),
+      materialHandles: returned.map(endpoint => endpoint.textureOwnership.materialTextureHandles), boneHandles: returned.map(endpoint => endpoint.textureOwnership.boneTextureHandles),
+      rawGpuAllocations: returned.map(endpoint => endpoint.stats.textures), allowedGrowth: limits.returnTexturesGrowth });
+    required('bounded-repeat-endpoint-unaccounted-textures', later.every(endpoint =>
+      endpoint.textureOwnership.unaccountedGpuTextures <= warm.textureOwnership.unaccountedGpuTextures + limits.returnTexturesGrowth),
+    { warmup: warm.textureOwnership.unaccountedGpuTextures, repeated: later.map(endpoint => endpoint.textureOwnership.unaccountedGpuTextures),
+      allowedGrowth: limits.returnTexturesGrowth, rationale: 'Every quiet endpoint additionally requires exact zero residual and measured storage.' });
     required('bounded-repeat-endpoint-retained-heap', later.every(endpoint => endpoint.retainedHeapMiB <= warm.retainedHeapMiB + limits.returnRetainedHeapGrowthMiB),
       { afterForcedGCMiB: returned.map(endpoint => endpoint.retainedHeapMiB), allowedGrowthMiB: limits.returnRetainedHeapGrowthMiB,
         rationale: 'One full circuit warms decoders/caches. GC samples at the same quiet endpoint tolerate 20 MiB of normal VM/cache variation.' });
