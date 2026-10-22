@@ -7,7 +7,9 @@ import { advanceGaitPhase, isLocomotionClip, locomotionWeights, MOVEMENT_CLIPS, 
 import { NativeCharacterAnimation } from './native-character-animation.ts';
 import { CharacterAim } from './character-aim.ts';
 import { CharacterFiring, PISTOL_MUZZLE } from './character-firing.ts';
-import { knockdownProgress, type KnockdownPresentation } from './knockdown-presentation.ts';
+import type { KnockdownPresentation } from './knockdown-presentation.ts';
+import { CharacterCollapse } from './character-collapse.ts';
+import { PedestrianAnimation, pedestrianGaitPhase } from './pedestrian-animation.ts';
 import { NativeVehicleAnimation, type VehiclePoses } from './native-vehicle-animation.ts';
 import { SkinnedMeshCuller } from './skinned-culling.ts';
 
@@ -36,6 +38,9 @@ export class CharacterView {
   private disposed = false;
   private sampledKnockdown: THREE.AnimationAction | null = null;
   private shotHoldSeconds = 0;
+  private readonly collapsePresentation = new CharacterCollapse();
+  private readonly pedestrianAnimation: PedestrianAnimation | null;
+  private gaitInitialized = false;
 
   constructor(assets: AssetLibrary, assetId: string, shadowMaterial: THREE.Material) {
     const { root, asset } = assets.cloneCharacter(assetId);
@@ -48,6 +53,7 @@ export class CharacterView {
       if (mesh.isSkinnedMesh) this.ownedSkeletons.add(mesh.skeleton);
     });
     this.root.add(root);
+    this.pedestrianAnimation = asset.id.startsWith('character-civilian-') ? new PedestrianAnimation(root) : null;
     this.mixer = new THREE.AnimationMixer(root);
     this.nativeAnimation = asset.profile ? new NativeCharacterAnimation(this.mixer, root, asset.clips, asset.profile) : null;
     if (this.nativeAnimation) for (const [name, action] of this.nativeAnimation.actions) this.actions.set(name, action);
@@ -95,8 +101,16 @@ export class CharacterView {
   }
 
   update(state: CharacterState & { readonly knockdown?: KnockdownPresentation | null }, dt: number, armed: boolean, interaction: PlayerState['vehicleInteraction'] = null, vehicle?: VehicleState, poses?: VehiclePoses): void {
+    this.pedestrianAnimation?.restore();
+    if (this.pedestrianAnimation && !this.gaitInitialized) {
+      this.gaitInitialized = true;
+      this.gaitPhase = pedestrianGaitPhase(state.id);
+      const idle = this.actions.get(this.asset.profile?.states.idle ?? 'idle');
+      if (idle) idle.time = this.gaitPhase * idle.getClip().duration;
+    }
     if (this.sampledKnockdown) { this.sampledKnockdown.paused = false; this.sampledKnockdown = null; }
-    const collapse = knockdownProgress(state.knockdown, state.alive);
+    const death = this.actions.get(this.asset.profile?.states.death ?? 'death');
+    const collapse = this.collapsePresentation.update(state, dt, death?.getClip().duration ?? 1.4);
     const canPresentWeapon = state.alive && state.inVehicle === null && !interaction && collapse === null
       && state.clip !== 'hit' && state.clip !== 'death' && state.clip !== 'arrested'
       && (!('weapon' in state) || state.weapon !== null);
@@ -118,8 +132,8 @@ export class CharacterView {
     // releasing the exit fades into standing rather than the obsolete embedded drive pose.
     const ownsVehiclePose = this.asset.profile?.id === 'finn-native-v1' && interaction !== null && interaction.stage !== 'approach';
     const aimsOverGait = presentingWeapon && (state.aiming || this.shotHoldSeconds > 0) && isLocomotionClip(state.clip);
-    const animationState: CharacterState = ownsVehiclePose
-      ? { ...state, clip: 'idle', speed: 0, jumpPhase: 'grounded' } : aimsOverGait ? { ...state, clip: 'aim' } : state;
+    const animationState: CharacterState = !state.alive ? { ...state, clip: 'death', speed: 0, jumpPhase: 'grounded' }
+      : ownsVehiclePose ? { ...state, clip: 'idle', speed: 0, jumpPhase: 'grounded' } : aimsOverGait ? { ...state, clip: 'aim' } : state;
     this.play(animationState.clip, animationState.clip === 'death' ? 0.1 : 0.15);
     if (this.nativeAnimation) {
       this.nativeAnimation.update(animationState, dt, collapse);
@@ -127,6 +141,7 @@ export class CharacterView {
       const seated = this.vehicleAnimation?.apply(this.root, ownsVehiclePose ? interaction : null, vehicle, dt, poses) ?? false;
       if (seated) this.shadow.visible = false;
       if (this.pistol) this.pistol.visible = presentingWeapon;
+      this.pedestrianAnimation?.apply(animationState, dt, collapse !== null);
       return;
     }
     const locomotion = this.current !== null && isLocomotionClip(this.current);
@@ -159,6 +174,7 @@ export class CharacterView {
         this.sampledKnockdown = death; this.mixer.update(0);
       }
     }
+    this.pedestrianAnimation?.apply(animationState, dt, collapse !== null);
   }
 
   /** Called after all animation, aiming and vehicle layers, before the renderer tests visibility. */

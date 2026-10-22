@@ -34,6 +34,8 @@ interface RunResult { run: number; ending: 'wasted' | 'busted'; checks: Check[];
 const manifest = JSON.parse(readFileSync(path.join(values.release, 'manifest.json'), 'utf8')) as WorldManifest;
 const session = await openGame(values.url, { headful: values.headful, timeoutMs: 240000 });
 const { page } = session;
+// Offline replay preparation must not advance patrols before the measured fresh run.
+await game.pause(page);
 const pageMarker = await page.evaluate(() => { (window as unknown as { __journeyMarker: number }).__journeyMarker = Math.random(); return (window as unknown as { __journeyMarker: number }).__journeyMarker; });
 await game.start(page);
 const release = await game.release(page);
@@ -527,13 +529,15 @@ async function runOnce(run: number): Promise<RunResult> {
 
 const results: RunResult[] = [];
 for (let run = 1; run <= RUNS; run++) {
+  await page.evaluate(() => (window as unknown as { __HELSINKI_GAME__: { reset(): void } }).__HELSINKI_GAME__.reset());
+  await sleep(400);
+  await game.resume(page);
   note(`--- run ${run} / ${RUNS} ---`);
   const r = await runOnce(run);
   results.push(r);
   if (!r.pass) { note(`run ${run} FAILED`); break; }
-  // A fresh simulation (same seed, same page, same GPU assets) for the next run.
-  await page.evaluate(() => (window as unknown as { __HELSINKI_GAME__: { reset(): void } }).__HELSINKI_GAME__.reset());
-  await sleep(400);
+  // Preserve the same page and GPU assets; the next run resets while paused too.
+  await game.pause(page);
 }
 
 const allPass = results.length === RUNS && results.every(r => r.pass) && session.consoleErrors.length === 0;

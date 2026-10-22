@@ -16,6 +16,7 @@ export interface PedestrianKnockdown {
 export const CIVILIAN_KNOCKDOWN = { fallSeconds: 1.4, holdSeconds: 0.6, riseSeconds: 1.6 } as const;
 export const PEDESTRIANS = {
   target: 8, spawnMin: 24, spawnMax: 108, retireDistance: 180,
+  walkAcceleration: 2, turnAlignment: 0.12,
   refreshTicks: 2 * TICK_HZ, birthsPerRefresh: 2, attemptsPerRefresh: 40,
   spacing: 7, groundCheckTicks: 6, retryTicks: 8 * TICK_HZ,
   corpseMinimumTicks: 20 * TICK_HZ, corpseMaximumTicks: 120 * TICK_HZ,
@@ -32,6 +33,47 @@ export interface PedestrianRoute {
   readonly points: readonly Vec3[];
   readonly length: number;
   readonly source: 'footway' | 'street-edge';
+}
+
+interface RouteSegment { readonly a: Vec3; readonly b: Vec3; readonly s: number; readonly length: number }
+const routeSegments = new WeakMap<readonly Vec3[], readonly RouteSegment[]>();
+const ROUTE_PROJECTION_REACH = 2;
+
+/** Actual route progress, without counting lateral collision corrections as forward travel. */
+export function pedestrianRouteCoordinate(points: readonly Vec3[], position: Vec3, previous: number): number {
+  let segments = routeSegments.get(points);
+  if (!segments) {
+    const compiled: RouteSegment[] = [];
+    let s = 0;
+    for (let i = 1; i < points.length; i++) {
+      const a = points[i - 1]!, b = points[i]!, length = Math.hypot(b[0] - a[0], b[2] - a[2]);
+      if (length > 0) compiled.push({ a, b, s, length });
+      s += length;
+    }
+    segments = compiled; routeSegments.set(points, segments);
+  }
+  const minS = Math.max(0, previous - ROUTE_PROJECTION_REACH), maxS = previous + ROUTE_PROJECTION_REACH;
+  // Only the local arc may qualify. A nearby crossing on a distant part of the same route
+  // cannot skip an endpoint, and long footways do not require a per-tick full-route search.
+  let lo = 0, hi = segments.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >>> 1, segment = segments[mid]!;
+    if (segment.s + segment.length < minS) lo = mid + 1; else hi = mid;
+  }
+  let bestS = previous, bestDistance = Infinity;
+  for (let i = lo; i < segments.length; i++) {
+    const segment = segments[i]!;
+    if (segment.s > maxS) break;
+    const { a, b, s, length } = segment, dx = b[0] - a[0], dz = b[2] - a[2];
+    const t = clamp(((position[0] - a[0]) * dx + (position[2] - a[2]) * dz) / (length * length),
+      Math.max(0, (minS - s) / length), Math.min(1, (maxS - s) / length));
+    const coordinate = s + t * length;
+    const distance = (a[0] + t * dx - position[0]) ** 2 + (a[2] + t * dz - position[2]) ** 2;
+    if (distance < bestDistance || (distance === bestDistance && Math.abs(coordinate - previous) < Math.abs(bestS - previous))) {
+      bestDistance = distance; bestS = coordinate;
+    }
+  }
+  return bestS;
 }
 
 /** Proposals only. Native support and all nearby traffic lanes must qualify before birth or movement. */
@@ -224,8 +266,10 @@ export class Pedestrians {
     }
     if (c.hitTicks > 0) { c.hitTicks--; this.clip(c, 'hit'); return; }
     if (sim.tick < w.waitUntil) { this.clip(c, 'idle'); return; }
-    w.s = clamp(w.s + w.direction * c.speed * TICK_SECONDS, 0.8, w.route.length - 0.8);
-    if ((w.direction > 0 && w.s >= w.route.length - 1) || (w.direction < 0 && w.s <= 1)) {
+    w.s = clamp(pedestrianRouteCoordinate(w.route.points, c.position, w.s), 0.8, w.route.length - 0.8);
+    const distanceToTurn = Math.max(0, w.direction > 0 ? w.route.length - 1 - w.s : w.s - 1);
+    const speedStep = PEDESTRIANS.walkAcceleration * TICK_SECONDS;
+    if (distanceToTurn <= 0.005 && c.speed <= speedStep) {
       this.reverse(w); this.clip(c, 'idle'); return;
     }
     const target = pointAlong(w.route.points, clamp(w.s + w.direction * 0.9, 0, w.route.length)).point;
@@ -233,7 +277,7 @@ export class Pedestrians {
     if (distance < 0.08) { this.reverse(w); this.clip(c, 'idle'); return; }
     const yaw = Math.atan2(dx, dz);
     c.turnToward(yaw, 3.2);
-    const aligned = Math.abs(wrapAngle(yaw - c.yaw)) < 0.65;
+    const aligned = Math.abs(wrapAngle(yaw - c.yaw)) < PEDESTRIANS.turnAlignment;
     if (sim.tick >= w.nextGroundTick) {
       w.nextGroundTick = sim.tick + PEDESTRIANS.groundCheckTicks;
       const ahead: V3 = [c.position[0] + dx / distance * 0.55, target[1], c.position[2] + dz / distance * 0.55];
@@ -242,7 +286,10 @@ export class Pedestrians {
     }
     if (!w.safeAhead || !aligned) { w.blockedTicks++; this.clip(c, 'idle'); }
     else {
-      const speed = Math.min(w.speed, c.speed + 2 * TICK_SECONDS);
+      // Brake before a planned endpoint. Clamp both directions of the speed change so the
+      // final discrete steps settle without a hard stop; obstacle/support failures still stop now.
+      const turnSpeed = Math.sqrt(2 * PEDESTRIANS.walkAcceleration * distanceToTurn);
+      const speed = Math.max(0, c.speed - speedStep, Math.min(w.speed, c.speed + speedStep, turnSpeed));
       c.desiredVx = dx / distance * speed; c.desiredVz = dz / distance * speed;
       if (c.speed < 0.08) w.blockedTicks++; else w.blockedTicks = 0;
       this.clip(c, 'walk');

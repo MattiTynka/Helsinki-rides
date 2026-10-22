@@ -27,6 +27,15 @@ test('player, NPC, car and wheels share one interpolated instant without mutatin
   assert.equal(JSON.stringify([before, after]), frozen);
 });
 
+test('terminal collapse age shares the displayed instant without interpolating across lethal damage', () => {
+  const previous = snapshot(1), current = snapshot(2);
+  const before: SimState = { ...previous, characters: [{ ...previous.characters[0]!, alive: false, clip: 'death', deathElapsed: .7 }] };
+  const after: SimState = { ...current, characters: [{ ...current.characters[0]!, alive: false, clip: 'death', deathElapsed: .7 + 1 / 60 }] };
+  assert.ok(Math.abs(interpolateState(before, after, .5).characters[0]!.deathElapsed! - (.7 + 1 / 120)) < 1e-12);
+  const living: SimState = { ...before, characters: [{ ...before.characters[0]!, alive: true, clip: 'walk', deathElapsed: 0 }] };
+  assert.equal(interpolateState(living, after, .5).characters[0], after.characters[0], 'new lethal state is displayed immediately');
+});
+
 test('60 Hz simulation produces continuous translation at 120 and 144 Hz display rates', () => {
   for (const rate of [120, 144]) {
     let previous = 0, rawPrevious = 0, plateaus = 0;

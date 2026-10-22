@@ -78,6 +78,26 @@ test('chassis and skid contacts count once and later low-speed pushing cannot re
   } finally { sim.world.physics.free(); }
 });
 
+test('a lethal car contact publishes death on the contact tick and never resumes the civilian route', () => {
+  const {sim, civilian, car} = fixture();
+  try {
+    car.body.setLinvel({x: 0, y: 0, z: 15}, true);
+    for (let i = 0; i < 90 && civilian.alive; i++) sim.step({...NEUTRAL, moveZ: 1});
+    assert.equal(civilian.alive, false, `real fatal impact: health ${civilian.health}`);
+    const killed = sim.state().characters.find(actor => actor.id === civilian.id)!;
+    assert.equal(killed.clip, 'death', 'contact damage occurs after pedestrian AI and must override its last gait');
+    assert.equal(killed.speed, 0); assert.equal(killed.deathElapsed, 1 / 60);
+    assert.equal(sim.pedestrians.knockdown(civilian.id), null);
+    assert.equal(civilian.desiredVx, 0); assert.equal(civilian.desiredVz, 0);
+    for (let i = 0; i < 5 * 60; i++) {
+      sim.step(NEUTRAL);
+      assert.equal(civilian.alive, false); assert.equal(civilian.clip, 'death');
+      assert.equal(civilian.desiredVx, 0); assert.equal(civilian.desiredVz, 0);
+    }
+    assert.equal(sim.log.filter(e => e.type === 'kill' && e.detail === civilian.id).length, 1);
+  } finally { sim.world.physics.free(); }
+});
+
 test('creeping contact with a walking civilian is harmless and does not request police', () => {
   const {sim, civilian, car} = fixture();
   try {

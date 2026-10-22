@@ -3,9 +3,9 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { gunzipSync } from 'node:zlib';
 import { before, test } from 'node:test';
-import { decodeRoadGraph, encodeCollisionBundle, encodeTerrain, type GameplayBundle, type RoadGraph, type RoadLane, type WorldManifest } from '@helsinki/world-schema';
-import { collisionCellRefs, initPhysics, NEUTRAL, Simulation, StaticWorld } from '../src/index.ts';
-import { CIVILIAN_KNOCKDOWN, CIVILIAN_VARIANTS, PEDESTRIANS, cityPedestrianRoutes, civilianVariant, pedestrianGround } from '../src/pedestrians.ts';
+import { decodeRoadGraph, encodeCollisionBundle, encodeTerrain, pointAlong, type GameplayBundle, type RoadGraph, type RoadLane, type WorldManifest } from '@helsinki/world-schema';
+import { collisionCellRefs, initPhysics, NEUTRAL, Simulation, StaticWorld, wrapAngle } from '../src/index.ts';
+import { CIVILIAN_KNOCKDOWN, CIVILIAN_VARIANTS, PEDESTRIANS, cityPedestrianRoutes, civilianVariant, pedestrianGround, pedestrianRouteCoordinate } from '../src/pedestrians.ts';
 
 const source = JSON.parse(readFileSync(new URL('../../../content/helsinki/gameplay.json', import.meta.url), 'utf8'));
 const terrain = encodeTerrain({ x0: -1800, z0: -1800, resolution: 100, nx: 37, nz: 37, heights: new Float32Array(37 * 37) });
@@ -109,6 +109,58 @@ test('proposals exclude motorway edges and inner traffic lanes; short invalid fo
   assert.deepEqual(proposed, []);
 });
 
+test('lateral collision corrections do not advance route progress or jump to a nearby crossing', () => {
+  const straight: [number, number, number][] = [[0, 0, 0], [100, 0, 0]];
+  assert.equal(pedestrianRouteCoordinate(straight, [10, 0, 1.5], 10), 10);
+  assert.equal(pedestrianRouteCoordinate(straight, [10, 0, 3], 10), 10);
+  assert.equal(pedestrianRouteCoordinate(straight, [10.2, 0, 3], 10), 10.2);
+  const crossing: [number, number, number][] = [[0, 0, 0], [10, 0, 0], [10, 0, 10], [5, 0, 10], [5, 0, -10]];
+  // The later segment passes directly under this point, but it is 30 m farther along the route.
+  assert.equal(pedestrianRouteCoordinate(crossing, [5, 0, 0.3], 5), 5);
+  assert.equal(pedestrianRouteCoordinate(straight, [80, 0, 0], 10), 12, 'large displacements cannot skip the local arc');
+});
+
+test('the native Esplanadi stop loop reanchors its cursor before choosing the return target', () => {
+  const points: [number, number, number][] = [[-372.323, -5.172, 77.271], [-368.612, -4.398, 135.444],
+    [-367.746, -4.061, 155.544], [-366.268, -3.465, 187.087]];
+  const position: [number, number, number] = [-372.19885254739256, -5.104173003530741, 79.18047898340342];
+  const stale = 0.9777;
+  const wrongTarget = pointAlong(points, stale + 0.9).point;
+  assert.ok(Math.hypot(wrongTarget[0] - position[0], wrongTarget[2] - position[2]) < 0.08,
+    'recorded drift makes the old return target immediately reverse again');
+  const coordinate = pedestrianRouteCoordinate(points, position, stale);
+  assert.ok(coordinate > 1.8 && coordinate < 2.1, 'progress follows the real body rather than unsigned travelled distance');
+  const returnTarget = pointAlong(points, coordinate + 0.9).point;
+  assert.ok(returnTarget[2] > position[2] + 0.8, 'return direction now points back along the footway');
+  assert.ok(Math.hypot(returnTarget[0] - position[0], returnTarget[2] - position[2]) > 0.89);
+});
+
+test('a stopped walker escapes the recorded stale-cursor endpoint flip cycle', () => {
+  const f = makeSim({ ...roads, lanes: [], footways: [{ id: 'cursor-drift', points: [[50, 0, 12], [62, 0, 12]] }] });
+  try {
+    advance(f, 150); const c = civilians(f.sim)[0]!; assert.ok(c);
+    f.sim.player.teleport([54, 0, 25], 0);
+    // Freeze the observed failure geometry: the capsule is 1.91 m along its route,
+    // but collision-correction distance left the cursor at 0.9777 m. Without reanchoring,
+    // the return lookahead is already underfoot and both directions reverse forever.
+    c.teleport([51.91, 0.03, 12], -Math.PI / 2); c.speed = 0.000118;
+    const active = Reflect.get(f.pedestrians, 'active') as Map<string, {
+      s: number; direction: number; waitUntil: number; nextGroundTick: number; blockedTicks: number;
+    }>;
+    const walker = active.get(c.id)!;
+    walker.s = 0.9777; walker.direction = 1; walker.waitUntil = f.sim.tick;
+    walker.nextGroundTick = 0; walker.blockedTicks = 0;
+    let maxX = c.position[0], turned = false;
+    for (let i = 0; i < 10 * 60; i++) {
+      advance(f, 1); maxX = Math.max(maxX, c.position[0]);
+      if (Math.abs(wrapAngle(c.yaw - Math.PI / 2)) < 0.12) turned = true;
+      assert.equal(c.alive, true); assert.equal(c.health, 100);
+    }
+    assert.ok(turned, 'a return target beyond the body produces a real turn');
+    assert.ok(maxX > 55, `the civilian resumes supported movement instead of flipping an idle timer: ${maxX}`);
+  } finally { f.sim.world.physics.free(); }
+});
+
 test('walkers turn around before native support ends and never follow a footway into fallback terrain', () => {
   const f = makeSim({ ...roads, lanes: [], footways: [{ id: 'past-edge', points: [[40, 0, 12], [400, 0, 12]] }] });
   try {
@@ -116,6 +168,42 @@ test('walkers turn around before native support ends and never follow a footway 
     const actors = civilians(f.sim); assert.ok(actors.length > 0);
     assert.ok(actors.every(c => c.position[0] < 159.5 && c.position[1] > -0.1 && c.grounded));
     assert.ok(actors.every(c => c.position[0] > 38));
+  } finally { f.sim.world.physics.free(); }
+});
+
+test('forward-only walkers align before moving and brake to finite endpoint reversals', () => {
+  const f = makeSim({ ...roads, lanes: [], footways: [{ id: 'short-walk', points: [[50, 0, 12], [62, 0, 12]] }] });
+  try {
+    advance(f, 150); const c = civilians(f.sim)[0]!; assert.ok(c);
+    // Keep the sole spawn slot inside the player's no-birth radius while leaving the
+    // pedestrian's native path clear, so another walker cannot create a safety stop.
+    f.sim.player.teleport([54, 0, 25], 0);
+    let lastDirection = 0, reversals = 0, brakingTicks = 0, movingTicks = 0;
+    let minX = c.position[0], maxX = c.position[0], previousSpeed = c.speed;
+    const speedStep = PEDESTRIANS.walkAcceleration / 60;
+    for (let i = 0; i < 60 * 60; i++) {
+      advance(f, 1);
+      assert.equal(f.sim.characters.get(c.id), c, 'one managed walker completes repeated out-and-back trips');
+      const desiredSpeed = Math.hypot(c.desiredVx, c.desiredVz);
+      assert.ok(Math.abs(desiredSpeed - previousSpeed) <= speedStep + 1e-6,
+        `clear planned motion respects acceleration/deceleration at ${c.position}: ${previousSpeed} -> ${desiredSpeed}; ${f.pedestrians.digest()}`);
+      if (desiredSpeed > 0.01) {
+        movingTicks++;
+        const headingError = Math.abs(wrapAngle(Math.atan2(c.desiredVx, c.desiredVz) - c.yaw));
+        assert.ok(headingError < PEDESTRIANS.turnAlignment + 1e-10, 'the forward-only clip faces its checked travel direction');
+        const direction = Math.sign(c.desiredVx);
+        if (lastDirection && direction !== lastDirection) reversals++;
+        lastDirection = direction;
+        if (desiredSpeed < previousSpeed - 0.01) brakingTicks++;
+      }
+      minX = Math.min(minX, c.position[0]); maxX = Math.max(maxX, c.position[0]);
+      assert.equal(c.health, 100); assert.equal(c.alive, true);
+      previousSpeed = c.speed;
+    }
+    assert.ok(movingTicks > 1000 && reversals >= 4, `endpoint braking cannot stall asymptotically: ${reversals} reversals`);
+    assert.ok(brakingTicks >= 30, 'planned endpoints include a gradual slowdown');
+    assert.ok(minX < 51.1 && maxX > 60.9, `both endpoint margins are reached: ${minX}, ${maxX}`);
+    assert.ok(minX > 50.8 && maxX < 61.2, 'braking stays within the supported route');
   } finally { f.sim.world.physics.free(); }
 });
 
@@ -148,6 +236,38 @@ test('a fatal hit keeps death permanent and old bodies are removed without unbou
     assert.equal(f.sim.characterOf(c.collider.handle), null);
     assert.ok(civilians(f.sim).length <= PEDESTRIANS.target);
   } finally { f.sim.world.physics.free(); }
+});
+
+test('lethal damage during a fall, floor hold or recovery immediately enters permanent death', () => {
+  for (const elapsedTicks of [42, 108, 168]) {
+    const f = makeSim();
+    try {
+      advance(f, 300); const c = civilians(f.sim)[0]!;
+      f.sim.player.teleport([c.position[0] + 3, c.position[1], c.position[2]], 0);
+      c.takeDamage(10); advance(f, 1 + elapsedTicks);
+      assert.ok(f.pedestrians.knockdown(c.id), `${elapsedTicks}: live reaction is active`);
+      c.takeDamage(c.health);
+      const killed = f.sim.state().characters.find(actor => actor.id === c.id)!;
+      assert.equal(killed.alive, false); assert.equal(killed.health, 0);
+      assert.equal(killed.clip, 'death', 'death is published before the next AI step');
+      assert.equal(killed.speed, 0); assert.equal(killed.deathElapsed, 0);
+      assert.equal(f.pedestrians.knockdown(c.id), null, 'a corpse cannot expose a recovery timeline');
+      assert.equal(c.desiredVx, 0); assert.equal(c.desiredVz, 0);
+      const position = [...c.position];
+      for (let i = 0; i < 8 * 60; i++) {
+        advance(f, 1);
+        const corpse = f.sim.state().characters.find(actor => actor.id === c.id)!;
+        assert.ok(corpse, 'nearby corpse is retained through the recovery window');
+        assert.equal(corpse.alive, false); assert.equal(corpse.health, 0); assert.equal(corpse.clip, 'death');
+        assert.ok(Math.abs(corpse.deathElapsed! - (i + 1) / 60) < 1e-12);
+        assert.equal(f.pedestrians.knockdown(c.id), null);
+        assert.equal(c.desiredVx, 0); assert.equal(c.desiredVz, 0);
+      }
+      assert.ok(Math.hypot(c.position[0] - position[0]!, c.position[2] - position[2]!) < 0.02, 'death never resumes its walking route');
+      const age = c.deathElapsed;
+      assert.equal(c.takeDamage(50), 0); assert.equal(c.deathElapsed, age, 'later hits never restart corpse age');
+    } finally { f.sim.world.physics.free(); }
+  }
 });
 
 test('a second hit halfway through getting up reverses the fall without popping to standing', () => {

@@ -95,6 +95,8 @@ export class Character {
   inVehicle: string | null = null;
   hitTicks = 0;
   deathTicks = 0;
+  /** Authoritative fixed-step age of a terminal collapse, independent of render/view lifetime. */
+  get deathElapsed(): number { return this.alive ? 0 : this.deathTicks * TICK_SECONDS; }
   lastSurface: string | null = null;
   /** AI-requested horizontal velocity for the next move (NPCs only). */
   desiredVx = 0;
@@ -373,7 +375,16 @@ export class Character {
     if (this.armour > 0) { const absorbed = Math.min(this.armour, remaining * 0.7); this.armour -= absorbed; remaining -= absorbed; }
     this.health = Math.max(0, this.health - remaining);
     this.hitTicks = 20;
-    if (this.health <= 0) { this.alive = false; this.deathTicks = 0; this.resetJump(true); }
+    if (this.health <= 0) {
+      this.alive = false;
+      this.deathTicks = 0;
+      // Vehicle contacts resolve after NPC AI. Publish a terminal pose immediately, even
+      // when there is no further AI tick before the next rendered snapshot.
+      this.clip = 'death';
+      this.clipTicks = 0;
+      this.desiredVx = 0; this.desiredVz = 0; this.speed = 0;
+      this.resetJump(true);
+    }
     return remaining;
   }
 }
