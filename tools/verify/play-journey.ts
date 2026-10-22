@@ -227,7 +227,9 @@ async function driveClearOfPatrol(): Promise<{ state: SimState; distance: number
       if (other.id === car.id || Math.abs(other.position[1] - car.position[1]) > 2) continue;
       const dx = other.position[0] - car.position[0], dz = other.position[2] - car.position[2];
       const along = dx * fx + dz * fz, side = dx * fz - dz * fx, distance = Math.hypot(dx, dz);
-      if (Math.abs(along) < 3 && Math.abs(side) < 5 && distance < nearest) { nearest = distance; adjacentSide = side; }
+      // Bumper contacts put two car centres roughly 4–5 metres apart. Include that envelope;
+      // a three-metre cutoff missed both blockers and kept rocking straight between their bumpers.
+      if (Math.abs(along) < 6 && Math.abs(side) < 5 && distance < nearest) { nearest = distance; adjacentSide = side; }
     }
     return heading + (direction < 0 ? Math.PI : 0) - Math.sign(adjacentSide) * .7;
   };
@@ -277,7 +279,10 @@ async function driveClearOfPatrol(): Promise<{ state: SimState; distance: number
 /** Wait for the post-braking suspension motion too: speed includes vertical velocity. Pressing F on
  * the first low-speed tick otherwise begins exit just before the car rebounds above 0.3 m/s. */
 async function settleCar(): Promise<SimState> {
-  await key('KeyA', false); await key('KeyD', false); await key('Space', true);
+  await key('KeyA', false); await key('KeyD', false);
+  // Entering/leaving an interaction clears held gameplay input. Our local held Set survives that
+  // boundary, so every retry needs a fresh physical handbrake press rather than a suppressed keydown.
+  await key('Space', false); await key('Space', true);
   let settledAt: number | null = null;
   const state = await loop('settleCar', 5, async st => {
     const car = st.vehicles.find(v => v.id === st.player.inVehicle);
