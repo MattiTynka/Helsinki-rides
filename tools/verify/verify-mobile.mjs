@@ -39,6 +39,9 @@ page.on('console', message => { if (message.type() === 'error') errors.push(mess
 const cdp = await context.newCDPSession(page);
 const touch = createNativeTouch(cdp);
 async function centre(selector) {
+  // A streamed character can briefly pause play after Start. A visible wrapper can have hidden
+  // controls, so wait for the actual hit target instead of assuming network work finishes in 1.5 s.
+  await page.locator(selector).waitFor({ state: 'visible', timeout: 90000 });
   const box = await page.locator(selector).boundingBox(); assert.ok(box, `${selector}: visible`);
   return { x: box.x + box.width / 2, y: box.y + box.height / 2, width: box.width, height: box.height };
 }
