@@ -6,6 +6,8 @@ import type { AssetLibrary, CharacterAsset } from './assets.ts';
 import { advanceGaitPhase, isLocomotionClip, locomotionWeights, MOVEMENT_CLIPS, type MovementClip } from './locomotion.ts';
 import { NativeCharacterAnimation } from './native-character-animation.ts';
 import { CharacterAim } from './character-aim.ts';
+import { CharacterFiring, PISTOL_MUZZLE } from './character-firing.ts';
+import { knockdownProgress, type KnockdownPresentation } from './knockdown-presentation.ts';
 import { NativeVehicleAnimation, type VehiclePoses } from './native-vehicle-animation.ts';
 import { SkinnedMeshCuller } from './skinned-culling.ts';
 
@@ -26,10 +28,14 @@ export class CharacterView {
   private readonly gaitDurations: Partial<Record<MovementClip, number>> = {};
   private readonly nativeAnimation: NativeCharacterAnimation | null;
   private readonly aimCorrection: CharacterAim | null;
+  private readonly firing: CharacterFiring | null;
+  private readonly muzzleRotation = new THREE.Quaternion();
   private vehicleAnimation: NativeVehicleAnimation | null = null;
   private skinnedCulling: SkinnedMeshCuller | null = null;
   private readonly ownedSkeletons = new Set<THREE.Skeleton>();
   private disposed = false;
+  private sampledKnockdown: THREE.AnimationAction | null = null;
+  private shotHoldSeconds = 0;
 
   constructor(assets: AssetLibrary, assetId: string, shadowMaterial: THREE.Material) {
     const { root, asset } = assets.cloneCharacter(assetId);
@@ -63,6 +69,7 @@ export class CharacterView {
     const p = assets.clonePistol();
     if (p && this.handSocket) { this.handSocket.add(p); p.visible = false; this.pistol = p; }
     this.aimCorrection = this.nativeAnimation && this.pistol ? new CharacterAim(root, this.pistol, asset.profile!.upperBodyRoot) : null;
+    this.firing = this.nativeAnimation && this.pistol ? new CharacterFiring(root, this.pistol) : null;
     this.shadow = new THREE.Mesh(new THREE.CircleGeometry(0.45, 20), shadowMaterial);
     this.shadow.rotation.x = -Math.PI / 2;
     this.shadow.position.y = 0.02;
@@ -87,7 +94,16 @@ export class CharacterView {
     }
   }
 
-  update(state: CharacterState, dt: number, armed: boolean, interaction: PlayerState['vehicleInteraction'] = null, vehicle?: VehicleState, poses?: VehiclePoses): void {
+  update(state: CharacterState & { readonly knockdown?: KnockdownPresentation | null }, dt: number, armed: boolean, interaction: PlayerState['vehicleInteraction'] = null, vehicle?: VehicleState, poses?: VehiclePoses): void {
+    if (this.sampledKnockdown) { this.sampledKnockdown.paused = false; this.sampledKnockdown = null; }
+    const collapse = knockdownProgress(state.knockdown, state.alive);
+    const canPresentWeapon = state.alive && state.inVehicle === null && !interaction && collapse === null
+      && state.clip !== 'hit' && state.clip !== 'death' && state.clip !== 'arrested'
+      && (!('weapon' in state) || state.weapon !== null);
+    this.shotHoldSeconds = canPresentWeapon ? Math.max(0, this.shotHoldSeconds - (Number.isFinite(dt) ? Math.max(0, dt) : 0)) : 0;
+    const presentingWeapon = canPresentWeapon && (armed || this.shotHoldSeconds > 0);
+    this.firing?.restore();
+    this.firing?.advance(dt, presentingWeapon);
     this.aimCorrection?.restore();
     this.vehicleAnimation?.restore();
     this.root.visible = state.inVehicle === null;
@@ -101,15 +117,16 @@ export class CharacterView {
     // The car layer owns the whole body. Keep a standing base ready underneath it so
     // releasing the exit fades into standing rather than the obsolete embedded drive pose.
     const ownsVehiclePose = this.asset.profile?.id === 'finn-native-v1' && interaction !== null && interaction.stage !== 'approach';
+    const aimsOverGait = presentingWeapon && (state.aiming || this.shotHoldSeconds > 0) && isLocomotionClip(state.clip);
     const animationState: CharacterState = ownsVehiclePose
-      ? { ...state, clip: 'idle', speed: 0, jumpPhase: 'grounded' } : state;
+      ? { ...state, clip: 'idle', speed: 0, jumpPhase: 'grounded' } : aimsOverGait ? { ...state, clip: 'aim' } : state;
     this.play(animationState.clip, animationState.clip === 'death' ? 0.1 : 0.15);
     if (this.nativeAnimation) {
-      this.nativeAnimation.update(animationState, dt);
+      this.nativeAnimation.update(animationState, dt, collapse);
       if (ownsVehiclePose && !this.vehicleAnimation) this.vehicleAnimation = new NativeVehicleAnimation(this.model);
       const seated = this.vehicleAnimation?.apply(this.root, ownsVehiclePose ? interaction : null, vehicle, dt, poses) ?? false;
       if (seated) this.shadow.visible = false;
-      if (this.pistol) this.pistol.visible = armed && state.alive && !interaction;
+      if (this.pistol) this.pistol.visible = presentingWeapon;
       return;
     }
     const locomotion = this.current !== null && isLocomotionClip(this.current);
@@ -132,8 +149,16 @@ export class CharacterView {
       const action = this.actions.get(name);
       if (action) action.time = this.gaitPhase * action.getClip().duration;
     }
-    if (this.pistol) this.pistol.visible = armed && state.alive;
+    if (this.pistol) this.pistol.visible = presentingWeapon;
     this.mixer.update(dt);
+    if (collapse !== null) {
+      const death = this.actions.get('death');
+      if (death) {
+        for (const action of this.actions.values()) action.setEffectiveWeight(action === death ? 1 : 0);
+        death.enabled = true; death.paused = true; death.time = death.getClip().duration * collapse;
+        this.sampledKnockdown = death; this.mixer.update(0);
+      }
+    }
   }
 
   /** Called after all animation, aiming and vehicle layers, before the renderer tests visibility. */
@@ -170,5 +195,35 @@ export class CharacterView {
     const states = this.asset.profile?.states;
     const weight = (this.actions.get(states?.aim ?? 'aim')?.getEffectiveWeight() ?? 0) + (this.actions.get(states?.fire ?? 'fire')?.getEffectiveWeight() ?? 0);
     this.aimCorrection?.apply(target, Math.min(1, weight));
+    this.firing?.apply(Math.min(1, weight));
+  }
+
+  /** Called once for an actual simulation shot, never from a held fire animation state. */
+  notifyShot(): void {
+    if (!this.pistol) return;
+    // A render can combine a fire tick and the following moving/lost-sight tick. Retain the short
+    // physical follow-through even when that last state no longer contains the one-tick fire clip.
+    this.shotHoldSeconds = .18;
+    this.firing?.notifyShot();
+  }
+
+  /** Explicit holster boundary, even if the next fixed tick draws again before a frame is rendered. */
+  cancelShot(): void {
+    this.shotHoldSeconds = 0;
+    this.firing?.restore();
+    this.firing?.advance(0, false);
+  }
+
+  isPresentingShot(): boolean { return this.shotHoldSeconds > 0; }
+
+  shootingPresentation(): ReturnType<CharacterFiring['snapshot']> | null { return this.firing?.snapshot() ?? null; }
+
+  /** Resolve after aim/recoil: tracer and warm light start at the visible barrel, not the hitscan eye. */
+  muzzlePose(position: THREE.Vector3, direction: THREE.Vector3): boolean {
+    if (!this.root.visible || !this.pistol?.visible) return false;
+    this.pistol.updateWorldMatrix(true, false);
+    position.copy(PISTOL_MUZZLE); this.pistol.localToWorld(position);
+    direction.set(0, 0, 1).applyQuaternion(this.pistol.getWorldQuaternion(this.muzzleRotation)).normalize();
+    return true;
   }
 }

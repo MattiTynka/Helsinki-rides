@@ -23,7 +23,9 @@ import tempfile
 from typing import Any
 
 
-MAX_WORLD_BYTES = 950_000_000
+# Reserve 20 MB for the shell within the unchanged 980 MB complete-site ceiling.
+# The expanded city plus compressed civilians needs slightly over 950 MB.
+MAX_WORLD_BYTES = 960_000_000
 MAX_ARTIFACT_BYTES = 980_000_000
 MAX_ARCHIVE_BYTES = 980_000_000
 MAX_FILES = 10_000
@@ -61,6 +63,16 @@ def _restricted_vehicle(value: Any) -> bool:
 def _restricted_vehicle_file(value: str) -> bool:
     name = value.rsplit('/', 1)[-1]
     return name.lower().endswith('.glb') and _restricted_vehicle(name[:-4])
+
+
+def _validate_civilian_assets(gameplay: dict, manifest: dict) -> None:
+    variants = gameplay.get('civilianVariants', [])
+    supported = {'rain-black', 'rain-white', 'snow-black', 'agent47'}
+    if not isinstance(variants, list) or len(variants) > 4 or any(not isinstance(v, str) or v not in supported for v in variants) or len(set(variants)) != len(variants):
+        raise ValueError('invalid civilian appearances')
+    assets = {a.get('id') for a in manifest.get('assets', []) if a.get('kind') == 'character'}
+    if any(f'character-civilian-{variant}' not in assets for variant in variants):
+        raise ValueError('civilian appearance has no character asset in the world')
 
 
 def _validate_gameplay_vehicle_publication(data: bytes) -> None:
@@ -653,6 +665,7 @@ def stage(descriptor_path: Path, archive: Path, output: Path, source_sha: str) -
         if gameplay_file.stat().st_size > MAX_GAMEPLAY_BYTES:
             raise ValueError('gameplay document exceeds the publication limit')
         _validate_gameplay_vehicle_publication(gameplay_file.read_bytes())
+        _validate_civilian_assets(_json(gameplay_file.read_bytes()), manifest_document)
         receipt = {
             'schemaVersion': 1, 'repository': 'MattiTynka/Helsinki-rides',
             'sourceCommit': source_sha, 'descriptorSha256': descriptor_sha,

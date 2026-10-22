@@ -8,6 +8,7 @@ export * from './wanted.ts';
 export * from './weapons.ts';
 export * from './aim.ts';
 export * from './police.ts';
+export * from './pedestrians.ts';
 export * from './simulation.ts';
 export * from './vehicle-interaction.ts';
 export type { GameEvent, GameplayBundle, VehicleDefinition, WeaponDefinition, RoadGraph, TerrainGrid, WorldManifest } from '@helsinki/world-schema';

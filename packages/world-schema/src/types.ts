@@ -293,6 +293,8 @@ export interface AddressEntry {
 }
 
 export interface GameplayBundle {
+  /** Optional population; only appearances whose character assets ship in this immutable world. */
+  readonly civilianVariants?: readonly ('rain-black' | 'rain-white' | 'snow-black' | 'agent47')[];
   readonly schemaVersion: 2;
   readonly originId: string;
   readonly killHeight: number;

@@ -22,6 +22,7 @@ export class NativeCharacterAnimation {
   private jumpAnimation: NativeJumpAnimation | null = null;
   private readonly root: THREE.Object3D;
   private readonly upperTrack: (track: THREE.KeyframeTrack) => boolean;
+  private sampledKnockdown: THREE.AnimationAction | null = null;
   current: string | null = null;
 
   constructor(mixer: THREE.AnimationMixer, root: THREE.Object3D, clips: ReadonlyMap<string, THREE.AnimationClip>, profile: NativeCharacterProfile) {
@@ -67,7 +68,9 @@ export class NativeCharacterAnimation {
   play(state: string, fade: number): void {
     if (this.current === state) return;
     if (!GAIT_STATES.has(state)) {
-      const name = this.profile.states[state as keyof typeof this.profile.states];
+      // The same action must be scheduled here and weighted below. Entering fire directly from gait
+      // must start the aim pose even if the player never held the aim button beforehand.
+      const name = this.profile.states[(state === 'fire' ? 'aim' : state) as keyof typeof this.profile.states];
       const action = name ? this.actions.get(name) : undefined;
       if (!action) throw new Error(`Unsupported native character state ${state}`);
       action.reset().play();
@@ -81,7 +84,8 @@ export class NativeCharacterAnimation {
     }
   }
 
-  update(state: CharacterState, dt: number): void {
+  update(state: CharacterState, dt: number, knockdown: number | null = null): void {
+    if (this.sampledKnockdown) { this.sampledKnockdown.paused = false; this.sampledKnockdown = null; }
     dt = Number.isFinite(dt) ? Math.max(0, dt) : 0;
     this.jumpAnimation?.restore();
     if (this.previousPosition && state.inVehicle === null) {
@@ -101,7 +105,9 @@ export class NativeCharacterAnimation {
     this.phase = jump?.gaitPhase ?? this.phase;
     const base = gait || overlay ? nativeLocomotionWeights(this.profile, state.speed, ...this.travelDirection) : {};
     const targets: Record<string, number> = {};
-    if (!gait) targets[this.profile.states[this.current as keyof typeof this.profile.states]] = 1;
+    // Shots have an event-driven spring layered after targeting. Keep the authored two-hand aim
+    // underneath it, so a held fire state neither freezes an old kick nor doubles its recoil.
+    if (!gait) targets[this.profile.states[(this.current === 'fire' ? 'aim' : this.current) as keyof typeof this.profile.states]] = 1;
     if (gait) for (const [name, weight] of Object.entries(base)) targets[name] = weight * (1 - jumpWeight);
     const blend = this.fadeSeconds > 0 ? 1 - Math.exp(-dt * 4 / this.fadeSeconds) : 1;
     for (const [name, action] of this.actions) action.setEffectiveWeight(action.getEffectiveWeight() + ((targets[name] ?? 0) - action.getEffectiveWeight()) * blend);
@@ -118,5 +124,12 @@ export class NativeCharacterAnimation {
     }
     this.mixer.update(dt);
     this.jumpAnimation?.applyGrip(this.root);
+    if (knockdown !== null) {
+      const death = this.actions.get(this.profile.states.death)!;
+      for (const action of this.actions.values()) action.setEffectiveWeight(action === death ? 1 : 0);
+      for (const action of this.lowerActions.values()) action.setEffectiveWeight(0);
+      death.enabled = true; death.paused = true; death.time = death.getClip().duration * knockdown;
+      this.sampledKnockdown = death; this.mixer.update(0);
+    }
   }
 }

@@ -7,6 +7,7 @@ import { Button, has, NEUTRAL, TICK_HZ, type Command } from './commands.ts';
 import { clamp, distanceXZ, fnv1a, lengthXZ, normalize, Rng, wrapAngle, yawOf, type Quat, type V3 } from './math.ts';
 import { PoliceForce, type PoliceUnitState } from './police.ts';
 import { ParkedCars } from './parked-cars.ts';
+import { Pedestrians, type PedestrianKnockdown } from './pedestrians.ts';
 import { Vehicle } from './vehicle.ts';
 import { WantedState, type Crime, type WantedSnapshot } from './wanted.ts';
 import { fireRay, Inventory, type ShotResult } from './weapons.ts';
@@ -47,6 +48,7 @@ export interface VehicleState {
 }
 
 export interface CharacterState {
+  readonly knockdown?: PedestrianKnockdown | null;
   readonly id: string;
   readonly position: V3;
   readonly yaw: number;
@@ -122,6 +124,7 @@ export class Simulation {
   readonly wanted: WantedState;
   readonly police: PoliceForce;
   readonly parkedCars: ParkedCars;
+  readonly pedestrians: Pedestrians;
   /** Events raised this tick. */
   events: GameEvent[] = [];
   readonly log: GameEvent[] = [];
@@ -153,6 +156,8 @@ export class Simulation {
   };
   private readonly ramCooldown = new Map<string, number>();
   private readonly crimeTicks = new Map<Crime, number>();
+  /** Taking the same retained car again is not a second theft; retired vehicles remain collectable. */
+  private readonly playerTakenVehicles = new WeakSet<Vehicle>();
   private readonly defs = new Map<string, VehicleDefinition>();
   private readonly weaponDefs = new Map<string, WeaponDefinition>();
   private vehicleSerial = 0;
@@ -190,6 +195,7 @@ export class Simulation {
     this.police = new PoliceForce(this);
     this.police.spawnInitial();
     this.parkedCars = new ParkedCars(this);
+    this.pedestrians = new Pedestrians(this, this.gameplay.civilianVariants ?? []);
   }
 
   // ---- entity management ----
@@ -288,8 +294,10 @@ export class Simulation {
     return v ? v.speed : this.player.speed;
   }
 
-  /** Officers open fire only on an armed player: aiming now, or having fired in the last 1.5 s (holstering surrenders). */
-  get playerArmed(): boolean { return this.inventory.current >= 0 && (this.aiming || this.tick - this.lastFireTick < 1.5 * TICK_HZ); }
+  /** Return fire requires a real discharge this encounter. Drawing or aiming is never enough. */
+  get policeMayFire(): boolean {
+    return this.player.alive && this.mode === 'onFoot' && this.inventory.current >= 0 && this.wanted.playerHasFired;
+  }
 
   emit(type: string, detail?: string, value?: number): void {
     const e: GameEvent = detail === undefined ? { tick: this.tick, type } : value === undefined ? { tick: this.tick, type, detail } : { tick: this.tick, type, detail, value };
@@ -304,7 +312,7 @@ export class Simulation {
     if (this.tick - last < window) return;
     this.crimeTicks.set(crime, this.tick);
     const [lo, hi] = this.gameplay.wanted.witnessReportSeconds;
-    this.wanted.report(crime, this.tick, witnessed, Math.round(this.rng.range(lo, hi) * TICK_HZ), this.events);
+    this.wanted.report(crime, this.tick, witnessed, Math.round(this.rng.range(lo, hi) * TICK_HZ), this.events, this.playerPosition);
   }
 
   // ---- main loop ----
@@ -350,6 +358,7 @@ export class Simulation {
     this.jumpPressed = has(command.buttons, Button.jump) && !this.jumpWasDown;
     this.jumpWasDown = has(command.buttons, Button.jump);
     this.inventory.step();
+    if (this.inventory.current < 0) this.wanted.clearPlayerFire();
     this.modeTicks++;
 
     switch (this.mode) {
@@ -362,6 +371,7 @@ export class Simulation {
 
     this.police.step();
     this.parkedCars.step();
+    this.pedestrians.step();
     // A former police unit may still reference a reserved car. Entry/exit owns its controls.
     if (this.pendingVehicle) this.brakeVehicle(this.pendingVehicle);
     if (this.mode === 'exiting' && this.playerVehicle) this.brakeVehicle(this.playerVehicle);
@@ -394,13 +404,20 @@ export class Simulation {
     if (!p.alive) return;
     const yaw = command.yaw;
     this.pitch = clamp(command.pitch, -1.2, 1.2);
+    const holstering = has(command.buttons, Button.holster);
+    if (holstering) {
+      this.inventory.select(-1);
+      this.wanted.clearPlayerFire();
+      this.lastFireTick = -100000;
+      this.emit('holster');
+    }
     // Both hands are on the ledge while climbing: no aiming, firing, reloading or steering.
     const climbing = p.jumpPhase === 'climb';
-    const aiming = !climbing && has(command.buttons, Button.aim) && this.inventory.current >= 0;
+    const aiming = !holstering && !climbing && has(command.buttons, Button.aim) && this.inventory.current >= 0;
     if (aiming && !this.aiming) { this.emit('aim'); if (this.police.playerSeen) this.crime('drawWeapon', true); }
     this.aiming = aiming;
-    // Weapon selection: fire or aim draws the first weapon; nothing holsters in M1.
-    if ((has(command.buttons, Button.fire) || has(command.buttons, Button.aim)) && this.inventory.current < 0 && this.inventory.slots.length) this.inventory.select(0);
+    // Holster wins simultaneous inputs; a later aim/fire command may draw the weapon again.
+    if (!holstering && (has(command.buttons, Button.fire) || has(command.buttons, Button.aim)) && this.inventory.current < 0 && this.inventory.slots.length) this.inventory.select(0);
     // Movement relative to the camera yaw.
     const mag = Math.min(1, Math.hypot(command.moveX, command.moveZ));
     let vx = 0, vz = 0;
@@ -424,7 +441,7 @@ export class Simulation {
     else p.move(this.world, vx, vz);
     if (!settling && !climbing && (vx !== 0 || vz !== 0) && p.tryGrabLedge(this.world, vx, vz)) this.emit('climb');
     // Reload / fire.
-    const handsFree = p.jumpPhase !== 'climb';
+    const handsFree = !holstering && p.jumpPhase !== 'climb';
     if (handsFree && has(command.buttons, Button.reload)) this.inventory.startReload();
     if (handsFree && has(command.buttons, Button.fire)) this.playerFire(yaw, this.pitch);
     // Enter a vehicle.
@@ -463,8 +480,6 @@ export class Simulation {
     v.driver = 'player';
     this.brakeVehicle(v);
     this.emit('enterVehicle', v.id);
-    // Taking an unlocked, unoccupied car is only a crime when an officer sees it (or it is a patrol car).
-    if (v.def.role === 'patrol' || this.police.playerSeen) this.crime('takeCar', true);
   }
 
   private stepEntering(): void {
@@ -515,6 +530,12 @@ export class Simulation {
       this.modeTicks = 0;
       this.pendingVehicle = null;
       this.followVehicle();
+      // A reservation or interrupted approach is not a completed theft. The owner reports an unseen
+      // civilian theft after the normal 3–6 second delay, including the first car of a new game.
+      if (!this.playerTakenVehicles.has(v)) {
+        this.playerTakenVehicles.add(v);
+        this.crime('takeCar', v.def.role === 'patrol' || this.police.playerSeen);
+      }
     }
   }
 
@@ -682,6 +703,7 @@ export class Simulation {
     w.magazine--;
     w.cooldownTicks = Math.max(1, Math.round(TICK_HZ * 60 / w.def.roundsPerMinute));
     this.lastFireTick = this.tick;
+    this.wanted.recordPlayerShot();
     const cp = Math.cos(pitch);
     const origin = this.player.eye;
     const dir = resolveAimDirection(this.world, origin, [Math.sin(yaw) * cp, Math.sin(pitch), Math.cos(yaw) * cp], this.lastCommand.aimRay, w.def.rangeMeters, this.player.body);
@@ -711,6 +733,7 @@ export class Simulation {
         if (shooter === 'player') {
           const officer = this.police.unitOfOfficer(c.id);
           if (officer) this.crime('shootAtPolice', true);
+          else if (wasAlive && c !== this.player) this.crime('hitPedestrian');
           if (wasAlive && !c.alive) { this.emit('kill', c.id); this.crime(officer ? 'killOfficer' : 'kill', !!officer || this.police.playerSeen); }
         }
       } else if (v) {
@@ -732,6 +755,8 @@ export class Simulation {
   }
 
   private drainContacts(): void {
+    // Contact cooldowns are useful for only half a second; retired city actors must not leave history here.
+    for (const [key, tick] of this.ramCooldown) if (this.tick - tick >= 30) this.ramCooldown.delete(key);
     this.eventQueue.drainContactForceEvents(e => {
       const h1 = e.collider1(), h2 = e.collider2();
       const force = e.maxForceMagnitude();
@@ -763,8 +788,16 @@ export class Simulation {
       const v = this.colliderVehicle.get(h1) ?? this.colliderVehicle.get(h2);
       const c = this.colliderCharacter.get(h1) ?? this.colliderCharacter.get(h2);
       if (!v || !c || !c.alive || c.inVehicle) return;
-      const speed = v.speed;
+      // A kinematic person can stop a dynamic car within the solver. Its final speed then hides a real
+      // impact (8 m/s in, 1 m/s out). Kinematic velocity is prescribed and is not changed by that impulse.
+      const before = v.velocityBefore, characterVelocity = c.body.linvel();
+      if (Math.hypot(before[0], before[2]) < 2.5) return; // walking into a parked/creeping car is harmless
+      const speed = Math.hypot(before[0] - characterVelocity.x, before[2] - characterVelocity.z);
       if (speed < 2.5) return;
+      // Chassis and skid colliders, or a rapidly restarting contact, describe one impact on this person.
+      const key = `character:${v.id}|${c.id}`;
+      if (this.ramCooldown.has(key)) return;
+      this.ramCooldown.set(key, this.tick);
       const wasAlive = c.alive;
       c.takeDamage((speed - 2) * 12);
       const officer = this.police.unitOfOfficer(c.id);
@@ -802,6 +835,7 @@ export class Simulation {
     this.modeTicks = 0;
     this.screen = { kind: 'wasted', ticks: this.options.screenTicks, anchor };
     this.aiming = false;
+    this.wanted.clearPlayerFire();
     const v = this.playerVehicle;
     if (v) { v.driver = null; v.occupants.delete('player'); v.input.throttle = 0; v.input.brake = 1; }
     this.emit('wasted', anchor.destinationName);
@@ -815,6 +849,7 @@ export class Simulation {
     this.modeTicks = 0;
     this.screen = { kind: 'busted', ticks: this.options.screenTicks, anchor };
     this.aiming = false;
+    this.wanted.clearPlayerFire();
     const v = this.playerVehicle;
     if (v) { v.driver = null; v.occupants.delete('player'); v.input.throttle = 0; v.input.brake = 1; v.input.handbrake = true; }
     this.player.clip = 'arrested';
@@ -909,7 +944,7 @@ export class Simulation {
       });
     }
     const characters: CharacterState[] = [];
-    for (const c of this.characters.values()) characters.push(characterState(c));
+    for (const c of this.characters.values()) characters.push({ ...characterState(c), knockdown: this.pedestrians.knockdown(c.id) });
     const near = this.mode === 'onFoot' ? this.nearestEnterableVehicle() : null;
     return {
       tick: this.tick, time: this.tick / TICK_HZ,
@@ -927,20 +962,26 @@ export class Simulation {
 
   /** One-line digest of the dynamic state (player, vehicles, characters) for locating replay divergences. */
   digest(): string {
-    const parts: string[] = [`t${this.tick}`, this.mode, r3(this.player.position), String(Math.round(this.player.health)), `w${this.wanted.stars}/${r2(this.wanted.heat)}`, `jump:${this.player.jumpDigest}:${this.jumpWasDown ? 1 : 0}`, `vehicle:${this.vehicleInteractionDigest}`];
-    for (const id of [...this.vehicles.keys()].sort()) { const v = this.vehicles.get(id)!; parts.push(`${id}:${r3(v.position)}:${r2(v.yaw)}:${Math.round(v.health)}`); }
+    const parts: string[] = [`t${this.tick}`, this.mode, r3(this.player.position), String(Math.round(this.player.health)), `w${this.wanted.stars}/${r2(this.wanted.heat)}/${this.wanted.playerHasFired ? 'fired' : 'quiet'}`, `jump:${this.player.jumpDigest}:${this.jumpWasDown ? 1 : 0}`, `vehicle:${this.vehicleInteractionDigest}`];
+    for (const id of [...this.vehicles.keys()].sort()) { const v = this.vehicles.get(id)!; parts.push(`${id}:${r3(v.position)}:${r2(v.yaw)}:${Math.round(v.health)}:${this.playerTakenVehicles.has(v) ? 'taken' : 'untaken'}`); }
     for (const id of [...this.characters.keys()].sort()) { const c = this.characters.get(id)!; parts.push(`${id}:${r3(c.position)}:${Math.round(c.health)}:${c.inVehicle ?? '-'}:${c.jumpDigest}:death${c.deathTicks}`); }
     parts.push(`police:${this.police.units.map(u => `${u.id}=${u.state}`).join(',')}`);
+    parts.push(`pedestrians:${this.pedestrians.digest()}`);
+    parts.push(`wanted:${this.wanted.digest()}`);
+    parts.push(`contacts:${[...this.ramCooldown].sort(([a], [b]) => a.localeCompare(b)).map(([id, tick]) => `${id}:${tick}`).join(",")}`);
     return parts.join(' ');
   }
 
   /** Order-independent digest of the dynamic state, for replay comparisons. */
   hash(): string {
-    const parts: string[] = [String(this.tick), this.mode, r3(this.player.position), r2(this.player.yaw), String(Math.round(this.player.health)), String(this.wanted.stars), r2(this.wanted.heat), this.player.jumpDigest, String(this.jumpWasDown), this.vehicleInteractionDigest];
+    const parts: string[] = [String(this.tick), this.mode, r3(this.player.position), r2(this.player.yaw), String(Math.round(this.player.health)), String(this.wanted.stars), r2(this.wanted.heat), String(this.wanted.playerHasFired), this.player.jumpDigest, String(this.jumpWasDown), this.vehicleInteractionDigest];
     const ids = [...this.vehicles.keys()].sort();
-    for (const id of ids) { const v = this.vehicles.get(id)!; parts.push(id, r3(v.position), r2(v.yaw), String(Math.round(v.health))); }
+    for (const id of ids) { const v = this.vehicles.get(id)!; parts.push(id, r3(v.position), r2(v.yaw), String(Math.round(v.health)), String(this.playerTakenVehicles.has(v))); }
     const cids = [...this.characters.keys()].sort();
     for (const id of cids) { const c = this.characters.get(id)!; parts.push(id, r3(c.position), String(Math.round(c.health)), c.inVehicle ?? '-', c.jumpDigest, String(c.deathTicks)); }
+    parts.push(`pedestrians:${this.pedestrians.digest()}`);
+    parts.push(`wanted:${this.wanted.digest()}`);
+    parts.push(`contacts:${[...this.ramCooldown].sort(([a], [b]) => a.localeCompare(b)).map(([id, tick]) => `${id}:${tick}`).join(",")}`);
     return fnv1a(parts.join('|'));
   }
 }

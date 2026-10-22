@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { PISTOL_MUZZLE } from './character-firing.ts';
 
 /** A common upper-body correction keeps the authored two-hand grip intact and leaves the planted legs alone. */
 export class CharacterAim {
@@ -25,7 +26,7 @@ export class CharacterAim {
     this.saved = spine.quaternion.clone();
     this.model.updateWorldMatrix(true, true);
     const modelRotation = this.model.getWorldQuaternion(new THREE.Quaternion());
-    const muzzle = this.pistol.localToWorld(new THREE.Vector3(0, 0, .14));
+    const muzzle = this.pistol.localToWorld(PISTOL_MUZZLE.clone());
     const distance = target.distanceTo(muzzle);
     if (distance < .05) return;
     const localDirection = target.clone().sub(muzzle).normalize().applyQuaternion(modelRotation.clone().invert());
@@ -38,7 +39,7 @@ export class CharacterAim {
     // Rotating the spine also translates the muzzle, so converge the point constraint again after each turn.
     for (let i = 0; i < 12; i++) {
       spine.updateWorldMatrix(true, true);
-      const origin = this.pistol.localToWorld(new THREE.Vector3(0, 0, .14));
+      const origin = this.pistol.localToWorld(PISTOL_MUZZLE.clone());
       const direction = new THREE.Vector3(0, 0, 1).applyQuaternion(this.pistol.getWorldQuaternion(new THREE.Quaternion()));
       const desired = desiredPoint.clone().sub(origin).normalize();
       if (direction.dot(desired) > 1 - 1e-12) break;

@@ -38,3 +38,31 @@ test('Space emits separate jump presses, preserves quick double taps and remains
     }
   }
 });
+
+test('G buffers one holster press between ticks, clears on blur and leaves the H horn intact', () => {
+  const listeners = new Map<string, ((event: Record<string, unknown>) => void)[]>();
+  const old = Object.fromEntries(['addEventListener', 'document', 'navigator'].map(k => [k, Object.getOwnPropertyDescriptor(globalThis, k)]));
+  const on = (type: string, callback: (event: Record<string, unknown>) => void) => listeners.set(type, [...listeners.get(type) ?? [], callback]);
+  Object.defineProperty(globalThis, 'addEventListener', { configurable: true, value: on });
+  Object.defineProperty(globalThis, 'document', { configurable: true, value: { addEventListener: on, pointerLockElement: null } });
+  Object.defineProperty(globalThis, 'navigator', { configurable: true, value: { getGamepads: () => [] } });
+  const emit = (type: string, code = '', repeat = false) => listeners.get(type)?.forEach(cb => cb({ code, repeat, preventDefault() {} }));
+  try {
+    const input = new Input({ addEventListener: on } as unknown as HTMLCanvasElement);
+    const command = (driving = false) => input.command(0, 0, driving);
+    emit('keydown', 'KeyG'); emit('keyup', 'KeyG');
+    assert.equal(command().buttons, Button.holster, 'a quick press survives key-up before the next simulation tick');
+    assert.equal(command().buttons, 0);
+    emit('keydown', 'KeyG'); assert.equal(command().buttons, Button.holster);
+    emit('keydown', 'KeyG', true); assert.equal(command().buttons, 0, 'key repeats do not repeat surrender');
+    emit('keyup', 'KeyG'); emit('keydown', 'KeyG'); emit('blur'); assert.equal(command().buttons, 0);
+    emit('keydown', 'KeyH'); assert.equal(command(true).buttons, Button.horn); emit('keyup', 'KeyH');
+    emit('keydown', 'KeyG'); emit('keyup', 'KeyG'); assert.equal(command(true).buttons, 0);
+    assert.equal(command().buttons, 0, 'a car press cannot remain buffered until exit');
+  } finally {
+    for (const [key, descriptor] of Object.entries(old)) {
+      if (descriptor) Object.defineProperty(globalThis, key, descriptor);
+      else Reflect.deleteProperty(globalThis, key);
+    }
+  }
+});

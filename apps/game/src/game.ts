@@ -1,6 +1,7 @@
 // The game: fixed-step simulation driven by input commands, views synchronised from the sim state every frame
 // (plan section 2 and 15). Nothing in here is simulation logic.
 import * as THREE from 'three';
+import { CIVILIAN_VARIANTS, civilianVariant, type Shot } from '@helsinki/sim';
 import { initPhysics, Simulation, StaticWorld, TICK_SECONDS, NEUTRAL, Button, headingToYaw, encodeCommand, decodeCommand, resolveAimTarget, groundBelowBundle, type Command, type EncodedCommand, type GameEvent, type SimState, type V3 } from '@helsinki/sim';
 import { parseCollisionBundle } from '@helsinki/world-schema';
 import type { GameConfig, Lighting } from './config.ts';
@@ -23,10 +24,13 @@ import { i18n } from './i18n/index.ts';
 
 const MAX_STEPS_PER_FRAME = 5;
 /** Officer and patrol-car models load after startup; patrols begin at least 150 m from the player. */
-const DEFERRED_ASSETS = new Set(['character-rain', 'vehicle-patrol', 'vehicle-patrol-far-low']);
+const DEFERRED_ASSETS = new Set(['character-rain', 'vehicle-patrol', 'vehicle-patrol-far-low', ...CIVILIAN_VARIANTS.map(variant => `character-civilian-${variant}`)]);
 /** Police this close to the player can see Finn (90 m) or be shot at (120 m): ticks wait until they have a model. */
 const DEFERRED_MODEL_RANGE = 128;
-const characterAsset = (id: string): string => id.startsWith('police') ? 'character-rain' : 'character-snow';
+const characterAsset = (id: string): string => {
+  const civilian = civilianVariant(id);
+  return civilian ? `character-civilian-${civilian}` : id.startsWith('police') ? 'character-rain' : 'character-snow';
+};
 declare const __CAPTURE_REPLAY__: boolean;
 
 export interface WorldVisualStreaming {
@@ -87,6 +91,10 @@ export class Game {
   readonly stats: FrameStats = { fps: 0, frameMs: 0, drawCalls: 0, triangles: 0, textures: 0, geometries: 0, tick: 0 };
   private frameStart = 0;
   private running = false;
+  /** Actual shots across every fixed tick, consumed once by presentation (including low-FPS frames). */
+  private readonly pendingShots: Shot[] = [];
+  private readonly resolveMuzzle = (shooter: string, position: THREE.Vector3, direction: THREE.Vector3): boolean =>
+    (shooter === 'player' ? this.playerView : this.characterViews.get(shooter))?.muzzlePose(position, direction) ?? false;
   readonly visualLoading = { blocked: false, blockedFrames: 0, blockedSeconds: 0, missingCells: [] as string[] };
   /** Ticks wait while the next step's collision cells (or a drop-in destination's) are still downloading. */
   readonly collisionLoading = { blocked: false, blockedFrames: 0, blockedSeconds: 0, missingCells: [] as string[], teleporting: false };
@@ -237,6 +245,8 @@ export class Game {
 
   /** Start a fresh simulation (same seed) without reloading the page or the GPU assets. */
   resetSimulation(seed = this.config.seed): void {
+    this.pendingShots.length = 0;
+    this.effects.reset();
     for (const v of this.vehicleViews.values()) v.dispose();
     this.vehicleViews.clear();
     for (const c of this.characterViews.values()) c.dispose();
@@ -291,6 +301,15 @@ export class Game {
       this.previousState = this.state;
       const events = this.sim.step(c);
       this.state = this.sim.state();
+      if (events.some(event => event.type === 'holster')) {
+        // A slow frame can include fire -> holster -> redraw. Cancel at the event boundary rather
+        // than checking only its final weapon state, so redraw cannot resurrect the old impulse.
+        for (let i = this.pendingShots.length - 1; i >= 0; i--) if (this.pendingShots[i]!.shooter === 'player') this.pendingShots.splice(i, 1);
+        this.playerView.cancelShot();
+        this.effects.cancelShooter('player');
+      }
+      this.pendingShots.push(...this.state.shots);
+      if (this.pendingShots.length > 64) this.pendingShots.splice(0, this.pendingShots.length - 64);
       if (events.some(e => e.type === 'respawn' || e.type === 'recover')) this.previousState = this.state;
       if (this.captureReplay && this.config.review && this.traceLog.length < 20000) this.traceLog.push(this.sim.digest());
       for (const e of events) {
@@ -421,6 +440,7 @@ export class Game {
   syncViews(dt: number, characterDt = dt, state = this.state): void {
     this.presentationState = state;
     const p = state.player;
+    const shots = this.pendingShots.splice(0);
     // Vehicles.
     const seen = new Set<string>();
     for (const v of state.vehicles) {
@@ -433,7 +453,7 @@ export class Game {
       view.update(v, state.time, { DOOR_FL: vehicleDoorOpen(interaction, 'DOOR_FL', poses), DOOR_FR: vehicleDoorOpen(interaction, 'DOOR_FR', poses) }, dt);
     }
     for (const [id, view] of this.vehicleViews) if (!seen.has(id)) { view.dispose(); this.vehicleViews.delete(id); }
-    // NPCs (officers).
+    // NPCs: independent skeletons share the four civilian/officer source assets.
     seen.clear();
     for (const c of state.characters) {
       seen.add(c.id);
@@ -441,8 +461,9 @@ export class Game {
       const assetId = characterAsset(c.id);
       if (!view && !this.assets.hasCharacter(assetId)) continue;
       if (!view) { view = new CharacterView(this.assets, assetId, this.shadowMaterial); this.characterViews.set(c.id, view); this.scene.scene.add(view.root); }
-      view.update(c, characterDt, c.clip === 'aim' || c.clip === 'fire');
-      if (c.clip === 'aim' || c.clip === 'fire') {
+      for (const shot of shots) if (shot.shooter === c.id) view.notifyShot();
+      view.update(c, characterDt, c.aiming || c.clip === 'aim' || c.clip === 'fire');
+      if (c.aiming || c.clip === 'aim' || c.clip === 'fire' || view.isPresentingShot()) {
         // Match the police simulation's torso target, including when Finn is above street level.
         view.aimAt(new THREE.Vector3(p.position[0], p.position[1] + 1.2, p.position[2]));
       }
@@ -451,11 +472,10 @@ export class Game {
     // Player.
     const playerVehicle = state.vehicles.find(v => v.id === p.inVehicle);
     const interactionVehicle = state.vehicles.find(v => v.id === p.vehicleInteraction?.vehicleId);
+    for (const shot of shots) if (shot.shooter === 'player') this.playerView.notifyShot();
     this.playerView.update(p, characterDt, p.weapon !== null && (p.aiming || p.clip === 'fire'), p.vehicleInteraction, interactionVehicle,
       interactionVehicle ? vehiclePoses(this.sim.definition(interactionVehicle.definition)) : undefined);
     if (p.inVehicle && !playerVehicle) this.playerView.root.visible = true;
-    this.effects.addShots(state.shots);
-    this.effects.update(dt);
     // A stale presentation reference must not stop the frame loop before rendering.
     const cameraVehicle = playerVehicle ?? interactionVehicle;
     const cameraDef = cameraVehicle ? this.sim.definition(cameraVehicle.definition) : null;
@@ -493,12 +513,14 @@ export class Game {
       } else this.hud.setWorldLoading(collisionWaiting ? i18n.text('world.streets') : modelsWaiting);
     } else this.hud.setWorldLoading(this.modelsWaitingMessage());
     this.presentationAimTarget = null;
-    if (p.weapon && (p.aiming || p.clip === 'fire')) {
+    if (p.weapon && (p.aiming || p.clip === 'fire' || this.playerView.isPresentingShot())) {
       const ray = this.cameraRig.aimRay();
       const target = resolveAimTarget(this.world, [p.position[0], p.position[1] + 1.62, p.position[2]], [...ray.direction], ray, this.sim.inventory.weapon?.def.rangeMeters ?? 120, this.sim.player.body);
       this.presentationAimTarget = new THREE.Vector3(...target);
       this.playerView.aimAt(this.presentationAimTarget);
     }
+    this.effects.update(characterDt, this.resolveMuzzle);
+    this.effects.addShots(shots, this.resolveMuzzle);
     this.hud.update(state, this.stats, dt, this.frameEvents);
     this.audio.update(state, this.frameEvents, state.time);
   }

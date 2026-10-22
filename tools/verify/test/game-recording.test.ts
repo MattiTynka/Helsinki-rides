@@ -8,10 +8,10 @@ function fixture(captureReplay: boolean) {
   const commands: unknown[] = [];
   const game = {
     captureReplay, config: { review: true }, commandLog: [], traceLog: [], eventLog: [], frameEvents: [],
-    state: { tick: 0 }, previousState: { tick: 0 },
+    state: { tick: 0 }, previousState: { tick: 0 }, pendingShots: [],
     sim: {
       step(command: unknown) { commands.push(command); tick++; return [{ tick, type: 'fixture' }]; },
-      state() { return { tick }; },
+      state() { return { tick, shots: [] }; },
       digest() { digests++; return `tick-${tick}`; },
     },
     handleEvents() {},

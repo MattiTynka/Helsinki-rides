@@ -8,6 +8,7 @@ test('a stale vehicle reference cannot interrupt syncViews before the camera, HU
   const state = { player: { inVehicle: 'removed-car', mode: 'driving', weapon: null }, vehicles: [], characters: [], shots: [], time: 1 } as unknown as SimState;
   const context = {
     vehicleViews: new Map(), characterViews: new Map(),
+    pendingShots: [],
     playerView: { update: () => {}, root: { visible: false } },
     effects: { addShots: () => {}, update: () => {} },
     sim: { definition: () => { throw new Error('must not dereference an absent vehicle'); } },
@@ -113,7 +114,7 @@ for (const cause of ['models', 'collision'] as const) {
     assert.equal(status.blocked, true, 'waiting must remain visible between fixed-tick attempts');
     assert.equal(status.blockedFrames, 3); assert.equal(f.context.accumulator, 0);
     assert.equal(f.context.presentationAlpha, 1); assert.equal(f.observed().characterDt, 0);
-    if (cause === 'models') assert.match(f.observed().message!, /Could not load the police/);
+    if (cause === 'models') assert.match(f.observed().message!, /Could not load nearby characters/);
     f.ready(true); f.frame(35);
     assert.equal(status.blocked, false, 'completion clears the wait even before another tick is due');
     assert.equal(f.observed().steps, 0); assert.ok(f.observed().characterDt > 0);

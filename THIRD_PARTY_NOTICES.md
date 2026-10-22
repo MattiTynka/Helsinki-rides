@@ -162,9 +162,24 @@ grant is inferred from the request to publish the game.
   relicensed Apache-2.0 by this notice. Rain's supplied output is reused without
   claiming to reproduce the original inference. Confirm the supplied adaptation
   and motion rights before publishing a playable packet.
+- **Civilian Snow and Rain:** original dark-skinned Snow and Rain derivatives
+  and a lighter-skinned Rain texture variant, based on the same
+  [Snow](https://studio.blender.org/characters/snow/) and
+  [Rain](https://studio.blender.org/characters/rain/) models, © Blender Studio,
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+  Helsinki Rides retains the earlier reduced 22-joint game rigs, clothing,
+  geometry and corrected animation tracks; resizes textures to at most 512 pixels,
+  encodes KTX2/mipmaps and losslessly compresses the actor buffers. The lighter
+  Rain complexion modifies warm skin texels in the source atlas. This is a game
+  texture derivative, not a separate original Blender Studio character.
 - **Quaternius Universal Animation Library, free Standard edition:** **CC0-1.0**,
-  historical locomotion inputs superseded by the supplied native exports.
-  [Quaternius](https://quaternius.com/). No library archive is in the source export.
+  retargeted and adapted walk/run/sprint inputs used by the civilian Snow/Rain
+  rigs. Finn and Poliisi Rain retain their separate supplied native motion above.
+  [Library source](https://quaternius.itch.io/universal-animation-library),
+  [CC0 terms](https://creativecommons.org/publicdomain/zero/1.0/).
+  The archived Standard `License.txt` declares CC0; its SHA-256 is
+  `6d01f55c6e4c49a2c9963e147e561945ae2c83958c8ca667d90a6bffdbfac061`.
+  No library archive is in the source export.
 - **Lumi GT and patrol car:** adapted from
   [Ford Mustang Gt 500 With pro Rig FOR FREE!](https://sketchfab.com/3d-models/ford-mustang-gt-500-with-pro-rig-for-free-f26a29f766844f46910547d6d2cc291d)
   by [NoOb StUfFs](https://sketchfab.com/NoObStUfFs),
