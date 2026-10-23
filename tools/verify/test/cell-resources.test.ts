@@ -12,7 +12,7 @@ const THREE = await import(new URL('./three.module.js', pathToFileURL(entry)).hr
 function scene(): CityScene {
   return Object.assign(Object.create(CityScene.prototype), {
     scene: new THREE.Scene(), cells: new Map(), fallbackCells: new Map(), sceneryDefinitions: new Map(), sceneryCellViews: new Map(),
-    sceneryMaterials: new Map(), sceneryRoot: new THREE.Group(), sceneryAssets: null, sceneryStreamed: false, lighting: 'lit', preset: 'low',
+    sceneryMaterials: new Map(), sceneryRoot: new THREE.Group(), sceneryAssets: null, sceneryStreamed: false, lighting: 'lit', preset: 'low', spatialSceneryBatches: true,
   }) as CityScene;
 }
 function view(id: string, lod: 'lod0' | 'lod1' | 'lod2'): CellView {

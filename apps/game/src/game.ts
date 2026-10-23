@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { CIVILIAN_VARIANTS, civilianVariant, type Shot } from '@helsinki/sim';
 import { initPhysics, Simulation, StaticWorld, TICK_SECONDS, NEUTRAL, Button, headingToYaw, encodeCommand, decodeCommand, resolveAimTarget, groundBelowBundle, type Command, type EncodedCommand, type GameEvent, type SimState, type V3 } from '@helsinki/sim';
 import { parseCollisionBundle } from '@helsinki/world-schema';
-import type { GameConfig, Lighting } from './config.ts';
+import { forgetAutoTier, rememberAutoTier, type GameConfig, type Lighting } from './config.ts';
 import { GameAudio } from './audio/audio.ts';
 import { Input } from './input/input.ts';
 import { AssetLibrary } from './render/assets.ts';
@@ -21,9 +21,10 @@ import { GlbLoader, loadWorldData, mark, resolveRelease, type Progress, type Wor
 import { CollisionStream } from './world/collision-stream.ts';
 import { CellVisualStream, missingVisualCoverage, type StreamFocus } from './world/cell-streaming.ts';
 import { i18n } from './i18n/index.ts';
-import { FramePacer } from './render/frame-pacing.ts';
+import { catchUpSteps, FramePacer } from './render/frame-pacing.ts';
+import { presetTier, tierParameters, type QualityTier } from './render/quality-tiers.ts';
+import { QualityGovernor, tierRank } from './render/quality-governor.ts';
 
-const MAX_STEPS_PER_FRAME = 5;
 /** Officer and patrol-car models load after startup; patrols begin at least 150 m from the player. */
 const DEFERRED_ASSETS = new Set(['character-rain', 'vehicle-patrol', 'vehicle-patrol-far-low', ...CIVILIAN_VARIANTS.map(variant => `character-civilian-${variant}`)]);
 /** Police this close to the player can see Finn (90 m) or be shot at (120 m): ticks wait until they have a model. */
@@ -33,6 +34,8 @@ const characterAsset = (id: string): string => {
   return civilian ? `character-civilian-${civilian}` : id.startsWith('police') ? 'character-rain' : 'character-snow';
 };
 declare const __CAPTURE_REPLAY__: boolean;
+/** A demotion still in force this long after it is remembered for the next visit (automatic preset only). */
+const REMEMBER_TIER_AFTER_MS = 60_000;
 
 export interface WorldVisualStreaming {
   readonly detail: CellVisualStream<CellView>;
@@ -93,7 +96,15 @@ export class Game {
   private lastNow = 0;
   private fpsAcc = 0;
   private fpsFrames = 0;
-  readonly stats: FrameStats = { fps: 0, frameMs: 0, drawCalls: 0, triangles: 0, textures: 0, geometries: 0, tick: 0 };
+  /** The previous frame's real interval and CPU time, which bound this frame's simulation catch-up. */
+  private lastIntervalMs = 0;
+  private lastCpuMs = 0;
+  /** Lowers the detail tier when frames stay GPU-bound at the resolution floor (AC-4); gated like dynamic resolution. */
+  private readonly qualityGovernor: QualityGovernor;
+  /** Cars created from now on switch to their far mesh beyond this range (the active tier's). */
+  vehicleDetailRange: number;
+  private tierMemoryTimer: ReturnType<typeof setTimeout> | null = null;
+  readonly stats: FrameStats = { fps: 0, frameMs: 0, frameIntervalMs: 0, tier: 'standard', renderScale: 1, drawCalls: 0, triangles: 0, textures: 0, geometries: 0, tick: 0 };
   private frameStart = 0;
   private running = false;
   /** Actual shots across every fixed tick, consumed once by presentation (including low-FPS frames). */
@@ -110,12 +121,17 @@ export class Game {
 
   private constructor(config: GameConfig, data: WorldData, world: StaticWorld, scene: CityScene, loader: GlbLoader, assets: AssetLibrary, canvas: HTMLCanvasElement, streaming: WorldVisualStreaming | null, collision: CollisionStream | null) {
     this.config = config;
+    this.stats.tier = config.startTier;
     this.targetFrameRate = config.targetFrameRate ?? 60;
+    this.vehicleDetailRange = config.vehicleDetailRange;
+    this.qualityGovernor = new QualityGovernor({ presetTier: presetTier(config.preset), tier: config.startTier, targetMs: 1000 / this.targetFrameRate,
+      now: () => performance.now() });
     this.framePacer = new FramePacer(config.targetFrameRate ?? 0);
     this.captureReplay = __CAPTURE_REPLAY__;
     this.data = data;
     this.world = world;
     this.scene = scene;
+    this.stats.renderScale = scene.resolutionScale;
     this.loader = loader;
     this.assets = assets;
     this.streaming = streaming;
@@ -145,12 +161,18 @@ export class Game {
     let scene!: CityScene, loader!: GlbLoader;
     let assetResult: Promise<{ ok: true } | { ok: false; error: unknown }> = Promise.resolve({ ok: true });
     mark('helsinki:create');
+    // Streaming ranges, fog, far plane, foliage and material class come from the start tier (the preset's, or a lower
+    // remembered one) and follow later tier changes; the LOD level, texture tier, compact transcode and MSAA stay
+    // preset-bound for the session.
+    const tier = tierParameters(config.startTier, config.mobile === true);
     const dataReady = loadWorldData(release, progress, undefined, (manifest, base) => {
       const lighting: Lighting = config.lighting ?? (manifest.lighting === 'unlit-facades' ? 'unlit' : 'lit');
       scene = new CityScene(canvas, config.preset, lighting, config.pixelRatioCap, {
         targetFrameRate: config.targetFrameRate, initialRenderScale: config.initialRenderScale, maxRenderPixels: config.maxRenderPixels,
+        minRenderScale: config.minRenderScale, materialClass: tier.materialClass, foliageLodScale: tier.foliageLodScale,
       });
-      loader = new GlbLoader(scene.renderer, { maxConcurrentDecode: config.mobile ? 1 : 2 });
+      loader = new GlbLoader(scene.renderer, { maxConcurrentDecode: config.mobile ? 1 : 2, compactTranscode: config.preset === 'low' });
+      loader.setMipDrop(config.mipDrop ?? tier.mipDrop);
       if (config.preset === 'low') loader.useReducedTextures(manifest);
       // Observe failures immediately, then propagate them at the joined startup boundary.
       assetResult = assets.load(loader, base, manifest, config.preset === 'low', asset => !DEFERRED_ASSETS.has(asset.id), { concurrency: config.mobile ? 1 : 2 }).then(
@@ -180,28 +202,28 @@ export class Game {
       const mobile = config.mobile && low;
       const detail = new CellVisualStream(data.manifest.cells, backend(low ? 'lod1' : 'lod0'), {
         textureBudgetBytes: totalTextureBudgetBytes - persistentTextureBytes - fallbackBudget,
-        geometryBudgetBytes: (mobile ? 64 : low ? 96 : 160) * 2 ** 20,
-        radius: mobile ? 140 : low ? 170 : 230, lookaheadSeconds: 3, maxLookahead: 180, concurrency: mobile ? 1 : 2, maxCells: mobile ? 12 : low ? 16 : 28,
+        geometryBudgetBytes: tier.detail.geometryBudgetMiB * 2 ** 20,
+        radius: tier.detail.radius, lookaheadSeconds: 3, maxLookahead: 180, concurrency: mobile ? 1 : 2, maxCells: tier.detail.maxCells,
         level: low ? 'lod1' : 'lod0',
       });
       const fallback = new CellVisualStream(data.manifest.cells, backend('lod2'), {
-        textureBudgetBytes: fallbackBudget, radius: mobile ? 240 : low ? 300 : 420, lookaheadSeconds: 3, maxLookahead: 180,
-        geometryBudgetBytes: (mobile ? 48 : low ? 64 : 96) * 2 ** 20,
-        concurrency: mobile ? 1 : 2, level: 'lod2', maxCells: mobile ? 20 : low ? 28 : 42,
+        textureBudgetBytes: fallbackBudget, radius: tier.fallback.radius, lookaheadSeconds: 3, maxLookahead: 180,
+        geometryBudgetBytes: tier.fallback.geometryBudgetMiB * 2 ** 20,
+        concurrency: mobile ? 1 : 2, level: 'lod2', maxCells: tier.fallback.maxCells,
       });
       streaming = { detail, fallback, persistentTextureBytes, totalTextureBudgetBytes, fallbackTextureBudgetBytes: fallbackBudget };
       // The fog terminates within the coarse residency ring; outside geometry is not kept hidden in memory.
-      scene.scene.fog = new THREE.Fog(0x9fb8d4, mobile ? 130 : low ? 160 : 240, mobile ? 240 : low ? 300 : 420);
+      scene.scene.fog = new THREE.Fog(0x9fb8d4, tier.fog.near, tier.fog.far);
       // Fully fogged geometry contributes no visible pixels. Clip it instead of still drawing every
       // parked car and landmark in the expanded world behind the opaque end of the fog.
-      scene.camera.far = mobile ? 240 : low ? 300 : 420;
+      scene.camera.far = tier.cameraFar;
       scene.camera.updateProjectionMatrix();
       const [x, z] = data.gameplay.player.spawn.position;
       const focus = { x, z, velocityX: 0, velocityZ: 0 };
       fallback.update(focus);
       detail.update(focus);
       // Wait for the playable neighbourhood. Outer-ring work continues inside the same budgets.
-      await Promise.all([fallback.settleNear(mobile ? 100 : 150), detail.settleNear(mobile ? 72 : 100)]);
+      await Promise.all([fallback.settleNear(tier.settle.fallback), detail.settleNear(tier.settle.detail)]);
       if (fallback.stats().errors.length) throw new Error(`Initial city fallback load failed: ${fallback.stats().errors.join('; ')}`);
       progress(1, 2, 'nearby streets');
       if (detail.stats().errors.length) throw new Error(`Initial city detail load failed: ${detail.stats().errors.join('; ')}`);
@@ -291,6 +313,51 @@ export class Game {
     this.targetFrameRate = rate;
     this.framePacer = new FramePacer(rate);
     this.scene.setTargetFrameRate(rate);
+    this.qualityGovernor.setTargetFrameRate(rate);
+  }
+
+  /**
+   * A detail-tier change without a reload (AC-4): fog, far plane, scenery and future cell materials, both visual
+   * streams' ranges and budgets, and the vehicle detail range of existing and new cars. Mobile keeps its own smaller
+   * numbers. The LOD level and texture tier stay preset-bound.
+   */
+  applyTier(tier: QualityTier): void {
+    const previous = this.stats.tier;
+    const params = tierParameters(tier, this.config.mobile === true);
+    this.scene.applyTier(params);
+    if (this.streaming) {
+      for (const [stream, range] of [[this.streaming.detail, params.detail], [this.streaming.fallback, params.fallback]] as const) {
+        stream.setOptions({ radius: range.radius, maxCells: range.maxCells, geometryBudgetBytes: range.geometryBudgetMiB * 2 ** 20 });
+      }
+    }
+    this.vehicleDetailRange = params.vehicleDetailRange;
+    for (const view of this.vehicleViews.values()) view.setDetailRange(params.vehicleDetailRange);
+    // Textures loaded from now on follow the tier's mip drop (`?mipdrop` pins it); resident ones keep their levels.
+    this.loader.setMipDrop(this.config.mipDrop ?? params.mipDrop);
+    this.stats.tier = tier;
+    if (tierRank(tier) > tierRank(previous)) this.hud.showNotice('quality.lowered', this.state.time, 4);
+    this.scheduleTierMemory();
+  }
+
+  /** Automatic preset only (never review): remember a demotion still in force for the next visit (also on pagehide). */
+  rememberTier(): void {
+    if (this.remembersTier() && this.demotionInForce()) rememberAutoTier(this.stats.tier as 'low' | 'minimal');
+  }
+
+  private remembersTier(): boolean { return this.config.presetSource === 'auto' && !this.config.review; }
+
+  private demotionInForce(): boolean { return tierRank(this.stats.tier) > tierRank(presetTier(this.config.preset)); }
+
+  /**
+   * A demotion is written once it has held for a minute. Promotion back to the preset tier forgets it when the preset
+   * came from the device estimate, but writes the preset tier (low) when the session started from a remembered tier, so
+   * a device that recovered from minimal starts at low next time instead of re-estimating.
+   */
+  private scheduleTierMemory(): void {
+    if (!this.remembersTier()) return;
+    if (this.tierMemoryTimer !== null) { clearTimeout(this.tierMemoryTimer); this.tierMemoryTimer = null; }
+    if (!this.demotionInForce()) { if (this.config.rememberedTier) rememberAutoTier('low'); else forgetAutoTier(); return; }
+    this.tierMemoryTimer = setTimeout(() => { this.tierMemoryTimer = null; this.rememberTier(); }, REMEMBER_TIER_AFTER_MS);
   }
 
   start(): void {
@@ -306,6 +373,7 @@ export class Game {
     };
     requestAnimationFrame(loop);
     addEventListener('resize', () => this.scene.resize());
+    addEventListener('pagehide', () => this.rememberTier());
   }
 
   stop(): void { this.running = false; }
@@ -413,7 +481,9 @@ export class Game {
 
   frame(now: number): void {
     this.frameStart = performance.now();
-    const dt = Math.min(0.1, (now - this.lastNow) / 1000);
+    // The real interval drives fps and the resolution governor; the simulation clock is clamped to 0.1 s per frame.
+    const intervalMs = now - this.lastNow;
+    const dt = Math.min(0.1, intervalMs / 1000);
     this.lastNow = now;
     this.frameEvents = [];
     const missingCells = this.missingVisualCells();
@@ -431,11 +501,12 @@ export class Game {
       if (this.sim.screen && this.sim.screen.ticks < this.sim.options.screenTicks - 120) this.timeScale = 1;
       this.accumulator += dt * this.timeScale;
       let steps = 0;
-      while (this.accumulator >= TICK_SECONDS && steps < MAX_STEPS_PER_FRAME) {
+      const maxSteps = catchUpSteps(this.lastIntervalMs, this.lastCpuMs, 1000 / this.targetFrameRate);
+      while (this.accumulator >= TICK_SECONDS && steps < maxSteps) {
         if (this.stepTicks(1) === 0) { stepBlocked = true; this.accumulator = 0; break; }
         this.accumulator -= TICK_SECONDS; steps++;
       }
-      if (steps === MAX_STEPS_PER_FRAME) this.accumulator = 0;
+      if (steps === maxSteps) this.accumulator = 0;
     }
     // A failed tick clears the accumulator; retain its wait on render frames before another tick is due.
     const canWait = !this.paused && !blocked;
@@ -455,10 +526,22 @@ export class Game {
     this.syncViews(dt, this.paused || stalled ? 0 : dt * this.timeScale, presentation);
     this.render();
     const ms = performance.now() - this.frameStart;
-    if (this.config.dynamicResolution && !this.paused && !stalled) this.scene.adaptResolution(dt, ms);
-    this.fpsAcc += dt; this.fpsFrames++;
+    // Hidden, paused, stalled and world-loading frames say nothing about rendering cost.
+    const hidden = typeof document !== 'undefined' && document.hidden === true;
+    if (this.config.dynamicResolution && !this.paused && !stalled && !hidden) {
+      // The tier governor judges the scale this frame rendered with, read before the resolution governor changes it.
+      const rendered = { renderScale: this.scene.resolutionScale, atFloor: this.scene.resolutionAtFloor, atCeiling: this.scene.resolutionAtCeiling };
+      this.scene.adaptResolution(intervalMs / 1000, ms);
+      this.stats.renderScale = this.scene.resolutionScale;
+      const change = this.qualityGovernor.feed({ intervalMs, cpuMs: ms, ...rendered });
+      if (change) this.applyTier(this.qualityGovernor.tier);
+    }
+    const measured = Math.max(0, intervalMs);
+    this.fpsAcc += measured / 1000; this.fpsFrames++;
     if (this.fpsAcc >= 0.5) { this.stats.fps = this.fpsFrames / this.fpsAcc; this.fpsAcc = 0; this.fpsFrames = 0; }
     this.stats.frameMs = this.stats.frameMs * 0.9 + ms * 0.1;
+    this.stats.frameIntervalMs = this.stats.frameIntervalMs ? this.stats.frameIntervalMs * 0.9 + measured * 0.1 : measured;
+    this.lastIntervalMs = intervalMs; this.lastCpuMs = ms;
   }
 
   render(): void {
@@ -485,7 +568,7 @@ export class Game {
       seen.add(v.id);
       let view = this.vehicleViews.get(v.id);
       if (!view && !this.assets.hasVehicle(this.sim.definition(v.definition).assetId)) continue;
-      if (!view) { view = new VehicleView(this.assets, v.id, this.sim.definition(v.definition), this.shadowMaterial, this.config.vehicleDetailRange); this.vehicleViews.set(v.id, view); this.scene.scene.add(view.root); }
+      if (!view) { view = new VehicleView(this.assets, v.id, this.sim.definition(v.definition), this.shadowMaterial, this.vehicleDetailRange); this.vehicleViews.set(v.id, view); this.scene.scene.add(view.root); }
       const interaction = p.vehicleInteraction?.vehicleId === v.id ? p.vehicleInteraction : null;
       const poses = vehiclePoses(this.sim.definition(v.definition));
       view.update(v, state.time, { DOOR_FL: vehicleDoorOpen(interaction, 'DOOR_FL', poses), DOOR_FR: vehicleDoorOpen(interaction, 'DOOR_FR', poses) }, dt);

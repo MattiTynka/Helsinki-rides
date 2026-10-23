@@ -156,6 +156,26 @@ export class CellVisualStream<T extends CellResource> {
     this.pump();
   }
 
+  /**
+   * A detail-tier change narrows or widens the selection. Work outside the new selection is cancelled and evicted before
+   * anything new loads (as on every reselection). The LOD level is session-fixed, so decoded cost caches stay valid.
+   */
+  setOptions(partial: Partial<Pick<CellStreamOptions, 'radius' | 'maxCells' | 'geometryBudgetBytes'>>): void {
+    if (this.disposed) return;
+    const { radius, maxCells, geometryBudgetBytes } = partial;
+    this.options = {
+      ...this.options,
+      ...(radius !== undefined && Number.isFinite(radius) && radius >= 0 ? { radius } : {}),
+      ...(maxCells !== undefined && Number.isInteger(maxCells) && maxCells > 0 ? { maxCells } : {}),
+      ...(geometryBudgetBytes !== undefined && geometryBudgetBytes > 0 ? { geometryBudgetBytes } : {}),
+    };
+    this.reselect();
+    this.pump();
+  }
+
+  /** Sorted ids of the cells currently shown by this stream. */
+  residentIds(): string[] { return [...this.resident.keys()].sort(); }
+
   update(focus: StreamFocus): void {
     if (this.disposed) return;
     if (![focus.x, focus.z, focus.velocityX, focus.velocityZ].every(Number.isFinite)) return;

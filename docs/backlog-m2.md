@@ -85,6 +85,9 @@ Every item names its fixture, acceptance and evidence (plan rule 18.4).
     instead of UASTC, or load the start cell ring first and the rest after control (the M4 streaming rule).
     Acceptance: the browser benchmark gates transfer before first control at both presets. Evidence: the benchmark
     record with facade captures at the same fixed cameras before and after.
+    Decision 0023 (23 October 2026) sizes the current options for the 942.9 MB published world: ETC1S facades,
+    the M1 copies as the Standard tier, a quarter-resolution tier only after 26 MB is freed, terrain chunking.
+    Still an owner decision.
 
 ## P2
 
@@ -141,3 +144,15 @@ Every item names its fixture, acceptance and evidence (plan rule 18.4).
     outside, so it fell again every few seconds for 40 s (traced with a Node replay of `run-04-recording.json`).
     Clip lanes and recovery points to the collision extent, and close the edge with a barrier collider. Acceptance: no
     lane or recovery point outside the ground collision; a Node drive off each street end stops at the barrier.
+32. **HUD stats text is empty before play** (found in the weak-GPU pass, decision 0023). In the production build the
+    `#stats` line stays empty on the loading screen while the game is paused, so the tier and frame interval cannot
+    be read before the player starts. Acceptance: the line shows the current tier and resolution as soon as the
+    world is ready. Evidence: a production-shell capture of the loading screen.
+33. **Weak-GPU tiers on real hardware** (decision 0023). The tiers and governors were measured on SwiftShader and an
+    RTX 3070 Ti only. Fixture: one Intel UHD/Iris laptop, one AMD APU, one mid-range Android phone and an iPhone with
+    `tools/verify/probe-weak-gpu.mjs` (or the HUD stats line on phones). Acceptance: Automatic picks Low on each, the
+    governor settles within 30 s without oscillating, and no tier change leaves missing cells. Evidence: probe JSON or
+    HUD captures per device.
+34. **Minimal-tier mip drop applies to new loads only** (decision 0023). Textures resident when the tier drops keep
+    their top level until their cell is evicted, so memory falls gradually while the player moves. Reloading resident
+    cells would free it at once but costs a visible reload. Decide after the hardware measurements of item 33.

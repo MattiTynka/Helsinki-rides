@@ -62,7 +62,7 @@ test('empty meshes and cache disposal never dispose shared geometry or material'
 
 function city(preset: 'low' | 'standard'): CityScene {
   const camera = new THREE.PerspectiveCamera(62, 1, .1, 20); camera.position.set(1, 1, 5); camera.lookAt(1, 0, 1);
-  return Object.assign(Object.create(CityScene.prototype), { scene: new THREE.Scene(), camera, cells: new Map(), fallbackCells: new Map(), sceneryDefinitions: new Map(), sceneryCellViews: new Map(), sceneryMaterials: new Map(), sceneryRoot: new THREE.Group(), sceneryCulling: null, sceneryAssets: null, sceneryStreamed: false, lighting: 'unlit', preset }) as CityScene;
+  return Object.assign(Object.create(CityScene.prototype), { scene: new THREE.Scene(), camera, cells: new Map(), fallbackCells: new Map(), sceneryDefinitions: new Map(), sceneryCellViews: new Map(), sceneryMaterials: new Map(), sceneryRoot: new THREE.Group(), sceneryCulling: null, sceneryAssets: null, sceneryStreamed: false, lighting: 'unlit', preset, spatialSceneryBatches: preset === 'low' }) as CityScene;
 }
 test('low scene owns caches by residency, uses the final camera and preserves source placements/templates', () => {
   const scene = city('low'), template = new THREE.Group(), geometry = new THREE.BoxGeometry(.2, .2, .2), material = new THREE.MeshBasicMaterial(), node = new THREE.Mesh(geometry, material); node.name = 'tree'; template.add(node);

@@ -3,12 +3,15 @@ import * as THREE from 'three';
 export type SceneryLodLevel = 0 | 1 | 2;
 export const SCENERY_LOD_DISTANCES = Object.freeze({ near: 120, nearExit: 132, far: 240, farExit: 264 });
 
-/** Hysteresis is measured from the conservative crown sphere, never from a cell or tree origin. */
-export function sceneryLodLevel(surfaceDistance: number, previous: SceneryLodLevel): SceneryLodLevel {
-  if (surfaceDistance < SCENERY_LOD_DISTANCES.near) return 0;
-  if (previous === 0 && surfaceDistance <= SCENERY_LOD_DISTANCES.nearExit) return 0;
-  if (surfaceDistance > SCENERY_LOD_DISTANCES.farExit) return 2;
-  if (previous === 2 && surfaceDistance >= SCENERY_LOD_DISTANCES.far) return 2;
+/**
+ * Hysteresis is measured from the conservative crown sphere, never from a cell or tree origin. `scale` multiplies all
+ * four distances (the tier's foliage LOD scale; 1 keeps the authored bands).
+ */
+export function sceneryLodLevel(surfaceDistance: number, previous: SceneryLodLevel, scale = 1): SceneryLodLevel {
+  if (surfaceDistance < SCENERY_LOD_DISTANCES.near * scale) return 0;
+  if (previous === 0 && surfaceDistance <= SCENERY_LOD_DISTANCES.nearExit * scale) return 0;
+  if (surfaceDistance > SCENERY_LOD_DISTANCES.farExit * scale) return 2;
+  if (previous === 2 && surfaceDistance >= SCENERY_LOD_DISTANCES.far * scale) return 2;
   return 1;
 }
 

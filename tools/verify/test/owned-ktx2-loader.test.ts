@@ -2,8 +2,10 @@ import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {pathToFileURL} from 'node:url';
 import {test} from 'node:test';
-import {OwnedKtx2Loader} from '../../../apps/game/src/world/owned-ktx2-loader.ts';
+import {OwnedKtx2Loader, ktx2Supercompression} from '../../../apps/game/src/world/owned-ktx2-loader.ts';
+import {dropTopMips} from '../../../packages/world-schema/src/ktx2-mips.ts';
 import {disposeCellResources} from '../../../apps/game/src/render/cell-resources.ts';
+import {textureMemory} from '../../../apps/game/src/testapi.ts';
 
 const entry = createRequire(new URL('../../../apps/game/package.json', import.meta.url)).resolve('three');
 const THREE = await import(new URL('./three.module.js', pathToFileURL(entry)).href);
@@ -20,20 +22,30 @@ function globals(values: Record<string, unknown>): () => void {
     }
   };
 }
-function container(): Uint8Array {
+function container(supercompressionScheme = 0): Uint8Array {
   const data = createDefaultContainer();
-  data.pixelWidth = data.pixelHeight = 4; data.levelCount = 1;
+  data.pixelWidth = data.pixelHeight = 4; data.levelCount = 1; data.supercompressionScheme = supercompressionScheme;
   data.dataFormatDescriptor[0].colorModel = 166;
   data.levels = [{levelData: new Uint8Array(16), uncompressedByteLength: 16}];
   return write(data);
 }
-function loader(transcode: () => void = () => {}): OwnedKtx2Loader {
+/** Zstandard, two levels, 128 px: a mip drop of one actually happens (the result is 64 px). */
+function qualifying(size = 128, levelCount = 2, supercompressionScheme = 2): Uint8Array {
+  const data = createDefaultContainer();
+  data.pixelWidth = data.pixelHeight = size; data.levelCount = levelCount; data.supercompressionScheme = supercompressionScheme;
+  data.dataFormatDescriptor[0].colorModel = 166;
+  data.levels = Array.from({length: levelCount}, (_, level) => ({levelData: new Uint8Array(48 >> level).fill(level + 1), uncompressedByteLength: (size >> level) ** 2}));
+  return write(data);
+}
+/** `posted` receives a copy of every buffer the vendor loader hands to the transcoder worker, i.e. what reached super.parse. */
+function loader(transcode: () => void = () => {}, posted: Uint8Array[] = []): OwnedKtx2Loader {
   const instance = new OwnedKtx2Loader();
   instance.workerConfig = {} as typeof instance.workerConfig;
   instance.init = async () => {};
   // The installed parser, in-flight request coalescing, task cache, texture construction
   // and cloning remain real. Only the external WASM worker's pixel result is supplied.
-  instance.workerPool.postMessage = async () => {
+  instance.workerPool.postMessage = async (message: {buffer: ArrayBuffer}) => {
+    posted.push(new Uint8Array(message.buffer).slice());
     transcode();
     return {data: {type: 'transcode', data: {
       faces: [{mipmaps: [{data: new Uint8Array(8), width: 4, height: 4}]}],
@@ -45,17 +57,37 @@ function loader(transcode: () => void = () => {}): OwnedKtx2Loader {
 const cell = (texture: KtxTexture) => new THREE.Group().add(new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial({map: texture})));
 class Progress extends Event { constructor(type: string, values: ProgressEventInit) {super(type); Object.assign(this, values);} }
 
-test('concurrent shared KTX2 requests keep one transcode but own independent sampler and disposal handles', async () => {
+/**
+ * The ownership tests run twice: without a mip drop on the minimal container, and with setMipDrop(1) on a qualifying
+ * one, where the stripped buffer is memoised per input buffer so the vendor task cache still sees one buffer.
+ */
+const VARIANTS = [
+  {label: '', mipDrop: 0, source: () => container()},
+  {label: ' (setMipDrop(1), qualifying container)', mipDrop: 1, source: () => qualifying()},
+] as const;
+/** Exactly one buffer reached super.parse: the input itself, or (mip drop) its stripped form, which is shorter. */
+function assertPosted(posted: Uint8Array[], input: Uint8Array, mipDrop: 0 | 1): void {
+  assert.equal(posted.length, 1);
+  assert.deepEqual(Array.from(posted[0]!), Array.from(dropTopMips(input, mipDrop)));
+  if (mipDrop) assert.ok(posted[0]!.length < input.length, 'the dropped container is shorter than the input');
+}
+
+for (const variant of VARIANTS) {
+test(`concurrent shared KTX2 requests keep one transcode but own independent sampler and disposal handles${variant.label}`, async () => {
   let requests = 0, transcodes = 0;
+  const input = variant.source(), posted: Uint8Array[] = [];
   const restore = globals({
     ProgressEvent: Progress,
-    fetch: async () => {requests++; await new Promise(resolve => setImmediate(resolve)); return new Response(Uint8Array.from(container()));},
+    fetch: async () => {requests++; await new Promise(resolve => setImmediate(resolve)); return new Response(Uint8Array.from(input));},
   });
   try {
     assert.equal(THREE.Cache.enabled, false);
-    const ktx = loader(() => transcodes++);
+    const ktx = loader(() => transcodes++, posted);
+    ktx.setMipDrop(variant.mipDrop);
     const [a, b] = await Promise.all([ktx.loadAsync('https://example.invalid/shared.ktx2'), ktx.loadAsync('https://example.invalid/shared.ktx2')]);
     assert.equal(requests, 1); assert.equal(transcodes, 1, 'The vendor cache still avoids duplicate transcoding');
+    assertPosted(posted, input, variant.mipDrop);
+    assert.equal(a.userData['ktx2'].mipDropped, variant.mipDrop); assert.equal(b.userData['ktx2'].mipDropped, variant.mipDrop);
     assert.notEqual(a, b, 'Two parsed cells must never own the same Texture handle');
     assert.equal(a.source, b.source); assert.equal(a.mipmaps[0]!.data, b.mipmaps[0]!.data, 'Pixel data remains shared');
     const originalWrap = b.wrapS, originalName = b.name;
@@ -71,19 +103,70 @@ test('concurrent shared KTX2 requests keep one transcode but own independent sam
   } finally {restore();}
 });
 
-test('direct KTX2 parse callbacks also own separate handles when the input buffer is cached', async () => {
+test(`direct KTX2 parse callbacks also own separate handles when the input buffer is cached${variant.label}`, async () => {
   let transcodes = 0;
-  const ktx = loader(() => transcodes++), bytes = container().buffer as ArrayBuffer;
+  const input = variant.source(), posted: Uint8Array[] = [];
+  const ktx = loader(() => transcodes++, posted).setMipDrop(variant.mipDrop), bytes = input.slice().buffer as ArrayBuffer;
   const parse = () => new Promise<KtxTexture>((resolve, reject) => ktx.parse(bytes, resolve, reject));
   const [a, b] = await Promise.all([parse(), parse()]);
   assert.equal(transcodes, 1); assert.notEqual(a, b); assert.equal(a.source, b.source);
+  assertPosted(posted, input, variant.mipDrop);
+  const later = await parse();
+  assert.equal(transcodes, 1, 'a later parse of the same buffer is a task cache hit'); assert.equal(later.source, a.source);
 });
 
-test('failed shared KTX2 decoding propagates to every callback without creating owned textures', async () => {
-  const ktx = loader(() => {throw new Error('transcode rejected');}), bytes = container().buffer as ArrayBuffer;
+test(`failed shared KTX2 decoding propagates to every callback without creating owned textures${variant.label}`, async () => {
+  const input = variant.source(), posted: Uint8Array[] = [];
+  const ktx = loader(() => {throw new Error('transcode rejected');}, posted).setMipDrop(variant.mipDrop), bytes = input.slice().buffer as ArrayBuffer;
   const parse = () => new Promise<KtxTexture>((resolve, reject) => ktx.parse(bytes, resolve, reject));
   const results = await Promise.allSettled([parse(), parse()]);
   for (const result of results) {assert.equal(result.status, 'rejected'); if (result.status === 'rejected') assert.match(String(result.reason), /transcode rejected/);}
+  assertPosted(posted, input, variant.mipDrop);
+});
+}
+
+test('setMipDrop(1) hands stripped bytes to super.parse only for qualifying containers, falling back silently', async () => {
+  const base = Object.getPrototypeOf(OwnedKtx2Loader.prototype) as {parse: OwnedKtx2Loader['parse']};
+  const vendorParse = base.parse, handed: ArrayBuffer[] = [], noise: unknown[] = [];
+  base.parse = function (buffer: ArrayBuffer, onLoad?: (texture: KtxTexture) => void) {
+    handed.push(buffer);
+    onLoad?.(new THREE.CompressedTexture([], 4, 4, THREE.RGB_S3TC_DXT1_Format));
+  };
+  const quiet = (...args: unknown[]) => { noise.push(args); };
+  const restore = globals({console: {...console, warn: quiet, error: quiet, log: quiet, info: quiet, debug: quiet}});
+  try {
+    const parse = (ktx: OwnedKtx2Loader, buffer: ArrayBuffer) => new Promise<KtxTexture>((resolve, reject) => ktx.parse(buffer, resolve, reject));
+    const plain = loader(), dropping = loader().setMipDrop(1);
+    const trailing = new Uint8Array(qualifying().length + 1); trailing.set(qualifying());
+    const cases: [string, Uint8Array, boolean][] = [
+      ['zstd 128 px, 2 levels', qualifying(), true],
+      ['zstd 256 px, 3 levels', qualifying(256, 3), true],
+      ['result under 64 px', qualifying(64, 2), false],
+      ['single level', qualifying(128, 1), false],
+      ['BasisLZ', qualifying(128, 2, 1), false],
+      ['no supercompression', qualifying(128, 2, 0), false],
+      ['corrupt layout (trailing byte)', trailing, false],
+    ];
+    for (const [name, input, drops] of cases) {
+      handed.length = 0;
+      const without = await parse(plain, input.slice().buffer as ArrayBuffer);
+      assert.deepEqual(Array.from(new Uint8Array(handed[0]!)), Array.from(input), `${name}: without the drop the input is handed on`);
+      assert.equal(without.userData['ktx2']?.mipDropped ?? 0, 0);
+      const buffer = input.slice().buffer as ArrayBuffer;
+      const [a, b] = await Promise.all([parse(dropping, buffer), parse(dropping, buffer)]);
+      assert.equal(handed[1], handed[2], `${name}: both parses hand the same buffer to super.parse`);
+      const expected = drops ? dropTopMips(input, 1) : input;
+      assert.deepEqual(Array.from(new Uint8Array(handed[1]!)), Array.from(expected), name);
+      assert.equal(handed[1] === buffer, !drops, `${name}: ${drops ? 'a new stripped buffer' : 'the original buffer'}`);
+      for (const texture of [a, b]) assert.equal(texture.userData['ktx2']?.mipDropped ?? 0, drops ? 1 : 0, name);
+    }
+    assert.equal(dropping.setMipDrop(0), dropping, 'chainable');
+    handed.length = 0;
+    const input = qualifying(), off = await parse(dropping, input.slice().buffer as ArrayBuffer);
+    assert.equal(handed[0]!.byteLength, input.length, 'setMipDrop(0) applies to later parses');
+    assert.equal(off.userData['ktx2'].mipDropped, 0);
+    assert.deepEqual(noise, [], 'no console output on the fallback path');
+  } finally { base.parse = vendorParse; restore(); }
 });
 
 test('concurrent PNG GLB parses own different ImageBitmaps with the application cache disabled', async () => {
@@ -123,4 +206,47 @@ test('concurrent PNG GLB parses own different ImageBitmaps with the application 
     assert.equal(first.image.closes, 1); assert.equal(second.image.closes, 0); assert.equal(second.image.width, 4);
     disposeCellResources(b.scene); assert.equal(second.image.closes, 1);
   } finally {restore();}
+});
+
+test('every parsed KTX2 texture records its supercompression, including cached parses of a transferred buffer', async () => {
+  const ktx = loader();
+  for (const [scheme, expected] of [[0, 'none'], [1, 'basislz'], [2, 'zstd']] as const) {
+    const bytes = container(scheme).buffer as ArrayBuffer;
+    assert.equal(ktx2Supercompression(bytes), expected);
+    const parse = () => new Promise<KtxTexture>((resolve, reject) => ktx.parse(bytes, resolve, reject));
+    const first = await parse();
+    assert.deepEqual(first.userData['ktx2'], {supercompression: expected, mipDropped: 0});
+    structuredClone(bytes, {transfer: [bytes]});
+    assert.equal(bytes.byteLength, 0, 'the transcoder worker owns the original bytes');
+    const cached = await parse();
+    assert.notEqual(cached, first); assert.deepEqual(cached.userData['ktx2'], {supercompression: expected, mipDropped: 0});
+    assert.deepEqual(cached.clone().userData['ktx2'], cached.userData['ktx2'], 'the tag survives GLTFLoader texture clones');
+  }
+});
+
+test('a raw (uncompressed) KTX2 parsed by the vendor loader counts as other, not as an image, in the texture census', async () => {
+  const data = createDefaultContainer();
+  data.vkFormat = 37; // VK_FORMAT_R8G8B8A8_UNORM: no transcoder, the vendor loader builds a DataTexture
+  data.pixelWidth = data.pixelHeight = 4; data.levelCount = 1;
+  data.levels = [{levelData: new Uint8Array(64), uncompressedByteLength: 64}];
+  const bytes = write(data).buffer as ArrayBuffer;
+  const texture = await new Promise<KtxTexture>((resolve, reject) => loader().parse(bytes, resolve, reject));
+  assert.equal(texture.isCompressedTexture, undefined, 'raw KTX2 is not a CompressedTexture');
+  assert.deepEqual(texture.userData['ktx2'], {supercompression: 'none', mipDropped: 0});
+  const census = textureMemory(cell(texture));
+  assert.equal(census.textures, 1);
+  assert.deepEqual(census.byClass, {zstd: 0, basislz: 0, image: 0, other: census.mib});
+  assert.ok(census.mib > 0);
+});
+
+test('the supercompression header read is bounds-checked and rejects unknown containers', () => {
+  const valid = container(2);
+  assert.equal(ktx2Supercompression(valid.buffer as ArrayBuffer), 'zstd');
+  assert.equal(ktx2Supercompression(valid.slice(0, 47).buffer as ArrayBuffer), null, 'truncated header');
+  assert.equal(ktx2Supercompression(new ArrayBuffer(0)), null);
+  const wrongMagic = valid.slice(); wrongMagic[1] = 0;
+  assert.equal(ktx2Supercompression(wrongMagic.buffer as ArrayBuffer), null);
+  assert.equal(ktx2Supercompression(container(3).buffer as ArrayBuffer), null, 'ZLIB and future schemes are not classified');
+  const offset = valid.slice(); new DataView(offset.buffer).setUint32(44, 2 ** 31, true);
+  assert.equal(ktx2Supercompression(offset.buffer as ArrayBuffer), null);
 });

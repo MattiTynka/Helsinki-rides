@@ -11,9 +11,12 @@ export class SceneryInstanceCuller {
   private readonly worldSpheres: THREE.Sphere[] = [];
   private readonly lodLevel: SceneryLodLevel | undefined;
   private lodStates: Uint8Array | null;
+  /** Multiplies the foliage LOD distances (the tier's `foliageLodScale`). */
+  private readonly distanceScale: number;
 
-  constructor(mesh: THREE.InstancedMesh, lodLevel?: SceneryLodLevel) {
+  constructor(mesh: THREE.InstancedMesh, lodLevel?: SceneryLodLevel, distanceScale = 1) {
     this.mesh = mesh;
+    this.distanceScale = Number.isFinite(distanceScale) && distanceScale > 0 ? distanceScale : 1;
     this.sourceCount = mesh.count;
     this.sourceMatrices = new Float32Array(mesh.instanceMatrix.array.slice(0, mesh.count * 16));
     this.previousIndices = new Uint32Array(mesh.count);
@@ -63,7 +66,7 @@ export class SceneryInstanceCuller {
     for (let i = 0; i < this.sourceCount; i++) {
       const sphere = this.worldSpheres[i]!;
       if (this.lodLevel !== undefined) {
-        const level = sceneryLodLevel(Math.max(0, sphere.center.distanceTo(cameraPosition!) - sphere.radius), this.lodStates![i]! as SceneryLodLevel);
+        const level = sceneryLodLevel(Math.max(0, sphere.center.distanceTo(cameraPosition!) - sphere.radius), this.lodStates![i]! as SceneryLodLevel, this.distanceScale);
         this.lodStates![i] = level;
         if (level !== this.lodLevel) continue;
       }
