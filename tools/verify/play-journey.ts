@@ -13,6 +13,9 @@ import { decodeCommand, initPhysics, Simulation, StaticWorld, type SimState, typ
 import type { WorldManifest } from '../../packages/world-schema/src/index.ts';
 import { game, openGame } from './lib/browser.ts';
 import { readRoadGraph, readSimulationPayload, replayWorld } from './lib/simulation-payload.ts';
+import { selectRamPatrol } from './lib/journey-patrol.ts';
+import { clippedRoutePoints } from './lib/keyboard-route.ts';
+import { keyboardClearanceCourse } from './lib/keyboard-driving.ts';
 
 const { values } = parseArgs({ options: {
   url: { type: 'string', default: 'http://127.0.0.1:5317/?review=1' }, release: { type: 'string' }, out: { type: 'string' },
@@ -110,7 +113,7 @@ async function walkToward(target: [number, number], stopWithin: number, timeoutS
  * Drive along the road graph toward a (moving) target with the keyboard: a route is planned on the lane graph and
  * followed with pure pursuit; within `directRange` of the target the car heads straight for it (the ram).
  */
-async function driveToward(target: () => [number, number], stopWithin: number, timeoutS: number, maxSpeed: number, done?: (s: SimState) => boolean | Promise<boolean>, directRange = 0): Promise<SimState> {
+async function driveToward(target: () => [number, number] | null, stopWithin: number, timeoutS: number, maxSpeed: number, done?: (s: SimState) => boolean | Promise<boolean>, directRange = 0): Promise<SimState> {
   let route: number[][] = [];
   let routeIndex = 0;
   let plannedAt = 0;
@@ -131,6 +134,14 @@ async function driveToward(target: () => [number, number], stopWithin: number, t
   const s = await loop('drive', timeoutS, async st => {
     const car = st.vehicles.find(v => v.id === st.player.inVehicle);
     if (!car) return;
+    const t = target();
+    if (!t) {
+      for (const k of ['KeyA', 'KeyD', 'KeyW', 'KeyS']) await key(k, false);
+      await key('Space', true);
+      progressFrom = null;
+      return;
+    }
+    await key('Space', false);
     const q = car.rotation;
     if (1 - 2 * (q[0]! * q[0]! + q[2]! * q[2]!) < 0.5) {
       if (flippedSince === 0) flippedSince = Date.now();
@@ -141,7 +152,6 @@ async function driveToward(target: () => [number, number], stopWithin: number, t
     // Rocking between two plans in a junction never trips the stuck test; a player gives up and recovers.
     if (!progressFrom || Math.hypot(car.position[0] - progressFrom[0]!, car.position[2] - progressFrom[2]!) > 5) { progressFrom = car.position; progressAt = Date.now(); }
     else if (Date.now() - progressAt > 6000) { await recover('no progress for 6 s', car.position); return; }
-    const t = target();
     const yaw = yawOfQuat(car.rotation);
     const dTarget = Math.hypot(t[0] - car.position[0], t[1] - car.position[2]);
     let aim: [number, number] = t;
@@ -153,14 +163,16 @@ async function driveToward(target: () => [number, number], stopWithin: number, t
         const from = roadsIndex.nearestLane(car.position[0], car.position[2], f, 40);
         const to = roadsIndex.nearestLane(t[0], t[1], undefined, 60);
         const r = from && to ? roadsIndex.route(from.laneId, from.s, to.laneId, to.s) : null;
-        route = r ? roadsIndex.routePoints(r).map(p => [p[0], p[2]]) : [];
+        route = r && from && to ? clippedRoutePoints(roadsIndex, r, from, to).map(p => [p[0], p[2]]) : [];
         if (route.length) route.push([t[0], t[1]]);
         routeIndex = 0;
         plannedAt = Date.now();
         plannedFor = [t[0], t[1]];
       }
       if (route.length) {
-        const lookahead = 5 + car.speed * 0.5;
+        // Sparse whole-lane endpoints and a ten-metre lookahead cut junction corners into
+        // parked cars. Follow the clipped, densely sampled road with a shorter sight line.
+        const lookahead = 3 + car.speed * 0.2;
         let best = routeIndex, bd = Infinity;
         for (let i = routeIndex; i < route.length; i++) { const d = Math.hypot(route[i]![0]! - car.position[0], route[i]![1]! - car.position[2]); if (d < bd) { bd = d; best = i; } }
         routeIndex = best;
@@ -194,8 +206,8 @@ async function driveToward(target: () => [number, number], stopWithin: number, t
     await key('KeyW', car.forwardSpeed < wantSpeed && !behind);
     await key('KeyS', car.forwardSpeed > wantSpeed + 3 || behind);
     if (Date.now() - lastLog > 2000) { lastLog = Date.now(); const pc = patrolCar(st); note(`  drive: car ${car.position.map(x => x.toFixed(0))} v=${car.speed.toFixed(1)} → aim ${aim.map(x => x.toFixed(0))} target ${t.map(x => x.toFixed(0))} d=${dTarget.toFixed(0)} route=${route.length}/${routeIndex}${pc ? ` patrol ${pc.position.map(x => x.toFixed(0))} v=${pc.speed.toFixed(1)} ${st.police.map(u => u.state).join('/')}` : ''} stars=${st.wanted.stars}`); }
-  }, async st => { const car = st.vehicles.find(v => v.id === st.player.inVehicle); const t = target(); return (await done?.(st) ?? false) || (!!car && Math.hypot(t[0] - car.position[0], t[1] - car.position[2]) <= stopWithin); });
-  for (const k of ['KeyA', 'KeyD', 'KeyW', 'KeyS']) await key(k, false);
+  }, async st => { const completed = await done?.(st) ?? false; const car = st.vehicles.find(v => v.id === st.player.inVehicle); const t = target(); return completed || (!!car && !!t && Math.hypot(t[0] - car.position[0], t[1] - car.position[2]) <= stopWithin); });
+  for (const k of ['KeyA', 'KeyD', 'KeyW', 'KeyS', 'Space']) await key(k, false);
   return s;
 }
 
@@ -217,7 +229,7 @@ async function driveClearOfPatrol(): Promise<{ state: SimState; distance: number
   const stem = `drive-clear-${String(++driveClearSerial).padStart(2, '0')}`;
   const patrol = patrolCar(initial), yaw = yawOfQuat(own.rotation);
   const front = patrol ? (patrol.position[0] - own.position[0]) * Math.sin(yaw) + (patrol.position[2] - own.position[2]) * Math.cos(yaw) : 1;
-  let direction = front >= 0 ? -1 : 1;
+  let direction: 1 | -1 = front >= 0 ? -1 : 1;
   // Look at all nearby cars, not just the one rammed. Turn the nose away from an
   // alongside car before its corner pins us against an approaching second patrol.
   const course = (st: SimState, car: SimState['vehicles'][number]): number => {
@@ -231,7 +243,7 @@ async function driveClearOfPatrol(): Promise<{ state: SimState; distance: number
       // a three-metre cutoff missed both blockers and kept rocking straight between their bumpers.
       if (Math.abs(along) < 6 && Math.abs(side) < 5 && distance < nearest) { nearest = distance; adjacentSide = side; }
     }
-    return heading + (direction < 0 ? Math.PI : 0) - Math.sign(adjacentSide) * .7;
+    return keyboardClearanceCourse(heading, direction, adjacentSide);
   };
   let desiredCourse = course(initial, own), progressPosition = own.position, progressTick = initial.tick;
   const decisions: { tick: number; direction: number; course: number; reason: string }[] = [{ tick: initial.tick, direction, course: desiredCourse, reason: 'clear ram and adjacent vehicles' }];
@@ -252,7 +264,7 @@ async function driveClearOfPatrol(): Promise<{ state: SimState; distance: number
     } else if (st.tick - progressTick > 45 && Math.abs(car.forwardSpeed) < .6) {
       // A moving patrol can close the chosen gap. A player rocks out and steers,
       // rather than holding reverse into the same bumper for the entire timeout.
-      direction *= -1;
+      direction = direction === 1 ? -1 : 1;
       desiredCourse = course(st, car);
       progressPosition = car.position; progressTick = st.tick;
       decisions.push({ tick: st.tick, direction, course: desiredCourse, reason: 'blocked for 0.75 seconds' });
@@ -303,7 +315,9 @@ async function settleCar(): Promise<SimState> {
 async function exitThroughClearDoor(): Promise<SimState> {
   let state = await game.state(page);
   for (let attempt = 0; attempt < 3 && state.player.mode === 'driving'; attempt++) {
-    if (attempt === 2) await driveClearOfPatrol();
+    // Every retry follows an observed blocked doorway. Move first; another F at the same
+    // position only repeats the blocked interaction and consumes several seconds.
+    if (attempt > 0) await driveClearOfPatrol();
     if (attempt > 0) note(`  exit retry ${attempt}: wait for a settled car before F`);
     state = await settleCar();
     if (state.player.mode !== 'driving') break;
@@ -405,16 +419,30 @@ async function runOnce(run: number): Promise<RunResult> {
   check('enterCar', s.player.mode === 'driving' && s.player.inVehicle === 'car-1', `mode ${s.player.mode} in ${s.player.inVehicle}`);
   // 4. Drive onto Unioninkatu (the junction with Aleksanterinkatu, then north along the street).
   s = await driveToward(() => [-68, 42], 6, 25, 14);
-  s = await driveToward(() => [-70, -10], 8, 25, 14, st => { const car = st.vehicles.find(v => v.id === st.player.inVehicle); const l = car ? laneName(car.position[0], car.position[2]) : null; return !!l && l.name === 'Unioninkatu' && l.distance < 6; });
+  // The junction already matches the street name. Join and align with the northbound road
+  // before pursuing, rather than treating the edge of the junction as a completed turn.
+  s = await driveToward(() => [-70, -10], 8, 25, 14, st => {
+    const car = st.vehicles.find(v => v.id === st.player.inVehicle);
+    if (!car) return false;
+    const lane = laneName(car.position[0], car.position[2]);
+    const heading = Math.atan2(-70 - car.position[0], -10 - car.position[2]);
+    return lane?.name === 'Unioninkatu' && lane.distance < 1.5 && Math.abs(wrap(heading - yawOfQuat(car.rotation))) < .3;
+  });
   const carNow = s.vehicles.find(v => v.id === s.player.inVehicle)!;
   const lane = laneName(carNow.position[0], carNow.position[2]);
   check('unioninkatu', lane?.name === 'Unioninkatu' && lane.distance < 10, `on ${lane?.name ?? 'no lane'} (${lane?.distance.toFixed(1) ?? '-'} m)`);
   // 5. Ram the patrol car: wait for it if it is only reachable the long way round, then chase it head-on.
   s = await waitForPatrol(s, 45, 25);
   let latest: SimState = s;
+  let ramTargetId: string | null = null;
   // Theft now raises wanted before this manoeuvre. Observe the persistent event log;
   // neither an existing star nor a transient per-tick event proves this collision occurred.
-  s = await driveToward(() => { const pc = patrolCar(latest); return pc ? [pc.position[0], pc.position[2]] : [-70, -100]; }, 0, 45, 22, async st => { latest = st; return (await game.events(page, sinceTick)).some(e => e.type === 'ramPolice'); }, 45);
+  s = await driveToward(() => {
+    const pc = selectRamPatrol(latest, ramTargetId);
+    if ((pc?.id ?? null) !== ramTargetId) note(`  ram target: ${pc?.id ?? 'waiting for an upright patrol'}`);
+    ramTargetId = pc?.id ?? null;
+    return pc ? [pc.position[0], pc.position[2]] : null;
+  }, 0, 45, 22, async st => { latest = st; return (await game.events(page, sinceTick)).some(e => e.type === 'ramPolice'); }, 45);
   const evAfterRam = await game.events(page, sinceTick);
   check('ramPolice', evAfterRam.some(e => e.type === 'ramPolice') && s.wanted.stars >= 1, `stars ${s.wanted.stars}, events ${evAfterRam.filter(e => e.type === 'ramPolice').length} ramPolice`);
   await page.screenshot({ path: path.join(OUT, `run-${String(run).padStart(2, '0')}-ram.png`) });

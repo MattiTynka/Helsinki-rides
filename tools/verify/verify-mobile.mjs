@@ -52,6 +52,19 @@ const capture = name => page.screenshot({ path: path.join(values.out, `${name}.p
 const tick = () => page.evaluate(() => window.__HELSINKI_GAME__?.tick()
   ?? Number(/(?:tick|askel) (\d+)/.exec(document.querySelector('#stats')?.textContent ?? '')?.[1] ?? -1));
 const state = () => page.evaluate(() => window.__HELSINKI_GAME__?.state() ?? null);
+async function waitForResumedTick(previousTick) {
+  assert.ok(previousTick >= 0, 'pause check observed a simulation tick');
+  const started = performance.now();
+  let resumedTick = await tick();
+  // Production exposes a cosmetic counter updated only after more than 0.5 s of HUD time.
+  // A fixed 500 ms sleep can sample the paused value even while the simulation is running.
+  while (resumedTick <= previousTick && performance.now() - started < 5000) {
+    await page.waitForTimeout(100);
+    resumedTick = await tick();
+  }
+  records.push({ resume: { previousTick, resumedTick, observedAfterMs: performance.now() - started } });
+  assert.ok(resumedTick > previousTick, 'resume restarts simulation within 5 seconds');
+}
 try {
   await page.goto(target.href, { waitUntil: 'load' });
   await page.waitForFunction(() => !document.querySelector('#play-button')?.disabled || !!window.__HELSINKI_ERROR__, null, { timeout: 180000 });
@@ -93,8 +106,8 @@ try {
   if (!values.review) await page.waitForTimeout(2000); // The cosmetic HUD timer also slows while paused.
   const pausedTick = await tick(); await page.waitForTimeout(600); assert.equal(await tick(), pausedTick, 'pause stops simulation');
   await capture('paused');
-  await page.locator('#resume-button').tap(); await page.waitForTimeout(500);
-  assert.ok(await tick() > pausedTick, 'resume restarts simulation');
+  await page.locator('#resume-button').tap();
+  await waitForResumedTick(pausedTick);
   assert.equal(await page.evaluate(() => document.activeElement?.id), 'view', 'resume returns gameplay focus');
   await page.setViewportSize({ width: 390, height: 844 }); await page.waitForTimeout(400);
   await capture('portrait');
