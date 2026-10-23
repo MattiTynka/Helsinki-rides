@@ -78,6 +78,12 @@ export class VehicleView {
     this.root.add(this.shadow);
   }
 
+  /** A detail-tier change: this car switches to its merged far mesh beyond `range` metres from the camera. */
+  setDetailRange(range: number): void {
+    const far = this.lod.levels[1];
+    if (far && Number.isFinite(range) && range > 0) far.distance = range;
+  }
+
   update(state: VehicleState, time: number, doorTargets: Readonly<Record<string, number>>, dt: number): void {
     this.root.position.set(state.position[0], state.position[1], state.position[2]);
     this.root.quaternion.set(state.rotation[0], state.rotation[1], state.rotation[2], state.rotation[3]);

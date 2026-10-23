@@ -3,10 +3,18 @@
 import type { SimState } from '@helsinki/sim';
 import type { GameEvent, GameplayBundle, RoadGraph, WorldManifest } from '@helsinki/world-schema';
 import { i18n, placeLabel, type MessageKey } from '../i18n/index.ts';
+import type { QualityTier } from '../render/quality-tiers.ts';
 
 export interface FrameStats {
+  /** From the real presentation interval (no 10 fps floor). */
   fps: number;
+  /** CPU time of a frame (simulation, view sync and render submission). */
   frameMs: number;
+  /** Real presentation interval, smoothed. */
+  frameIntervalMs: number;
+  tier: QualityTier;
+  /** Dynamic-resolution scale of the capped drawing-buffer ratio. */
+  renderScale: number;
   drawCalls: number;
   triangles: number;
   textures: number;
@@ -15,6 +23,8 @@ export interface FrameStats {
 }
 
 const el = <T extends HTMLElement>(id: string): T => document.getElementById(id) as T;
+
+const TIER_LABELS: Readonly<Record<QualityTier, MessageKey>> = { standard: 'tier.standard', low: 'tier.low', minimal: 'tier.minimal' };
 
 const INTERACTION_NOTES: Partial<Record<string, MessageKey>> = {
   vehicleEntryBlocked: 'interaction.entryBlocked',
@@ -101,9 +111,10 @@ export class Hud {
     this.worldLoading.classList.toggle('hidden', !message);
   }
 
-  showNotice(key: MessageKey, time: number): void {
+  /** Shows `key` in the prompt line for `seconds` of game time. */
+  showNotice(key: MessageKey, time: number, seconds = 5): void {
     this.interactionNote = key;
-    this.interactionNoteUntil = time + 5;
+    this.interactionNoteUntil = time + seconds;
   }
 
   private toMap(x: number, z: number): [number, number] {
@@ -218,7 +229,8 @@ export class Hud {
     if (this.statsTimer > 0.5) {
       this.statsTimer = 0;
       this.stats.textContent = i18n.text('stats', {
-        fps: i18n.number(stats.fps), frameMs: i18n.number(stats.frameMs, 1), drawCalls: i18n.number(stats.drawCalls),
+        fps: i18n.number(stats.fps, stats.fps < 10 ? 1 : 0), interval: i18n.number(stats.frameIntervalMs), frameMs: i18n.number(stats.frameMs, 1),
+        tier: i18n.template(TIER_LABELS[stats.tier]), scale: i18n.number(stats.renderScale * 100), drawCalls: i18n.number(stats.drawCalls),
         triangles: i18n.number(stats.triangles / 1000), textures: i18n.number(stats.textures), tick: i18n.number(stats.tick),
       });
     }

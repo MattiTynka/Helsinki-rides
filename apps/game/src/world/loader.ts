@@ -2,6 +2,7 @@
 // visuals and hero and scenery assets. Everything is content-addressed under /world/<release>/ (tools/world/publish_release.ts).
 import * as THREE from 'three';
 import { GLTFLoader, type GLTF } from 'three/addons/loaders/GLTFLoader.js';
+import type { KTX2LoaderWorkerConfig } from 'three/addons/loaders/KTX2Loader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import type { GameplayBundle, RoadGraph, SceneryDocument, TerrainGrid, WorldManifest } from '@helsinki/world-schema';
 import { RoadIndex, decodeRoadGraph, parseTerrain, validateGameplayBundle, validateWorldManifest, validateCivilianAssets } from '@helsinki/world-schema';
@@ -123,11 +124,16 @@ export class GlbLoader {
   private readonly manager = new THREE.LoadingManager();
   private readonly decodeSlots: ReturnType<typeof requestSlots>;
 
-  constructor(renderer: THREE.WebGLRenderer, options: { maxConcurrentDecode?: number } = {}) {
+  /**
+   * `compactTranscode` (low preset): transcode to 4 bpp S3TC/ETC2 instead of 8 bpp BC7/ASTC where available. It is
+   * applied before any texture loads, because transcoder workers copy the configuration when they start.
+   */
+  constructor(renderer: THREE.WebGLRenderer, options: { maxConcurrentDecode?: number; compactTranscode?: boolean } = {}) {
     const count = options.maxConcurrentDecode ?? 2;
     if (!Number.isSafeInteger(count) || count < 1 || count > 4) throw new Error('GLB decode concurrency must be between one and four');
     this.decodeSlots = requestSlots(count);
     this.ktx2 = new OwnedKtx2Loader(this.manager).setWorkerLimit(count).setTranscoderPath(basisDecoderUrl(runtimeDeployment())).detectSupport(renderer);
+    if (options.compactTranscode) this.ktx2.preferCompactTranscode();
     this.loader = new GLTFLoader().setKTX2Loader(this.ktx2).setMeshoptDecoder(MeshoptDecoder).register(completeGlbTextures);
   }
 
@@ -160,6 +166,14 @@ export class GlbLoader {
       return new Promise<GLTF>((resolve, reject) => this.loader.load(url, resolve, undefined, reject));
     });
   }
+
+  /** Zstandard KTX2 textures parsed from now on skip their largest mip level (minimal tier); loaded ones keep theirs. */
+  setMipDrop(n: 0 | 1): void { this.ktx2.setMipDrop(n); }
+
+  get mipDrop(): 0 | 1 { return this.ktx2.mipDropCount; }
+
+  /** The compressed formats the transcoder may target this session (a copy). */
+  transcodeConfig(): KTX2LoaderWorkerConfig { return { ...this.ktx2.workerConfig }; }
 
   dispose(): void { this.decodeSlots.close(); this.ktx2.dispose(); }
 }

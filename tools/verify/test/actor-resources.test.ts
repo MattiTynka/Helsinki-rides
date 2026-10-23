@@ -163,3 +163,18 @@ test('repeated actor spawn and despawn leaves no owned GPU resources alive', () 
     assert.deepEqual([liveGeometries, liveMaterials, livePalettes, parent.children.length], [0, 0, 0, 0], `cycle ${i}`);
   }
 });
+
+test('an existing vehicle view switches to its far level at a new detail range', () => {
+  const f = vehicleFixture(), view = new VehicleView(f.assets, 'fixture', f.definition, new THREE.MeshBasicMaterial(), 60);
+  const camera = new THREE.PerspectiveCamera(); camera.position.set(0, 0, 45); camera.updateMatrixWorld();
+  view.root.updateMatrixWorld(true);
+  view.lod.update(camera);
+  assert.equal(view.lod.getCurrentLevel(), 0, 'detailed within 60 m');
+  view.setDetailRange(30);
+  assert.equal(view.lod.levels[1]!.distance, 30);
+  view.lod.update(camera);
+  assert.equal(view.lod.getCurrentLevel(), 1, 'the same car is far detail at 45 m with a 30 m range');
+  for (const invalid of [Number.NaN, 0, -5, Number.POSITIVE_INFINITY]) view.setDetailRange(invalid);
+  assert.equal(view.lod.levels[1]!.distance, 30, 'invalid ranges are ignored');
+  view.dispose();
+});

@@ -2,7 +2,10 @@
 // is read-only inspection or scripted input; it never bypasses the simulation.
 import { COLLISION_RESIDENCY, type Command, type EncodedCommand, type GameEvent, type SimState } from '@helsinki/sim';
 import type { Game } from './game.ts';
-import type { Lighting } from './config.ts';
+import type { GameConfig, Lighting } from './config.ts';
+import type { GpuClass } from './device.ts';
+import type { QualityTier } from './render/quality-tiers.ts';
+import type { KTX2LoaderWorkerConfig } from 'three/addons/loaders/KTX2Loader.js';
 import * as THREE from 'three';
 import { inspectCharacter, type CharacterPoseSnapshot } from './render/character-inspection.ts';
 import type { CellStreamStats } from './world/cell-streaming.ts';
@@ -29,7 +32,18 @@ export interface HelsinkiTestApi {
   ready: boolean;
   state(): SimState;
   tick(): number;
-  stats(): { fps: number; frameMs: number; drawCalls: number; triangles: number; textures: number; geometries: number; cells: number; tick: number; resolutionScale: number };
+  /** `fps` and `frameIntervalMs` come from the real presentation interval; `frameMs` is the CPU part of a frame. */
+  stats(): { fps: number; frameMs: number; frameIntervalMs: number; drawCalls: number; triangles: number; textures: number; geometries: number; cells: number; tick: number;
+    resolutionScale: number; tier: QualityTier; gpuClass: GpuClass };
+  /** Session configuration relevant to quality: the preset and where it came from, the GPU estimate, adaptation. */
+  config(): { preset: GameConfig['preset']; presetSource: GameConfig['presetSource']; tier: QualityTier; startTier: QualityTier;
+    rememberedTier: GameConfig['rememberedTier']; gpuClass: GpuClass; renderer: string | null; dynamicResolution: boolean; mobile: boolean;
+    /** The mip drop applied to textures loaded from now on, and the `?mipdrop` override (null: none). */
+    mipDrop: 0 | 1; mipDropOverride: GameConfig['mipDrop'];
+    /** The resolution governor's configured floor (the scale it never goes below). */
+    resolutionFloor: number };
+  /** Compressed formats the KTX2 transcoder may target this session. */
+  transcode(): KTX2LoaderWorkerConfig;
   /** Read-only transforms from the actual displayed frame; useful for frame pacing and reticle checks. */
   presentation(): PresentationSnapshot;
   /** Read-only car-local joint/skin measurements of the displayed driver, evaluated only when requested. */
@@ -54,13 +68,22 @@ export interface HelsinkiTestApi {
   camera(): { yaw: number; pitch: number };
   setCamera(yaw: number, pitch: number): void;
   setLighting(l: Lighting): void;
-  /** GPU texture bytes of every texture in the scene (transcoded mip data, or RGBA8 with mips for images). */
-  textureMemory(): { textures: number; mib: number; duplicateMiB: number };
+  /**
+   * GPU texture bytes of every texture in the scene (transcoded mip data, or RGBA8 with mips for images); `byClass`
+   * splits them by KTX2 supercompression (`other`: untagged or uncompressed KTX2) and image textures.
+   */
+  textureMemory(): TextureMemory;
+  /** Uploaded compressed formats (WebGL format constant to texture count) and the number of image textures. */
+  textureFormats(): TextureFormats;
+  /** Unique material types of the resident city: detail cells, coarse cells and instanced scenery. */
+  cityMaterials(): CityMaterials;
   /** Review-only live material/palette/uniform ownership, deduplicated by actual renderer allocation. */
   textureOwnership(): TextureOwnershipSnapshot;
   streaming(): { detail: CellStreamStats; fallback: CellStreamStats; scenery: { residentCells: number; residentInstances: number; totalInstances: number };
     coverage: { blocked: boolean; blockedFrames: number; blockedSeconds: number; missingCells: string[] };
     persistentTextureMiB: number; totalTextureBudgetMiB: number } | null;
+  /** Sorted ids of the cells resident in the detail and fallback streams (null without streaming). */
+  residentCells(): { detail: string[]; fallback: string[] } | null;
   awaitVisuals(): Promise<void>;
   /** Collision residency: the rules a recording replays under (null: every cell resident), resident cells and bytes. */
   collision(): { residency: string | null; resident: number; blocked: boolean; blockedFrames: number; blockedSeconds: number; missingCells: string[]; stream: CollisionStreamStats | null };
@@ -89,7 +112,12 @@ export function installTestApi(game: Game, onStart: () => void): HelsinkiTestApi
     ready: true,
     state: () => game.state,
     tick: () => game.sim.tick,
-    stats: () => ({ ...game.stats, cells: game.scene.cells.size, resolutionScale: game.scene.resolutionScale }),
+    stats: () => ({ ...game.stats, cells: game.scene.cells.size, resolutionScale: game.scene.resolutionScale, gpuClass: game.config.gpuClass ?? 'unknown' }),
+    config: () => ({ preset: game.config.preset, presetSource: game.config.presetSource, tier: game.stats.tier, startTier: game.config.startTier,
+      rememberedTier: game.config.rememberedTier, gpuClass: game.config.gpuClass ?? 'unknown',
+      renderer: game.config.renderer ?? null, dynamicResolution: game.config.dynamicResolution, mobile: game.config.mobile === true,
+      mipDrop: game.loader.mipDrop, mipDropOverride: game.config.mipDrop, resolutionFloor: game.scene.resolutionFloor }),
+    transcode: () => game.loader.transcodeConfig(),
     presentation: () => presentation(game),
     vehiclePose: () => vehiclePose(game),
     characterPose: id => {
@@ -117,11 +145,15 @@ export function installTestApi(game: Game, onStart: () => void): HelsinkiTestApi
     camera: () => ({ yaw: game.cameraRig.yaw, pitch: game.cameraRig.pitch }),
     setCamera: (yaw, pitch) => { game.cameraRig.yaw = yaw; game.cameraRig.pitch = pitch; },
     setLighting: l => game.setLighting(l),
-    textureMemory: () => textureMemory(game),
+    textureMemory: () => textureMemory(game.scene.scene),
+    textureFormats: () => textureFormats(game.scene.scene),
+    cityMaterials: () => cityMaterials([...game.scene.cells.values()].map(cell => cell.group), [...game.scene.fallbackCells.values()].map(cell => cell.group),
+      game.scene.scene.getObjectByName('scenery') ?? null),
     textureOwnership: () => inspectTextureOwnership(game.scene.scene, game.scene.renderer.properties, game.scene.renderer.info.memory.textures),
     streaming: () => game.streaming ? { detail: game.streaming.detail.stats(), fallback: game.streaming.fallback.stats(), scenery: game.scene.sceneryStats(),
       coverage: { ...game.visualLoading, missingCells: game.missingVisualCells() },
       persistentTextureMiB: game.streaming.persistentTextureBytes / 2 ** 20, totalTextureBudgetMiB: game.streaming.totalTextureBudgetBytes / 2 ** 20 } : null,
+    residentCells: () => game.streaming ? { detail: game.streaming.detail.residentIds().sort(), fallback: game.streaming.fallback.residentIds().sort() } : null,
     awaitVisuals: () => game.awaitVisuals(),
     collision: () => ({ residency: game.world.streamed ? COLLISION_RESIDENCY : null, resident: game.world.residentCells().length,
       blocked: game.collisionLoading.blocked, blockedFrames: game.collisionLoading.blockedFrames, blockedSeconds: game.collisionLoading.blockedSeconds,
@@ -221,22 +253,61 @@ function presentation(game: Game): PresentationSnapshot {
 }
 
 type TextureLike = {
-  isTexture: true; isCompressedTexture?: boolean; format: number; generateMipmaps: boolean;
+  isTexture: true; isCompressedTexture?: boolean; format: number; generateMipmaps: boolean; userData?: { ktx2?: { supercompression?: string } };
   mipmaps?: { data: ArrayBufferView; width: number; height: number }[]; image?: { width?: number; height?: number } | null;
 };
 
-/** Unique textures reachable from scene materials; byte-identical compressed payloads are reported as duplicates. */
-function textureMemory(game: Game): { textures: number; mib: number; duplicateMiB: number } {
+export interface TextureMemory {
+  textures: number; mib: number; duplicateMiB: number;
+  byClass: { zstd: number; basislz: number; image: number; other: number };
+}
+export interface TextureFormats { compressed: Record<number, number>; image: number }
+export interface CityMaterials { detail: Record<string, number>; coarse: Record<string, number>; scenery: Record<string, number> }
+
+/** Unique materials below each set of roots, counted by `material.type`. */
+export function cityMaterials(detail: readonly THREE.Object3D[], coarse: readonly THREE.Object3D[], scenery: THREE.Object3D | null): CityMaterials {
+  const census = (roots: readonly THREE.Object3D[]): Record<string, number> => {
+    const materials = new Set<THREE.Material>();
+    for (const root of roots) root.traverse(o => {
+      const material = (o as THREE.Mesh).material;
+      if (material) for (const m of Array.isArray(material) ? material : [material]) materials.add(m);
+    });
+    const types: Record<string, number> = {};
+    for (const m of materials) types[m.type] = (types[m.type] ?? 0) + 1;
+    return types;
+  };
+  return { detail: census(detail), coarse: census(coarse), scenery: census(scenery ? [scenery] : []) };
+}
+
+/** Unique textures reachable from the materials below `root`. */
+function sceneTextures(root: THREE.Object3D): Set<TextureLike> {
   const textures = new Set<TextureLike>();
-  game.scene.scene.traverse(o => {
+  root.traverse(o => {
     const material = (o as unknown as { material?: object | object[] }).material;
     if (!material) return;
     for (const m of Array.isArray(material) ? material : [material]) {
       for (const v of Object.values(m)) if (v && (v as TextureLike).isTexture) textures.add(v as TextureLike);
     }
   });
+  return textures;
+}
+
+/**
+ * The KTX2 loader tag decides the class whatever the GPU representation (a raw KTX2 container parses to a DataTexture);
+ * untagged textures are images unless compressed.
+ */
+function textureClass(t: TextureLike): keyof TextureMemory['byClass'] {
+  const tag = t.userData?.ktx2;
+  if (tag) return tag.supercompression === 'zstd' || tag.supercompression === 'basislz' ? tag.supercompression : 'other';
+  return t.isCompressedTexture ? 'other' : 'image';
+}
+
+/** Unique textures reachable from scene materials; byte-identical compressed payloads are reported as duplicates. */
+export function textureMemory(root: THREE.Object3D): TextureMemory {
+  const textures = sceneTextures(root);
   let bytes = 0;
   let duplicate = 0;
+  const byClass = { zstd: 0, basislz: 0, image: 0, other: 0 };
   const contents = new Set<string>();
   for (const t of textures) {
     const mips = t.isCompressedTexture ? t.mipmaps ?? [] : [];
@@ -248,9 +319,25 @@ function textureMemory(game: Game): { textures: number; mib: number; duplicateMi
       const key = `${t.format}:${mips[0]!.width}x${mips[0]!.height}:${b}:${h >>> 0}`;
       if (contents.has(key)) duplicate += b; else contents.add(key);
       bytes += b;
+      byClass[textureClass(t)] += b;
     } else {
-      bytes += (t.image?.width ?? 0) * (t.image?.height ?? 0) * 4 * (t.generateMipmaps ? 4 / 3 : 1);
+      const b = (t.image?.width ?? 0) * (t.image?.height ?? 0) * 4 * (t.generateMipmaps ? 4 / 3 : 1);
+      bytes += b;
+      byClass[textureClass(t)] += b;
     }
   }
-  return { textures: textures.size, mib: bytes / 2 ** 20, duplicateMiB: duplicate / 2 ** 20 };
+  const mib = (value: number) => value / 2 ** 20;
+  return { textures: textures.size, mib: mib(bytes), duplicateMiB: mib(duplicate),
+    byClass: { zstd: mib(byClass.zstd), basislz: mib(byClass.basislz), image: mib(byClass.image), other: mib(byClass.other) } };
+}
+
+/** Histogram of the textures `textureMemory` visits: compressed ones by WebGL format constant, the rest as images. */
+export function textureFormats(root: THREE.Object3D): TextureFormats {
+  const compressed: Record<number, number> = {};
+  let image = 0;
+  for (const t of sceneTextures(root)) {
+    if (t.isCompressedTexture && t.mipmaps?.length) compressed[t.format] = (compressed[t.format] ?? 0) + 1;
+    else image++;
+  }
+  return { compressed, image };
 }

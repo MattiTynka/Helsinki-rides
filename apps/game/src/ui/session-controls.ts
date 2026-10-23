@@ -1,8 +1,11 @@
 import type { Game } from '../game.ts';
-import { FRAME_RATE_STORAGE_KEY } from '../config.ts';
+import { applyGraphicsChoice, FRAME_RATE_STORAGE_KEY } from '../config.ts';
 import { i18n, type MessageKey } from '../i18n/index.ts';
+import type { QualityTier } from '../render/quality-tiers.ts';
 import type { TouchControls } from './touch-controls.ts';
 import './session.css';
+
+const QUALITY_LABELS: Readonly<Record<QualityTier, MessageKey>> = { standard: 'quality.standard', low: 'quality.low', minimal: 'quality.minimal' };
 
 /** Player-owned pause state. Browser interruptions always require a fresh resume gesture. */
 export class SessionControls {
@@ -19,6 +22,8 @@ export class SessionControls {
   private readonly note = document.createElement('p');
   private readonly preferences = document.createElement('div');
   private readonly frameRate = document.createElement('select');
+  private readonly graphics = document.createElement('select');
+  private readonly qualityStatus = document.createElement('p');
   private reason: MessageKey = 'session.interrupted';
 
   constructor(game: Game, canvas: HTMLCanvasElement, touch: TouchControls) {
@@ -62,7 +67,26 @@ export class SessionControls {
       try { localStorage.setItem(FRAME_RATE_STORAGE_KEY, String(fps)); } catch { /* The current session still applies it. */ }
       game.setFrameRate(fps);
     });
-    this.preferences.append(label);
+    // Same storage semantics as the loading screen: the preset is fixed per page load, so a change reloads.
+    const graphicsLabel = document.createElement('label');
+    const graphicsCaption = document.createElement('span');
+    graphicsCaption.dataset.sessionText = 'graphics.quality';
+    graphicsLabel.append(graphicsCaption, this.graphics);
+    this.graphics.id = 'session-graphics';
+    for (const [value, key] of [['auto', 'graphics.auto'], ['standard', 'graphics.standard'], ['low', 'graphics.low']] as const) {
+      const option = document.createElement('option');
+      option.value = value;
+      option.dataset.sessionText = key;
+      this.graphics.append(option);
+    }
+    this.graphics.value = game.config.presetSource === 'auto' ? 'auto' : game.config.preset;
+    this.graphics.disabled = game.config.presetSource === 'url';
+    this.graphics.addEventListener('change', () => {
+      const value = this.graphics.value;
+      applyGraphicsChoice(value === 'low' || value === 'standard' ? value : 'auto');
+    });
+    this.qualityStatus.id = 'session-quality';
+    this.preferences.append(label, graphicsLabel, this.qualityStatus);
     const credits = document.createElement('details');
     credits.className = 'session-credits';
     const creditTitle = document.createElement('summary');
@@ -173,6 +197,9 @@ export class SessionControls {
       element.textContent = i18n.template(element.dataset.sessionText as MessageKey);
     }
     this.title.textContent = i18n.text('session.paused');
+    const tier = i18n.template(QUALITY_LABELS[this.game.stats.tier]);
+    this.qualityStatus.textContent = i18n.text(this.game.config.presetSource === 'auto' ? 'quality.statusAuto' : 'quality.status', { tier });
+    if (this.graphics.disabled) this.graphics.title = i18n.text('graphics.url');
     this.note.textContent = i18n.template(this.reason);
     this.fullscreenButton.textContent = i18n.text(document.fullscreenElement ? 'session.windowed' : 'session.fullscreen');
   }

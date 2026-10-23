@@ -15,9 +15,10 @@ export async function openGame(url: string, opts: { headful?: boolean; width?: n
   const u = new URL(url);
   if (!['127.0.0.1', 'localhost'].includes(u.hostname)) throw new Error('only loopback servers are verified');
   // Explicit diagnostic override only. Preserve the established D3D11 default and record
-  // Vulkan runs separately when Windows display/VSync scheduling stalls the harness.
+  // Vulkan runs separately when Windows display/VSync scheduling stalls the harness;
+  // SwiftShader is the software renderer used as the weak-GPU proxy.
   const angle = process.env.HELSINKI_VERIFY_ANGLE ?? 'd3d11';
-  if (!['d3d11', 'vulkan'].includes(angle)) throw new Error('HELSINKI_VERIFY_ANGLE must be d3d11 or vulkan');
+  if (!['d3d11', 'vulkan', 'swiftshader'].includes(angle)) throw new Error('HELSINKI_VERIFY_ANGLE must be d3d11, vulkan or swiftshader');
   const browser = await chromium.launch({
     channel: 'chromium', headless: !opts.headful,
     args: ['--enable-gpu', '--ignore-gpu-blocklist', `--use-angle=${angle}`, '--enable-unsafe-swiftshader', '--autoplay-policy=no-user-gesture-required'],

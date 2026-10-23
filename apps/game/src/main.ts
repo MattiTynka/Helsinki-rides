@@ -1,4 +1,4 @@
-import { PRESET_STORAGE_KEY, readConfig } from './config.ts';
+import { applyGraphicsChoice, readConfig, type Preset } from './config.ts';
 import { Game } from './game.ts';
 import { installTestApi } from './testapi.ts';
 import { runtimeDeployment, worldReleaseUrl } from './world/urls.ts';
@@ -29,7 +29,7 @@ i18n.subscribe(showStartupStatus);
 async function boot(): Promise<void> {
   const config = readConfig();
   registerServiceWorker();
-  installGraphicsChoice(config.presetSource === 'auto' ? 'auto' : config.preset, config.presetSource === 'url');
+  installGraphicsChoice(config.presetSource === 'auto' ? 'auto' : config.preset, config.presetSource === 'url', config.rememberedTier !== null);
   const game = await Game.create(canvas, config, (done, total, label) => {
     startup = { kind: 'progress', done, total, label }; showStartupStatus();
     loadingFill.style.width = `${Math.round(done / total * 100)}%`;
@@ -57,29 +57,23 @@ async function boot(): Promise<void> {
   if (config.review) { loading.classList.add('hidden'); session.begin(); }
 }
 
-/** The loading screen's graphics choice is saved for later visits; the preset is fixed per page load, so it reloads. */
-function installGraphicsChoice(current: string, fromUrl: boolean): void {
+/**
+ * The loading screen's graphics choice is saved for later visits; the preset is fixed per page load, so it reloads.
+ * Choosing any option forgets the automatic tier remembered from the last visit.
+ */
+function installGraphicsChoice(current: string, fromUrl: boolean, remembered: boolean): void {
   const select = document.getElementById('graphics-preset') as HTMLSelectElement | null;
   if (!select) return;
   select.value = current;
+  const automatic = select.querySelector<HTMLOptionElement>('option[value="auto"]');
+  if (automatic && remembered) { automatic.dataset.i18n = 'graphics.autoRemembered'; automatic.textContent = i18n.text('graphics.autoRemembered'); }
   // An explicit ?preset= wins over the saved choice; say so instead of offering a control that would not apply.
   if (fromUrl) {
     select.disabled = true;
     const describe = (): void => { select.title = i18n.text('graphics.url'); };
     describe(); i18n.subscribe(describe);
   }
-  select.addEventListener('change', () => {
-    try {
-      if (select.value === 'auto') localStorage.removeItem(PRESET_STORAGE_KEY);
-      else localStorage.setItem(PRESET_STORAGE_KEY, select.value);
-      location.reload();
-    } catch {
-      // Storage unavailable (private mode): carry the choice in the address instead.
-      const url = new URL(location.href);
-      if (select.value === 'auto') url.searchParams.delete('preset'); else url.searchParams.set('preset', select.value);
-      location.assign(url);
-    }
-  });
+  select.addEventListener('change', () => applyGraphicsChoice(select.value === 'low' || select.value === 'standard' ? select.value as Preset : 'auto'));
 }
 
 /**

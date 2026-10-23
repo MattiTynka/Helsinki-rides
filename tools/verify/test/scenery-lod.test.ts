@@ -7,6 +7,7 @@ import { pathToFileURL } from 'node:url';
 import { createFoliageLods, sceneryLodLevel } from '../../../apps/game/src/render/scenery-lod.ts';
 import { SceneryInstanceCuller } from '../../../apps/game/src/render/scenery-culling.ts';
 import { CityScene, type CellView } from '../../../apps/game/src/render/scene.ts';
+import { QUALITY_TIERS } from '../../../apps/game/src/render/quality-tiers.ts';
 import type { SceneryDocument } from '../../../packages/world-schema/src/index.ts';
 
 const entry = createRequire(new URL('../../../apps/game/package.json', import.meta.url)).resolve('three');
@@ -97,9 +98,9 @@ test('a large crown close to the camera retains full source detail even when its
 
 function scene(preset: 'low' | 'standard'): CityScene {
   const camera = new THREE.PerspectiveCamera(150, 1, .1, 800); camera.position.set(0, 8, 30); camera.lookAt(0, 8, -1);
-  return Object.assign(Object.create(CityScene.prototype), { scene: new THREE.Scene(), camera, cells: new Map(), fallbackCells: new Map(), sceneryDefinitions: new Map(), sceneryCellViews: new Map(), sceneryMaterials: new Map(), sceneryFoliageLods: new Map(), sceneryRoot: new THREE.Group(), sceneryCulling: null, sceneryAssets: null, sceneryStreamed: false, lighting: 'unlit', preset }) as CityScene;
+  return Object.assign(Object.create(CityScene.prototype), { scene: new THREE.Scene(), camera, cells: new Map(), fallbackCells: new Map(), sceneryDefinitions: new Map(), sceneryCellViews: new Map(), sceneryMaterials: new Map(), sceneryFoliageLods: new Map(), sceneryRoot: new THREE.Group(), sceneryCulling: null, sceneryAssets: null, sceneryStreamed: false, lighting: 'unlit', preset, materialClass: 'standard', spatialSceneryBatches: preset === 'low', foliageLodScale: 1 }) as CityScene;
 }
-test('low residency reuses source materials and shared LOD geometry across repeated cell eviction without texture or geometry disposal', () => {
+test('low residency reuses cached scenery materials and shared LOD geometry across repeated cell eviction without texture or geometry disposal', () => {
   const source = geometry(fixture.models[0]!), bark = new THREE.BoxGeometry(.2, 10, .2), leafMaterial = new THREE.MeshBasicMaterial({ name: 'tree_leaves', alphaTest: .5 }), barkMaterial = new THREE.MeshBasicMaterial({ name: 'tree_bark' });
   const root = new THREE.Group(), tree = new THREE.Group(); tree.name = 'tree-birch'; root.add(tree); tree.add(new THREE.Mesh(source, leafMaterial), new THREE.Mesh(bark, barkMaterial));
   const document = { originId: 'origin', assets: [], instances: [20, 160, 300].map((z, k) => ({ id: `tree-${k}`, asset: 'scenery-trees', node: 'tree-birch', position: [0, 0, -z], yaw: .2, scale: [1, 1, 1] })) } as unknown as SceneryDocument, before = JSON.stringify(document), city = scene('low');
@@ -108,9 +109,14 @@ test('low residency reuses source materials and shared LOD geometry across repea
   for (const resource of [source, bark, leafMaterial, barkMaterial]) resource.addEventListener('dispose', () => disposed++);
   city.showCell(view); city.prepareSceneryForRender(); const first = [...(city as any).sceneryFoliageLods.values()][0]; assert.equal((city as any).sceneryFoliageLods.size, 1);
   assert.equal((city as any).sceneryCellViews.get(view.id).children.length, 4, 'one bark batch and three foliage tiers, independent of32m subdivisions');
-  for (const mesh of (city as any).sceneryCellViews.get(view.id).children) if (mesh.userData.sceneryLodLevel !== undefined) assert.equal(mesh.material, leafMaterial); else { assert.equal(mesh.geometry, bark); assert.equal(mesh.material, barkMaterial); }
-  for (let i = 0; i < 4; i++) { city.disposeCell(view); assert.equal((city as any).sceneryCulling.meshes.size, 0); city.showCell(view); city.prepareSceneryForRender(); assert.equal([...(city as any).sceneryFoliageLods.values()][0], first); }
+  // Scenery draws adapted copies; the asset library's source materials stay untouched (adaptCityMaterial never mutates).
+  const leaf = (city as any).sceneryMaterials.get(leafMaterial).standard, barkAdapted = (city as any).sceneryMaterials.get(barkMaterial).standard;
+  assert.notEqual(leaf, leafMaterial); assert.equal(leaf.name, 'tree_leaves'); assert.equal(barkAdapted.name, 'tree_bark');
+  const materialsUsed = () => { for (const mesh of (city as any).sceneryCellViews.get(view.id).children) if (mesh.userData.sceneryLodLevel !== undefined) assert.equal(mesh.material, leaf); else { assert.equal(mesh.geometry, bark); assert.equal(mesh.material, barkAdapted); } };
+  materialsUsed();
+  for (let i = 0; i < 4; i++) { city.disposeCell(view); assert.equal((city as any).sceneryCulling.meshes.size, 0); city.showCell(view); city.prepareSceneryForRender(); assert.equal([...(city as any).sceneryFoliageLods.values()][0], first); materialsUsed(); }
   assert.equal(disposed, 0); assert.equal(JSON.stringify(document), before); assert.equal(city.sceneryStats().residentInstances, 3);
+  assert.equal(leafMaterial.toneMapped, true); assert.equal(barkMaterial.toneMapped, true);
 });
 
 test('standard preset keeps exact near foliage and uses shared whole-card distant tiers', () => {
@@ -120,6 +126,69 @@ test('standard preset keeps exact near foliage and uses shared whole-card distan
   assert.equal((city as any).sceneryFoliageLods.size, 1); assert.ok((city as any).sceneryCulling);
   const meshes: any[] = []; group.traverse(o => { if ((o as any).isInstancedMesh) meshes.push(o); });
   assert.equal(meshes.length, 3); assert.equal(meshes[0].geometry, g);
-  for (const mesh of meshes) assert.equal(mesh.material, material);
+  for (const mesh of meshes) assert.equal(mesh.material, meshes[0].material);
+  assert.notEqual(meshes[0].material, material); assert.equal(meshes[0].material.name, 'tree_leaves');
+  assert.equal(meshes[0].material.alphaToCoverage, true); assert.equal(material.alphaToCoverage, false, 'the shared source is not changed');
   assert.equal(meshes[0].count, 0); assert.equal(meshes[1].count, 0); assert.equal(meshes[2].count, 1);
+});
+
+test('foliage distance bands scale with the tier (0.6 on minimal) and default to the authored distances', () => {
+  assert.equal(sceneryLodLevel(71.9, 1, .6), 0); assert.equal(sceneryLodLevel(72.1, 1, .6), 1);
+  assert.equal(sceneryLodLevel(79.1, 0, .6), 0); assert.equal(sceneryLodLevel(79.3, 0, .6), 1);
+  assert.equal(sceneryLodLevel(158.3, 1, .6), 1); assert.equal(sceneryLodLevel(158.5, 1, .6), 2);
+  assert.equal(sceneryLodLevel(144.1, 2, .6), 2); assert.equal(sceneryLodLevel(143.9, 2, .6), 1);
+  assert.equal(sceneryLodLevel(100, 0), 0); assert.equal(sceneryLodLevel(100, 0, 1), 0);
+  const at100 = () => { const m = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial(), 1); m.setMatrixAt(0, new THREE.Matrix4().makeTranslation(100, 0, 0)); return m; };
+  const near = at100(), mid = at100(), authored = at100();
+  new SceneryInstanceCuller(near, 0, .6).update(frustum(), new THREE.Vector3());
+  new SceneryInstanceCuller(mid, 1, .6).update(frustum(), new THREE.Vector3());
+  new SceneryInstanceCuller(authored, 0).update(frustum(), new THREE.Vector3());
+  assert.deepEqual([near.count, mid.count, authored.count], [0, 1, 1], 'a crown 100 m away is mid detail at 0.6, full detail at 1');
+});
+
+test('applyTier rebuilds resident scenery with the new material class, batching and foliage scale, disposing only scene-owned buffers', () => {
+  const city = scene('standard');
+  (city as any).lighting = 'lit'; city.scene.fog = new THREE.Fog(0x9fb8d4, 240, 420); city.camera.far = 420;
+  const benchGeometry = new THREE.BoxGeometry(1, 1, 1), benchMaterial = new THREE.MeshStandardMaterial({ name: 'bench' });
+  const leafGeometry = geometry(fixture.models[0]!), leafMaterial = new THREE.MeshStandardMaterial({ name: 'tree_leaves', alphaTest: .5 });
+  const benches = new THREE.Group(), bench = new THREE.Mesh(benchGeometry, benchMaterial); bench.name = 'bench'; benches.add(bench);
+  const trees = new THREE.Group(), tree = new THREE.Mesh(leafGeometry, leafMaterial); tree.name = 'tree-birch'; trees.add(tree);
+  const instances = [5, 40, 75].map((x, k) => ({ id: `bench-${k}`, asset: 'scenery-benches', node: 'bench', position: [x, 0, -10], yaw: 0, scale: [1, 1, 1] }))
+    .concat([{ id: 'tree', asset: 'scenery-trees', node: 'tree-birch', position: [0, 0, -60], yaw: 0, scale: [1, 1, 1] }]);
+  city.addScenery({ originId: 'origin', assets: [], instances } as unknown as SceneryDocument, new Map([['scenery-benches', benches], ['scenery-trees', trees]]), 1024, true);
+  let sharedDisposals = 0;
+  for (const resource of [benchGeometry, benchMaterial, leafGeometry, leafMaterial]) resource.addEventListener('dispose', () => sharedDisposals++);
+  const view = { id: 'c_p00_m01', lod: 'lod2', group: new THREE.Group() } as CellView;
+  city.showCell(view); city.prepareSceneryForRender();
+  const group = () => (city as any).sceneryCellViews.get(view.id) as InstanceType<typeof THREE.Group>;
+  const meshes = () => group().children as InstanceType<typeof THREE.InstancedMesh>[];
+  const cullers = () => (city as any).sceneryCulling.meshes as Map<unknown, SceneryInstanceCuller>;
+  const fog = () => city.scene.fog as InstanceType<typeof THREE.Fog>;
+  const standardMeshes = meshes(), standardMaterials = new Set(standardMeshes.map(m => m.material));
+  assert.equal(standardMeshes.length, 4, 'standard: one bench batch per cell and three foliage tiers');
+  assert.ok(standardMeshes.every(m => (m.material as any).isMeshStandardMaterial));
+  let ownedDisposals = 0;
+  for (const mesh of standardMeshes) mesh.addEventListener('dispose', () => ownedDisposals++);
+
+  city.applyTier(QUALITY_TIERS.low);
+  assert.equal(city.materialClass, 'lambert');
+  assert.equal(meshes().filter(m => m.name.startsWith('bench')).length, 3, 'low batches benches per 32 m block');
+  assert.equal(meshes().length, 6);
+  assert.ok(meshes().every(m => (m.material as any).isMeshLambertMaterial), 'rebuilt groups use the new class');
+  assert.ok(meshes().every(m => !standardMeshes.includes(m)));
+  assert.equal(ownedDisposals, 4, 'every old instance buffer is disposed once');
+  assert.equal(cullers().size, 6); assert.ok([...cullers().keys()].every(m => meshes().includes(m as any)));
+  assert.deepEqual([fog().near, fog().far, city.camera.far], [160, 300, 300]);
+  assert.equal(sharedDisposals, 0, 'asset-library geometry and materials are never disposed');
+  city.prepareSceneryForRender();
+
+  city.applyTier(QUALITY_TIERS.minimal);
+  assert.ok([...cullers().values()].every(c => (c as any).distanceScale === .6));
+  assert.deepEqual([fog().near, fog().far, city.camera.far], [110, 220, 220]);
+  city.applyTier(QUALITY_TIERS.standard);
+  assert.equal(meshes().length, 4);
+  assert.ok(meshes().every(m => standardMaterials.has(m.material)), 'the (source, class) cache returns the earlier Standard copies');
+  assert.ok([...cullers().values()].every(c => (c as any).distanceScale === 1));
+  assert.equal(sharedDisposals, 0); assert.equal(benchMaterial.toneMapped, true);
+  city.prepareSceneryForRender();
 });

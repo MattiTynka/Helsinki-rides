@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { automaticPreset, FRAME_RATE_STORAGE_KEY, PRESET_STORAGE_KEY, readConfig } from '../src/config.ts';
 import { isTouchFirstDevice, type DeviceCapabilities } from '../src/device.ts';
-import { AdaptiveResolution, drawingPixelRatio, FramePacer } from '../src/render/frame-pacing.ts';
+import { AdaptiveResolution, catchUpSteps, drawingPixelRatio, FramePacer } from '../src/render/frame-pacing.ts';
 import { AnimationCadence } from '../src/render/animation-cadence.ts';
 
 const desktop: DeviceCapabilities = { maxTouchPoints: 0, primaryCoarse: false, primaryFine: true, primaryHover: true, anyFine: true, deviceMemory: 16, hardwareConcurrency: 8 };
@@ -99,6 +99,58 @@ test('rendering pixels are capped for tablets independently of display DPR and o
     assert.ok(width! * height! * ratio ** 2 <= 921600 + .001); assert.ok(ratio <= .8);
   }
   assert.equal(drawingPixelRatio(800, 600, 1.5, 1), 1.5);
+});
+
+test('the render scale applies to the capped ratio, so a capped 4K Standard display still renders fewer pixels', () => {
+  const pixels = (width: number, height: number, ratio: number) => width * height * ratio ** 2;
+  const full = drawingPixelRatio(3840, 2160, 1.5, 1, 3686400), half = drawingPixelRatio(3840, 2160, 1.5, .5, 3686400);
+  assert.ok(Math.abs(pixels(3840, 2160, full) - 3686400) < 1); assert.ok(Math.abs(pixels(3840, 2160, half) - 921600) < 1);
+  assert.ok(Math.abs(drawingPixelRatio(1920, 1080, 1.5, 1, 3686400) - 4 / 3) < 1e-9);
+  assert.ok(drawingPixelRatio(1920, 1080, 1.5, .75, 3686400) < drawingPixelRatio(1920, 1080, 1.5, .8, 3686400));
+  assert.equal(drawingPixelRatio(1280, 720, 1, .5, 1440000), .5, 'an uncapped display scales its device ratio');
+  assert.equal(drawingPixelRatio(100, 100, 1, 0, 1440000), .1, 'the ratio never reaches zero');
+});
+
+test('frames up to one second count for the governor; slower ones are stalls and very slow frames step further', () => {
+  const slow = new AdaptiveResolution({ minRenderScale: .5 });
+  let changed = 0;
+  for (let i = 0; i < 6; i++) changed += slow.update(.3, 20) ? 1 : 0;
+  assert.equal(changed, 1); assert.equal(slow.scale, .8, '300 ms GPU-bound frames lower by the larger step');
+  for (let i = 0; i < 40; i++) slow.update(.3, 20);
+  assert.equal(slow.scale, .5, 'the configured floor holds');
+  const cpu = new AdaptiveResolution({ minRenderScale: .5 });
+  for (let i = 0; i < 40; i++) cpu.update(.3, 200);
+  assert.equal(cpu.scale, 1, 'a CPU share of 60% or more never lowers resolution');
+  const stalled = new AdaptiveResolution({ minRenderScale: .5 });
+  for (let i = 0; i < 40; i++) assert.equal(stalled.update(1.5, 5), false);
+  assert.equal(stalled.scale, 1, 'gaps over one second are stalls');
+  assert.equal(stalled.update(1, 5), false); assert.equal(stalled.update(1, 5), true); assert.equal(stalled.scale, .8, 'exactly one second still counts');
+  const moderate = new AdaptiveResolution({ minRenderScale: .5 });
+  for (let i = 0; i < 70; i++) moderate.update(.025, 5);
+  assert.equal(moderate.scale, .85, 'moderately slow frames keep the small step');
+  const doubled = new AdaptiveResolution({ minRenderScale: .5 });
+  for (let i = 0; i < 70; i++) doubled.update(.034, 5);
+  assert.equal(doubled.scale, .8, 'twice the target interval takes the larger step');
+  const defaults = new AdaptiveResolution();
+  for (let i = 0; i < 80; i++) defaults.update(.3, 20);
+  assert.equal(defaults.scale, .6, 'the historical 60% floor remains the default');
+  for (const floor of [Number.NaN, -1, 0, 2]) {
+    const invalid = new AdaptiveResolution({ minRenderScale: floor });
+    for (let i = 0; i < 80; i++) invalid.update(.3, 20);
+    assert.ok(invalid.scale >= .1 && invalid.scale <= 1, String(floor));
+  }
+});
+
+test('slow CPU-bound frames clamp simulation catch-up to three ticks', () => {
+  const target = 1000 / 60;
+  assert.equal(catchUpSteps(100, 80, target), 3);
+  assert.equal(catchUpSteps(100, 60, target), 3, 'exactly 60% CPU counts as CPU-bound');
+  assert.equal(catchUpSteps(100, 59, target), 5, 'GPU-bound slow frames keep full catch-up');
+  assert.equal(catchUpSteps(target * 1.5, target * 1.5, target), 5, 'a frame must be more than 1.5x the target to be slow');
+  assert.equal(catchUpSteps(target * 1.5 + .01, target * 1.5, target), 3);
+  assert.equal(catchUpSteps(70, 60, 1000 / 30), 3);
+  assert.equal(catchUpSteps(40, 39, 1000 / 30), 5, '30 FPS pacing is judged against its own target');
+  for (const [interval, cpu] of [[Number.NaN, 50], [100, Number.NaN], [-1, -1], [0, 0]] as const) assert.equal(catchUpSteps(interval, cpu, target), 5);
 });
 
 test('distant animation accumulates all skipped time and immediately samples reaction/state/near transitions', () => {

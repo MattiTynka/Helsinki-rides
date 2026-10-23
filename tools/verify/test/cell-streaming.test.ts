@@ -417,3 +417,56 @@ test('a show failure disposes the prepared resource and releases both budgets ex
   assert.deepEqual(stream.stats().errors, ['a: cannot mount cell']);
   stream.dispose(); assert.equal(disposed, 1);
 });
+
+test('setOptions narrowing evicts and aborts work outside the new selection before any load; widening loads again', async () => {
+  const cells = [cell('c0', 0), cell('c1', 128), cell('c2', 256)];
+  const events: string[] = [], loads = new Map<string, ReturnType<typeof deferred<CellResource>>>();
+  const stream = new CellVisualStream(cells, {
+    load: (c, signal) => {
+      events.push(`load:${c.id}`);
+      signal.addEventListener('abort', () => { events.push(`abort:${c.id}`); loads.get(c.id)?.reject(new Error('aborted')); });
+      const d = deferred<CellResource>(); loads.set(c.id, d); return d.promise;
+    },
+    show: c => { events.push(`show:${c.id}`); }, dispose: c => { events.push(`dispose:${c.id}`); },
+  }, { ...options, textureBudgetBytes: 100 * MiB, radius: 300, maxCells: 10 });
+  stream.update(focus(64));
+  loads.get('c0')!.resolve(resource()); await flushTasks();
+  loads.get('c1')!.resolve(resource()); await flushTasks();
+  assert.deepEqual(events, ['load:c0', 'show:c0', 'load:c1', 'show:c1', 'load:c2']);
+  const costs = (stream as unknown as { costs: Map<string, number> }).costs;
+  assert.deepEqual([...costs.keys()], ['c0', 'c1']);
+  events.length = 0;
+  stream.setOptions({ radius: 100, maxCells: 1 });
+  assert.deepEqual(events, ['abort:c2', 'dispose:c1'], 'pending work is cancelled and residents evicted, with no new load');
+  await flushTasks();
+  assert.deepEqual(events, ['abort:c2', 'dispose:c1']);
+  assert.equal(stream.stats().residentCells, 1); assert.equal(stream.stats().desiredCells, 1); assert.equal(stream.stats().cancelledLoads, 1);
+  assert.deepEqual(stream.residentIds(), ['c0']);
+  assert.deepEqual([...costs.keys()], ['c0', 'c1'], 'decoded costs stay cached; the LOD level never changes');
+  stream.setOptions({ radius: 300, maxCells: 10 });
+  assert.deepEqual(events.slice(2), ['load:c1']);
+  loads.get('c1')!.resolve(resource()); await flushTasks();
+  loads.get('c2')!.resolve(resource()); await flushTasks();
+  assert.equal(stream.stats().residentCells, 3);
+  assert.deepEqual(stream.residentIds(), ['c0', 'c1', 'c2'], 'sorted ids of the settled resident cells');
+  // A geometry budget that fits one cell narrows the same way.
+  events.length = 0;
+  stream.setOptions({ geometryBudgetBytes: 1500 });
+  assert.deepEqual(events.sort(), ['dispose:c1', 'dispose:c2']);
+  assert.equal(stream.stats().geometryBudgetMiB, 1500 / MiB);
+  stream.dispose();
+});
+
+test('the minimal tier fallback options still select every cell within the 12 m coverage margin at a cell corner', () => {
+  const cells: CellDescriptor[] = [];
+  for (let x = -5; x <= 5; x++) for (let z = -5; z <= 5; z++) cells.push(cell(`${x}:${z}`, x * 128, z * 128));
+  // Minimal fallback ring: 220 m, 20 cells, 48 MiB of geometry, coarse (lod2) cells inside the 4 MiB fallback budget.
+  const minimal: CellStreamOptions = { textureBudgetBytes: 4 * MiB, geometryBudgetBytes: 48 * MiB, radius: 220, maxCells: 20, level: 'lod2', lookaheadSeconds: 3, maxLookahead: 180 };
+  const empty = new Map<string, unknown>();
+  for (const [x, z] of [[0, 0], [128, 128], [-128, 256], [5, -3], [-11, 11]]) for (const [vx, vz] of [[0, 0], [30, 0], [-21, 21], [0, -45]]) {
+    const at = { x: x!, z: z!, velocityX: vx!, velocityZ: vz! };
+    const selected = new Map(selectVisualCells(cells, at, minimal, new Map(), new Set()).map(c => [c.id, c]));
+    assert.ok(selected.size <= 20);
+    assert.deepEqual(missingVisualCoverage(cells, at.x, at.z, 12, empty, selected), [], `corner ${x},${z} moving ${vx},${vz}`);
+  }
+});

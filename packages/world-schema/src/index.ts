@@ -6,3 +6,4 @@ export * from './roads.ts';
 export * from './packed-roads.ts';
 export * from './validate.ts';
 export * from './payload.ts';
+export * from './ktx2-mips.ts';

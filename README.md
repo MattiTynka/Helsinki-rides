@@ -130,7 +130,9 @@ cannot silently move to another address.
 Click to start. WASD run, hold Alt to walk, Shift sprint, F enter/exit, mouse aim, left button fire, right button aim, R reload,
 G holster/surrender, H horn, Space jump (quick double Space for a super jump; jump at a wall while moving toward it to grab the ledge and climb up), Space handbrake in a car,
 hold X to recover a stuck car. The drop-in list (top left) teleports to any address or
-landmark. URL options: `?preset=low`, `?lighting=unlit`, `?seed=N`. A compiled review
+landmark. URL options: `?preset=low`, `?lighting=unlit`, `?seed=N`, `?dynres=0` (no automatic resolution or
+detail lowering). Weak GPUs start on Low and can drop to a Minimal detail tier; the [weak-GPU performance
+note](docs/performance-weak-gpu-2026-10-23.md) lists the graphics options and how to measure them. A compiled review
 build additionally supports `?review=1` (no HUD overlay, command tracing and mouse
 without pointer lock). The ordinary production build never exposes the review API,
 including when `?review=1` is supplied.

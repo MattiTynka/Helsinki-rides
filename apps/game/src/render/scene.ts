@@ -2,8 +2,11 @@
 // material swap: `lit` keeps the baked GLB materials under a sun + sky light, `unlit` renders facades with their
 // texture colour only. In `lit`, materials marked `bakedLighting`
 // (facade photos, which already carry the flight's light) take most of their colour as emissive and only a share
-// from the lights, so walls the flight saw in shade are not darkened a second time (decision 0003). Instanced scenery
-// (the register trees, decision 0006) uses cell-owned buffers, per-instance culling and low-preset foliage LOD.
+// from the lights, so walls the flight saw in shade are not darkened a second time (decision 0003). The tier's
+// material class picks flattened PBR or Lambert shading for those lit materials (city-materials.ts). Instanced scenery
+// (the register trees, decision 0006) uses cell-owned buffers, per-instance culling and distance-scaled foliage LOD.
+// A detail-tier change (`applyTier`) rebuilds resident scenery at once; resident city cells keep the material class
+// they were loaded with until they are evicted, because the class is a load-time rule.
 import * as THREE from 'three';
 import { cellId, cellIndexFor, type CellDescriptor, type SceneryDocument, type SceneryInstance, type WorldManifest } from '@helsinki/world-schema';
 import type { GlbLoader } from '../world/loader.ts';
@@ -14,6 +17,8 @@ import { SceneryInstanceCuller } from './scenery-culling.ts';
 import { partitionCoarseCell } from './coarse-batching.ts';
 import { createFoliageLods, type FoliageLods, type SceneryLodLevel } from './scenery-lod.ts';
 import { AdaptiveResolution, drawingPixelRatio, type ResolutionOptions } from './frame-pacing.ts';
+import { adaptCityMaterial } from './city-materials.ts';
+import type { MaterialClass, TierParameters } from './quality-tiers.ts';
 
 export interface CellView {
   readonly id: string;
@@ -27,8 +32,6 @@ export interface CellView {
 
 /** Sun matched to the light baked into the facade photos (decision 0003): azimuth from north, clockwise, and elevation. */
 const SUN_AZIMUTH_DEG = 127, SUN_ELEVATION_DEG = 38;
-/** Baked-light facades: emissive share of the texture colour, and the diffuse share left to the sun and sky. */
-const BAKED_EMISSIVE = 0.72, BAKED_DIFFUSE = 0.45;
 
 export class CityScene {
   readonly scene = new THREE.Scene();
@@ -40,7 +43,8 @@ export class CityScene {
   readonly fallbackCells = new Map<string, CellView>();
   private readonly sceneryDefinitions = new Map<string, SceneryInstance[]>();
   private readonly sceneryCellViews = new Map<string, THREE.Group>();
-  private readonly sceneryMaterials = new Map<THREE.Material, THREE.Material>();
+  /** Adapted copies of asset-library scenery materials, one per material class; the sources stay untouched. */
+  private readonly sceneryMaterials = new Map<THREE.Material, Partial<Record<MaterialClass, THREE.Material>>>();
   private sceneryFoliageLods = new Map<THREE.BufferGeometry, FoliageLods | null>();
   private readonly sceneryRoot = new THREE.Group();
   private sceneryCulling: { meshes: Map<THREE.InstancedMesh, SceneryInstanceCuller>; frustum: THREE.Frustum; projection: THREE.Matrix4 } | null = null;
@@ -48,14 +52,24 @@ export class CityScene {
   private sceneryStreamed = false;
   lighting: Lighting;
   readonly preset: Preset;
+  /** Shading of lit city cells and scenery built from now on (the active tier's class). */
+  materialClass: MaterialClass;
+  /** Non-tree scenery batches per 32 m block on the low-detail tiers, per cell on Standard. */
+  private spatialSceneryBatches: boolean;
+  /** The active tier's foliage LOD distance scale. */
+  private foliageLodScale: number;
   private readonly uploads = new UploadQueue();
   private readonly maxPixelRatio: number;
   private readonly resolution: AdaptiveResolution;
   private readonly maxRenderPixels: number;
 
-  constructor(canvas: HTMLCanvasElement, preset: Preset, lighting: Lighting, pixelRatioCap: number, options: ResolutionOptions = {}) {
+  constructor(canvas: HTMLCanvasElement, preset: Preset, lighting: Lighting, pixelRatioCap: number,
+    options: ResolutionOptions & { readonly materialClass?: MaterialClass; readonly foliageLodScale?: number } = {}) {
     this.preset = preset;
     this.lighting = lighting;
+    this.materialClass = options.materialClass ?? 'standard';
+    this.spatialSceneryBatches = this.materialClass === 'lambert';
+    this.foliageLodScale = options.foliageLodScale ?? 1;
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: preset !== 'low', powerPreference: 'high-performance', stencil: false });
     this.maxPixelRatio = Math.min(devicePixelRatio, pixelRatioCap);
     this.resolution = new AdaptiveResolution(options);
@@ -78,14 +92,34 @@ export class CityScene {
 
   /**
    * Dynamic resolution. Frames that stay slow while their CPU part is short (a fill-rate bound GPU) lower the
-   * drawing-buffer pixel ratio in steps to 60% of the configured cap; a long run of full-rate frames raises it again.
-   * A display-limited 60 Hz frame never lowers it.
+   * drawing-buffer pixel ratio in steps down to the configured floor (`minRenderScale`: 50% of the capped ratio on
+   * desktops, 60% on touch-first hardware); a long run of full-rate frames raises it again. Frames up to one second
+   * count, and those at least twice the target interval take a larger step. A display-limited 60 Hz frame never lowers it.
    */
   adaptResolution(intervalSeconds: number, cpuMs: number): void {
     if (this.resolution.update(intervalSeconds, cpuMs)) this.resize();
   }
 
   get resolutionScale(): number { return this.resolution.scale; }
+  get resolutionAtFloor(): boolean { return this.resolution.atFloor; }
+  get resolutionFloor(): number { return this.resolution.minScale; }
+  get resolutionAtCeiling(): boolean { return this.resolution.atCeiling; }
+
+  /**
+   * A detail-tier change without a reload: fog and far plane, the material class of cells loaded from now on, and the
+   * resident scenery rebuilt with the tier's batching, material class and foliage LOD scale. The adapted scenery
+   * materials are cached per (source, class), so switching back reuses the earlier copies.
+   */
+  applyTier(params: TierParameters): void {
+    this.materialClass = params.materialClass;
+    this.spatialSceneryBatches = params.materialClass === 'lambert';
+    this.foliageLodScale = params.foliageLodScale;
+    if (this.scene.fog instanceof THREE.Fog) { this.scene.fog.near = params.fog.near; this.scene.fog.far = params.fog.far; }
+    this.camera.far = params.cameraFar;
+    this.camera.updateProjectionMatrix();
+    for (const [id, group] of [...this.sceneryCellViews]) this.removeSceneryGroup(id, group);
+    this.refreshSceneryCells();
+  }
 
   setTargetFrameRate(rate: 30 | 60): void { this.resolution.setTargetFrameRate(rate); }
 
@@ -108,7 +142,7 @@ export class CityScene {
     const adapted = new Map<THREE.Material, THREE.Material>();
     const materialFor = (material: THREE.Material): THREE.Material => {
       let result = adapted.get(material);
-      if (!result) { result = this.adaptMaterial(material); adapted.set(material, result); }
+      if (!result) { result = adaptCityMaterial(material, { lighting: this.lighting, materialClass: this.materialClass }); adapted.set(material, result); }
       return result;
     };
     group.traverse(o => {
@@ -122,6 +156,8 @@ export class CityScene {
       const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
       mesh.material = Array.isArray(mesh.material) ? mats.map(materialFor) : materialFor(mats[0]!);
     });
+    // The parsed materials belong to this cell's GLB and were never rendered; the adapted ones replace them.
+    for (const source of adapted.keys()) source.dispose();
     group.matrixAutoUpdate = false;
     group.updateMatrix();
     const view: CellView = { id: descriptor.id, group, descriptor, lod, triangles, textureBytes: textureBytesOf([group]), geometryBytes: geometryBytesOf(group) };
@@ -208,13 +244,7 @@ export class CityScene {
   private refreshSceneryCells(): void {
     if (!this.sceneryAssets) return;
     const wanted = this.sceneryStreamed ? new Set([...this.cells.keys(), ...this.fallbackCells.keys()]) : new Set(this.sceneryDefinitions.keys());
-    for (const [id, group] of this.sceneryCellViews) if (!wanted.has(id)) {
-      group.removeFromParent();
-      // Instance buffers are cell-owned; the template geometry, material and textures belong to AssetLibrary.
-      group.traverse(node => { const mesh = node as THREE.InstancedMesh; if (mesh.isInstancedMesh) { this.sceneryCulling?.meshes.get(mesh)?.dispose(); this.sceneryCulling?.meshes.delete(mesh); mesh.dispose(); } });
-      group.clear();
-      this.sceneryCellViews.delete(id);
-    }
+    for (const [id, group] of this.sceneryCellViews) if (!wanted.has(id)) this.removeSceneryGroup(id, group);
     for (const id of wanted) {
       const list = this.sceneryDefinitions.get(id);
       if (!list || this.sceneryCellViews.has(id)) continue;
@@ -224,10 +254,18 @@ export class CityScene {
       {
         const culling = this.sceneryCulling ??= { meshes: new Map(), frustum: new THREE.Frustum(), projection: new THREE.Matrix4() };
         group.updateWorldMatrix(true, true);
-        group.traverse(node => { const mesh = node as THREE.InstancedMesh; if (mesh.isInstancedMesh) culling.meshes.set(mesh, new SceneryInstanceCuller(mesh, mesh.userData['sceneryLodLevel'] as SceneryLodLevel | undefined)); });
+        group.traverse(node => { const mesh = node as THREE.InstancedMesh; if (mesh.isInstancedMesh) culling.meshes.set(mesh, new SceneryInstanceCuller(mesh, mesh.userData['sceneryLodLevel'] as SceneryLodLevel | undefined, this.foliageLodScale)); });
       }
       this.sceneryCellViews.set(id, group);
     }
+  }
+
+  private removeSceneryGroup(id: string, group: THREE.Group): void {
+    group.removeFromParent();
+    // Instance buffers are cell-owned; the template geometry, material and textures belong to AssetLibrary.
+    group.traverse(node => { const mesh = node as THREE.InstancedMesh; if (mesh.isInstancedMesh) { this.sceneryCulling?.meshes.get(mesh)?.dispose(); this.sceneryCulling?.meshes.delete(mesh); mesh.dispose(); } });
+    group.clear();
+    this.sceneryCellViews.delete(id);
   }
 
   private buildSceneryGroup(instances: readonly SceneryInstance[], assets: ReadonlyMap<string, THREE.Object3D>): THREE.Group {
@@ -236,7 +274,7 @@ export class CityScene {
     for (const i of instances) {
       // Trees use cell/model batches: exact per-instance culling avoids submitting
       // offscreen neighbours, while near/mid/far foliage avoids multiplying draws across32m batches.
-      const spatialBatch = this.preset === 'low' && i.asset !== 'scenery-trees' ? `/${Math.floor(i.position[0] / 32)},${Math.floor(i.position[2] / 32)}` : '';
+      const spatialBatch = this.spatialSceneryBatches && i.asset !== 'scenery-trees' ? `/${Math.floor(i.position[0] / 32)},${Math.floor(i.position[2] / 32)}` : '';
       const key = `${i.asset}/${i.node}${spatialBatch}`;
       const list = byNode.get(key) ?? [];
       list.push(i); byNode.set(key, list);
@@ -254,10 +292,15 @@ export class CityScene {
         if (!mesh.isMesh) return;
         const local = toNode.clone().multiply(mesh.matrixWorld);
         const source = mesh.material as THREE.Material;
-        let material = this.sceneryMaterials.get(source);
-        if (!material) { material = this.adaptMaterial(source); this.sceneryMaterials.set(source, material); }
-        // Alpha-masked leaves: smooth their cut-out edges where the renderer multisamples.
-        if (material.alphaTest > 0 && this.preset !== 'low') material.alphaToCoverage = true;
+        const adapted = this.sceneryMaterials.get(source) ?? {};
+        let material = adapted[this.materialClass];
+        if (!material) {
+          material = adaptCityMaterial(source, { lighting: this.lighting, materialClass: this.materialClass });
+          // Alpha-masked leaves: smooth their cut-out edges where the renderer multisamples.
+          if (material.alphaTest > 0 && this.preset !== 'low') material.alphaToCoverage = true;
+          adapted[this.materialClass] = material;
+          this.sceneryMaterials.set(source, adapted);
+        }
         let levels: FoliageLods | null = null;
         if (asset === 'scenery-trees' && source.name === 'tree_leaves') {
           this.sceneryFoliageLods ??= new Map();
@@ -279,29 +322,6 @@ export class CityScene {
     }
     group.matrixAutoUpdate = false;
     return group;
-  }
-
-  /** Lit: keep PBR but flatten roughness/metalness (baked-light photos mostly emissive); unlit: colour × texture only. */
-  private adaptMaterial(m: THREE.Material): THREE.Material {
-    const src = m as THREE.MeshStandardMaterial;
-    const isUnlitSource = (m as THREE.MeshBasicMaterial).isMeshBasicMaterial;
-    if (this.lighting === 'unlit' || isUnlitSource) {
-      if (isUnlitSource) { m.toneMapped = false; return m; }
-      const basic = new THREE.MeshBasicMaterial({ map: src.map ?? null, color: src.color, side: src.side, transparent: src.transparent, alphaTest: src.alphaTest, opacity: src.opacity, vertexColors: src.vertexColors });
-      basic.name = src.name;
-      basic.toneMapped = false;
-      src.dispose();
-      return basic;
-    }
-    src.roughness = 1;
-    src.metalness = 0;
-    src.envMapIntensity = 0;
-    if (src.userData['bakedLighting'] === true && src.map) {
-      src.emissiveMap = src.map;
-      src.emissive.setScalar(BAKED_EMISSIVE);
-      src.color.multiplyScalar(BAKED_DIFFUSE);
-    }
-    return src;
   }
 
   setLighting(lighting: Lighting): void {
