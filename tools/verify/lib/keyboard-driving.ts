@@ -2,6 +2,10 @@
 // visible to the player; it never changes physics, places the car or injects analog input.
 export const KEYBOARD_DRIVE_WHEELBASE = 2.665;
 export const keyboardDriveLookahead = (speed: number) => 4 + Math.max(0, speed) * .5;
+/** Travel heading away from an adjacent car; reversing swaps the body's left/right travel sides. */
+export function keyboardClearanceCourse(heading: number, direction: 1 | -1, adjacentSide: number): number {
+  return heading + (direction < 0 ? Math.PI : 0) - direction * Math.sign(adjacentSide) * .7;
+}
 export function keyboardDriveControl(input: {
   headingError: number; lookahead: number; forwardSpeed: number; steerAngle: number;
   yawRate: number; maxSpeed: number; distanceToGoal: number;
