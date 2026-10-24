@@ -178,7 +178,7 @@ export function buildReconstructedBridge(b:ReconstructedBridge,options:{coarse?:
     }
     if(s0>=b.architectureStartMetres&&s1<=b.architectureEndMetres){
       if(b.kind==='granite-three-arch')for(const t of [-.13,.13])quad(bridgeWorldPoint(b,s0,t-.04,height(s0,t,false)+.002),bridgeWorldPoint(b,s0,t+.04,height(s0,t,false)+.002),bridgeWorldPoint(b,s1,t+.04,height(s1,t,false)+.002),bridgeWorldPoint(b,s1,t-.04,height(s1,t,false)+.002),'marking','marking',[0,1,0],false);
-      if(b.kind==='two-level-composite')for(const sign of [-1,1])box(s0,s1,sign*.45-.04,sign*.45+.04,q0.roadY+.5,q0.roadY+.5,q1.roadY+.5,q1.roadY+.5,.12,'steel','railing');
+      // The upper carriageway stays unobstructed; safety rails follow its outer edges.
       if(b.kind==='concrete-girder')for(const t of [-q0.roadHalfWidth*.65,0,q0.roadHalfWidth*.65]){
         const y0=height(s0,t,false)-b.deckThickness-.8,y1=height(s1,t,false)-b.deckThickness-.8;box(s0,s1,t-.2,t+.2,y0,y0,y1,y1,.8,'concrete','soffit');
       }
