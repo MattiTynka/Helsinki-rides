@@ -17,6 +17,21 @@ export interface VehicleInput {
 
 export type DamageState = 'intact' | 'smoking' | 'burning' | 'wrecked';
 
+/** Rollover guards (decision 0024); measured in docs/vehicle-stability-plan-2026-10-24.md. */
+export const VEHICLE_STABILITY = {
+  /** A wheel hit whose surface faces more than 60° (cos 0.5) away from the wheel ray is ignored for the tick. */
+  contactCos: 0.5,
+  /** Chassis up·Y below which the car counts as past 60°: no wheel forces, inverted damping. */
+  tiltUp: 0.5,
+  /** Angular damping while past 60°; `uprightDamping` is the constructor's value. */
+  invertedDamping: 3,
+  uprightDamping: 0.5,
+  /** Past 60° and not yet on the roof (up·Y above `roofUp`), gravity tips the car roofwards as if its centre of mass
+   *  sat this many metres higher, so a near-balanced car on its side settles on its roof. */
+  sideSettle: 0.3,
+  roofUp: -0.7,
+} as const;
+
 export class Vehicle {
   readonly id: string;
   readonly def: VehicleDefinition;
@@ -40,6 +55,8 @@ export class Vehicle {
   readonly wheelSuspension: number[];
   readonly wheelContact: boolean[];
   private readonly wheelSpin: number[];
+  /** Per-wheel suspension force cap, 2.5 g. */
+  private readonly maxSuspensionForce: number;
   lightsOn = false;
   sirenOn = false;
   /** Kicked out during a windshield exit; it stays out for the rest of the session. */
@@ -89,6 +106,7 @@ export class Vehicle {
     // The raycast vehicle scales the spring by the chassis mass, so the static compression under the car's own
     // weight is g / (wheels * stiffness); the connection point is raised so the hub rests at the socket height.
     const staticCompression = 9.81 / (def.wheels.length * s.stiffness);
+    this.maxSuspensionForce = def.massKg * 9.81 * 2.5;
     def.wheels.forEach((w, i) => {
       // The raycast vehicle's rolling direction is normal × axle; with +Y up an axle of -X rolls along +Z (the
       // asset's forward), and a positive steering angle turns left.
@@ -99,7 +117,7 @@ export class Vehicle {
       this.controller.setWheelMaxSuspensionTravel(i, s.maxTravel);
       this.controller.setWheelFrictionSlip(i, def.tyres.frictionSlip);
       this.controller.setWheelSideFrictionStiffness(i, def.tyres.sideFriction);
-      this.controller.setWheelMaxSuspensionForce(i, def.massKg * 9.81 * 2.5);
+      this.controller.setWheelMaxSuspensionForce(i, this.maxSuspensionForce);
     });
     this.wheelRotation = def.wheels.map(() => 0);
     this.wheelSuspension = def.wheels.map(() => s.restLength);
@@ -143,6 +161,12 @@ export class Vehicle {
   step(world: StaticWorld, filter: (c: RAPIER.Collider) => boolean): void {
     const def = this.def;
     this.velocityBefore = this.velocity;
+    // Past 60° the car settles instead of rolling on, and its wheel rays, which then point sideways at kerb tops,
+    // stairs and walls, push nothing (decision 0024, rules B to D). Orientation alone decides, on the ground or in
+    // the air: a car past 60° in flight is damped and tipped too, while a level jump is untouched.
+    const up = this.up;
+    const tilted = up[1] < VEHICLE_STABILITY.tiltUp;
+    this.body.setAngularDamping(tilted ? VEHICLE_STABILITY.invertedDamping : VEHICLE_STABILITY.uprightDamping);
     const speed = this.forwardSpeed;
     const absSpeed = Math.abs(speed);
     // Steering: rate-limited, reduced at speed.
@@ -160,6 +184,7 @@ export class Vehicle {
     let brake = clamp(this.input.brake, 0, 1) * def.brakes.forceN;
     if (throttle < 0 && speed > 1.0) brake = Math.max(brake, def.brakes.forceN * -throttle);
     if (throttle === 0 && this.input.brake === 0 && absSpeed > 0.2) brake = Math.max(brake, def.brakes.forceN * 0.03); // rolling resistance
+    const slips: number[] = [];
     def.wheels.forEach((w, i) => {
       this.controller.setWheelSteering(i, w.steer ? this.steerAngle : 0);
       this.controller.setWheelEngineForce(i, w.drive ? engineForce / driven : 0);
@@ -168,8 +193,9 @@ export class Vehicle {
       // The raycast vehicle's brake is the maximum friction impulse per step (Bullet semantics), not a force:
       // passed as newtons it stopped the car from 22 m/s in 0.08 s and pole-vaulted it over its front wheels.
       this.controller.setWheelBrake(i, b * TICK_SECONDS);
-      if (this.input.handbrake && w.handbrake) this.controller.setWheelFrictionSlip(i, def.tyres.frictionSlip * 0.45);
-      else this.controller.setWheelFrictionSlip(i, def.tyres.frictionSlip);
+      slips[i] = this.input.handbrake && w.handbrake ? def.tyres.frictionSlip * 0.45 : def.tyres.frictionSlip;
+      this.controller.setWheelFrictionSlip(i, tilted ? 0 : slips[i]!);
+      this.controller.setWheelMaxSuspensionForce(i, tilted ? 0 : this.maxSuspensionForce);
     });
     // Aerodynamic drag and a little downforce. Rapier keeps user forces until they are reset, so clear first.
     this.body.resetForces(true);
@@ -180,7 +206,13 @@ export class Vehicle {
       const drag = def.aero.dragCoefficient * vlen * vlen;
       this.body.addForce({ x: -v[0] / vlen * drag, y: -v[1] / vlen * drag - def.aero.downforce * vlen * vlen, z: -v[2] / vlen * drag }, true);
     }
-    this.controller.updateVehicle(TICK_SECONDS, undefined, groups(GROUP.vehicle, GROUP.static), filter);
+    if (tilted && up[1] > VEHICLE_STABILITY.roofUp) {
+      // Rule D: torque = sideSettle × m g × (up × -Y), which turns the up axis towards -Y and vanishes on the roof.
+      const k = VEHICLE_STABILITY.sideSettle * def.massKg * 9.81;
+      this.body.addTorque({ x: k * up[2], y: 0, z: -k * up[0] }, true);
+    }
+    if (tilted) this.controller.updateVehicle(TICK_SECONDS, undefined, groups(GROUP.vehicle, GROUP.static), filter);
+    else this.updateWheels(filter, slips);
     def.wheels.forEach((_w, i) => {
       this.wheelContact[i] = this.controller.wheelIsInContact(i) ?? false;
       this.wheelSuspension[i] = this.controller.wheelSuspensionLength(i) ?? def.suspension.restLength;
@@ -200,6 +232,39 @@ export class Vehicle {
       if (this.damage === 'burning' && this.burnTicks > def.damage.explodeAfterSeconds * 60) { this.health = 0; this.damage = 'wrecked'; this.exploded = true; }
     }
     void world;
+  }
+
+  /**
+   * Controller update with the wheel-contact filter (decision 0024, rule A). The controller divides the spring by the
+   * hit's normal·ray (clipped at 0.1) and lets the tyre grip with that uncapped spring, so a wheel ray on a kerb riser
+   * or a grazing landing kicked the chassis by several rad/s in one tick. After the update, a hit on a surface facing
+   * more than 60° away from the ray is ignored (no spring, no grip) and a wheel whose spring exceeds the cap grips
+   * only as hard as the capped load; if any wheel was marked, the chassis velocities are restored and the update runs
+   * once more with those overrides. At most two updates per tick; the rerun sees the same state, so it is deterministic.
+   */
+  private updateWheels(filter: (c: RAPIER.Collider) => boolean, slips: readonly number[]): void {
+    const c = this.controller, filterGroups = groups(GROUP.vehicle, GROUP.static);
+    const linvel = this.body.linvel(), angvel = this.body.angvel();
+    c.updateVehicle(TICK_SECONDS, undefined, filterGroups, filter);
+    const down = rotate(this.rotation, [0, -1, 0]);
+    const marked: number[] = [];
+    this.def.wheels.forEach((_w, i) => {
+      if (!c.wheelIsInContact(i)) return;
+      const n = c.wheelContactNormal(i), force = c.wheelSuspensionForce(i) ?? 0;
+      if (n && -(n.x * down[0] + n.y * down[1] + n.z * down[2]) < VEHICLE_STABILITY.contactCos) {
+        c.setWheelMaxSuspensionForce(i, 0);
+        c.setWheelFrictionSlip(i, 0);
+        marked.push(i);
+      } else if (force > this.maxSuspensionForce) {
+        c.setWheelFrictionSlip(i, slips[i]! * this.maxSuspensionForce / force);
+        marked.push(i);
+      }
+    });
+    if (marked.length === 0) return;
+    this.body.setLinvel(linvel, true);
+    this.body.setAngvel(angvel, true);
+    c.updateVehicle(TICK_SECONDS, undefined, filterGroups, filter);
+    for (const i of marked) c.setWheelMaxSuspensionForce(i, this.maxSuspensionForce);
   }
 
   applyDamage(amount: number): void {

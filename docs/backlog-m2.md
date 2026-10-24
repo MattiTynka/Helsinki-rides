@@ -52,6 +52,15 @@ Every item names its fixture, acceptance and evidence (plan rule 18.4).
    fix, drafted and reverted unverified on 2026-10-16: after `updateVehicle`, if a wheel's contact normal y is below
    0.6, restore the chassis velocities and rerun the update with that wheel's max suspension force and friction
    slip at 0 for the tick. Acceptance adds a straight 21 m/s run along each pilot kerb line with no roll above 10°.
+   On 2026-10-24 [decision 0024](decisions/0024-car-rollover-guards.md) fixed that root cause in `Vehicle.step`, for
+   the player's, patrol and parked cars alike. A wheel hit on a surface facing more than 60° away from the wheel ray
+   is now ignored for the tick, and tyre grip follows the capped suspension load. A car past 60° gets no wheel
+   forces, an angular damping of 3 s⁻¹ and, until it is on its roof, a torque that tips it off its side, so it
+   settles on its roof instead of rolling on. This addresses the wheel-ray kerb kicks and the inverted roll-on. On
+   the test fixture, every 21 m/s run into or along a 12 cm kerb (three cars, 2–4° drift and a 3 cm wobble) stays
+   within 8.2° with kicks of at most 0.22 rad/s; before, 5 of the 12 runs ended on the roof. Still open for this
+   item's acceptance: the ten-seed pursuit probe and the straight runs along the pilot kerb lines, which are recorded
+   by the release run. Obstacle avoidance for parked cars is unchanged.
 9. **Playtest kit for the gate.** Review build with seed and preset in the URL, a one-page feedback form (fair and
    tense on a 5-point scale plus free text), five external testers, sessions kept as input recordings
    (`run-NN-recording.json`) so they replay.
