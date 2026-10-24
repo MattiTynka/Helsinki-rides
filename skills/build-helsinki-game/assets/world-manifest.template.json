@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "buildId": "REPLACE_WITH_ACTUAL_BUILD_ID",
+  "coordinates": {
+    "crs": "EPSG:3879",
+    "heightDatum": "N2000",
+    "units": "meter",
+    "runtimeAxes": "X-east,Y-up,Z-south",
+    "originProjected": [
+      null,
+      null,
+      null
+    ]
+  },
+  "tileSizeMeters": 128,
+  "sources": [
+    {
+      "id": "helsinki-mesh",
+      "url": "REPLACE_WITH_EXACT_INPUT_URL",
+      "license": "REPLACE_WITH_DATASET_LICENSE",
+      "attribution": "REPLACE_WITH_REQUIRED_CREDIT_AND_MODIFICATIONS",
+      "retrievedAt": null,
+      "sha256": null
+    }
+  ],
+  "tiles": [
+    {
+      "id": "0_0",
+      "boundsXZ": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "sourceIds": [
+        "helsinki-mesh"
+      ],
+      "visual": [
+        {
+          "path": "tiles/0_0/visual-lod0.glb",
+          "bytes": null,
+          "sha256": null,
+          "lod": 0,
+          "maxDistanceMeters": 180
+        }
+      ],
+      "collision": {
+        "path": "tiles/0_0/collision.bin",
+        "bytes": null,
+        "sha256": null
+      },
+      "nav": {
+        "path": "tiles/0_0/nav.bin",
+        "bytes": null,
+        "sha256": null
+      },
+      "roads": {
+        "path": "tiles/0_0/roads.json",
+        "bytes": null,
+        "sha256": null
+      }
+    }
+  ]
+}

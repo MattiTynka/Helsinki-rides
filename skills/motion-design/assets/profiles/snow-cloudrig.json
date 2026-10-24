@@ -1,0 +1,406 @@
+{
+ "name": "snow-cloudrig",
+ "notes": "Snow/Finn (CloudRig, B-Bone limbs, masked body under clothes). Verified end-to-end on the Snow character.",
+ "source": {
+  "rig": "RIG-Snow",
+  "extra_rig_objects": [
+   "META-Snow"
+  ],
+  "exclude_meshes": [
+   "_helper$",
+   "_deformer$"
+  ],
+  "mesh_rename": [
+   "GEO-snow",
+   "FINN"
+  ],
+  "texture_dirs": [
+   "textures",
+   "../textures"
+  ]
+ },
+ "game_rig": "FINN_game_rig",
+ "facing": "-Y",
+ "bones": {
+  "DEF-Hips": "root",
+  "DEF-Hip_Center": "DEF-Hips",
+  "DEF-Spine": "DEF-Hips",
+  "DEF-RibCage": "DEF-Spine",
+  "DEF-Chest": "DEF-RibCage",
+  "DEF-Neck": "DEF-Chest",
+  "DEF-Head": "DEF-Neck",
+  "DEF-Ponytail1": "DEF-Head",
+  "DEF-Shoulder.L": "DEF-Chest",
+  "DEF-UpperArm_1.L": "DEF-Shoulder.L",
+  "DEF-UpperArm_2.L": "DEF-UpperArm_1.L",
+  "DEF-Forearm_1.L": "DEF-UpperArm_2.L",
+  "DEF-Forearm_2.L": "DEF-Forearm_1.L",
+  "DEF-Wrist.L": "DEF-Forearm_2.L",
+  "DEF-Finger_Thumb1.L": "DEF-Wrist.L",
+  "DEF-Finger_Thumb2.L": "DEF-Finger_Thumb1.L",
+  "DEF-Finger_Thumb3.L": "DEF-Finger_Thumb2.L",
+  "DEF-Finger_Index_Carpal.L": "DEF-Wrist.L",
+  "DEF-Finger_Index1.L": "DEF-Finger_Index_Carpal.L",
+  "DEF-Finger_Index2.L": "DEF-Finger_Index1.L",
+  "DEF-Finger_Index3.L": "DEF-Finger_Index2.L",
+  "DEF-Finger_Middle_Carpal.L": "DEF-Wrist.L",
+  "DEF-Finger_Middle1.L": "DEF-Finger_Middle_Carpal.L",
+  "DEF-Finger_Middle2.L": "DEF-Finger_Middle1.L",
+  "DEF-Finger_Middle3.L": "DEF-Finger_Middle2.L",
+  "DEF-Finger_Ring_Carpal.L": "DEF-Wrist.L",
+  "DEF-Finger_Ring1.L": "DEF-Finger_Ring_Carpal.L",
+  "DEF-Finger_Ring2.L": "DEF-Finger_Ring1.L",
+  "DEF-Finger_Ring3.L": "DEF-Finger_Ring2.L",
+  "DEF-Finger_Pinky_Carpal.L": "DEF-Wrist.L",
+  "DEF-Finger_Pinky1.L": "DEF-Finger_Pinky_Carpal.L",
+  "DEF-Finger_Pinky2.L": "DEF-Finger_Pinky1.L",
+  "DEF-Finger_Pinky3.L": "DEF-Finger_Pinky2.L",
+  "DEF-Thigh_1.L": "DEF-Hips",
+  "DEF-Thigh_2.L": "DEF-Thigh_1.L",
+  "DEF-Knee_1.L": "DEF-Thigh_2.L",
+  "DEF-Knee_2.L": "DEF-Knee_1.L",
+  "DEF-Foot.L": "DEF-Knee_2.L",
+  "DEF-Toes.L": "DEF-Foot.L",
+  "DEF-Shoulder.R": "DEF-Chest",
+  "DEF-UpperArm_1.R": "DEF-Shoulder.R",
+  "DEF-UpperArm_2.R": "DEF-UpperArm_1.R",
+  "DEF-Forearm_1.R": "DEF-UpperArm_2.R",
+  "DEF-Forearm_2.R": "DEF-Forearm_1.R",
+  "DEF-Wrist.R": "DEF-Forearm_2.R",
+  "DEF-Finger_Thumb1.R": "DEF-Wrist.R",
+  "DEF-Finger_Thumb2.R": "DEF-Finger_Thumb1.R",
+  "DEF-Finger_Thumb3.R": "DEF-Finger_Thumb2.R",
+  "DEF-Finger_Index_Carpal.R": "DEF-Wrist.R",
+  "DEF-Finger_Index1.R": "DEF-Finger_Index_Carpal.R",
+  "DEF-Finger_Index2.R": "DEF-Finger_Index1.R",
+  "DEF-Finger_Index3.R": "DEF-Finger_Index2.R",
+  "DEF-Finger_Middle_Carpal.R": "DEF-Wrist.R",
+  "DEF-Finger_Middle1.R": "DEF-Finger_Middle_Carpal.R",
+  "DEF-Finger_Middle2.R": "DEF-Finger_Middle1.R",
+  "DEF-Finger_Middle3.R": "DEF-Finger_Middle2.R",
+  "DEF-Finger_Ring_Carpal.R": "DEF-Wrist.R",
+  "DEF-Finger_Ring1.R": "DEF-Finger_Ring_Carpal.R",
+  "DEF-Finger_Ring2.R": "DEF-Finger_Ring1.R",
+  "DEF-Finger_Ring3.R": "DEF-Finger_Ring2.R",
+  "DEF-Finger_Pinky_Carpal.R": "DEF-Wrist.R",
+  "DEF-Finger_Pinky1.R": "DEF-Finger_Pinky_Carpal.R",
+  "DEF-Finger_Pinky2.R": "DEF-Finger_Pinky1.R",
+  "DEF-Finger_Pinky3.R": "DEF-Finger_Pinky2.R",
+  "DEF-Thigh_1.R": "DEF-Hips",
+  "DEF-Thigh_2.R": "DEF-Thigh_1.R",
+  "DEF-Knee_1.R": "DEF-Thigh_2.R",
+  "DEF-Knee_2.R": "DEF-Knee_1.R",
+  "DEF-Foot.R": "DEF-Knee_2.R",
+  "DEF-Toes.R": "DEF-Foot.R"
+ },
+ "merge_groups": [
+  {
+   "pattern": "^DEF-Ponytail",
+   "into": "DEF-Ponytail1"
+  },
+  {
+   "pattern": "^DEF-.*(Cheek|Chin|Ear|Eye|Brow|Lid|Forehead|Jaw|Lip|Nose|Nostril|Temple|Teeth|Tongue|Mouth)",
+   "into": "DEF-Head"
+  }
+ ],
+ "cloth": {
+  "body": "GEO-snow-body",
+  "meshes": [
+   "GEO-snow-shirt",
+   "GEO-snow-pants"
+  ],
+  "near": 0.025,
+  "far": 0.06
+ },
+ "retarget": {
+  "hips": "DEF-Hips",
+  "head": "DEF-Head",
+  "neck": "DEF-Neck",
+  "axial": [
+   "DEF-Hips",
+   "DEF-Spine",
+   "DEF-RibCage",
+   "DEF-Chest",
+   "DEF-Neck",
+   "DEF-Head"
+  ],
+  "map": {
+   "DEF-Hips": [
+    "Hips",
+    null
+   ],
+   "DEF-Spine": [
+    "Spine1",
+    "Spine2"
+   ],
+   "DEF-RibCage": [
+    "Spine2",
+    "Chest"
+   ],
+   "DEF-Chest": [
+    "Chest",
+    "Neck1"
+   ],
+   "DEF-Neck": [
+    "Neck1",
+    "Head"
+   ],
+   "DEF-Head": [
+    "Head",
+    "HeadEnd"
+   ],
+   "DEF-Shoulder.L": [
+    "LeftShoulder",
+    "LeftArm"
+   ],
+   "DEF-UpperArm_1.L": [
+    "LeftArm",
+    "LeftForeArm"
+   ],
+   "DEF-Forearm_1.L": [
+    "LeftForeArm",
+    "LeftHand"
+   ],
+   "DEF-Wrist.L": [
+    "LeftHand",
+    "LeftHandMiddle2"
+   ],
+   "DEF-Thigh_1.L": [
+    "LeftLeg",
+    "LeftShin"
+   ],
+   "DEF-Knee_1.L": [
+    "LeftShin",
+    "LeftFoot"
+   ],
+   "DEF-Foot.L": [
+    "LeftFoot",
+    "LeftToeBase"
+   ],
+   "DEF-Toes.L": [
+    "LeftToeBase",
+    "LeftToeEnd"
+   ],
+   "DEF-Finger_Thumb1.L": [
+    "LeftHandThumb1",
+    "LeftHandThumb2"
+   ],
+   "DEF-Finger_Thumb2.L": [
+    "LeftHandThumb2",
+    "LeftHandThumb3"
+   ],
+   "DEF-Finger_Thumb3.L": [
+    "LeftHandThumb3",
+    "LeftHandThumbEnd"
+   ],
+   "DEF-Finger_Index_Carpal.L": [
+    "LeftHandIndex1",
+    "LeftHandIndex2"
+   ],
+   "DEF-Finger_Index1.L": [
+    "LeftHandIndex2",
+    "LeftHandIndex3"
+   ],
+   "DEF-Finger_Index2.L": [
+    "LeftHandIndex3",
+    "LeftHandIndex4"
+   ],
+   "DEF-Finger_Index3.L": [
+    "LeftHandIndex4",
+    "LeftHandIndexEnd"
+   ],
+   "DEF-Finger_Middle_Carpal.L": [
+    "LeftHandMiddle1",
+    "LeftHandMiddle2"
+   ],
+   "DEF-Finger_Middle1.L": [
+    "LeftHandMiddle2",
+    "LeftHandMiddle3"
+   ],
+   "DEF-Finger_Middle2.L": [
+    "LeftHandMiddle3",
+    "LeftHandMiddle4"
+   ],
+   "DEF-Finger_Middle3.L": [
+    "LeftHandMiddle4",
+    "LeftHandMiddleEnd"
+   ],
+   "DEF-Finger_Ring_Carpal.L": [
+    "LeftHandRing1",
+    "LeftHandRing2"
+   ],
+   "DEF-Finger_Ring1.L": [
+    "LeftHandRing2",
+    "LeftHandRing3"
+   ],
+   "DEF-Finger_Ring2.L": [
+    "LeftHandRing3",
+    "LeftHandRing4"
+   ],
+   "DEF-Finger_Ring3.L": [
+    "LeftHandRing4",
+    "LeftHandRingEnd"
+   ],
+   "DEF-Finger_Pinky_Carpal.L": [
+    "LeftHandPinky1",
+    "LeftHandPinky2"
+   ],
+   "DEF-Finger_Pinky1.L": [
+    "LeftHandPinky2",
+    "LeftHandPinky3"
+   ],
+   "DEF-Finger_Pinky2.L": [
+    "LeftHandPinky3",
+    "LeftHandPinky4"
+   ],
+   "DEF-Finger_Pinky3.L": [
+    "LeftHandPinky4",
+    "LeftHandPinkyEnd"
+   ],
+   "DEF-Shoulder.R": [
+    "RightShoulder",
+    "RightArm"
+   ],
+   "DEF-UpperArm_1.R": [
+    "RightArm",
+    "RightForeArm"
+   ],
+   "DEF-Forearm_1.R": [
+    "RightForeArm",
+    "RightHand"
+   ],
+   "DEF-Wrist.R": [
+    "RightHand",
+    "RightHandMiddle2"
+   ],
+   "DEF-Thigh_1.R": [
+    "RightLeg",
+    "RightShin"
+   ],
+   "DEF-Knee_1.R": [
+    "RightShin",
+    "RightFoot"
+   ],
+   "DEF-Foot.R": [
+    "RightFoot",
+    "RightToeBase"
+   ],
+   "DEF-Toes.R": [
+    "RightToeBase",
+    "RightToeEnd"
+   ],
+   "DEF-Finger_Thumb1.R": [
+    "RightHandThumb1",
+    "RightHandThumb2"
+   ],
+   "DEF-Finger_Thumb2.R": [
+    "RightHandThumb2",
+    "RightHandThumb3"
+   ],
+   "DEF-Finger_Thumb3.R": [
+    "RightHandThumb3",
+    "RightHandThumbEnd"
+   ],
+   "DEF-Finger_Index_Carpal.R": [
+    "RightHandIndex1",
+    "RightHandIndex2"
+   ],
+   "DEF-Finger_Index1.R": [
+    "RightHandIndex2",
+    "RightHandIndex3"
+   ],
+   "DEF-Finger_Index2.R": [
+    "RightHandIndex3",
+    "RightHandIndex4"
+   ],
+   "DEF-Finger_Index3.R": [
+    "RightHandIndex4",
+    "RightHandIndexEnd"
+   ],
+   "DEF-Finger_Middle_Carpal.R": [
+    "RightHandMiddle1",
+    "RightHandMiddle2"
+   ],
+   "DEF-Finger_Middle1.R": [
+    "RightHandMiddle2",
+    "RightHandMiddle3"
+   ],
+   "DEF-Finger_Middle2.R": [
+    "RightHandMiddle3",
+    "RightHandMiddle4"
+   ],
+   "DEF-Finger_Middle3.R": [
+    "RightHandMiddle4",
+    "RightHandMiddleEnd"
+   ],
+   "DEF-Finger_Ring_Carpal.R": [
+    "RightHandRing1",
+    "RightHandRing2"
+   ],
+   "DEF-Finger_Ring1.R": [
+    "RightHandRing2",
+    "RightHandRing3"
+   ],
+   "DEF-Finger_Ring2.R": [
+    "RightHandRing3",
+    "RightHandRing4"
+   ],
+   "DEF-Finger_Ring3.R": [
+    "RightHandRing4",
+    "RightHandRingEnd"
+   ],
+   "DEF-Finger_Pinky_Carpal.R": [
+    "RightHandPinky1",
+    "RightHandPinky2"
+   ],
+   "DEF-Finger_Pinky1.R": [
+    "RightHandPinky2",
+    "RightHandPinky3"
+   ],
+   "DEF-Finger_Pinky2.R": [
+    "RightHandPinky3",
+    "RightHandPinky4"
+   ],
+   "DEF-Finger_Pinky3.R": [
+    "RightHandPinky4",
+    "RightHandPinkyEnd"
+   ]
+  },
+  "legs": {
+   "L": {
+    "thigh": "DEF-Thigh_1.L",
+    "knee": "DEF-Knee_1.L",
+    "foot": "DEF-Foot.L"
+   },
+   "R": {
+    "thigh": "DEF-Thigh_1.R",
+    "knee": "DEF-Knee_1.R",
+    "foot": "DEF-Foot.R"
+   }
+  },
+  "twist": [
+   {
+    "bone": "DEF-Forearm_2.L",
+    "driver": "DEF-Wrist.L",
+    "fraction": 0.5
+   },
+   {
+    "bone": "DEF-Forearm_2.R",
+    "driver": "DEF-Wrist.R",
+    "fraction": 0.5
+   }
+  ]
+ },
+ "arms": {
+  "L": {
+   "upper": "DEF-UpperArm_1.L",
+   "lower": "DEF-Forearm_1.L",
+   "hand": "DEF-Wrist.L"
+  },
+  "R": {
+   "upper": "DEF-UpperArm_1.R",
+   "lower": "DEF-Forearm_1.R",
+   "hand": "DEF-Wrist.R"
+  }
+ }
+}

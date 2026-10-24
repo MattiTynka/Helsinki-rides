@@ -26,7 +26,9 @@ ROOT_FILES = {
     'CONTRIBUTING.md', 'SECURITY.md', 'package.json', 'pnpm-lock.yaml',
     'pnpm-workspace.yaml', 'tsconfig.base.json',
 }
-SOURCE_DIRS = {'apps', 'packages', 'tools', 'content', 'docs', '.github'}
+SOURCE_DIRS = {'apps', 'packages', 'tools', 'content', 'docs', '.github', 'skills'}
+PUBLIC_SKILLS = {'build-helsinki-game', 'motion-design', 'texture-mapping-3d'}
+SKILL_SOURCE_DIRS = {'agents', 'assets', 'references', 'scripts', 'tests'}
 OMIT_DIRS = {'node_modules', 'dist', 'dist-pages', '__pycache__', '.git'}
 TEXT_SUFFIXES = {'.ts', '.mjs', '.js', '.py', '.json', '.geojson', '.md', '.yaml', '.yml', '.html', '.css', '.svg'}
 COMPRESSED_JSON = {
@@ -51,6 +53,7 @@ IMAGES = {
 DECODERS = {'apps/game/public/basis/basis_transcoder.js', 'apps/game/public/basis/basis_transcoder.wasm'}
 PUBLIC_HANDLE = 'MattiTynka'
 PUBLIC_EMAIL = PUBLIC_HANDLE + '@users.noreply.github.com'
+PUBLIC_AUTHOR_NAMES = {PUBLIC_HANDLE, 'Matti Tynka'}
 OMIT_FILES = {f'content/assets/facades/estates/DSC{number}.jpg' for number in ('05064', '05070', '05072')}
 PATTERNS = {
     'personal-home-path': re.compile(r'(?:[A-Za-z]:[\\/]+(?:Users|Documents and Settings)[\\/]+|/(?:Users|home)/)[^\s"<>]+', re.I),
@@ -71,6 +74,14 @@ def selected(relative: str) -> bool:
         return False
     if p.name.startswith('.env'):
         return False
+    if parts[0] == 'skills':
+        if relative == 'skills/README.md':
+            return True
+        if len(parts) < 3 or parts[1] not in PUBLIC_SKILLS:
+            return False
+        if len(parts) == 3:
+            return p.name in {'SKILL.md', 'LICENSE'}
+        return parts[2] in SKILL_SOURCE_DIRS and p.suffix in TEXT_SUFFIXES | {'.sh'}
     return relative in ROOT_FILES or relative in IMAGES or relative in DECODERS or relative in COMPRESSED_JSON or (
         parts[0] in SOURCE_DIRS and p.suffix in TEXT_SUFFIXES)
 
@@ -179,9 +190,10 @@ def audit(root: Path, include_git: bool = False, images: bool = False) -> dict:
         seen = set()
         for commit in commit_ids:
             metadata = git_output(root, 'show', '-s', '--format=%an%n%ae%n%cn%n%ce%n%B', commit).decode('utf8')
-            # Only the nominated public GitHub handle and its no-reply address are permitted.
+            # Keep legacy handle attribution and the approved display name on the same public email.
             rows = metadata.splitlines()
-            if rows[:4] != [PUBLIC_HANDLE, PUBLIC_EMAIL] * 2:
+            if (len(rows) < 4 or rows[0] not in PUBLIC_AUTHOR_NAMES or rows[1] != PUBLIC_EMAIL
+                    or rows[2] not in PUBLIC_AUTHOR_NAMES or rows[3] != PUBLIC_EMAIL):
                 findings.append({'file': 'git-metadata', 'commit': commit, 'rule': 'unreviewed-author-identity'})
             findings.extend(scan_text(f'commit/{commit}', '\n'.join(rows[4:])))
             for entry in git_output(root, 'ls-tree', '-r', '-z', commit).split(b'\0'):

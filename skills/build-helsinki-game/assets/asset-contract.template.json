@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT",
+  "assetId": null,
+  "kind": "vehicle-or-character-or-prop",
+  "source": {
+    "unit": "meter",
+    "upAxis": "+Z",
+    "forwardAxis": "-Y"
+  },
+  "runtime": {
+    "format": "glb",
+    "unit": "meter",
+    "upAxis": "+Y",
+    "forwardAxis": "+Z",
+    "rootScale": [
+      1,
+      1,
+      1
+    ],
+    "pivot": null
+  },
+  "requiredNodes": [],
+  "sockets": [],
+  "clips": [],
+  "rootMotionPolicy": "controller-driven in-place unless explicitly changed",
+  "collisionPolicy": "separate simplified proxies",
+  "budgets": {
+    "triangles": null,
+    "materials": null,
+    "deformJoints": null,
+    "maxWeightsPerVertex": 4,
+    "textureResidencyMiB": null,
+    "fileBytes": null
+  },
+  "provenance": null,
+  "acceptedBuildId": null,
+  "notes": [
+    "Standalone asset axes differ from city ENU axes; verify actual export.",
+    "Populate sockets with names and local position/orientation.",
+    "Clip records need name, duration, fps, loop, rootMotion, movementSpeed and contact/event phases.",
+    "Draft targets and placeholders are not measurements."
+  ]
+}

@@ -1,0 +1,14 @@
+interface:
+  display_name: Build Helsinki Game
+  short_description: Build a browser Helsinki game with Blender assets
+  default_prompt: Use $build-helsinki-game to implement the next verified milestone
+    of my Helsinki browser game.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

@@ -14,6 +14,53 @@ SPEC.loader.exec_module(release)
 
 
 class SourceReleaseTest(unittest.TestCase):
+    def test_public_skills_are_scanned_without_local_runs(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            allowed = ['skills/README.md', 'skills/build-helsinki-game/LICENSE',
+                       'skills/build-helsinki-game/SKILL.md',
+                       'skills/motion-design/tests/run_e2e.sh',
+                       'skills/texture-mapping-3d/scripts/tm3d.py']
+            excluded = ['skills/unreviewed/SKILL.md', 'skills/motion-design/.env',
+                        'skills/motion-design/runs/private.json',
+                        'skills/motion-design/assets/character.blend',
+                        'skills/motion-design/scripts/__pycache__/cached.pyc',
+                        'skills/motion-design/scripts/debug.log',
+                        'skills/motion-design/node_modules/package/index.js']
+            for name in allowed + excluded:
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text('portable fixture\n', encoding='utf8')
+            self.assertEqual(release.source_files(root), sorted(allowed))
+            self.assertEqual(release.audit(root)['status'], 'PASS')
+            script = root / 'skills/motion-design/tests/run_e2e.sh'
+            script.write_text('/' + 'home/operator/private\n', encoding='utf8')
+            result = release.audit(root)
+            self.assertEqual(result['status'], 'FAIL')
+            self.assertEqual(result['findings'][0]['rule'], 'personal-home-path')
+
+    def test_git_history_accepts_public_display_name_and_rejects_other_identity(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            environment = dict(os.environ)
+            environment.update(GIT_AUTHOR_NAME='Matti Tynka', GIT_COMMITTER_NAME='Matti Tynka',
+                               GIT_AUTHOR_EMAIL=release.PUBLIC_EMAIL, GIT_COMMITTER_EMAIL=release.PUBLIC_EMAIL)
+
+            def git(*args):
+                subprocess.run(['git', '-c', 'core.excludesFile=' + str(root / '.git/info/exclude'),
+                                '-c', 'commit.gpgsign=false', '-C', str(root), *args],
+                               check=True, capture_output=True, env=environment)
+
+            git('init', '-b', 'main')
+            (root / 'README.md').write_text('portable source\n', encoding='utf8')
+            git('add', 'README.md')
+            git('commit', '-m', 'Public display name')
+            self.assertEqual(release.audit(root, include_git=True)['status'], 'PASS')
+            environment['GIT_AUTHOR_NAME'] = 'Unapproved contributor'
+            git('commit', '--allow-empty', '-m', 'Synthetic attribution regression')
+            findings = release.audit(root, include_git=True)['findings']
+            self.assertTrue(any(f['rule'] == 'unreviewed-author-identity' for f in findings))
+
     def test_compressed_public_source_is_scanned_after_decoding(self):
         name = sorted(release.COMPRESSED_JSON)[0]
         text = json.dumps({'path': 'C:' + '/' + 'Users/operator/private'})
