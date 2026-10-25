@@ -11,10 +11,10 @@ synthetic Mixamo-style draft produced by `tests/run_e2e.sh` (everything inferred
     "rig": "RIG-Snow",                       // armature object in the authoring file
     "extra_rig_objects": ["META-Snow"],      // objects removed with the rig (metarigs, widgets parented elsewhere)
     "exclude_meshes": ["_helper$", "_deformer$"],  // regex: bound meshes that are not visible geometry
-    "mesh_rename": ["GEO-snow", "FINN"],     // optional prefix swap for game mesh names (+ "_game")
+    "mesh_rename": ["GEO-snow", "SNOW"],     // optional prefix swap for game mesh names (+ "_game")
     "texture_dirs": ["textures", "../textures"]    // searched (relative to the .blend) for missing images
   },
-  "game_rig": "FINN_game_rig",               // armature name in game.blend / clips.blend
+  "game_rig": "SNOW_game_rig",               // armature name in game.blend / clips.blend
   "facing": "-Y",                            // character forward in Blender: -Y (Blender/Rigify/CloudRig), +Y (many FBX), ±X
   "bones": { "DEF-Hips": "root", "DEF-Spine": "DEF-Hips", "...": "..." },  // null = all deform bones, nearest deform parent
   "merge_groups": [ { "pattern": "^DEF-Ponytail", "into": "DEF-Ponytail1" },

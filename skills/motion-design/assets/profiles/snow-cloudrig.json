@@ -1,6 +1,6 @@
 {
  "name": "snow-cloudrig",
- "notes": "Snow/Finn (CloudRig, B-Bone limbs, masked body under clothes). Verified end-to-end on the Snow character.",
+ "notes": "Snow (CloudRig, B-Bone limbs, masked body under clothes). Verified end-to-end on the Snow character.",
  "source": {
   "rig": "RIG-Snow",
   "extra_rig_objects": [
@@ -12,14 +12,14 @@
   ],
   "mesh_rename": [
    "GEO-snow",
-   "FINN"
+   "SNOW"
   ],
   "texture_dirs": [
    "textures",
    "../textures"
   ]
  },
- "game_rig": "FINN_game_rig",
+ "game_rig": "SNOW_game_rig",
  "facing": "-Y",
  "bones": {
   "DEF-Hips": "root",
