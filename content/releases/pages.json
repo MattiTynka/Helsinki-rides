@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "worldRelease": "senate-20261024-bridge-centre-bars",
-  "manifestSha256": "4df0d0d8ccde9482edce39c09fd5e30e5aa4787e86f8052b5c2c9b1b751e865b",
+  "worldRelease": "senate-20261025-snow-names",
+  "manifestSha256": "a1144a5cb341749f2340fd123ffcd01390ecf4e5b8c33ab998f7fb65e9d1e03f",
   "worldBaseUrl": "https://mattitynka.github.io/Helsinki-rides/world/",
-  "archiveUrl": "https://github.com/MattiTynka/Helsinki-rides/releases/download/pages-bridge-centre-bars-20261024/pages-world.tar.gz",
-  "archiveSha256": "c3f7df4f8f203c742e1f97ced9af959c5665b3ffd7612a3262343fdf82cd8916",
-  "archiveBytes": 816268253,
-  "worldBytes": 943085454
+  "archiveUrl": "https://github.com/MattiTynka/Helsinki-rides/releases/download/pages-snow-names-20261025/pages-world.tar.gz",
+  "archiveSha256": "433f4f75d21f2f7c3d9a67b113e4c8eb456aec24efd033019a38de86a10bca89",
+  "archiveBytes": 816242042,
+  "worldBytes": 943087044
 }
