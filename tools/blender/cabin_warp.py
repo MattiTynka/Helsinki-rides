@@ -1,4 +1,4 @@
-"""Map Finn's Lumi GT car clips onto another car's cabin (used by build_finn_vehicle_poses.py --target).
+"""Map Snow's Lumi GT car clips onto another car's cabin (used by build_snow_vehicle_poses.py --target).
 
 A target spec (JSON) pairs Lumi GT landmarks with the same landmarks measured on the target car, per car-local axis
 (metres, +X driver side, +Y up, +Z forward). Keyed positions move through a continuous field; directions, angles and
@@ -8,7 +8,7 @@ timing are kept, so every clip keeps its choreography and duration and the solve
   keep their distance from the body side.
 - Z: a piecewise-linear map, rigid past the ends.
 - Y: piecewise-linear maps for the cabin and for the body side, blended by |X|, fading to no change outside the car,
-  so a standing Finn keeps his height while seat, sill, beltline and roof move.
+  so a standing Snow keeps his height while seat, sill, beltline and roof move.
 - Over the bonnet the windshield exit keeps its height above the target bonnet surface.
 
 Spec keys: x, z, yCabin, ySide ([[lumi, target], ...]); zones [cabinEnd, side, outside] (Lumi |X|);

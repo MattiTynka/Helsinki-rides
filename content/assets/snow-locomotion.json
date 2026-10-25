@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "finn-native-v1",
+  "id": "snow-native-v1",
   "phaseGroup": "left-strike",
   "upperBodyRoot": "DEF-Spine",
   "locomotion": [

@@ -27,7 +27,7 @@ import { QualityGovernor, tierRank } from './render/quality-governor.ts';
 
 /** Officer and patrol-car models load after startup; patrols begin at least 150 m from the player. */
 const DEFERRED_ASSETS = new Set(['character-rain', 'vehicle-patrol', 'vehicle-patrol-far-low', ...CIVILIAN_VARIANTS.map(variant => `character-civilian-${variant}`)]);
-/** Police this close to the player can see Finn (90 m) or be shot at (120 m): ticks wait until they have a model. */
+/** Police this close to the player can see Snow (90 m) or be shot at (120 m): ticks wait until they have a model. */
 const DEFERRED_MODEL_RANGE = 128;
 const characterAsset = (id: string): string => {
   const civilian = civilianVariant(id);
@@ -444,7 +444,7 @@ export class Game {
 
   /**
    * Whether every police car and officer near the player has its model. Their models load after startup; stepping
-   * without them would let unseen police drive into, arrest or shoot at Finn.
+   * without them would let unseen police drive into, arrest or shoot at Snow.
    */
   actorModelsReady(): boolean {
     const [px, , pz] = this.sim.playerPosition;
@@ -586,7 +586,7 @@ export class Game {
       view.update(c, characterDt, c.aiming || c.clip === 'aim' || c.clip === 'fire', null, undefined, undefined,
         { mobile: this.config.mobile, cameraPosition: this.scene.camera.position });
       if (c.aiming || c.clip === 'aim' || c.clip === 'fire' || view.isPresentingShot()) {
-        // Match the police simulation's torso target, including when Finn is above street level.
+        // Match the police simulation's torso target, including when Snow is above street level.
         view.aimAt(new THREE.Vector3(p.position[0], p.position[1] + 1.2, p.position[2]));
       }
     }
@@ -601,7 +601,7 @@ export class Game {
     // A stale presentation reference must not stop the frame loop before rendering.
     const cameraVehicle = playerVehicle ?? interactionVehicle;
     const cameraDef = cameraVehicle ? this.sim.definition(cameraVehicle.definition) : null;
-    // While Finn is posed by the car layer, frame his rendered body and the seat he is heading for or leaving.
+    // While Snow is posed by the car layer, frame his rendered body and the seat he is heading for or leaving.
     let chaseTarget: THREE.Vector3 | null = null, focus: THREE.Vector3 | null = null, groundY: number | null = null;
     if (cameraVehicle && cameraDef && p.vehicleInteraction && p.vehicleInteraction.stage !== 'approach') {
       const [x, y, z, w] = cameraVehicle.rotation;
@@ -609,7 +609,7 @@ export class Game {
       chaseTarget = new THREE.Vector3(...cameraDef.seat.driver).applyQuaternion(q).add(origin);
       chaseTarget.y -= 0.45;
       focus = this.playerView.bodyFocus();
-      // The ground Finn gets in from and out onto: under the wheels, or the roof plane of a car on its roof.
+      // The ground Snow gets in from and out onto: under the wheels, or the roof plane of a car on its roof.
       const upsideDown = new THREE.Vector3(0, 1, 0).applyQuaternion(q).y < 0;
       groundY = new THREE.Vector3(0, upsideDown ? cameraDef.collider.centre[1] + cameraDef.collider.halfExtents[1] : 0, 0).applyQuaternion(q).add(origin).y;
     }

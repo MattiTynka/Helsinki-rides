@@ -13,8 +13,8 @@ CC BY 4.0, cropped, reprojected and reconstructed. Pohjoisesplanadi 31 facade
 photograph: Marja Valtonen / Helsinki City Museum, CC BY 4.0, modified. The
 manifest supplies the individual source records and full adaptation notices.
 
-Snow and Rain base characters: Blender Studio, CC BY 4.0, modified. Native
-Finn and Poliisi Rain are supplied adaptations. The supplied native movement
+Snow and Rain base characters: Blender Studio, CC BY 4.0, modified. The native
+player Snow and Poliisi Rain are supplied adaptations. The supplied native movement
 exports record NVIDIA Kimodo provenance; the generator code's license is not
 represented as a license for its model checkpoint or motion output. The
 checkpoint revision was not supplied.
@@ -28,7 +28,7 @@ Revontuli is adapted from
 by the same author, CC BY 4.0. Author and license identities were verified
 against Sketchfab's public API on 20 October 2026. The game removes brand marks,
 lettering, number plates and source textures; modifies geometry, materials,
-wheels and cabin fit; and adds gameplay sockets and fitted Finn interaction poses.
+wheels and cabin fit; and adds gameplay sockets and fitted Snow interaction poses.
 The patrol variant adds its own paint and lamps.
 
 Helsinki Cathedral: original model by Dany Sánchez / MiniWorld3D, optimized

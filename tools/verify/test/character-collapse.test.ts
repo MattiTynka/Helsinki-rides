@@ -10,7 +10,7 @@ import type { CharacterState } from '../../../packages/sim/src/index.ts';
 
 const entry = createRequire(new URL('../../../apps/game/package.json', import.meta.url)).resolve('three');
 const THREE = await import(new URL('./three.module.js', pathToFileURL(entry)).href);
-const metadata = JSON.parse(readFileSync(new URL('../../../content/assets/finn-locomotion.json', import.meta.url), 'utf8'));
+const metadata = JSON.parse(readFileSync(new URL('../../../content/assets/snow-locomotion.json', import.meta.url), 'utf8'));
 const timing = { fallSeconds: 1.4, holdSeconds: .6, riseSeconds: 1.6 };
 const state = (changes: Partial<CharacterState> = {}): CharacterState => ({ id: 'subject', position: [0, 0, 0], yaw: 0,
   clip: 'walk', speed: 1.2, alive: true, health: 100, aiming: false, inVehicle: null, grounded: true, verticalSpeed: 0,

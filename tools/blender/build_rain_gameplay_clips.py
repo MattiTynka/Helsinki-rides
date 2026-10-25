@@ -14,8 +14,8 @@ import sys
 import numpy as np
 from mathutils import Matrix, Quaternion, Vector
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import build_finn_gameplay_clips as transport
-from build_finn_gameplay_clips import B, BI, DURATIONS, NAMES, accessor, error, matrix_from_node, mesh_points, pose_world, sha, support_grip, xyzw
+import build_snow_gameplay_clips as transport
+from build_snow_gameplay_clips import B, BI, DURATIONS, NAMES, accessor, error, matrix_from_node, mesh_points, pose_world, sha, support_grip, xyzw
 import game_motion as gm
 
 SOURCE_SHA256 = "c2aec924a23100aeae0d1ea9d006af5aea3dd6b37c76359a3bf262b679fe1e58"

@@ -1,4 +1,4 @@
-"""Author Finn's jump, airborne and ledge-climb motion in the unmodified native rest hierarchy.
+"""Author Snow's jump, airborne and ledge-climb motion in the unmodified native rest hierarchy.
 
 Blender 5.2 mathutils only. The source GLB is read as data; no importer, scene edit, mesh change or
 GLB export is involved. Clip clocks belong to the simulation (apps/game/src/render/native-jump-animation.ts):
@@ -20,7 +20,7 @@ import sys
 from mathutils import Matrix, Quaternion, Vector
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import build_finn_gameplay_clips as native
+import build_snow_gameplay_clips as native
 import game_motion as gm
 
 # Mirrors packages/sim/src/character.ts CHARACTER.radius and CLIMB; a runtime test compares them.
@@ -119,7 +119,7 @@ def mirrored(fn):
 
 
 # --- Pose parameters -> solver spec ------------------------------------------------------------------------
-# Blender frame: +Z up, Finn faces -Y, +X is his left. 'hip' and 'foot' offsets are metres from the rest
+# Blender frame: +Z up, Snow faces -Y, +X is his left. 'hip' and 'foot' offsets are metres from the rest
 # hips / rest ball of the foot; rotations are (yaw, pitch, roll) degrees, pitch > 0 leans forward.
 # 'arm' = (abduction, swing, elbow bend, bend-plane inward): swing 0 hangs, 90 points forward, 180 up.
 # 'foot' = (ball x, y, z, pitch, toe-out yaw): pitch > 0 points the toes down about the ball.

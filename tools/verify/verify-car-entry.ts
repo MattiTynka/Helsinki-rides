@@ -41,7 +41,7 @@ async function readPose(): Promise<Pose | null> {
   return page.evaluate(() => (window as unknown as TestWindow).__HELSINKI_GAME__.vehiclePose());
 }
 function validatePose(pose: Pose, seated: boolean): void {
-  assert.equal(pose.visible, true, 'Finn remains visible during entry, while seated and on exit');
+  assert.equal(pose.visible, true, 'Snow remains visible during entry, while seated and on exit');
   assert.ok(Object.keys(pose.bones).length >= 71, 'inspect the actual loaded skin hierarchy');
   assert.ok(Object.values(pose.bones).flat().every(Number.isFinite), 'all actual joint locations are finite');
   assert.ok([...pose.bounds.min, ...pose.bounds.max].every(Number.isFinite), 'posed skin bounds are finite');

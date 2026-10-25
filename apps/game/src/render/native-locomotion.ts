@@ -5,7 +5,7 @@ export interface NativeMovementClip { readonly clip: string; readonly movementSp
 export type NativeState = 'idle' | 'aim' | 'fire' | 'hit' | 'death' | 'drive' | 'arrested';
 export interface NativeCharacterProfile {
   readonly schemaVersion: 1;
-  readonly id: 'finn-native-v1' | 'rain-native-v1';
+  readonly id: 'snow-native-v1' | 'rain-native-v1';
   readonly phaseGroup: 'left-strike';
   readonly upperBodyRoot: string;
   readonly locomotion: readonly NativeMovementClip[];
@@ -19,7 +19,7 @@ const name = (v: unknown): v is string => typeof v === 'string' && v.length > 0 
 /** Missing metadata retains the legacy animation path; declared metadata fails closed. */
 export function parseCharacterProfile(value: unknown, availableClips: ReadonlySet<string>): NativeCharacterProfile | undefined {
   if (value === undefined) return undefined;
-  if (!object(value) || value.schemaVersion !== 1 || (value.id !== 'finn-native-v1' && value.id !== 'rain-native-v1') || value.phaseGroup !== 'left-strike' || !name(value.upperBodyRoot)) throw new Error('Unsupported characterProfile metadata');
+  if (!object(value) || value.schemaVersion !== 1 || (value.id !== 'snow-native-v1' && value.id !== 'rain-native-v1') || value.phaseGroup !== 'left-strike' || !name(value.upperBodyRoot)) throw new Error('Unsupported characterProfile metadata');
   if (!Array.isArray(value.locomotion) || value.locomotion.length < 4 || value.locomotion.length > 16 || !object(value.states)) throw new Error('Malformed characterProfile clips');
   const movements: NativeMovementClip[] = [];
   const names = new Set<string>();

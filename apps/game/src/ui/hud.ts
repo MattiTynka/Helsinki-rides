@@ -208,7 +208,10 @@ export class Hud {
     let prompt = '';
     if (p.mode === 'onFoot' && p.nearVehicle) prompt = i18n.text(this.touchControls ? 'touch.promptEnter' : 'interaction.enter');
     else if (p.mode === 'driving') prompt = car && car.damage === 'wrecked' ? i18n.text(this.touchControls ? 'touch.promptWreck' : 'interaction.leaveWreck') : '';
-    else if (p.mode === 'entering') prompt = i18n.text(p.vehicleInteraction?.stage === 'approach' ? 'interaction.approach' : 'interaction.entering');
+    else if (p.mode === 'entering') {
+      const stage = p.vehicleInteraction?.stage;
+      prompt = i18n.text(stage === 'approach' ? 'interaction.approach' : stage === 'push' ? 'interaction.pushing' : stage === 'shove' ? 'interaction.shoving' : 'interaction.entering');
+    }
     else if (p.mode === 'exiting') prompt = exitPrompt(p.vehicleInteraction);
     for (const event of events) {
       const note = this.touchControls && event.type === 'vehicleExitBlocked' ? 'touch.promptExitBlocked' : INTERACTION_NOTES[event.type];

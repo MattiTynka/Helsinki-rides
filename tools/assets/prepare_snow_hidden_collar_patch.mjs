@@ -13,7 +13,7 @@ if (!args.source || !args.out || !args.report || existsSync(args.out) || existsS
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const assert = (ok, reason) => { if (!ok) throw new Error(reason); };
 const source = readFileSync(args.source), sourceSha256 = sha(source);
-assert(sourceSha256 === '2d4516c7efc691fd544b25b5ff66d39e19a0f23a5c3b029dd44785652a9adebd', 'unexpected Finn source revision');
+assert(sourceSha256 === '94b5759cea7c95b07028ed2482f7d747c13efa727796d84153a3a0e6f62f3123', 'unexpected Snow source revision');
 let doc, bin;
 for (let offset = 12; offset < source.length;) { const count = source.readUInt32LE(offset), kind = source.readUInt32LE(offset + 4); if (kind === 0x4e4f534a) doc = JSON.parse(source.subarray(offset + 8, offset + 8 + count)); if (kind === 0x004e4942) bin = source.subarray(offset + 8, offset + 8 + count); offset += count + 8; }
 const dv = new DataView(bin.buffer, bin.byteOffset, bin.byteLength), width = { SCALAR: 1, VEC2: 2, VEC3: 3, VEC4: 4, MAT4: 16 }, component = { 5121: [1, 'getUint8', 255], 5123: [2, 'getUint16', 65535], 5125: [4, 'getUint32', 4294967295], 5126: [4, 'getFloat32'] };
@@ -24,7 +24,7 @@ function at(i) { if (world[i]) return world[i]; const n = doc.nodes[i], local = 
 doc.nodes.forEach((_, i) => at(i));
 const skin = doc.skins[0], inverse = accessor(skin.inverseBindMatrices), matrices = skin.joints.map((joint, i) => world[joint].clone().multiply(new Matrix4().fromArray(inverse, i * 16)));
 function mesh(name) { const n = doc.nodes[names.get(name)], primitive = doc.meshes[n.mesh].primitives[0], raw = accessor(primitive.attributes.POSITION), js = accessor(primitive.attributes.JOINTS_0), ws = accessor(primitive.attributes.WEIGHTS_0), positions = []; for (let i = 0; i < raw.length / 3; i++) { const point = new Vector3().fromArray(raw, i * 3), result = new Vector3(); for (let k = 0; k < 4; k++) if (ws[i * 4 + k]) result.addScaledVector(point.clone().applyMatrix4(matrices[js[i * 4 + k]]), ws[i * 4 + k]); positions.push(result); } return { name, primitive, raw, positions, indices: accessor(primitive.indices) }; }
-const head = mesh('FINN-head_game'), shirt = mesh('FINN-shirt_game');
+const head = mesh('SNOW-head_game'), shirt = mesh('SNOW-shirt_game');
 assert(head.primitive.indices === 44, 'unexpected head primitive/index accessor');
 const requested = [[1320, 6, 13], [2896, 1589, 1582]];
 const canonical = shirt.positions.map((_, i) => shirt.raw.slice(i * 3, i * 3 + 3).join(','));

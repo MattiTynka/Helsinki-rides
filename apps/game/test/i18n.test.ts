@@ -91,7 +91,7 @@ test('authored startup translation bindings and rich-link slots match both catal
   assert.match(html, /<option value="" data-i18n="dropin.placeholder">/);
 });
 
-test('startup keyboard controls retain native Tab and Space behaviour and do not move Finn', () => {
+test('startup keyboard controls retain native Tab and Space behaviour and do not move Snow', () => {
   const listeners = new Map<string, ((event: Record<string, unknown>) => void)[]>();
   const old = Object.fromEntries(['addEventListener', 'document', 'navigator'].map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
   const on = (type: string, callback: (event: Record<string, unknown>) => void) => listeners.set(type, [...listeners.get(type) ?? [], callback]);

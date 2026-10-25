@@ -13,6 +13,10 @@ import { PedestrianAnimation, pedestrianGaitPhase } from './pedestrian-animation
 import { NativeVehicleAnimation, type VehiclePoses } from './native-vehicle-animation.ts';
 import { SkinnedMeshCuller } from './skinned-culling.ts';
 import { AnimationCadence, type CharacterPresentationOptions } from './animation-cadence.ts';
+import { createContactShadow, placeContactShadow, type ShadowCaster } from './contact-shadow.ts';
+
+/** A standing person: shoulders across, chest to back, and height. */
+const CHARACTER_CASTER: ShadowCaster = { halfWidth: 0.25, halfLength: 0.15, height: 1.75 };
 
 const ONE_SHOT = new Set(['fire', 'hit', 'death']);
 
@@ -78,10 +82,7 @@ export class CharacterView {
     if (p && this.handSocket) { this.handSocket.add(p); p.visible = false; this.pistol = p; }
     this.aimCorrection = this.nativeAnimation && this.pistol ? new CharacterAim(root, this.pistol, asset.profile!.upperBodyRoot) : null;
     this.firing = this.nativeAnimation && this.pistol ? new CharacterFiring(root, this.pistol) : null;
-    this.shadow = new THREE.Mesh(new THREE.CircleGeometry(0.45, 20), shadowMaterial);
-    this.shadow.rotation.x = -Math.PI / 2;
-    this.shadow.position.y = 0.02;
-    this.shadow.renderOrder = -1;
+    this.shadow = createContactShadow(shadowMaterial);
     this.root.add(this.shadow);
     this.play('idle', 0);
   }
@@ -107,6 +108,7 @@ export class CharacterView {
     this.root.visible = state.inVehicle === null;
     this.root.position.set(state.position[0], state.position[1], state.position[2]);
     this.root.rotation.set(0, state.yaw, 0);
+    this.placeShadow(state, false);
     const camera = presentation?.cameraPosition;
     const distance = camera ? Math.hypot(state.position[0] - camera.x, state.position[1] - camera.y, state.position[2] - camera.z) : 0;
     const urgent = !state.alive || armed || this.shotHoldSeconds > 0 || !!state.knockdown || !!interaction
@@ -134,14 +136,9 @@ export class CharacterView {
     this.firing?.advance(dt, presentingWeapon);
     this.aimCorrection?.restore();
     this.vehicleAnimation?.restore();
-    // Keep the contact shadow on the supporting surface while the capsule is airborne.
-    const groundDistance = state.groundDistance;
-    this.shadow.visible = groundDistance !== null && (groundDistance ?? 0) < 5;
-    this.shadow.position.y = .02 - Math.max(0, groundDistance ?? 0);
-    this.shadow.scale.setScalar(1 / (1 + Math.max(0, groundDistance ?? 0) * .12));
     // The car layer owns the whole body. Keep a standing base ready underneath it so
     // releasing the exit fades into standing rather than the obsolete embedded drive pose.
-    const ownsVehiclePose = this.asset.profile?.id === 'finn-native-v1' && interaction !== null && interaction.stage !== 'approach';
+    const ownsVehiclePose = this.asset.profile?.id === 'snow-native-v1' && interaction !== null && interaction.stage !== 'approach';
     const aimsOverGait = presentingWeapon && (state.aiming || this.shotHoldSeconds > 0) && isLocomotionClip(state.clip);
     const animationState: CharacterState = !state.alive ? { ...state, clip: 'death', speed: 0, jumpPhase: 'grounded' }
       : ownsVehiclePose ? { ...state, clip: 'idle', speed: 0, jumpPhase: 'grounded' } : aimsOverGait ? { ...state, clip: 'aim' } : state;
@@ -150,7 +147,7 @@ export class CharacterView {
       this.nativeAnimation.update(animationState, dt, collapse);
       if (ownsVehiclePose && !this.vehicleAnimation) this.vehicleAnimation = new NativeVehicleAnimation(this.model);
       const seated = this.vehicleAnimation?.apply(this.root, ownsVehiclePose ? interaction : null, vehicle, dt, poses) ?? false;
-      if (seated) this.shadow.visible = false;
+      this.placeShadow(state, seated);
       if (this.pistol) this.pistol.visible = presentingWeapon;
       this.pedestrianAnimation?.apply(animationState, dt, collapse !== null);
       return;
@@ -197,6 +194,13 @@ export class CharacterView {
     this.skinnedCulling.update();
   }
 
+  /** The contact shadow stays on the supporting surface below the rendered body while the capsule is airborne. */
+  private placeShadow(state: CharacterState, seated: boolean): void {
+    const groundDistance = Math.max(0, state.groundDistance ?? 0), p = this.root.position;
+    placeContactShadow(this.shadow, CHARACTER_CASTER, p.x, p.z, state.position[1] - groundDistance, state.yaw, groundDistance);
+    if (state.groundDistance === null || seated) this.shadow.visible = false;
+  }
+
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
@@ -207,6 +211,7 @@ export class CharacterView {
     for (const skeleton of this.ownedSkeletons) skeleton.dispose();
     this.ownedSkeletons.clear();
     this.shadow.geometry.dispose();
+    (this.shadow.material as THREE.Material).dispose();
     this.root.removeFromParent();
   }
 

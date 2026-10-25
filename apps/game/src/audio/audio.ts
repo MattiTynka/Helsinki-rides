@@ -92,7 +92,7 @@ export class GameAudio {
       const rpm = 45 + car.speed * 6 + Math.max(0, car.throttle) * 25;
       this.engine.osc.frequency.setTargetAtTime(rpm, t, 0.05);
       this.engine.filter.frequency.setTargetAtTime(300 + car.speed * 40, t, 0.05);
-      this.engine.gain.gain.setTargetAtTime(0.18 + Math.abs(car.throttle) * 0.1, t, 0.05);
+      this.engine.gain.gain.setTargetAtTime(0.1 + Math.abs(car.throttle) * 0.06, t, 0.05);
     } else this.engine.gain.gain.setTargetAtTime(0, t, 0.1);
     // Siren: loudest nearby patrol car, two-tone sweep.
     let nearest = Infinity;

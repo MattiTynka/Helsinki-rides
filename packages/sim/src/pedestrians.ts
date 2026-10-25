@@ -186,6 +186,11 @@ export class Pedestrians {
     return { elapsed: (this.sim.tick - walker.knockdownTick) * TICK_SECONDS, ...CIVILIAN_KNOCKDOWN };
   }
 
+  /** Down, or on the way down or up, from a knockdown; kept when they die there. */
+  knockedDown(id: string): boolean {
+    return (this.active.get(id)?.knockdownTick ?? null) !== null;
+  }
+
   /** Include AI choices and pending timers: equal transforms alone do not imply equal next ticks. */
   digest(): string {
     const parts = [`${this.sim.options.seed}:${this.variants.join(',')}:${this.serial}:${this.cursor}`];

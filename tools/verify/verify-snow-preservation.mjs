@@ -1,4 +1,4 @@
-// Verify the integrated world and supplied Finn data independently of the asset authoring report.
+// Verify the integrated world and supplied Snow data independently of the asset authoring report.
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
@@ -7,11 +7,11 @@ import { parseArgs } from 'node:util';
 import { pathToFileURL } from 'node:url';
 import { parseGlb, transformPoint, worldMatrices } from './glb.ts';
 
-const suppliedSourceSha256 = '2d4516c7efc691fd544b25b5ff66d39e19a0f23a5c3b029dd44785652a9adebd';
-const approvedCollarPatchSha256 = 'eefa0d30c1be79aafd6b838716dadb0c31e193ae9c7fd2ee67dbb18d7e93fa02';
-const approvedCollarPatchContentSha256 = 'b4719bbbb41b9240b0139ef9cd5f400b3089fd94b77c867cdfb53a5fdaf9b743';
-const approvedHiddenPatchSha256 = '59cb5cecdedfacc695824689e4edaeee61478f0777d5210fc5f2b8279165aa2f';
-const approvedHiddenPatchContentSha256 = '09b7c1242073c8babd56428bd09cc4e8932ba1e2292c14da1da3984195f2e165';
+const suppliedSourceSha256 = '94b5759cea7c95b07028ed2482f7d747c13efa727796d84153a3a0e6f62f3123';
+const approvedCollarPatchSha256 = '7d62ef73e14dc6c4bb98777cd386dc070f8730b1e10638b2e6cde05681e7900e';
+const approvedCollarPatchContentSha256 = '922d2d7aedf0a90069a93ca311b18dfe3987e37cd7c51d440fb2f6b21e64a2d7';
+const approvedHiddenPatchSha256 = 'bc0394d2301e5a13b800621cea676016dfdc7735270f259ee7cb254d9bf53825';
+const approvedHiddenPatchContentSha256 = 'b2f02df72d670c554c313321215c424cb5cbb0ff68e015c11ecaa2dc51a7aa77';
 const sha = b => createHash('sha256').update(b).digest('hex');
 
 function element(source, accessorIndex, vertex) {
@@ -87,14 +87,14 @@ export function garmentDonorOwnership(positions, triangles) {
 export function expectedCollarPatch(source, patch) {
   assert.equal(patch.version, 1);
   assert.equal(patch.sourceSha256, suppliedSourceSha256);
-  assert.equal(patch.meshName, 'FINN-head_game');
+  assert.equal(patch.meshName, 'SNOW-head_game');
   assert.equal(patch.primitive, 0);
   assert.equal(patch.jointAccessor, 42);
   assert.equal(patch.weightAccessor, 43);
   assert.ok(Array.isArray(patch.vertices) && patch.vertices.length === 89, 'The approved collar patch contains exactly 89 vertices');
   assert.deepEqual(patch.limits, { bindHeightMinMeters: 1.3, bindHeightMaxMeters: 1.45, bindMaximumDistanceMeters: .015, bindMinimumInteriorBarycentric: .02, bindMinimumInsideMeters: .0001, maximumWeights: 4, maxNormalizedSumError: .000001, sampleHz: 120, outwardSeparationToleranceMeters: .001 }, 'Approved collar limits changed');
   const mesh = source.json.meshes.find(m => m.name === patch.meshName), head = mesh?.primitives[0];
-  const shirtMesh = source.json.meshes.findIndex(m => m.name === 'FINN-shirt_game');
+  const shirtMesh = source.json.meshes.findIndex(m => m.name === 'SNOW-shirt_game');
   const shirt = source.json.meshes[shirtMesh]?.primitives[0];
   assert.equal(head?.attributes.JOINTS_0, patch.jointAccessor);
   assert.equal(head?.attributes.WEIGHTS_0, patch.weightAccessor);
@@ -121,7 +121,7 @@ export function expectedCollarPatch(source, patch) {
     assert.deepEqual(row.sourceByteRanges, { joints: { offset: joints.offset, length: joints.length }, weights: { offset: weights.offset, length: weights.length } }, 'Patch byte ranges do not identify the declared vertex');
     assert.equal(joints.componentType, 5121); assert.equal(weights.componentType, 5126);
     const donor = row.donor;
-    assert.equal(donor?.meshName, 'FINN-shirt_game'); assert.equal(donor?.primitive, 0);
+    assert.equal(donor?.meshName, 'SNOW-shirt_game'); assert.equal(donor?.primitive, 0);
     assert.ok(Array.isArray(donor.triangle) && donor.triangle.length === 3 && triangleKeys.has(donor.triangle.join(',')), 'Donor is not an original shirt triangle');
     assert.ok(Array.isArray(donor.barycentric) && donor.barycentric.every(v => v >= .02), 'Donor barycentrics must be strictly inside the original triangle');
     const donorOwnership = ownershipOf(donor.triangle, donor.barycentric);
@@ -163,12 +163,12 @@ export function expectedCollarPatch(source, patch) {
 
 export function expectedHiddenCollarPatch(source, patch) {
   assert.equal(patch.version, 1); assert.equal(patch.sourceSha256, suppliedSourceSha256);
-  assert.equal(patch.meshName, 'FINN-head_game'); assert.equal(patch.primitive, 0); assert.equal(patch.indexAccessor, 44);
+  assert.equal(patch.meshName, 'SNOW-head_game'); assert.equal(patch.primitive, 0); assert.equal(patch.indexAccessor, 44);
   assert.deepEqual(patch.triangles.map(t => [t.triangleIndex, t.indices]), [[11, [1320, 6, 13]], [2946, [2896, 1589, 1582]]], 'Only the two approved hidden triangles may be removed');
   assert.equal(patch.beforeIndexCount, 17616); assert.equal(patch.afterIndexCount, 17610);
   assert.deepEqual(patch.limits, { barycentricSubdivisions: 24, maximumOutwardOcclusionDistanceMeters: .015, minimumOpenGarmentBoundaryDistanceMeters: .0002, rayNumericEpsilonMeters: 1e-7, sourceBindHeightMeters: [1.3, 1.45], exactlyTwoTriangles: true }, 'Hidden-face limits changed');
   const head = source.json.meshes.find(m => m.name === patch.meshName).primitives[0];
-  const shirt = source.json.meshes.find(m => m.name === 'FINN-shirt_game').primitives[0];
+  const shirt = source.json.meshes.find(m => m.name === 'SNOW-shirt_game').primitives[0];
   assert.equal(head.indices, 44);
   const a = source.json.accessors[44], view = source.json.bufferViews[a.bufferView];
   assert.equal(a.componentType, 5123); assert.equal(a.count, 17616); assert.equal(a.type, 'SCALAR');
@@ -184,7 +184,7 @@ export function expectedHiddenCollarPatch(source, patch) {
   if (a.min) accessor.min = [Math.min(...retained)]; if (a.max) accessor.max = [Math.max(...retained)];
 
   const headNode = source.json.nodes.find(n => n.mesh === source.json.meshes.findIndex(m => m.name === patch.meshName));
-  const shirtNode = source.json.nodes.find(n => n.mesh === source.json.meshes.findIndex(m => m.name === 'FINN-shirt_game'));
+  const shirtNode = source.json.nodes.find(n => n.mesh === source.json.meshes.findIndex(m => m.name === 'SNOW-shirt_game'));
   assert.equal(headNode.skin, shirtNode.skin);
   const bindPosition = bindPositionReader(source, headNode.skin);
   const raw = Array.from({ length: source.json.accessors[shirt.attributes.POSITION].count }, (_, i) => element(source, shirt.attributes.POSITION, i).values);
@@ -247,9 +247,9 @@ export function expectedHiddenCollarPatch(source, patch) {
   return { accessor, bufferView: a.bufferView, packed, originalByteLength: view.byteLength, evidence: { removedTriangles: patch.triangles.map(t => ({ triangleIndex: t.triangleIndex, indices: t.indices })), originalIndexCount: a.count, retainedIndexCount: retained.length, retainedIndicesSha256: sha(packed), zeroedUnusedTailBytes: view.byteLength - packed.length, originalOpenGarmentEdges: boundaries.length, coverage, limits: '650 original-bind ray samples include every vertex and a dense edge/interior grid. This is not an analytic continuous-surface or runtime-pose guarantee; final head census and runtime visuals are separate gates.' } };
 }
 
-export function verifyNativeFinnData(sourceBytes, outputBytes, patch = null, hiddenPatch = null) {
+export function verifyNativeSnowData(sourceBytes, outputBytes, patch = null, hiddenPatch = null) {
   const source = parseGlb(sourceBytes), result = parseGlb(outputBytes);
-  assert.equal(sha(sourceBytes), suppliedSourceSha256, 'Unexpected supplied Finn source');
+  assert.equal(sha(sourceBytes), suppliedSourceSha256, 'Unexpected supplied Snow source');
   if (patch) {
     assert.equal(sha(JSON.stringify(patch)), approvedCollarPatchContentSha256, 'Collar patch content differs from the approved 89-vertex exception');
     assert.equal(patch.sourceBinFileOffset, source.bin.byteOffset - sourceBytes.byteOffset, 'Recorded source BIN file offset mismatch');
@@ -338,10 +338,10 @@ if (values['hidden-collar-patch']) {
   assert.equal(sha(bytes), approvedHiddenPatchSha256, 'Unexpected hidden-face patch file revision');
   hiddenPatch = JSON.parse(bytes); hiddenPatchInput = { file: values['hidden-collar-patch'], sha256: sha(bytes) };
 }
-const native = verifyNativeFinnData(sourceBytes, outputBytes, patch, hiddenPatch);
-const report = { status: 'PASS', release: after.worldReleaseId, baseline: before.worldReleaseId, manifestSha256: sha(readFileSync(path.join(values.after, 'manifest.json'))), unchangedPayloads: payloads, source: { file: values.source, sha256: sha(sourceBytes) }, verifierSha256: sha(readFileSync(new URL(import.meta.url))), player: { sha256: asset.sha256, ...native }, approvedException: patchInput, approvedHiddenFaceException: hiddenPatchInput, preserved: ['all world visuals and collision', 'terrain, roads, gameplay and scenery', 'Rain, pistol, cars and tree assets', 'Finn positions, normals, UVs, inverse binds, rest nodes and eleven native clips', patch ? 'All skin data except the exact approved89 collar tuples' : 'All skin data', hiddenPatch ? 'Original triangle order except the exact two approved covered head triangles' : 'Original topology'], limits: patch ? ['The89 collar vertices have intentionally changed skin deformation. Native clip bytes and static positions remain exact; gait and aim/fire visuals require fresh evidence.', ...(hiddenPatch ? ['Two covered head triangles are removed. Fresh evaluated head census and runtime coverage review are required.'] : [])] : [] };
+const native = verifyNativeSnowData(sourceBytes, outputBytes, patch, hiddenPatch);
+const report = { status: 'PASS', release: after.worldReleaseId, baseline: before.worldReleaseId, manifestSha256: sha(readFileSync(path.join(values.after, 'manifest.json'))), unchangedPayloads: payloads, source: { file: values.source, sha256: sha(sourceBytes) }, verifierSha256: sha(readFileSync(new URL(import.meta.url))), player: { sha256: asset.sha256, ...native }, approvedException: patchInput, approvedHiddenFaceException: hiddenPatchInput, preserved: ['all world visuals and collision', 'terrain, roads, gameplay and scenery', 'Rain, pistol, cars and tree assets', 'Snow positions, normals, UVs, inverse binds, rest nodes and eleven native clips', patch ? 'All skin data except the exact approved89 collar tuples' : 'All skin data', hiddenPatch ? 'Original triangle order except the exact two approved covered head triangles' : 'Original topology'], limits: patch ? ['The89 collar vertices have intentionally changed skin deformation. Native clip bytes and static positions remain exact; gait and aim/fire visuals require fresh evidence.', ...(hiddenPatch ? ['Two covered head triangles are removed. Fresh evaluated head census and runtime coverage review are required.'] : [])] : [] };
 writeFileSync(values.out, JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
-console.log(`PASS ${payloads.length} unchanged world/other-actor payloads; ${native.byteExactNonImageBufferViews}/${native.verifiedNonImageBufferViews} native Finn views exact; ${native.collarExceptionBufferViews} weight and ${native.hiddenFaceExceptionBufferViews} index views verified against explicit exceptions; ${native.nativeClips.length} native clips exact`);
+console.log(`PASS ${payloads.length} unchanged world/other-actor payloads; ${native.byteExactNonImageBufferViews}/${native.verifiedNonImageBufferViews} native Snow views exact; ${native.collarExceptionBufferViews} weight and ${native.hiddenFaceExceptionBufferViews} index views verified against explicit exceptions; ${native.nativeClips.length} native clips exact`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) main();

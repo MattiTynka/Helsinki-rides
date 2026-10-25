@@ -1,17 +1,7 @@
 {
   "require_version": "5.2",
   "objects": [
-    "FINN-body_game",
-    "FINN-eyebrows_game",
-    "FINN-eyes_game",
-    "FINN-hair_short_game",
-    "FINN-head_game",
-    "FINN-pants_game",
-    "FINN-shirt_game",
-    "FINN-shoes_base_game",
-    "FINN-shoes_bottom_game",
-    "FINN-shoes_parts_game",
-    "FINN-tongue_game"
+    "SNOW-eye_dots_game"
   ],
   "self_overlap": {
     "enabled": true,
@@ -27,5 +17,5 @@
   },
   "unit_scale": 1.0,
   "applied_transforms": true,
-  "degenerate_area": 1e-08
+  "degenerate_area": 1e-10
 }

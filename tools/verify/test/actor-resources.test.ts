@@ -87,7 +87,7 @@ function vehicleFixture() {
   source.add(new THREE.Mesh(geometry, [material, lampSources[0]!, lampSources[0]!]));
   const farBody = new THREE.BoxGeometry(1, 1, 2), farLamp = new THREE.PlaneGeometry(.1, .1);
   assets.vehicles.set('fixture-car', { id: 'fixture-car', scene: source, far: { body: farBody, lamps: new Map([['car_lamp_head', farLamp]]) } });
-  const definition = { assetId: 'fixture-car', wheels: [], collider: { halfExtents: [1, 1, 2] } } as unknown as VehicleDefinition;
+  const definition = { assetId: 'fixture-car', wheels: [], wheelRadius: 0.3, collider: { halfExtents: [1, 1, 2], centre: [0, 1, 0] } } as unknown as VehicleDefinition;
   return { assets, source, geometry, material, texture, lampSources, farBody, farLamp, definition };
 }
 

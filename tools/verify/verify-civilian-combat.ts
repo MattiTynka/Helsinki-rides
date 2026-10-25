@@ -26,7 +26,7 @@ async function frameCivilian(id: string, teleport = true): Promise<SimState> {
     const c = state.characters.find(c => c.id === id); assert.ok(c?.alive, `${id}: subject remains alive`);
     const cameraYaw = c.yaw + Math.PI + .25;
     const f = [Math.sin(cameraYaw), Math.cos(cameraYaw)];
-    // The normal chase camera is 3.4m behind Finn. Put Finn 0.70m behind
+    // The normal chase camera is 3.4m behind Snow. Put Snow 0.70m behind
     // the civilian so the civilian is in the foreground, facing the camera.
     const x = c.position[0] + f[0]! * .70 + .25 * Math.cos(cameraYaw);
     const z = c.position[2] + f[1]! * .70 - .25 * Math.sin(cameraYaw);

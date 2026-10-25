@@ -94,16 +94,16 @@ test('KTX2 header dimensions enforce distinct base-color and linear-map budgets'
   assert.equal((await checkCharacter(f.document, contract, 'player', 500)).find(c => c.id === 'texture:0')?.pass, false);
 });
 
-test('native Finn and Rain contracts resolve separately without changing legacy authoring budgets', () => {
+test('native Snow and Rain contracts resolve separately without changing legacy authoring budgets', () => {
   const shared = JSON.parse(readFileSync('content/assets/character.contract.json','utf8')) as CharacterContract;
   assert.equal(shared.skeleton.joints.length, 22); assert.equal(shared.skeleton.maxJoints, 64);
   assert.equal(shared.budgets.npc?.triangles, 14000); assert.equal(shared.budgets.npc?.materials, 4); assert.equal(shared.budgets.npc?.textureMaxSize, 512);
   assert.equal(shared.variants?.find(v => v.id === 'character-rain')?.contract, 'content/assets/character-rain-native.contract.json');
-  assert.equal(shared.variants?.find(v => v.id === 'character-snow')?.contract, 'content/assets/character-finn.contract.json');
-  const finn = JSON.parse(readFileSync('content/assets/character-finn.contract.json','utf8')) as CharacterContract;
-  assert.equal(finn.skeleton.joints.length, 71); assert.equal(finn.clips.length,17);
+  assert.equal(shared.variants?.find(v => v.id === 'character-snow')?.contract, 'content/assets/character-snow-native.contract.json');
+  const snow = JSON.parse(readFileSync('content/assets/character-snow-native.contract.json','utf8')) as CharacterContract;
+  assert.equal(snow.skeleton.joints.length, 71); assert.equal(snow.clips.length,17);
   const rain = JSON.parse(readFileSync('content/assets/character-rain-native.contract.json','utf8')) as CharacterContract;
   assert.equal(rain.skeleton.joints.length, 70); assert.equal(rain.clips.length,17);
   assert.ok(rain.skeleton.joints.includes('DEF-Pelvis'));
-  assert.ok(!finn.skeleton.joints.includes('DEF-Pelvis'));
+  assert.ok(!snow.skeleton.joints.includes('DEF-Pelvis'));
 });

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { JUMP, TICK_SECONDS, type CharacterState, type ClimbView, type JumpPhase } from '@helsinki/sim';
-import poseData from '../../../../content/assets/finn-jump-poses.json' with { type: 'json' };
+import poseData from '../../../../content/assets/snow-jump-poses.json' with { type: 'json' };
 
 interface ClipRecord {
   readonly seconds?: number;
@@ -200,7 +200,7 @@ export class NativeJumpAnimation {
   constructor(mixer: THREE.AnimationMixer, root: THREE.Object3D, upperTrack: (track: THREE.KeyframeTrack) => boolean) {
     const find = (name: string) => {
       const node = root.getObjectByName(name) ?? root.getObjectByName(THREE.PropertyBinding.sanitizeNodeName(name));
-      if (!node) throw new Error(`Finn jump bone ${name} missing`);
+      if (!node) throw new Error(`Snow jump bone ${name} missing`);
       return node;
     };
     for (const [key, definition] of Object.entries(JUMP_POSES.clips)) {

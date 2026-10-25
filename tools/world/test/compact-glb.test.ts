@@ -120,7 +120,7 @@ function animatedRawFixture() {
       {componentType: 5126, type: 'VEC3', count: 3, min: [0, 0, 0], max: [.5, .5, .5], sparse: {count: 1, indices: {bufferView: sparseIndices, componentType: 5121}, values: {bufferView: sparseValues}}},
     ],
     meshes: [{name: 'skin', weights: [0], primitives: [{attributes: {POSITION: 0, NORMAL: 1, JOINTS_0: 3, WEIGHTS_0: 4}, indices: 2, targets: [{POSITION: 8}]}]}],
-    nodes: [{name: 'Finn', mesh: 0, skin: 0}, {name: 'root', children: [2]}, {name: 'hand_socket', extras: {profile: 'keep'}}],
+    nodes: [{name: 'Snow', mesh: 0, skin: 0}, {name: 'root', children: [2]}, {name: 'hand_socket', extras: {profile: 'keep'}}],
     skins: [{name: 'rig', joints: [1], skeleton: 1, inverseBindMatrices: 5}],
     animations: [{name: 'jump', samplers: [{input: 6, output: 7, interpolation: 'LINEAR'}], channels: [{sampler: 0, target: {node: 1, path: 'translation'}}]}],
     scenes: [{nodes: [0, 1]}], scene: 0, extras: {profile: {bones: ['root', 'hand_socket']}},

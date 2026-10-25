@@ -1,7 +1,7 @@
-"""Author Finn's car entry, his own driver exit and a passenger-side climb-across exit.
+"""Author Snow's car entry, his own driver exit and a passenger-side climb-across exit.
 
 Mathutils only, in the pinned Blender. The supplied GLB is read as rig data; no skin, mesh, scene or GLB is written.
-The runtime samples parent-local native rotations and the hips translation with Finn's root at the car origin.
+The runtime samples parent-local native rotations and the hips translation with Snow's root at the car origin.
 
 Limbs are true hinges. Thigh and shin share one knee axis lying across the hip-knee-ankle plane, the knee tracks
 over the toes, and the elbow works the same way. Forearm roll is shared by both forearm bones instead of being left
@@ -20,7 +20,7 @@ import sys
 from mathutils import Matrix, Quaternion, Vector
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import build_finn_gameplay_clips as native
+import build_snow_gameplay_clips as native
 import cabin_warp
 import game_motion as gm
 
@@ -562,7 +562,7 @@ def windshield_keys():
 # Authored in the ground frame of a car lying on its roof: the liner is the floor (about Y 0), the seats hang from
 # above, the driver's door is on the -X side and the wheel hangs at Y 0.25-0.57 in front of the driver.
 
-# Finn lands on all fours under the console, his head clear of the closed door, and crawls out along a straight line
+# Snow lands on all fours under the console, his head clear of the closed door, and crawls out along a straight line
 # angled back past the B-pillar so he comes out behind the open door. Positions on it are distances S from where the drop lands him (hips) and a lateral offset
 # (positive to his left).
 CRAWL_YAW = -102.0
@@ -810,6 +810,266 @@ def mirror_params(p):
 
 def mirrored(clip, name, door):
     return dict(clip, name=name, door=door, keys=[(t, mirror_params(k)) for t, k in clip['keys']], base=mirror_params(clip['base']))
+
+
+# --- Pushing the car ------------------------------------------------------------------------------------------
+
+# With the driver's door blocked, Snow shoves the car lengthwise from the door-side corner of its nose or tail. Per
+# car, keyed by its GLB: its collider, and the top of the bonnet lip or boot edge (raycast from the GLB) where each
+# hand presses at the car-centre side and the outer side of the corner, with the palm normal there, into the car.
+PUSH_CARS = {
+    # Lumi GT, and the patrol car built on it. Its tail has a wing over the boot: the hands take the wing's edge.
+    '5a03cb798a093409ac6d2524a90f9400f9a5b35990ed80e5413d933b4b605b8b': dict(
+        halfExtents=(0.94, 0.4, 2.35), centre=(0.0, 0.95, -0.07),
+        front=((0.20, 0.85, 2.10), (0.60, 0.80, 1.98), (0.0, -0.85, -0.53)),
+        rear=((0.20, 1.20, -2.26), (0.60, 1.18, -2.16), (0.0, -0.85, 0.53))),
+    # Revontuli.
+    '7e35d6a031433dbd4054a587da8195737dddddb3c87efc950e9ffd403c0262e7': dict(
+        halfExtents=(0.99, 0.325, 2.229), centre=(0.0, 0.875, 0.043),
+        front=((0.25, 0.71, 1.98), (0.65, 0.71, 1.86), (0.0, -0.85, -0.53)),
+        rear=((0.25, 0.89, -2.02), (0.65, 0.88, -1.88), (0.0, -0.85, 0.53))),
+}
+# Shared with the simulation: the standing point's inset from the collider's side and its margin off the collider's
+# end, how far one shove moves the car and the seconds of the clip over which it does.
+PUSH_INSET, PUSH_MARGIN, PUSH_DISTANCE, PUSH_WINDOW = 0.54, 0.45, 0.6, (0.8, 1.5)
+PUSH_DURATION = 2.2
+# Hips to shoulders, metres, for placing the hips so the hands reach.
+TRUNK = 0.48
+L_LAND, R_LAND = 0.20, 0.12  # where the stepping feet land, ahead of and behind the hips
+
+
+def push_stand(car, sign):
+    """Where Snow stands to push the nose (sign 1) or the tail (-1), car-local."""
+    he, c = car['halfExtents'], car['centre']
+    return (he[0] - PUSH_INSET, 0.0, c[2] + sign * (he[2] + PUSH_MARGIN))
+
+
+def push_travel(t):
+    """How far the car has moved away from Snow at clip time t: a smoothstep over the shove window."""
+    s = min(1.0, max(0.0, (t - PUSH_WINDOW[0]) / (PUSH_WINDOW[1] - PUSH_WINDOW[0])))
+    return PUSH_DISTANCE * s * s * (3 - 2 * s)
+
+
+def ramp(points, t):
+    """Piecewise-linear through (t, value) points, held beyond the ends."""
+    if t <= points[0][0]:
+        return points[0][1]
+    for (ta, va), (tb, vb) in zip(points, points[1:]):
+        if t <= tb:
+            return va + (vb - va) * (t - ta) / (tb - ta)
+    return points[-1][1]
+
+
+def push_keys(car, sign):
+    """Step back into a lunge, put both hands on the bonnet lip (or boot edge), load, then drive the car away with two
+    quick steps, let go and step back to the same car-local standing point, so a shove can follow straight on. Keys
+    are car-local: a planted foot slides away from the car as the car moves off. The lower the hands, the deeper the
+    lean; the hips stand off so the arms are bent at the load and nearly straight at the end of the drive. A shove
+    (SHOVES) passes its own name, standing point, lean and pace: the keys play `pace` times as long."""
+    name, (inner, outer, normal) = ('pushFront', car['front']) if sign > 0 else ('pushRear', car['rear'])
+    name = car.get('name', name)
+    # He walks up square to the car and turns most of the way square to the line between his hands as he steps in.
+    yaw0 = 180.0 if sign > 0 else 0.0
+    stand = Vector(car.get('stand') or push_stand(car, sign))
+    mid = (Vector(inner) + Vector(outer)) / 2
+    mid.y = 0.0
+    along = Vector((outer[0] - inner[0], 0.0, outer[2] - inner[2])).normalized()
+    out = Vector((along.z, 0.0, -along.x))
+    out = out if out.z * sign > 0 else -out
+    yaw = yaw0 + 0.75 * ((math.degrees(math.atan2(-out.x, -out.z)) - yaw0 + 180.0) % 360.0 - 180.0)
+    left = left_of(yaw)
+    height = (inner[1] + outer[1]) / 2
+    us = (stand - mid).dot(out)
+    lean = car.get('lean', min(64.0, max(30.0, 58.0 - 62.0 * (height - 0.82))))
+    low = car.get('low', 0.74 + 0.08 * (height - 0.82))
+    heel_up = car.get('heelExtra', 0.0)  # a deeper stoop bends the trailing ankle further: lift that heel more
+
+    def place(u, side, y):
+        """u metres out from the middle of the hands, `side` metres to Snow's left of that line."""
+        p = mid + out * u + left * side
+        return (p.x, y, p.z)
+
+    def reach(arm, y=low, angle=lean):
+        """Hips u that puts the shoulders `arm` metres from the hands."""
+        drop = y + TRUNK * math.cos(D(angle)) - height
+        return math.sqrt(max(0.0, arm * arm - drop * drop)) + TRUNK * math.sin(D(angle))
+
+    def trunk(share):
+        """The lean spread over hips, spine and chest, with the head kept up toward the car."""
+        a = lean * share
+        return dict(pitch=0.58 * a, spine=(0.2 * a, 0.0, 0.0), chest=(0.22 * a, 0.0, 0.0), neck=(-0.4 * a, 0.0, 0.0),
+                    head=(-0.15 * a, 0.0, 0.0))
+
+    def foot(u, side, lift=0.0, travel=0.0):
+        """A foot point; `travel` metres of the car's move carry a planted foot away along the car's axis."""
+        x, _, z = place(u, side, 0.0)
+        return (x, ANKLE + lift, z + sign * travel)
+
+    def planted(s, point, fyaw, heel=0.0):
+        """A foot on the ground; `heel` degrees of heel lift pivot it on the ball of the foot."""
+        x, y, z = point
+        return dict(plant(s, (x, y + 0.13 * math.sin(D(heel)), z), fyaw), **{'fpitch' + s: heel, 'toe' + s: heel})
+
+    def beside(hip, along_yaw):
+        """Palm points by the thighs for hips at `hip`: where the hands rest as the reach starts and ends."""
+        side = left_of(along_yaw)
+        ahead = facing(along_yaw) * 0.10
+        return {'grip' + s: tuple(Vector(hip) + side * k * 0.22 + ahead + Vector((0.0, 0.04, 0.0))) for s, k in (('L', 1.0), ('R', -1.0))}
+
+    def hang_poles(along_yaw):
+        """Elbows back and a little out, as the arms hang."""
+        side = left_of(along_yaw)
+        return {'pole' + s: tuple(side * k * 0.3 + Vector((0.0, -0.4, 0.0)) - facing(along_yaw) * 0.8) for s, k in (('L', 1.0), ('R', -1.0))}
+
+    base = dict(base_standing(yaw0, stand), ikL=1.0, ikR=1.0, orientL=0.0, orientR=0.0)
+    base.update(beside(base['hip'], yaw0), **hang_poles(yaw0))
+    ss = (stand - mid).dot(left)
+    grips = (inner, outer) if (Vector(inner) - Vector(outer)).dot(left) > 0 else (outer, inner)
+    poles = {s: tuple(left * k * 0.6 + Vector((0.0, -0.6, 0.0)) - facing(yaw) * 0.2) for s, k in (('L', 1.0), ('R', -1.0))}
+    # Palms pressed on the surface, fingers pointing on over it into the car, thumbs toward each other.
+    n = Vector(normal).normalized()
+    fingers = Vector(car.get('fingers', (0.0, 0.0, -sign)))
+    fingers = fingers - n * fingers.dot(n)
+    fingers.normalize()
+    hands = dict(gripL=grips[0], gripR=grips[1], autoL=0.0, autoR=0.0, pnL=normal, pnR=normal,
+                 palmL=(tuple(fingers), tuple(n.cross(fingers))), palmR=(tuple(fingers), tuple(fingers.cross(n))),
+                 curlL=0.2, curlR=0.2)
+    load = reach(0.36)
+    fyaw = dict(L=yaw + 6.0, R=yaw + 10.0)
+    keys = {}
+
+    def key(t, **p):
+        keys.setdefault(round(t, 3), {}).update(p)
+
+    key(0.0, **base)
+    # Weight onto the left foot; the right steps back into a lunge, turning square to the hands as they come up.
+    hip_in = place(us + 0.02, ss + 0.03, 0.862)
+    key(0.10, hip=hip_in, pitch=6.0, **plant('R', base['footR'], base['fyawR']), **dict(hands, orientL=0.0, orientR=0.0, **beside(hip_in, yaw0)),
+        **hang_poles(yaw0))
+    key(0.20, footR=foot((us + load + 0.30) / 2, (ss - 0.12) / 2 - 0.06, 0.06), fpitchR=8.0, fyawR=(yaw0 + fyaw['R']) / 2,
+        hip=place(us + 0.06, ss / 2, 0.855), yaw=(yaw0 + yaw) / 2, pitch=10.0)
+    key(0.30, hip=place((us + load) / 2 + 0.05, ss / 4, 0.82), yaw=(yaw0 + yaw) / 2, **trunk(0.4),
+        **planted('R', foot(load + 0.30, -0.12), fyaw['R'], 14.0 + heel_up), poleL=poles['L'], poleR=poles['R'])
+    # The left foot steps in under the hips and the hands land on the car.
+    key(0.40, footL=foot((us + load - 0.28) / 2, 0.10, 0.05), fpitchL=-4.0, fyawL=fyaw['L'], hip=place(load + 0.02, 0.0, low + 0.04),
+        yaw=yaw, **trunk(0.75))
+    key(0.48, hip=place(load, 0.0, low + 0.015), **trunk(0.9), **planted('L', foot(load - 0.28, 0.10), fyaw['L']),
+        **planted('R', foot(load + 0.30, -0.12), fyaw['R'], 24.0 + heel_up))
+    # A held hand weight or target only moves over the last interval before its next key: ramp them key by key. The
+    # hands come in over the car onto it; at the end they lift off and come back by the thighs before the arms relax.
+    out_up = lambda along, up: {'grip' + s: tuple(Vector(g) + out * along + Vector((0.0, up, 0.0))) for s, g in zip('LR', grips)}
+    def toward(t, f):
+        """Hands `f` of the way from beside the thighs (for the hips keyed at t) to just over their contacts."""
+        p = keys[round(t, 3)]
+        rest, over = beside(p['hip'], p.get('yaw', yaw0)), out_up(0.04, 0.04)
+        return {k: tuple(Vector(rest[k]).lerp(Vector(over[k]), f)) for k in rest}
+
+    # Hands going down low (a body on the ground) stay nearer the thighs until the trunk has bent over.
+    reach_in = car.get('reachIn', (0.12, 0.35, 0.75))
+    for t, w, target in ((0.20, 0.1, toward(0.20, reach_in[0])), (0.30, 0.3, toward(0.30, reach_in[1])), (0.40, 0.65, toward(0.40, reach_in[2])),
+                         (0.48, 0.9, out_up(0.0, 0.0)), (0.60, 1.0, None), (1.50, 1.0, out_up(0.0, 0.0))):
+        key(t, orientL=w, orientR=w, **(target or {}))
+    # Load: hips down, elbows bent, chin up. Then the drive: the arms straighten as the car moves off.
+    key(0.80, hip=place(load, 0.0, low), **trunk(1.0), shrugL=(4.0, 8.0), shrugR=(4.0, 8.0))
+    for t, arm, share in ((1.00, 0.39, 1.0), (1.15, 0.40, 1.0), (1.30, 0.41, 0.98), (1.50, 0.41, 0.95)):
+        key(t, hip=place(reach(arm), 0.0, low + 0.01), **trunk(share))
+    # Each foot: planted where it stood when the shove began and carried off with the car's move, then a quick step
+    # that lands at a car-local point and is carried from there; the trailing heel comes up.
+    tracks = dict(L=(0.10, (load - 0.28), 1.25, 1.40, load - L_LAND, ((1.15, 0.0), (1.25, 15.0), (1.40, 0.0))),
+                  R=(-0.12, (load + 0.30), 1.00, 1.15, load + R_LAND,
+                     ((0.80, 24.0 + heel_up), (1.00, 26.0 + heel_up), (1.15, 20.0 + heel_up), (1.30, 26.0 + heel_up), (1.50, 28.0 + heel_up), (1.60, 28.0 + heel_up))))
+    for i in range(17):
+        t = 0.80 + 0.05 * i
+        for s, (side, u0, lift_at, land_at, u1, heel) in tracks.items():
+            if t <= lift_at + 1e-6:
+                key(t, **planted(s, foot(u0, side, travel=push_travel(t)), fyaw[s], ramp(heel, t)))
+            elif t >= land_at - 1e-6:
+                key(t, **planted(s, foot(u1, side, travel=push_travel(t) - push_travel(land_at)), fyaw[s], ramp(heel, t)))
+            else:
+                a = (t - lift_at) / (land_at - lift_at)
+                start, end = Vector(foot(u0, side, travel=push_travel(lift_at))), Vector(foot(u1, side))
+                x, y, z = start.lerp(end, a)
+                toe_off, touch = ramp(heel, lift_at), ramp(heel, land_at) or -4.0
+                key(t, **{'foot' + s: (x, y + 0.07 * math.sin(math.pi * a), z), 'fpitch' + s: toe_off + (touch - toe_off) * a * a,
+                          'toe' + s: toe_off * (1 - a)})
+    # Let go and straighten up; the right foot and then the left step back to the standing point.
+    l_end = Vector(foot(load - L_LAND, 0.10, travel=PUSH_DISTANCE - push_travel(1.40)))
+    r_end = Vector(foot(load + R_LAND, -0.12, travel=PUSH_DISTANCE - push_travel(1.15)))
+    centre = l_end.lerp(r_end, 0.4)
+    # The hands lift off and come back past the chest as it rises, the elbows turning back toward their hanging bend,
+    # and only then do the arms relax. The hips hold until the hands are off.
+    hip_drive = place(reach(0.41), 0.0, low + 0.01)
+    hip_up = tuple(Vector(hip_drive).lerp(Vector((centre.x, 0.81, centre.z)), 0.35))
+    hip_set = (centre.x, 0.83, centre.z)
+    push_poles = {'pole' + s: poles[s] for s in 'LR'}
+
+    def blend_poles(f):
+        return {k: tuple(Vector(push_poles[k]).lerp(Vector(v), f)) for k, v in hang_poles(yaw).items()}
+
+    def away(t, share, f):
+        """Hands `f` of the way from just over their contacts back to beside the thighs, for the hips keyed at t and
+        a trunk leaning `share` of the full lean, kept within easy reach of the shoulders as the trunk rises."""
+        p = keys[round(t, 3)]
+        rest, over = beside(p['hip'], p.get('yaw', yaw)), out_up(0.06, 0.08)
+        a = D(0.85 * lean * share)
+        out_ = {}
+        for s, k in (('L', 1.0), ('R', -1.0)):
+            shoulder = Vector(p['hip']) - out * TRUNK * math.sin(a) + Vector((0.0, TRUNK * math.cos(a), 0.0)) + left * k * 0.18
+            target = Vector(over['grip' + s]).lerp(Vector(rest['grip' + s]), f)
+            arm = target - shoulder
+            out_['grip' + s] = tuple(shoulder + arm.normalized() * 0.42 if arm.length > 0.42 else target)
+        return out_
+
+    key(1.55, hip=hip_drive, **trunk(0.95), orientL=0.7, orientR=0.7, **out_up(0.03, 0.05), **push_poles)
+    key(1.60, hip=hip_up, **trunk(0.6), shrugL=(0.0, 0.0), shrugR=(0.0, 0.0), orientL=0.4, orientR=0.4)
+    key(1.70, hip=hip_set, yaw=yaw, **trunk(0.25), hangL=(8.0, 2.0, 30.0, 0.15), hangR=(8.0, 2.0, 30.0, 0.15),
+        orientL=0.15, orientR=0.15, **blend_poles(0.2))
+    key(1.80, hip=hip_set, **trunk(0.15), orientL=0.0, orientR=0.0, **blend_poles(0.5))
+    for t, share, f in ((1.60, 0.6, 0.1), (1.70, 0.25, 0.45), (1.80, 0.15, 0.8)):
+        key(t, **away(t, share, f))
+    step_r = (r_end + Vector(base['footR'])) / 2
+    dip = car.get('stepDip', 0.0)  # hips a little lower while the feet come back from a long stance
+    hip_r = tuple((Vector(place(us, ss, 0.85)) + Vector(hip_set)) / 2 - Vector((0.0, dip, 0.0)))
+    key(1.88, footR=(step_r.x, step_r.y + 0.06, step_r.z), fpitchR=5.0 + heel_up, toeR=0.0, fyawR=(fyaw['R'] + base['fyawR']) / 2,
+        hip=hip_r, yaw=(yaw + yaw0) / 2, **beside(hip_r, (yaw + yaw0) / 2), **hang_poles((yaw + yaw0) / 2))
+    hip_end = place(us + 0.02, ss - 0.02, 0.862)
+    hip_l = tuple((Vector(hip_r) + Vector(hip_end)) / 2 - Vector((0.0, 0.02, 0.0)))  # a touch low: the left foot is still forward
+    key(1.96, hip=hip_l, yaw=(2 * yaw0 + yaw) / 3, pitch=5.0, spine=(2.0, 0.0, 0.0), chest=(0.0, 0.0, 0.0),
+        neck=(-4.0, 0.0, 0.0), head=(-2.0, 0.0, 0.0), **plant('R', base['footR'], base['fyawR']), **beside(hip_l, yaw0),
+        **hang_poles(yaw0))
+    step_l = (l_end + Vector(base['footL'])) / 2
+    key(2.04, footL=(step_l.x, step_l.y + 0.04, step_l.z), fpitchL=-4.0, fyawL=(fyaw['L'] + base['fyawL']) / 2,
+        **beside(hip_l, yaw0))
+    key(2.12, **plant('L', base['footL'], base['fyawL']), hip=hip_end, yaw=yaw0, **beside(hip_end, yaw0))
+    key(PUSH_DURATION, **base)
+    if car.get('latePalms'):
+        # Fingers up a chest or down to the ground put the wrist out of reach of hands by the thighs: the palms turn
+        # to the push only as the hands arrive, and back as they leave.
+        hanging = {k: base[k] for k in ('palmL', 'palmR')}
+        key(0.10, **hanging)
+        # Turned over the whole reach, not just its last step: a quarter turn in one key interval snaps the forearms.
+        def palm_between(a, b, f):
+            return tuple(tuple(Vector(u).lerp(Vector(v), f).normalized()) for u, v in zip(a, b))
+        for t, f in ((0.20, 1 / 3), (0.30, 2 / 3)):
+            key(t, **{k: palm_between(hanging[k], hands[k], f) for k in ('palmL', 'palmR')})
+        key(0.40, palmL=hands['palmL'], palmR=hands['palmR'])
+        key(1.60, palmL=hands['palmL'], palmR=hands['palmR'])
+        key(1.70, **hanging)
+    pace = car.get('pace', 1.0)
+    return dict(name=name, door=None, duration=round(PUSH_DURATION * pace, 4), keys=sorted((round(t * pace, 4), p) for t, p in keys.items()),
+                base=base, doorCurve=door_curve([(0.0, 0.0, 'linear')]), outside=True, stand=tuple(stand))
+
+
+# Shoving a person or a body clear of the door: the same shove, authored with Snow's feet at the origin facing +Z and
+# the frame moving off with what he shoves, as a car's frame does. Hands on the chest of someone standing, or bent
+# low over the hips of someone lying; the normal is the palm's push direction.
+SHOVES = (
+    dict(name='shovePerson', rear=((0.17, 1.22, 0.60), (-0.17, 1.22, 0.60), (0.0, -0.2, 0.98)), stand=(0.0, 0.0, 0.0), pace=0.6,
+         fingers=(0.0, 1.0, 0.0), latePalms=True),
+    # Stooped from the hips over someone lying, the arms nearly straight down and the palms pushing forward.
+    dict(name='shoveBody', rear=((0.2, 0.30, 0.62), (-0.2, 0.30, 0.62), (0.0, -0.3, 0.95)), stand=(0.0, 0.0, 0.0), pace=0.85,
+         lean=85.0, low=0.62, fingers=(0.0, -1.0, 0.0), latePalms=True, reachIn=(0.04, 0.18, 0.6), heelExtra=20.0, stepDip=0.03),
+)
 
 
 # --- Solver ---------------------------------------------------------------------------------------------------
@@ -1187,9 +1447,13 @@ def main():
         for door, hinge in spec['doors'].items():
             DOORS[door] = (Vector(hinge), DOORS[door][1])
         car_sha = spec['carSha256']
+    # The push clips are authored straight in this car's frame, outside the cabin: no warp and no roof check.
+    pushes = tuple(push_keys(PUSH_CARS[car_sha], sign) for sign in (1, -1))
+    shoves = tuple(push_keys(spec, -1) for spec in SHOVES)
+    pushes += shoves
     baked, report, problems = {}, {}, []
-    for clip in parts:
-        frames, doors, diagnostics = bake_clip(clip, rig, ctx, roof)
+    for clip in parts + pushes:
+        frames, doors, diagnostics = bake_clip(clip, rig, ctx, None if clip.get('outside') else roof)
         found, peaks = check(clip['name'], diagnostics)
         problems += found
         baked[clip['name']] = dict(duration=clip['duration'], door=clip['door'], frames=frames, doorCurve=doors)
@@ -1221,10 +1485,13 @@ def main():
     clips['exitWindshield'], windshield_seam = joined(('climb', 'exitWindshieldTail'), None)
     clips['exitFlipped'], flipped_seam = joined(('exitFlippedDrop', 'exitFlippedTail'), 'DOOR_FL')
     clips['exitFlippedPassenger'], flipped_passenger_seam = joined(('exitFlippedAcross', 'exitFlippedPassengerTail'), 'DOOR_FR')
+    clips.update({c['name']: baked[c['name']] for c in pushes})
     seated = clips['enter']['frames'][-1]['rotations']
     seated_seam = max(gap(seated, clips[n]['frames'][0]['rotations']) for n in ('exit', 'exitFlipped', 'exitFlippedPassenger'))
     seams = dict(climbExit=seam, climbWindshield=windshield_seam, flippedTail=flipped_seam,
                  flippedPassengerTail=flipped_passenger_seam, enterExit=seated_seam)
+    # A shove ends in the pose it starts from, so the next one can follow straight on.
+    seams.update({c['name']: gap(clips[c['name']]['frames'][-1]['rotations'], clips[c['name']]['frames'][0]['rotations']) for c in pushes})
     if max(seams.values()) > 2e-3:
         problems.append(f'clip seams differ: {seams}')
     # A joint turning this far between samples pops on screen (the runtime test's limit).
@@ -1239,7 +1506,8 @@ def main():
                 carSha256=car_sha,
                 rootMotion='Bone poses in car-local coordinates; render model root follows full car transform.',
                 stage=list(STAGE), entryYawDeg=ENTRY_YAW, exitYawDeg=EXIT_YAW, openDeg=OPEN_DEG,
-                seated=clips['enter']['frames'][-1], clips=clips)
+                seated=clips['enter']['frames'][-1], clips=clips,
+                pushStage={c['name']: [round(v, 4) for v in c['stand']] for c in pushes if c not in shoves})
     if interaction:
         # The car definition's `interaction` block, for the simulation's stage and clearance checks.
         data['interaction'] = interaction

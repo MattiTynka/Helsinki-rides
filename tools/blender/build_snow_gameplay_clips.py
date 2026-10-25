@@ -1,8 +1,8 @@
-"""Author six Helsinki gameplay clips against the exact supplied Finn glTF rest hierarchy.
+"""Author six Helsinki gameplay clips against the exact supplied Snow glTF rest hierarchy.
 
 Run in the pinned Blender Python for mathutils; no .blend/GLB importer, source scripts, scene edits,
 mesh changes or export operators are used. Source GLB is data only. Existing eleven animations are
-not read/resampled. The JSON supplement is merged by tools/assets/prepare_finn_character.mjs.
+not read/resampled. The JSON supplement is merged by tools/assets/prepare_snow_character.mjs.
 """
 import argparse
 import hashlib
@@ -19,7 +19,7 @@ import release_pin
 release_pin.require()
 import game_motion as gm
 
-SOURCE_SHA256 = "2d4516c7efc691fd544b25b5ff66d39e19a0f23a5c3b029dd44785652a9adebd"
+SOURCE_SHA256 = "94b5759cea7c95b07028ed2482f7d747c13efa727796d84153a3a0e6f62f3123"
 NAMES = ("aim", "fire", "hit", "death", "drive", "arrested")
 DURATIONS = {"aim": 1.0, "fire": 0.25, "hit": 0.5, "death": 1.4, "drive": 2.0, "arrested": 2.0}
 # glTF global -> the existing authoring library's canonical Blender frame: +Z up/-Y forward.
@@ -72,7 +72,7 @@ def read_glb(path):
             binary = chunk
         offset += 8 + size
     if doc is None or binary is None or sha(data) != SOURCE_SHA256:
-        raise ValueError("unexpected Finn source revision")
+        raise ValueError("unexpected Snow source revision")
     return doc, binary
 
 
@@ -228,8 +228,8 @@ def make_sockets(doc, binary, names, rest, aim_world):
     # At the reference aim pose, gun barrel is global +Z and gun up global +Y. Use native wrist's
     # actual rest/posed orientation; no imported Blender bone-axis assumptions enter this socket.
     hand_rotation = aim_world[wrist].to_quaternion().inverted().normalized()
-    eye = list(mesh_points(doc, binary, rest, "FINN-eyes_game"))
-    head = list(mesh_points(doc, binary, rest, "FINN-head_game"))
+    eye = list(mesh_points(doc, binary, rest, "SNOW-eyes_game"))
+    head = list(mesh_points(doc, binary, rest, "SNOW-head_game"))
     if not eye or not head:
         raise ValueError("native eye/head mesh required for the head socket")
     head_centre = Vector(((min(p.x for p in head) + max(p.x for p in head)) / 2,

@@ -4,7 +4,7 @@
   "assetId": "vehicle-kaamos-v1",
   "source": "models/GT40.blend",
   "builder": "tools/blender/build_extra_cars.py --car kaamos",
-  "note": "The user-supplied low endurance racer (.blend; the .fbx and .obj are the same model) becomes the fictional 'Kaamos'. Every source texture is dropped for flat paint; it carries no emblem geometry. The source is unrigged: the doors are cut out of the body mesh and hinged at their front edges; procedural wheels replace the source wheels. Scaled about 9% over life size (wheelbase 2.63 m) so Finn can sit in it reclined; for him the seats sit lower and further forward, the wheel nearer, and roof blisters over both seats (like the racer's own \"Gurney bubble\") give his head room. Finn's ways in and out are fitted to this cabin (content/assets/finn-vehicle-poses-kaamos.json).",
+  "note": "The user-supplied low endurance racer (.blend; the .fbx and .obj are the same model) becomes the fictional 'Kaamos'. Every source texture is dropped for flat paint; it carries no emblem geometry. The source is unrigged: the doors are cut out of the body mesh and hinged at their front edges; procedural wheels replace the source wheels. Scaled about 9% over life size (wheelbase 2.63 m) so Snow can sit in it reclined; for him the seats sit lower and further forward, the wheel nearer, and roof blisters over both seats (like the racer's own \"Gurney bubble\") give his head room. Snow's ways in and out are fitted to this cabin (content/assets/snow-vehicle-poses-kaamos.json).",
   "axes": {
     "up": "+Y",
     "forward": "+Z",

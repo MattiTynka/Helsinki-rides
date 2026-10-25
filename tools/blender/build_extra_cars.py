@@ -72,7 +72,7 @@ CARS = {
             ("rear emblem lettering", (-0.15, 0.15, 0.60, 1.05, 0.78, 1.00), 0.30),
             ("cabin floor emblem", (-0.12, 0.12, -1.45, -1.00, 0.20, 0.50), 0.25)],
         "nodeBoxes": [("STEERING_WHEEL", ("body",), (0.24, 0.67, -2.30, -2.05, 0.70, 1.15), 0.45)],
-        # Cabin fit for Finn (short arms, tall seated height): both seats 7 cm lower and 15 cm forward, the wheel
+        # Cabin fit for Snow (short arms, tall seated height): both seats 7 cm lower and 15 cm forward, the wheel
         # 12 cm nearer and 8 cm higher. (label, node, source-key pattern, car-local box or None, offset), metres.
         "moves": [("driver seat", "CAR_INTERIOR", None, (0.12, 0.80, 0.25, 1.08, -0.50, 0.45), (0.0, -0.07, 0.15)),
                   ("passenger seat", "CAR_INTERIOR", None, (-0.80, -0.12, 0.25, 1.08, -0.50, 0.45), (0.0, -0.07, 0.15)),
@@ -108,7 +108,7 @@ CARS = {
         "frame": np.array([[0.0, 1.0, 0.0], [-1.0, 0.0, 0.0], [0.0, 0.0, 1.0]]),
         "subsurf": 1,
         # Wheelbase 5.61 in the source; 0.47 gives 2.63 m and a 1.14 m roof (the real car is 1.03 m tall): the
-        # smallest scale whose cabin seats Finn, lying back, under the roof.
+        # smallest scale whose cabin seats Snow, lying back, under the roof.
         "scale": 0.47,
         "sources": "objects",  # every mesh object, keyed by its name without the GT40_ prefix (OBJECTS below)
         "nodes": {},
@@ -136,7 +136,7 @@ CARS = {
         "moves": [("driver seat", "CAR_INTERIOR", r"DriverSeat(\d|Bar|Mount)", None, (0.0, -0.06, 0.15)),
                   ("passenger seat", "CAR_INTERIOR", r"PassengerSeat(\d|Bar|Mount)", None, (0.0, -0.06, 0.15)),
                   ("steering wheel", None, r"SteeringWheel[12]", None, (0.0, 0.10, -0.25))],
-        # Roof blisters over both seats (the GT40's "Gurney bubble"): the roof skin and liner raised for Finn's head.
+        # Roof blisters over both seats (the GT40's "Gurney bubble"): the roof skin and liner raised for Snow's head.
         # (label, |x| plateau, z plateau, ramp, lift, lowest y lifted), car-local metres.
         "bubbles": [("roof blisters", (0.27, 0.48), (-0.55, 0.0), 0.08, 0.06, 0.95)],
         # Door panels of the body: connected parts fully inside the region that reach the outer skin (y beyond

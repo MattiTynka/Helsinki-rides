@@ -55,7 +55,7 @@ export class ChaseCamera {
   }
 
   /**
-   * `chaseTarget` is the seat the chase rig frames (the player's own position while driving); `focus` is Finn's
+   * `chaseTarget` is the seat the chase rig frames (the player's own position while driving); `focus` is Snow's
    * rendered hips while the car layer poses him, so the on-foot rig follows the body rather than the hidden capsule,
    * and `groundY` the ground under the car, which stands in for the capsule's height for the same reason.
    */
@@ -73,7 +73,7 @@ export class ChaseCamera {
       this.carYawOffset = THREE.MathUtils.damp(this.carYawOffset, 0, 1.5, dt);
       if (w >= 1) this.yaw = carYaw + this.carYawOffset;
     } else this.carYawOffset = 0;
-    // Both rigs share one heading, so the blend swings round behind Finn instead of cutting through the car.
+    // Both rigs share one heading, so the blend swings round behind Snow instead of cutting through the car.
     const yaw = this.yaw + wrapAngle(carYaw + this.carYawOffset - this.yaw) * w;
     const aiming = p.aiming && w === 0;
     const dist = aiming ? 1.9 : 3.4;

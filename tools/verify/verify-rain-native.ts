@@ -82,7 +82,7 @@ async function capture(label: string, s: SimState, fixture: string | null = null
 }
 async function viewToward(s: SimState, offset = .35): Promise<void> {
   const target = officer(s).position, yaw = Math.atan2(target[0] - s.player.position[0], target[2] - s.player.position[2]);
-  // Looking directly through Finn hides the officer behind the player's own mesh.
+  // Looking directly through Snow hides the officer behind the player's own mesh.
   await game.setCamera(page, yaw + offset, officer(s).alive ? -.08 : -.28);
 }
 async function waitFor(label: string, predicate: (s: SimState) => boolean, ticks: number, command = NEUTRAL): Promise<SimState> {

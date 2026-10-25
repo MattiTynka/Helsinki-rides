@@ -4,7 +4,7 @@
   "assetId": "vehicle-revontuli-v1",
   "source": "models/bugatti-veyron-fully-rigged/source/bugatti.blend",
   "builder": "tools/blender/build_extra_cars.py --car revontuli",
-  "note": "The user-supplied rigged supercar becomes the fictional 'Revontuli'. Emblems, lettering, the number plate and every source texture are removed before export (plan section 18 rule 3); flat two-tone paint. For Finn the seats sit lower and further forward and the wheel nearer. Only visual meshes are exported; the authoring rig stays in Blender. Finn's ways in and out are fitted to this cabin (content/assets/finn-vehicle-poses-revontuli.json).",
+  "note": "The user-supplied rigged supercar becomes the fictional 'Revontuli'. Emblems, lettering, the number plate and every source texture are removed before export (plan section 18 rule 3); flat two-tone paint. For Snow the seats sit lower and further forward and the wheel nearer. Only visual meshes are exported; the authoring rig stays in Blender. Snow's ways in and out are fitted to this cabin (content/assets/snow-vehicle-poses-revontuli.json).",
   "axes": {
     "up": "+Y",
     "forward": "+Z",

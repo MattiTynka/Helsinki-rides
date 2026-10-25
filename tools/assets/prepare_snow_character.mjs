@@ -1,4 +1,4 @@
-// Adapt the user-supplied Finn export without retargeting its eleven native animations.
+// Adapt the user-supplied Snow export without retargeting its eleven native animations.
 // Preserve native motions; add gameplay clips, textures and an explicit optional collar skin-weight repair.
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
@@ -8,8 +8,8 @@ import { parseArgs } from 'node:util';
 import sharp from 'sharp';
 import { encodeToKTX2 } from 'ktx2-encoder';
 import { readFacadeGlb, replaceFacadeImages } from '../world/lib/facade-glb.ts';
-import { applyFinnCollarWeights } from './apply_finn_collar_weights.mjs';
-import { applyFinnHiddenFaces } from './apply_finn_hidden_faces.mjs';
+import { applySnowCollarWeights } from './apply_snow_collar_weights.mjs';
+import { applySnowHiddenFaces } from './apply_snow_hidden_faces.mjs';
 
 const { values } = parseArgs({ options: Object.fromEntries(['source', 'supplement', 'profile', 'out', 'texture-cache', 'collar-patch', 'hidden-faces'].map(k => [k, { type: 'string' }])) });
 for (const key of ['source', 'supplement', 'profile', 'out']) if (!values[key]) throw new Error(`--${key} required`);
@@ -17,7 +17,7 @@ if (existsSync(values.out)) throw new Error('Use a fresh output directory');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const sourceBytes = readFileSync(values.source);
 const sourceSha256 = sha(sourceBytes);
-assert.equal(sourceSha256, '2d4516c7efc691fd544b25b5ff66d39e19a0f23a5c3b029dd44785652a9adebd', 'Unexpected Finn source revision');
+assert.equal(sourceSha256, '94b5759cea7c95b07028ed2482f7d747c13efa727796d84153a3a0e6f62f3123', 'Unexpected Snow source revision');
 const original = readFacadeGlb(sourceBytes);
 const supplementBytes = readFileSync(values.supplement);
 const supplement = JSON.parse(supplementBytes);
@@ -126,8 +126,8 @@ for (const socket of supplement.sockets) {
 }
 assert.deepEqual(supplement.sockets.map(s => s.name).sort(), ['SOCKET_HAND_R', 'SOCKET_HEAD']);
 for (const scene of json.scenes) scene.extras = { characterProfile: profile };
-json.asset.copyright = 'Finn: user modification of Snow, Blender Studio, CC BY 4.0. Supplied motion provenance: see source ledger.';
-json.asset.generator = 'Helsinki Finn adapter; preserves native Finn rig and eleven supplied animation tracks';
+json.asset.copyright = 'Snow: user modification of Snow, Blender Studio, CC BY 4.0. Supplied motion provenance: see source ledger.';
+json.asset.generator = 'Helsinki Snow adapter; preserves native Snow rig and eleven supplied animation tracks';
 json.buffers[0].byteLength = length;
 const bin = Buffer.concat(pieces), text = Buffer.from(JSON.stringify(json)), jsonLength = align(text.length);
 let result = Buffer.alloc(28 + jsonLength + align(bin.length));
@@ -157,12 +157,12 @@ for (const [i, node] of original.json.nodes.entries()) {
 let collarCorrection = null;
 if (values['collar-patch']) {
   const patchBytes = readFileSync(values['collar-patch']);
-  collarCorrection = { file: values['collar-patch'], sha256: sha(patchBytes), ...applyFinnCollarWeights(final, JSON.parse(patchBytes), sourceSha256) };
+  collarCorrection = { file: values['collar-patch'], sha256: sha(patchBytes), ...applySnowCollarWeights(final, JSON.parse(patchBytes), sourceSha256) };
 }
 let hiddenFaceCorrection = null;
 if (values['hidden-faces']) {
   const patchBytes = readFileSync(values['hidden-faces']);
-  hiddenFaceCorrection = { file: values['hidden-faces'], sha256: sha(patchBytes), ...applyFinnHiddenFaces(final, JSON.parse(patchBytes), sourceSha256) };
+  hiddenFaceCorrection = { file: values['hidden-faces'], sha256: sha(patchBytes), ...applySnowHiddenFaces(final, JSON.parse(patchBytes), sourceSha256) };
   const encoded = Buffer.from(JSON.stringify(final.json)), padded = align(encoded.length);
   result = Buffer.alloc(28 + padded + align(final.bin.length));
   result.writeUInt32LE(0x46546c67, 0); result.writeUInt32LE(2, 4); result.writeUInt32LE(result.length, 8);
@@ -174,6 +174,6 @@ const validation = await validateBytes(result, { maxIssues: 100 });
 assert.equal(validation.issues.numErrors, 0, JSON.stringify(validation.issues));
 mkdirSync(values.out, { recursive: true });
 writeFileSync(path.join(values.out, 'character-snow.glb'), result, { flag: 'wx' });
-const report = { status: 'EXPORTED_REQUIRES_RUNTIME_REVIEW', assetId: 'character-snow', displayName: 'Finn', source: { file: values.source, sha256: sourceSha256 }, supplement: { file: values.supplement, sha256: sha(supplementBytes) }, profile: { file: values.profile, sha256: sha(profileBytes) }, output: { bytes: result.length, sha256: sha(result) }, nativeClips, additionalClips: requiredAdditions, textures, collarCorrection, hiddenFaceCorrection, preservation: { vertexAttributes: 'byte-exact except explicit collar skin weights', topology: hiddenFaceCorrection ? 'Exact except two fully covered head faces removed' : 'byte-exact', inverseBindsAndRestSkeleton: 'exact', skinWeights: collarCorrection ? 'Exact except explicit collar correction' : 'byte-exact', suppliedAnimationTracks: 'byte-exact', sourceNonImageBufferViews: preservedViews, byteExactNonImageBufferViews: preservedViews - (collarCorrection?.affectedBufferViews.length ?? 0) - (hiddenFaceCorrection ? 1 : 0) }, validation: validation.issues, sourceFiles: Object.fromEntries(['tools/assets/prepare_finn_character.mjs', 'tools/assets/apply_finn_collar_weights.mjs', 'tools/assets/apply_finn_hidden_faces.mjs', 'tools/world/lib/facade-glb.ts'].map(f => [f, sha(readFileSync(f))])) };
-writeFileSync(path.join(values.out, 'finn-build-report.json'), JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
+const report = { status: 'EXPORTED_REQUIRES_RUNTIME_REVIEW', assetId: 'character-snow', displayName: 'Snow', source: { file: values.source, sha256: sourceSha256 }, supplement: { file: values.supplement, sha256: sha(supplementBytes) }, profile: { file: values.profile, sha256: sha(profileBytes) }, output: { bytes: result.length, sha256: sha(result) }, nativeClips, additionalClips: requiredAdditions, textures, collarCorrection, hiddenFaceCorrection, preservation: { vertexAttributes: 'byte-exact except explicit collar skin weights', topology: hiddenFaceCorrection ? 'Exact except two fully covered head faces removed' : 'byte-exact', inverseBindsAndRestSkeleton: 'exact', skinWeights: collarCorrection ? 'Exact except explicit collar correction' : 'byte-exact', suppliedAnimationTracks: 'byte-exact', sourceNonImageBufferViews: preservedViews, byteExactNonImageBufferViews: preservedViews - (collarCorrection?.affectedBufferViews.length ?? 0) - (hiddenFaceCorrection ? 1 : 0) }, validation: validation.issues, sourceFiles: Object.fromEntries(['tools/assets/prepare_snow_character.mjs', 'tools/assets/apply_snow_collar_weights.mjs', 'tools/assets/apply_snow_hidden_faces.mjs', 'tools/world/lib/facade-glb.ts'].map(f => [f, sha(readFileSync(f))])) };
+writeFileSync(path.join(values.out, 'snow-build-report.json'), JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
 console.log(JSON.stringify({ status: report.status, bytes: result.length, sha256: sha(result), nativeClips: nativeClips.length, additionalClips: requiredAdditions.length, preservedViews }));

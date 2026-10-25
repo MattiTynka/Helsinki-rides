@@ -126,7 +126,7 @@ try {
     { start: ledgeStart.player.position, end: ledgeEnd.position, rise: ledgeEnd.position[1] - ledgeStart.player.position[1] });
   scenarios.push({ id: 'cathedral-raised-stone-landing', start: ledgeStart, frames: ledgeFrames });
 
-  // Existing 2.32 m wall near the Cathedral (found by data/evidence/finn-jump-climb-20261017/find-ledges.ts):
+  // Existing 2.32 m wall near the Cathedral (found by data/evidence/snow-jump-climb-20261017/find-ledges.ts):
   // walk up to it with W (Alt for the last metre), then W + one Space grabs the edge and pulls up.
   await reset(); await game.teleport(page, -56, -52.4, 180); await tick(30);
   for (const [tx, tz, tolerance, walk] of [[-56, -50.9, .3, false], [-56, -52.4, .1, true]] as const) {

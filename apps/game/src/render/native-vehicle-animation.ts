@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import type { PlayerState, VehicleClip, VehicleState } from '@helsinki/sim';
 import type { VehicleDefinition } from '@helsinki/world-schema';
-import poseData from '../../../../content/assets/finn-vehicle-poses.json' with { type: 'json' };
-import revontuliPoseData from '../../../../content/assets/finn-vehicle-poses-revontuli.json' with { type: 'json' };
+import poseData from '../../../../content/assets/snow-vehicle-poses.json' with { type: 'json' };
+import revontuliPoseData from '../../../../content/assets/snow-vehicle-poses-revontuli.json' with { type: 'json' };
 
 interface PoseFrame {
   readonly time: number;
@@ -22,9 +22,11 @@ export interface VehiclePoses {
   readonly entryYawDeg: number;
   readonly exitYawDeg: number;
   readonly clips: Readonly<Record<VehicleClip, PoseClip>>;
+  /** Car-local feet where each shove starts and ends, at the corner of the nose or tail. */
+  readonly pushStage: Readonly<Record<'pushFront' | 'pushRear', readonly number[]>>;
 }
 export const VEHICLE_POSES = poseData as VehiclePoses;
-/** Finn's clip sets by the car definition's `interaction.poses`, each authored in that car's cabin. */
+/** Snow's clip sets by the car definition's `interaction.poses`, each authored in that car's cabin. */
 const POSE_SETS: Readonly<Record<string, VehiclePoses>> = {
   'lumi-gt': VEHICLE_POSES, revontuli: revontuliPoseData as VehiclePoses,
 };
@@ -33,7 +35,7 @@ const POSE_SETS: Readonly<Record<string, VehiclePoses>> = {
 export function vehiclePoses(def: VehicleDefinition | null | undefined): VehiclePoses {
   const id = def?.interaction?.poses ?? 'lumi-gt';
   const set = POSE_SETS[id];
-  if (!set) throw new Error(`Finn vehicle pose set ${id} missing`);
+  if (!set) throw new Error(`Snow vehicle pose set ${id} missing`);
   return set;
 }
 type Interaction = PlayerState['vehicleInteraction'];
@@ -69,7 +71,7 @@ export function vehicleDoorOpen(interaction: Interaction, door: string, poses = 
   return curve[curve.length - 1]!.value;
 }
 
-/** A car-local, non-looping pose layer on Finn's existing 71-joint skin. Physics retains the capsule. */
+/** A car-local, non-looping pose layer on Snow's existing 71-joint skin. Physics retains the capsule. */
 export class NativeVehicleAnimation {
   private readonly bones = new Map<string, THREE.Object3D>();
   private readonly saved = new Map<THREE.Object3D, { q: THREE.Quaternion; p: THREE.Vector3 }>();
@@ -91,17 +93,24 @@ export class NativeVehicleAnimation {
   private readonly up = new THREE.Vector3(0, 1, 0);
   private applied = false;
   private releasing = 0;
+  /**
+   * The clip and clip time posed last frame. A shove that follows another (its clip time wraps) starts from the pose
+   * the last one ended in, so only the first shove blends in from the walk-up.
+   */
+  private posed: VehicleClip | null = null;
+  private posedTime = 0;
+  private firstShove = false;
 
   constructor(model: THREE.Object3D) {
     for (const name of Object.keys(VEHICLE_POSES.clips.enter.frames[0]!.rotations)) {
       const node = model.getObjectByName(THREE.PropertyBinding.sanitizeNodeName(name)) ?? model.getObjectByName(name);
-      if (!node) throw new Error(`Finn vehicle pose is missing joint ${name}`);
+      if (!node) throw new Error(`Snow vehicle pose is missing joint ${name}`);
       this.bones.set(name, node);
       this.saved.set(node, { q: new THREE.Quaternion(), p: new THREE.Vector3() });
       this.last.set(node, new THREE.Quaternion());
     }
     const hips = model.getObjectByName('DEF-Hips');
-    if (!hips) throw new Error('Finn vehicle pose requires DEF-Hips');
+    if (!hips) throw new Error('Snow vehicle pose requires DEF-Hips');
     this.hips = hips;
   }
 
@@ -113,14 +122,22 @@ export class NativeVehicleAnimation {
   }
 
   /**
-   * Pose Finn in the car's frame. The root follows the car; at the start of the entry it is warped from where the
+   * Pose Snow in the car's frame. The root follows the car; at the start of the entry it is warped from where the
    * walk-up actually stopped, and the bones blend in from the mixer pose. When the layer lets go, its last pose fades
    * into the mixer over VEHICLE_POSE_RELEASE seconds. Returns whether the car layer owns the body this frame.
    */
   apply(root: THREE.Object3D, interaction: Interaction, vehicle: VehicleState | undefined, dt = 0, poses = VEHICLE_POSES): boolean {
     const sample = vehiclePoseSample(interaction, poses);
-    if (!sample || !vehicle || !interaction) { this.release(root, dt); return false; }
-    const enter = interaction.clip === 'enter' && interaction.stage === 'enter';
+    if (!sample || !vehicle || !interaction) { this.posed = null; this.release(root, dt); return false; }
+    // The entry and the first shove start from the walk-up: blend the body in and warp the root onto the clip.
+    const push = interaction.stage === 'push' && (interaction.clip === 'pushFront' || interaction.clip === 'pushRear') ? interaction.clip : null;
+    // Shoving someone aside: the clip's frame is Snow's own (the root already stands on his capsule), not the car's.
+    const aside = interaction.stage === 'shove';
+    if ((push || aside) && this.posed !== interaction.clip) this.firstShove = true;
+    else if ((push || aside) && sample.time < this.posedTime) this.firstShove = false;
+    const enter = (interaction.clip === 'enter' && interaction.stage === 'enter') || ((push !== null || aside) && this.firstShove);
+    this.posed = interaction.clip;
+    this.posedTime = sample.time;
     const blend = enter ? smooth(sample.seconds / VEHICLE_POSE_BLEND_IN) : 1;
     if (blend < 1) { root.updateMatrixWorld(true); this.mixerHips.copy(this.hips.matrixWorld); }
     const frames = sample.clip.frames;
@@ -142,13 +159,16 @@ export class NativeVehicleAnimation {
       THREE.MathUtils.lerp(left.hips[1]!, right.hips[1]!, t),
       THREE.MathUtils.lerp(left.hips[2]!, right.hips[2]!, t),
     );
-    root.position.fromArray(vehicle.position);
-    root.quaternion.fromArray(vehicle.rotation);
+    if (!aside) {
+      root.position.fromArray(vehicle.position);
+      root.quaternion.fromArray(vehicle.rotation);
+    }
     const warp = enter ? 1 - smooth(sample.seconds / VEHICLE_ROOT_WARP) : 0;
     if (warp > 0) {
       // Rotate the remaining heading error about the staging point, then shift by the remaining position error.
       const [x, z, yaw] = interaction.startOffset;
-      this.pivot.fromArray(poses.stage).applyQuaternion(root.quaternion);
+      if (aside) this.pivot.set(0, 0, 0);
+      else this.pivot.fromArray(push ? poses.pushStage[push] : poses.stage).applyQuaternion(root.quaternion);
       this.offset.set(x * warp, 0, z * warp).applyQuaternion(root.quaternion);
       this.warp.setFromAxisAngle(this.up, yaw * warp);
       root.position.add(this.pivot).sub(this.pb.copy(this.pivot).applyQuaternion(this.warp)).add(this.offset);
@@ -176,7 +196,7 @@ export class NativeVehicleAnimation {
       saved.q.copy(node.quaternion); saved.p.copy(node.position);
       if (node !== this.hips) node.quaternion.slerp(this.last.get(node)!, weight);
     }
-    // Hips are matched in world space: the vehicle pose was posed in the car's frame, the mixer in Finn's.
+    // Hips are matched in world space: the vehicle pose was posed in the car's frame, the mixer in Snow's.
     this.blendHips(this.mixerHips.copy(this.m), weight, this.lastHips);
     this.applied = true;
   }

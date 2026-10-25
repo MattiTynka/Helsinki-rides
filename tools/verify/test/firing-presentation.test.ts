@@ -26,7 +26,7 @@ function fixture(rain = false) {
   return { model, pistol, wrists, bones, firing: new CharacterFiring(model, pistol) };
 }
 
-for (const rain of [false, true]) test(`${rain ? 'Rain' : 'Finn'} recoil keeps both grip contacts and returns to the authored pose`, () => {
+for (const rain of [false, true]) test(`${rain ? 'Rain' : 'Snow'} recoil keeps both grip contacts and returns to the authored pose`, () => {
   const { firing, pistol, wrists, bones } = fixture(rain);
   const base = bones.map(bone => bone.quaternion.clone());
   const grip = wrists[1]!.getWorldPosition(new THREE.Vector3()).sub(wrists[0]!.getWorldPosition(new THREE.Vector3()));

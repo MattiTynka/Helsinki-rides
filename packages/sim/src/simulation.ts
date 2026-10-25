@@ -2,9 +2,9 @@
 // state out. No rendering, no DOM, no Three.js. Everything the renderer needs is in `state()`; everything a
 // replay needs is the seed plus the command stream.
 import type { Anchor, GameEvent, GameplayBundle, VehicleDefinition, WeaponDefinition } from '@helsinki/world-schema';
-import { Character, CHARACTER, FEET_TO_CENTRE, type CharacterClip, type ClimbView, type JumpKind, type JumpPhase } from './character.ts';
-import { Button, has, NEUTRAL, TICK_HZ, type Command } from './commands.ts';
-import { clamp, distanceXZ, fnv1a, lengthXZ, normalize, Rng, wrapAngle, yawOf, type Quat, type V3 } from './math.ts';
+import { BODY, Character, CHARACTER, FEET_TO_CENTRE, type CharacterClip, type ClimbView, type JumpKind, type JumpPhase } from './character.ts';
+import { Button, has, NEUTRAL, TICK_HZ, TICK_SECONDS, type Command } from './commands.ts';
+import { clamp, distanceXZ, dot, fnv1a, lengthXZ, normalize, Rng, rotate, sub, wrapAngle, yawOf, type Quat, type V3 } from './math.ts';
 import { PoliceForce, type PoliceUnitState } from './police.ts';
 import { ParkedCars } from './parked-cars.ts';
 import { Pedestrians, type PedestrianKnockdown } from './pedestrians.ts';
@@ -13,7 +13,7 @@ import { WantedState, type Crime, type WantedSnapshot } from './wanted.ts';
 import { fireRay, Inventory, type ShotResult } from './weapons.ts';
 import { resolveAimDirection } from './aim.ts';
 import { SafeSpawns } from './safe-spawn.ts';
-import { VEHICLE_INTERACTION, vehicleApproachRoute, vehicleInteractionOf, vehicleDoorClearance, vehicleExitClearance, vehicleExitClips, vehicleExitRoute, vehicleExitYaw, vehiclePosture, type VehicleClip, type VehicleInteractionState } from './vehicle-interaction.ts';
+import { VEHICLE_INTERACTION, vehicleApproachRoute, vehicleInteractionOf, vehicleDoorClearance, vehicleExitClearance, vehicleExitClips, vehicleExitRoute, vehicleExitYaw, vehicleAtPose, vehiclePosture, vehiclePushClearance, vehiclePushDirection, vehiclePushPlan, vehiclePushStage, vehiclePushTravel, vehiclePushYaw, vehicleReturnRoute, vehicleShovePlan, vehicleShoveTargetTravel, vehicleShoveTravel, type VehicleClip, type VehicleInteractionState, type VehiclePushClip, type VehicleShovePlan } from './vehicle-interaction.ts';
 import { RAPIER, type StaticWorld } from './world.ts';
 import { initialResidencySources, RESIDENCY, source, type ResidencyPlan, type ResidencySource } from './collision-residency.ts';
 import {supportedSpawnGround}from'./spawn-ground.ts';
@@ -104,11 +104,21 @@ export interface SimOptions {
 }
 
 const vehicleClipTicks = (clip: VehicleClip): number => Math.round(VEHICLE_INTERACTION.durations[clip] * TICK_HZ);
+/**
+ * A shove drives the car toward the authored travel: its speed along the axis follows the travel's rate plus this
+ * gain (1/s) times the remaining error, capped, and changes by at most PUSH_ACCEL m/s² (the smoothstep peaks near
+ * 7.3), so a car against a wall or another car is pushed hard but not without limit. The push holds on this long
+ * past the window to settle the car on its mark before the brakes come back on.
+ */
+const PUSH_GAIN = 6, PUSH_MAX_SPEED = 2, PUSH_ACCEL = 12, PUSH_SETTLE = 0.2;
 // Both authored death clips collapse in 1.4 s. Keep a small margin before treating their
 // still-standing physics proxies as floor-level bodies in the upper doorway query only.
 const GROUNDED_DEATH_CLEARANCE_TICKS = Math.ceil(1.5 * TICK_HZ);
 const RECOVER_HOLD_TICKS = 45;
 const RAM_FORCE_THRESHOLD = 8000;
+/** A car meeting someone at this speed (m/s) or more hurts them, by `carHitDamage` health. */
+const CAR_HIT_SPEED = 2.5;
+const carHitDamage = (speed: number): number => (speed - 2) * 12;
 const MAX_LOG = 4000;
 const CRIME_DEBOUNCE_TICKS: Partial<Record<Crime, number>> = { fire: 90, shootAtPolice: 150, drawWeapon: 600, ram: 45, ramPolice: 45, takeCar: 120, hitPedestrian: 30 };
 
@@ -141,7 +151,15 @@ export class Simulation {
   recoverTicks = 0;
   private pendingVehicle: Vehicle | null = null;
   private pendingExit: V3 | null = null;
-  private entryStage: 'approach' | 'enter' = 'approach';
+  private entryStage: 'approach' | 'push' | 'shove' | 'enter' = 'approach';
+  /** With a person or a body at the driver's door: whom Snow shoves aside and how, how many so far, and where they stood. */
+  private shoveAside: VehicleShovePlan | null = null;
+  private shoveAsides = 0;
+  private shoveFrom: V3 = [0, 0, 0];
+  /** With the driver's door blocked: the corner Snow walks to and shoves from, how many shoves so far, and where the car stood when this one began. */
+  private pushClip: VehiclePushClip | null = null;
+  private pushShoves = 0;
+  private pushOrigin: V3 = [0, 0, 0];
   private interactionTicks = 0;
   private approachRoute: V3[] = [];
   private approachWaypoint = 0;
@@ -156,7 +174,7 @@ export class Simulation {
     const character = this.colliderCharacter.get(collider.handle);
     return !character || character.alive || !character.grounded || character.deathTicks < GROUNDED_DEATH_CLEARANCE_TICKS;
   };
-  private readonly ramCooldown = new Map<string, number>();
+  private readonly livingPerson = (collider: RAPIER.Collider): boolean => !!this.colliderCharacter.get(collider.handle)?.alive;  private readonly ramCooldown = new Map<string, number>();
   private readonly crimeTicks = new Map<Crime, number>();
   /** Taking the same retained car again is not a second theft; retired vehicles remain collectable. */
   private readonly playerTakenVehicles = new WeakSet<Vehicle>();
@@ -374,8 +392,10 @@ export class Simulation {
     this.police.step();
     this.parkedCars.step();
     this.pedestrians.step();
+    // After their own AI: whoever Snow is shoving aside goes where he sends them.
+    if (this.entryStage === 'shove' && this.shoveAside) this.carryShoved();
     // A former police unit may still reference a reserved car. Entry/exit owns its controls.
-    if (this.pendingVehicle) this.brakeVehicle(this.pendingVehicle);
+    if (this.pendingVehicle) this.holdPendingVehicle(this.pendingVehicle);
     if (this.mode === 'exiting' && this.playerVehicle) this.brakeVehicle(this.playerVehicle);
 
     const filter = (): boolean => true;
@@ -388,6 +408,7 @@ export class Simulation {
 
     if (this.playerVehicle) this.followVehicle();
     for (const c of this.characters.values()) if (!c.alive) c.deathTicks++;
+    this.layBodies();
 
     this.wanted.step(this.tick, this.police.playerSeen, this.playerPosition, this.events);
     this.police.afterPhysics();
@@ -472,9 +493,16 @@ export class Simulation {
     this.modeTicks = 0;
     this.pendingVehicle = v;
     this.entryStage = 'approach';
+    this.pushClip = null;
+    this.pushShoves = 0;
+    this.shoveAside = null;
+    this.shoveAsides = 0;
     this.interactionTicks = 0;
     this.approachRoute = vehicleApproachRoute(v, this.player.position);
     this.approachWaypoint = 0;
+    // A blocked door sends him behind whoever is in the way, or to a corner, at once rather than into whatever lies
+    // at it; from the far side it is planned again on the last leg.
+    if (!vehicleDoorClearance(this.world, v, this.player, this.blocksUpperDoor)) this.planClearDoor(v);
     this.exitRequested = false;
     this.exitReturning = false;
     this.aiming = false;
@@ -489,7 +517,7 @@ export class Simulation {
     if (!v || this.vehicles.get(v.id) !== v || v.damage === 'wrecked' || v.up[1] < 0.9) {
       this.abortVehicleEntry(); return;
     }
-    this.brakeVehicle(v);
+    this.holdPendingVehicle(v);
     const p = this.player;
     if (this.entryStage === 'approach') {
       if (this.modeTicks > VEHICLE_INTERACTION.approachTimeout * TICK_HZ) { this.abortVehicleEntry(); return; }
@@ -503,23 +531,42 @@ export class Simulation {
         p.move(this.world, dir[0] * speed, dir[2] * speed);
         return;
       }
-      if (this.approachWaypoint < this.approachRoute.length - 1) { this.approachWaypoint++; p.move(this.world, 0, 0); return; }
-      const entryYaw = v.yaw + VEHICLE_INTERACTION.entryYaw;
+      if (this.approachWaypoint < this.approachRoute.length - 1) {
+        this.approachWaypoint++;
+        p.move(this.world, 0, 0);
+        // On the last leg, a blocked door sends him on now rather than into whatever lies at it; with no way to clear
+        // it he gives up at once instead of standing pressed against it until the approach times out.
+        if (!this.pushClip && !this.shoveAside && this.approachWaypoint === this.approachRoute.length - 1 && !vehicleDoorClearance(this.world, v, p, this.blocksUpperDoor) && !this.planClearDoor(v)) this.abortVehicleEntry();
+        return;
+      }
+      // At the door he turns slightly toward it; at a corner to push from, square to the car's end; behind someone
+      // to shove, the way they will go.
+      const entryYaw = this.shoveAside ? this.shoveAside.yaw : this.pushClip ? vehiclePushYaw(v, this.pushClip) : v.yaw + VEHICLE_INTERACTION.entryYaw;
       p.turnToward(entryYaw, 8);
       p.move(this.world, 0, 0);
       if (Math.abs(wrapAngle(p.yaw - entryYaw)) > VEHICLE_INTERACTION.arrivalYaw || !p.grounded || v.speed > VEHICLE_INTERACTION.stoppedSpeed) return;
+      if (this.shoveAside) { this.arriveShoveAside(v); return; }
+      if (this.pushClip) {
+        const stand = vehiclePushClearance(this.world, v, p, this.pushClip);
+        if (!stand) { this.abortVehicleEntry(); return; }
+        this.pose(v, stand, entryYaw);
+        this.beginShove(v);
+        this.pushShoves = 1;
+        return;
+      }
       const stage = vehicleDoorClearance(this.world, v, p, this.blocksUpperDoor);
-      if (!stage) { this.abortVehicleEntry(); return; }
-      const dx = p.position[0] - stage[0], dz = p.position[2] - stage[2];
-      this.entryOffset = [dx * Math.cos(v.yaw) - dz * Math.sin(v.yaw), dx * Math.sin(v.yaw) + dz * Math.cos(v.yaw), wrapAngle(p.yaw - entryYaw)];
-      p.position = stage;
-      p.yaw = entryYaw;
-      p.speed = 0;
-      p.hide();
+      if (!stage) {
+        if (!this.planClearDoor(v)) this.abortVehicleEntry();
+        return;
+      }
+      this.pose(v, stage, entryYaw);
       this.entryStage = 'enter';
       this.interactionTicks = 0;
       return;
     }
+    if ((this.entryStage === 'push' || this.entryStage === 'shove') && this.struckWhilePosed(v)) return;
+    if (this.entryStage === 'push') { this.stepShove(v); return; }
+    if (this.entryStage === 'shove') { this.stepShoveAside(v); return; }
     if (v.speed > 0.8 || !vehicleDoorClearance(this.world, v, p, this.blocksUpperDoor)) { this.abortVehicleEntry(); return; }
     this.interactionTicks++;
     p.speed = 0;
@@ -541,15 +588,210 @@ export class Simulation {
     }
   }
 
+  /**
+   * Put the hidden capsule on a clip's authored start, keeping the walk-up's error for the renderer to blend out, in
+   * the clip's frame: the car's, or Snow's own heading for a shove aside.
+   */
+  private pose(v: Vehicle, feet: V3, yaw: number, frameYaw = v.yaw): void {
+    const p = this.player, dx = p.position[0] - feet[0], dz = p.position[2] - feet[2];
+    this.entryOffset = [dx * Math.cos(frameYaw) - dz * Math.sin(frameYaw), dx * Math.sin(frameYaw) + dz * Math.cos(frameYaw), wrapAngle(p.yaw - yaw)];
+    p.position = feet;
+    p.yaw = yaw;
+    p.speed = 0;
+    p.hide();
+  }
+
+  /**
+   * The door is blocked: shove aside the person or body in the way (no crime, an officer included), or else shove
+   * the car clear of whatever it is.
+   */
+  private planClearDoor(v: Vehicle): boolean {
+    const plan = this.shoveAsides < VEHICLE_INTERACTION.shove.shoves ? vehicleShovePlan(this.world, v, this.player, this.blocksUpperDoor, collider => this.characterOf(collider.handle)) : null;
+    this.shoveAside = plan;
+    if (!plan) return this.planShove(v);
+    this.pushClip = null;
+    this.approachRoute = plan.route;
+    this.approachWaypoint = 0;
+    this.modeTicks = 0;
+    return true;
+  }
+
+  /** Behind whoever he is to shove: shove them, plan again if they have moved, or go to the door if it is clear now. */
+  private arriveShoveAside(v: Vehicle): void {
+    const p = this.player, planned = this.shoveAside!;
+    if (vehicleDoorClearance(this.world, v, p, this.blocksUpperDoor)) { this.walkToDoor(v); return; }
+    // Someone walking about must not keep him re-planning past the approach timeout.
+    const ticks = this.modeTicks, planOk = this.planClearDoor(v);
+    this.modeTicks = ticks;
+    if (!planOk) { this.abortVehicleEntry(); return; }
+    const plan = this.shoveAside as VehicleShovePlan | null;
+    if (!plan || plan.target !== planned.target || distanceXZ(plan.stand, p.position) > 0.35) return;
+    this.pose(v, plan.stand, plan.yaw, plan.yaw);
+    this.entryStage = 'shove';
+    this.interactionTicks = 0;
+    this.shoveAsides++;
+    this.shoveFrom = plan.target.position;
+    this.emit('shoveAside', plan.target.id);
+  }
+
+  /**
+   * One shove aside. The clip's frame is Snow's own: his hidden capsule moves with his hands (the clip ends a stride
+   * on), while whoever he shoves is carried along by `carryShoved`. Then he goes to the door if it is clear, shoves
+   * the next one, or shoves the car.
+   */
+  private stepShoveAside(v: Vehicle): void {
+    const p = this.player, { clip, stand, direction: d, yaw } = this.shoveAside!;
+    this.interactionTicks++;
+    const travel = vehicleShoveTravel(clip, this.interactionTicks * TICK_SECONDS);
+    p.position = [stand[0] + d[0] * travel, stand[1], stand[2] + d[2] * travel];
+    p.yaw = yaw;
+    p.speed = 0;
+    p.hide();
+    if (this.interactionTicks < vehicleClipTicks(clip)) return;
+    p.teleport(p.position, yaw);
+    // Their own legs again: nothing of the shove's velocity carries on.
+    const { target } = this.shoveAside!;
+    if (target.alive) { target.desiredVx = 0; target.desiredVz = 0; }
+    this.shoveAside = null;
+    this.entryOffset = [0, 0, 0];
+    if (vehicleDoorClearance(this.world, v, p, this.blocksUpperDoor)) { this.walkToDoor(v); return; }
+    this.entryStage = 'approach';
+    this.interactionTicks = 0;
+    if (!this.planClearDoor(v)) this.abortVehicleEntry();
+  }
+
+  /** Whoever Snow shoves goes where his hands and then their own stagger take them; someone living reels meanwhile. */
+  private carryShoved(): void {
+    const { clip, target: c, direction: d } = this.shoveAside!, { window: [, to], tail } = VEHICLE_INTERACTION.shove[clip];
+    const seconds = this.interactionTicks * TICK_SECONDS;
+    if (this.characters.get(c.id) !== c || c.inVehicle || seconds > to + tail + TICK_SECONDS) return;
+    const travel = vehicleShoveTargetTravel(clip, seconds), from = this.shoveFrom;
+    const vx = clamp((from[0] + d[0] * travel - c.position[0]) * TICK_HZ, -4, 4), vz = clamp((from[2] + d[2] * travel - c.position[2]) * TICK_HZ, -4, 4);
+    if (c.alive) {
+      c.desiredVx = vx; c.desiredVz = vz;
+      c.hitTicks = Math.max(c.hitTicks, 2);
+      if (c.clip !== 'hit') { c.clip = 'hit'; c.clipTicks = 0; }
+    } else if (c.grounded) c.move(this.world, vx, vz);
+  }
+
+  /** On to the door from wherever he is now. */
+  private walkToDoor(v: Vehicle): void {
+    this.entryStage = 'approach';
+    this.shoveAside = null;
+    this.pushClip = null;
+    this.interactionTicks = 0;
+    this.entryOffset = [0, 0, 0];
+    this.approachRoute = vehicleApproachRoute(v, this.player.position);
+    this.approachWaypoint = 0;
+    this.modeTicks = 0;
+  }
+
+  /** Something other than a person blocks the door: walk round to a corner and shove the car clear of it. */
+  private planShove(v: Vehicle): boolean {
+    const plan = vehiclePushPlan(this.world, v, this.player, this.blocksUpperDoor, this.livingPerson);
+    if (!plan) return false;
+    this.pushClip = plan.clip;
+    this.approachRoute = plan.route;
+    this.approachWaypoint = 0;
+    this.modeTicks = 0;
+    return true;
+  }
+
+  private beginShove(v: Vehicle): void {
+    this.entryStage = 'push';
+    this.interactionTicks = 0;
+    this.pushOrigin = v.position;
+    this.emit('vehiclePush', v.id);
+  }
+
+  /** Whether a shove is moving the car now, with its brakes off. */
+  private get shoving(): boolean {
+    if (this.entryStage !== 'push') return false;
+    const seconds = this.interactionTicks * TICK_SECONDS, [from, to] = VEHICLE_INTERACTION.push.window;
+    return seconds > from && seconds <= to + PUSH_SETTLE;
+  }
+
+  /** The car Snow is getting into stays braked, except while a shove moves it. */
+  private holdPendingVehicle(v: Vehicle): void {
+    if (!this.shoving) { this.brakeVehicle(v); return; }
+    v.input.throttle = 0; v.input.steer = 0; v.input.brake = 0; v.input.handbrake = false;
+  }
+
+  /**
+   * One shove. Snow rides the car's frame at his corner while the clip plays, and over the push window the car is
+   * driven along its axis toward the authored travel. Then he steps back into the world and walks to the door if it
+   * is clear now, shoves again, or gives up after the last shove.
+   */
+  private stepShove(v: Vehicle): void {
+    const p = this.player, clip = this.pushClip!;
+    this.interactionTicks++;
+    if (this.shoving) {
+      const seconds = this.interactionTicks * TICK_SECONDS, dir = rotate(v.rotation, [0, 0, vehiclePushDirection(clip)]);
+      const target = vehiclePushTravel(seconds), rate = (vehiclePushTravel(seconds + TICK_SECONDS) - target) * TICK_HZ;
+      const speed = clamp(rate + PUSH_GAIN * (target - dot(sub(v.position, this.pushOrigin), dir)), 0, PUSH_MAX_SPEED);
+      const impulse = v.body.mass() * clamp(speed - dot(v.velocity, dir), -PUSH_ACCEL * TICK_SECONDS, PUSH_ACCEL * TICK_SECONDS);
+      v.body.applyImpulse({ x: dir[0] * impulse, y: dir[1] * impulse, z: dir[2] * impulse }, true);
+    }
+    const stand = v.localToWorld(vehiclePushStage(v, clip));
+    p.position = stand;
+    p.yaw = vehiclePushYaw(v, clip);
+    p.speed = 0;
+    p.hide();
+    // Rammed or rolling away: stop pushing.
+    if (v.speed > PUSH_MAX_SPEED + 1) { this.abortVehicleEntry(); return; }
+    if (this.interactionTicks < vehicleClipTicks(clip)) return;
+    if (vehicleDoorClearance(this.world, v, p, this.blocksUpperDoor)) {
+      // The clip ends standing at the corner: step back into the world there and walk to the door.
+      const feet = vehiclePushClearance(this.world, v, p, clip);
+      const safe = feet ? { position: feet, yaw: p.yaw } : this.safeSpawns.character(stand[0], stand[2], p.yaw, p.body);
+      p.teleport(safe.position, safe.yaw);
+      this.entryStage = 'approach';
+      this.approachRoute = (feet && vehicleReturnRoute(this.world, v, p)) || vehicleApproachRoute(v, p.position);
+      this.pushClip = null;
+      this.interactionTicks = 0;
+      this.entryOffset = [0, 0, 0];
+      this.approachWaypoint = 0;
+      this.modeTicks = 0;
+      return;
+    }
+    if (this.pushShoves >= VEHICLE_INTERACTION.push.shoves) { this.abortVehicleEntry(); return; }
+    // Each shove ends in the pose the next begins with.
+    this.pushShoves++;
+    this.entryOffset = [0, 0, 0];
+    this.beginShove(v);
+  }
+
+  /**
+   * A push or shove hides Snow's capsule, so a car reaching the place he is shown in strikes him here as a contact
+   * would (`drainContacts`): he takes the hit, lets go and is put back on clear ground.
+   */
+  private struckWhilePosed(v: Vehicle): boolean {
+    const p = this.player, striker = vehicleAtPose(this.world, v, p.position, collider => this.colliderVehicle.get(collider.handle) ?? null);
+    if (!striker || striker.speed < CAR_HIT_SPEED) return false;
+    const key = `character:${striker.id}|${p.id}`;
+    if (!this.ramCooldown.has(key)) {
+      this.ramCooldown.set(key, this.tick);
+      p.takeDamage(carHitDamage(striker.speed));
+    }
+    this.cancelVehicleEntry();
+    this.mode = 'onFoot';
+    this.modeTicks = 0;
+    return true;
+  }
+
   private cancelVehicleEntry(): void {
     // Once posing starts the capsule is hidden. Every interruption must restore supported collision.
-    if (this.pendingVehicle && this.entryStage === 'enter') {
+    if (this.pendingVehicle && this.entryStage !== 'approach') {
       const safe = this.safeSpawns.character(this.player.position[0], this.player.position[2], this.player.yaw, this.player.body);
       this.player.teleport(safe.position, safe.yaw);
     }
     if (this.pendingVehicle?.driver === 'player') this.pendingVehicle.driver = null;
     this.pendingVehicle = null;
     this.entryStage = 'approach';
+    this.pushClip = null;
+    this.pushShoves = 0;
+    this.shoveAside = null;
+    this.shoveAsides = 0;
     this.interactionTicks = 0;
     this.approachRoute = [];
     this.approachWaypoint = 0;
@@ -591,7 +833,7 @@ export class Simulation {
     this.exitRequested = false;
     this.exitReturning = false;
     this.pendingExit = null;
-    // The driver's door first. When it is boxed in, Finn climbs across and leaves by the passenger door; with both
+    // The driver's door first. When it is boxed in, Snow climbs across and leaves by the passenger door; with both
     // doors blocked he kicks out the windshield. On a car lying on its roof he crawls out of either door.
     for (const clip of vehicleExitClips(vehiclePosture(v))) {
       this.pendingExit = vehicleExitClearance(this.world, v, this.player, this.blocksUpperDoor, clip);
@@ -635,7 +877,7 @@ export class Simulation {
     }
     if (this.interactionTicks >= vehicleClipTicks(this.exitClip)) {
       this.leaveVehicle(v);
-      // Each clip ends with Finn standing where its authored last frame puts him.
+      // Each clip ends with Snow standing where its authored last frame puts him.
       this.player.teleport(feet, vehicleExitYaw(v, this.exitClip));
     }
   }
@@ -652,7 +894,7 @@ export class Simulation {
   }
 
   /**
-   * Last resort when no authored way out is clear, or the car lies on its side: Finn is put on the nearest clear
+   * Last resort when no authored way out is clear, or the car lies on its side: Snow is put on the nearest clear
    * ground. There is no clip for it, so he appears there.
    */
   private squeezeOut(v: Vehicle): void {
@@ -793,15 +1035,15 @@ export class Simulation {
       // A kinematic person can stop a dynamic car within the solver. Its final speed then hides a real
       // impact (8 m/s in, 1 m/s out). Kinematic velocity is prescribed and is not changed by that impulse.
       const before = v.velocityBefore, characterVelocity = c.body.linvel();
-      if (Math.hypot(before[0], before[2]) < 2.5) return; // walking into a parked/creeping car is harmless
+      if (Math.hypot(before[0], before[2]) < CAR_HIT_SPEED) return; // walking into a parked/creeping car is harmless
       const speed = Math.hypot(before[0] - characterVelocity.x, before[2] - characterVelocity.z);
-      if (speed < 2.5) return;
+      if (speed < CAR_HIT_SPEED) return;
       // Chassis and skid colliders, or a rapidly restarting contact, describe one impact on this person.
       const key = `character:${v.id}|${c.id}`;
       if (this.ramCooldown.has(key)) return;
       this.ramCooldown.set(key, this.tick);
       const wasAlive = c.alive;
-      c.takeDamage((speed - 2) * 12);
+      c.takeDamage(carHitDamage(speed));
       const officer = this.police.unitOfOfficer(c.id);
       if (c === this.player) return;
       if (v.driver === 'player') {
@@ -872,6 +1114,7 @@ export class Simulation {
     p.alive = true;
     p.health = this.gameplay.player.health;
     p.deathTicks = 0;
+    p.fallYaw = null;
     p.hitTicks = 0;
     if (s.kind === 'wasted') p.armour = 0;
     this.resetStartingInventory();
@@ -888,13 +1131,25 @@ export class Simulation {
     this.screen = null;
   }
 
+  /**
+   * A body is drawn lying flat at its feet. As it collapses it turns to fall along level, open ground, chosen once it
+   * stands on something; a pedestrian already knocked down when killed stays as they lie.
+   */
+  private layBodies(): void {
+    for (const c of [this.player, ...this.characters.values()]) {
+      if (c.alive || c.inVehicle) continue;
+      if (c.fallYaw === null && c.grounded) c.fallYaw = this.pedestrians.knockedDown(c.id) ? c.yaw : c.chooseFall(this.world);
+      if (c.fallYaw !== null) c.turnToward(c.fallYaw, BODY.turnRate);
+    }
+  }
+
   private updatePlayerClip(): void {
     const p = this.player;
     let clip: CharacterClip;
     if (!p.alive) clip = 'death';
     else if (this.mode === 'busted') clip = 'arrested';
     else if (this.mode === 'driving' || this.mode === 'exiting') clip = 'drive';
-    else if (this.mode === 'entering') clip = this.entryStage === 'enter' || p.speed < 0.2 ? 'idle' : 'walk';
+    else if (this.mode === 'entering') clip = this.entryStage !== 'approach' || p.speed < 0.2 ? 'idle' : 'walk';
     else if (p.hitTicks > 0) clip = 'hit';
     else if (this.tick - this.lastFireTick < 8) clip = 'fire';
     else if (this.aiming) clip = 'aim';
@@ -909,11 +1164,14 @@ export class Simulation {
   // ---- output ----
 
   get vehicleInteraction(): VehicleInteractionState | null {
-    if (this.mode === 'entering' && this.pendingVehicle) return {
-      vehicleId: this.pendingVehicle.id, stage: this.entryStage, clip: 'enter', side: 'driver',
-      progress: this.entryStage === 'enter' ? this.interactionTicks / vehicleClipTicks('enter') : 0,
-      startOffset: this.entryOffset,
-    };
+    if (this.mode === 'entering' && this.pendingVehicle) {
+      const clip = this.entryStage === 'push' ? this.pushClip! : this.entryStage === 'shove' ? this.shoveAside!.clip : 'enter';
+      return {
+        vehicleId: this.pendingVehicle.id, stage: this.entryStage, clip, side: 'driver',
+        progress: this.entryStage === 'approach' ? 0 : this.interactionTicks / vehicleClipTicks(clip),
+        startOffset: this.entryOffset,
+      };
+    }
     if (this.player.inVehicle && this.mode === 'exiting') return {
       vehicleId: this.player.inVehicle, stage: 'exit', clip: this.exitClip, side: vehicleExitRoute(this.exitClip),
       progress: this.interactionTicks / vehicleClipTicks(this.exitClip), startOffset: [0, 0, 0],
@@ -930,7 +1188,7 @@ export class Simulation {
 
   private get vehicleInteractionDigest(): string {
     const state = this.vehicleInteraction;
-    return `${state?.vehicleId ?? '-'}:${state?.stage ?? '-'}:${state?.clip ?? '-'}:${this.interactionTicks}:${this.approachWaypoint}:${this.modeTicks}:${this.exitRequested ? 1 : 0}:${this.exitReturning ? 1 : 0}:${this.exitDigest}:${r3(this.entryOffset)}:${this.approachRoute.map(r3).join(';')}`;
+    return `${state?.vehicleId ?? '-'}:${state?.stage ?? '-'}:${state?.clip ?? '-'}:${this.interactionTicks}:${this.approachWaypoint}:${this.modeTicks}:${this.exitRequested ? 1 : 0}:${this.exitReturning ? 1 : 0}:${this.exitDigest}:${r3(this.entryOffset)}:${this.approachRoute.map(r3).join(';')}:${this.pushClip ?? '-'}:${this.pushShoves}:${r3(this.pushOrigin)}:${this.shoveAside ? `${this.shoveAside.clip}/${this.shoveAside.target.id}/${r3(this.shoveAside.stand)}/${r3(this.shoveAside.direction)}` : '-'}:${this.shoveAsides}:${r3(this.shoveFrom)}`;
   }
 
   state(): SimState {

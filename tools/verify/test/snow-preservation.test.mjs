@@ -1,14 +1,14 @@
-// Focused asset regression: requires the approved supplied Finn source and frozen collar patch.
-// Run with node --test tools/verify/test/finn-preservation.test.mjs.
+// Focused asset regression: requires the approved supplied Snow source and frozen collar patch.
+// Run with node --test tools/verify/test/snow-preservation.test.mjs.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { parseGlb } from '../glb.ts';
-import { expectedCollarPatch, expectedHiddenCollarPatch, garmentDonorOwnership, verifyNativeFinnData } from '../verify-finn-preservation.mjs';
+import { expectedCollarPatch, expectedHiddenCollarPatch, garmentDonorOwnership, verifyNativeSnowData } from '../verify-snow-preservation.mjs';
 
-const source = readFileSync(process.env.FINN_SOURCE ?? 'data/raw/finn-native-20261017/finn.glb');
-const patch = JSON.parse(readFileSync(process.env.FINN_COLLAR_PATCH ?? 'data/work/finn12-20261017/collar-v1/patch.json'));
-const hiddenPatch = JSON.parse(readFileSync(process.env.FINN_HIDDEN_PATCH ?? 'data/work/finn12-20261017/hidden-collar-v1/patch.json'));
+const source = readFileSync(process.env.SNOW_SOURCE ?? 'data/raw/snow12-20261017/snow.glb');
+const patch = JSON.parse(readFileSync(process.env.SNOW_COLLAR_PATCH ?? 'data/work/snow12-20261017/collar-v1/patch.json'));
+const hiddenPatch = JSON.parse(readFileSync(process.env.SNOW_HIDDEN_PATCH ?? 'data/work/snow12-20261017/hidden-collar-v1/patch.json'));
 const doc = parseGlb(source), expected = expectedCollarPatch(doc, patch).expected;
 const binStart = doc.bin.byteOffset - source.byteOffset;
 const patched = Buffer.from(source); expected.copy(patched, binStart);
@@ -35,33 +35,33 @@ hidden.packed.copy(finalBin, indexOffset); finalBin.fill(0, indexOffset + hidden
 const final = replaceJson(finalJson, finalBin);
 
 test('strict original preservation remains available, and the exact patch changes only two verified views', () => {
-  const original = verifyNativeFinnData(source, source);
+  const original = verifyNativeSnowData(source, source);
   assert.equal(original.byteExactNonImageBufferViews, 2450); assert.equal(original.collarExceptionBufferViews, 0);
-  const result = verifyNativeFinnData(source, patched, patch);
+  const result = verifyNativeSnowData(source, patched, patch);
   assert.equal(result.verifiedNonImageBufferViews, 2450); assert.equal(result.byteExactNonImageBufferViews, 2448);
   assert.equal(result.collarExceptionBufferViews, 2); assert.equal(result.collarPatch.vertices.length, 89);
   assert.equal(result.nativeClips.length, 11);
 });
 
 test('patch must be explicit, must actually occur, and cannot use a different source', () => {
-  assert.throws(() => verifyNativeFinnData(source, patched), /changed outside/);
-  assert.throws(() => verifyNativeFinnData(source, source, patch), /changed outside/);
+  assert.throws(() => verifyNativeSnowData(source, patched), /changed outside/);
+  assert.throws(() => verifyNativeSnowData(source, source, patch), /changed outside/);
   const wrongSource = Buffer.from(source); wrongSource[wrongSource.length - 1] ^= 1;
-  assert.throws(() => verifyNativeFinnData(wrongSource, patched, patch), /Unexpected supplied Finn source/);
+  assert.throws(() => verifyNativeSnowData(wrongSource, patched, patch), /Unexpected supplied Snow source/);
 });
 
 test('one changed unlisted vertex in the same accepted views still fails', () => {
   const ids = new Set(patch.vertices.map(row => row.vertex));
   const unlisted = Array.from({ length: doc.json.accessors[42].count }, (_, i) => i).find(i => !ids.has(i));
   assert.notEqual(unlisted, undefined);
-  for (const accessor of [42, 43]) assert.throws(() => verifyNativeFinnData(source, mutate(accessor, unlisted), patch), /changed outside/);
-  assert.throws(() => verifyNativeFinnData(source, mutate(43, patch.vertices[0].vertex), patch), /changed outside/);
+  for (const accessor of [42, 43]) assert.throws(() => verifyNativeSnowData(source, mutate(accessor, unlisted), patch), /changed outside/);
+  assert.throws(() => verifyNativeSnowData(source, mutate(43, patch.vertices[0].vertex), patch), /changed outside/);
 });
 
 test('positions, normals, UVs, indices, inverse binds and native clip samples remain byte-exact', () => {
   const nativeClip = doc.json.animations[0].samplers[0].output;
   for (const accessor of [36, 37, 38, 44, doc.json.skins[0].inverseBindMatrices, nativeClip]) {
-    assert.throws(() => verifyNativeFinnData(source, mutate(accessor), patch), /changed outside/);
+    assert.throws(() => verifyNativeSnowData(source, mutate(accessor), patch), /changed outside/);
   }
 });
 
@@ -73,7 +73,7 @@ test('unchanged bytes cannot conceal edited mesh, rest, material or native clip 
     j => { j.animations[0].samplers[0].interpolation = 'STEP'; },
   ]) {
     const json = structuredClone(doc.json); edit(json);
-    assert.throws(() => verifyNativeFinnData(source, replaceJson(json), patch));
+    assert.throws(() => verifyNativeSnowData(source, replaceJson(json), patch));
   }
 });
 
@@ -85,7 +85,7 @@ test('only the frozen 89-vertex patch content is accepted', () => {
     p => { p.limits.bindMaximumDistanceMeters = 1; },
   ]) {
     const altered = structuredClone(patch); edit(altered);
-    assert.throws(() => verifyNativeFinnData(source, patched, altered), /approved 89-vertex exception/);
+    assert.throws(() => verifyNativeSnowData(source, patched, altered), /approved 89-vertex exception/);
   }
 });
 
@@ -125,13 +125,13 @@ test('an exact donor vertex requires every incident edge to be closed', () => {
 });
 
 test('the exact two-face exception preserves all retained indices and proves650 source shirt-ray hits', () => {
-  const result = verifyNativeFinnData(source, final, patch, hiddenPatch);
+  const result = verifyNativeSnowData(source, final, patch, hiddenPatch);
   assert.equal(result.byteExactNonImageBufferViews, 2447); assert.equal(result.hiddenFaceExceptionBufferViews, 1);
   assert.equal(result.hiddenFacePatch.retainedIndexCount, 17610); assert.equal(result.hiddenFacePatch.zeroedUnusedTailBytes, 12);
   assert.deepEqual(result.hiddenFacePatch.coverage.map(t => t.samples.length), [325, 325]);
   assert.ok(result.hiddenFacePatch.coverage.every(t => t.maximumOutwardDistanceMeters < .002425 && t.minimumOpenBoundaryDistanceMeters > .00964));
-  assert.throws(() => verifyNativeFinnData(source, final, patch));
-  assert.throws(() => verifyNativeFinnData(source, final, null, hiddenPatch), /requires the approved collar/);
+  assert.throws(() => verifyNativeSnowData(source, final, patch));
+  assert.throws(() => verifyNativeSnowData(source, final, null, hiddenPatch), /requires the approved collar/);
 });
 
 test('retained-index edits, extra removals, descriptor changes and nonzero unused tails reject', () => {
@@ -143,13 +143,13 @@ test('retained-index edits, extra removals, descriptor changes and nonzero unuse
     (j, b) => { const triangle = Buffer.from(b.subarray(indexOffset, indexOffset + 6)); b.copyWithin(indexOffset, indexOffset + 6, indexOffset + 12); triangle.copy(b, indexOffset + 6); },
   ]) {
     const json = structuredClone(finalJson), bin = Buffer.from(finalBin); mutate(json, bin);
-    assert.throws(() => verifyNativeFinnData(source, replaceJson(json, bin), patch, hiddenPatch));
+    assert.throws(() => verifyNativeSnowData(source, replaceJson(json, bin), patch, hiddenPatch));
   }
 });
 
 test('hidden-face identity and geometric coverage cannot be supplied as unchecked claims', () => {
   const changed = structuredClone(hiddenPatch); changed.triangles[0].triangleIndex = 12;
-  assert.throws(() => verifyNativeFinnData(source, final, patch, changed), /approved two-triangle exception/);
+  assert.throws(() => verifyNativeSnowData(source, final, patch, changed), /approved two-triangle exception/);
   assert.throws(() => expectedHiddenCollarPatch(doc, changed), /Only the two approved/);
   const falseCoverage = structuredClone(hiddenPatch); falseCoverage.triangles[0].coverageProof.maximumOutwardDistanceMeters = 0;
   assert.throws(() => expectedHiddenCollarPatch(doc, falseCoverage), /cover distance differs/);

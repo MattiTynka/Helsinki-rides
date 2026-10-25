@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "kind": "character-contract",
-  "note": "Legacy22-joint authoring contract. Active player/officer slots resolve separate Finn/Rain native contracts through variants[].contract. The capsule owns world displacement.",
+  "note": "Legacy22-joint authoring contract. Active player/officer slots resolve separate Snow/Rain native contracts through variants[].contract. The capsule owns world displacement.",
   "axes": {
     "up": "+Y",
     "forward": "+Z",
@@ -171,10 +171,10 @@
     {
       "id": "character-snow",
       "role": "player",
-      "source": "Snow_v4.2/game/public/assets/finn.glb",
-      "credit": "Finn12, user-supplied adaptation of Snow by Blender Studio, CC BY 4.0",
-      "contract": "content/assets/character-finn.contract.json",
-      "note": "Stable manifest/runtime player slot retained; native Finn12 rig, appearance and eleven supplied clips are preserved."
+      "source": "data/raw/snow12-20261017/snow.glb",
+      "credit": "Snow12, user-supplied adaptation of Snow by Blender Studio, CC BY 4.0",
+      "contract": "content/assets/character-snow-native.contract.json",
+      "note": "Stable manifest/runtime player slot retained; native Snow12 rig, appearance and eleven supplied clips are preserved."
     },
     {
       "id": "character-rain",

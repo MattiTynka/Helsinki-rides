@@ -98,7 +98,7 @@ export class NativeCharacterAnimation {
     this.previousPosition = [...state.position];
     if (state.speed <= .03) this.travelDirection = [0, 1];
     const gait = GAIT_STATES.has(this.current ?? ''), overlay = OVERLAY_STATES.has(this.current ?? '');
-    if (this.profile.id === 'finn-native-v1' && !this.jumpAnimation && hasJumpPose(state)) this.jumpAnimation = new NativeJumpAnimation(this.mixer, this.root, this.upperTrack);
+    if (this.profile.id === 'snow-native-v1' && !this.jumpAnimation && hasJumpPose(state)) this.jumpAnimation = new NativeJumpAnimation(this.mixer, this.root, this.upperTrack);
     const jump = this.jumpAnimation?.update(state, dt, overlay, this.phase);
     const jumpWeight = jump?.weight ?? 0;
     // A running landing continues the stride from the foot that touched down.

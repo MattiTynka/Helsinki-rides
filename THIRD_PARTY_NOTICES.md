@@ -149,13 +149,13 @@ the owner will provide remaining supplied-asset copyright details as described
 in [the public beta record](docs/public-game-release.md). No unverified license
 grant is inferred from the request to publish the game.
 
-- **Finn**, modified from **Snow v4.2**, and **Rain**, modified into the Poliisi
+- **Snow**, the player character, modified from **Snow v4.2**, and **Rain**, modified into the Poliisi
   officer: © Blender Studio, **CC BY 4.0** according to the copied source
   ledgers. Source sources: [Snow](https://studio.blender.org/characters/snow/),
   [Rain](https://studio.blender.org/characters/rain/). Owner-supplied modifications,
   KTX2 encoding, sockets, gameplay/jump/vehicle-entry poses and bounded skin/texture
   corrections are individually documented in the source register.
-- **Supplied movement:** Finn's ledger identifies NVIDIA
+- **Supplied movement:** Snow's ledger identifies NVIDIA
   **Kimodo-SOMA-RP-v1.2**. Generator code is Apache-2.0; the checkpoint is separately
   under the [NVIDIA Open Model License](https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/).
   Its exact revision/hash is missing. The supplied exported movement is not
@@ -174,7 +174,7 @@ grant is inferred from the request to publish the game.
   texture derivative, not a separate original Blender Studio character.
 - **Quaternius Universal Animation Library, free Standard edition:** **CC0-1.0**,
   retargeted and adapted walk/run/sprint inputs used by the civilian Snow/Rain
-  rigs. Finn and Poliisi Rain retain their separate supplied native motion above.
+  rigs. The player Snow and Poliisi Rain retain their separate supplied native motion above.
   [Library source](https://quaternius.itch.io/universal-animation-library),
   [CC0 terms](https://creativecommons.org/publicdomain/zero/1.0/).
   The archived Standard `License.txt` declares CC0; its SHA-256 is

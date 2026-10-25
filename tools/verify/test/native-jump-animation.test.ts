@@ -3,7 +3,7 @@ import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
 import { test } from 'node:test';
 import { CHARACTER, CLIMB, type CharacterState } from '../../../packages/sim/src/index.ts';
-import poses from '../../../content/assets/finn-jump-poses.json' with { type: 'json' };
+import poses from '../../../content/assets/snow-jump-poses.json' with { type: 'json' };
 import { climbVariantWeights, hasJumpPose, JumpPoseState, NativeJumpAnimation } from '../../../apps/game/src/render/native-jump-animation.ts';
 
 const entry = createRequire(new URL('../../../apps/game/package.json', import.meta.url)).resolve('three');

@@ -1,8 +1,8 @@
 // Remove only pinned head triangles fully hidden beneath the shirt at bind.
 import assert from 'node:assert/strict';
-export function applyFinnHiddenFaces(glb, patch, sourceSha256) {
+export function applySnowHiddenFaces(glb, patch, sourceSha256) {
   assert.equal(patch.version, 1); assert.equal(patch.sourceSha256, sourceSha256);
-  assert.equal(patch.meshName, 'FINN-head_game'); assert.equal(patch.primitive, 0);
+  assert.equal(patch.meshName, 'SNOW-head_game'); assert.equal(patch.primitive, 0);
   assert.equal(patch.triangles.length, 2, 'Only the two evidenced collar islands may be removed');
   const mesh = glb.json.meshes.find(m => m.name === patch.meshName);
   assert.equal(mesh.primitives[0].indices, patch.indexAccessor);

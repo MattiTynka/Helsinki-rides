@@ -202,15 +202,15 @@ export interface WheelDefinition {
 
 /** Car-local (+X driver's side, +Y up, +Z forward); the passenger side mirrors X. */
 export interface VehicleInteractionDefinition {
-  /** Finn's clip set for this cabin: `content/assets/finn-vehicle-poses-<poses>.json`. */
+  /** Snow's clip set for this cabin: `content/assets/snow-vehicle-poses-<poses>.json`. */
   readonly poses: string;
   /** Feet where the driver entry starts and the driver exit ends. */
   readonly stage: Vec3;
   /** Feet in front of the car after the windshield exit. */
   readonly windshieldStage: Vec3;
-  /** Car on its roof: X and Z where Finn stands after crawling out of the driver's door. */
+  /** Car on its roof: X and Z where Snow stands after crawling out of the driver's door. */
   readonly flippedStage: Vec2;
-  /** Upper points the driver's door and Finn sweep on the way out; each must be clear. */
+  /** Upper points the driver's door and Snow sweep on the way out; each must be clear. */
   readonly doorSweep: readonly Vec3[];
   /** Points over the bonnet the windshield exit slides along. */
   readonly bonnetPath: readonly Vec3[];
@@ -236,7 +236,7 @@ export interface VehicleDefinition {
   readonly steering: { readonly maxAngleDeg: number; readonly highSpeedAngleDeg: number; readonly rateDegPerS: number };
   readonly aero: { readonly dragCoefficient: number; readonly downforce: number };
   readonly seat: { readonly driver: Vec3; readonly exits: readonly Vec3[]; readonly entryRadius: number };
-  /** Finn's ways in and out fitted to this car's cabin; absent, the car uses the Lumi GT's. */
+  /** Snow's ways in and out fitted to this car's cabin; absent, the car uses the Lumi GT's. */
   readonly interaction?: VehicleInteractionDefinition;
   readonly cameraChase: Vec3;
   readonly health: number;

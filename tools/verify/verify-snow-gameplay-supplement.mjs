@@ -1,5 +1,5 @@
-// Independent numeric checks of the native Finn supplement, without Blender or a GLB importer.
-// node tools/verify/verify-finn-gameplay-supplement.mjs --source source.glb --supplement supplement.json --out NEW.json
+// Independent numeric checks of the native Snow supplement, without Blender or a GLB importer.
+// node tools/verify/verify-snow-gameplay-supplement.mjs --source source.glb --supplement supplement.json --out NEW.json
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -106,7 +106,7 @@ for (const clip of supplement.clips) {
   check(`${clip.name}-tracks`, keys.size === 71 && keys.has('DEF-Hips/translation'), '70 native rotations plus one Hips translation');
   check(`${clip.name}-unit-quaternions`, maxQuaternionNormError < 2e-6, `${maxQuaternionNormError}`);
   let maxBoneLengthError = 0, maxSplitLocalAngleRad = 0, minShoeY = Infinity;
-  const shoeVertices = vertices.filter(v => v.mesh.startsWith('FINN-shoes_'));
+  const shoeVertices = vertices.filter(v => v.mesh.startsWith('SNOW-shoes_'));
   const steps = Math.ceil(durations[clip.name] * 120);
   for (let step = 0; step <= steps; step++) {
     const pose = evaluate(clip, step / steps * durations[clip.name]);

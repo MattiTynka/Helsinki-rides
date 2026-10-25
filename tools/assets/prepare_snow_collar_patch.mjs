@@ -1,4 +1,4 @@
-// Match only bind-covered Finn lower-neck skin to its existing garment deformation.
+// Match only bind-covered Snow lower-neck skin to its existing garment deformation.
 // The original GLB is read as data. This emits a source-bound patch; it never changes the source.
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -11,11 +11,11 @@ const requireGame = createRequire(new URL('../../apps/game/package.json', import
 const { Matrix4, Quaternion, Vector3, Triangle } = await import(new URL('./three.module.js', pathToFileURL(requireGame.resolve('three'))));
 const { values: args } = parseArgs({ options: { source: { type: 'string' }, supplement: { type: 'string' }, out: { type: 'string' }, report: { type: 'string' } } });
 if (!args.source || !args.supplement || !args.out || !args.report || existsSync(args.out) || existsSync(args.report)) throw new Error('require --source --supplement and fresh --out --report');
-const SOURCE_SHA256 = '2d4516c7efc691fd544b25b5ff66d39e19a0f23a5c3b029dd44785652a9adebd';
+const SOURCE_SHA256 = '94b5759cea7c95b07028ed2482f7d747c13efa727796d84153a3a0e6f62f3123';
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const assert = (ok, reason) => { if (!ok) throw new Error(reason); };
 const bytes = readFileSync(args.source), supplementBytes = readFileSync(args.supplement), supplement = JSON.parse(supplementBytes);
-assert(hash(bytes) === SOURCE_SHA256 && supplement.sourceSha256 === SOURCE_SHA256, 'unexpected native Finn source');
+assert(hash(bytes) === SOURCE_SHA256 && supplement.sourceSha256 === SOURCE_SHA256, 'unexpected native Snow source');
 assert(bytes.readUInt32LE(0) === 0x46546c67 && bytes.readUInt32LE(4) === 2 && bytes.readUInt32LE(8) === bytes.length, 'invalid GLB2');
 let doc, bin, binFileOffset;
 for (let at = 12; at < bytes.length;) {
@@ -71,7 +71,7 @@ function mesh(meshName) {
   const primitive = mesh.primitives[0];
   return { meshName, primitive, positions: accessor(primitive.attributes.POSITION), joints: accessor(primitive.attributes.JOINTS_0), weights: accessor(primitive.attributes.WEIGHTS_0), indices: accessor(primitive.indices) };
 }
-const head = mesh('FINN-head_game'), shirt = mesh('FINN-shirt_game'), restSkin = pose();
+const head = mesh('SNOW-head_game'), shirt = mesh('SNOW-shirt_game'), restSkin = pose();
 const p = new Vector3(), transformed = new Vector3();
 function skinPoint(mesh, vertex, matrices, changed) {
   p.fromArray(mesh.positions, vertex * 3); const out = new Vector3();

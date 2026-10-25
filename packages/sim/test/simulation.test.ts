@@ -216,7 +216,8 @@ test('an obstructed approach cancels without teleporting through the obstacle or
   const sim = makeSim(), v = sim.vehicles.get('car-1')!;
   const start = v.localToWorld([2.5, 0, -0.95]), stage = v.localToWorld(VEHICLE_INTERACTION.stage);
   sim.player.teleport([start[0], 0, start[2]], v.yaw);
-  box(sim, [stage[0], 1, stage[2]], [0.12, 1, 1.8]);
+  // Longer than every shove of the car can take its door past.
+  box(sim, [stage[0], 1, stage[2]], [0.12, 1, 6]);
   for (let i = 0; i < 30; i++) sim.step(NEUTRAL);
   sim.step(cmd({ buttons: Button.interact }));
   assert.equal(sim.mode, 'entering');
@@ -228,7 +229,129 @@ test('an obstructed approach cancels without teleporting through the obstacle or
   assert.ok(sim.log.some(e => e.type === 'vehicleEntryBlocked'));
 });
 
-test('a living person blocks the upper doorway while a settled body beside the clear standing stage does not', () => {
+test('a post blocking the driver\'s door: Snow walks round it to a corner, shoves the car clear and gets in', () => {
+  const sim = makeSim(), v = sim.vehicles.get('car-1')!;
+  const start = v.localToWorld([2.1, 0, -0.95]), post = v.localToWorld([1.55, 0, -0.15]);
+  sim.player.teleport([start[0], 0, start[2]], v.yaw);
+  box(sim, [post[0], 1, post[2]], [0.15, 1, 0.15]);
+  settle(sim);
+  const origin = v.position, forward = v.forward;
+  sim.step(cmd({ buttons: Button.interact }));
+  const clips = new Set<string>();
+  for (let i = 0; i < 3000 && sim.mode === 'entering'; i++) {
+    const interaction = sim.vehicleInteraction!;
+    if (interaction.stage === 'push') {
+      clips.add(interaction.clip);
+      assert.ok(sim.player.body.translation().y < -900, 'the authored shove owns presentation without a standing capsule');
+    }
+    sim.step(NEUTRAL);
+  }
+  assert.equal(sim.mode, 'driving', sim.digest());
+  assert.equal(sim.playerVehicle, v);
+  assert.equal(clips.size, 1);
+  const shoves = sim.log.filter(e => e.type === 'vehiclePush').length;
+  assert.ok(shoves >= 1 && shoves <= VEHICLE_INTERACTION.push.shoves);
+  // Each shove moves the car its authored distance away from the corner Snow pushes from.
+  const moved = [0, 1, 2].reduce((sum, i) => sum + (v.position[i]! - origin[i]!) * forward[i]!, 0);
+  const expected = (clips.has('pushFront') ? -1 : 1) * shoves * VEHICLE_INTERACTION.push.distance;
+  assert.ok(Math.abs(moved - expected) < 0.1, `car moved ${moved.toFixed(3)} m along its axis, expected ${expected}`);
+  assert.ok(!sim.log.some(e => e.type === 'vehicleEntryBlocked'));
+});
+
+test('a ledge along the driver\'s side, Snow behind the car: he goes round the passenger\'s side to the nose, shoves the car back and gets in', () => {
+  const sim = makeSim(), v = sim.vehicles.get('car-1')!;
+  const start = v.localToWorld([0, 0, -3.2]), ledge = v.localToWorld([1.9, 0, 1.8]);
+  sim.player.teleport([start[0], 0, start[2]], v.yaw);
+  // Waist-high, 0.8 m off the door side from the door forward: too close to walk along, and only moving the car back
+  // frees the door.
+  box(sim, [ledge[0], 0.5, ledge[2]], [0.15, 0.5, 2.2]);
+  settle(sim);
+  const origin = v.position, forward = v.forward;
+  sim.step(cmd({ buttons: Button.interact }));
+  const clips = new Set<string>();
+  for (let i = 0; i < 4000 && sim.mode === 'entering'; i++) {
+    if (sim.vehicleInteraction?.stage === 'push') clips.add(sim.vehicleInteraction.clip);
+    sim.step(NEUTRAL);
+  }
+  assert.equal(sim.mode, 'driving', sim.digest());
+  assert.deepEqual([...clips], ['pushFront']);
+  const moved = [0, 1, 2].reduce((sum, i) => sum + (v.position[i]! - origin[i]!) * forward[i]!, 0);
+  assert.ok(moved < -1.1, `car moved ${moved.toFixed(3)} m along its axis`);
+  assert.ok(!sim.log.some(e => e.type === 'vehicleEntryBlocked'));
+});
+
+test('wedged between the car and a ledge that only six shoves clear: Snow steps out behind the car, shoves it back from the nose and gets in', () => {
+  const sim = makeSim(), v = sim.vehicles.get('car-1')!;
+  const start = v.localToWorld([1.37, 0, -2.5]), ledge = v.localToWorld([1.95, 0, 1.1]);
+  sim.player.teleport([start[0], 0, start[2]], v.yaw);
+  // As a car driven at an angle into a plinth: the ledge runs from 1.85 m behind the door's middle to well past the
+  // nose, too close to walk along, so the door swings clear only once the car is 3.6 m back. Snow stands in the gap.
+  box(sim, [ledge[0], 0.5, ledge[2]], [0.15, 0.5, 3.9]);
+  settle(sim);
+  const origin = v.position, forward = v.forward;
+  sim.step(cmd({ buttons: Button.interact }));
+  const clips = new Set<string>();
+  for (let i = 0; i < 6000 && sim.mode === 'entering'; i++) {
+    if (sim.vehicleInteraction?.stage === 'push') clips.add(sim.vehicleInteraction.clip);
+    sim.step(NEUTRAL);
+  }
+  assert.equal(sim.mode, 'driving', sim.digest());
+  assert.deepEqual([...clips], ['pushFront']);
+  assert.equal(sim.log.filter(e => e.type === 'vehiclePush').length, 6);
+  const moved = [0, 1, 2].reduce((sum, i) => sum + (v.position[i]! - origin[i]!) * forward[i]!, 0);
+  assert.ok(Math.abs(moved + 3.6) < 0.2, `car moved ${moved.toFixed(3)} m along its axis`);
+  assert.ok(!sim.log.some(e => e.type === 'vehicleEntryBlocked'));
+});
+
+test('a post at the door and a thin fence just off each end that only the last shove would carry the car past: Snow shoves nothing and gives up', () => {
+  const sim = makeSim(), v = sim.vehicles.get('car-1')!;
+  const start = v.localToWorld([2.1, 0, -0.95]), post = v.localToWorld([1.55, 0, -0.15]);
+  sim.player.teleport([start[0], 0, start[2]], v.yaw);
+  box(sim, [post[0], 1, post[2]], [0.15, 1, 0.15]);
+  // Each fence lies between an end of the chassis and where its other end would be after every shove: the box after
+  // the last shove is past the fence, every box before it meets the fence.
+  const { distance, shoves } = VEHICLE_INTERACTION.push, middle = v.def.collider.centre[2];
+  for (const end of [1, -1]) {
+    const fence = v.localToWorld([0, 0, middle + end * distance * shoves / 2]);
+    box(sim, [fence[0], 1, fence[2]], [1.3, 1, 0.02]);
+  }
+  settle(sim);
+  const carAt = v.position;
+  sim.step(cmd({ buttons: Button.interact }));
+  assert.equal(sim.mode, 'entering');
+  waitForMode(sim, 'onFoot', 3000);
+  assert.ok(!sim.log.some(e => e.type === 'vehiclePush'), 'no shove into a fence');
+  assert.ok(sim.log.some(e => e.type === 'vehicleEntryBlocked'));
+  assert.ok(Math.hypot(v.position[0] - carAt[0], v.position[2] - carAt[2]) < 0.05, 'the car stays put');
+  assert.equal(v.driver, null);
+});
+
+test('a car driving at Snow while he shoves another hits him where he is shown: he lets go, hurt, back on the ground', () => {
+  const sim = makeSim(), v = sim.vehicles.get('car-1')!;
+  const start = v.localToWorld([2.1, 0, -0.95]), post = v.localToWorld([1.55, 0, -0.15]);
+  sim.player.teleport([start[0], 0, start[2]], v.yaw);
+  box(sim, [post[0], 1, post[2]], [0.15, 1, 0.15]);
+  settle(sim);
+  sim.step(cmd({ buttons: Button.interact }));
+  for (let i = 0; i < 3000 && sim.vehicleInteraction?.stage !== 'push'; i++) sim.step(NEUTRAL);
+  assert.equal(sim.vehicleInteraction?.stage, 'push');
+  // Along the car's axis from beyond the corner he shoves from: it reaches him before the car he is shoving.
+  const at = sim.player.position, f = v.forward, end = Math.sign((at[0] - v.position[0]) * f[0] + (at[2] - v.position[2]) * f[2]);
+  const other = sim.spawnVehicle('oncoming', 'car', [at[0] + f[0] * end * 8, at[2] + f[2] * end * 8], wrapAngle(v.yaw + (end > 0 ? Math.PI : 0)));
+  for (let i = 0; i < 180 && sim.mode === 'entering'; i++) {
+    other.body.setLinvel({ x: -f[0] * end * 9, y: other.body.linvel().y, z: -f[2] * end * 9 }, true);
+    sim.step(NEUTRAL);
+  }
+  assert.equal(sim.mode, 'onFoot', sim.digest());
+  assert.ok(sim.player.health < 100, `health ${sim.player.health}`);
+  assert.ok(sim.player.alive);
+  assert.equal(v.driver, null);
+  assert.equal(sim.vehicleInteraction, null);
+  assert.ok(sim.player.body.translation().y > 0, 'his capsule is back on the ground');
+  assert.ok(!sim.log.some(e => e.type === 'vehicleEntryBlocked'), 'hit, not blocked');
+});
+
+test('a living person in the doorway is shoved aside, with no crime; a settled body beside the clear stage is left alone', () => {
   for (const alive of [true, false]) {
     const sim = makeSim(), v = sim.vehicles.get('car-1')!;
     const start = v.localToWorld([2.1, 0, -0.95]), doorway = v.localToWorld([1.5, 0, -0.15]);
@@ -238,17 +361,33 @@ test('a living person blocks the upper doorway while a settled body beside the c
     if (!alive) bystander.takeDamage(100);
     for (let i = 0; i < 100; i++) sim.step(NEUTRAL);
     assert.ok(bystander.grounded);
-    const bodyHandle = bystander.collider.handle;
+    const stood = bystander.position, bodyHandle = bystander.collider.handle;
     sim.step(cmd({ buttons: Button.interact }));
     assert.equal(sim.mode, 'entering');
-    waitForMode(sim, alive ? 'onFoot' : 'driving');
-    assert.equal(sim.player.inVehicle, alive ? null : v.id);
-    assert.equal(bystander.collider.handle, bodyHandle, 'the body is not hidden or deleted to open the doorway');
-    assert.ok(bystander.body.translation().y > 0, 'its walking collision remains on the road');
+    const clips = new Set<string>();
+    for (let i = 0; i < 3000 && sim.mode === 'entering'; i++) {
+      if (sim.vehicleInteraction?.stage === 'shove') clips.add(sim.vehicleInteraction.clip);
+      sim.step(NEUTRAL);
+    }
+    assert.equal(sim.mode, 'driving', sim.digest());
+    assert.equal(sim.player.inVehicle, v.id);
+    const moved = Math.hypot(bystander.position[0] - stood[0], bystander.position[2] - stood[2]);
+    if (alive) {
+      assert.deepEqual([...clips], ['shovePerson']);
+      assert.ok(moved > 0.9, `shoved ${moved.toFixed(2)} m aside`);
+      assert.equal(bystander.health, 100, 'a shove does no harm');
+      assert.equal(sim.wanted.stars, 0, 'and is no crime');
+    } else {
+      assert.equal(clips.size, 0);
+      assert.ok(moved < 0.05, 'a body clear of the stage is not moved');
+    }
+    assert.ok(!sim.log.some(e => e.type === 'vehiclePush'), 'nobody shoves the car');
+    assert.equal(bystander.collider.handle, bodyHandle, 'nobody is hidden or deleted to open the doorway');
+    assert.ok(bystander.body.translation().y > 0, 'their walking collision remains on the road');
   }
 });
 
-test('a settled body occupying the actual driver staging point still blocks entry', () => {
+test('a settled body on the driver staging point: Snow shoves the body aside and gets in', () => {
   const sim = makeSim(), v = sim.vehicles.get('car-1')!;
   const start = v.localToWorld([2.5, 0, -0.95]), stage = v.localToWorld(VEHICLE_INTERACTION.stage);
   sim.player.teleport([start[0], 0, start[2]], v.yaw);
@@ -256,12 +395,42 @@ test('a settled body occupying the actual driver staging point still blocks entr
   for (let i = 0; i < 30; i++) sim.step(NEUTRAL);
   body.takeDamage(100);
   for (let i = 0; i < 100; i++) sim.step(NEUTRAL);
+  const lying = body.position, bodyHandle = body.collider.handle, carAt = v.position;
   sim.step(cmd({ buttons: Button.interact }));
   assert.equal(sim.mode, 'entering');
-  waitForMode(sim, 'onFoot');
-  assert.equal(sim.player.inVehicle, null);
-  assert.equal(v.driver, null);
-  assert.ok(Math.hypot(body.position[0] - sim.player.position[0], body.position[2] - sim.player.position[2]) >= CHARACTER.radius * 2);
+  const clips = new Set<string>();
+  for (let i = 0; i < 3000 && sim.mode === 'entering'; i++) {
+    if (sim.vehicleInteraction?.stage === 'shove') {
+      clips.add(sim.vehicleInteraction.clip);
+      assert.ok(sim.player.body.translation().y < -900, 'the authored shove owns presentation without a standing capsule');
+    }
+    sim.step(NEUTRAL);
+  }
+  assert.equal(sim.mode, 'driving', sim.digest());
+  assert.equal(sim.playerVehicle, v);
+  assert.deepEqual([...clips], ['shoveBody']);
+  assert.ok(!sim.log.some(e => e.type === 'vehiclePush'));
+  assert.ok(Math.hypot(v.position[0] - carAt[0], v.position[2] - carAt[2]) < 0.05, 'the car stays put');
+  assert.equal(body.collider.handle, bodyHandle, 'the body is not hidden or deleted to open the doorway');
+  const moved = Math.hypot(body.position[0] - lying[0], body.position[2] - lying[2]);
+  assert.ok(moved > 0.7, `the body slid ${moved.toFixed(2)} m clear`);
+});
+
+test('a body falls along level, open ground: turned clear of a kerb stone behind it, as it stood with nothing in the way', () => {
+  for (const kerb of [true, false]) {
+    const sim = makeSim(), body = sim.spawnCharacter('falling-body', [20, 0, 20], 0, 100);
+    // Ankle-high, 0.4 m deep and 3 m wide, 0.9 m behind the feet: under the head of a body lying as it stood. The
+    // nearest facing that clears it, outstretched arms included, is a 75° turn.
+    if (kerb) box(sim, [20, 0.075, 18.9], [1.5, 0.075, 0.2]);
+    settle(sim);
+    body.takeDamage(100);
+    for (let i = 0; i < 30; i++) sim.step(NEUTRAL);
+    const turned = Math.abs(wrapAngle(body.yaw));
+    if (kerb) assert.ok(turned > Math.PI / 3 && turned <= Math.PI / 2 + 1e-9, `turned ${turned.toFixed(3)} rad`);
+    else assert.equal(turned, 0);
+    assert.ok(Math.abs(wrapAngle(body.yaw - body.fallYaw!)) < 1e-9, 'the turn is over in half a second, early in the collapse');
+    assert.ok(Math.hypot(body.position[0] - 20, body.position[2] - 20) < 1e-3, 'it is turned, not moved');
+  }
 });
 
 test('death during the seating pose restores the hidden capsule and releases the seat', () => {
@@ -288,7 +457,7 @@ const sideBlocker = (sim: Simulation, side: 1 | -1) => {
   return sim.world.physics.createCollider(RAPIER.ColliderDesc.cuboid(0.15, 1, 1).setTranslation(stage[0], 1, stage[2]).setCollisionGroups(groups(GROUP.static, GROUP.all)));
 };
 
-test('with both doors boxed in Finn kicks out the windshield and leaves over the bonnet', () => {
+test('with both doors boxed in Snow kicks out the windshield and leaves over the bonnet', () => {
   const sim = makeSim(); boardStoppedCar(sim);
   const v = sim.playerVehicle!;
   const blockers = [sideBlocker(sim, 1), sideBlocker(sim, -1)];
@@ -305,7 +474,7 @@ test('with both doors boxed in Finn kicks out the windshield and leaves over the
   assert.equal(broke, Math.round(VEHICLE_INTERACTION.windshieldBreak * Math.round(VEHICLE_INTERACTION.durations.exitWindshield * 60)), 'the glass breaks on the kick');
   assert.equal(v.windshieldBroken, true);
   const stage = v.localToWorld(VEHICLE_INTERACTION.windshieldStage);
-  assert.ok(Math.hypot(sim.player.position[0] - stage[0], sim.player.position[2] - stage[2]) < 0.05, 'Finn stands in front of the bumper');
+  assert.ok(Math.hypot(sim.player.position[0] - stage[0], sim.player.position[2] - stage[2]) < 0.05, 'Snow stands in front of the bumper');
   assert.ok(Math.abs(wrapAngle(sim.player.yaw - v.yaw - VEHICLE_INTERACTION.windshieldYaw)) < 1e-6);
   assert.equal(sim.player.inVehicle, null);
   for (const blocker of blockers) sim.world.physics.removeCollider(blocker, true);
@@ -320,7 +489,7 @@ function rollOver(sim: Simulation): void {
   for (let i = 0; i < 90; i++) sim.step(NEUTRAL);
 }
 
-test('on a car lying on its roof Finn crawls out of the driver door and stands beside the car', () => {
+test('on a car lying on its roof Snow crawls out of the driver door and stands beside the car', () => {
   const sim = makeSim(); boardStoppedCar(sim);
   const v = sim.playerVehicle!;
   rollOver(sim);
@@ -330,13 +499,13 @@ test('on a car lying on its roof Finn crawls out of the driver door and stands b
   assert.deepEqual([sim.vehicleInteraction?.side, sim.vehicleInteraction?.clip], ['driver', 'exitFlipped']);
   waitForMode(sim, 'onFoot', Math.round(VEHICLE_INTERACTION.durations.exitFlipped * 60) + 5);
   const [x, z] = VEHICLE_INTERACTION.flippedStage, stage = v.localToWorld([x, 0, z]);
-  assert.ok(Math.hypot(sim.player.position[0] - stage[0], sim.player.position[2] - stage[2]) < 0.05, 'Finn stands where the crawl ends');
+  assert.ok(Math.hypot(sim.player.position[0] - stage[0], sim.player.position[2] - stage[2]) < 0.05, 'Snow stands where the crawl ends');
   assert.ok(Math.abs(wrapAngle(sim.player.yaw - vehicleExitYaw(v, 'exitFlipped'))) < 1e-6);
   assert.ok(sim.player.body.translation().y > 0);
   assert.equal(sim.player.inVehicle, null);
 });
 
-test('on a car lying on its roof with the driver side blocked Finn crawls across and out of the passenger door', () => {
+test('on a car lying on its roof with the driver side blocked Snow crawls across and out of the passenger door', () => {
   const sim = makeSim(); boardStoppedCar(sim);
   rollOver(sim);
   const blocker = sideBlocker(sim, 1);
@@ -349,7 +518,7 @@ test('on a car lying on its roof with the driver side blocked Finn crawls across
   sim.world.physics.removeCollider(blocker, true);
 });
 
-test('with no authored way out Finn is put on clear ground instead of staying trapped', () => {
+test('with no authored way out Snow is put on clear ground instead of staying trapped', () => {
   // A car on its side or badly tilted has no clip at all; here both doors of a car on its roof are blocked.
   assert.deepEqual(vehicleExitClips(null), []);
   const sim = makeSim(); boardStoppedCar(sim);
@@ -380,7 +549,7 @@ test('a moving car brakes before opening the door', () => {
   assert.equal(sim.vehicleInteraction?.side, 'driver');
 });
 
-test('the driver exit is its own clip: it runs forward for its full duration and leaves Finn turned toward the rear', () => {
+test('the driver exit is its own clip: it runs forward for its full duration and leaves Snow turned toward the rear', () => {
   const sim = makeSim(); boardStoppedCar(sim);
   const v = sim.playerVehicle!;
   sim.step(cmd({ buttons: Button.interact }));
@@ -400,7 +569,7 @@ test('the driver exit is its own clip: it runs forward for its full duration and
   assert.equal(v.driver, null);
 });
 
-test('a boxed-in driver door sends Finn across the cabin and out of the passenger door', () => {
+test('a boxed-in driver door sends Snow across the cabin and out of the passenger door', () => {
   const sim = makeSim(); boardStoppedCar(sim);
   const v = sim.playerVehicle!;
   const blocker = sideBlocker(sim, 1);
@@ -411,7 +580,7 @@ test('a boxed-in driver door sends Finn across the cabin and out of the passenge
   assert.match(sim.digest(), /exitPassenger/);
   waitForMode(sim, 'onFoot', Math.round(VEHICLE_INTERACTION.durations.exitPassenger * 60) + 5);
   const [x, y, z] = VEHICLE_INTERACTION.stage, stage = v.localToWorld([-x, y, z]);
-  assert.ok(Math.hypot(sim.player.position[0] - stage[0], sim.player.position[2] - stage[2]) < 0.05, 'Finn stands beside the passenger door');
+  assert.ok(Math.hypot(sim.player.position[0] - stage[0], sim.player.position[2] - stage[2]) < 0.05, 'Snow stands beside the passenger door');
   assert.ok(Math.abs(wrapAngle(sim.player.yaw - v.yaw + VEHICLE_INTERACTION.exitYaw)) < 1e-6, 'mirrored exit heading');
   assert.ok(sim.player.body.translation().y > 0);
   assert.equal(sim.player.inVehicle, null);

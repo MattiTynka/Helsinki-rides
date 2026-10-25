@@ -26,11 +26,21 @@ export const VEHICLE_STABILITY = {
   /** Angular damping while past 60°; `uprightDamping` is the constructor's value. */
   invertedDamping: 3,
   uprightDamping: 0.5,
-  /** Past 60° and not yet on the roof (up·Y above `roofUp`), gravity tips the car roofwards as if its centre of mass
-   *  sat this many metres higher, so a near-balanced car on its side settles on its roof. */
+  /** Past 60° and not yet on the roof (up·Y above `roofUp`), gravity tips the car as if its centre of mass sat this
+   *  many metres higher, so a near-balanced car on its side falls back onto its wheels or over onto its roof. */
   sideSettle: 0.3,
   roofUp: -0.7,
+  /** Share of the tyre side force's lever about the centre of mass that rolls the chassis (1 = physical). Rapier
+   *  hard-codes 0.1, which corners flat; `restoreRoll` adds back the difference. */
+  rollInfluence: 0.45,
+  /** Metres by which a tyre's sidewall disc is smaller than the tyre (so a 12 cm kerb meets 2 cm of it). */
+  sidewallClearance: 0.1,
 } as const;
+
+/** Rapier's private `Wheel::roll_influence`. */
+const RAPIER_ROLL_INFLUENCE = 0.1;
+/** Collision membership of the tyre sidewalls: their own bit, so queries for vehicles do not find them. */
+const GROUP_SIDEWALL = 0x0010;
 
 export class Vehicle {
   readonly id: string;
@@ -57,6 +67,9 @@ export class Vehicle {
   private readonly wheelSpin: number[];
   /** Per-wheel suspension force cap, 2.5 g. */
   private readonly maxSuspensionForce: number;
+  /** Tyre sidewall discs, one per wheel, and the suspension length that puts a hub at its socket. */
+  private readonly sidewalls: RAPIER.Collider[];
+  private readonly staticLength: number;
   lightsOn = false;
   sirenOn = false;
   /** Kicked out during a windshield exit; it stays out for the rest of the session. */
@@ -83,7 +96,8 @@ export class Vehicle {
     const inertia = { x: m / 3 * (he[1] * he[1] + he[2] * he[2]), y: m / 3 * (he[0] * he[0] + he[2] * he[2]), z: m / 3 * (he[0] * he[0] + he[1] * he[1]) };
     const colliderDesc = RAPIER.ColliderDesc.cuboid(he[0], he[1], he[2])
       .setTranslation(c[0], c[1], c[2])
-      .setMassProperties(m, { x: def.centreOfMass[0], y: def.centreOfMass[1], z: def.centreOfMass[2] }, inertia, { x: 0, y: 0, z: 0, w: 1 })
+      // Rapier reads the centre of mass in the collider's frame, which is translated by c.
+      .setMassProperties(m, { x: def.centreOfMass[0] - c[0], y: def.centreOfMass[1] - c[1], z: def.centreOfMass[2] - c[2] }, inertia, { x: 0, y: 0, z: 0, w: 1 })
       .setFriction(0.4).setRestitution(0.05)
       .setCollisionGroups(groups(GROUP.vehicle, GROUP.all))
       .setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS | RAPIER.ActiveEvents.CONTACT_FORCE_EVENTS)
@@ -98,6 +112,16 @@ export class Vehicle {
         .setCollisionGroups(groups(GROUP.vehicle, GROUP.all))
         .setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS | RAPIER.ActiveEvents.CONTACT_FORCE_EVENTS)
         .setContactForceEventThreshold(8000), this.body) : null;
+    // Tyre sidewalls: a massless disc in each wheel, `sidewallClearance` smaller than the tyre so it clears level
+    // ground, that only static geometry touches. The ray wheels cannot meet a kerb sideways; a sidewall can, so a car
+    // sliding sideways into one trips over it, while a tyre rolling at a kerb rides up its rounded edge.
+    this.sidewalls = def.wheels.map(w =>
+      world.physics.createCollider(
+        RAPIER.ColliderDesc.cylinder(def.wheelWidth / 2, def.wheelRadius - VEHICLE_STABILITY.sidewallClearance)
+          .setTranslation(w.position[0], w.position[1], w.position[2])
+          .setRotation({ x: 0, y: 0, z: Math.SQRT1_2, w: Math.SQRT1_2 })
+          .setDensity(0).setFriction(0).setRestitution(0.05)
+          .setCollisionGroups(groups(GROUP_SIDEWALL, GROUP.static)), this.body));
     this.controller = world.physics.createVehicleController(this.body);
     this.controller.indexUpAxis = 1;
     // The 0.21 bindings expose the forward-axis setter under this name.
@@ -107,6 +131,7 @@ export class Vehicle {
     // weight is g / (wheels * stiffness); the connection point is raised so the hub rests at the socket height.
     const staticCompression = 9.81 / (def.wheels.length * s.stiffness);
     this.maxSuspensionForce = def.massKg * 9.81 * 2.5;
+    this.staticLength = s.restLength - staticCompression;
     def.wheels.forEach((w, i) => {
       // The raycast vehicle's rolling direction is normal × axle; with +Y up an axle of -X rolls along +Z (the
       // asset's forward), and a positive steering angle turns left.
@@ -207,15 +232,22 @@ export class Vehicle {
       this.body.addForce({ x: -v[0] / vlen * drag, y: -v[1] / vlen * drag - def.aero.downforce * vlen * vlen, z: -v[2] / vlen * drag }, true);
     }
     if (tilted && up[1] > VEHICLE_STABILITY.roofUp) {
-      // Rule D: torque = sideSettle × m g × (up × -Y), which turns the up axis towards -Y and vanishes on the roof.
-      const k = VEHICLE_STABILITY.sideSettle * def.massKg * 9.81;
+      // Rule D: torque = sideSettle × m g × (up × ∓Y), which turns the up axis back towards +Y while up·Y > 0 and on
+      // towards -Y below, so the car falls off its side to the nearer rest: its wheels or its roof.
+      const k = (up[1] > 0 ? -1 : 1) * VEHICLE_STABILITY.sideSettle * def.massKg * 9.81;
       this.body.addTorque({ x: k * up[2], y: 0, z: -k * up[0] }, true);
     }
     if (tilted) this.controller.updateVehicle(TICK_SECONDS, undefined, groups(GROUP.vehicle, GROUP.static), filter);
-    else this.updateWheels(filter, slips);
+    else {
+      this.updateWheels(filter, slips);
+      this.restoreRoll();
+    }
     def.wheels.forEach((_w, i) => {
       this.wheelContact[i] = this.controller.wheelIsInContact(i) ?? false;
       this.wheelSuspension[i] = this.controller.wheelSuspensionLength(i) ?? def.suspension.restLength;
+      // The sidewall follows its hub, which sits at the socket when the spring carries the static load.
+      const w = def.wheels[i]!;
+      this.sidewalls[i]!.setTranslationWrtParent({ x: w.position[0], y: w.position[1] + this.staticLength - this.wheelSuspension[i]!, z: w.position[2] });
       // Roll from travelled distance; spin freely when airborne.
       const ds = speed * TICK_SECONDS;
       this.wheelSpin[i] = this.wheelContact[i] ? ds / def.wheelRadius : this.wheelSpin[i]! * 0.98;
@@ -265,6 +297,31 @@ export class Vehicle {
     this.body.setAngvel(angvel, true);
     c.updateVehicle(TICK_SECONDS, undefined, filterGroups, filter);
     for (const i of marked) c.setWheelMaxSuspensionForce(i, this.maxSuspensionForce);
+  }
+
+  /**
+   * Rapier applies each wheel's side impulse at the contact point pulled along the chassis up axis to within
+   * `RAPIER_ROLL_INFLUENCE` of the centre of mass's height, which takes away nine tenths of the body roll and weight
+   * shift in corners and slides. This adds the angular impulse of the missing lever up to `rollInfluence`.
+   */
+  private restoreRoll(): void {
+    const c = this.controller, up = this.up, com = this.body.worldCom(), q = this.rotation;
+    const share = VEHICLE_STABILITY.rollInfluence - RAPIER_ROLL_INFLUENCE;
+    let lx = 0, ly = 0, lz = 0;
+    this.def.wheels.forEach((_w, i) => {
+      const impulse = c.wheelSideImpulse(i) ?? 0, p = c.wheelContactPoint(i);
+      if (!c.wheelIsInContact(i) || impulse === 0 || !p) return;
+      // The world axle as the controller builds it: the chassis axle turned about the up axis by the steering angle.
+      const a = rotate(q, [-1, 0, 0]), s = c.wheelSteering(i) ?? 0, cos = Math.cos(s), sin = Math.sin(s);
+      const ua = up[0] * a[0] + up[1] * a[1] + up[2] * a[2];
+      const axle = [0, 1, 2].map(k => a[k]! * cos + (up[(k + 1) % 3]! * a[(k + 2) % 3]! - up[(k + 2) % 3]! * a[(k + 1) % 3]!) * sin + up[k]! * ua * (1 - cos));
+      // Lever: share × (up·(contact − centre of mass)) along up; angular impulse = lever × (axle × impulse).
+      const h = share * (up[0] * (p.x - com.x) + up[1] * (p.y - com.y) + up[2] * (p.z - com.z));
+      lx += h * (up[1] * axle[2]! - up[2] * axle[1]!) * impulse;
+      ly += h * (up[2] * axle[0]! - up[0] * axle[2]!) * impulse;
+      lz += h * (up[0] * axle[1]! - up[1] * axle[0]!) * impulse;
+    });
+    if (lx !== 0 || ly !== 0 || lz !== 0) this.body.applyTorqueImpulse({ x: lx, y: ly, z: lz }, true);
   }
 
   applyDamage(amount: number): void {

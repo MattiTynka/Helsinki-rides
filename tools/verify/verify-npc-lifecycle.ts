@@ -210,7 +210,7 @@ try {
     assert.ok(shots.some(s => (s as { hitId: string }).hitId === id), `${variant}: shot damage hits selected native subject`);
     const deathTick = state.tick;
     state = await game.step(page, 1, { ...NEUTRAL, buttons: Button.holster });
-    // A corpse extends toward the portrait camera. Walk Finn farther away and to
+    // A corpse extends toward the portrait camera. Walk Snow farther away and to
     // its side, then use the normal orbit camera's downward pitch for floor bodies.
     await frameSubject(id, false, true);
     await game.step(page, 30, NEUTRAL);

@@ -96,7 +96,7 @@ node tools/world/build_gameplay.ts ...
 ```
 
 Each tool's header documents its arguments; `data/logs/` keeps the runs. Hero assets come from the Blender scripts
-described in `docs/asset-pipeline.md`; Finn uses its native export and packaging path, while Rain keeps its
+described in `docs/asset-pipeline.md`; Snow uses its native export and packaging path, while Rain keeps its
 accepted retargeted asset. Publish the combined final character directory. Without `--keep`, `publish_release.ts` deletes every other release under
 `--out`, and journey recordings replay only against the release they were made on. Buildings come solely from the
 textured LoD2 (decision 0004) except the Cathedral's visual, the owner's model (decision 0005); the terrain is the

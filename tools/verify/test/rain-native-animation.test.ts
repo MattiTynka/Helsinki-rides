@@ -9,7 +9,7 @@ import { nativeLocomotionWeights, parseCharacterProfile } from '../../../apps/ga
 
 const entry = createRequire(new URL('../../../apps/game/package.json', import.meta.url)).resolve('three');
 const THREE = await import(new URL('./three.module.js', pathToFileURL(entry)).href);
-// Rain's supplied manifest has its own measured speed anchors; none are borrowed from Finn.
+// Rain's supplied manifest has its own measured speed anchors; none are borrowed from Snow.
 const metadata = { schemaVersion: 1, id: 'rain-native-v1', phaseGroup: 'left-strike', upperBodyRoot: 'DEF-Spine1',
   locomotion: [
     { clip: 'walk', movementSpeed: 1.252, direction: 'forward' },
@@ -167,13 +167,13 @@ test('native civilian knockdown samples the death pose back toward standing befo
   view.dispose();
 });
 
-test('Rain falling or seated states cannot instantiate Finn-only joint layers', () => {
+test('Rain falling or seated states cannot instantiate Snow-only joint layers', () => {
   const { view, hips } = fixture();
-  // This small Rain rig deliberately has neither Finn DEF-Spine nor its 71 vehicle/jump joints.
+  // This small Rain rig deliberately has neither Snow DEF-Spine nor its 71 vehicle/jump joints.
   assert.doesNotThrow(() => view.update(state({ grounded: false, jumpPhase: 'fall', jumpPhaseTime: .3, verticalSpeed: -3, groundDistance: 1 }), 1 / 60, false));
   const car = { id: 'patrol', position: [0, 0, 0], rotation: [0, 0, 0, 1] } as unknown as VehicleState;
   for (let i = 0; i < 60; i++) view.update(state({ clip: 'drive', inVehicle: car.id }), 1 / 60, false, { vehicleId: car.id, stage: 'seated', progress: 1, clip: 'enter', side: 'driver', startOffset: [0, 0, 0] }, car);
-  assert.equal(view.current, 'drive', 'Finn-only standing baseline does not replace Rain drive state');
+  assert.equal(view.current, 'drive', 'Snow-only standing baseline does not replace Rain drive state');
   assert.ok(Math.abs(hips.position.y - .4) < 1e-6);
   assert.equal(view.root.visible, false, 'officer vehicle visibility keeps the existing NPC behavior');
   view.dispose();

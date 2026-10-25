@@ -3,8 +3,9 @@ import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { pathToFileURL } from 'node:url';
-import { VEHICLE_INTERACTION, vehicleExitRoute, type CharacterState, type PlayerState, type VehicleClip, type VehicleState } from '../../../packages/sim/src/index.ts';
-import { NativeVehicleAnimation, VEHICLE_POSE_RELEASE, VEHICLE_POSES, VEHICLE_ROOT_WARP, vehicleDoorOpen, vehiclePoseSample } from '../../../apps/game/src/render/native-vehicle-animation.ts';
+import type { VehicleDefinition } from '../../../packages/world-schema/src/index.ts';
+import { VEHICLE_INTERACTION, vehicleExitRoute, vehiclePushStage, type CharacterState, type PlayerState, type Vehicle, type VehicleClip, type VehicleState } from '../../../packages/sim/src/index.ts';
+import { NativeVehicleAnimation, VEHICLE_POSE_RELEASE, VEHICLE_POSES, VEHICLE_ROOT_WARP, vehicleDoorOpen, vehiclePoses, vehiclePoseSample } from '../../../apps/game/src/render/native-vehicle-animation.ts';
 import { VehicleView } from '../../../apps/game/src/render/vehicles.ts';
 import { CharacterView } from '../../../apps/game/src/render/characters.ts';
 import { parseCharacterProfile } from '../../../apps/game/src/render/native-locomotion.ts';
@@ -12,14 +13,14 @@ import { parseCharacterProfile } from '../../../apps/game/src/render/native-loco
 const entry = createRequire(new URL('../../../apps/game/package.json', import.meta.url)).resolve('three');
 const THREE = await import(new URL('./three.module.js', pathToFileURL(entry)).href);
 type Interaction = NonNullable<PlayerState['vehicleInteraction']>;
-const CLIP: Record<Interaction['stage'], VehicleClip> = { approach: 'enter', enter: 'enter', seated: 'enter', exit: 'exit' };
+const CLIP: Record<Interaction['stage'], VehicleClip> = { approach: 'enter', push: 'pushRear', shove: 'shovePerson', enter: 'enter', seated: 'enter', exit: 'exit' };
 const interaction = (stage: Interaction['stage'], progress = 0, clip = CLIP[stage], startOffset: [number, number, number] = [0, 0, 0]): Interaction =>
   ({ vehicleId: 'car', stage, progress, clip, side: vehicleExitRoute(clip), startOffset });
 const car = {
   id: 'car', position: [14, 2, -8], rotation: [0, Math.sin(.7), 0, Math.cos(.7)],
 } as unknown as VehicleState;
 const CLIPS = Object.keys(VEHICLE_INTERACTION.durations) as VehicleClip[];
-const EXITS = CLIPS.filter(clip => clip !== 'enter');
+const EXITS = CLIPS.filter(clip => clip.startsWith('exit'));
 /** Past the entry's root warp and bone blend-in. */
 const SETTLED = (VEHICLE_ROOT_WARP + .05) / VEHICLE_INTERACTION.durations.enter;
 
@@ -108,6 +109,40 @@ test('authored clips match the sim: durations, stages, seated seams and a comple
   }
 });
 
+test('each shove starts and ends standing at the corner the sim walks Snow to, so shoves can follow each other', () => {
+  const gameplay = JSON.parse(readFileSync(new URL('../../../content/helsinki/central-expansion/gameplay.json', import.meta.url), 'utf8'));
+  for (const def of gameplay.vehicleDefinitions as VehicleDefinition[]) {
+    const poses = vehiclePoses(def);
+    for (const clip of ['pushFront', 'pushRear'] as const) {
+      const stage = vehiclePushStage({ def } as Vehicle, clip), { frames, door } = poses.clips[clip];
+      assert.deepEqual(poses.pushStage[clip].map(v => Math.round(v * 1e4)), stage.map(v => Math.round(v * 1e4)), `${def.id} ${clip}: authored corner`);
+      // Hips are stored in the rig's Blender axes: [x, -z, height].
+      for (const frame of [frames[0]!, frames.at(-1)!]) assert.deepEqual(frame.hips.slice(0, 2), [poses.pushStage[clip][0], -poses.pushStage[clip][2]!]);
+      for (const [name, q] of Object.entries(frames[0]!.rotations)) {
+        const end = frames.at(-1)!.rotations[name]!;
+        assert.ok(2 * Math.acos(Math.min(1, Math.abs(q.reduce((sum, c, i) => sum + c * end[i]!, 0)))) < .02, `${def.id} ${clip} ${name}: loop seam`);
+      }
+      assert.equal(door, null);
+    }
+  }
+});
+
+test('a shove aside is posed in Snow\'s own frame, starting and ending on his feet', () => {
+  const { root, animation } = fixture();
+  for (const clip of ['shovePerson', 'shoveBody'] as const) {
+    const { frames, door } = VEHICLE_POSES.clips[clip];
+    // Hips are stored in the rig's Blender axes: [x, -z, height]; the frame moves off with whoever he shoves.
+    for (const frame of [frames[0]!, frames.at(-1)!]) assert.deepEqual(frame.hips.slice(0, 2).map(v => Math.round(v * 1e4) + 0), [0, 0]);
+    assert.equal(door, null);
+    root.position.set(3, 1, -2); root.rotation.set(0, .8, 0);
+    const own = root.quaternion.clone();
+    assert.ok(animation.apply(root, interaction('shove', .5, clip), car));
+    assert.deepEqual(root.position.toArray(), [3, 1, -2], `${clip}: the root stays on Snow's capsule, not the car`);
+    assert.ok(root.quaternion.angleTo(own) < 1e-12);
+    animation.restore();
+  }
+});
+
 test('the exit is its own motion, not the entry played backwards', () => {
   const { root, model, animation } = fixture();
   let largest = 0;
@@ -147,7 +182,7 @@ test('the entry starts where the walk-up stopped, blends in from the mixer pose 
   for (const node of model.children) {
     if (node.name !== 'DEF-Hips') assert.ok(node.quaternion.angleTo(new THREE.Quaternion().fromArray(before.get(node.name)!.q)) < 1e-6, `${node.name}: first frame is the mixer pose`);
   }
-  // The authored first frame stands on the stage; the warped root puts it where Finn actually stopped.
+  // The authored first frame stands on the stage; the warped root puts it where Snow actually stopped.
   const carQ = new THREE.Quaternion().fromArray(car.rotation);
   const stage = new THREE.Vector3().fromArray(VEHICLE_INTERACTION.stage);
   const stageWorld = stage.clone().applyQuaternion(root.quaternion).add(root.position);
@@ -188,7 +223,7 @@ test('the vehicle view opens the clip\'s own door with no frame-rate-dependent l
   const context = {
     root: new THREE.Group(), wheels: [], doorOpen: {},
     doors: [{ node: driver, openDeg: 65, sign: -1, rest }, { node: passenger, openDeg: 65, sign: 1, rest }],
-    steering: null, lampHead: [], lampTail: [], lampBlue: [], shadow: { visible: false }, windshield: { visible: true },
+    steering: null, lampHead: [], lampTail: [], lampBlue: [], shadow: { visible: false }, windshield: { visible: true }, placeShadow: () => {},
   };
   const state = { ...car, wheels: [], lightsOn: false, sirenOn: false, throttle: 0, forwardSpeed: 0 } as unknown as VehicleState;
   const swing = (sign: number, open: number) => rest.clone().multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), sign * 65 * Math.PI / 180 * open));
@@ -207,9 +242,9 @@ test('the vehicle view opens the clip\'s own door with no frame-rate-dependent l
   assert.equal(context.windshield.visible, false, 'a kicked-out windshield is hidden');
 });
 
-test('after the exit Finn fades into standing, never the obsolete seated drive clip', () => {
+test('after the exit Snow fades into standing, never the obsolete seated drive clip', () => {
   const { model } = fixture();
-  const metadata = JSON.parse(readFileSync(new URL('../../../content/assets/finn-locomotion.json', import.meta.url), 'utf8'));
+  const metadata = JSON.parse(readFileSync(new URL('../../../content/assets/snow-locomotion.json', import.meta.url), 'utf8'));
   const names = new Set<string>([...metadata.locomotion.map((clip: { clip: string }) => clip.clip), ...Object.values(metadata.states) as string[]]);
   const profile = parseCharacterProfile(metadata, names)!;
   const clips = new Map<string, InstanceType<typeof THREE.AnimationClip>>();

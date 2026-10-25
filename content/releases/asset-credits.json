@@ -54,7 +54,7 @@
         "licenseUrlAsReturned": "http://creativecommons.org/licenses/by/4.0/",
         "licenseRequirementsAsReturned": "Author must be credited. Commercial use is allowed."
       },
-      "changes": "Fictional Revontuli; emblems, lettering, number plates and source textures removed; scale, geometry, wheels and cabin fit adapted; original materials, gameplay nodes and sockets added; Finn interaction poses fitted to the cabin."
+      "changes": "Fictional Revontuli; emblems, lettering, number plates and source textures removed; scale, geometry, wheels and cabin fit adapted; original materials, gameplay nodes and sockets added; Snow interaction poses fitted to the cabin."
     },
     {
       "id": "helsinki-cathedral-source",
@@ -127,6 +127,6 @@
   ],
   "remainingSuppliedRights": [
     "Alexander II monument: original redistribution license remains pending.",
-    "Custom Finn and Poliisi Rain adaptations and supplied movement: retain Blender Studio CC BY 4.0 base-character credits and existing Kimodo provenance; remaining supplied adaptation and motion details remain pending."
+    "Custom player Snow and Poliisi Rain adaptations and supplied movement: retain Blender Studio CC BY 4.0 base-character credits and existing Kimodo provenance; remaining supplied adaptation and motion details remain pending."
   ]
 }

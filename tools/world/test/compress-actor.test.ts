@@ -24,7 +24,7 @@ async function fixture() {
   const root = doc.createNode('rig_root'), socket = doc.createNode('driver_hand_socket').setExtras({seatPose: 'unchanged'}); root.addChild(socket);
   const ibm = accessor('bind_pose', 'MAT4', new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
   const skin = doc.createSkin('accepted_rig').setSkeleton(root).addJoint(root).setInverseBindMatrices(ibm);
-  const body = doc.createNode('Finn').setMesh(mesh).setSkin(skin);
+  const body = doc.createNode('Snow').setMesh(mesh).setSkin(skin);
   doc.createScene('game').addChild(root).addChild(body);
   doc.getRoot().setExtras({source: 'CC BY 4.0', motionProfile: {boneNames: ['rig_root'], socket: 'driver_hand_socket'}});
   for (const name of ['idle', 'run', 'jump', 'car_entry']) {

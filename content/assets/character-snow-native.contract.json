@@ -1,31 +1,31 @@
 {
   "schemaVersion": 1,
   "kind": "character-contract",
-  "variant": "finn12",
+  "variant": "snow12",
   "assetId": "character-snow",
   "role": "player",
   "note": "Variant-specific player contract. Native positions, materials, 71-joint CloudRig hierarchy and all eleven original clip tracks are preserved; six game actions are added. Exact approved exceptions are 89 lower-neck skin-weight tuples and two fully shirt-covered head triangles. All other topology and skin data remain unchanged. Does not change Rain budgets or skeleton.",
   "source": {
-    "file": "Snow_v4.2/game/public/assets/finn.glb",
-    "sha256": "2d4516c7efc691fd544b25b5ff66d39e19a0f23a5c3b029dd44785652a9adebd",
+    "file": "data/raw/snow12-20261017/snow.glb",
+    "sha256": "94b5759cea7c95b07028ed2482f7d747c13efa727796d84153a3a0e6f62f3123",
     "nativeTriangles": 38737,
     "nativeMaterials": 12,
     "nativeJointCount": 71,
     "skinWeightException": {
-      "file": "data/work/finn12-20261017/collar-v1/patch.json",
-      "sha256": "eefa0d30c1be79aafd6b838716dadb0c31e193ae9c7fd2ee67dbb18d7e93fa02",
-      "meshName": "FINN-head_game",
+      "file": "data/work/snow12-20261017/collar-v1/patch.json",
+      "sha256": "7d62ef73e14dc6c4bb98777cd386dc070f8730b1e10638b2e6cde05681e7900e",
+      "meshName": "SNOW-head_game",
       "primitive": 0,
       "jointAccessor": 42,
       "weightAccessor": 43,
       "vertices": 89,
-      "method": "Bind-covered lower-neck vertices receive normalized skin weights interpolated from the corresponding original FINN-shirt_game triangle interior. Exact original/replacement tuples, BIN ranges and garment donors are pinned in the patch.",
+      "method": "Bind-covered lower-neck vertices receive normalized skin weights interpolated from the corresponding original SNOW-shirt_game triangle interior. Exact original/replacement tuples, BIN ranges and garment donors are pinned in the patch.",
       "limits": "Only these 89 joint/weight tuples may change. Positions, normals, UVs, all other weights, inverse binds, rest transforms and native clip tracks remain exact. Patched collar deformation requires fresh runtime gait/aim/fire review."
     },
     "hiddenGeometryException": {
-      "file": "data/work/finn12-20261017/hidden-collar-v1/patch.json",
-      "sha256": "59cb5cecdedfacc695824689e4edaeee61478f0777d5210fc5f2b8279165aa2f",
-      "meshName": "FINN-head_game",
+      "file": "data/work/snow12-20261017/hidden-collar-v1/patch.json",
+      "sha256": "bc0394d2301e5a13b800621cea676016dfdc7735270f259ee7cb254d9bf53825",
+      "meshName": "SNOW-head_game",
       "primitive": 0,
       "indexAccessor": 44,
       "removedTriangles": [11, 2946],
@@ -49,18 +49,18 @@
     "max": 1.9
   },
   "requiredMeshNodes": [
-    "FINN-body_game",
-    "FINN-eye_dots_game",
-    "FINN-eyebrows_game",
-    "FINN-eyes_game",
-    "FINN-hair_short_game",
-    "FINN-head_game",
-    "FINN-pants_game",
-    "FINN-shirt_game",
-    "FINN-shoes_base_game",
-    "FINN-shoes_bottom_game",
-    "FINN-shoes_parts_game",
-    "FINN-tongue_game"
+    "SNOW-body_game",
+    "SNOW-eye_dots_game",
+    "SNOW-eyebrows_game",
+    "SNOW-eyes_game",
+    "SNOW-hair_short_game",
+    "SNOW-head_game",
+    "SNOW-pants_game",
+    "SNOW-shirt_game",
+    "SNOW-shoes_base_game",
+    "SNOW-shoes_bottom_game",
+    "SNOW-shoes_parts_game",
+    "SNOW-tongue_game"
   ],
   "skeleton": {
     "root": "root",
@@ -138,7 +138,7 @@
       "DEF-Toes.R"
     ],
     "parents": {
-      "root": "FINN_game_rig",
+      "root": "SNOW_game_rig",
       "DEF-Hips": "root",
       "DEF-Hip_Center": "DEF-Hips",
       "DEF-Spine": "DEF-Hips",
@@ -212,7 +212,7 @@
     },
     "maxJoints": 80,
     "maxInfluencesPerVertex": 4,
-    "note": "All native joint names and direct parents are required, including the non-joint FINN_game_rig parent of root; no remapping to the Rain game skeleton."
+    "note": "All native joint names and direct parents are required, including the non-joint SNOW_game_rig parent of root; no remapping to the Rain game skeleton."
   },
   "sockets": [
     {
@@ -356,7 +356,7 @@
       "source": "authored-native-rig-game-action"
     }
   ],
-  "locomotionProfile": "content/assets/finn-locomotion.json",
+  "locomotionProfile": "content/assets/snow-locomotion.json",
   "budgets": {
     "player": {
       "triangles": 40000,
@@ -372,11 +372,11 @@
   "materials": "Preserve all twelve supplied native materials. KTX2 base colour uses sRGB; normal and metallic-roughness maps remain linear. No decimation; only the exact two covered head faces described in source.hiddenGeometryException are omitted.",
   "census": {
     "specs": [
-      "content/assets/census/character-finn.census.json",
-      "content/assets/census/character-finn-eye-dots.census.json"
+      "content/assets/census/character-snow-native.census.json",
+      "content/assets/census/character-snow-native-eye-dots.census.json"
     ],
-    "eyeDotRationale": "FINN-eye_dots_game contains two approximately 3 mm highlight discs. All 60 original triangles have positive area; 32 narrow perimeter facets are below the generic 1e-8 m2 cutoff. Measured minimum area is 8.19423107145667e-9 m2 and minimum edge 0.2900801596193526 mm. Float32 positions near 1.62 m have about 0.000119 mm spacing, far smaller than these facets. A dedicated 1e-10 m2 cutoff distinguishes submicron collapse on these small facets while requiring zero degenerate faces. All other meshes retain 1e-8 m2; no topology limits are relaxed. The exact two covered head-face removals are documented separately.",
-    "sourceAreaEvidence": "data/evidence/finn12-20261017/eye-dot-area-analysis.json",
-    "originalStrictCensus": "data/evidence/finn12-20261017/census-source.json"
+    "eyeDotRationale": "SNOW-eye_dots_game contains two approximately 3 mm highlight discs. All 60 original triangles have positive area; 32 narrow perimeter facets are below the generic 1e-8 m2 cutoff. Measured minimum area is 8.19423107145667e-9 m2 and minimum edge 0.2900801596193526 mm. Float32 positions near 1.62 m have about 0.000119 mm spacing, far smaller than these facets. A dedicated 1e-10 m2 cutoff distinguishes submicron collapse on these small facets while requiring zero degenerate faces. All other meshes retain 1e-8 m2; no topology limits are relaxed. The exact two covered head-face removals are documented separately.",
+    "sourceAreaEvidence": "data/evidence/snow12-20261017/eye-dot-area-analysis.json",
+    "originalStrictCensus": "data/evidence/snow12-20261017/census-source.json"
   }
 }

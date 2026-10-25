@@ -5,6 +5,9 @@ import * as THREE from 'three';
 import type { VehicleState } from '@helsinki/sim';
 import type { VehicleDefinition } from '@helsinki/world-schema';
 import type { AssetLibrary } from './assets.ts';
+import { createContactShadow, placeContactShadow, type ShadowCaster } from './contact-shadow.ts';
+
+const scratch = new THREE.Vector3(), scratchCentre = new THREE.Vector3();
 
 interface DoorNode { node: THREE.Object3D; openDeg: number; sign: number; rest: THREE.Quaternion }
 
@@ -21,6 +24,9 @@ export class VehicleView {
   readonly lampTail: THREE.MeshStandardMaterial[] = [];
   readonly lampBlue: THREE.MeshStandardMaterial[] = [];
   readonly shadow: THREE.Mesh;
+  private readonly caster: ShadowCaster;
+  /** Height of the ground the shadow lies on, once known. */
+  private groundY: number | null = null;
   /** Opening 0..1 per door node, set from the interaction clock. */
   readonly doorOpen: Record<string, number> = { DOOR_FL: 0, DOOR_FR: 0 };
   private readonly def: VehicleDefinition;
@@ -71,11 +77,10 @@ export class VehicleView {
     this.lod.addLevel(detail, 0);
     this.lod.addLevel(far, detailRange, 0.1);
     this.root.add(this.lod);
-    this.shadow = new THREE.Mesh(new THREE.PlaneGeometry(def.collider.halfExtents[0] * 2.2, def.collider.halfExtents[2] * 2.1), shadowMaterial);
-    this.shadow.rotation.x = -Math.PI / 2;
-    this.shadow.position.y = 0.03;
-    this.shadow.renderOrder = -1;
+    this.shadow = createContactShadow(shadowMaterial);
     this.root.add(this.shadow);
+    const he = def.collider.halfExtents;
+    this.caster = { halfWidth: he[0], halfLength: he[2], height: def.collider.centre[1] + he[1] };
   }
 
   /** A detail-tier change: this car switches to its merged far mesh beyond `range` metres from the camera. */
@@ -112,13 +117,38 @@ export class VehicleView {
     const flash = state.sirenOn ? (Math.floor(time * 6) % 2 === 0 ? 6 : 0.5) : 0;
     for (const m of this.lampBlue) m.emissiveIntensity = flash;
     if (this.windshield) this.windshield.visible = !state.windshieldBroken;
-    this.shadow.visible = state.position[1] > -20;
+    this.placeShadow(state);
+  }
+
+  /**
+   * The ground under the car is where its touching tyres meet it; in the air it stays at the last ground seen until
+   * the body sinks below that (landing lower down, or coming to rest on its roof or side).
+   */
+  private placeShadow(state: VehicleState): void {
+    const q = this.root.quaternion, p = this.root.position, c = this.def.collider.centre, he = this.def.collider.halfExtents;
+    // World height of the chassis box's lowest corner: centre minus the vertical reach of each half extent.
+    const reach = Math.abs(scratch.set(he[0], 0, 0).applyQuaternion(q).y) + Math.abs(scratch.set(0, he[1], 0).applyQuaternion(q).y)
+      + Math.abs(scratch.set(0, 0, he[2]).applyQuaternion(q).y);
+    const centre = scratchCentre.set(c[0], c[1], c[2]).applyQuaternion(q).add(p);
+    let bodyBottom = centre.y - reach;
+    let contactY = 0, contacts = 0;
+    for (const w of state.wheels) {
+      const tyre = scratch.set(w.position[0], w.position[1], w.position[2]).applyQuaternion(q).y + p.y - this.def.wheelRadius;
+      bodyBottom = Math.min(bodyBottom, tyre);
+      if (w.contact) { contactY += tyre; contacts++; }
+    }
+    if (contacts > 0) this.groundY = contactY / contacts;
+    else if (this.groundY === null || bodyBottom < this.groundY) this.groundY = bodyBottom;
+    const forward = scratch.set(0, 0, 1).applyQuaternion(q);
+    placeContactShadow(this.shadow, this.caster, centre.x, centre.z, this.groundY, Math.atan2(forward.x, forward.z), bodyBottom - this.groundY);
+    if (state.position[1] <= -20) this.shadow.visible = false;
   }
 
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
     this.shadow.geometry.dispose();
+    (this.shadow.material as THREE.Material).dispose();
     for (const material of this.ownedLampMaterials) material.dispose();
     this.ownedLampMaterials.clear();
     this.root.removeFromParent();

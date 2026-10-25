@@ -14,7 +14,7 @@ export type JumpKind = 'normal' | 'super';
 /**
  * Ledge climbing. A jump that brings the hands to an edge the feet cannot clear grabs it and pulls the
  * capsule up beside the wall, then over the edge. The authored climb animation uses the same path
- * (tools/blender/build_finn_jump_poses.py stores these numbers and a test compares them).
+ * (tools/blender/build_snow_jump_poses.py stores these numbers and a test compares them).
  */
 export const CLIMB = {
   /** Ledge top above the feet: below this the jump lands or autosteps, above it the hands cannot pull up. */
@@ -32,6 +32,28 @@ export const CLIMB = {
   /** Duration = baseSeconds + perMetreSeconds * height. */
   baseSeconds: 0.5, perMetreSeconds: 0.5,
 } as const;
+
+/**
+ * A dead body lies on its back along its facing, drawn flat at the height of its feet (Snow's and Rain's held death
+ * poses, measured in the game): from its head `length[0]` behind the feet to its toes `length[1]` ahead, `halfWidth`
+ * either side, in `pieces` pieces; its forearms lie out to `arms.reach` either side between `arms.along`. The ground
+ * there may rise `rise` above the feet or fall `drop` below them before the body sinks into it or floats over it; the
+ * body is `thickness` deep above that. A collapsing body turns toward the facing it falls along at `turnRate` rad/s.
+ */
+export const BODY = {
+  length: [-1.05, 0.8], halfWidth: 0.25, pieces: 4, arms: { along: [-0.7, -0.15], reach: 0.7 },
+  thickness: 0.35, rise: 0.07, drop: 0.12, turnRate: 8,
+} as const;
+
+/** The boxes a lying body fills about its feet: along and across its facing, half their length and width, and whether it rests on the ground there. */
+const BODY_PIECES: readonly (readonly [number, number, number, number, boolean])[] = (() => {
+  const [back, front] = BODY.length, half = (front - back) / BODY.pieces / 2;
+  const [shoulder, waist] = BODY.arms.along, arm = (waist - shoulder) / 2, out = (BODY.arms.reach - BODY.halfWidth) / 2;
+  return [
+    ...Array.from({ length: BODY.pieces }, (_, i) => [back + half * (2 * i + 1), 0, half, BODY.halfWidth, true] as const),
+    ...[1, -1].map(side => [shoulder + arm, side * (BODY.halfWidth + out), arm, out, false] as const),
+  ];
+})();
 
 /** Presentation data of an active climb: height of the top above the feet at the grab and the grabbed edge. */
 export interface ClimbView {
@@ -95,6 +117,8 @@ export class Character {
   inVehicle: string | null = null;
   hitTicks = 0;
   deathTicks = 0;
+  /** The facing a dead body turns to so that it lies on level, open ground; null until chosen. */
+  fallYaw: number | null = null;
   /** Authoritative fixed-step age of a terminal collapse, independent of render/view lifetime. */
   get deathElapsed(): number { return this.alive ? 0 : this.deathTicks * TICK_SECONDS; }
   lastSurface: string | null = null;
@@ -169,8 +193,9 @@ export class Character {
     this.controller.setMinSlopeSlideAngle(60 * Math.PI / 180);
     this.controller.enableAutostep(0.45, 0.25, true);
     this.controller.enableSnapToGround(0.4);
-    this.controller.setApplyImpulsesToDynamicBodies(true);
-    this.controller.setCharacterMass(80);
+    // Cars, the only dynamic bodies, are walls to a walker: the controller re-applies its impulse every tick of
+    // contact, at shoulder height, so a run into a parked car's side shoved it 3.6 m and tipped it onto its side.
+    this.controller.setApplyImpulsesToDynamicBodies(false);
   }
 
   /**
@@ -335,6 +360,32 @@ export class Character {
     }
     if (this.grounded) this.groundDistance = 0;
     else this.probeGroundDistance(world);
+  }
+
+  /**
+   * The facing for a body to fall along: the one nearest its own, in 15° steps either way, where it lies on level
+   * ground clear of walls, kerbs and cars; otherwise the one with the fewest blocked or unsupported pieces.
+   */
+  chooseFall(world: StaticWorld): number {
+    const [x, y, z] = this.position, flags = RAPIER.QueryFilterFlags.EXCLUDE_SENSORS, down = { x: 0, y: -1, z: 0 };
+    const slabs = BODY_PIECES.map(([, , along, across]) => new RAPIER.Cuboid(across, BODY.thickness / 2, along));
+    let best = { yaw: this.yaw, failed: Infinity };
+    for (const step of [0, ...Array.from({ length: 11 }, (_, i) => [i + 1, -i - 1]).flat(), 12]) {
+      const yaw = wrapAngle(this.yaw + step * Math.PI / 12), sin = Math.sin(yaw), cos = Math.cos(yaw);
+      const rotation = { x: 0, y: Math.sin(yaw / 2), z: 0, w: Math.cos(yaw / 2) };
+      let failed = 0;
+      BODY_PIECES.forEach(([along, across, , , rests], i) => {
+        const px = x + sin * along + cos * across, pz = z + cos * along - sin * across;
+        const blocked = world.physics.intersectionWithShape({ x: px, y: y + BODY.rise + BODY.thickness / 2, z: pz }, rotation, slabs[i]!, flags,
+          groups(GROUP.character, GROUP.static | GROUP.vehicle), this.collider, this.body);
+        const unsupported = rests && !world.physics.castRay(new RAPIER.Ray({ x: px, y: y + BODY.rise, z: pz }, down), BODY.rise + BODY.drop, true, flags,
+          groups(GROUP.character, GROUP.static), this.collider, this.body);
+        if (blocked || unsupported) failed++;
+      });
+      if (failed < best.failed) best = { yaw, failed };
+      if (!failed) break;
+    }
+    return best.yaw;
   }
 
   /** Face a yaw gradually (rad/s rate). */

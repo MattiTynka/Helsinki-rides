@@ -31,7 +31,7 @@ export interface CellView {
 }
 
 /** Sun matched to the light baked into the facade photos (decision 0003): azimuth from north, clockwise, and elevation. */
-const SUN_AZIMUTH_DEG = 127, SUN_ELEVATION_DEG = 38;
+export const SUN_AZIMUTH_DEG = 127, SUN_ELEVATION_DEG = 38;
 
 export class CityScene {
   readonly scene = new THREE.Scene();

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const directories = ['packages/sim/test', 'packages/world-schema/test', 'tools/verify/test', 'tools/world/test', 'apps/game/test', 'tools/release/test'];
 const excludedSuites = new Map([
-  ['tools/verify/test/finn-preservation.test.mjs', 'Needs the separately supplied Finn GLB and historical collar patch datasets; these are outside the source distribution.'],
+  ['tools/verify/test/snow-preservation.test.mjs', 'Needs the separately supplied Snow GLB and historical collar patch datasets; these are outside the source distribution.'],
   ['tools/verify/test/rain-preservation.test.mjs', 'Needs the separately supplied data/raw Rain GLB, outside the source distribution.'],
   ['tools/world/test/guard-completion-art.test.ts', 'Needs historical data/evidence source-fit engineering receipts; this is a full asset reconstruction gate.'],
 ]);

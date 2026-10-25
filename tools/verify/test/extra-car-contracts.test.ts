@@ -13,9 +13,9 @@ const sourceFiles = ['content/helsinki/city-north-20261019/gameplay-base.json', 
 const reference = read('content/helsinki/central-expansion/gameplay.json');
 
 for (const car of cars) {
-  test(`${car.id}: accepted car contract and native Finn pose set stay bound together`, () => {
+  test(`${car.id}: accepted car contract and native Snow pose set stay bound together`, () => {
     const contract = read(`content/assets/vehicle-${car.id}.contract.json`);
-    const poses = read(`content/assets/finn-vehicle-poses-${car.id}.json`);
+    const poses = read(`content/assets/snow-vehicle-poses-${car.id}.json`);
     const definition = reference.vehicleDefinitions.find((d: VehicleDefinition) => d.id === car.id) as VehicleDefinition;
     assert.ok(definition);
     assert.equal(definition.assetId, `vehicle-${car.id}`);
@@ -34,7 +34,7 @@ for (const car of cars) {
     const [min, max] = contract.expectedDimensions.wheelbaseM;
     assert.ok(wheelbase >= min && wheelbase <= max);
     assert.ok(definition.wheelRadius >= contract.expectedDimensions.wheelRadiusM[0] && definition.wheelRadius <= contract.expectedDimensions.wheelRadiusM[1]);
-    const clips = ['enter', 'exit', 'exitPassenger', 'exitWindshield', 'exitFlipped', 'exitFlippedPassenger'];
+    const clips = ['enter', 'exit', 'exitPassenger', 'exitWindshield', 'exitFlipped', 'exitFlippedPassenger', 'pushFront', 'pushRear', 'shovePerson', 'shoveBody'];
     assert.deepEqual(Object.keys(poses.clips).sort(), clips.sort());
     for (const clip of Object.values(poses.clips) as { frames: { time: number; hips: number[]; rotations: Record<string, number[]> }[] }[]) {
       assert.ok(clip.frames.length > 20);

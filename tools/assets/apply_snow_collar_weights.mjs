@@ -1,9 +1,9 @@
 // Narrow repair for the supplied head patch moving through the shirt under raised arms.
 // Geometry, rest matrices and animation bytes are not altered. The caller owns a fresh GLB buffer.
 import assert from 'node:assert/strict';
-export function applyFinnCollarWeights(glb, patch, sourceSha256) {
+export function applySnowCollarWeights(glb, patch, sourceSha256) {
   assert.equal(patch.version, 1); assert.equal(patch.sourceSha256, sourceSha256);
-  assert.equal(patch.meshName, 'FINN-head_game'); assert.equal(patch.primitive, 0);
+  assert.equal(patch.meshName, 'SNOW-head_game'); assert.equal(patch.primitive, 0);
   assert.ok(patch.vertices.length > 0 && patch.vertices.length <= 128, 'Unexpected collar patch size');
   const meshes = glb.json.meshes.filter(m => m.name === patch.meshName);
   assert.equal(meshes.length, 1);
@@ -15,7 +15,7 @@ export function applyFinnCollarWeights(glb, patch, sourceSha256) {
   const jointCount = glb.json.skins[0].joints.length;
   for (const item of patch.vertices) {
     assert.ok(Number.isInteger(item.vertex) && item.vertex >= 0 && !seen.has(item.vertex)); seen.add(item.vertex);
-    assert.equal(item.donor.meshName, 'FINN-shirt_game');
+    assert.equal(item.donor.meshName, 'SNOW-shirt_game');
     assert.ok(item.bindSignedSeparationMeters <= 0 && item.bindDistanceMeters <= .015);
     assert.ok(item.weights.every(w => Number.isFinite(w) && w >= 0 && w <= 1));
     assert.ok(Math.abs(item.weights.reduce((a, b) => a + b, 0) - 1) < 1e-6);

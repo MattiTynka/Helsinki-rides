@@ -6,7 +6,7 @@ const MAX_TRACERS = 24;
 export const MAX_MUZZLE_LIGHTS = 4;
 export const MUZZLE_FLASH_SECONDS = .05;
 // A pistol muzzle is much nearer the face than the reference rifle. This scene also uses NoToneMapping:
-// reference-scale light power clips skin to white. Calibrated against native Finn/Rain return-fire frames.
+// reference-scale light power clips skin to white. Calibrated against native Snow/Rain return-fire frames.
 export const MUZZLE_LIGHT_INTENSITY = 1.2;
 export type MuzzleResolver = (shooter: string, position: THREE.Vector3, direction: THREE.Vector3) => boolean;
 export interface ShootingEffectsSnapshot {

@@ -8,7 +8,7 @@ import { advanceNativeGaitPhase, localTravelDirection, nativeLocomotionWeights, 
 
 const entry = createRequire(new URL('../../../apps/game/package.json', import.meta.url)).resolve('three');
 const THREE = await import(new URL('./three.module.js', pathToFileURL(entry)).href);
-const metadata = JSON.parse(readFileSync(new URL('../../../content/assets/finn-locomotion.json', import.meta.url), 'utf8'));
+const metadata = JSON.parse(readFileSync(new URL('../../../content/assets/snow-locomotion.json', import.meta.url), 'utf8'));
 const clipNames = new Set<string>([...metadata.locomotion.map((clip: { clip: string }) => clip.clip), ...Object.values(metadata.states) as string[]]);
 const profile = parseCharacterProfile(metadata, clipNames)!;
 type State = Parameters<CharacterView['update']>[0];

@@ -51,12 +51,12 @@ for (const car of cars) {
   assert.ok(car.asset && car.asset.kind === 'vehicle');
   assert.equal(car.asset.optimization?.lossless === true ? car.asset.optimization.sourceSha256 : car.asset.sha256,
     car.sha256, `${car.id}: accepted source model, with optional proved lossless storage compression`);
-  car.poses = read(`content/assets/finn-vehicle-poses-${car.id}.json`);
+  car.poses = read(`content/assets/snow-vehicle-poses-${car.id}.json`);
   const contract = read(`content/assets/vehicle-${car.id}.contract.json`);
   assert.equal(car.poses.carSha256, car.sha256);
-  const finn = manifest.assets.find(a => a.id === 'character-snow');
-  assert.equal(finn?.optimization?.lossless === true ? finn.optimization.sourceSha256 : finn?.sha256, car.poses.sourcePackagedSha256,
-    'use the Finn skin these cabin poses were authored for');
+  const snow = manifest.assets.find(a => a.id === 'character-snow');
+  assert.equal(snow?.optimization?.lossless === true ? snow.optimization.sourceSha256 : snow?.sha256, car.poses.sourcePackagedSha256,
+    'use the Snow skin these cabin poses were authored for');
   const { poses, ...interaction } = car.definition.interaction;
   assert.equal(poses, car.id);
   assert.deepEqual(interaction, car.poses.interaction);
@@ -136,7 +136,7 @@ try {
     await page.evaluate(() => window.__HELSINKI_GAME__.render());
     const pose = inspectPose ? await page.evaluate(() => window.__HELSINKI_GAME__.vehiclePose()) : null;
     if (inspectPose) {
-      assert.ok(pose && pose.visible && pose.vehicleId === car.vehicleId, 'the actual native Finn remains visible in this car');
+      assert.ok(pose && pose.visible && pose.vehicleId === car.vehicleId, 'the actual native Snow remains visible in this car');
       assert.ok(Object.keys(pose.bones).length >= 71);
       assert.ok([...Object.values(pose.bones).flat(), ...pose.bounds.min, ...pose.bounds.max].every(Number.isFinite));
       assert.ok(pose.doors.DOOR_FL && pose.doors.DOOR_FR, 'both rigged doors are present');

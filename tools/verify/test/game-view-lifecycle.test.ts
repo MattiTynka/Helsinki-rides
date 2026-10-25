@@ -22,7 +22,7 @@ test('a stale vehicle reference cannot interrupt syncViews before the camera, HU
   };
   Game.prototype.syncViews.call(context as unknown as Game, 1 / 60, 1 / 60, state);
   assert.deepEqual(calls, ['camera', 'hud', 'audio']);
-  assert.equal(context.playerView.root.visible, true, 'show Finn when no vehicle view exists');
+  assert.equal(context.playerView.root.visible, true, 'show Snow when no vehicle view exists');
 });
 
 test('visual loading waits clear accumulated time and do not advance hidden simulation or animation', () => {

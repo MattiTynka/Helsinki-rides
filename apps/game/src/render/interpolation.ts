@@ -49,7 +49,9 @@ export function interpolateState(before: SimState, after: SimState, fraction: nu
   const previousCharacters = new Map(before.characters.map(c => [c.id, c]));
   const previousInteraction = before.player.vehicleInteraction, interaction = after.player.vehicleInteraction;
   const player: PlayerState = { ...character(before.player, after.player, t), pitch: lerp(before.player.pitch, after.player.pitch, t),
+    // A shove that follows another restarts its clip: do not sweep back through it.
     vehicleInteraction: interaction && previousInteraction?.vehicleId === interaction.vehicleId && previousInteraction.stage === interaction.stage && previousInteraction.clip === interaction.clip
+      && Math.abs(interaction.progress - previousInteraction.progress) < 0.5
       ? { ...interaction, progress: lerp(previousInteraction.progress, interaction.progress, t) } : interaction,
   };
   return { ...after, time: lerp(before.time, after.time, t), player,

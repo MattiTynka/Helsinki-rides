@@ -8,7 +8,7 @@ import { parseCharacterProfile } from '../../../apps/game/src/render/native-loco
 
 const entry = createRequire(new URL('../../../apps/game/package.json', import.meta.url)).resolve('three');
 const THREE = await import(new URL('./three.module.js', pathToFileURL(entry)).href);
-const metadata = JSON.parse(readFileSync(new URL('../../../content/assets/finn-locomotion.json', import.meta.url), 'utf8'));
+const metadata = JSON.parse(readFileSync(new URL('../../../content/assets/snow-locomotion.json', import.meta.url), 'utf8'));
 type State = Parameters<CharacterView['update']>[0];
 const state = (changes: Partial<State> = {}): State => ({ id: 'subject', position: [0, 0, 0], yaw: 0,
   clip: 'walk', speed: 1.4, alive: true, health: 100, aiming: false, inVehicle: null, grounded: true, verticalSpeed: 0,
