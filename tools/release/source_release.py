@@ -54,6 +54,8 @@ DECODERS = {'apps/game/public/basis/basis_transcoder.js', 'apps/game/public/basi
 PUBLIC_HANDLE = 'MattiTynka'
 PUBLIC_EMAIL = PUBLIC_HANDLE + '@users.noreply.github.com'
 PUBLIC_AUTHOR_NAMES = {PUBLIC_HANDLE, 'Matti Tynka'}
+PUBLIC_DISPLAY_NAME = 'Matti Tynk\u00e4'
+PUBLIC_IDENTITIES = {(author, PUBLIC_EMAIL) for author in PUBLIC_AUTHOR_NAMES} | {(PUBLIC_DISPLAY_NAME, '')}
 OMIT_FILES = {f'content/assets/facades/estates/DSC{number}.jpg' for number in ('05064', '05070', '05072')}
 PATTERNS = {
     'personal-home-path': re.compile(r'(?:[A-Za-z]:[\\/]+(?:Users|Documents and Settings)[\\/]+|/(?:Users|home)/)[^\s"<>]+', re.I),
@@ -190,10 +192,10 @@ def audit(root: Path, include_git: bool = False, images: bool = False) -> dict:
         seen = set()
         for commit in commit_ids:
             metadata = git_output(root, 'show', '-s', '--format=%an%n%ae%n%cn%n%ce%n%B', commit).decode('utf8')
-            # Keep legacy handle attribution and the approved display name on the same public email.
+            # Preserve reviewed historical identities; new display-name commits omit email.
             rows = metadata.splitlines()
-            if (len(rows) < 4 or rows[0] not in PUBLIC_AUTHOR_NAMES or rows[1] != PUBLIC_EMAIL
-                    or rows[2] not in PUBLIC_AUTHOR_NAMES or rows[3] != PUBLIC_EMAIL):
+            if (len(rows) < 4 or (rows[0], rows[1]) not in PUBLIC_IDENTITIES
+                    or (rows[2], rows[3]) not in PUBLIC_IDENTITIES):
                 findings.append({'file': 'git-metadata', 'commit': commit, 'rule': 'unreviewed-author-identity'})
             findings.extend(scan_text(f'commit/{commit}', '\n'.join(rows[4:])))
             for entry in git_output(root, 'ls-tree', '-r', '-z', commit).split(b'\0'):

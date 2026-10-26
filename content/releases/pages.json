@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "worldRelease": "senate-20261025-snow-names",
-  "manifestSha256": "a1144a5cb341749f2340fd123ffcd01390ecf4e5b8c33ab998f7fb65e9d1e03f",
+  "worldRelease": "senate-20261025-civilian-flee",
+  "manifestSha256": "0e18e55e8730f01144eef72a80decffbb53cdd658222f87a7e8ad6f75f2c4260",
   "worldBaseUrl": "https://mattitynka.github.io/Helsinki-rides/world/",
-  "archiveUrl": "https://github.com/MattiTynka/Helsinki-rides/releases/download/pages-snow-names-20261025/pages-world.tar.gz",
-  "archiveSha256": "433f4f75d21f2f7c3d9a67b113e4c8eb456aec24efd033019a38de86a10bca89",
-  "archiveBytes": 816242042,
-  "worldBytes": 943087044
+  "archiveUrl": "https://github.com/MattiTynka/Helsinki-rides/releases/download/pages-civilian-flee-20261026/pages-world.tar.gz",
+  "archiveSha256": "455b41d735ab6c36240448d99f0ca951410c4759ed02ccc9247bea71120dd0b1",
+  "archiveBytes": 816569314,
+  "worldBytes": 944391123
 }

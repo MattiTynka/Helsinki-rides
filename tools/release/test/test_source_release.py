@@ -56,6 +56,11 @@ class SourceReleaseTest(unittest.TestCase):
             git('add', 'README.md')
             git('commit', '-m', 'Public display name')
             self.assertEqual(release.audit(root, include_git=True)['status'], 'PASS')
+            environment.update(GIT_AUTHOR_NAME=release.PUBLIC_DISPLAY_NAME,
+                               GIT_COMMITTER_NAME=release.PUBLIC_DISPLAY_NAME,
+                               GIT_AUTHOR_EMAIL='', GIT_COMMITTER_EMAIL='')
+            git('commit', '--allow-empty', '-m', 'Public name without email')
+            self.assertEqual(release.audit(root, include_git=True)['status'], 'PASS')
             environment['GIT_AUTHOR_NAME'] = 'Unapproved contributor'
             git('commit', '--allow-empty', '-m', 'Synthetic attribution regression')
             findings = release.audit(root, include_git=True)['findings']

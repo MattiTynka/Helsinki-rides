@@ -32,7 +32,7 @@ verification limits](docs/mobile-2026-10-22.md); physical-device performance and
 thermal testing are still pending.
 
 The public source repository is `MattiTynka/Helsinki-rides`.
-Original code and documentation are copyright 2026 MattiTynkä,
+Original code and documentation are copyright 2026 Matti Tynkä,
 [MIT-licensed](LICENSE). Models, textures, animations and map data retain their
 [individual licenses and credits](THIRD_PARTY_NOTICES.md), including CC BY 4.0
 where identified. The MIT grant does not cover these third-party assets.
