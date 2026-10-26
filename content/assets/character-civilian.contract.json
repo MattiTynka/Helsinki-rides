@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "kind": "character-contract",
-  "note": "Civilian subset of the corrected legacy22-joint rig: idle, walk and fall/recovery only; no weapons, sprinting or vehicle actions. All existing NPC geometry/skin/socket/scale budgets retained.",
+  "note": "Civilian subset of the corrected legacy22-joint rig: idle, walk and fall/recovery, plus a run and a sprint for fleeing and Snow's jump and climb poses under their snow-jump-poses.json names (normalized one-second clips, see civilian-flee.motion.json); no weapons or vehicle actions. All existing NPC geometry/skin/socket/scale budgets retained.",
   "axes": {
     "up": "+Y",
     "forward": "+Z",
@@ -94,6 +94,20 @@
       "seconds": 1,
       "movementSpeed": 1.4,
       "note": "one full stride cycle (two steps); feet planted without skating against a 1.4 m/s forward trajectory"
+    },
+    {
+      "name": "run",
+      "loop": true,
+      "seconds": 0.6,
+      "movementSpeed": 3.6,
+      "note": "fleeing run: one cycle from the left-foot strike, feet locked against a 3.6 m/s trajectory"
+    },
+    {
+      "name": "sprint",
+      "loop": true,
+      "seconds": 0.5333,
+      "movementSpeed": 5.0,
+      "note": "fleeing sprint from a nearby shot: one cycle from the left-foot strike, feet locked against a 5 m/s trajectory"
     },
     {
       "name": "death",

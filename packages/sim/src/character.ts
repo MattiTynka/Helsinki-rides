@@ -7,6 +7,14 @@ import { GROUP, groups, RAPIER, type StaticWorld } from './world.ts';
 export const CHARACTER = { radius: 0.32, halfHeight: 0.58, height: 1.8, eye: 1.62, walk: 1.4, run: 3.6, sprint: 6.0, aimWalk: 1.6 } as const;
 /** capsule centre above the feet */
 export const FEET_TO_CENTRE = CHARACTER.halfHeight + CHARACTER.radius;
+/**
+ * The gap Rapier's controller keeps between the capsule and what it touches, where a fall or a snap leaves the feet.
+ * Characters are placed at it: a capsule placed lower starts every cast inside the gap, where the edge of the ground
+ * triangle next to the one underfoot reads as a slope, and a runner crossing that edge is thrown up and slowed.
+ */
+export const CHARACTER_SKIN = 0.03;
+/** The lift of a grounded step taken again without its gravity part (see Character.move). */
+const FLAT_RETRY_RISE = 1e-4;
 export const JUMP = { gravity: 9.81, normalHeight: 0.9, superHeight: 2.8, doublePressSeconds: 0.28, takeoffSeconds: 0.1, landingSeconds: 0.18 } as const;
 export type JumpPhase = 'grounded' | 'takeoff' | 'rise' | 'fall' | 'land' | 'climb';
 export type JumpKind = 'normal' | 'super';
@@ -178,16 +186,16 @@ export class Character {
 
   constructor(world: StaticWorld, id: string, position: V3, yaw: number, health: number) {
     this.id = id;
-    this.position = [position[0], position[1], position[2]];
+    this.position = [position[0], position[1] + CHARACTER_SKIN, position[2]];
     this.yaw = yaw;
     this.health = health;
-    const desc = RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(position[0], position[1] + FEET_TO_CENTRE, position[2]);
+    const desc = RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(position[0], this.position[1] + FEET_TO_CENTRE, position[2]);
     this.body = world.physics.createRigidBody(desc);
     // Membership: character. Filter: everything that may touch or hit a character, including bullet rays.
     this.collider = world.physics.createCollider(
       RAPIER.ColliderDesc.capsule(CHARACTER.halfHeight, CHARACTER.radius).setCollisionGroups(groups(GROUP.character, GROUP.static | GROUP.vehicle | GROUP.character | GROUP.bullet)).setFriction(0),
       this.body);
-    this.controller = world.physics.createCharacterController(0.03);
+    this.controller = world.physics.createCharacterController(CHARACTER_SKIN);
     this.controller.setUp({ x: 0, y: 1, z: 0 });
     this.controller.setMaxSlopeClimbAngle(50 * Math.PI / 180);
     this.controller.setMinSlopeSlideAngle(60 * Math.PI / 180);
@@ -236,12 +244,21 @@ export class Character {
     this.verticalSpeed -= JUMP.gravity * TICK_SECONDS;
     this.verticalSpeed = Math.max(this.verticalSpeed, -30);
     const desired = { x: vx * TICK_SECONDS, y: this.verticalSpeed * TICK_SECONDS, z: vz * TICK_SECONDS };
-    this.controller.computeColliderMovement(this.collider, desired, RAPIER.QueryFilterFlags.EXCLUDE_SENSORS, groups(GROUP.character, GROUP.static | GROUP.vehicle | GROUP.character), filter);
-    const m = this.controller.computedMovement();
+    const solid = groups(GROUP.character, GROUP.static | GROUP.vehicle | GROUP.character);
+    this.controller.computeColliderMovement(this.collider, desired, RAPIER.QueryFilterFlags.EXCLUDE_SENSORS, solid, filter);
+    let m = this.controller.computedMovement(), onGround = this.controller.computedGrounded();
+    // Rapier takes a floor whose normal comes out a hair under vertical for a slope that the step's gravity part slides
+    // down, and drops the whole step: a runner on flat ground stopped dead for single ticks. The same step a hair
+    // upward never touches that floor; the snap brings it back down next tick.
+    if (wasGrounded && this.verticalSpeed <= 0 && this.lostStepOnFlatFloor(desired, m)) {
+      this.controller.computeColliderMovement(this.collider, { x: desired.x, y: FLAT_RETRY_RISE, z: desired.z }, RAPIER.QueryFilterFlags.EXCLUDE_SENSORS, solid, filter);
+      const retry = this.controller.computedMovement();
+      if (Math.hypot(retry.x, retry.z) > Math.hypot(m.x, m.z) + 1e-6) { m = retry; onGround = this.controller.computedGrounded(); }
+    }
     const t = this.body.translation();
     const next = { x: t.x + m.x, y: t.y + m.y, z: t.z + m.z };
     this.body.setNextKinematicTranslation(next);
-    this.grounded = this.verticalSpeed <= 0 && this.controller.computedGrounded();
+    this.grounded = this.verticalSpeed <= 0 && onGround;
     if (this.grounded && !wasGrounded) this.landingSpeed = Math.max(0, -this.verticalSpeed);
     if (this.verticalSpeed > 0 && m.y < desired.y - 0.0001) {
       for (let i = 0; i < this.controller.numComputedCollisions(); i++) {
@@ -264,6 +281,26 @@ export class Character {
     else this.probeGroundDistance(world);
   }
 
+  /**
+   * The controller made less of the step than asked for, and at a flat-floor contact it dropped what was left: sliding on
+   * a floor that flat keeps the whole horizontal part, but less than half of it went on into the next cast or the result.
+   */
+  private lostStepOnFlatFloor(desired: { x: number; z: number }, moved: { x: number; z: number }): boolean {
+    if (Math.hypot(moved.x, moved.z) >= Math.hypot(desired.x, desired.z) - 1e-6) return false;
+    const n = this.controller.numComputedCollisions();
+    for (let i = 0; i < n; i++) {
+      const hit = this.controller.computedCollision(i);
+      if (!hit || hit.normal1.y <= 0.9999) continue;
+      const left = Math.hypot(hit.translationDeltaRemaining.x, hit.translationDeltaRemaining.z);
+      if (left < 1e-6) continue;
+      // Each contact reports the translation applied so far and what remained when it was hit.
+      const next = i + 1 < n ? this.controller.computedCollision(i + 1) : null;
+      const end = next ? { x: next.translationDeltaApplied.x + next.translationDeltaRemaining.x, z: next.translationDeltaApplied.z + next.translationDeltaRemaining.z } : moved;
+      if (Math.hypot(end.x - hit.translationDeltaApplied.x, end.z - hit.translationDeltaApplied.z) < left / 2) return true;
+    }
+    return false;
+  }
+
   private probeGroundDistance(world: StaticWorld): void {
     const ray = new RAPIER.Ray({ x: this.position[0], y: this.position[1] + 0.08, z: this.position[2] }, { x: 0, y: -1, z: 0 });
     const hit = world.physics.castRay(ray, 6.08, true, RAPIER.QueryFilterFlags.EXCLUDE_SENSORS,
@@ -272,8 +309,8 @@ export class Character {
   }
 
   /**
-   * Player only, after a move: while airborne in a jump and pressing toward a wall, grab an edge whose
-   * top is within hand reach but which the jump will not clear. Every query is a deterministic static
+   * The player after a move, or a walker fleeing over an obstacle: while airborne in a jump and pressing toward a wall,
+   * grab an edge whose top is within hand reach but which the jump will not clear. Every query is a deterministic static
    * ray or swept capsule, so a grab never starts a path through geometry.
    */
   tryGrabLedge(world: StaticWorld, dirX: number, dirZ: number): boolean {
@@ -291,6 +328,8 @@ export class Character {
     // A ray starting inside a solid means the wall continues above reach.
     if (!topHit || topHit.timeOfImpact < 1e-3 || topHit.normal.y < 0.7) return false;
     const top = probeY - topHit.timeOfImpact;
+    // The ray starts a little above reach, so it also finds tops just beyond it.
+    if (top - fy > CLIMB.maxHeight) return false;
     if (this.verticalSpeed > 0 && fy + this.verticalSpeed * this.verticalSpeed / (2 * JUMP.gravity) >= top + CLIMB.clearMargin) return false;
     // A wall face just below the edge, facing the climber within 60 degrees.
     const faceHit = world.physics.castRayAndGetNormal(new RAPIER.Ray({ x: fx, y: top - 0.08, z: fz }, { x: dx, y: 0, z: dz }),
@@ -396,13 +435,14 @@ export class Character {
   }
 
   teleport(position: V3, yaw: number): void {
-    this.position = [position[0], position[1], position[2]];
+    this.position = [position[0], position[1] + CHARACTER_SKIN, position[2]];
     this.yaw = yaw;
     this.resetJump();
     this.grounded = false;
     this.groundDistance = null;
-    this.body.setNextKinematicTranslation({ x: position[0], y: position[1] + FEET_TO_CENTRE, z: position[2] });
-    this.body.setTranslation({ x: position[0], y: position[1] + FEET_TO_CENTRE, z: position[2] }, true);
+    const centre = { x: position[0], y: this.position[1] + FEET_TO_CENTRE, z: position[2] };
+    this.body.setNextKinematicTranslation(centre);
+    this.body.setTranslation(centre, true);
     this.collisionPositionDirty = true;
   }
 

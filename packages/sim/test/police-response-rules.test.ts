@@ -234,6 +234,35 @@ test('a moving officer keeps the aimed upper body between return-fire shots and 
   } finally { sim.world.physics.free(); }
 });
 
+test('an engaged officer holds the pistol up through flickering sight and lowers it two seconds after losing the player', () => {
+  const sim = makeSim();
+  try {
+    const unit = footOfficer(sim);
+    sim.police.playerSeen = true;
+    sim.step(command(Button.fire));
+    const raised = () => ['aim', 'fire'].includes(unit.officer.clip);
+    for (let i = 0; i < 90; i++) {
+      // Sight is checked every third tick; a ray clipping a lamp post in between must not drop the arms.
+      unit.sees = false;
+      sim.step(NEUTRAL);
+      assert.ok(raised(), `tick ${i}: ${unit.officer.clip}`);
+    }
+    // A wall between them hides the player for good.
+    const wall = new Float32Array([4, 0, -8, 5, 0, -8, 5, 0, 8, 4, 0, 8, 4, 3, -8, 5, 3, -8, 5, 3, 8, 4, 3, 8]);
+    const faces = new Uint32Array([0, 1, 5, 0, 5, 4, 1, 2, 6, 1, 6, 5, 2, 3, 7, 2, 7, 6, 3, 0, 4, 3, 4, 7, 4, 5, 6, 4, 6, 7]);
+    sim.world.addCell('screen', encodeCollisionBundle({originId: 'response-test', frame: 'X-east,Y-up,Z-south', cell: 'screen', surfaceTags: ['wall']},
+      [{id: 'screen', group: 'buildings', ref: null, positions: wall, indices: faces, triangleTags: new Uint16Array(faces.length / 3)}]));
+    let lost = -1;
+    for (let i = 0; i < 4 * 60; i++) {
+      sim.step(NEUTRAL);
+      if (lost < 0 && !unit.sees) lost = sim.tick;
+      if (lost >= 0 && sim.tick - lost < 100) assert.ok(raised(), `held ${sim.tick - lost} ticks after losing sight`);
+    }
+    assert.ok(lost > 0 && unit.officer.position[0] > 5, 'the wall really stands between them');
+    assert.equal(unit.aiming, false); assert.ok(!raised(), `lowered once two seconds pass unseen: ${unit.officer.clip}`);
+  } finally { sim.world.physics.free(); }
+});
+
 test('the holster command wins simultaneous aim/fire/reload and a later draw cannot reopen return fire', () => {
   const sim = makeSim();
   try {

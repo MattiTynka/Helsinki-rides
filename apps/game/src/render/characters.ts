@@ -5,6 +5,7 @@ import type { CharacterState, PlayerState, VehicleState } from '@helsinki/sim';
 import type { AssetLibrary, CharacterAsset } from './assets.ts';
 import { advanceGaitPhase, isLocomotionClip, locomotionWeights, MOVEMENT_CLIPS, type MovementClip } from './locomotion.ts';
 import { NativeCharacterAnimation } from './native-character-animation.ts';
+import { CIVILIAN_JUMP_ARMS, hasJumpPose, isJumpClip, NativeJumpAnimation } from './native-jump-animation.ts';
 import { CharacterAim } from './character-aim.ts';
 import { CharacterFiring, PISTOL_MUZZLE } from './character-firing.ts';
 import type { KnockdownPresentation } from './knockdown-presentation.ts';
@@ -45,6 +46,9 @@ export class CharacterView {
   private shotHoldSeconds = 0;
   private readonly collapsePresentation = new CharacterCollapse();
   private readonly pedestrianAnimation: PedestrianAnimation | null;
+  /** Civilians' jump and climb poses, carried by their asset; the layer is built at the first jump. */
+  private readonly jumpClips = new Map<string, THREE.AnimationClip>();
+  private jumpAnimation: NativeJumpAnimation | null = null;
   private gaitInitialized = false;
   private readonly cadence = new AnimationCadence();
 
@@ -64,6 +68,7 @@ export class CharacterView {
     this.nativeAnimation = asset.profile ? new NativeCharacterAnimation(this.mixer, root, asset.clips, asset.profile) : null;
     if (this.nativeAnimation) for (const [name, action] of this.nativeAnimation.actions) this.actions.set(name, action);
     else for (const [name, clip] of asset.clips) {
+      if (isJumpClip(name)) { this.jumpClips.set(name, clip); continue; }
       const action = this.mixer.clipAction(clip);
       if (ONE_SHOT.has(name)) { action.setLoop(THREE.LoopOnce, 1); action.clampWhenFinished = true; }
       action.setEffectiveWeight(0);
@@ -94,8 +99,9 @@ export class CharacterView {
     const next = this.actions.get(resolved);
     if (!next) return;
     // Gait changes never reset a foot cycle. Full-body reactions restart only on state entry; a held death
-    // remains clamped, and an interrupted one-shot can safely be entered again later.
-    if (!isLocomotionClip(resolved)) next.reset().play();
+    // remains clamped, and an interrupted one-shot can safely be entered again later. Returning from a shot
+    // to a still-running aim loop keeps the held pose instead of restarting it.
+    if (!isLocomotionClip(resolved) && !(resolved === 'aim' && this.current === 'fire' && next.isRunning())) next.reset().play();
     this.current = resolved;
     this.transitionSeconds = fade;
     if (fade <= 0) {
@@ -136,6 +142,7 @@ export class CharacterView {
     this.firing?.advance(dt, presentingWeapon);
     this.aimCorrection?.restore();
     this.vehicleAnimation?.restore();
+    this.jumpAnimation?.restore();
     // The car layer owns the whole body. Keep a standing base ready underneath it so
     // releasing the exit fades into standing rather than the obsolete embedded drive pose.
     const ownsVehiclePose = this.asset.profile?.id === 'snow-native-v1' && interaction !== null && interaction.stage !== 'approach';
@@ -158,6 +165,14 @@ export class CharacterView {
     for (const name of Object.keys(targets)) {
       if (!this.actions.has(name)) targets.idle = (targets.idle ?? 0) + targets[name]!;
     }
+    // A presented collapse owns the whole skeleton, as a death does: the jump layer lets go of every pose and its grip at once.
+    const jumpState = collapse === null ? animationState : { ...animationState, alive: false };
+    if (!this.jumpAnimation && this.jumpClips.size && hasJumpPose(jumpState))
+      this.jumpAnimation = new NativeJumpAnimation(this.mixer, this.model, () => false, { clips: this.jumpClips, arms: CIVILIAN_JUMP_ARMS });
+    const jump = this.jumpAnimation?.update(jumpState, dt, false, this.gaitPhase);
+    const jumpWeight = jump?.weight ?? 0;
+    if (jump?.gaitPhase !== null && jump?.gaitPhase !== undefined) this.gaitPhase = jump.gaitPhase;
+    for (const name of Object.keys(targets)) targets[name]! *= 1 - jumpWeight;
     const blend = this.transitionSeconds > 0 ? 1 - Math.exp(-Math.max(0, dt) * 4 / this.transitionSeconds) : 1;
     for (const [name, action] of this.actions) {
       const weight = action.getEffectiveWeight();
@@ -174,6 +189,7 @@ export class CharacterView {
     }
     if (this.pistol) this.pistol.visible = presentingWeapon;
     this.mixer.update(dt);
+    this.jumpAnimation?.applyGrip(this.model);
     if (collapse !== null) {
       const death = this.actions.get('death');
       if (death) {
@@ -182,7 +198,7 @@ export class CharacterView {
         this.sampledKnockdown = death; this.mixer.update(0);
       }
     }
-    this.pedestrianAnimation?.apply(animationState, dt, collapse !== null);
+    this.pedestrianAnimation?.apply(animationState, dt, collapse !== null, jumpWeight);
   }
 
   /** Called after all animation, aiming and vehicle layers, before the renderer tests visibility. */

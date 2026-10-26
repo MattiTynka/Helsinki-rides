@@ -172,9 +172,13 @@ grant is inferred from the request to publish the game.
   encodes KTX2/mipmaps and losslessly compresses the actor buffers. The lighter
   Rain complexion modifies warm skin texels in the source atlas. This is a game
   texture derivative, not a separate original Blender Studio character.
+  Their run and sprint are Snow's supplied Kimodo movement above (the same
+  selected samples as Snow's own run and sprint, retargeted to the civilian rigs),
+  and their jump and ledge-climb poses are adapted from Snow's; that motion keeps
+  the supplied-movement status above.
 - **Quaternius Universal Animation Library, free Standard edition:** **CC0-1.0**,
-  retargeted and adapted walk/run/sprint inputs used by the civilian Snow/Rain
-  rigs. The player Snow and Poliisi Rain retain their separate supplied native motion above.
+  retargeted and adapted walk/run/sprint inputs for the civilian Snow/Rain rigs,
+  of which the civilians ship the walk. The player Snow and Poliisi Rain retain their separate supplied native motion above.
   [Library source](https://quaternius.itch.io/universal-animation-library),
   [CC0 terms](https://creativecommons.org/publicdomain/zero/1.0/).
   The archived Standard `License.txt` declares CC0; its SHA-256 is

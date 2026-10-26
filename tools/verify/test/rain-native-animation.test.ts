@@ -117,6 +117,20 @@ test('native fire uses the steady authored grip underneath shot-driven recoil', 
   }
 });
 
+test('an officer firing from a held aim keeps the same raised pose running instead of raising the pistol again', () => {
+  const { view } = fixture(5);
+  for (let i = 0; i < 30; i++) view.update(state({ clip: 'aim', aiming: true }), 1 / 60, true);
+  const aim = view.actions.get(profile.states.aim)!;
+  let time = aim.time;
+  for (const clip of ['fire', 'aim', 'aim', 'fire', 'aim'] as const) {
+    view.update(state({ clip, aiming: true }), 1 / 60, true);
+    assert.ok(aim.time > time, `${clip}: the aim action continues instead of restarting from ${time} to ${aim.time}`);
+    assert.ok(aim.getEffectiveWeight() > .999);
+    time = aim.time;
+  }
+  view.dispose();
+});
+
 test('a queued moving-officer shot retains its raised pistol and recoil after the one-tick fire clip ends', () => {
   const { view, leg, pistol } = fixture();
   for (let i = 0; i < 60; i++) view.update(state({ clip: 'aim', speed: 3, position: [0, 0, i / 20] }), 1 / 60, true);

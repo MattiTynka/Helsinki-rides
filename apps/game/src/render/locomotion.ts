@@ -4,7 +4,7 @@ export type LocomotionClip = 'idle' | MovementClip;
 export type LocomotionWeights = Record<LocomotionClip, number>;
 
 // Metres per second at the authored clips' natural playback rate (character.contract.json).
-export const LOCOMOTION_SPEED: Record<MovementClip, number> = { walk: 1.4, run: 3.6, sprint: 6.0 };
+export const LOCOMOTION_SPEED: Record<MovementClip, number> = { walk: 1.4, run: 3.6, sprint: 5.0 };
 
 export function isLocomotionClip(name: string): name is LocomotionClip {
   return name === 'idle' || name === 'walk' || name === 'run' || name === 'sprint';

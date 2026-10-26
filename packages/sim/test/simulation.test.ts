@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { PoliceUnit } from '../src/police.ts';
 import { before, test } from 'node:test';
 import { encodeCollisionBundle, encodeTerrain, RoadIndex, type CellDescriptor, type GameplayBundle, type RoadGraph } from '@helsinki/world-schema';
-import { Button, CHARACTER, CLIMB, collisionCellRefs, GROUP, groups, initialCollisionCells, initPhysics, NEUTRAL, RAPIER, reachableCounts, Simulation, StaticWorld, VEHICLE_INTERACTION, vehicleExitClips, vehicleExitYaw, wellConnectedLanes, wrapAngle, type Command } from '../src/index.ts';
+import { Button, Character, CHARACTER, CHARACTER_SKIN, CLIMB, collisionCellRefs, GROUP, groups, initialCollisionCells, initPhysics, NEUTRAL, RAPIER, reachableCounts, Simulation, StaticWorld, TICK_SECONDS, VEHICLE_INTERACTION, vehicleExitClips, vehicleExitYaw, wellConnectedLanes, wrapAngle, type Command } from '../src/index.ts';
 
 // A flat 200 x 200 m world with one car, no roads and no police: enough for the player, vehicle and wanted logic.
 const nx = 41, nz = 41;
@@ -631,6 +631,22 @@ test('the player stands on the ground, walks at run speed and faces the way it m
   assert.ok(Math.abs(sim.player.yaw - Math.PI / 2) < 0.05);
 });
 
+test('a sprinter on flat ground makes every step, over the ground mesh\'s internal edge too', () => {
+  const world = StaticWorld.fromBytes(terrain, roads, gameplay);
+  world.addCell('flat', ground); world.physics.step(); world.markStepped();
+  // The ground's two triangles share the diagonal from (-100, -100) to (100, 100); this run crosses it at x = -40.
+  const c = new Character(world, 'sprinter', [-70, 0, -40], Math.PI / 2, 100);
+  assert.ok(Math.abs(c.position[1] - CHARACTER_SKIN) < 1e-9, 'placed at the controller skin');
+  const short: string[] = [];
+  for (let i = 0; i < 400; i++) {
+    const x = c.position[0];
+    c.move(world, CHARACTER.sprint, 0); world.physics.step(); world.markStepped();
+    if (i > 20 && c.position[0] - x < CHARACTER.sprint * TICK_SECONDS * 0.8) short.push(`tick ${i} at x ${x.toFixed(2)}: ${(c.position[0] - x).toFixed(4)} m`);
+  }
+  assert.deepEqual(short, []);
+  world.physics.free();
+});
+
 test('enter the car, drive forward, exit beside it', () => {
   const sim = makeSim();
   boardStoppedCar(sim);
@@ -1137,7 +1153,7 @@ test('a drop-in inserts the destination at once and the player lands on it after
   assert.equal(sim.world.queryable(420, 0), false, 'Rapier queries see new cells only after the next step');
   sim.step(NEUTRAL);
   assert.equal(sim.world.queryable(420, 0), true);
-  assert.ok(Math.abs(sim.player.position[1]) < 1e-3, 'held still while the destination registers');
+  assert.ok(Math.abs(sim.player.position[1] - CHARACTER_SKIN) < 1e-3, 'held still while the destination registers');
   for (let i = 0; i < 30; i++) sim.step(NEUTRAL);
   assert.ok(Math.abs(sim.player.position[1]) < 0.05 && sim.player.grounded, `feet at ${sim.player.position[1]}`);
 });

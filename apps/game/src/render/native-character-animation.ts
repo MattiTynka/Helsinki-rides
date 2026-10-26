@@ -67,7 +67,9 @@ export class NativeCharacterAnimation {
 
   play(state: string, fade: number): void {
     if (this.current === state) return;
-    if (!GAIT_STATES.has(state)) {
+    // Fire and aim share the aim action: a shot keeps the held pose running, and the recoil spring alone kicks.
+    const heldAim = OVERLAY_STATES.has(state) && OVERLAY_STATES.has(this.current ?? '');
+    if (!GAIT_STATES.has(state) && !heldAim) {
       // The same action must be scheduled here and weighted below. Entering fire directly from gait
       // must start the aim pose even if the player never held the aim button beforehand.
       const name = this.profile.states[(state === 'fire' ? 'aim' : state) as keyof typeof this.profile.states];

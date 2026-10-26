@@ -1,4 +1,4 @@
-// Add only declared civilian assets and their population config to a new immutable world.
+// Add or replace only declared civilian assets and their population config in a new immutable world.
 // Unchanged city files are verified then hard-linked; source data and its release pointer never change.
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
@@ -19,7 +19,7 @@ const base = path.resolve(values.base!), out = path.resolve(values.out!);
 assert.ok(!fs.existsSync(out) && !fs.existsSync(values.report!), 'Use fresh output paths');
 assert.ok(out !== base && !out.startsWith(base + path.sep), 'Keep source world immutable');
 const hash = (data: Uint8Array | string) => createHash('sha256').update(data).digest('hex');
-const source = JSON.parse(fs.readFileSync(path.join(base, 'manifest.json'), 'utf8')) as WorldManifest;
+const source = JSON.parse(fs.readFileSync(path.join(base, 'manifest.json'), 'utf8')) as WorldManifest & { publicationFiles?: FileRef[] };
 assert.deepEqual(validateWorldManifest(source), []);
 const manifest = structuredClone(source);
 const gameplayBytes = fs.readFileSync(path.join(base, source.gameplay.path));
@@ -47,7 +47,9 @@ for (const variant of variants) {
   const checks = await checkCharacter(document, contract, 'npc', bytes.length);
   assert.deepEqual(checks.filter(check => !check.pass), [], `${id}: character contract failed`);
   const ref = reference(`assets/${id}.${hash(bytes).slice(0, 16)}.glb`, bytes);
-  (manifest.assets as any[]).push({ ...ref, id, kind: 'character' });
+  // A world that already has this civilian gets its entry replaced in place; the old file is then no longer referenced.
+  const assets = manifest.assets as any[], at = assets.findIndex(asset => asset.id === id);
+  if (at >= 0) assets[at] = { ...ref, id, kind: 'character' }; else assets.push({ ...ref, id, kind: 'character' });
   assetReports.push({ id, ...ref, triangles, checks });
 }
 // Refresh the release's own notices, never a hard-linked source world's bytes.
@@ -62,8 +64,8 @@ assert.deepEqual(validateCivilianAssets(nextGameplay.civilianVariants, manifest.
 const gameBytes = Buffer.from(JSON.stringify(nextGameplay) + '\n');
 Object.assign(manifest, { worldReleaseId: values.release, builtAt: new Date().toISOString(),
   gameplay: reference(`gameplay/civilian-population.${hash(gameBytes).slice(0, 16)}.json`, gameBytes),
-  attribution: [...manifest.attribution,
-    'Civilian Snow and Rain: Blender Studio, CC BY 4.0; game derivatives and skin variant by Helsinki Rides; locomotion adapted from Quaternius Universal Animation Library, CC0-1.0',
+  attribution: [...manifest.attribution.filter(line => !line.startsWith('Civilian Snow and Rain:')),
+    "Civilian Snow and Rain: Blender Studio, CC BY 4.0; game derivatives and skin variant by Helsinki Rides; walk adapted from Quaternius Universal Animation Library, CC0-1.0; run, sprint, jump and climb adapted from Snow's supplied NVIDIA Kimodo-SOMA-RP-v1.2 movement and poses",
     ...(variants.includes('agent47') ? ['Agent 47 (rigged+face morphs) by Veterock (windofglass), CC BY-NC 4.0; animated and optimized for Helsinki Rides; https://sketchfab.com/3d-models/agent-47-riggedface-morphs-1680cad927304bb687d6a9ad5b9dd98a'] : [])] });
 assert.deepEqual(validateWorldManifest(manifest), []);
 function refs(value: unknown, found = new Map<string, FileRef>()): Map<string, FileRef> {

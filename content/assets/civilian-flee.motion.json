@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Civilians fleeing gunfire run, or sprint when the shot was close, and jump or climb over low obstacles in their way. The shared gait clock blends walk, run and sprint by speed, so each loop plays at its natural speed.",
+  "clips": [
+    { "name": "run", "naturalSpeed": 3.6, "sample": "run_1_loop.npz", "sampleSha256": "6ad461e3d21d163cd739378c47d923becc732aa13d32d1e802bf4156c22d0e2a", "sampleSpeedMps": 3.835, "frames": 18 },
+    { "name": "sprint", "naturalSpeed": 5.0, "sample": "sprint_1_loop.npz", "sampleSha256": "66f5f193e508668a819aca050f859d9bf50f7cf700ca93ba30aa5cc84fa8f920", "sampleSpeedMps": 5.417, "frames": 16 }
+  ],
+  "source": {
+    "generator": "NVIDIA Kimodo-SOMA-RP-v1.2, text-free (zero text embedding, root path and heading constrained every frame), from Snow's supplied motion project: the same selected samples as Snow's own run and sprint",
+    "fps": 30,
+    "loop": "one gait cycle starting at the left-foot strike"
+  },
+  "pipeline": "motion-design skill: inspect_rig.py (22/22 joints mapped, no draft problems), build_game_rig.py, retarget.py --in-place --foot-lock --align forward, render_clips.py contact sheets, export_glb.py --actions run sprint; tools/assets/civilian_clips.ts then matches skinning matrices onto the original civilian skeleton and time-scales each loop to its naturalSpeed",
+  "rigs": {
+    "snow": { "sourceSha256": "611ce9283bf9e0a0032ba7c6a71f51ffef69f8df3db9a5580b141eb6a9b0c4e2", "exportSha256": "444b06cf7c1ea3ecae8eec03327b6a53610f04967f9bda58a11395dfb8accc55", "hipScale": 0.9143, "clipSpeed": { "run": 3.506, "sprint": 4.953 }, "sprintHeadPitchLevelledDegrees": 14.6 },
+    "rain": { "sourceSha256": "b5b8fc25dc6f5a8893fb6e7107b98948c6c7c4491c975ff2dd4bb0121ed6522e", "exportSha256": "5334bf1feaf73016871d8f1e5bee7aa7c290e2e86fec548b614d892f07331fbe", "hipScale": 0.9464, "clipSpeed": { "run": 3.629, "sprint": 5.127 }, "sprintHeadPitchLevelledDegrees": 14.6 }
+  },
+  "jumps": {
+    "poses": "content/assets/snow-jump-poses.json, Snow's hand-keyed jump, airborne and ledge-climb poses (decision 0016); super-jump poses are left out because civilians never super-jump",
+    "posesSha256": "074994e7002c09a3d43d62e6677045ba9b5070830ef8b827bdd7f371e278dba1",
+    "nativeSkeleton": "hero character-snow GLB (native71) the poses were authored on",
+    "retarget": "tools/assets/civilian_clips.ts addJumpPoses: world rotation change per joint, limb rest directions aligned first, hips offset scaled by hip height"
+  }
+}

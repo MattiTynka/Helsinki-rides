@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "recordedOn": "2026-10-22",
+  "recordedOn": "2026-10-25",
   "scope": "Public game attribution and source-license evidence; original project code has a separate MIT license.",
   "assets": [
     {
@@ -87,7 +87,7 @@
       "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
       "sourceDerivativeSha256": "611ce9283bf9e0a0032ba7c6a71f51ffef69f8df3db9a5580b141eb6a9b0c4e2",
       "evidence": "Existing project character provenance in docs/source-register.md; accepted reduced game derivative fingerprinted by tools/assets/prepare_civilian_characters.mjs.",
-      "changes": "Reuses the original 22-joint game rig, clothing, geometry and corrected animation tracks. Textures resized to at most 512 pixels, KTX2 encoded with mipmaps; actor buffers losslessly compressed. Movement provenance is listed separately below."
+      "changes": "Reuses the original 22-joint game rig, clothing, geometry and corrected animation tracks. Textures resized to at most 512 pixels, KTX2 encoded with mipmaps; actor buffers losslessly compressed. Movement provenance is listed separately below; the run, sprint, jump and ledge-climb motion added on 2026-10-25 comes from Snow's supplied movement (see remainingSuppliedRights)."
     },
     {
       "id": "civilian-rain-source",
@@ -99,7 +99,7 @@
       "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
       "sourceDerivativeSha256": "b5b8fc25dc6f5a8893fb6e7107b98948c6c7c4491c975ff2dd4bb0121ed6522e",
       "evidence": "Existing project character provenance in docs/source-register.md; accepted reduced game derivative fingerprinted by tools/assets/prepare_civilian_characters.mjs.",
-      "changes": "Reuses the original 22-joint game rig, civilian clothing, geometry and corrected animation tracks. Helsinki Rides creates the lighter complexion by modifying warm skin texels while retaining dark eyebrows and neutral details. Both variants use textures at most 512 pixels, KTX2 with mipmaps and losslessly compressed actor buffers. The white Rain is a texture derivative, not a separate Blender Studio source character."
+      "changes": "Reuses the original 22-joint game rig, civilian clothing, geometry and corrected animation tracks. Helsinki Rides creates the lighter complexion by modifying warm skin texels while retaining dark eyebrows and neutral details. Both variants use textures at most 512 pixels, KTX2 with mipmaps and losslessly compressed actor buffers. The white Rain is a texture derivative, not a separate Blender Studio source character. The run, sprint, jump and ledge-climb motion added on 2026-10-25 comes from Snow's supplied movement (see remainingSuppliedRights)."
     },
     {
       "id": "civilian-quaternius-locomotion",
@@ -113,7 +113,7 @@
       "sourceGlbSha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997",
       "licenseFileSha256": "6d01f55c6e4c49a2c9963e147e561945ae2c83958c8ca667d90a6bffdbfac061",
       "evidence": "Archived Standard edition License.txt explicitly declares CC0 1.0 Universal. Source archive and license hashes were read from the existing 2026-10-17 project ledger; no upstream package is included in the source export.",
-      "changes": "Walk, jog and sprint clips retargeted to the reduced Snow/Rain rigs, with the posture, contacts, cadence and in-place adaptations recorded in content/assets/locomotion.motion.json. Project-authored collapse and other gameplay poses retain their own provenance."
+      "changes": "Walk, jog and sprint clips retargeted to the reduced Snow/Rain rigs, with the posture, contacts, cadence and in-place adaptations recorded in content/assets/locomotion.motion.json. The civilian game assets ship the walk only; their run and sprint are Snow's supplied movement (content/assets/civilian-flee.motion.json). Project-authored collapse and other gameplay poses retain their own provenance."
     }
   ],
   "removedAssets": [
@@ -127,6 +127,7 @@
   ],
   "remainingSuppliedRights": [
     "Alexander II monument: original redistribution license remains pending.",
-    "Custom player Snow and Poliisi Rain adaptations and supplied movement: retain Blender Studio CC BY 4.0 base-character credits and existing Kimodo provenance; remaining supplied adaptation and motion details remain pending."
+    "Custom player Snow and Poliisi Rain adaptations and supplied movement: retain Blender Studio CC BY 4.0 base-character credits and existing Kimodo provenance; remaining supplied adaptation and motion details remain pending.",
+    "Civilian run and sprint (the same selected NVIDIA Kimodo-SOMA-RP-v1.2 samples as Snow's own run and sprint, retargeted with the motion-design pipeline) and civilian jump and ledge-climb poses adapted from Snow's, recorded in content/assets/civilian-flee.motion.json: the same supplied-movement status as above."
   ]
 }

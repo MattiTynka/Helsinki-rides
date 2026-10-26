@@ -188,7 +188,19 @@ export class JumpPoseState {
 interface ClipActions { readonly full: THREE.AnimationAction; readonly lower: THREE.AnimationAction; readonly smoothing: number; weight: number }
 interface ArmChain { readonly upper: THREE.Object3D; readonly fore: THREE.Object3D; readonly hand: THREE.Object3D }
 
-/** Separately authored native71 poses; the accepted mesh, skin and source gaits are untouched. */
+/** Where a skeleton's jump poses come from and which bones the climb grip pins to the edge. */
+export interface JumpRig {
+  /** The poses under their JUMP_POSES names, carried by the asset; absent for Snow, whose poses are built from JUMP_POSES. */
+  readonly clips?: ReadonlyMap<string, THREE.AnimationClip>;
+  /** Left then right: upper arm, forearm, hand. */
+  readonly arms: readonly (readonly [string, string, string])[];
+}
+const SNOW_JUMP_RIG: JumpRig = { arms: ['.L', '.R'].map(side => [`DEF-UpperArm_1${side}`, `DEF-Forearm_1${side}`, `DEF-Wrist${side}`] as const) };
+/** Civilians carry Snow's poses retargeted onto their 22 joints (tools/assets/civilian_clips.ts). */
+export const CIVILIAN_JUMP_ARMS: JumpRig['arms'] = ['Left', 'Right'].map(side => [`${side}Arm`, `${side}ForeArm`, `${side}Hand`] as const);
+export function isJumpClip(name: string): boolean { return name in JUMP_POSES.clips; }
+
+/** Separately authored native71 poses (or their civilian retargets); the accepted mesh, skin and source gaits are untouched. */
 export class NativeJumpAnimation {
   private readonly actions = new Map<string, ClipActions>();
   private readonly memory = new JumpPoseState();
@@ -197,14 +209,16 @@ export class NativeJumpAnimation {
   private climb: JumpPose['climb'] = null;
   private climbWeight = 0;
 
-  constructor(mixer: THREE.AnimationMixer, root: THREE.Object3D, upperTrack: (track: THREE.KeyframeTrack) => boolean) {
+  constructor(mixer: THREE.AnimationMixer, root: THREE.Object3D, upperTrack: (track: THREE.KeyframeTrack) => boolean, rig: JumpRig = SNOW_JUMP_RIG) {
     const find = (name: string) => {
       const node = root.getObjectByName(name) ?? root.getObjectByName(THREE.PropertyBinding.sanitizeNodeName(name));
-      if (!node) throw new Error(`Snow jump bone ${name} missing`);
+      if (!node) throw new Error(`Jump bone ${name} missing`);
       return node;
     };
     for (const [key, definition] of Object.entries(JUMP_POSES.clips)) {
-      const tracks = definition.tracks.map(track => {
+      const carried = rig.clips?.get(key);
+      if (rig.clips && !carried) continue;
+      const tracks = carried ? carried.tracks : definition.tracks.map(track => {
         const node = find(track.node);
         // GLTFLoader's clips bind by the sanitized node name. Reusing that exact
         // binding is essential: a second UUID alias creates competing PropertyMixers.
@@ -223,7 +237,7 @@ export class NativeJumpAnimation {
       const smoothing = key.startsWith('climb_') ? .06 : key === 'air_loop' ? .12 : .035;
       this.actions.set(key, { full: create('', tracks), lower: create('_lower', tracks.filter(track => !upperTrack(track))), smoothing, weight: 0 });
     }
-    this.arms = ['.L', '.R'].map(side => ({ upper: find(`DEF-UpperArm_1${side}`), fore: find(`DEF-Forearm_1${side}`), hand: find(`DEF-Wrist${side}`) }));
+    this.arms = rig.arms.map(([upper, fore, hand]) => ({ upper: find(upper), fore: find(fore), hand: find(hand) }));
   }
 
   /** Undo the previous frame's grip correction before the mixer samples the next authored pose. */

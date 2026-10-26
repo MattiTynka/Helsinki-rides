@@ -24,12 +24,14 @@ export class WantedState {
   /** Latest position actually seen by an officer or supplied by a delivered incident report. */
   lastSeen: V3 | null = null;
   lastSeenTick = -1;
+  /** Direction of travel (unit XZ) seen or reported with `lastSeen`: which way the suspect went. */
+  lastSeenHeading: readonly [number, number] | null = null;
   /** ticks since sight was lost; -1 while seen */
   hiddenTicks = -1;
   /** per-star decay countdown in ticks, running only while hidden */
   decayTicks = 0;
   /** pending witness reports: tick at which they land */
-  private readonly pending: { crime: Crime; weight: number; at: number; observedTick: number; position: V3 | null }[] = [];
+  private readonly pending: { crime: Crime; weight: number; at: number; observedTick: number; position: V3 | null; heading: readonly [number, number] | null }[] = [];
   /** Actual player discharges in this encounter; crime weight alone never authorises police gunfire. */
   private playerFired = false;
 
@@ -40,19 +42,20 @@ export class WantedState {
   clearPlayerFire(): void { this.playerFired = false; }
 
   /** Report a crime. `witnessed` = police saw it (immediate) vs civilian report (3-6 s delay). */
-  report(crime: Crime, tick: number, witnessedByPolice: boolean, delayTicks: number, events: GameEvent[], position?: V3): void {
+  report(crime: Crime, tick: number, witnessedByPolice: boolean, delayTicks: number, events: GameEvent[], position?: V3, heading?: readonly [number, number]): void {
     const weight = this.tuning.starWeights[crime] ?? 0;
     if (weight <= 0) return;
     if (position && !position.every(Number.isFinite)) throw new Error('An incident position must be finite');
     const captured: V3 | null = position ? [...position] : null;
-    if (witnessedByPolice) this.apply(crime, weight, tick, events, tick, captured);
-    else this.pending.push({ crime, weight, at: tick + delayTicks, observedTick: tick, position: captured });
+    const direction = position && heading && heading.every(Number.isFinite) ? [heading[0], heading[1]] as const : null;
+    if (witnessedByPolice) this.apply(crime, weight, tick, events, tick, captured, direction);
+    else this.pending.push({ crime, weight, at: tick + delayTicks, observedTick: tick, position: captured, heading: direction });
   }
 
-  private apply(crime: Crime, weight: number, tick: number, events: GameEvent[], observedTick: number, position: V3 | null): void {
-    // A late phone report knows where the crime happened, not where its suspect moved afterward.
-    // It also cannot erase a more recent officer sighting or newer delivered incident.
-    if (position && observedTick >= this.lastSeenTick) { this.lastSeen = [...position]; this.lastSeenTick = observedTick; }
+  private apply(crime: Crime, weight: number, tick: number, events: GameEvent[], observedTick: number, position: V3 | null, heading: readonly [number, number] | null): void {
+    // A late phone report knows where the crime happened and which way the suspect was going, not where they
+    // moved afterward. It also cannot erase a more recent officer sighting or newer delivered incident.
+    if (position && observedTick >= this.lastSeenTick) { this.lastSeen = [...position]; this.lastSeenTick = observedTick; this.lastSeenHeading = heading; }
     const before = this.stars;
     this.heat = Math.min(this.heat + weight, this.tuning.starThresholds[this.tuning.starThresholds.length - 1]! + 2);
     let stars = 0;
@@ -68,13 +71,13 @@ export class WantedState {
   }
 
   /** Called every tick with whether the police currently see the player and where. */
-  step(tick: number, seen: boolean, position: V3, events: GameEvent[]): void {
+  step(tick: number, seen: boolean, position: V3, events: GameEvent[], heading?: readonly [number, number]): void {
     for (let i = this.pending.length - 1; i >= 0; i--) {
       const p = this.pending[i]!;
-      if (p.at <= tick) { this.apply(p.crime, p.weight, tick, events, p.observedTick, p.position); this.pending.splice(i, 1); }
+      if (p.at <= tick) { this.apply(p.crime, p.weight, tick, events, p.observedTick, p.position, p.heading); this.pending.splice(i, 1); }
     }
     if (this.stars === 0) {
-      this.seen = false; this.hiddenTicks = -1; this.lastSeen = null; this.lastSeenTick = -1; this.heat = Math.max(0, this.heat - 0.002);
+      this.seen = false; this.hiddenTicks = -1; this.lastSeen = null; this.lastSeenTick = -1; this.lastSeenHeading = null; this.heat = Math.max(0, this.heat - 0.002);
       // Keep an unseen first shot until its delayed witness report arrives.
       if (this.pending.length === 0) this.clearPlayerFire();
       return;
@@ -84,6 +87,7 @@ export class WantedState {
       this.seen = true;
       this.lastSeen = [position[0], position[1], position[2]];
       this.lastSeenTick = tick;
+      this.lastSeenHeading = heading ? [heading[0], heading[1]] : null;
       this.hiddenTicks = -1;
       this.decayTicks = this.decayFor(this.stars);
     } else {
@@ -103,7 +107,7 @@ export class WantedState {
   }
 
   clear(): void {
-    this.stars = 0; this.heat = 0; this.seen = false; this.lastSeen = null; this.lastSeenTick = -1; this.hiddenTicks = -1; this.decayTicks = 0; this.pending.length = 0;
+    this.stars = 0; this.heat = 0; this.seen = false; this.lastSeen = null; this.lastSeenTick = -1; this.lastSeenHeading = null; this.hiddenTicks = -1; this.decayTicks = 0; this.pending.length = 0;
     this.clearPlayerFire();
   }
 
@@ -111,9 +115,9 @@ export class WantedState {
 
   /** Pending observations affect the future even while visible wanted state is still identical. */
   digest(): string {
-    const position = (p: V3 | null) => p ? p.map(v => v.toFixed(6)).join(',') : '-';
-    return [Number(this.seen), this.hiddenTicks, this.decayTicks, Number(this.playerFired), this.lastSeenTick, position(this.lastSeen),
-      ...this.pending.map(p => `${p.crime}:${p.weight}:${p.at}:${p.observedTick}:${position(p.position)}`)].join('|');
+    const position = (p: readonly number[] | null) => p ? p.map(v => v.toFixed(6)).join(',') : '-';
+    return [Number(this.seen), this.hiddenTicks, this.decayTicks, Number(this.playerFired), this.lastSeenTick, position(this.lastSeen), position(this.lastSeenHeading),
+      ...this.pending.map(p => `${p.crime}:${p.weight}:${p.at}:${p.observedTick}:${position(p.position)}:${position(p.heading)}`)].join('|');
   }
 
   snapshot(): WantedSnapshot {

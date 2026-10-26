@@ -18,8 +18,25 @@ export interface CityMaterialOptions {
 
 type LitSource = THREE.Material & Partial<Pick<THREE.MeshStandardMaterial, 'map' | 'color' | 'emissive' | 'emissiveMap' | 'emissiveIntensity' | 'flatShading'>>;
 
+/**
+ * Depth offset of a cell's palette material (`<cell>_palette`, tools/world/build_cells.ts): its plinth skirts duplicate the
+ * lowest metres of many walls in the same plane, and where ground slopes away both show. Drawn a hair behind, the facade
+ * wins there instead of the two z-fighting into a dark stipple; the skirt still fills the gap below a wall.
+ */
+export const SKIRT_DEPTH_OFFSET = { factor: 1, units: 4 } as const;
+
 /** Returns a new material; the caller decides whether the source can be disposed. */
 export function adaptCityMaterial(source: THREE.Material, options: CityMaterialOptions): THREE.Material {
+  const adapted = adaptMaterial(source, options);
+  if (source.name.endsWith('_palette')) {
+    adapted.polygonOffset = true;
+    adapted.polygonOffsetFactor = SKIRT_DEPTH_OFFSET.factor;
+    adapted.polygonOffsetUnits = SKIRT_DEPTH_OFFSET.units;
+  }
+  return adapted;
+}
+
+function adaptMaterial(source: THREE.Material, options: CityMaterialOptions): THREE.Material {
   if ((source as THREE.MeshBasicMaterial).isMeshBasicMaterial) {
     const clone = source.clone();
     clone.toneMapped = false;

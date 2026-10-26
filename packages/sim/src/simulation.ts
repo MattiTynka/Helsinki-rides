@@ -7,7 +7,7 @@ import { Button, has, NEUTRAL, TICK_HZ, TICK_SECONDS, type Command } from './com
 import { clamp, distanceXZ, dot, fnv1a, lengthXZ, normalize, Rng, rotate, sub, wrapAngle, yawOf, type Quat, type V3 } from './math.ts';
 import { PoliceForce, type PoliceUnitState } from './police.ts';
 import { ParkedCars } from './parked-cars.ts';
-import { Pedestrians, type PedestrianKnockdown } from './pedestrians.ts';
+import { CIVILIAN_BULLETS_LETHAL, civilianVariant, Pedestrians, type PedestrianKnockdown } from './pedestrians.ts';
 import { Vehicle } from './vehicle.ts';
 import { WantedState, type Crime, type WantedSnapshot } from './wanted.ts';
 import { fireRay, Inventory, type ShotResult } from './weapons.ts';
@@ -309,6 +309,15 @@ export class Simulation {
     return v ? v.position : this.player.centre;
   }
 
+  /** Direction of travel on the ground (unit XZ): the car's motion while it moves, otherwise the way the car or Snow faces. */
+  get playerHeading(): [number, number] {
+    const v = this.playerVehicle;
+    const [x, z] = !v ? [Math.sin(this.player.yaw), Math.cos(this.player.yaw)]
+      : Math.hypot(v.velocity[0], v.velocity[2]) > 1 ? [v.velocity[0], v.velocity[2]] : [v.forward[0], v.forward[2]];
+    const length = Math.hypot(x!, z!);
+    return length > 1e-6 ? [x! / length, z! / length] : [0, 1];
+  }
+
   get playerSpeed(): number {
     const v = this.playerVehicle;
     return v ? v.speed : this.player.speed;
@@ -332,7 +341,7 @@ export class Simulation {
     if (this.tick - last < window) return;
     this.crimeTicks.set(crime, this.tick);
     const [lo, hi] = this.gameplay.wanted.witnessReportSeconds;
-    this.wanted.report(crime, this.tick, witnessed, Math.round(this.rng.range(lo, hi) * TICK_HZ), this.events, this.playerPosition);
+    this.wanted.report(crime, this.tick, witnessed, Math.round(this.rng.range(lo, hi) * TICK_HZ), this.events, this.playerPosition, this.playerHeading);
   }
 
   // ---- main loop ----
@@ -410,7 +419,7 @@ export class Simulation {
     for (const c of this.characters.values()) if (!c.alive) c.deathTicks++;
     this.layBodies();
 
-    this.wanted.step(this.tick, this.police.playerSeen, this.playerPosition, this.events);
+    this.wanted.step(this.tick, this.police.playerSeen, this.playerPosition, this.events, this.playerHeading);
     this.police.afterPhysics();
     this.checkArrest();
     this.checkKillPlane();
@@ -972,7 +981,8 @@ export class Simulation {
       if (c) {
         hit = 'character'; hitId = c.id;
         const wasAlive = c.alive;
-        const dmg = def.damage * (shot.headshot ? def.headshotMultiplier : 1) * (shooter === 'player' ? 1 : 0.55);
+        const dmg = CIVILIAN_BULLETS_LETHAL && civilianVariant(c.id) !== null ? c.health
+          : def.damage * (shot.headshot ? def.headshotMultiplier : 1) * (shooter === 'player' ? 1 : 0.55);
         c.takeDamage(dmg);
         if (shooter === 'player') {
           const officer = this.police.unitOfOfficer(c.id);
@@ -1104,8 +1114,9 @@ export class Simulation {
     const s = this.screen;
     if (!s) { this.mode = 'onFoot'; return; }
     // Incapacitation cancels control and jump upgrades, not gravity. An airborne body
-    // continues to collide and fall while the reaction screen is displayed.
-    if (!this.player.inVehicle && !this.player.grounded) this.player.move(this.world, 0, 0);
+    // continues to collide and fall while the reaction screen is displayed. It counts as grounded a few centimetres up
+    // on the tick it lands, so it keeps moving through the landing until the next tick's snap has set it down.
+    if (!this.player.inVehicle && (!this.player.grounded || this.player.jumpPhase === 'land')) this.player.move(this.world, 0, 0);
     s.ticks--;
     if (s.ticks > 0) return;
     const p = this.player;
@@ -1204,7 +1215,9 @@ export class Simulation {
       });
     }
     const characters: CharacterState[] = [];
-    for (const c of this.characters.values()) characters.push({ ...characterState(c), knockdown: this.pedestrians.knockdown(c.id) });
+    for (const c of this.characters.values()) {
+      characters.push({ ...characterState(c), aiming: this.police.unitOfOfficer(c.id)?.aiming ?? false, knockdown: this.pedestrians.knockdown(c.id) });
+    }
     const near = this.mode === 'onFoot' ? this.nearestEnterableVehicle() : null;
     return {
       tick: this.tick, time: this.tick / TICK_HZ,
