@@ -27,7 +27,7 @@ Read the current `build-helsinki-game` skill and its project-integration, world-
 
 This release completes the first Hietalahti area, including the bounded Bulevardi/Hietalahdenranta return loop. Wider South/West visuals are integrated. Eira, Kaivopuisto and Ruoholahti navigation was not admitted as a completed four-district expansion. The parking-junction and Laivasillankatu w282 proposals remain private and unapplied. Resume those or Viikki only after a new scope decision.
 
-See [the expansion plan](city-map-expansion-plan-2026-10-29.md), [progress](city-map-expansion-progress-2026-10-29.md), [the current optimization record](asset-optimization-2026-10-30.md), [the public skill's web optimization guide](../skills/build-helsinki-game/references/web-optimization.md) and [the release scope](release-hietalahti-optimized-2026-10-30.md). The older `docs/model-optimization-2026-10-20.md` was consulted in the D: backup; it is historical context, not a file in this curated public source tree.
+See [the expansion plan](city-map-expansion-plan-2026-10-29.md), [progress](city-map-expansion-progress-2026-10-29.md), [the current optimization record](asset-optimization-2026-10-30.md), [the public skill's web optimization guide](https://github.com/MattiTynka/Helsinki-rides/blob/3a1528c8df028b6be95f22d26b859b587b7b5db7/skills/build-helsinki-game/references/web-optimization.md) and [the release scope](release-hietalahti-optimized-2026-10-30.md). The older `docs/model-optimization-2026-10-20.md` was consulted in the D: backup; it is historical context, not a file in this curated public source tree.
 
 ## Web asset optimization
 
