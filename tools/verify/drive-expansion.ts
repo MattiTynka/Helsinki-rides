@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
+import { beginTravelFrames, finishTravelFrames } from './lib/travel-frames.ts';
 import { decodeCommand, initPhysics, Simulation, StaticWorld, type EncodedCommand, type SimState } from '../../packages/sim/src/index.ts';
 import { RoadIndex, type GameplayBundle, type RoadGraph, type WorldManifest, type Vec3, type LaneHit } from '../../packages/world-schema/src/index.ts';
 import type { HelsinkiTestApi } from '../../apps/game/src/testapi.ts';
@@ -14,7 +15,8 @@ import { keyboardDriveControl } from './lib/keyboard-driving.ts';
 import { buildDrivingRouteHints, previewDrivingRoute, type DrivingRouteHints } from './lib/driving-route-preview.ts';
 import { readRoadGraph, readSimulationPayload, replayWorld } from './lib/simulation-payload.ts';
 
-const { values } = parseArgs({ options: { url: { type: 'string', default: 'http://127.0.0.1:5317/?review=1' }, release: { type: 'string' }, out: { type: 'string' }, goals: { type: 'string' }, headful: { type: 'boolean', default: false }, 'max-seconds': { type: 'string', default: '600' }, 'max-recoveries': { type: 'string', default: '2' }, 'max-speed': { type: 'string', default: '10' }, 'plan-only': { type: 'boolean', default: false } } });
+const { values } = parseArgs({ options: { url: { type: 'string', default: 'http://127.0.0.1:5317/?review=1' }, release: { type: 'string' }, out: { type: 'string' }, goals: { type: 'string' }, 'runtime-sha256': { type: 'string' }, headful: { type: 'boolean', default: false }, 'max-seconds': { type: 'string', default: '600' }, 'max-recoveries': { type: 'string', default: '2' }, 'max-speed': { type: 'string', default: '10' }, 'plan-only': { type: 'boolean', default: false } } });
+if (values['runtime-sha256']) assert.match(values['runtime-sha256'], /^[a-f0-9]{64}$/, 'Expected runtime hash must be lowercase SHA-256');
 assert.ok(values.release && values.out, '--release and --out required'); assert.ok(!existsSync(values.out), 'Use a fresh evidence directory'); mkdirSync(values.out, { recursive: true });
 const releaseDir = values.release, out = values.out, sha = (b: Uint8Array | string) => createHash('sha256').update(b).digest('hex');
 const manifestBytes = readFileSync(path.join(releaseDir, 'manifest.json')), manifest = JSON.parse(manifestBytes.toString()) as WorldManifest;
@@ -26,14 +28,14 @@ const startHit = index.nearestLane(-69, 42, [0, 1], 10), returnHit = index.neare
 const defaultGoals: DriveGoal[] = [
   { label: 'Kluuvi Aleksanterinkatu', xz: [-320, 64], road: 'Aleksanterinkatu' },
   { label: 'Stockmann eastern frontage', xz: [-530, 73], road: 'Aleksanterinkatu' },
-  { label: 'Esplanadi', xz: [-417, 277], road: 'Eteläesplanadi' },
+  { label: 'Esplanadi', xz: [-417, 277], road: 'EtelÃ¤esplanadi' },
   { label: 'Senate Square return', xz: [-75, -25], road: 'Unioninkatu', radius: 8 },
 ];
 let goals = defaultGoals, goalsSha256: string | null = null, requiredWayIds: number[] = [];
 if (values.goals) {
   const goalBytes = readFileSync(values.goals), specification = JSON.parse(goalBytes.toString()) as { schemaVersion?: number; goals?: DriveGoal[]; requiredWayIds?: number[] };
   assert.ok(specification.schemaVersion === undefined || specification.schemaVersion === 1, 'Goals schemaVersion must be1');
-  assert.ok(Array.isArray(specification.goals) && specification.goals.length > 0 && specification.goals.length <= 32, 'Goals must contain1–32 destinations');
+  assert.ok(Array.isArray(specification.goals) && specification.goals.length > 0 && specification.goals.length <= 32, 'Goals must contain1â€“32 destinations');
   for (const goal of specification.goals) {
     assert.ok(goal && typeof goal.label === 'string' && goal.label.length > 0 && goal.label.length <= 160 && typeof goal.road === 'string' && goal.road.length > 0 && goal.road.length <= 160, 'Every goal needs a bounded label and exact road name');
     assert.ok(Array.isArray(goal.xz) && goal.xz.length === 2 && goal.xz.every(Number.isFinite), 'Goal coordinates must be finite XZ');
@@ -54,9 +56,7 @@ await initPhysics();
 const heightWorld = StaticWorld.fromBytes(terrain, roads, gameplay); for (const [id, bytes] of collisionFiles) heightWorld.addCell(id, bytes); heightWorld.physics.step();
 const session = await openGame(values.url, { headful: values.headful, timeoutMs: 240000 });
 const page = session.page, held = new Set<string>(), timeline: string[] = [], samples: unknown[] = [], checkpoints: unknown[] = [], recoveries: unknown[] = [], t0 = Date.now();
-const runtimeUrl = await page.locator('script[type="module"][src]').first().getAttribute('src');
-assert.ok(runtimeUrl, 'Missing runtime module');
-const runtimeSha256 = sha(await (await page.request.get(new URL(runtimeUrl, values.url).href)).body());
+let runtimeUrl: string | null = null, runtimeSha256: string | null = null;
 // Observe scheduling independently of the game's capped frame delta. This never drives ticks or changes
 // browser focus/visibility: a stalled rAF can otherwise look like slow driving despite cheap render frames.
 await page.evaluate(() => {
@@ -160,7 +160,16 @@ async function drive(target: LaneHit, label: string, direct = false) {
   const stopped = await stopCar(); assert.ok(distance(carOf(stopped)!.position, target.point) <= 12, `${label}: braking overshot checkpoint`); await capture(label, stopped); return state;
 }
 try {
-  assert.equal(await game.release(page), manifest.worldReleaseId); await game.start(page);
+  runtimeUrl = await page.locator('script[type="module"][src]').first().getAttribute('src');
+  assert.ok(runtimeUrl, 'Missing runtime module');
+  runtimeSha256 = await session.loadedResponseSha256(new URL(runtimeUrl, values.url).href);
+  assert.equal(await game.release(page), manifest.worldReleaseId);
+  if (values['runtime-sha256']) assert.equal(runtimeSha256, values['runtime-sha256'], 'Wrong candidate runtime');
+  const manifestUrls = await page.evaluate(release => [...new Set(performance.getEntriesByType('resource').map(entry => entry.name).filter(name => new URL(name).pathname.endsWith(`/${release}/manifest.json`)))], manifest.worldReleaseId);
+  assert.equal(manifestUrls.length, 1, 'Exactly one loaded candidate manifest is required');
+  assert.equal(await session.loadedResponseSha256(manifestUrls[0]!), sha(manifestBytes), 'Loaded world differs from verified local manifest');
+  await game.start(page);
+  await beginTravelFrames(page);
   seed = await page.evaluate(() => window.__HELSINKI_GAME__!.seed());
   const documentId = await page.evaluate(() => { const w = window as unknown as { __driveExpansionDocument?: number }; return w.__driveExpansionDocument = performance.timeOrigin; });
   let state = await game.state(page); assert.equal(state.player.mode, 'onFoot');
@@ -177,6 +186,12 @@ try {
 } catch (error) { failure = error instanceof Error ? error.stack ?? error.message : String(error); note(`FAIL ${failure}`); await page.screenshot({ path: path.join(out, 'failure.png') }).catch(() => {}); }
 finally {
   await releaseKeys();
+  try {
+    const frames = await finishTravelFrames(page);
+    writeFileSync(path.join(out, 'travel-frames.json'), JSON.stringify({ ...frames,
+      helperSha256: sha(readFileSync('tools/verify/lib/travel-frames.ts')) }, null, 2) + '\n');
+    if (frames.status !== 'CAPTURED') failure ??= 'Incomplete travel frame metrics';
+  } catch (error) { failure ??= `Travel frame metrics failed: ${String(error)}`; }
   const scheduling = await page.evaluate(() => (window as unknown as { __driveTiming: unknown }).__driveTiming);
   writeFileSync(path.join(out, 'scheduling.json'), JSON.stringify(scheduling, null, 2) + '\n');
   try {

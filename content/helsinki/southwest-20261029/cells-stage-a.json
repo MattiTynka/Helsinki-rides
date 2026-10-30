@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "cellSize": 128,
+  "playArea": {
+    "minX": -1792,
+    "maxX": 800,
+    "minZ": -2304,
+    "maxZ": 1152
+  },
+  "curbHeight": 0.12,
+  "entranceTerraces": {
+    "openingRadius": 4,
+    "minRise": 0.2,
+    "maxFootprintDistance": 1,
+    "maxStepsDistance": 1.5,
+    "pad": 1,
+    "riser": 0.16,
+    "raster": 0.5
+  },
+  "registerStairs": {
+    "joinDistance": 0.3,
+    "minSlope": 0.05,
+    "maxEdgeAngleDeg": 30,
+    "minFill": 0.8,
+    "maxWayAngleDeg": 35,
+    "riser": 0.16,
+    "minRiser": 0.08
+  },
+  "retainingWalls": {
+    "sideDistance": 2,
+    "minHeight": 0.5,
+    "gap": 0.02
+  },
+  "texelCap": {
+    "facade": 512,
+    "facadeHiRes": 1000,
+    "hiResMinWallShare": 0.5,
+    "hiResMinFacingShare": 0.3,
+    "hiResBelowTexelsPerMetre": 15
+  },
+  "atlasSize": 2048,
+  "groundTextureSize": 512,
+  "skirtBelowGround": 0.3,
+  "skirtSearchRadius": 1.5,
+  "matching": {
+    "maxMedianOffset": 0.5,
+    "minCoverage": 0.9,
+    "coverageDistance": 1,
+    "minInsideShare": 0.3
+  },
+  "budgets": {
+    "drawCallsPerCell": 60,
+    "sceneTextureMiB": 224,
+    "lowPresetTextureMiB": 160
+  },
+  "untextured": {
+    "wall": [
+      212,
+      210,
+      195
+    ],
+    "roof": [
+      106,
+      114,
+      113
+    ],
+    "wallMaxNormalY": 0.3,
+    "tileSize": 32
+  },
+  "facadeGrade": {
+    "veil": [
+      23,
+      30,
+      35
+    ],
+    "gamma": 0.8,
+    "saturation": 1.25,
+    "sharpenSigma": 0.6
+  },
+  "vegetation": {
+    "mode": "restore-original",
+    "margin": 1,
+    "elevationDeg": [
+      30,
+      60
+    ],
+    "sideways": 0.6,
+    "greenOverRed": 4,
+    "greenOverBlue": 0,
+    "minValue": 20,
+    "minSaturation": 0.15,
+    "reachMetres": 4,
+    "closeMetres": 0.4,
+    "holeMetres": 3,
+    "darkLuma": 75,
+    "dilate": 2,
+    "bayMetres": [
+      2.5,
+      7
+    ],
+    "minBayCorrelation": 0.9,
+    "maxChartEraseFraction": 0.08,
+    "maxRegionMetres": 4,
+    "maxBoundaryError": 10
+  },
+  "copyright": "Buildings: Helsinki 3D city model (textured LoD2) Â© City of Helsinki, CC BY 4.0, modified (atlased, colour-graded, reference-led facade reconstruction using licensed same-building pixels, re-encoded, skirts, flat colours for untextured surfaces). House of the Estates facade photographs Â© Josefiina Alanen, CC BY 4.0, modified; exact source files and adaptations are recorded in sources.json and the source register. Street areas Â© City of Helsinki, CC BY 4.0. Ground heights: Helsinki terrain model 2021 Â© City of Helsinki, CC BY 4.0. Flights of steps: Â© OpenStreetMap contributors, ODbL 1.0. Helsinki Cathedral: authored low-poly model supplied by the project owner, placed and baked. Generated ground textures original.",
+  "streaming": {
+    "enabled": true,
+    "lod2": "textureless",
+    "note": "World total is disk storage; runtime residency is independently bounded and browser-gated."
+  },
+  "carriagewayGrade": {
+    "protectedArea": {
+      "minX": -1792,
+      "maxX": 800,
+      "minZ": -2304,
+      "maxZ": 768
+    },
+    "protectedMarginMetres": 8,
+    "gridMetres": 4,
+    "maxAxisGrade": 0.35,
+    "rawSourceDeckPartIds": [],
+    "rawDeckTieInMetres": 8
+  },
+  "coastal": {
+    "waterElevationN2000": 0,
+    "safetyFloorY": -30
+  },
+  "curatedFacades": "none-new-strips",
+  "note": "Stage A source build settings only. prepare_expansion_build.ts binds current model, accepted coverage, source ledgers and exclusions before build_cells. This file cannot independently authorize a candidate."
+}

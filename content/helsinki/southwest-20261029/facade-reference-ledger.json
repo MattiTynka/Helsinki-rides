@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "status": "REFERENCE_INSPECTED_NOT_APPLIED",
+  "references": [
+    {
+      "id": "bulevardi-46-i99pema-20170330",
+      "title": "Bulevardi 46, Helsinki.jpg",
+      "author": "I99pema",
+      "capturedAt": "2017-03-30T15:36:08",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Bulevardi_46,_Helsinki.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Bulevardi_46%2C_Helsinki.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "attribution": "Bulevardi 46, Helsinki by I99pema, 30 March 2017, Wikimedia Commons, CC BY-SA 4.0",
+      "file": "data/Bulevardi_46,_Helsinki.jpg",
+      "providedBy": "User saved the approved original reference in the workspace data directory",
+      "bytes": 7927895,
+      "dimensions": [
+        4188,
+        3042
+      ],
+      "sha1": "9ee809ea3e33950d0cc2e89cac0f0f7d5776bbca",
+      "sha256": "32421d5c2ee0c79f1b4ac18cfe837f4bc4f43a8207f6279c30875a31a1aa6cf0",
+      "buildingId": "BID_04b25160-160a-4bbe-9d61-2fc92e490655",
+      "vtj": "1030750310",
+      "inspection": "Opened the actual local original and Commons page. Leafless oblique view shows the red-brick front and east return, arched windows, decorative courses, stone plinth and entrances. Branches, trunks and street objects still occlude some pixels.",
+      "limitations": [
+        "The 2017 photograph is older than the August 2024 Street View survey; resolve changed entrances and street furniture against the newer visual survey.",
+        "The photo is a reference, not a measured elevation or source of building dimensions.",
+        "No reference pixels have been applied. Any future pixel derivative must retain attribution, identify edits and use CC BY-SA 4.0 or a compatible license.",
+        "Google Street View pixels are not copied into game assets."
+      ]
+    },
+    {
+      "id": "bulevardi-46-arkkipuudeli-20110711",
+      "title": "Bulevardin Mallasmakasiini.jpg",
+      "author": "Arkkipuudeli",
+      "capturedAt": "2011-07-11T14:07:00",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Bulevardin_Mallasmakasiini.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Bulevardin_Mallasmakasiini.jpg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "attribution": "Bulevardin Mallasmakasiini by Arkkipuudeli, 11 July 2011, Wikimedia Commons, CC BY-SA 3.0",
+      "file": "data/Bulevardin_Mallasmakasiini.jpg",
+      "providedBy": "Approved browser download into user workspace data; confirmed by user",
+      "bytes": 8288397,
+      "dimensions": [
+        4752,
+        3168
+      ],
+      "sha256": "19e4c737f0d7a46f1355a66573d6665e6f9578eaa41e6b89c5133941d9018db3",
+      "buildingId": "BID_04b25160-160a-4bbe-9d61-2fc92e490655",
+      "vtj": "1030750310",
+      "inspection": "Opened original local image and Commons page. Opposite angle clearly shows western three lower bay axes, paired rectangular upper windows, small upper arched openings, two arched full-height rows, brick corbels and stringcourses, stone base and small arched basement windows. Two front entrance canopies are visible farther east. Foreground crowns obscure central and eastern upper architecture.",
+      "limitations": [
+        "2011 capture is historical; use as architectural corroboration and licensed donor only with changes checked against 2017/2024 references.",
+        "No source pixels applied to production yet.",
+        "Google pixels remain visual-reference only."
+      ]
+    }
+  ]
+}

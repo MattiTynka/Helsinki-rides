@@ -46,7 +46,7 @@ export const QUALITY_TIERS: Readonly<Record<QualityTier, TierParameters>> = free
   low: {
     detail: { radius: 170, maxCells: 16, geometryBudgetMiB: 96 }, fallback: { radius: 300, maxCells: 28, geometryBudgetMiB: 64 },
     settle: { fallback: 150, detail: 100 }, fog: { near: 160, far: 300 }, cameraFar: 300,
-    foliageLodScale: 1, vehicleDetailRange: 30, materialClass: 'lambert', mipDrop: 0, maxRenderPixels: 1600 * 900,
+    foliageLodScale: 0.8, vehicleDetailRange: 30, materialClass: 'lambert', mipDrop: 0, maxRenderPixels: 1600 * 900,
   },
   // The fallback ring (220 m, 20 cells) still covers every cell within the 12 m visual-coverage margin.
   minimal: {

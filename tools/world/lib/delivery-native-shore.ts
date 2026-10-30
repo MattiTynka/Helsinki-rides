@@ -24,6 +24,7 @@ export interface NativeShoreProfile {
   municipalParts:{id:string;properties:Record<string,unknown>;rings:Pt[][]}[];
   protectedMunicipalWater:{id:string;properties:Record<string,unknown>;rings:Pt[][]}[];
   domainMethod:'municipal-land'|'precise-water-native-bank';
+  reviewScope?:'southwest-20261029-west-shore';
   bankCells?:{id:string;boundsXZ:[number,number,number,number]}[];
   reason:string;
 }
@@ -44,7 +45,14 @@ export function restoreNativeShoreTerrain(current:TerrainGrid,oldNative:TerrainG
 }
 export function shoreDomain(profile:NativeShoreProfile,parts:readonly LocalPolygon[],coastal:{mask:{water:LocalPolygon[]};decks:{polygons:LocalPolygon[]};waterY:number},municipalWater:readonly LocalPolygon[],nativeCells:readonly {id:string;boundsXZ:readonly number[]}[]=[]){
   assert.equal(profile.schemaVersion,1);assert.equal(profile.kind,'source-bound-native-shore-restoration');assert.equal(profile.seaWaterY,coastal.waterY);assert.ok(profile.reason.length>30);
-  const r=profile.newRegionXZ;assert.ok(r.length===4&&r.every(Number.isFinite)&&r[0]<r[2]&&r[1]<r[3]&&r[3]<=-1152);
+  const r=profile.newRegionXZ;assert.ok(r.length===4&&r.every(Number.isFinite)&&r[0]<r[2]&&r[1]<r[3]);
+  if(profile.reviewScope){
+    assert.equal(profile.reviewScope,'southwest-20261029-west-shore');assert.deepEqual(r,[-2816,-384,-1792,1152]);
+    assert.equal(profile.domainMethod,'precise-water-native-bank');
+    assert.deepEqual(profile.bankCells,[{id:'c_m19_p01',boundsXZ:[-2432,128,-2304,256]},{id:'c_m18_p01',boundsXZ:[-2304,128,-2176,256]},{id:'c_m17_m01',boundsXZ:[-2176,-128,-2048,0]}]);
+    assert.equal(profile.municipalWaterSha256,'df81bd93bb6493c8c4df8d6827b04a24a548e44e1fd8859b6b8bb13e6221f823','West review requires the literal complete official sea source');
+    assert.deepEqual(profile.protectedMunicipalWater.map(p=>p.id),['Maavesi_merialue.1']);
+  }else assert.ok(r[3]<=-1152,'Ordinary shore restoration remains limited to the accepted northern profile');
   assert.ok(profile.municipalParts.length>0&&profile.municipalParts.length<=64);const seen=new Set<string>();
   for(const selected of profile.municipalParts){assert.ok(!seen.has(selected.id));seen.add(selected.id);const actual=parts.find(p=>p.id===selected.id);assert.ok(actual,'Missing actual municipal source part');assert.deepEqual(selected.rings,actual.rings,'Source rings must remain literal');assert.deepEqual(selected.properties,actual.properties,'Source land classification must remain literal');assert.ok(/Nurmikot|Mets\u00e4t|Metsat|Mets\u00e4|Ruovikot/.test(String(actual.properties.paatyyppi)+String(actual.properties.alatyyppi)),'This bounded profile requires an explicit municipal lawn, meadow, forest or reed land role');}
   assert.ok(profile.protectedMunicipalWater.length>0&&profile.protectedMunicipalWater.length<=256);const wetIds=new Set<string>();for(const selected of profile.protectedMunicipalWater){assert.ok(!wetIds.has(selected.id));wetIds.add(selected.id);const actual=municipalWater.find(p=>p.id===selected.id);assert.ok(actual,'Missing precise municipal water source');assert.deepEqual(selected.rings,actual.rings,'Protected lake boundary must remain literal');assert.deepEqual(selected.properties,actual.properties,'Protected water classification must remain literal');}
@@ -97,8 +105,9 @@ export async function restoreNativeShoreVisual(o:{bytes:Uint8Array;doc:Document;
   const work:Work[]=[],remaining=new Map<Finish,GroundPiece[]>();for(const p of o.pieces)if(p.use!=='collision'){const list=remaining.get(p.finish)??[];list.push(p);remaining.set(p.finish,list);}let coarseAdded=false;
   for(const node of o.doc.getRoot().listNodes())if(node.getMesh())for(const[primitiveIndex,p]of node.getMesh()!.listPrimitives().entries()){
     const water=/_water$/.test(node.getName()),finish=/_ground_(?:frontier_)?(asphalt|setts|cobble|slabs|gravel|grass|yard)$/.exec(node.getName())?.[1]as Finish|undefined;
+    if(!o.domain.length&&water)continue; // Pure ground additions never inspect or rewrite water.
     if(!o.coarse&&!water&&!finish)continue;assert.deepEqual(node.getWorldMatrix(),identity);const mesh=deliveryFrontierMesh(p),w:Work={nodeName:node.getName(),primitiveIndex,mesh,sourceIndices:p.getIndices()!.getArray()!as GroundGlbAppend['indices']['original'],extra:Object.fromEntries(Object.keys(mesh.attributes).map(k=>[k,[]])),indices:[],retained:[],removed:0,wet:0,ground:0};
-    for(let t=0;t<mesh.indices.length/3;t++){const P=points(mesh,t);if(!(water||o.coarse&&P.every(q=>q[1]===o.seaY))){w.retained.push(t);continue;}if(water){assert.equal(p.getMaterial()?.getName(),'coastal_water');assert.ok(P.every(q=>q[1]===o.seaY));}const split=clipNativeWaterFace(P,o.domain);if(!split.changed){w.retained.push(t);continue;}if(o.coarse)assert.ok(deliveryFloorCoverage(P,o.nearWater),'Coarse water clipping requires complete original near-water provenance');w.removed++;for(const tri of split.wet){appendInterpolated(w,t,tri);w.wet++;}}
+    for(let t=0;t<mesh.indices.length/3;t++){const P=points(mesh,t);if(!o.domain.length||!(water||o.coarse&&P.every(q=>q[1]===o.seaY))){w.retained.push(t);continue;}if(water){assert.equal(p.getMaterial()?.getName(),'coastal_water');assert.ok(P.every(q=>q[1]===o.seaY));}const split=clipNativeWaterFace(P,o.domain);if(!split.changed){w.retained.push(t);continue;}if(o.coarse)assert.ok(deliveryFloorCoverage(P,o.nearWater),'Coarse water clipping requires complete original near-water provenance');w.removed++;for(const tri of split.wet){appendInterpolated(w,t,tri);w.wet++;}}
     if(o.coarse&&!coarseAdded){assert.deepEqual(Object.keys(mesh.attributes).sort(),['COLOR_0','POSITION']);const C=mesh.attributes.COLOR_0!,scale=mesh.normalized.COLOR_0?(C instanceof Uint8Array?255:C instanceof Uint16Array?65535:0):1;assert.ok(scale&&mesh.components.COLOR_0===3);for(const piece of o.pieces)if(piece.use!=='collision')for(const id of piece.indices){w.indices.push(mesh.attributes.POSITION!.length/3+w.extra.POSITION!.length/3);w.extra.POSITION!.push(...piece.positions.slice(id*3,id*3+3));w.extra.COLOR_0!.push(...coarseColour(piece.finish,piece.uvs[id*2]!,piece.uvs[id*2+1]!).map(v=>scale===1?v:Math.round(v*scale)));w.ground+=1/3;}coarseAdded=true;remaining.clear();}
     else if(!o.coarse&&finish&&remaining.has(finish)){const native=addNativeFrontier(mesh,remaining.get(finish)!);for(const[s,a]of Object.entries(native.attributes))w.extra[s]!.push(...a.subarray(mesh.attributes[s]!.length));w.indices.push(...Array.from(native.indices.subarray(mesh.indices.length)));w.ground=remaining.get(finish)!.reduce((n,p)=>n+p.indices.length/3,0);remaining.delete(finish);}
     if(w.removed||w.ground)work.push(w);

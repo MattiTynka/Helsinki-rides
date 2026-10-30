@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "regionId": "cumulative-south-abc",
+  "lod2TilesetVersion": "306008215668",
+  "sourceTerrainSha256": "257109011eea51b854be334673b3d75eb8b72079b0b77e530eebc1e4532129df",
+  "treeProfileSha256": "ed47cca2296042fba9240b9d34b20d75365452bb4528ab94cd4541d0110922c1",
+  "treeAssetSha256": "ad3978765df75d695c5756b53c9ff2f1f418bf964a28e0ae910661882c6f2690",
+  "cells": "cells-cumulative.json",
+  "roads": "roads-cumulative.json",
+  "policy": "Source preparation is not playable acceptance. Preserve accepted runtime independently; close all unqualified source bridges. Final road preservation and supported-area qualification are required before append. Ordered packets assign south the common frontier corner first. Raw terrain requires a producer receipt and source-bound fallback lineage; all candidates retain the original accepted manifest.",
+  "exclusionHaloMetres": 128,
+  "axis": "z",
+  "side": "south",
+  "compositionRegionIds": [
+    "cumulative-south-abc",
+    "cumulative-west-d"
+  ],
+  "useSharedTerrainExtent": true,
+  "requireRawTerrainProducer": true,
+  "requirePreparedRawTerrain": true
+}

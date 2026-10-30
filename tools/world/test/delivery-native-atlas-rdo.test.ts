@@ -4,7 +4,16 @@ import {encodeToKTX2} from 'ktx2-encoder';
 import {packGlb} from '../lib/shared-textures.ts';
 import {readFacadeGlb} from '../lib/facade-glb.ts';
 import {dropTopMip} from '../lib/ktx2-mips.ts';
-import {qualifyNativeAtlasDerivative,patchNativeAtlasUris} from '../lib/delivery-native-atlas-rdo.ts';
+import {qualifyNativeAtlasDerivative,patchNativeAtlasUris,assertOpaqueNativeAtlasImageUses} from '../lib/delivery-native-atlas-rdo.ts';
+
+test('shared aliases must be opaque albedo in every material, including an otherwise unused variant',()=>{
+  const uri=`../textures/${'a'.repeat(64)}.ktx2`,json:any={asset:{version:'2.0'},buffers:[{byteLength:4}],images:[{uri}],textures:[{extensions:{KHR_texture_basisu:{source:0}}}],materials:[{pbrMetallicRoughness:{baseColorTexture:{index:0}}}]};
+  const check=(j:any)=>assertOpaqueNativeAtlasImageUses(packGlb(j,new Uint8Array(4)),new Set([uri]));assert.equal(check(json),1);
+  for(const alphaMode of ['MASK','BLEND']){const j=structuredClone(json);j.materials.push({alphaMode,pbrMetallicRoughness:{baseColorTexture:{index:0}}});assert.throws(()=>check(j),/must be opaque/);}
+  const normal=structuredClone(json);normal.materials.push({normalTexture:{index:0}});assert.throws(()=>check(normal),/non-albedo/);
+  const extension=structuredClone(json);extension.materials[0].extensions={KHR_materials_transmission:{transmissionFactor:1}};assert.throws(()=>check(extension),/unqualified extensions/);
+  assert.equal(assertOpaqueNativeAtlasImageUses(packGlb(normal,new Uint8Array(4)),new Set()),0);
+});
 
 test('only an explicitly selected source URI changes; accepted shared-image aliases and other geometry are protected',()=>{
   const a='a'.repeat(64),b='b'.repeat(64),c='c'.repeat(64),uri=(s:string)=>`../textures/${s}.ktx2`,json={asset:{version:'2.0'},buffers:[{byteLength:4}],images:[{uri:uri(a),mimeType:'image/ktx2',name:'new native'},{uri:uri(b),mimeType:'image/ktx2',name:'other'}],nodes:[{name:'geometry',extras:{sourceKey:'literal'}}],extras:{nativeSource:'unchanged'}},source=packGlb(json,new Uint8Array([1,2,3,4])),result=patchNativeAtlasUris(source,new Map([[uri(a),uri(c)]]),new Set([b]));assert.equal(result.changes.length,1);const next=readFacadeGlb(result.bytes);assert.equal((next.json.images![0]as any).uri,uri(c));assert.deepEqual(next.json.nodes,json.nodes);assert.deepEqual(Array.from(next.bin),[1,2,3,4]);assert.equal((next.json.images![1]as any).uri,uri(b));assert.throws(()=>patchNativeAtlasUris(source,new Map([[uri(b),uri(c)]]),new Set([b])),/immutable accepted/);assert.deepEqual(patchNativeAtlasUris(source,new Map([[uri(c),uri(a)]]),new Set()).bytes,source);

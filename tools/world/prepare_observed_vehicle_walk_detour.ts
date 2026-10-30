@@ -1,0 +1,36 @@
+﻿// Reproduce a route revision from a captured vehicle pose and immutable native collision evidence.
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {parseArgs} from 'node:util';
+import {vehicleCoverageFootprint} from '../../packages/sim/src/coverage-footprint.ts';
+import {readSourceFile, sourceSha256, writeSourceJson} from './lib/source-files.ts';
+import type {Vec2} from '../../packages/world-schema/src/index.ts';
+const {values}=parseArgs({options:{plan:{type:'string'},diagnostic:{type:'string'},failure:{type:'string'},world:{type:'string'},out:{type:'string'},evidence:{type:'string'}}});
+for(const key of ['plan','diagnostic','failure','world','out','evidence'] as const)assert.ok(values[key],`Missing --${key}`);
+assert.ok(!fs.existsSync(values.out!)&&!fs.existsSync(values.evidence!),'Fresh outputs required');
+const read=(file:string)=>{const bytes=fs.readFileSync(file);assert.ok(bytes.length<64*1024*1024);return {file,sha256:sourceSha256(bytes),json:JSON.parse(bytes.toString())};};
+const original=read(values.plan!),diagnostic=read(values.diagnostic!),failure=read(values.failure!),manifest=read(path.join(values.world!,'manifest.json'));
+assert.equal(diagnostic.json.manifestSha256,manifest.sha256);assert.equal(diagnostic.json.failureSha256,failure.sha256);
+const candidate=diagnostic.json.diagnostics.find((d:any)=>d.name==='east-detour');assert.ok(candidate&&candidate.failures.length===0&&candidate.continuousStaticSweeps&&candidate.carClearanceRequired>=.56);
+const gameplay=JSON.parse(readSourceFile(values.world!,manifest.json.gameplay).toString());
+for(const pin of diagnostic.json.collisionPins){const cell=manifest.json.cells.find((c:any)=>c.id===pin.id);assert.equal(cell.collision.sha256,pin.storedSha256);assert.equal(cell.collision.decodedSha256,pin.decodedSha256);}
+const plan=structuredClone(original.json),changes:any[]=[];let insertions=0;
+for(const route of plan.routes){const next=[];for(let i=0;i<route.waypoints.length;i++){const point=route.waypoints[i],previous=route.waypoints[i-1];
+  if([314737039,12920914884].includes(point.source?.id)){changes.push({kind:'tighter-arrival',label:point.label,before:point.radius,after:.12,reason:'Observed city-car-8 hull is 0.572 m from unchanged source segment; 0.38 m capsule plus 0.12 m arrival allowance fits.'});point.radius=.12;}
+  if([7669521812,7669521814].includes(point.source?.id)){changes.push({kind:'tighter-arrival',label:point.label,before:point.radius,after:.18});point.radius=.18;}
+  const forward=previous?.source?.id===7669521812&&point.source?.id===7669521814,backward=previous?.source?.id===7669521814&&point.source?.id===7669521812;
+  if(forward||backward){const middle=candidate.points.slice(1,-1);if(backward)middle.reverse();for(const [j,xz]of middle.entries()){const added={label:`Observed parked-car-14 ${forward?'outbound':'return'} detour ${j+1}`,xz:xz.map((n:number)=>Math.fround(n)),radius:.18,timeoutSeconds:120,source:{type:'observed-vehicle-native-collision-detour',wayId:28636497,fromNode:forward?7669521812:7669521814,toNode:forward?7669521814:7669521812,vehicleId:'city-car-14',diagnosticSha256:diagnostic.sha256}};next.push(added);changes.push({kind:'inserted-waypoint',...added});insertions++;}}
+  next.push(point);
+}route.waypoints=next;}assert.equal(insertions,4);
+function pointDistance(p:Vec2,a:Vec2,b:Vec2){const dx=b[0]-a[0],dz=b[1]-a[1],length=dx*dx+dz*dz,t=length?Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dz)/length)):0;return Math.hypot(p[0]-a[0]-t*dx,p[1]-a[1]-t*dz);}
+function cross(a:Vec2,b:Vec2,c:Vec2){return(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);}
+function distance(a:Vec2,b:Vec2,c:Vec2,d:Vec2){const u=cross(a,b,c),v=cross(a,b,d),w=cross(c,d,a),x=cross(c,d,b);if(u*v<=0&&w*x<=0&&Math.max(Math.min(a[0],b[0]),Math.min(c[0],d[0]))<=Math.min(Math.max(a[0],b[0]),Math.max(c[0],d[0]))&&Math.max(Math.min(a[1],b[1]),Math.min(c[1],d[1]))<=Math.min(Math.max(a[1],b[1]),Math.max(c[1],d[1])))return 0;return Math.min(pointDistance(a,c,d),pointDistance(b,c,d),pointDistance(c,a,b),pointDistance(d,a,b));}
+function inside(p:Vec2,ring:readonly Vec2[]){let answer=false;for(let i=0,j=ring.length-1;i<ring.length;j=i++){const a=ring[i]!,b=ring[j]!;if((a[1]>p[1])!==(b[1]>p[1])&&p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0])answer=!answer;}return answer;}
+const vehicles=failure.json.failureView.state.vehicles.map((v:any)=>({id:v.id,definition:v.definition,position:v.position,rotation:v.rotation,speed:v.speed,driver:v.driver,footprint:vehicleCoverageFootprint(gameplay.vehicleDefinitions.find((d:any)=>d.id===v.definition),v)}));
+function scan(subject:any){const near:any[]=[],blocked:any[]=[];let pairs=0;for(const route of subject.routes)for(let i=1;i<route.waypoints.length;i++){const a=route.waypoints[i-1],b=route.waypoints[i];for(const vehicle of vehicles){pairs++;const ring=vehicle.footprint;let separation=inside(a.xz,ring)||inside(b.xz,ring)?0:Math.min(...ring.map((p:Vec2,j:number)=>distance(a.xz,b.xz,p,ring[(j+1)%ring.length]!)));const required=.38+Math.max(a.radius,b.radius);if(separation<required+.4){const row={route:route.id,toIndex:i,from:a.label,to:b.label,vehicleId:vehicle.id,separation,required,remaining:separation-required};near.push(row);if(separation<=required+.01)blocked.push(row);}}}return{pairs,near,blocked};}
+const originalScan=scan(original.json),revisedScan=scan(plan);assert.equal(revisedScan.blocked.length,0,JSON.stringify(revisedScan.blocked));
+plan.evidencePolicy+=' Revised local obstacle bypass uses native HCOL, preserves source-node endpoints, and is not an OSM-authored alternative footway. Captured vehicle poses are a snapshot; real-keyboard travel remains required.';
+plan.binding.observedVehicleDetour={manifestSha256:manifest.sha256,originalPlan:{file:original.file,sha256:original.sha256},diagnostic:{file:diagnostic.file,sha256:diagnostic.sha256},failure:{file:failure.file,sha256:failure.sha256},producerSha256:sourceSha256(fs.readFileSync(new URL(import.meta.url)))};
+fs.mkdirSync(values.evidence!,{recursive:true});const evidence=writeSourceJson(values.evidence!,'route-vehicle-scan.json',{schemaVersion:1,status:'ALL_CAPTURED_VEHICLE_HULLS_CLEAR_REVISED_ROUTE_OFFLINE_REAL_KEYS_PENDING',manifestSha256:manifest.sha256,originalPlanSha256:original.sha256,diagnosticSha256:diagnostic.sha256,failureSha256:failure.sha256,vehicleCount:vehicles.length,vehicles,changes,originalScan,revisedScan,limitations:['All captured vehicle poses are checked, including one moving police vehicle at its recorded position. This cannot prove later actor positions or later spawned actors.','Native collision and full radius 0.56 m swept detour proof is local to city-car-14. Unchanged accepted approach is source connected; remaining actual walking is pending.']});
+plan.binding.vehicleScan={file:path.resolve(values.evidence!,evidence.path),sha256:evidence.sha256};fs.writeFileSync(values.out!,JSON.stringify(plan,null,2)+'\n');console.log(JSON.stringify({plan:values.out,sha256:sourceSha256(fs.readFileSync(values.out!)),waypoints:plan.routes.reduce((n:number,r:any)=>n+r.waypoints.length,0),evidence:evidence.sha256,pairs:revisedScan.pairs,blocked:revisedScan.blocked.length}));

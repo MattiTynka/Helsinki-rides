@@ -1,4 +1,4 @@
-import { pointAlong, polylineLength, type RoadGraph, type Vec3 } from '@helsinki/world-schema';
+import { containsSupportedArea, pointAlong, polylineLength, type RoadGraph, type Vec3 } from '@helsinki/world-schema';
 import { CHARACTER, CHARACTER_SKIN, CLIMB, FEET_TO_CENTRE, JUMP, type Character, type CharacterClip } from './character.ts';
 import { TICK_HZ, TICK_SECONDS } from './commands.ts';
 import { clamp, distanceXZ, fnv1a, wrapAngle, type V3 } from './math.ts';
@@ -214,7 +214,7 @@ export function pedestrianGround(world: StaticWorld, point: Vec3, excludeBody?: 
  */
 function groundProbe(world: StaticWorld, point: Vec3, excludeBody?: RAPIER.RigidBody, lows?: number[]): V3 | 'edge' | 'rough' | 'blocked' {
   const [x, expectedY, z] = point, area = world.gameplay.playArea, t = world.terrain;
-  if (!point.every(Number.isFinite)) return 'edge';
+  if (!point.every(Number.isFinite) || !containsSupportedArea(world.gameplay, x, z, RADIUS)) return 'edge';
   const heights: number[] = [];
   let edge = false, rough = false;
   for (const [dx, dz] of [[0, 0], [RADIUS, 0], [-RADIUS, 0], [0, RADIUS], [0, -RADIUS]]) {

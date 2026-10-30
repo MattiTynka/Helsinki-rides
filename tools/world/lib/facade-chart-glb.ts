@@ -114,6 +114,9 @@ function validateAtlas(atlas: FacadeAtlas) {
     assert.ok(b.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])),'Invalid PNG atlas');
     assert.equal(b.readUInt32BE(16),atlas.width);assert.equal(b.readUInt32BE(20),atlas.height);
   } else {
+    // KHR_texture_basisu and WebGL BPTC require top-level dimensions divisible
+    // by four. CPU transcoding alone can succeed for an image the GPU rejects.
+    assert.ok(atlas.width%4===0&&atlas.height%4===0,'KTX2 facade dimensions must be multiples of four for GPU upload');
     assert.ok(b.subarray(0,12).equals(Buffer.from([171,75,84,88,32,50,48,187,13,10,26,10])),'Invalid KTX2 atlas');
     assert.equal(b.readUInt32LE(20),atlas.width);assert.equal(b.readUInt32LE(24),atlas.height);
   }

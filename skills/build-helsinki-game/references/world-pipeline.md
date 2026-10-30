@@ -1,5 +1,7 @@
 # Helsinki world pipeline
 
+For the existing repository, read [Project integration](project-integration.md) first. Its accepted LoD2/terrain/landmark pipeline and native world schema take precedence. The OBJ path and manifest format below are optional workflows for compatible inputs or a new project, not instructions to restore a superseded dataset or migrate working content.
+
 ## Sources and provenance
 
 Official [Helsinki 3D](https://www.hel.fi/en/decision-making/information-on-helsinki/maps-and-geospatial-data/helsinki-3d) describes an OBJ mesh, ETRS-GK25/N2000 and CC BY 4.0, and explains its aerial-photo artifacts. The [open geographic data page](https://www.hel.fi/en/decision-making/information-on-helsinki/maps-and-geospatial-data/make-better-use-of-geospatial-data/open-geographic-data) identifies EPSG:3879 and N2000 and links the WFS. These were checked on 2026-10-15. Recheck the selected dataset's own metadata and license at acquisition; a general city page does not establish every file's vintage or axis order.
@@ -38,15 +40,19 @@ Do not infer roads by walking triangle adjacency across photogrammetry. Do not l
 
 ## Tile contract
 
-Trial 128 m tiles; switch to 256 m only on measured request/CPU/overdraw evidence. Runtime bounds use XZ. `floor(x/tileSize), floor(z/tileSize)` handles negative coordinates correctly. Use half-open ownership of semantic objects to avoid duplicate spawns. A visual border may overlap; do not duplicate collision faces at a shared seam.
+For a new grid, trial 128 m tiles; consider 256 m on measured request/CPU/overdraw evidence. Preserve an existing project's accepted grid and origin unless changing them is part of the task. Runtime bounds use XZ. `floor(x/tileSize), floor(z/tileSize)` handles negative coordinates correctly. Use half-open ownership of semantic objects to avoid duplicate spawns. A visual border may overlap; do not duplicate collision faces at a shared seam.
 
-Each tile has stable ID, XZ bounds, source IDs, visual LODs and separate collision/nav/roads payloads. Every payload has a relative path, byte size and SHA-256. `assets/world-manifest.template.json` is deliberately incomplete. The validator requires a uniform grid anchored at runtime (0,0); document a schema change if another layout is needed.
+In the bundled starter schema, each tile has stable ID, XZ bounds, source IDs, visual LODs and separate collision/nav/roads payloads. Every payload has a relative path, byte size and SHA-256. `assets/world-manifest.template.json` is deliberately incomplete. Its validator requires a uniform grid anchored at runtime (0,0). Use it only for this schema; validate the repository's native releases with their own checks rather than changing a valid native format to satisfy this helper.
 
 ```bash
 python SKILL_ROOT/scripts/validate_world.py --manifest BUILD/world.json --root BUILD
 ```
 
 Pack sources outside the web runtime. Content hashes in URLs plus a manifest revision prevent code/asset cache mismatches. Keep uncompressed editable sources and conversion parameters for rebuilds. Run full glTF validation and runtime decoding separately; the manifest helper proves only structure and byte integrity.
+
+## Web delivery optimization
+
+Use the native [Web optimization](web-optimization.md) route before integrating new geography or changing delivered assets. It preserves accepted content while preparing new-only LODs, shared encoded textures, exact Low mip copies and stored/decoded simulation payloads. An authoring export is not the final browser asset set.
 
 ## Streaming behavior
 

@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {parseArgs} from 'node:util';
+import {recompressDeliverySimulation} from './lib/delivery-simulation-recompression.ts';
+const {values}=parseArgs({options:Object.fromEntries(['world','manifest-sha256','out','release','delivery-mode','world-budget-bytes','cache','cache-sha256'].map(key=>[key,{type:'string' as const}]))});
+const get=(key:string)=>{const value=values[key];assert.ok(typeof value==='string'&&value.length,`--${key} required`);return value;};
+const mode=values['delivery-mode']??'pages';assert.ok(mode==='pages'||mode==='external','Invalid delivery mode');assert.ok(mode==='external'||values['world-budget-bytes']===undefined,'Pages budget cannot be overridden');
+const delivery=mode==='external'?{mode:'external' as const,worldBudgetBytes:Number(get('world-budget-bytes'))}:{mode:'pages' as const};
+assert.equal(values.cache===undefined,values['cache-sha256']===undefined,'Compression cache path and pin are required together');
+const cache=values.cache?{path:get('cache'),sha256:get('cache-sha256')}:undefined;
+console.log(JSON.stringify(recompressDeliverySimulation({world:get('world'),manifestSha256:get('manifest-sha256'),out:get('out'),release:get('release'),delivery,cache})));

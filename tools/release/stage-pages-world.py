@@ -21,6 +21,12 @@ import struct
 import sys
 import tempfile
 from typing import Any
+from urllib.parse import urlsplit
+import ipaddress
+
+_raw_spec = importlib.util.spec_from_file_location('github_raw_profile', Path(__file__).with_name('github-raw-profile.py'))
+github_raw = importlib.util.module_from_spec(_raw_spec)
+_raw_spec.loader.exec_module(github_raw)
 
 
 # Reserve 20 MB for the shell within the unchanged 980 MB complete-site ceiling.
@@ -28,6 +34,10 @@ from typing import Any
 MAX_WORLD_BYTES = 960_000_000
 MAX_ARTIFACT_BYTES = 980_000_000
 MAX_ARCHIVE_BYTES = 980_000_000
+MAX_EXTERNAL_WORLD_BYTES = 4_000_000_000
+MAX_EXTERNAL_ARCHIVE_BYTES = 2_000_000_000
+MAX_EXTERNAL_SHELL_BYTES = 20_000_000
+GAME_ORIGIN = 'https://mattitynka.github.io'
 MAX_FILES = 10_000
 MAX_MANIFEST_BYTES = 8_000_000
 MAX_GAMEPLAY_BYTES = 8_000_000
@@ -36,6 +46,11 @@ DESCRIPTOR_KEYS = frozenset({
     'schemaVersion', 'worldRelease', 'manifestSha256', 'worldBaseUrl',
     'archiveUrl', 'archiveSha256', 'archiveBytes', 'worldBytes',
 })
+EXTERNAL_DESCRIPTOR_KEYS = DESCRIPTOR_KEYS | frozenset({
+    'deliveryMode', 'worldOrigin', 'corsOrigin', 'worldBudgetBytes',
+    'archiveBudgetBytes', 'shellBudgetBytes',
+})
+GITHUB_RAW_DESCRIPTOR_KEYS = EXTERNAL_DESCRIPTOR_KEYS | {'deliveryProvider'}
 WORLD_BASE_URL = 'https://mattitynka.github.io/Helsinki-rides/world/'
 DIGEST = re.compile(r'[0-9a-f]{64}\Z')
 RELEASE = re.compile(r'[A-Za-z0-9][A-Za-z0-9._-]{0,95}\Z')
@@ -142,27 +157,79 @@ def _runtime_path(path: str) -> bool:
     return Path(path).suffix in RUNTIME_EXTENSIONS or re.search(r'\.(?:bin|hcol)(?:\.[0-9a-f]{12})?\.gz\Z', path) is not None
 
 
+def external_world_base(value: Any, origin: Any) -> str:
+    """Validate an explicitly selected public HTTPS origin; this tool never fetches it."""
+    if not isinstance(value, str) or not isinstance(origin, str) or len(value) > 2048:
+        raise ValueError('external world URL and origin must be bounded strings')
+    if any(ord(char) < 33 or ord(char) > 126 for char in value) or '%' in value or '\\' in value:
+        raise ValueError('external world URL must be canonical ASCII without encoded paths')
+    parsed = urlsplit(value)
+    if (parsed.scheme != 'https' or not parsed.hostname or parsed.username is not None
+            or parsed.password is not None or parsed.query or parsed.fragment or parsed.port is not None
+            or parsed.netloc != parsed.hostname or not parsed.path.endswith('/')):
+        raise ValueError('external world URL must be canonical public HTTPS with no credentials, port or query')
+    host = parsed.hostname
+    try:
+        ipaddress.ip_address(host)
+    except ValueError:
+        if ('.' not in host or not re.fullmatch(r'[a-z0-9.-]+', host)
+                or any(not label or len(label) > 63 or label.startswith('-') or label.endswith('-') for label in host.split('.'))
+                or host.endswith(('.localhost', '.local', '.internal', '.test', '.invalid', '.example'))):
+            raise ValueError('external world URL must use a public DNS hostname')
+    else:
+        raise ValueError('external world URL must use a public DNS hostname, not an IP address')
+    if origin != f'https://{parsed.netloc}' or origin == GAME_ORIGIN:
+        raise ValueError('worldOrigin must match a distinct explicitly selected HTTPS asset origin')
+    if parsed.path != '/':
+        safe_relative_path(parsed.path[1:-1])
+    return value
+
+
+def delivery_limits(descriptor: dict[str, Any]) -> tuple[int, int, int]:
+    if descriptor.get('deliveryMode') == 'external':
+        return (descriptor['worldBudgetBytes'], descriptor['archiveBudgetBytes'], descriptor['shellBudgetBytes'])
+    return MAX_WORLD_BYTES, MAX_ARCHIVE_BYTES, MAX_ARTIFACT_BYTES
+
+
 def load_descriptor(path: Path) -> tuple[dict[str, Any], str]:
     if path.is_symlink() or not path.is_file() or path.stat().st_size > 16_384:
         raise ValueError('descriptor must be a small regular JSON file')
     data = path.read_bytes()
     value = _json(data)
-    if not isinstance(value, dict) or set(value) != DESCRIPTOR_KEYS:
+    if not isinstance(value, dict):
+        raise ValueError('descriptor must be an object')
+    external = value.get('deliveryMode') == 'external'
+    raw = external and value.get('deliveryProvider') == github_raw.PROVIDER
+    if set(value) != (GITHUB_RAW_DESCRIPTOR_KEYS if raw else EXTERNAL_DESCRIPTOR_KEYS if external else DESCRIPTOR_KEYS):
         raise ValueError('descriptor has unexpected or missing fields')
-    if type(value['schemaVersion']) is not int or value['schemaVersion'] != 1:
-        raise ValueError('descriptor schemaVersion must be 1')
+    if type(value['schemaVersion']) is not int or value['schemaVersion'] != (3 if raw else 2 if external else 1):
+        raise ValueError('descriptor schemaVersion does not match its delivery mode')
     if not isinstance(value['worldRelease'], str) or RELEASE.fullmatch(value['worldRelease']) is None:
         raise ValueError('invalid world release identifier')
     if value['worldRelease'] in {'.', '..'} or '..' in value['worldRelease']:
         raise ValueError('invalid world release identifier')
-    if value['worldBaseUrl'] != WORLD_BASE_URL:
+    if external and re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,95}', value['worldRelease']) is None:
+        raise ValueError('external world release must match the native runtime identifier')
+    if external:
+        external_world_base(value['worldBaseUrl'], value['worldOrigin'])
+        if raw:
+            github_raw.validate_base(value['worldBaseUrl'], value['worldOrigin'])
+        elif value['worldOrigin'] == github_raw.ORIGIN:
+            raise ValueError('GitHub raw requires its explicit schema-v3 provider profile')
+        if value['corsOrigin'] != GAME_ORIGIN:
+            raise ValueError('external CORS origin must be the game origin')
+        _integer(value['worldBudgetBytes'], MAX_EXTERNAL_WORLD_BYTES, 'worldBudgetBytes')
+        _integer(value['archiveBudgetBytes'], MAX_EXTERNAL_ARCHIVE_BYTES, 'archiveBudgetBytes')
+        _integer(value['shellBudgetBytes'], MAX_EXTERNAL_SHELL_BYTES, 'shellBudgetBytes')
+    elif value['worldBaseUrl'] != WORLD_BASE_URL:
         raise ValueError('worldBaseUrl must be the approved repository Pages world directory')
     if not isinstance(value['archiveUrl'], str) or ARCHIVE_URL.fullmatch(value['archiveUrl']) is None:
         raise ValueError('archiveUrl must name the approved repository release asset')
     _digest(value['manifestSha256'], 'manifestSha256')
     _digest(value['archiveSha256'], 'archiveSha256')
-    _integer(value['archiveBytes'], MAX_ARCHIVE_BYTES, 'archiveBytes')
-    _integer(value['worldBytes'], MAX_WORLD_BYTES, 'worldBytes')
+    world_limit, archive_limit, _ = delivery_limits(value)
+    _integer(value['archiveBytes'], archive_limit, 'archiveBytes')
+    _integer(value['worldBytes'], world_limit, 'worldBytes')
     return value, hashlib.sha256(data).hexdigest()
 
 
@@ -175,6 +242,9 @@ def write_github_env(descriptor: dict[str, Any], path: Path) -> None:
         'PAGES_WORLD_ARCHIVE_URL': descriptor['archiveUrl'],
         'PAGES_WORLD_ARCHIVE_BYTES': str(descriptor['archiveBytes']),
     }
+    if descriptor.get('deliveryMode') == 'external':
+        values['WORLD_DELIVERY_MODE'] = 'external'
+        values['WORLD_DELIVERY_PROVIDER'] = descriptor.get('deliveryProvider', 'generic')
     with path.open('a', encoding='utf-8', newline='\n') as stream:
         for key, value in values.items():
             stream.write(f'{key}={value}\n')
@@ -221,6 +291,7 @@ def _unpack(archive: Path, destination: Path, descriptor: dict[str, Any]) -> dic
     inventory: dict[str, dict[str, Any]] = {}
     total = 0
     prefix = f"world/{descriptor['worldRelease']}/"
+    world_limit, _, _ = delivery_limits(descriptor)
     with gzip.open(archive, 'rb') as stream:
         while True:
             header = _read_exact(stream, 512)
@@ -254,9 +325,9 @@ def _unpack(archive: Path, destination: Path, descriptor: dict[str, Any]) -> dic
                 raise ValueError('archive contains an unapproved file type')
             if relative in inventory:
                 raise ValueError('duplicate archive path')
-            size = _integer(_tar_octal(header[124:136]), MAX_WORLD_BYTES, 'tar file size')
+            size = _integer(_tar_octal(header[124:136]), world_limit, 'tar file size')
             total += size
-            if total > descriptor['worldBytes'] or total > MAX_WORLD_BYTES:
+            if total > descriptor['worldBytes'] or total > world_limit:
                 raise ValueError('archive exceeds the pinned world byte count')
             if relative == 'manifest.json' and size > MAX_MANIFEST_BYTES:
                 raise ValueError('world manifest is too large')
@@ -280,6 +351,8 @@ def _unpack(archive: Path, destination: Path, descriptor: dict[str, Any]) -> dic
 
 
 def _manifest_refs(data: bytes, descriptor: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    if len(data) > MAX_MANIFEST_BYTES:
+        raise ValueError('world manifest is too large')
     manifest = _json(data)
     if not isinstance(manifest, dict) or type(manifest.get('schemaVersion')) is not int or manifest['schemaVersion'] != 2:
         raise ValueError('world manifest must use native schemaVersion 2')
@@ -320,7 +393,7 @@ def _manifest_refs(data: bytes, descriptor: dict[str, Any]) -> dict[str, dict[st
                     raise ValueError('manifest contains an unapproved referenced path')
                 if not publication and _restricted_vehicle_file(path):
                     raise ValueError('nonredistributable vehicle GLB is excluded from publication')
-                item = {'bytes': _integer(value.get('bytes'), MAX_WORLD_BYTES, 'file reference bytes'),
+                item = {'bytes': _integer(value.get('bytes'), delivery_limits(descriptor)[0], 'file reference bytes'),
                         'sha256': _digest(value.get('sha256'), 'file reference sha256')}
                 if not publication and Path(path).suffix == '.glb' and item['sha256'] == RESTRICTED_VEHICLE_SHA256:
                     raise ValueError('nonredistributable vehicle GLB digest is excluded from publication')
@@ -633,39 +706,148 @@ def _shell_inventory(output: Path) -> tuple[list[str], int]:
     return sorted(names), total
 
 
-def stage(descriptor_path: Path, archive: Path, output: Path, source_sha: str) -> dict[str, Any]:
+def _publication_require(condition: bool, message: str) -> None:
+    if not condition:
+        raise ValueError(message)
+
+
+_PRIVACY_SCANNER = None
+
+
+def _privacy_scanner():
+    global _PRIVACY_SCANNER
+    if _PRIVACY_SCANNER is None:
+        spec = importlib.util.spec_from_file_location('world_publication_privacy', Path(__file__).with_name('source_release.py'))
+        _PRIVACY_SCANNER = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(_PRIVACY_SCANNER)
+    return _PRIVACY_SCANNER
+
+
+def _privacy_text(data: bytes, context: str) -> None:
+    try:
+        text = data.decode('utf-8')
+    except UnicodeError as error:
+        raise ValueError('publication metadata must be UTF-8') from error
+    _publication_require(not _privacy_scanner().scan_text(context, text), 'private metadata in ' + context)
+    if context.endswith('.json'):
+        # Escaped text is inspected too: JSON escaping must not hide a private path.
+        document = _json(data)
+
+        def visit(value):
+            if isinstance(value, str):
+                _publication_require(not _privacy_scanner().scan_text(context, value), 'private metadata in ' + context)
+            elif isinstance(value, dict):
+                for key, item in value.items():
+                    visit(key)
+                    visit(item)
+            elif isinstance(value, list):
+                for item in value:
+                    visit(item)
+
+        visit(document)
+
+
+def validate_privacy(world: Path, inventory: dict) -> None:
+    for name in inventory:
+        path = world / name
+        if name.endswith(('.json', '.md', '.txt', '.json.gz')):
+            # Publication data is bounded by its stored world budget, then by a
+            # distinct decoded-document budget. This does not raise runtime limits.
+            with (gzip.open(path, 'rb') if name.endswith('.gz') else path.open('rb')) as stream:
+                data = stream.read(256 * 1024 * 1024 + 1)
+            _publication_require(len(data) <= 256 * 1024 * 1024, 'publication text exceeds 256 MiB')
+            _privacy_text(data, name[:-3] if name.endswith('.gz') else name)
+        elif name.endswith('.glb'):
+            with path.open('rb') as stream:
+                header = stream.read(20)
+                if len(header) != 20 or header[:4] != b'glTF':
+                    raise ValueError('runtime GLB must have a valid envelope')
+                length, kind = struct.unpack_from('<II', header, 12)
+                _publication_require(kind == 0x4e4f534a and length <= 32 * 1024 * 1024, 'invalid GLB JSON metadata')
+                data = stream.read(length)
+                _publication_require(len(data) == length, 'truncated GLB metadata')
+                _privacy_text(data, name + '.json')
+
+
+
+def validate_world_inventory(world: Path, inventory: dict[str, Any], descriptor: dict[str, Any]) -> None:
+    """Shared payload closure and decoding gate for both delivery modes."""
+    manifest = inventory.get('manifest.json')
+    if manifest is None or manifest['sha256'] != descriptor['manifestSha256']:
+        raise ValueError('manifest SHA-256 does not match the committed descriptor')
+    encoded = (world / 'manifest.json').read_bytes()
+    refs = _manifest_refs(encoded, descriptor)
+    expected = dict(refs)
+    expected['manifest.json'] = manifest
+    if set(expected) != set(inventory):
+        raise ValueError('archive files do not exactly match the manifest references')
+    if any(inventory[path] != value for path, value in expected.items()):
+        raise ValueError('a world payload differs from its manifest digest or byte count')
+    manifest_document = _json(encoded)
+    _validate_optimized_payloads(world, manifest_document, refs)
+    gameplay_file = world / safe_relative_path(manifest_document['gameplay']['path'])
+    if gameplay_file.stat().st_size > MAX_GAMEPLAY_BYTES:
+        raise ValueError('gameplay document exceeds the publication limit')
+    gameplay_data = gameplay_file.read_bytes()
+    _validate_gameplay_vehicle_publication(gameplay_data)
+    _validate_civilian_assets(_json(gameplay_data), manifest_document)
+
+
+def upload_inventory(inventory: dict[str, Any], descriptor: dict[str, Any]) -> dict[str, Any]:
+    """Provider-neutral, public-only object list. It is never proof of a hosted upload."""
+    content_types = {'.json': 'application/json', '.glb': 'model/gltf-binary', '.ktx2': 'image/ktx2',
+                     '.png': 'image/png', '.md': 'text/markdown; charset=utf-8',
+                     '.txt': 'text/plain; charset=utf-8', '.gz': 'application/gzip'}
+    result = {
+        'schemaVersion': 1, 'deliveryMode': 'external', 'status': 'LOCAL_VALIDATED_NOT_PUBLISHED',
+        'worldRelease': descriptor['worldRelease'], 'manifestSha256': descriptor['manifestSha256'],
+        'worldBytes': sum(item['bytes'] for item in inventory.values()), 'worldFiles': len(inventory),
+        'worldBudgetBytes': descriptor['worldBudgetBytes'],
+        'requiredHeaders': {'Access-Control-Allow-Origin': GAME_ORIGIN, 'Vary': 'Origin',
+                            'Cache-Control': 'public, max-age=31536000, immutable',
+                            'X-Content-Type-Options': 'nosniff'},
+        'forbiddenHeaders': ['Content-Encoding', 'Access-Control-Allow-Credentials'],
+        'requirements': ['Upload to a new immutable release prefix; refuse overwrites.',
+                         'Serve gzip files as application/gzip without HTTP Content-Encoding; the game decodes them.',
+                         'Disable content rewriting, image optimization, automatic compression and directory fallback.',
+                         'GET and HEAD must work with the exact CORS origin; missing objects must return 404.',
+                         'Verify all served bytes, hashes and headers before changing the application shell.',
+                         'Keep the previous source, descriptor and immutable world available for rollback.'],
+        'objects': [{'key': f"{descriptor['worldRelease']}/{name}", 'path': name, **item,
+                     'contentType': content_types.get(Path(name).suffix, 'application/octet-stream')}
+                    for name, item in sorted(inventory.items())],
+    }
+    return github_raw.inventory_contract(result, descriptor) if descriptor.get('deliveryProvider') == github_raw.PROVIDER else result
+
+
+def stage(descriptor_path: Path, archive: Path, output: Path, source_sha: str,
+          world_output: Path | None = None) -> dict[str, Any]:
     descriptor, descriptor_sha = load_descriptor(descriptor_path)
+    external = descriptor.get('deliveryMode') == 'external'
+    if external and (world_output is None or world_output.exists() or world_output.is_symlink()):
+        raise ValueError('external staging requires a fresh --world-out for the verified upload packet')
+    if external and (output.resolve().is_relative_to(world_output.resolve())
+                     or world_output.resolve().is_relative_to(output.resolve())):
+        raise ValueError('external upload packet and shell output must be separate trees')
     if re.fullmatch(r'[0-9a-f]{40}', source_sha) is None:
         raise ValueError('source SHA must be the exact lowercase Git commit identifier')
     shell_files, shell_bytes = _shell_inventory(output)
+    shell_payloads = [{'path': name, 'bytes': (output / name).stat().st_size,
+                       'sha256': _hash_file(output / name)} for name in shell_files]
     if archive.is_symlink() or not archive.is_file() or archive.stat().st_size != descriptor['archiveBytes']:
         raise ValueError('archive does not match the pinned compressed byte count')
     if _hash_file(archive) != descriptor['archiveSha256']:
         raise ValueError('archive SHA-256 does not match the committed descriptor')
-    if shell_bytes + descriptor['worldBytes'] > MAX_ARTIFACT_BYTES:
+    _, _, artifact_limit = delivery_limits(descriptor)
+    if shell_bytes + (0 if external else descriptor['worldBytes']) > artifact_limit:
         raise ValueError('Pages artifact would exceed the publication byte limit')
     with tempfile.TemporaryDirectory(prefix='.pages-world-', dir=output.parent) as temporary:
         scratch = Path(temporary)
         inventory = _unpack(archive, scratch, descriptor)
-        manifest = inventory.get('manifest.json')
-        if manifest is None or manifest['sha256'] != descriptor['manifestSha256']:
-            raise ValueError('manifest SHA-256 does not match the committed descriptor')
         world = scratch / 'world' / descriptor['worldRelease']
-        refs = _manifest_refs((world / 'manifest.json').read_bytes(), descriptor)
-        expected = dict(refs)
-        expected['manifest.json'] = manifest
-        if set(expected) != set(inventory):
-            raise ValueError('archive files do not exactly match the manifest references')
-        if any(inventory[path] != value for path, value in expected.items()):
-            raise ValueError('a world payload differs from its manifest digest or byte count')
-        manifest_document = _json((world / 'manifest.json').read_bytes())
-        _validate_optimized_payloads(world, manifest_document, refs)
-        gameplay_path = safe_relative_path(manifest_document['gameplay']['path'])
-        gameplay_file = world.joinpath(*gameplay_path.split('/'))
-        if gameplay_file.stat().st_size > MAX_GAMEPLAY_BYTES:
-            raise ValueError('gameplay document exceeds the publication limit')
-        _validate_gameplay_vehicle_publication(gameplay_file.read_bytes())
-        _validate_civilian_assets(_json(gameplay_file.read_bytes()), manifest_document)
+        validate_world_inventory(world, inventory, descriptor)
+        if external:
+            validate_privacy(world, inventory)
         receipt = {
             'schemaVersion': 1, 'repository': 'MattiTynka/Helsinki-rides',
             'sourceCommit': source_sha, 'descriptorSha256': descriptor_sha,
@@ -673,14 +855,34 @@ def stage(descriptor_path: Path, archive: Path, output: Path, source_sha: str) -
             'manifestSha256': descriptor['manifestSha256'],
             'archiveSha256': descriptor['archiveSha256'], 'archiveBytes': descriptor['archiveBytes'],
             'worldBytes': descriptor['worldBytes'], 'worldFiles': len(inventory),
-            'shellBytes': shell_bytes, 'shellFiles': shell_files,
+            'shellBytes': shell_bytes, 'shellFiles': shell_files, 'shellPayloads': shell_payloads,
         }
+        if external:
+            receipt.update(deliveryMode='external', hostingStatus='LOCAL_VALIDATED_NOT_PUBLISHED',
+                           worldOrigin=descriptor['worldOrigin'], corsOrigin=descriptor['corsOrigin'],
+                           worldBudgetBytes=descriptor['worldBudgetBytes'], shellBudgetBytes=descriptor['shellBudgetBytes'])
+            if descriptor.get('deliveryProvider') == github_raw.PROVIDER:
+                receipt.update(deliveryProvider=github_raw.PROVIDER,
+                               assetCommit=github_raw.validate_base(descriptor['worldBaseUrl'], descriptor['worldOrigin']))
         receipt_bytes = (json.dumps(receipt, indent=2, sort_keys=True) + '\n').encode('utf-8')
-        total = shell_bytes + descriptor['worldBytes'] + len(receipt_bytes)
-        if total > MAX_ARTIFACT_BYTES:
+        total = shell_bytes + (0 if external else descriptor['worldBytes']) + len(receipt_bytes)
+        if total > artifact_limit:
             raise ValueError('Pages artifact exceeds the publication byte limit')
         # All inputs have been verified before the first mutation of the build output.
-        shutil.move(str(scratch / 'world'), str(output / 'world'))
+        if _shell_inventory(output) != (shell_files, shell_bytes) or any(
+                (output / ref['path']).stat().st_size != ref['bytes']
+                or _hash_file(output / ref['path']) != ref['sha256'] for ref in shell_payloads):
+            raise ValueError('built shell changed during world staging')
+        if external:
+            packet = scratch / 'upload'
+            packet.mkdir()
+            shutil.move(str(scratch / 'world'), str(packet / 'world'))
+            (packet / 'upload-inventory.json').write_text(
+                json.dumps(upload_inventory(inventory, descriptor), indent=2, sort_keys=True) + '\n', encoding='utf-8')
+            world_output.parent.mkdir(parents=True, exist_ok=True)
+            shutil.move(str(packet), str(world_output))
+        else:
+            shutil.move(str(scratch / 'world'), str(output / 'world'))
         (output / 'release-info.json').write_bytes(receipt_bytes)
         (output / '.nojekyll').write_bytes(b'')
     return {'status': 'PASS', 'artifactBytes': total, **receipt}
@@ -697,6 +899,7 @@ def main() -> None:
     staging.add_argument('--archive', type=Path, required=True)
     staging.add_argument('--out', type=Path, required=True)
     staging.add_argument('--source-sha', required=True)
+    staging.add_argument('--world-out', type=Path, help='Fresh separate upload packet directory; mandatory for external mode')
     args = parser.parse_args()
     try:
         if args.command == 'validate':
@@ -705,7 +908,7 @@ def main() -> None:
                 write_github_env(descriptor, args.github_env)
             result = {'status': 'PASS', 'descriptorSha256': sha, **descriptor}
         else:
-            result = stage(args.descriptor, args.archive, args.out, args.source_sha)
+            result = stage(args.descriptor, args.archive, args.out, args.source_sha, args.world_out)
     except (ValueError, OSError, EOFError) as error:
         print(f'Pages staging refused: {error}', file=sys.stderr)
         raise SystemExit(1) from error

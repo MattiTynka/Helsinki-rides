@@ -1,6 +1,7 @@
 // Hand-written structural validators (no schema library): each returns a list of problems, empty when valid.
 import type { GameplayBundle, WorldManifest } from './types.ts';
 import { validateSimulationFileRef } from './payload.ts';
+import { validateSupportedArea } from './supported-area.ts';
 
 const isNum = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
 const isVec2 = (v: unknown): boolean => Array.isArray(v) && v.length === 2 && v.every(isNum);
@@ -92,6 +93,7 @@ export function validateGameplayBundle(g: unknown): string[] {
     || x.civilianVariants.some(variant => !['rain-black', 'rain-white', 'snow-black', 'agent47'].includes(variant))
     || new Set(x.civilianVariants).size !== x.civilianVariants.length)) p.push('civilianVariants must contain unique supported appearances');
   if (!x.playArea || ![x.playArea.minX, x.playArea.maxX, x.playArea.minZ, x.playArea.maxZ].every(isNum)) p.push('playArea missing');
+  if (x.supportedArea !== undefined && x.playArea && [x.playArea.minX, x.playArea.maxX, x.playArea.minZ, x.playArea.maxZ].every(isNum)) p.push(...validateSupportedArea(x.supportedArea, x.playArea));
   const defs = new Set<string>();
   for (const d of x.vehicleDefinitions ?? []) {
     defs.add(d.id);

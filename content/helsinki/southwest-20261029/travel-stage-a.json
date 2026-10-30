@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "scope": "First Bulevardi/Hietalahdenranta loop milestone only; the remaining Stage A streets and other districts require separate acceptance.",
+  "evidencePolicy": "Real keyboard departure from Senate Square, outbound seam crossing, road loop, inbound seam crossing and return. No fixture teleport establishes reachability. Route membership is planned evidence until recorded travel passes.",
+  "sourceRoute": "evidence/stage-a-road-loop-identities.json",
+  "goals": [
+    {"label": "Accepted Bulevardi before the southern seam", "xz": [-1110, 750], "road": "Bulevardi", "radius": 12},
+    {"label": "Hietalahdenranta loop beyond the southern seam", "xz": [-1258.69, 855.13], "road": "Hietalahdenranta", "radius": 5},
+    {"label": "Bulevardi return through the accepted seam", "xz": [-1110, 750], "road": "Bulevardi", "radius": 12},
+    {"label": "Senate Square return", "xz": [-75, -25], "road": "Unioninkatu", "radius": 8}
+  ],
+  "requiredWayIds": [333061570, 81527789, 81527790, 15103122, 86533506, 32761397, 25521376, 30956555, 25521366]
+}

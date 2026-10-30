@@ -843,3 +843,17 @@ test('optional immutable native city supports roaming civilians in six separated
     } finally { world.physics.free(); }
   }
 });
+
+
+test('qualified coverage excludes pedestrian births and support inside a canal over otherwise valid ground', () => {
+  const content: GameplayBundle = { ...gameplay, supportedArea: { schemaVersion: 1, regions: [{ id: 'city',
+    outer: [[-1800,-1800],[1800,-1800],[1800,1800],[-1800,1800]], holes: [[[80,-20],[90,-20],[90,20],[80,20]]] }] } };
+  const f = makeSim(roads, content);
+  try {
+    assert.equal(pedestrianGround(f.sim.world, [85, 0, 12]), null);
+    assert.ok(pedestrianGround(f.sim.world, [70, 0, 12]));
+    advance(f, 600);
+    assert.ok(civilians(f.sim).length > 0, 'qualified sidewalks still populate');
+    assert.ok(civilians(f.sim).every(c => c.position[0] < 80 || c.position[0] > 90 || Math.abs(c.position[2]) > 20));
+  } finally { f.sim.world.physics.free(); }
+});

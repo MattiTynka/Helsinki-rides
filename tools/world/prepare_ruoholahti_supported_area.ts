@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import {parseArgs} from 'node:util';
+import type polygonClipping from 'polygon-clipping';
+import {composeRuoholahtiPublicArea} from './lib/ruoholahti-supported-area.ts';
+import {loadGeoJsonPolygons} from './lib/geometry.ts';
+import {readDeliveryFile} from './lib/delivery-city.ts';import {decodeDeliverySimulation} from './lib/delivery-city-payloads.ts';
+import {sourceSha256 as sha,writeSourceJson} from './lib/source-files.ts';
+import {bindDeliveryProducer,verifyDeliveryProducer,publicDeliveryProducer} from './lib/delivery-city-provenance.ts';
+const {values}=parseArgs({options:{plan:{type:'string'},out:{type:'string'}}});assert.ok(values.plan&&values.out&&!fs.existsSync(values.out));const producer=bindDeliveryProducer(new URL(import.meta.url));
+const refs:{path:string;sha256:string;bytes:number}[]=[];
+function read(ref:{file:string;sha256:string}){const b=fs.readFileSync(ref.file);assert.ok(b.length<=128*1024*1024);assert.equal(sha(b),ref.sha256);refs.push({path:ref.file,sha256:ref.sha256,bytes:b.length});return JSON.parse(b.toString());}
+const planPin={file:values.plan,sha256:sha(fs.readFileSync(values.plan))},plan=read(planPin);assert.equal(plan.schemaVersion,1);assert.equal(plan.kind,'ruoholahti-source-public-area');
+assert.deepEqual(Object.keys(plan).sort(),['schemaVersion','kind','accepted','routeCandidates','levelInventory','streetParts','groundExclusions','region','streetNames'].sort());assert.ok(plan.streetNames.length>0&&plan.streetNames.length<=40);
+const m=read({file:path.join(plan.accepted.directory,'manifest.json'),sha256:plan.accepted.manifestSha256}),gameplay=JSON.parse(decodeDeliverySimulation(readDeliveryFile(plan.accepted.directory,m.gameplay),m.gameplay).toString());assert.ok(!gameplay.supportedArea);
+const routes=read(plan.routeCandidates),inventory=read(plan.levelInventory);assert.equal(routes.levelInventory.sha256,plan.levelInventory.sha256);assert.equal(routes.acceptedManifestSha256,plan.accepted.manifestSha256);assert.equal(inventory.sourceParts.sha256,plan.streetParts.sha256);
+const finalManifest=read(inventory.world);for(const cell of inventory.cells){const actual=finalManifest.cells.find((c:any)=>c.id===cell.cell);assert.deepEqual(actual?.collision,cell.collision);readDeliveryFile(path.dirname(inventory.world.file),cell.collision);}
+const source=read(plan.streetParts),exclusions=read(plan.groundExclusions);assert.equal(exclusions.source.sha256,plan.streetParts.sha256);assert.equal(exclusions.originId,m.origin.id);assert.equal(source.type,'FeatureCollection');
+const parts=loadGeoJsonPolygons(plan.streetParts.file,m.origin.originProjected[0],m.origin.originProjected[1],p=>String(p.osan_id)),names=new Set(plan.streetNames),region=plan.region as[number,number,number,number];
+assert.deepEqual(region,[-2816,-384,-1792,1152]);const selected=parts.filter(p=>names.has(p.properties.alueen_nimi)&&['Ajorata','Kevyt liikenne','Muu rakenneosa'].includes(String(p.properties.paatyyppi))&&p.bbox[0]<=region[2]&&p.bbox[2]>=region[0]&&-p.bbox[3]<=region[3]&&-p.bbox[1]>=region[1]);assert.ok(selected.length);
+const publicPolygons=selected.map(p=>p.rings.map(r=>r.map(([x,n])=>[x,-n] as[number,number]))),upper=[...inventory.upperRoad,...inventory.upperWalking];
+assert.ok(upper.every(face=>face.sourcePartIds.length&&sha(JSON.stringify(face.points))===face.triangleSha256));
+const qualifiedUpperFloor=upper.map(face=>[face.points.map((p:number[])=>[p[0],p[2]])]) as polygonClipping.Polygon[];
+const a=gameplay.playArea,result=composeRuoholahtiPublicArea({accepted:[a.minX,a.minZ,a.maxX,a.maxZ],region,publicPolygons,unqualifiedDecks:exclusions.parts.flatMap((p:any)=>p.polygonsRuntimeXZ),qualifiedUpperFloor});
+for(const ref of refs)assert.equal(sha(fs.readFileSync(ref.path)),ref.sha256);verifyDeliveryProducer(producer);fs.mkdirSync(values.out);
+const document={schemaVersion:1,kind:'qualified-expansion-supported-area',acceptedManifestSha256:plan.accepted.manifestSha256,originId:m.origin.id,sourceFiles:refs,supportedArea:result.supportedArea,qualification:{status:'PASS_SOURCE_QUALIFIED_SUPPORTED_AREA',physicalNavigationStatus:'PENDING_ALL_EXPOSED_RETAINED_ROADS_CAPSULES_AND_REAL_TRAVEL',method:'Named municipal public footprints minus every native unqualified deck, then exact qualified serialized upper road and walking faces; connected to unchanged accepted rectangle. Southern hidden passage is closed by height-specific HCOL and omitted from route graph, not an XZ hole through upper bridge.',selectedParts:selected.map(p=>({id:p.id,street:p.properties.alueen_nimi,main:p.properties.paatyyppi,detail:p.properties.alatyyppi})),upperTriangleIds:upper.map(face=>face.id),...result,supportedArea:undefined,producer:publicDeliveryProducer(producer)}};
+const output=writeSourceJson(values.out,'supported-area.json',document);console.log(JSON.stringify({file:path.join(values.out,output.path),sha256:output.sha256,parts:selected.length,vertices:result.vertices,holes:result.supportedArea.regions.reduce((n,r)=>n+(r.holes?.length??0),0)}));

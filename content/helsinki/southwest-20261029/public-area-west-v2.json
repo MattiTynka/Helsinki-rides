@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "kind": "ruoholahti-source-public-area",
+  "accepted": {
+    "directory": "../accepted-world/world/senate-20261025-civilian-flee",
+    "manifestSha256": "0e18e55e8730f01144eef72a80decffbb53cdd658222f87a7e8ad6f75f2c4260"
+  },
+  "routeCandidates": {
+    "file": "../work/ruoholahti-route-candidates-v3/route-candidates.json",
+    "sha256": "f5e6f2fa516e27959642257535cde600f0bb77e3edddccc844fc9131de318a0a"
+  },
+  "levelInventory": {
+    "file": "../evidence/ruoholahti-routes/serialized-level-selectors-v3.json",
+    "sha256": "d60c17429ce7c236398eb1f07244a52098c77330cfabd70e823e3d7395cea118"
+  },
+  "streetParts": {
+    "file": "../sources/raw-v2/street-parts/southwest-cumulative-20261029.geojson",
+    "sha256": "1ac1409cf70cd6c3ad1ab7139fd6f365898d5c654e499616a1892d1b669645b2"
+  },
+  "groundExclusions": {
+    "file": "../work/cumulative-west-build-v1/ground-exclusions.json",
+    "sha256": "75cb89c4aed91df26b284658283627f69affd86cd4e115262840d3216953f301"
+  },
+  "region": [
+    -2816,
+    -384,
+    -1792,
+    1152
+  ],
+  "streetNames": [
+    "Itämerenkatu",
+    "Selkämerenkatu",
+    "Messitytönkatu",
+    "Jaalaranta",
+    "Kellosaarenkatu",
+    "Ruoholahdenpuisto",
+    "Santakatu",
+    "Länsisatamankatu",
+    "Harmajankatu"
+  ]
+}

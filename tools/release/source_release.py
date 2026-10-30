@@ -37,6 +37,7 @@ COMPRESSED_JSON = {
 }
 MAX_DECODED_SOURCE_BYTES = 64 * 1024 * 1024
 IMAGES = {
+    'content/assets/facades/bulevardi46/front-v1.png',
     'apps/game/src/assets/senate-square-start.jpg',
     'content/helsinki/city-expansion-20261021/theatre-facade/v1/facade.png',
     'content/assets/facades/estates/front-2021.jpg',

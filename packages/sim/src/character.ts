@@ -1,3 +1,4 @@
+import { supportedMotionFraction } from '@helsinki/world-schema';
 // Characters (player, officers, later pedestrians): kinematic capsules moved by Rapier's character controller.
 // Locomotion is in place for animation; the capsule owns world displacement (skill: gameplay animation).
 import { TICK_SECONDS } from './commands.ts';
@@ -244,6 +245,8 @@ export class Character {
     this.verticalSpeed -= JUMP.gravity * TICK_SECONDS;
     this.verticalSpeed = Math.max(this.verticalSpeed, -30);
     const desired = { x: vx * TICK_SECONDS, y: this.verticalSpeed * TICK_SECONDS, z: vz * TICK_SECONDS };
+    const requested = supportedMotionFraction(world.gameplay, [this.position[0], this.position[2]], [this.position[0] + desired.x, this.position[2] + desired.z], CHARACTER.radius + 0.02);
+    desired.x *= requested; desired.z *= requested;
     const solid = groups(GROUP.character, GROUP.static | GROUP.vehicle | GROUP.character);
     this.controller.computeColliderMovement(this.collider, desired, RAPIER.QueryFilterFlags.EXCLUDE_SENSORS, solid, filter);
     let m = this.controller.computedMovement(), onGround = this.controller.computedGrounded();
@@ -256,6 +259,8 @@ export class Character {
       if (Math.hypot(retry.x, retry.z) > Math.hypot(m.x, m.z) + 1e-6) { m = retry; onGround = this.controller.computedGrounded(); }
     }
     const t = this.body.translation();
+    const allowed = supportedMotionFraction(world.gameplay, [t.x, t.z], [t.x + m.x, t.z + m.z], CHARACTER.radius + 0.02);
+    m.x *= allowed; m.z *= allowed;
     const next = { x: t.x + m.x, y: t.y + m.y, z: t.z + m.z };
     this.body.setNextKinematicTranslation(next);
     this.grounded = this.verticalSpeed <= 0 && onGround;
@@ -377,9 +382,13 @@ export class Character {
     this.controller.disableAutostep();
     this.controller.disableSnapToGround();
     const desired = { x: goal[0] - this.position[0], y: goal[1] - this.position[1], z: goal[2] - this.position[2] };
+    const requested = supportedMotionFraction(world.gameplay, [this.position[0], this.position[2]], [this.position[0] + desired.x, this.position[2] + desired.z], CHARACTER.radius + 0.02);
+    desired.x *= requested; desired.z *= requested;
     this.controller.computeColliderMovement(this.collider, desired, RAPIER.QueryFilterFlags.EXCLUDE_SENSORS, groups(GROUP.character, GROUP.static | GROUP.vehicle | GROUP.character), filter);
     const m = this.controller.computedMovement();
     const t = this.body.translation();
+    const allowed = supportedMotionFraction(world.gameplay, [t.x, t.z], [t.x + m.x, t.z + m.z], CHARACTER.radius + 0.02);
+    m.x *= allowed; m.z *= allowed;
     const next = { x: t.x + m.x, y: t.y + m.y, z: t.z + m.z };
     this.body.setNextKinematicTranslation(next);
     this.position = [next.x, next.y - FEET_TO_CENTRE, next.z];

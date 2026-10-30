@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "id": "southwest-cumulative-20261029",
+  "originId": "senate-square-statue-v2",
+  "originProjected": [
+    25497350,
+    6672960,
+    7.5
+  ],
+  "crs": "EPSG:3879",
+  "heightDatum": "N2000",
+  "cellSize": 128,
+  "acceptedManifestSha256": "0e18e55e8730f01144eef72a80decffbb53cdd658222f87a7e8ad6f75f2c4260",
+  "sourceHaloMetres": 128,
+  "terrainExtent": [
+    -2816,
+    -2304,
+    800,
+    1792
+  ],
+  "regions": [
+    {
+      "id": "cumulative-south-abc",
+      "stage": "A+B+C",
+      "axis": "z",
+      "side": "south",
+      "boundsXZ": [
+        -1792,
+        768,
+        800,
+        1792
+      ],
+      "sourceEnvelopeXZ": [
+        -1792,
+        768,
+        896,
+        1792
+      ],
+      "sourceRegionIds": [
+        "a-hietalahti-punavuori",
+        "b-eira",
+        "c-kaivopuisto-ullanlinna"
+      ]
+    },
+    {
+      "id": "cumulative-west-d",
+      "stage": "D",
+      "axis": "x",
+      "side": "west",
+      "boundsXZ": [
+        -2816,
+        -384,
+        -1792,
+        1152
+      ],
+      "sourceEnvelopeXZ": [
+        -2816,
+        -384,
+        -1792,
+        1152
+      ],
+      "sourceRegionIds": [
+        "d-ruoholahti"
+      ],
+      "reviewedExtensionXZ": [
+        -2816,
+        768,
+        -1792,
+        1152
+      ]
+    }
+  ],
+  "coveragePolicy": "These are bounded source/build envelopes. Actual new cells subtract the accepted manifest. Water, private yards, unsupported crossings and gaps remain excluded from playable coverage. Named source exclusions and connected route approval are required before release. The original x=896 east envelope is source/cell halo only. Actual southern ownership ends at original terrain maxX=800. Both cumulative packets use the same terrain grid and original515-cell baseline; no StageA candidate becomes accepted authority.",
+  "routesToQualify": [
+    {
+      "stage": "A",
+      "streets": [
+        "Bulevardi",
+        "Hietalahdenkatu",
+        "Punavuorenkatu",
+        "Albertinkatu"
+      ]
+    },
+    {
+      "stage": "B",
+      "streets": [
+        "Laivurinkatu",
+        "Tehtaankatu",
+        "Laivurinkuja",
+        "Merikatu",
+        "Eiranranta"
+      ]
+    },
+    {
+      "stage": "C",
+      "streets": [
+        "Merikatu",
+        "Ehrenströmintie",
+        "Puistokatu",
+        "Neitsytpolku"
+      ]
+    },
+    {
+      "stage": "D",
+      "streets": [
+        "Ruoholahdenkatu",
+        "Itämerenkatu",
+        "Länsisatamankatu",
+        "Selkämerenkatu"
+      ]
+    }
+  ],
+  "excludedScope": [
+    "all of Jätkäsaari",
+    "Hernesaari peninsula",
+    "harbour-only access",
+    "islands",
+    "unsupported tunnels",
+    "unverified bridges"
+  ],
+  "metadataBudgetBytes": 32000000,
+  "acquisitionBudgetBytes": 800000000,
+  "acceptedCellCount": 515,
+  "acceptedTerrainExtent": [
+    -1792,
+    -2304,
+    800,
+    768
+  ],
+  "acceptedCellEnvelope": [
+    -1920,
+    -2304,
+    896,
+    768
+  ],
+  "originalSourceTerrainEnvelope": [
+    -2816,
+    -2304,
+    896,
+    1792
+  ],
+  "originalReviewedRegionEnvelopes": [
+    {
+      "id": "a-hietalahti-punavuori",
+      "stage": "A",
+      "boundsXZ": [
+        -1792,
+        768,
+        -768,
+        1152
+      ]
+    },
+    {
+      "id": "b-eira",
+      "stage": "B",
+      "boundsXZ": [
+        -1792,
+        1152,
+        -768,
+        1792
+      ]
+    },
+    {
+      "id": "c-kaivopuisto-ullanlinna",
+      "stage": "C",
+      "boundsXZ": [
+        -768,
+        768,
+        896,
+        1792
+      ]
+    },
+    {
+      "id": "d-ruoholahti",
+      "stage": "D",
+      "boundsXZ": [
+        -2816,
+        -384,
+        -1792,
+        768
+      ]
+    }
+  ],
+  "actualNewCoverageMaxX": 800,
+  "compositionOrder": [
+    "cumulative-south-abc",
+    "cumulative-west-d"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "status": "AUTHORED_APPEARANCE_PENDING_COMPRESSED_GAME_REVIEW",
+  "building": "BID_04b25160-160a-4bbe-9d61-2fc92e490655",
+  "vtj": "1030750310",
+  "lowerBayCount": 15,
+  "upperWindowCount": 30,
+  "entranceAxes": [
+    1,
+    7,
+    9
+  ],
+  "widthMetres": 55.365,
+  "heightMetres": 15.677,
+  "qualification": "Visual count corroborated independently in the 2017 I99pema and 2011 Arkkipuudeli originals; proportions and masonry detail are authored approximations, not a measured elevation.",
+  "references": [
+    "https://commons.wikimedia.org/wiki/File:Bulevardi_46,_Helsinki.jpg",
+    "https://commons.wikimedia.org/wiki/File:Bulevardin_Mallasmakasiini.jpg"
+  ],
+  "art": {
+    "license": "CC0-1.0",
+    "referencePixelsCopied": false,
+    "svgSha256": "805252c5b358e91715316ec0ea9edbed9d59fbb8b27dbc2b28dad0117649fc73",
+    "pngSha256": "8444042810b90782554f0c6ba20215194a1a520042af2414806387c326d3efa0",
+    "width": 1800,
+    "height": 510
+  },
+  "limitations": [
+    "Original vector approximation of the corroborated facade arrangement; brick dimensions, glazing reflections, door panels, drainpipe offsets and ornament profiles are authored detail.",
+    "Only the two municipal front triangles are targeted; roof, returns, ground, collision and separate trees remain preserved."
+  ]
+}

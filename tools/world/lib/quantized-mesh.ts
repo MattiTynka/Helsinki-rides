@@ -2,6 +2,7 @@
 // sampling for the terrain import. Format: https://github.com/CesiumGS/quantized-mesh (header, zig-zag delta coded
 // u/v/height, high-water-mark coded indices, edge lists, extensions; the extensions are skipped).
 import { readFileSync } from 'node:fs';
+import assert from 'node:assert/strict';
 import path from 'node:path';
 import { gunzipSync } from 'node:zlib';
 import { gk25ToGeodetic } from '../../../packages/world-schema/src/index.ts';
@@ -97,29 +98,51 @@ export interface TerrainSnapshot {
   readonly tiles: number;
   readonly vertices: number;
   readonly triangles: number;
+  readonly samplerCache: { readonly capacity: number; readonly resident: number; readonly loads: number };
   /** Height in metres at an EPSG:3879 point, linear inside the containing tile triangle; null outside the snapshot. */
   heightAtEN(easting: number, northing: number): number | null;
 }
 
 /** Load a snapshot written by fetch_terrain.ts (its folder holds tiles.json and the tiles), checking each tile hash. */
-export function loadTerrainSnapshot(dir: string, sha256: (b: Uint8Array) => string): TerrainSnapshot {
+export function loadTerrainSnapshot(dir: string, sha256: (b: Uint8Array) => string, maxCachedTiles = 128): TerrainSnapshot {
+  assert.ok(Number.isSafeInteger(maxCachedTiles) && maxCachedTiles >= 1 && maxCachedTiles <= 512, 'Terrain sampler cache must hold 1..512 tiles');
   const index = JSON.parse(readFileSync(path.join(dir, 'tiles.json'), 'utf8')) as { zoom: number; tiles: { file: string; x: number; y: number; sha256: string }[] };
   const samplers = new Map<string, TileSampler>();
+  const sources = new Map<string, typeof index.tiles[number]>();
   let vertices = 0, triangles = 0;
+  // Verify and census every input before sampling, but do not retain thousands of 64x64
+  // spatial buckets. A bounded LRU holds only the nearby tiles needed by the raster scan.
   for (const t of index.tiles) {
     const bytes = new Uint8Array(readFileSync(path.join(dir, t.file)));
     if (sha256(bytes) !== t.sha256) throw new Error(`${t.file} does not match its hash`);
     const tile = decodeQuantizedMesh(bytes);
     vertices += tile.u.length; triangles += tile.indices.length / 3;
-    samplers.set(`${t.x}/${t.y}`, new TileSampler(tile));
+    const key = `${t.x}/${t.y}`;
+    assert.ok(!sources.has(key), 'Duplicate terrain tile address');
+    sources.set(key, t);
   }
+  let loads = 0;
+  const sampler = (key: string): TileSampler | undefined => {
+    const previous = samplers.get(key);
+    if (previous) { samplers.delete(key); samplers.set(key, previous); return previous; }
+    const source = sources.get(key);
+    if (!source) return undefined;
+    const bytes = new Uint8Array(readFileSync(path.join(dir, source.file)));
+    if (sha256(bytes) !== source.sha256) throw new Error(`${source.file} changed after terrain preflight`);
+    // Evict before allocation; the configured bound also applies during cache misses.
+    if (samplers.size >= maxCachedTiles) samplers.delete(samplers.keys().next().value!);
+    const result = new TileSampler(decodeQuantizedMesh(bytes));
+    samplers.set(key, result); loads++;
+    return result;
+  };
   const d = tileDegrees(index.zoom);
   return {
     zoom: index.zoom, tiles: index.tiles.length, vertices, triangles,
+    get samplerCache() { return {capacity: maxCachedTiles, resident: samplers.size, loads}; },
     heightAtEN(easting, northing) {
       const [lat, lon] = gk25ToGeodetic(easting, northing);
       const fx = (lon + 180) / d, fy = (lat + 90) / d, x = Math.floor(fx), y = Math.floor(fy);
-      const s = samplers.get(`${x}/${y}`);
+      const s = sampler(`${x}/${y}`);
       return s ? s.heightAt((fx - x) * 32767, (fy - y) * 32767) : null;
     },
   };

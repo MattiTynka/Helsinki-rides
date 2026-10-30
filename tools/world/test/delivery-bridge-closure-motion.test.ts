@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import {test} from 'node:test';
+import {encodeCollisionBundle,encodeTerrain,type GameplayBundle,type RoadGraph} from '../../../packages/world-schema/src/index.ts';
+import {buildSourceBoundLowerClosure} from '../lib/delivery-bridge-lower-closure.ts';
+import {qualifyLowerClosureMotion} from '../lib/delivery-bridge-closure-motion.ts';
+import {buildExtraBridgeDeck,type ExtraBridgeDeckProfile} from '../lib/delivery-extra-bridges-mesh.ts';
+import type {ExtraBridgeNativeFace} from '../lib/delivery-extra-bridges-source.ts';
+import type {SupportTriangle} from '../lib/tram-support-repair.ts';
+const plane=(x0:number,z0:number,x1:number,z1:number,y:number):SupportTriangle[]=>[[[x0,y,z0],[x0,y,z1],[x1,y,z1]],[[x0,y,z0],[x1,y,z1],[x1,y,z0]]];
+function fixture(){
+ const triangles=[...plane(-2,-8,2,8,0),...plane(-7,-4,-5,4,3),...plane(5,-4,7,4,3)],native:ExtraBridgeNativeFace[]=triangles.map((points,triangle)=>({points,cell:'fixture',collider:'floor',triangle,tag:'raised:cobble',group:'ground'}));
+ const bytes=encodeCollisionBundle({originId:'fixture',frame:'X-east,Y-up,Z-south',cell:'fixture',surfaceTags:['raised:cobble']},[{id:'floor',group:'ground',ref:null,positions:Float32Array.from(triangles.flat(2)),indices:Uint32Array.from({length:triangles.length*3},(_,i)=>i),triangleTags:new Uint16Array(triangles.length)}]);
+ const profile:ExtraBridgeDeckProfile={surfaceMethod:'native-bank-piecewise-planar-ruled-sections-v1',frame:{origin:[0,0],direction:[1,0]},banks:[-5,5].map(s=>({s,segments:[{t0:-4,t1:4,y0:3,y1:3,role:'road',sourcePartIds:[10],source:{cell:'fixture',collider:'upper-bank',triangle:0,sha256:'a'.repeat(64)}}]}))as ExtraBridgeDeckProfile['banks'],upperParts:[{id:10,role:'road',tag:'road:asphalt',rings:[[[-5,-4],[5,-4],[5,4],[-5,4],[-5,-4]]],sha256:'b'.repeat(64)}],crownMetres:0,deckThicknessMetres:.35,maximumGrade:.15};
+ const frame={origin:[0,0]as[number,number],direction:[0,1]as[number,number]},gateStations=[-3.5,3.5]as const,closure=buildSourceBoundLowerClosure({sourcePart:{id:1,name:'source lower path',tag:'raised:cobble',rings:[[[-2,-8],[2,-8],[2,8],[-2,8],[-2,-8]]]},frame,gateStations,native,upperFloors:buildExtraBridgeDeck(profile).faces.filter(f=>f.role==='road'||f.role==='footway').map(f=>f.points),deckThicknessMetres:.35,gateThicknessMetres:.12});
+ return{input:{profile,terrainBytes:encodeTerrain({x0:-10,z0:-10,nx:3,nz:3,resolution:10,heights:new Float32Array(9).fill(-1)}),gameplay:{originId:'fixture',killHeight:-20,playArea:{minX:-10,maxX:10,minZ:-10,maxZ:10}}as GameplayBundle,roads:{schemaVersion:2,originId:'fixture',nodes:[],lanes:[],connectors:[],parking:[],footways:[]}as unknown as RoadGraph,cells:[{id:'fixture',bytes}]},closure,native,policy:{frame,gateStations,acrossCoordinates:[-1,0,1],upperAxes:[-1,0,1].map(z=>({id:`upper-${z}`,points:[[-6,z],[6,z]]as[number,number][]}))}};
+}
+test('physical closure blocks lower walking/jumping while upper traffic remains traversable',async()=>{const f=fixture(),result=await qualifyLowerClosureMotion(f.input,f.closure.faces,f.native,f.policy);assert.equal(result.lowerRuns.length,18);assert.equal(result.upperRuns.length,6);assert.ok(result.lowerRuns.every(r=>r.maximumPastGateBelowUpperFloor<=.05));});
+test('actual missing gate and changed native witnesses fail rather than accepting a receipt flag',async()=>{const f=fixture();await assert.rejects(()=>qualifyLowerClosureMotion(f.input,f.closure.faces.filter(p=>p.points.every(v=>v[2]>0)),f.native,f.policy),/bypassed below upper floor/);const changed=fixture();changed.native[0]!.points[0][1]+=.1;await assert.rejects(()=>qualifyLowerClosureMotion(changed.input,changed.closure.faces,changed.native,changed.policy),/differs from serialized/);});

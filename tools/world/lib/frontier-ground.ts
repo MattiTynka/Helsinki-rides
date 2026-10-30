@@ -22,18 +22,22 @@ export interface FrontierPlan {
   geographicRegion:FrontierRectangle;groundRegion:FrontierRectangle;sourceBand:FrontierRectangle;
   acceptedBounds:FrontierRectangle;
 }
+export interface FrontierDirection {axis:'x'|'z';side:'west'|'north'|'south'}
 /** Only a full west, north or south strip can opt into this exception. Its native assembly replaces five
  * accepted metres and six external metres; callers cannot widen that protected-interior exception. */
-export function planCityFrontier(acceptedBounds:FrontierRectangle,region:FrontierRectangle,axis:'x'|'z'='x'):FrontierPlan{
+export function planCityFrontier(acceptedBounds:FrontierRectangle,region:FrontierRectangle,direction:'x'|'z'|FrontierDirection='x'):FrontierPlan{
   for(const bounds of[acceptedBounds,region])assert.ok(bounds.length===4&&bounds.every(Number.isFinite)&&bounds[0]<bounds[2]&&bounds[1]<bounds[3],'Invalid frontier rectangle');
+  const axis=typeof direction==='string'?direction:direction.axis,explicit=typeof direction!=='string';
   assert.ok(axis==='x'||axis==='z','Frontier axis must be x or z');
+  if(explicit)assert.ok((axis==='x'&&direction.side==='west')||(axis==='z'&&['north','south'].includes(direction.side)),'Frontier side disagrees with axis');
   const [ax0,az0,ax1,az1]=acceptedBounds,[x0,z0,x1,z1]=region;
   if(axis==='x'){
-    assert.ok(x1===ax0&&x0<ax0&&z0===az0&&z1===az1,'Frontier must be one full western strip');assert.ok(ax0+5<ax1,'Accepted terrain is narrower than the protected frontier');
+    assert.ok(x1===ax0&&x0<ax0&&(explicit?z0<az1&&z1>az0:z0===az0&&z1===az1),'Frontier must be one full western strip or an explicit bounded western strip');assert.ok(ax0+5<ax1,'Accepted terrain is narrower than the protected frontier');
     return{axis,cut:ax0+5,protectedSide:'east',acceptedBounds,geographicRegion:region,groundRegion:[x0,z0,ax0+5,z1],sourceBand:[ax0-6,z0,ax0+5,z1]};
   }
-  const north=z1===az0&&z0<az0&&x0===ax0&&x1===ax1;
-  const south=z0===az1&&z1>az1&&x0===ax0&&x1===ax1;
+  const tangent=explicit?x0<ax1&&x1>ax0:x0===ax0&&x1===ax1;
+  const north=z1===az0&&z0<az0&&tangent&&(!explicit||direction.side==='north');
+  const south=z0===az1&&z1>az1&&tangent&&(!explicit||direction.side==='south');
   assert.ok(north||south,'Frontier must be one full northern strip or one full southern strip');assert.ok(az0+5<az1,'Accepted terrain is shorter than the protected frontier');
   return north
     ?{axis,cut:az0+5,protectedSide:'south',acceptedBounds,geographicRegion:region,groundRegion:[x0,z0,x1,az0+5],sourceBand:[x0,az0-6,x1,az0+5]}
@@ -41,7 +45,39 @@ export function planCityFrontier(acceptedBounds:FrontierRectangle,region:Frontie
 }
 export function frontierRuntimeLoweringAllowed(plan:FrontierPlan,x:number,z:number,previous:number,next:number){
   const [x0,z0,x1,z1]=plan.acceptedBounds;
-  return Number.isFinite(next)&&next<previous&&x>=x0&&x<=x1&&z>=z0&&z<=z1&&(plan.axis==='x'?x<plan.cut:plan.protectedSide==='north'?z>plan.cut:z<plan.cut);
+  const band=plan.sourceBand;
+  return Number.isFinite(previous)&&Number.isFinite(next)&&next<previous&&x>=x0&&x<=x1&&z>=z0&&z<=z1&&x>=band[0]&&x<=band[2]&&z>=band[1]&&z<=band[3]&&(plan.axis==='x'?x<plan.cut:plan.protectedSide==='north'?z>plan.cut:z<plan.cut);
+}
+
+/** Interior-disjoint rectangles covering a minus b. Boundaries stay closed so adjacent surface
+ * triangles meet; replacement ordering gives aligned vertical boundary faces one owner. */
+export function subtractFrontierRectangle(a:FrontierRectangle,b:FrontierRectangle):FrontierRectangle[]{
+  const x0=Math.max(a[0],b[0]),z0=Math.max(a[1],b[1]),x1=Math.min(a[2],b[2]),z1=Math.min(a[3],b[3]);
+  if(x0>=x1||z0>=z1)return[a];
+  return[[a[0],a[1],x0,a[3]],[x1,a[1],a[2],a[3]],[x0,a[1],x1,z0],[x0,z1,x1,a[3]]].filter(r=>r[0]!<r[2]!&&r[1]!<r[3]!)as [number,number,number,number][];
+}
+
+/** Validate the geographic union before writing a packet, then assign each shared corner once.
+ * An extended end of a strip must be joined to another declared region; it cannot replace ground
+ * in an unrequested quadrant. Input order is the explicit, recorded corner priority. */
+export function composeCityFrontiers(acceptedBounds:FrontierRectangle,specs:readonly {region:FrontierRectangle;axis?:'x'|'z';side?:FrontierDirection['side']}[]){
+  assert.ok(specs.length>0,'At least one independently produced strip is required');
+  const plans=specs.map(spec=>{
+    assert.equal(spec.axis===undefined,spec.side===undefined,'Explicit frontier requires both axis and side');
+    return planCityFrontier(acceptedBounds,spec.region,spec.axis===undefined?'z':{axis:spec.axis,side:spec.side!});
+  });
+  for(let i=0;i<plans.length;i++)for(let j=0;j<i;j++){
+    const a=plans[i]!.geographicRegion,b=plans[j]!.geographicRegion;
+    assert.ok(Math.max(a[0],b[0])>=Math.min(a[2],b[2])||Math.max(a[1],b[1])>=Math.min(a[3],b[3]),'Geographic strips overlap; assign the corner to one strip');
+  }
+  const occupied=[acceptedBounds,...plans.map(p=>p.geographicRegion)];
+  for(const plan of plans){
+    // Only the part of the source band on the protected side needs adjoining authority.
+    const a=plan.sourceBand,protectedBand:FrontierRectangle=plan.axis==='x'?[acceptedBounds[0],a[1],a[2],a[3]]:plan.protectedSide==='north'?[a[0],a[1],a[2],acceptedBounds[3]]:[a[0],acceptedBounds[1],a[2],a[3]];
+    const uncovered=occupied.reduce<FrontierRectangle[]>((parts,region)=>parts.flatMap(p=>subtractFrontierRectangle(p,region)),[protectedBand]);
+    assert.equal(uncovered.length,0,'Extended frontier lacks an adjoining declared region');
+  }
+  return plans.map((plan,i)=>({plan,regions:plans.slice(0,i).reduce<FrontierRectangle[]>((parts,prior)=>parts.flatMap(p=>subtractFrontierRectangle(p,prior.sourceBand)),[plan.sourceBand])}));
 }
 const area3=(a:number[],b:number[],c:number[])=>Math.hypot((b[1]!-a[1]!)*(c[2]!-a[2]!)-(b[2]!-a[2]!)*(c[1]!-a[1]!),(b[2]!-a[2]!)*(c[0]!-a[0]!)-(b[0]!-a[0]!)*(c[2]!-a[2]!),(b[0]!-a[0]!)*(c[1]!-a[1]!)-(b[1]!-a[1]!)*(c[0]!-a[0]!));
 type Vertex=Record<string,number[]>;
@@ -90,6 +126,20 @@ export function frontierTriangleKey(points:readonly (readonly number[])[]):strin
   return[0,1,2].map(i=>[keys[i],keys[(i+1)%3],keys[(i+2)%3]].join('')).sort()[0]!;
 }
 export function frontierMeshKeys(mesh:FrontierMesh){const pos=mesh.attributes.POSITION!,keys=new Set<string>();for(let i=0;i<mesh.indices.length;i+=3)keys.add(frontierTriangleKey([0,1,2].map(k=>Array.from(pos.subarray(mesh.indices[i+k]!*3,mesh.indices[i+k]!*3+3)))));return keys;}
+
+/** Include material/use, owner and UV identity as well as geometry. Cyclic rotation is harmless;
+ * winding, duplicate faces or inconsistent cached authority at a composed corner are not. */
+export function nativeFrontierKeys(pieces:readonly GroundPiece[]){
+  return pieces.flatMap(piece=>{
+    const result:string[]=[];
+    for(let t=0;t<piece.indices.length;t+=3){
+      const points=[0,1,2].map(k=>{const i=piece.indices[t+k]!;return JSON.stringify(Array.from(Float32Array.from([...piece.positions.slice(i*3,i*3+3),...piece.uvs.slice(i*2,i*2+2)])));});
+      const vertices=[0,1,2].map(i=>[points[i],points[(i+1)%3],points[(i+2)%3]].join(':')).sort()[0];
+      result.push(JSON.stringify([piece.cell,piece.finish,piece.level,piece.tag,piece.use??'both',vertices]));
+    }
+    return result;
+  }).sort();
+}
 
 /** Reject only triangles with exactly zero area in the actual Float32 serialization domain. A clipped
  * sub-ulp sliver has no rendered or colliding surface, and must not introduce zero normals into a new mesh. */

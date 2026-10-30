@@ -2,12 +2,15 @@
 // on this machine, console capture, and a typed bridge to window.__HELSINKI_GAME__ (apps/game/src/testapi.ts).
 import { chromium, type Browser, type Page } from 'playwright';
 import type { Command, GameEvent, SimState } from '../../../packages/sim/src/index.ts';
+import {createLoadedResponseCapture} from './loaded-responses.ts';
 
 export interface BrowserSession {
   readonly browser: Browser;
   readonly page: Page;
   readonly consoleErrors: string[];
   readonly consoleLines: string[];
+  /** SHA-256 of the unique original HTTP200 script/manifest response; never refetches. */
+  loadedResponseSha256(url: string): Promise<string>;
   close(): Promise<void>;
 }
 
@@ -33,13 +36,15 @@ export async function openGame(url: string, opts: { headful?: boolean; width?: n
   const page = await context.newPage();
   const consoleErrors: string[] = [];
   const consoleLines: string[] = [];
+  const loadedResponses = createLoadedResponseCapture({onError: error => consoleErrors.push(`loaded response capture: ${error.message}`)});
+  page.on('response', response => loadedResponses.observe(response));
   page.on('console', m => { const line = `[${m.type()}] ${m.text()}`; consoleLines.push(line); if (m.type() === 'error') consoleErrors.push(m.text()); });
   page.on('pageerror', e => consoleErrors.push(`pageerror: ${e.message}`));
   await page.goto(url, { waitUntil: 'load' });
   await page.waitForFunction(() => (window as unknown as { __HELSINKI_GAME__?: { ready: boolean }; __HELSINKI_ERROR__?: string }).__HELSINKI_GAME__?.ready === true || !!(window as unknown as { __HELSINKI_ERROR__?: string }).__HELSINKI_ERROR__, undefined, { timeout: opts.timeoutMs ?? 120000 });
   const err = await page.evaluate(() => (window as unknown as { __HELSINKI_ERROR__?: string }).__HELSINKI_ERROR__ ?? null);
   if (err) { await browser.close(); throw new Error(`game failed to start: ${err}`); }
-  return { browser, page, consoleErrors, consoleLines, close: async () => { await context.close(); await browser.close(); } };
+  return { browser, page, consoleErrors, consoleLines, loadedResponseSha256: url => loadedResponses.sha256(url), close: async () => { await context.close(); await browser.close(); } };
 }
 
 type Api = {
