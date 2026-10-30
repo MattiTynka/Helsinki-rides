@@ -52,6 +52,16 @@ function stretch(matrix: THREE.Matrix4): number {
   const bc = Math.abs(e[4]! * e[8]! + e[5]! * e[9]! + e[6]! * e[10]!);
   return Math.sqrt(Math.max(a + ab + ac, b + ab + bc, c + ac + bc)) * (1 + 32 * Number.EPSILON);
 }
+/** The bone-independent part of a skin analysis: what clones sharing geometry and bind data have in common. */
+type SkinAnalysis = Omit<SkinCache, 'skeleton' | 'influences'> & { readonly influences: readonly Omit<Influence, 'bone'>[] };
+const SKIN_ANALYSES = 4;
+// Character clones share geometry and bind data; analyse each skin once instead of once per view.
+const skinAnalyses = new WeakMap<THREE.BufferGeometry, SkinAnalysis[]>();
+function reusable(mesh: THREE.SkinnedMesh, analysis: SkinAnalysis): boolean {
+  return mesh.bindMatrix.equals(analysis.bind)
+    && analysis.attributes.every(a => mesh.geometry.getAttribute(a.name) === a.attribute && revision(a.attribute) === a.revision)
+    && analysis.influences.every(i => !!mesh.skeleton.bones[i.index] && !!mesh.skeleton.boneInverses[i.index]?.equals(i.inverse));
+}
 function cacheSkin(mesh: THREE.SkinnedMesh): SkinCache | null {
   const geometry = mesh.geometry, skeleton = mesh.skeleton;
   const position = geometry.getAttribute('position'), indices = geometry.getAttribute('skinIndex'), weights = geometry.getAttribute('skinWeight');
@@ -59,7 +69,20 @@ function cacheSkin(mesh: THREE.SkinnedMesh): SkinCache | null {
   if (mesh.getVertexPosition !== THREE.SkinnedMesh.prototype.getVertexPosition) return null;
   const material = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
   if (material.some(m => (m as THREE.ShaderMaterial).isShaderMaterial || (m as THREE.MeshStandardMaterial).displacementMap)) return null;
-  const spheres = new Map<number, Influence>(), transforms = new Map<number, THREE.Matrix4>();
+  const analyses = skinAnalyses.get(geometry) ?? [];
+  let analysis = analyses.find(a => reusable(mesh, a));
+  if (!analysis) {
+    const fresh = analyseSkin(mesh, position, indices, weights);
+    if (!fresh) return null;
+    if (analyses.length >= SKIN_ANALYSES) analyses.shift();
+    analyses.push(analysis = fresh);
+    skinAnalyses.set(geometry, analyses);
+  }
+  return { ...analysis, skeleton, influences: analysis.influences.map(i => ({ ...i, bone: skeleton.bones[i.index]! })) };
+}
+function analyseSkin(mesh: THREE.SkinnedMesh, position: Attribute, indices: Attribute, weights: Attribute): SkinAnalysis | null {
+  const geometry = mesh.geometry, skeleton = mesh.skeleton;
+  const spheres = new Map<number, Omit<Influence, 'bone'>>(), transforms = new Map<number, THREE.Matrix4>();
   const point = new THREE.Vector3(), transformedPoint = new THREE.Vector3(), index = new THREE.Vector4(), weight = new THREE.Vector4();
   let weightError = 0, maxWeightSum = 0, positionMagnitude = 0;
   for (let vertex = 0; vertex < position.count; vertex++) {
@@ -78,7 +101,7 @@ function cacheSkin(mesh: THREE.SkinnedMesh): SkinCache | null {
       if (!Number.isSafeInteger(boneIndex) || !bone || !inverse || !affine(inverse)) return null;
       let influence = spheres.get(boneIndex);
       if (!influence) {
-        influence = { index: boneIndex, bone, inverse: inverse.clone(), sphere: new THREE.Sphere().makeEmpty() };
+        influence = { index: boneIndex, inverse: inverse.clone(), sphere: new THREE.Sphere().makeEmpty() };
         spheres.set(boneIndex, influence);
         transforms.set(boneIndex, new THREE.Matrix4().multiplyMatrices(inverse, mesh.bindMatrix));
       }
@@ -90,7 +113,7 @@ function cacheSkin(mesh: THREE.SkinnedMesh): SkinCache | null {
     weightError = Math.max(weightError, error); maxWeightSum = Math.max(maxWeightSum, sum);
   }
   return {
-    geometry, skeleton, bind: mesh.bindMatrix.clone(), influences: [...spheres.values()], weightError, maxWeightSum, positionMagnitude,
+    geometry, bind: mesh.bindMatrix.clone(), influences: [...spheres.values()], weightError, maxWeightSum, positionMagnitude,
     attributes: ['position', 'skinIndex', 'skinWeight'].map(name => { const attribute = geometry.getAttribute(name); return { name, attribute, revision: revision(attribute) }; }),
   };
 }

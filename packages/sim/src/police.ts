@@ -350,11 +350,60 @@ function destinationLane(roads: RoadIndex, position: V3, distance: number): Lane
   return laneAtLevel(roads, position, distance, undefined, enterableLanes(roads)) ?? laneAtLevel(roads, position, distance);
 }
 
-function connectedLaneIds(roads: RoadIndex, start: string, reverse: boolean): Set<string> {
+interface LaneReach { readonly component: ReadonlyMap<string, number>; readonly sets: Map<number, ReadonlySet<string>> }
+const laneReach = new WeakMap<RoadIndex, [LaneReach, LaneReach]>();
+const LANE_REACH_SETS = 8;
+
+/**
+ * Strongly connected components of the lane graph (connectors into unknown lanes dropped, as in the search below). Every
+ * lane of a component reaches the same lanes, so one search result serves the whole component.
+ */
+function laneComponents(roads: RoadIndex, reverse: boolean): Map<string, number> {
+  const lanes = roads.graph.lanes, ids = new Map<string, number>(), edges = reverse ? roads.incoming : roads.outgoing;
+  lanes.forEach((lane, i) => ids.set(lane.id, i));
+  const out = lanes.map(lane => (edges.get(lane.id) ?? []).map(c => ids.get(reverse ? c.from : c.to)).filter((i): i is number => i !== undefined));
+  const n = lanes.length, order = new Int32Array(n).fill(-1), low = new Int32Array(n), component = new Int32Array(n), onStack = new Uint8Array(n), stack: number[] = [];
+  let counter = 0, components = 0;
+  for (let root = 0; root < n; root++) {
+    if (order[root] !== -1) continue;
+    const frames: [number, number][] = [[root, 0]];
+    order[root] = low[root] = counter++; stack.push(root); onStack[root] = 1;
+    while (frames.length) {
+      const frame = frames[frames.length - 1]!, v = frame[0], next = out[v]!;
+      if (frame[1] < next.length) {
+        const w = next[frame[1]++]!;
+        if (order[w] === -1) { order[w] = low[w] = counter++; stack.push(w); onStack[w] = 1; frames.push([w, 0]); }
+        else if (onStack[w]) low[v] = Math.min(low[v]!, order[w]!);
+        continue;
+      }
+      frames.pop();
+      if (frames.length) { const parent = frames[frames.length - 1]![0]; low[parent] = Math.min(low[parent]!, low[v]!); }
+      if (low[v] === order[v]) { let w: number; do { w = stack.pop()!; onStack[w] = 0; component[w] = components; } while (w !== v); components++; }
+    }
+  }
+  return new Map(lanes.map((lane, i) => [lane.id, component[i]!]));
+}
+
+/** Built once per road index, at police construction before play; holds at most LANE_REACH_SETS results per direction. */
+function laneReachFor(roads: RoadIndex, reverse: boolean): LaneReach {
+  let pair = laneReach.get(roads);
+  if (!pair) laneReach.set(roads, pair = [{ component: laneComponents(roads, false), sets: new Map() }, { component: laneComponents(roads, true), sets: new Map() }]);
+  return pair[reverse ? 1 : 0];
+}
+
+/** Lanes reachable from `start` (or, `reverse`, reaching it), itself included. Callers only test membership. */
+function connectedLaneIds(roads: RoadIndex, start: string, reverse: boolean): ReadonlySet<string> {
+  const reach = laneReachFor(roads, reverse), component = reach.component.get(start);
+  const cached = component === undefined ? undefined : reach.sets.get(component);
+  if (cached) return cached;
   const reached = new Set([start]), queue = [start], edges = reverse ? roads.incoming : roads.outgoing;
   for (let i = 0; i < queue.length; i++) for (const edge of edges.get(queue[i]!) ?? []) {
     const next = reverse ? edge.from : edge.to;
     if (roads.laneById.has(next) && !reached.has(next)) { reached.add(next); queue.push(next); }
+  }
+  if (component !== undefined) {
+    if (reach.sets.size >= LANE_REACH_SETS) reach.sets.delete(reach.sets.keys().next().value!);
+    reach.sets.set(component, reached);
   }
   return reached;
 }
@@ -426,6 +475,7 @@ export class PoliceForce {
   constructor(sim: Simulation) {
     this.sim = sim;
     this.goodLanes = wellConnectedLanes(sim.world.roads).lanes;
+    laneReachFor(sim.world.roads, false);
   }
 
   /** Nearest well-connected lane to a point, preferring lanes that run along `heading` (unit XZ) when given. */
@@ -458,6 +508,11 @@ export class PoliceForce {
 
   spawnInitial(): void {
     for (let i = 0; i < this.sim.gameplay.police.initialPatrols; i++) this.spawnUnit();
+    // The first patrol beat searches the lanes ahead of each car; search them now (a pure cache fill), not on the first tick.
+    for (const u of this.units) if (u.vehicle) {
+      const here = laneAtLevel(this.sim.world.roads, u.vehicle.position, 30, [u.vehicle.forward[0], u.vehicle.forward[2]]);
+      if (here) connectedLaneIds(this.sim.world.roads, here.laneId, false);
+    }
   }
 
   /** Remove every unit and start over with the initial patrols (after Wasted / Busted). */

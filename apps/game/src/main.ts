@@ -49,6 +49,7 @@ async function boot(): Promise<void> {
     session.begin();
   };
   loading.addEventListener('click', begin);
+  game.audio.prepare();
   canvas.addEventListener('click', () => game.audio.start());
   // Review controls are a build capability; a URL flag only changes presentation.
   if (__REVIEW_BUILD__ || import.meta.env.DEV) {

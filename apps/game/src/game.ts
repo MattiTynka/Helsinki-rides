@@ -11,6 +11,7 @@ import { AssetLibrary } from './render/assets.ts';
 import { ChaseCamera } from './render/camera.ts';
 import { CharacterView } from './render/characters.ts';
 import { Effects } from './render/effects.ts';
+import { ActorWarmup } from './render/warmup.ts';
 import { CityScene, type CellView } from './render/scene.ts';
 import { textureBytesOf } from './render/cell-resources.ts';
 import { VehicleView } from './render/vehicles.ts';
@@ -65,12 +66,12 @@ export class Game {
   readonly input: Input;
   readonly hud: Hud;
   readonly audio: GameAudio;
-  readonly effects = new Effects();
+  readonly effects: Effects;
   readonly config: GameConfig;
   readonly characterViews = new Map<string, CharacterView>();
   readonly vehicleViews = new Map<string, VehicleView>();
   readonly playerView: CharacterView;
-  readonly shadowMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.35, depthWrite: false });
+  readonly shadowMaterial: THREE.MeshBasicMaterial;
   state: SimState;
   private previousState: SimState;
   presentationState: SimState;
@@ -120,8 +121,11 @@ export class Game {
   /** Why the last `stepTicks` stopped early. */
   private stepBlock: 'collision' | 'models' | null = null;
 
-  private constructor(config: GameConfig, data: WorldData, world: StaticWorld, scene: CityScene, loader: GlbLoader, assets: AssetLibrary, canvas: HTMLCanvasElement, streaming: WorldVisualStreaming | null, collision: CollisionStream | null) {
+  private constructor(config: GameConfig, data: WorldData, world: StaticWorld, scene: CityScene, loader: GlbLoader, assets: AssetLibrary, canvas: HTMLCanvasElement, streaming: WorldVisualStreaming | null, collision: CollisionStream | null,
+    effects: Effects, shadowMaterial: THREE.MeshBasicMaterial) {
     this.config = config;
+    this.effects = effects;
+    this.shadowMaterial = shadowMaterial;
     this.stats.tier = config.startTier;
     this.targetFrameRate = config.targetFrameRate ?? 60;
     this.vehicleDetailRange = config.vehicleDetailRange;
@@ -146,7 +150,6 @@ export class Game {
       this.hud.showNotice('dropin.failed', this.state.time);
     }); };
     this.audio = new GameAudio(config.audio);
-    this.scene.scene.add(this.effects.group);
     this.playerView = new CharacterView(assets, 'character-snow', this.shadowMaterial);
     this.scene.scene.add(this.playerView.root);
     this.state = this.sim.state();
@@ -159,7 +162,8 @@ export class Game {
   static async create(canvas: HTMLCanvasElement, config: GameConfig, progress: Progress): Promise<Game> {
     const release = await resolveRelease(config.release);
     const assets = new AssetLibrary();
-    let scene!: CityScene, loader!: GlbLoader;
+    let scene!: CityScene, loader!: GlbLoader, effects!: Effects, warmup!: ActorWarmup;
+    const shadowMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.35, depthWrite: false });
     let assetResult: Promise<{ ok: true } | { ok: false; error: unknown }> = Promise.resolve({ ok: true });
     mark('helsinki:create');
     // Streaming ranges, fog, far plane, foliage and material class come from the start tier (the preset's, or a lower
@@ -172,11 +176,17 @@ export class Game {
         targetFrameRate: config.targetFrameRate, initialRenderScale: config.initialRenderScale, maxRenderPixels: config.maxRenderPixels,
         minRenderScale: config.minRenderScale, materialClass: tier.materialClass, foliageLodScale: tier.foliageLodScale,
       });
+      // The final light set goes in before anything compiles: the light count and shadow flags are part of every
+      // program, so the muzzle-flash lights added later would relink everything prepared without them.
+      effects = new Effects();
+      scene.scene.add(effects.group);
+      warmup = new ActorWarmup(root => scene.prepareObject(root), assets, shadowMaterial, effects);
       loader = new GlbLoader(scene.renderer, { maxConcurrentDecode: config.mobile ? 1 : 2, compactTranscode: config.preset === 'low' });
       loader.setMipDrop(config.mipDrop ?? tier.mipDrop);
       if (config.preset === 'low') loader.useReducedTextures(manifest);
       // Observe failures immediately, then propagate them at the joined startup boundary.
-      assetResult = assets.load(loader, base, manifest, config.preset === 'low', asset => !DEFERRED_ASSETS.has(asset.id), { concurrency: config.mobile ? 1 : 2 }).then(
+      assetResult = assets.load(loader, base, manifest, config.preset === 'low', asset => !DEFERRED_ASSETS.has(asset.id),
+        { concurrency: config.mobile ? 1 : 2, prepare: warmup.prepareAsset, prefetch: true }).then(
         () => ({ ok: true as const }), error => ({ ok: false as const, error }));
     }, config.collision);
     const [data] = await Promise.all([dataReady, initPhysics().then(() => mark('helsinki:physics-ready'))]);
@@ -240,18 +250,28 @@ export class Game {
       }
     }
     mark('helsinki:visuals-ready');
-    const game = new Game(config, data, world, scene, loader, assets, canvas, streaming, collision);
+    const game = new Game(config, data, world, scene, loader, assets, canvas, streaming, collision, effects, shadowMaterial);
+    // Everything in the scene at spawn (cells, scenery, coastal water, landmarks, the player and the actors synced
+    // so far) is uploaded and compiled before Play, with the deferred actors loading and preparing alongside.
+    const deferred = game.loadDeferredAssets();
+    progress(0, 1, 'graphics');
+    await scene.prepareObject(scene.scene);
+    await warmup.prepareShared();
+    progress(1, 1, 'graphics');
+    progress(0, 1, 'people and cars');
+    await deferred;
+    progress(1, 1, 'people and cars');
     mark('helsinki:playable');
-    game.loadDeferredAssets();
     return game;
   }
 
   /**
-   * Officer and patrol models arrive after startup; their textures then come out of the city's texture budget. A failed
-   * load is retried after 2, 4, 8, 16 and then every 30 seconds.
+   * Officer and patrol models load after the startup set; their textures then come out of the city's texture budget.
+   * The result settles after the first attempt, loaded or not, so Play is never withheld by a failure. A failed load
+   * is retried after 2, 4, 8, 16 and then every 30 seconds.
    */
-  private loadDeferredAssets(attempt = 0): void {
-    this.assets.loadDeferred().then(() => {
+  private loadDeferredAssets(attempt = 0): Promise<void> {
+    return this.assets.loadDeferred().then(() => {
       this.modelLoading.failed = false;
       mark('helsinki:deferred-assets-ready');
       const streaming = this.streaming;
@@ -577,12 +597,14 @@ export class Game {
     for (const [id, view] of this.vehicleViews) if (!seen.has(id)) { view.dispose(); this.vehicleViews.delete(id); }
     // NPCs: independent skeletons share the four civilian/officer source assets.
     seen.clear();
+    // Presentation only: at most two new views a frame, so a crowd born on one tick is not cloned in one frame.
+    let newViews = 0;
     for (const c of state.characters) {
       seen.add(c.id);
       let view = this.characterViews.get(c.id);
       const assetId = characterAsset(c.id);
-      if (!view && !this.assets.hasCharacter(assetId)) continue;
-      if (!view) { view = new CharacterView(this.assets, assetId, this.shadowMaterial); this.characterViews.set(c.id, view); this.scene.scene.add(view.root); }
+      if (!view && (newViews >= 2 || !this.assets.hasCharacter(assetId))) continue;
+      if (!view) { newViews++; view = new CharacterView(this.assets, assetId, this.shadowMaterial); this.characterViews.set(c.id, view); this.scene.scene.add(view.root); }
       for (const shot of shots) if (shot.shooter === c.id) view.notifyShot();
       view.update(c, characterDt, c.aiming || c.clip === 'aim' || c.clip === 'fire', null, undefined, undefined,
         { mobile: this.config.mobile, cameraPosition: this.scene.camera.position });

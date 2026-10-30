@@ -91,6 +91,7 @@ export function progressLabel(label: string, language: I18n = i18n): string {
   const keys: Readonly<Record<string, MessageKey>> = {
     terrain: 'loading.terrain', roads: 'loading.roads', gameplay: 'loading.gameplay', scenery: 'loading.scenery',
     'hero assets': 'loading.hero', 'nearby streets': 'loading.streets', 'nearby buildings': 'loading.buildings',
+    graphics: 'loading.graphics', 'people and cars': 'loading.actors',
   };
   const key = Object.hasOwn(keys, label) ? keys[label] : undefined;
   if (key) return language.template(key);

@@ -123,6 +123,8 @@ export class GlbLoader {
   readonly ktx2: OwnedKtx2Loader;
   private readonly manager = new THREE.LoadingManager();
   private readonly decodeSlots: ReturnType<typeof requestSlots>;
+  /** GLB downloads started ahead of their parse, by URL; each is consumed by one `load`. */
+  private readonly prefetched = new Map<string, Promise<ArrayBuffer>>();
 
   /**
    * `compactTranscode` (low preset): transcode to 4 bpp S3TC/ETC2 instead of 8 bpp BC7/ASTC where available. It is
@@ -163,8 +165,28 @@ export class GlbLoader {
         signal.throwIfAborted();
         return this.loader.parseAsync(bytes, THREE.LoaderUtils.extractUrlBase(url));
       }
+      const early = this.prefetched.get(url);
+      if (early) {
+        this.prefetched.delete(url);
+        const bytes = await early.catch(() => null);
+        if (bytes) return this.loader.parseAsync(bytes, THREE.LoaderUtils.extractUrlBase(url));
+      }
       return new Promise<GLTF>((resolve, reject) => this.loader.load(url, resolve, undefined, reject));
     });
+  }
+
+  /**
+   * Start downloading a GLB now, at low priority where supported, for a later `load` of the same URL to parse. The
+   * URL is the one `load` would request; a failed prefetch is forgotten and that `load` requests the URL itself.
+   */
+  prefetch(url: string): void {
+    if (this.prefetched.has(url)) return;
+    const bytes = fetch(url, { priority: 'low' }).then(response => {
+      if (!response.ok) throw new Error(`${url}: ${response.status}`);
+      return response.arrayBuffer();
+    });
+    bytes.catch(() => {});
+    this.prefetched.set(url, bytes);
   }
 
   /** Zstandard KTX2 textures parsed from now on skip their largest mip level (minimal tier); loaded ones keep theirs. */

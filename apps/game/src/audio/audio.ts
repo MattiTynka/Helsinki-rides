@@ -1,5 +1,5 @@
-// Synthesised audio (no sample files): engine hum, two-tone siren, gunshots, horn and crash thumps. Starts on the
-// first user gesture, as browsers require.
+// Synthesised audio (no sample files): engine hum, two-tone siren, gunshots, horn and crash thumps. Built suspended
+// before Play where the browser allows it; starts on the first user gesture, as browsers require.
 import type { GameEvent, SimState } from '@helsinki/sim';
 
 export class GameAudio {
@@ -12,6 +12,31 @@ export class GameAudio {
 
   constructor(enabled: boolean) { this.enabled = enabled; }
 
+  /**
+   * Build the context and its graph ahead of Play, so the Play gesture only resumes it: constructing an AudioContext
+   * costs ~90 ms of main thread. Chrome and Firefox log an autoplay warning for a context made before any user activation,
+   * so without one yet this waits for the first activating input (a press precedes its click) and builds it there.
+   */
+  prepare(): void {
+    if (!this.enabled || this.ctx || typeof AudioContext === 'undefined') return;
+    const nav = navigator as Navigator & { userActivation?: UserActivation; getAutoplayPolicy?: (type: string) => string };
+    const activation = nav.userActivation;
+    const build = (): void => {
+      if (this.ctx) return;
+      // A context made after an activation would start playing: hold it until Play resumes it.
+      try { void this.build().suspend().catch(() => {}); } catch { /* start() creates it lazily instead. */ }
+    };
+    if (activation?.hasBeenActive || nav.getAutoplayPolicy?.('audiocontext') === 'allowed') { build(); return; }
+    if (!activation) return;
+    const events = ['pointerdown', 'pointerup', 'mousedown', 'keydown', 'touchend'];
+    const early = (): void => {
+      if (!activation.hasBeenActive) return;
+      for (const type of events) window.removeEventListener(type, early, true);
+      if (this.enabled) build();
+    };
+    for (const type of events) window.addEventListener(type, early, { capture: true, passive: true });
+  }
+
   /** Call from a user gesture. */
   start(): void {
     if (!this.enabled) return;
@@ -19,34 +44,42 @@ export class GameAudio {
       if (this.ctx.state !== 'running') void this.ctx.resume().catch(error => console.warn('Audio could not resume', error));
       return;
     }
-    const ctx = new AudioContext();
-    this.ctx = ctx;
-    this.master = ctx.createGain();
-    this.master.gain.value = 0.5;
-    this.master.connect(ctx.destination);
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.value = 400;
-    const osc = ctx.createOscillator();
-    osc.type = 'sawtooth';
-    osc.frequency.value = 50;
-    const gain = ctx.createGain();
-    gain.gain.value = 0;
-    osc.connect(filter).connect(gain).connect(this.master);
-    osc.start();
-    this.engine = { osc, gain, filter };
-    const sOsc = ctx.createOscillator();
-    sOsc.type = 'triangle';
-    const sGain = ctx.createGain();
-    sGain.gain.value = 0;
-    sOsc.connect(sGain).connect(this.master);
-    sOsc.start();
-    this.siren = { osc: sOsc, gain: sGain };
-    const len = ctx.sampleRate * 0.5;
-    this.noise = ctx.createBuffer(1, len, ctx.sampleRate);
-    const d = this.noise.getChannelData(0);
-    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    const ctx = this.build();
     if (ctx.state === 'suspended') void ctx.resume();
+  }
+
+  private build(): AudioContext {
+    const ctx = new AudioContext();
+    try {
+      const master = ctx.createGain();
+      master.gain.value = 0.5;
+      master.connect(ctx.destination);
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = 400;
+      const osc = ctx.createOscillator();
+      osc.type = 'sawtooth';
+      osc.frequency.value = 50;
+      const gain = ctx.createGain();
+      gain.gain.value = 0;
+      osc.connect(filter).connect(gain).connect(master);
+      osc.start();
+      const sOsc = ctx.createOscillator();
+      sOsc.type = 'triangle';
+      const sGain = ctx.createGain();
+      sGain.gain.value = 0;
+      sOsc.connect(sGain).connect(master);
+      sOsc.start();
+      const len = ctx.sampleRate * 0.5;
+      const noise = ctx.createBuffer(1, len, ctx.sampleRate);
+      const d = noise.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+      this.ctx = ctx; this.master = master; this.engine = { osc, gain, filter }; this.siren = { osc: sOsc, gain: sGain }; this.noise = noise;
+    } catch (error) {
+      void ctx.close().catch(() => {});
+      throw error;
+    }
+    return ctx;
   }
 
   suspend(): void {

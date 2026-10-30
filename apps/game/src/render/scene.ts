@@ -59,6 +59,9 @@ export class CityScene {
   /** The active tier's foliage LOD distance scale. */
   private foliageLodScale: number;
   private readonly uploads = new UploadQueue();
+  /** Whether the context links programs in parallel (KHR_parallel_shader_compile), checked at the first preparation. */
+  private parallelCompile: boolean | null = null;
+  private offscreen: THREE.WebGLRenderTarget | null = null;
   private readonly maxPixelRatio: number;
   private readonly resolution: AdaptiveResolution;
   private readonly maxRenderPixels: number;
@@ -165,19 +168,69 @@ export class CityScene {
   }
 
   async prepareCell(view: CellView, signal?: AbortSignal): Promise<void> {
-    const group = view.group;
+    await this.prepareObject(view.group, signal);
+  }
+
+  /**
+   * Upload the textures of `root` (a detached root, or the scene itself) through the frame-budgeted queue and compile
+   * its programs against this scene's fog and final light set, so its first draw neither uploads nor links. Without
+   * KHR_parallel_shader_compile three.js reports every program ready at once and only waits for the link at its first
+   * use, inside a later frame; the root is then also drawn once into a tiny offscreen target, so that wait happens here.
+   */
+  async prepareObject(root: THREE.Object3D, signal?: AbortSignal): Promise<void> {
     const pending = new AbortController(), abort = () => pending.abort();
     signal?.addEventListener('abort', abort, { once: true });
     if (signal?.aborted) pending.abort();
     try {
-      await Promise.all(cellTextures(group).map(texture => this.uploads.enqueue(() => this.renderer.initTexture(texture), pending.signal)));
+      const properties = this.renderer.properties;
+      const fresh = cellTextures(root).filter(texture => !properties.has(texture) || (properties.get(texture) as { __version?: number }).__version !== texture.version);
+      await Promise.all(fresh.map(texture => this.uploads.enqueue(() => this.renderer.initTexture(texture), pending.signal)));
       pending.signal.throwIfAborted();
-      await this.renderer.compileAsync(group, this.camera, this.scene);
+      await this.renderer.compileAsync(root, this.camera, this.scene);
       pending.signal.throwIfAborted();
+      this.parallelCompile ??= this.renderer.getContext().getExtension('KHR_parallel_shader_compile') !== null;
+      if (!this.parallelCompile) this.drawOffscreen(root);
     } catch (error) {
       pending.abort();
       throw error;
     } finally { signal?.removeEventListener('abort', abort); }
+  }
+
+  /**
+   * One draw of `root` with this scene's lights into a 4 × 4 target, everything else in the scene hidden and frustum
+   * culling off, then the renderer state restored. The target is flagged like an XR target with the canvas colour
+   * space: a plain render target selects linear output and so a different program than the canvas draws use.
+   */
+  private drawOffscreen(root: THREE.Object3D): void {
+    const renderer = this.renderer, scene = this.scene;
+    this.offscreen ??= Object.assign(new THREE.WebGLRenderTarget(4, 4, { colorSpace: renderer.outputColorSpace as THREE.ColorSpace }), { isXRRenderTarget: true });
+    const target = renderer.getRenderTarget(), face = renderer.getActiveCubeFace(), level = renderer.getActiveMipmapLevel(), autoClear = renderer.autoClear;
+    const viewport = renderer.getViewport(new THREE.Vector4()), scissor = renderer.getScissor(new THREE.Vector4()), scissorTest = renderer.getScissorTest();
+    const culled: THREE.Object3D[] = [], hidden: THREE.Object3D[] = [], attach = root !== scene;
+    root.traverse(node => { if (node.frustumCulled) { node.frustumCulled = false; culled.push(node); } });
+    if (attach) {
+      // Children holding lights stay visible: the light set is part of every program.
+      for (const child of scene.children) {
+        let light = false;
+        child.traverse(node => { light ||= (node as THREE.Light).isLight === true; });
+        if (child.visible && !light) { child.visible = false; hidden.push(child); }
+      }
+      scene.add(root);
+    }
+    try {
+      renderer.setRenderTarget(this.offscreen);
+      renderer.autoClear = true;
+      renderer.render(scene, this.camera);
+    } finally {
+      if (attach) scene.remove(root);
+      for (const node of hidden) node.visible = true;
+      for (const node of culled) node.frustumCulled = true;
+      renderer.setRenderTarget(target, face, level);
+      renderer.autoClear = autoClear;
+      renderer.setViewport(viewport);
+      renderer.setScissor(scissor);
+      renderer.setScissorTest(scissorTest);
+    }
   }
 
   showCell(view: CellView): void {

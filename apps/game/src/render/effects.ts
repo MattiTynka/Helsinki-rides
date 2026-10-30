@@ -121,6 +121,12 @@ export class Effects {
     }
   }
 
+  /** The pooled tracer and flash materials and geometries, so the startup warm-up can compile them before the first shot. */
+  get parts(): { readonly tracer: THREE.LineBasicMaterial; readonly flash: THREE.MeshBasicMaterial; readonly core: THREE.MeshBasicMaterial;
+    readonly flashGeometry: THREE.BufferGeometry; readonly coreGeometry: THREE.BufferGeometry } {
+    return { tracer: this.tracerMaterial, flash: this.flashMaterial, core: this.coreMaterial, flashGeometry: this.flashGeometry, coreGeometry: this.coreGeometry };
+  }
+
   /** Read-only review evidence from the actual pooled scene lights, never evaluated by ordinary frames. */
   snapshot(): ShootingEffectsSnapshot {
     return { activeTracers: this.tracers.filter(tracer => tracer.line.visible).length,

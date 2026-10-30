@@ -29,6 +29,20 @@ export interface VehicleFarParts {
   readonly lamps: Map<string, THREE.BufferGeometry>;
 }
 
+/** An asset about to be published, as its views will use it. */
+export type PreparedAsset =
+  | { readonly kind: 'character'; readonly asset: CharacterAsset }
+  | { readonly kind: 'vehicle'; readonly asset: VehicleAsset }
+  | { readonly kind: 'pistol'; readonly id: string };
+
+/** Uploads and compiles what an asset's views draw before any view can exist; a rejection fails the asset's load. */
+export type PrepareAsset = (root: THREE.Object3D, asset: PreparedAsset) => Promise<void>;
+
+function disposeFarParts(far: VehicleFarParts): void {
+  far.body.dispose();
+  for (const geometry of far.lamps.values()) geometry.dispose();
+}
+
 export class AssetLibrary {
   readonly characters = new Map<string, CharacterAsset>();
   readonly vehicles = new Map<string, VehicleAsset>();
@@ -42,14 +56,20 @@ export class AssetLibrary {
   /** Assets loaded completely; a retried deferred load requests only the others. */
   private readonly loaded = new Set<string>();
   private concurrency = 2;
+  private prepare: PrepareAsset | null = null;
 
   /**
    * Load the assets play starts with. Assets `startup` leaves out are loaded by `loadDeferred`; until then views
-   * that need them are not created. A near car and its `-far-low` variant must be in the same set.
+   * that need them are not created. A near car and its `-far-low` variant must be in the same set. `prepare` runs on
+   * every character, car and the pistol before it is published; with `prefetch`, the left-out assets' bytes are
+   * requested at once, at low priority, and parsed later by `loadDeferred`.
    */
-  async load(loader: GlbLoader, base: string, manifest: WorldManifest, _lowPreset = false, startup: (asset: WorldManifest['assets'][number]) => boolean = () => true, options: { readonly concurrency?: number } = {}): Promise<void> {
+  async load(loader: GlbLoader, base: string, manifest: WorldManifest, _lowPreset = false, startup: (asset: WorldManifest['assets'][number]) => boolean = () => true,
+    options: { readonly concurrency?: number; readonly prepare?: PrepareAsset; readonly prefetch?: boolean } = {}): Promise<void> {
     this.concurrency = Math.max(1, Math.min(2, Math.floor(options.concurrency ?? 2) || 1));
+    this.prepare = options.prepare ?? null;
     const later = manifest.assets.filter(a => !startup(a));
+    if (options.prefetch) for (const a of later) loader.prefetch(base + a.path);
     this.deferred = later.length ? () => this.loadSet(loader, base, manifest, later.filter(a => !this.loaded.has(a.id))) : null;
     await this.loadSet(loader, base, manifest, manifest.assets.filter(startup));
   }
@@ -63,37 +83,81 @@ export class AssetLibrary {
     return this.deferredLoad;
   }
 
+  /**
+   * An asset is published (and `hasCharacter`/`hasVehicle` report it) only after `prepare` resolves; a rejected
+   * preparation is a failed load, so the asset stays absent and a retry loads it again. A near car and its `-far-low`
+   * variant are one unit: the car is published once both have loaded, with its final far parts prepared, so no view
+   * ever holds far geometry that is later replaced and disposed.
+   */
   private async loadSet(loader: GlbLoader, base: string, manifest: WorldManifest, assets: WorldManifest['assets']): Promise<void> {
-    const lowFarSources = new Map<string, THREE.Object3D>();
+    const ids = new Set(assets.map(a => a.id));
+    /** Near cars waiting for their distant variant, or the reverse, until both have loaded. */
+    const pairs = new Map<string, { near?: THREE.Object3D; far?: THREE.Object3D }>();
     const ordered = [...assets].sort((a, b) => assetPriority(a.id) - assetPriority(b.id));
     let next = 0;
     const results: PromiseSettledResult<void>[] = [];
+    const prepared = async (root: THREE.Object3D, asset: PreparedAsset): Promise<void> => {
+      if (!this.prepare) return;
+      try { await this.prepare(root, asset); } catch (error) { disposeCellResources(root); throw error; }
+    };
+    const publishPair = async (id: string): Promise<void> => {
+      const pair = pairs.get(id)!;
+      if (!pair.near || !pair.far) return;
+      pairs.delete(id);
+      // buildFarParts owns independent buffers, so the temporary GLB source can be released without retaining a
+      // second set of distant geometry/materials.
+      const far = buildFarParts(pair.far);
+      disposeCellResources(pair.far);
+      const vehicle: VehicleAsset = { id, scene: pair.near, far };
+      try { await prepared(pair.near, { kind: 'vehicle', asset: vehicle }); } catch (error) { disposeFarParts(far); throw error; }
+      this.vehicles.set(id, vehicle);
+      this.loaded.add(id);
+      this.loaded.add(`${id}-far-low`);
+    };
     const loadAsset = async (a: WorldManifest['assets'][number]): Promise<void> => {
       const candidate = a.id.endsWith('-far-low') ? a.id.slice(0, -'-far-low'.length) : null;
       const lowFarVehicle = candidate && manifest.assets.some(asset => asset.kind === 'vehicle' && asset.id === candidate) ? candidate : null;
       const gltf = await loader.load(base + a.path);
       gltf.scene.traverse(o => { const m = o as THREE.Mesh; if (m.isMesh) { m.frustumCulled = true; } });
       if (lowFarVehicle) {
-        lowFarSources.set(lowFarVehicle, gltf.scene);
+        if (!ids.has(lowFarVehicle)) { disposeCellResources(gltf.scene); throw new Error(`distant car ${lowFarVehicle} has no near asset`); }
+        pairs.set(lowFarVehicle, { ...pairs.get(lowFarVehicle), far: gltf.scene });
+        await publishPair(lowFarVehicle);
       } else if (a.kind === 'character') {
         // Bind-pose bounds do not follow native gait, aiming or collapse poses.
         gltf.scene.traverse(node => { if ((node as THREE.SkinnedMesh).isSkinnedMesh) node.frustumCulled = false; });
         const box = new THREE.Box3().setFromObject(gltf.scene);
         const clips = new Map(gltf.animations.map(c => [c.name, c]));
         const profile = parseCharacterProfile(gltf.scene.userData.characterProfile, new Set(clips.keys()));
-        this.characters.set(a.id, { id: a.id, scene: gltf.scene, clips, height: box.max.y - box.min.y, ...(profile ? { profile } : {}) });
+        const character: CharacterAsset = { id: a.id, scene: gltf.scene, clips, height: box.max.y - box.min.y, ...(profile ? { profile } : {}) };
+        await prepared(gltf.scene, { kind: 'character', asset: character });
+        this.characters.set(a.id, character);
+        this.loaded.add(a.id);
       } else if (a.kind === 'vehicle') {
         gltf.scene.traverse(o => { const m = o as THREE.Mesh; if (m.isMesh) { const mats = Array.isArray(m.material) ? m.material : [m.material]; for (const mat of mats) { const s = mat as THREE.MeshStandardMaterial; if (s.name === 'car_glass') { s.depthWrite = false; } } } });
         splitWindshield(gltf.scene);
-        this.vehicles.set(a.id, { id: a.id, scene: gltf.scene, far: buildFarParts(gltf.scene) });
+        if (ids.has(`${a.id}-far-low`)) {
+          pairs.set(a.id, { ...pairs.get(a.id), near: gltf.scene });
+          await publishPair(a.id);
+          return;
+        }
+        const far = buildFarParts(gltf.scene);
+        const vehicle: VehicleAsset = { id: a.id, scene: gltf.scene, far };
+        try { await prepared(gltf.scene, { kind: 'vehicle', asset: vehicle }); } catch (error) { disposeFarParts(far); throw error; }
+        this.vehicles.set(a.id, vehicle);
+        this.loaded.add(a.id);
       } else if (a.kind === 'scenery') {
         this.scenery.set(a.id, gltf.scene);
+        this.loaded.add(a.id);
       } else if (a.id === 'prop-pistol') {
+        await prepared(gltf.scene, { kind: 'pistol', id: a.id });
         this.pistol = gltf.scene;
+        this.loaded.add(a.id);
+      } else {
+        this.loaded.add(a.id);
       }
-      if (!lowFarVehicle) this.loaded.add(a.id);
     };
-    // Limit GLB parsing, far-mesh conversion and texture allocation together. Police precede optional civilians.
+    // Limit GLB parsing, far-mesh conversion, texture allocation and preparation together. Police precede optional civilians.
     await Promise.all(Array.from({ length: Math.min(this.concurrency, ordered.length) }, async () => {
       while (next < ordered.length) {
         const asset = ordered[next++]!;
@@ -101,26 +165,13 @@ export class AssetLibrary {
         catch (reason) { results.push({ status: 'rejected', reason }); }
       }
     }));
+    // A car whose partner failed is not published; both halves are released and a retry loads the pair again.
+    for (const pair of pairs.values()) {
+      if (pair.near) disposeCellResources(pair.near);
+      if (pair.far) disposeCellResources(pair.far);
+    }
     const failure = results.find((r): r is PromiseRejectedResult => r.status === 'rejected');
-    if (failure) {
-      // Distant variants not yet applied are released; a retry loads them again with any missing near car.
-      for (const scene of lowFarSources.values()) disposeCellResources(scene);
-      throw failure.reason;
-    }
-    // Resolve after every asset loads: network completion order must not select the
-    // old geometry or attach a variant to a missing accepted near-car asset.
-    for (const [id, scene] of lowFarSources) {
-      const vehicle = this.vehicles.get(id);
-      if (!vehicle) { disposeCellResources(scene); throw new Error(`distant car ${id} has no near asset`); }
-      const far = buildFarParts(scene);
-      vehicle.far.body.dispose();
-      for (const geometry of vehicle.far.lamps.values()) geometry.dispose();
-      this.vehicles.set(id, { ...vehicle, far });
-      // buildFarParts owns independent buffers, so the temporary GLB source can
-      // be released without retaining a second set of distant geometry/materials.
-      disposeCellResources(scene);
-      this.loaded.add(`${id}-far-low`);
-    }
+    if (failure) throw failure.reason;
   }
 
   hasCharacter(id: string): boolean { return this.characters.has(id); }
