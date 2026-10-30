@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-10-25",
+  "scope": "Public game attribution and source-license evidence; original project code has a separate MIT license.",
+  "assets": [
+    {
+      "id": "helsinki-city-data",
+      "title": "Helsinki 3D city information model and municipal geographic data",
+      "author": "City of Helsinki",
+      "sourceUrl": "https://kartta.hel.fi/3d/",
+      "informationUrl": "https://www.hel.fi/en/decision-making/information-on-helsinki/maps-and-geospatial-data/helsinki-3d",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "evidence": "Existing municipal source ledgers in docs/source-register.md and each world manifest.",
+      "changes": "Converted, tiled, atlased, color-graded, resampled, compressed and locally reconstructed as individually documented. The 2017 city photo-mesh is excluded."
+    },
+    {
+      "id": "mustang-source",
+      "gameAssetIds": ["vehicle-lumi-gt", "vehicle-patrol", "vehicle-lumi-gt-far-low", "vehicle-patrol-far-low"],
+      "title": "Ford Mustang Gt 500 With pro Rig FOR FREE!",
+      "author": "NoOb StUfFs",
+      "authorUrl": "https://sketchfab.com/NoObStUfFs",
+      "sourceUrl": "https://sketchfab.com/3d-models/ford-mustang-gt-500-with-pro-rig-for-free-f26a29f766844f46910547d6d2cc291d",
+      "sourceModelId": "f26a29f766844f46910547d6d2cc291d",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "evidence": {
+        "status": "independently-verified",
+        "verifiedOn": "2026-10-20",
+        "metadataUrl": "https://api.sketchfab.com/v3/models/f26a29f766844f46910547d6d2cc291d",
+        "authorField": "user.displayName",
+        "licenseLabel": "CC Attribution",
+        "licenseUrlAsReturned": "http://creativecommons.org/licenses/by/4.0/",
+        "licenseRequirementsAsReturned": "Author must be credited. Commercial use is allowed."
+      },
+      "changes": "Fictional Lumi GT and patrol variants; brand marks, lettering, plates and source textures removed; geometry and wheels adapted; original game materials, gameplay nodes and sockets added; patrol paint and lamps added; far LOD geometry generated."
+    },
+    {
+      "id": "veyron-source",
+      "gameAssetIds": ["vehicle-revontuli"],
+      "title": "Bugatti Veyron fully rigged.",
+      "author": "NoOb StUfFs",
+      "authorUrl": "https://sketchfab.com/NoObStUfFs",
+      "sourceUrl": "https://sketchfab.com/3d-models/bugatti-veyron-fully-rigged-5ca18dc84d074655966a6fe7165aa157",
+      "sourceModelId": "5ca18dc84d074655966a6fe7165aa157",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "evidence": {
+        "status": "independently-verified",
+        "verifiedOn": "2026-10-20",
+        "metadataUrl": "https://api.sketchfab.com/v3/models/5ca18dc84d074655966a6fe7165aa157",
+        "authorField": "user.displayName",
+        "licenseLabel": "CC Attribution",
+        "licenseUrlAsReturned": "http://creativecommons.org/licenses/by/4.0/",
+        "licenseRequirementsAsReturned": "Author must be credited. Commercial use is allowed."
+      },
+      "changes": "Fictional Revontuli; emblems, lettering, number plates and source textures removed; scale, geometry, wheels and cabin fit adapted; original materials, gameplay nodes and sockets added; Snow interaction poses fitted to the cabin."
+    },
+    {
+      "id": "helsinki-cathedral-source",
+      "title": "Helsinki Cathedral - Finland",
+      "authors": [
+        { "name": "Dany Sánchez", "identity": "MiniWorld3D", "role": "Original model" },
+        { "name": "Jukka Seppänen", "identity": "kijaidesign", "role": "Model optimizations" }
+      ],
+      "sourceUrl": "https://www.printables.com/model/486571-helsinki-cathedral-finland",
+      "suppliedSourceSha256": "4a3fbc3d9457b0946035fe475f1851e856e10a34951c7810ecf65865df4b0cc9",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "evidence": {
+        "status": "owner-declared-license",
+        "declaredOn": "2026-10-20",
+        "declaredBy": "Project owner",
+        "authorshipCorroborationUrl": "https://www.nexprint.com/en/models/G5323665",
+        "originalListingLinkEvidenceUrl": "https://www.printables.com/tag/sweden",
+        "limitation": "The exact supplied STL's original license has not been independently retrieved. The later Nexprint listing corroborates authorship but currently displays a restrictive Standard Digital File License, so it is not used as evidence of the supplied version's CC terms. The supplied model's CC BY 4.0 declaration is recorded separately."
+      },
+      "changes": "Adapted scale and geographic placement; original game materials and baked lighting; conversion of supplied low-poly STL for runtime."
+    },
+    {
+      "id": "civilian-snow-source",
+      "gameAssetIds": ["character-civilian-snow-black"],
+      "title": "Snow civilian, original dark-skinned game derivative",
+      "author": "Blender Studio",
+      "sourceUrl": "https://studio.blender.org/characters/snow/",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceDerivativeSha256": "611ce9283bf9e0a0032ba7c6a71f51ffef69f8df3db9a5580b141eb6a9b0c4e2",
+      "evidence": "Existing project character provenance in docs/source-register.md; accepted reduced game derivative fingerprinted by tools/assets/prepare_civilian_characters.mjs.",
+      "changes": "Reuses the original 22-joint game rig, clothing, geometry and corrected animation tracks. Textures resized to at most 512 pixels, KTX2 encoded with mipmaps; actor buffers losslessly compressed. Movement provenance is listed separately below; the run, sprint, jump and ledge-climb motion added on 2026-10-25 comes from Snow's supplied movement (see remainingSuppliedRights)."
+    },
+    {
+      "id": "civilian-rain-source",
+      "gameAssetIds": ["character-civilian-rain-black", "character-civilian-rain-white"],
+      "title": "Rain civilians, original dark-skinned derivative and lighter-skinned texture variant",
+      "author": "Blender Studio",
+      "sourceUrl": "https://studio.blender.org/characters/rain/",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceDerivativeSha256": "b5b8fc25dc6f5a8893fb6e7107b98948c6c7c4491c975ff2dd4bb0121ed6522e",
+      "evidence": "Existing project character provenance in docs/source-register.md; accepted reduced game derivative fingerprinted by tools/assets/prepare_civilian_characters.mjs.",
+      "changes": "Reuses the original 22-joint game rig, civilian clothing, geometry and corrected animation tracks. Helsinki Rides creates the lighter complexion by modifying warm skin texels while retaining dark eyebrows and neutral details. Both variants use textures at most 512 pixels, KTX2 with mipmaps and losslessly compressed actor buffers. The white Rain is a texture derivative, not a separate Blender Studio source character. The run, sprint, jump and ledge-climb motion added on 2026-10-25 comes from Snow's supplied movement (see remainingSuppliedRights)."
+    },
+    {
+      "id": "civilian-quaternius-locomotion",
+      "gameAssetIds": ["character-civilian-snow-black", "character-civilian-rain-black", "character-civilian-rain-white"],
+      "title": "Quaternius Universal Animation Library, free Standard edition",
+      "author": "Quaternius",
+      "sourceUrl": "https://quaternius.itch.io/universal-animation-library",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceArchiveSha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724",
+      "sourceGlbSha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997",
+      "licenseFileSha256": "6d01f55c6e4c49a2c9963e147e561945ae2c83958c8ca667d90a6bffdbfac061",
+      "evidence": "Archived Standard edition License.txt explicitly declares CC0 1.0 Universal. Source archive and license hashes were read from the existing 2026-10-17 project ledger; no upstream package is included in the source export.",
+      "changes": "Walk, jog and sprint clips retargeted to the reduced Snow/Rain rigs, with the posture, contacts, cadence and in-place adaptations recorded in content/assets/locomotion.motion.json. The civilian game assets ship the walk only; their run and sprint are Snow's supplied movement (content/assets/civilian-flee.motion.json). Project-authored collapse and other gameplay poses retain their own provenance."
+    }
+  ],
+  "removedAssets": [
+    {
+      "id": "vehicle-kaamos",
+      "sourceIdentity": "Owner-supplied GT40 model",
+      "removedOn": "2026-10-20",
+      "reason": "Project owner reports a redistribution restriction.",
+      "publicationPolicy": "Excluded from current and future published assets, gameplay, release downloads, deployment artifacts and rollback packets. Historical technical acceptance is not a redistribution grant."
+    }
+  ],
+  "remainingSuppliedRights": [
+    "Alexander II monument: original redistribution license remains pending.",
+    "Custom player Snow and Poliisi Rain adaptations and supplied movement: retain Blender Studio CC BY 4.0 base-character credits and existing Kimodo provenance; remaining supplied adaptation and motion details remain pending.",
+    "Civilian run and sprint (the same selected NVIDIA Kimodo-SOMA-RP-v1.2 samples as Snow's own run and sprint, retargeted with the motion-design pipeline) and civilian jump and ledge-climb poses adapted from Snow's, recorded in content/assets/civilian-flee.motion.json: the same supplied-movement status as above."
+  ]
+}

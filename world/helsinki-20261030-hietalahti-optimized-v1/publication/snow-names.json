@@ -1,0 +1,52 @@
+{
+ "schemaVersion": 1,
+ "sourceRelease": "senate-20261024-bridge-centre-bars",
+ "asset": "character-snow",
+ "tool": "tools/assets/rename_snow_names.mjs",
+ "before": {
+  "path": "assets/character-snow.7aabf9c2dabca777.glb",
+  "bytes": 4856596,
+  "sha256": "7aabf9c2dabca7774572127b107302bcc2afc62b2ac0165f634f123cde828d60"
+ },
+ "after": {
+  "path": "assets/character-snow.c656091fed763a6b.glb",
+  "bytes": 4856596,
+  "sha256": "c656091fed763a6b30d6fd77a8ff886f5d744be5f9f24cee5ec2d4e216cdb416"
+ },
+ "binChunk": "byte-identical",
+ "renamedStrings": 31,
+ "renamedAttributionLines": 2,
+ "names": [
+  "Helsinki Snow adapter; preserves native Snow rig and eleven supplied animation tracks",
+  "Snow: user modification of Snow, Blender Studio, CC BY 4.0. Supplied motion provenance: see source ledger.",
+  "snow-native-v1",
+  "SNOW-body_game",
+  "SNOW-eye_dots_game",
+  "SNOW-eyebrows_game",
+  "SNOW-eyes_game",
+  "SNOW-hair_short_game",
+  "SNOW-head_game",
+  "SNOW-pants_game",
+  "SNOW-shirt_game",
+  "SNOW-shoes_base_game",
+  "SNOW-shoes_bottom_game",
+  "SNOW-shoes_parts_game",
+  "SNOW-tongue_game",
+  "SNOW_game_rig",
+  "snow_skin",
+  "snow_eye_dot",
+  "snow_brows",
+  "snow_eyes",
+  "snow_hair",
+  "snow_skin_darker",
+  "snow_lip_upper",
+  "snow_lip_lower",
+  "snow_pants",
+  "snow_shirt",
+  "snow_shoes",
+  "snow_tongue",
+  "snow_skin_basecolor",
+  "snow_skin_roughness",
+  "eyes_diffuse_snow"
+ ]
+}

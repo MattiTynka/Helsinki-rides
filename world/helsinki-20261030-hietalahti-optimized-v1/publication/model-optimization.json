@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 1,
+  "sourceRelease": "senate-pages-20261020-credits-tex1024",
+  "sourceManifestSha256": "f77a471ef50efe09ce7435dad37f8b6329893cf7f34736474c94b0cc40dad75b",
+  "derivativeRelease": "senate-20261020-optimized",
+  "completeMapRetained": true,
+  "collisionAndTerrainDecodedExact": true,
+  "originalImagePayloadsExact": true,
+  "groundAndCellBordersProtected": true,
+  "compactionSavedBytes": 16747692,
+  "sharedTextureFiles": 506,
+  "sharedTextureBytes": 293727533,
+  "simulationStoredBytes": 61978265,
+  "simulationDecodedBytes": 174903896,
+  "triangles": {
+    "lod0": 4257250,
+    "lod1": 4143713,
+    "lod2": 3110003
+  },
+  "actors": [
+    {
+      "id": "character-rain",
+      "originalBytes": 6972804,
+      "originalSha256": "009d3210eb011c43e06b3bc45a6cc4cacd7e531807c01e619d7ca58b5c7ef202",
+      "semanticSha256": "a47d2e753d5c48aa189f9fc8fb7a5e81a3693b080861d03bf916a19ef70ceb5d",
+      "accessorCount": 3288,
+      "animationCount": 17,
+      "skinCount": 1,
+      "nodeCount": 89,
+      "images": [
+        {
+          "index": 0,
+          "sha256": "1fb76ea08ed5666bf61141081dda1a6ab4b51a13f7eb362f45ecfc50b4bab8ac"
+        },
+        {
+          "index": 1,
+          "sha256": "4df3bb8426085ee62339ee96a4ba1640f9ffa27ce73381e9774a3ee9588ef7c9"
+        },
+        {
+          "index": 2,
+          "sha256": "304b6a1d21c6bdf97b93f5a39f5ff28c5af63b1e698cbf64a88d03b050a1ea82"
+        },
+        {
+          "index": 3,
+          "sha256": "2a21a0d35dcdf95f71bfde02a987d19ce9255c2a51b4b9282ea176019d6c107c"
+        },
+        {
+          "index": 4,
+          "sha256": "74467702f25b7bc239aacb232c4544008ceb157e8fe803d8bf8d5b3d480b8f72"
+        },
+        {
+          "index": 5,
+          "sha256": "30fd10553a92438592e6085b7294776d84580e572b2bd388c268507562b87fa6"
+        },
+        {
+          "index": 6,
+          "sha256": "4c333b1b889fc98fb7f813c235736f32ae3c37e18e573ecf567529addff4029d"
+        },
+        {
+          "index": 7,
+          "sha256": "94535fa27d91f5994658adad9f021a0ca696daa8dc84481317a24e72b38529da"
+        },
+        {
+          "index": 8,
+          "sha256": "7dfec862d9631207a0c33f821f53a7b6dd9ed0708350cb18d87bbc8138c2a634"
+        },
+        {
+          "index": 9,
+          "sha256": "fc41d06ba6b248d7782868db4961953fb36ed35f1a5a391cf665875c143a5582"
+        },
+        {
+          "index": 10,
+          "sha256": "d6371dbe549796a8e4aaba969faa6e228460ea027e399c7f5b0b43d1c6e18735"
+        },
+        {
+          "index": 11,
+          "sha256": "40b99b78ee2f31359813fea4d2e1ddf551bd88d5d4a945fc08c48a15dcb12227"
+        },
+        {
+          "index": 12,
+          "sha256": "9b054fe3449621b02eb1bb0659b710a23d76e627a5f2a98fab864f075045516d"
+        },
+        {
+          "index": 13,
+          "sha256": "0ecfe1131233e3115f7a152f61e32e9c2ded3d5f9088b7d4d3cc4dfcdc0c8ef1"
+        },
+        {
+          "index": 14,
+          "sha256": "f2af7b420eef75acc95b0b1355300603df1b784a4721ee2a3c819352cd01cbf4"
+        }
+      ],
+      "applied": true,
+      "reason": "compressed",
+      "compressedBytes": 5510280,
+      "savedBytes": 1462524,
+      "compressedSha256": "ef93dd4204a888a33809a8e1f4171ef00105ad4829e23f773bbd3e7ab6bea3e2",
+      "compressedViews": 1570,
+      "preservedViews": 1733
+    },
+    {
+      "id": "character-snow",
+      "originalBytes": 5920152,
+      "originalSha256": "c54802ad951926a1574576e6797ff73a9744c86707614a1e81e3f307f212fe86",
+      "semanticSha256": "332776fdef95f90aacf86b1e110ba9917fa43dedc4010c546c88ea139a257114",
+      "accessorCount": 3302,
+      "animationCount": 17,
+      "skinCount": 1,
+      "nodeCount": 86,
+      "images": [
+        {
+          "index": 0,
+          "sha256": "7ae0a4e3d789424dc08d6efad1ea39964b1ad5e01102cd89b02d5f40dec02291"
+        },
+        {
+          "index": 1,
+          "sha256": "e582a99fc04251a638700c35fb76a554fdafab0c95ce7840b32f00d1de1ae69a"
+        },
+        {
+          "index": 2,
+          "sha256": "20b637edc14b724fe9d581be2ae5267581bd9533e240fb71358ce8ac457ab18b"
+        },
+        {
+          "index": 3,
+          "sha256": "33eb47e5e258e927b51e4f85108c3344fce8632ca4b79574a5545398c3adb00d"
+        },
+        {
+          "index": 4,
+          "sha256": "d460647b112f0b1fef2a8e74d1d8440a3c9b1479face8e41f3759f42014fd65c"
+        },
+        {
+          "index": 5,
+          "sha256": "5b8066cb3fe44eb287a77c909bbd69382d0c4208c34ec27c7ee5615007788700"
+        },
+        {
+          "index": 6,
+          "sha256": "0be5d0974703ad7b68563c02aaf90284788b753412e7d594e043462ffdfebb53"
+        },
+        {
+          "index": 7,
+          "sha256": "170b9a450ede3ea7041dfbeddea261bee5179efa20587ee65c71b1881839206a"
+        },
+        {
+          "index": 8,
+          "sha256": "5a4d048607d37608372cb627fa291b35c99ccaac66ecb680fff9fc2d96a63968"
+        },
+        {
+          "index": 9,
+          "sha256": "5cb8a824b396974fa8f05f464f8d6536dd2ac2c917d6ccb92c1b324fe1271456"
+        },
+        {
+          "index": 10,
+          "sha256": "d3de8b36f1c2eb51c9165e156f88fd7549a2eee83744609b21c6ba0ac82abcbd"
+        },
+        {
+          "index": 11,
+          "sha256": "848fed8b4ccac502aa2592259383c0a4e343d31bd3b362dcb742bc08ac0bb52c"
+        },
+        {
+          "index": 12,
+          "sha256": "953e045e6375f6c044af7f180126d1aaaad013ebed0a52465202377ef2cf2de3"
+        }
+      ],
+      "applied": true,
+      "reason": "compressed",
+      "compressedBytes": 4856596,
+      "savedBytes": 1063556,
+      "compressedSha256": "7aabf9c2dabca7774572127b107302bcc2afc62b2ac0165f634f123cde828d60",
+      "compressedViews": 1528,
+      "preservedViews": 1787
+    },
+    {
+      "id": "vehicle-lumi-gt",
+      "originalBytes": 1369320,
+      "originalSha256": "5a03cb798a093409ac6d2524a90f9400f9a5b35990ed80e5413d933b4b605b8b",
+      "semanticSha256": "b706863b8b5631ce64a292c3fddde3ad9a00b811450919e3ba36509fc6ace477",
+      "accessorCount": 90,
+      "animationCount": 0,
+      "skinCount": 0,
+      "nodeCount": 21,
+      "images": [],
+      "applied": true,
+      "reason": "compressed",
+      "compressedBytes": 1032300,
+      "savedBytes": 337020,
+      "compressedSha256": "ea06259f79600351a3fdd0f14c14233d09f91f820da5b4f8cd0662d6310a4abd",
+      "compressedViews": 82,
+      "preservedViews": 8
+    },
+    {
+      "id": "vehicle-patrol",
+      "originalBytes": 1446700,
+      "originalSha256": "d9e97b8784eb2e78f30ceacad6d6620d8e3ec3f69efe3826c684a694750db61d",
+      "semanticSha256": "afc852c9fd5c3f55f01af2a65eb50dbb0f1b11d54babbcf6bfbc9c6a655d41da",
+      "accessorCount": 104,
+      "animationCount": 0,
+      "skinCount": 0,
+      "nodeCount": 22,
+      "images": [],
+      "applied": true,
+      "reason": "compressed",
+      "compressedBytes": 1095088,
+      "savedBytes": 351612,
+      "compressedSha256": "2ba3585e84ace647f5ffdc7f86922b9ab8ca5741b572873d6c7577ea7e8377fe",
+      "compressedViews": 93,
+      "preservedViews": 11
+    },
+    {
+      "id": "vehicle-revontuli",
+      "originalBytes": 1955044,
+      "originalSha256": "7e35d6a031433dbd4054a587da8195737dddddb3c87efc950e9ffd403c0262e7",
+      "semanticSha256": "d71fe7f4781f0cc216326db042295b6d09e4eb8a9b3f6c449cb7886d4e12e8d5",
+      "accessorCount": 105,
+      "animationCount": 0,
+      "skinCount": 0,
+      "nodeCount": 22,
+      "images": [],
+      "applied": true,
+      "reason": "compressed",
+      "compressedBytes": 1440700,
+      "savedBytes": 514344,
+      "compressedSha256": "1e3ce508649a972c5bd96258c9473734381f6043438599b4338b776757fa92b7",
+      "compressedViews": 93,
+      "preservedViews": 12
+    }
+  ]
+}

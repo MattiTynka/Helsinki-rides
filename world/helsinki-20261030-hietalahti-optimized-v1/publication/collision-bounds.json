@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "sourceRelease": "senate-20261020-optimized-m1",
+  "sourceManifestSha256": "5e56ef09ad4ed96033023507c4eaa666af945c446101557b1e0da47ad39dd0c8",
+  "derivativeRelease": "senate-20261020-optimized-m1-cb",
+  "sourcePayloadsRetainedExact": true,
+  "cells": 304,
+  "cellsReachingBeyondGrid": 231,
+  "largestOverhangMeters": 118.54251098632812
+}

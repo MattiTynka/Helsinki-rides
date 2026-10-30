@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "status": "BUILT_PENDING_RUNTIME_REVIEW",
+  "sourceRelease": "senate-20261022-civilian-response",
+  "sourceManifestSha256": "0bbed03c2ca550c2f957e3d4184af856369b4f06051449acb36534bca37ea337",
+  "release": "senate-20261022-mobile-safe-v3",
+  "producer": {
+    "builderSha256": "b5aa011b56dfdea83f366589acde25670b65dcd8b67b3e73b4cb66029726cda0",
+    "lodSha256": "1a509c24935521ae11d20e13aa5911a93c15c130ef9ccaa58cb6cd24779e9c83"
+  },
+  "selection": [
+    "c_m01_m04",
+    "c_m01_p03",
+    "c_m07_p02",
+    "c_m08_p03",
+    "c_m11_m04",
+    "c_p00_p03",
+    "c_p02_m02",
+    "c_p03_m01"
+  ],
+  "terrain": {
+    "source": {
+      "path": "terrain.junction.e8db6b5dff6a4fe8.bin.gz",
+      "bytes": 24168565,
+      "sha256": "e8db6b5dff6a4fe853495fc629bdee9bd2d077e76926f07fe4227e0626a9f9ae",
+      "x0": -1792,
+      "z0": -2304,
+      "resolution": 1,
+      "nx": 2593,
+      "nz": 3073,
+      "compression": "gzip",
+      "decodedBytes": 31873184,
+      "decodedSha256": "b3283d543591f45bcaf27ba7ca1223589594c12a0a7a85e543d639ee79f4695f"
+    },
+    "output": {
+      "path": "terrain.mobile.653cbb5f25f2e6d1.bin.gz",
+      "bytes": 15795170,
+      "sha256": "653cbb5f25f2e6d1c97f5aceb0b063b0b92876c8dd96e379a40ff6d4a481776e",
+      "x0": -1792,
+      "z0": -2304,
+      "resolution": 1,
+      "nx": 2593,
+      "nz": 3073,
+      "compression": "gzip",
+      "decodedBytes": 31873184,
+      "decodedSha256": "9a9d5b4f5a786a5a05ad9e6da884f7cb74d62d944e6fb47f976fd14d9b272ae4"
+    },
+    "sourceCanonicalSha256": "b3283d543591f45bcaf27ba7ca1223589594c12a0a7a85e543d639ee79f4695f",
+    "outputCanonicalSha256": "b3283d543591f45bcaf27ba7ca1223589594c12a0a7a85e543d639ee79f4695f",
+    "float32BitsExact": true,
+    "storage": "Prior-row uint32 subtraction, byte planes, gzip; no quantization",
+    "fetchChunking": false
+  },
+  "cells": {
+    "totalWorldCells": 515,
+    "processed": 8,
+    "changed": 2,
+    "budgetRejected": 0,
+    "beforeTriangles": 151118,
+    "afterTriangles": 149754,
+    "sourceBytes": 4385264,
+    "outputBytes": 4055864
+  },
+  "policy": {
+    "maxWorldBytes": 960000000,
+    "maximumComparisonsPerDirection": 2000000,
+    "maximumSpatialBinReferences": 1000000,
+    "groundErrorMetres": 0.01,
+    "architectureErrorMetres": 0.04,
+    "groundInterpolatedUvColourError": 0.003,
+    "architectureInterpolatedUvColourError": 0.005,
+    "interpolatedNormalComponentError": 0.05,
+    "measurement": "Both directions: original/candidate vertices, edge midpoints, triangle centroids; exact zero-area triangles do not define rendered coverage; exceeding offline work budgets retains the original",
+    "protected": "All shared meshes and named entrance/stair/bridge/retaining/curb/tram/hero nodes exact; generic ground steep/sharp crease vertices locked; primitive outlines and cell seams unchanged",
+    "collisionAndRoads": "Exact unchanged stored bytes",
+    "textures": "Same licensed texture bytes and retained UV values; existing lower mip tier unchanged"
+  }
+}

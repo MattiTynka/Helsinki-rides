@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "id": "street-facades-20261021-v1",
+  "baselineManifestSha256": "fc213873bc47414ed63a1321db8f5d412b4938be11306b275f72b1d0f25e3dd1",
+  "originalDeployedBaseline": {
+    "sourceCommit": "c91c7802b5fd187ad341df490dedb9e91aac48aa",
+    "worldRelease": "senate-20261020-reference-repair-v3",
+    "manifestSha256": "18e40f69a271f037b6b23b257fee437cb5716fad68c10cff808833a142ee7607"
+  },
+  "source": {
+    "repository": "https://github.com/MattiTynka/Helsinki-rides",
+    "plan": "content/helsinki/city-facades/plan.json",
+    "planSha256": "7851414eb8044e77a743d3406e9e19dfc2789d547a5c62005c61a3e7fb7f003a",
+    "artLicense": "CC0-1.0",
+    "municipalGeometryLicense": "CC-BY-4.0",
+    "appearanceReferences": "Google Street View, reference only; no Google pixels distributed",
+    "inventory": [
+      {
+        "path": "content/helsinki/city-facades/plan.json",
+        "bytes": 341523,
+        "sha256": "7851414eb8044e77a743d3406e9e19dfc2789d547a5c62005c61a3e7fb7f003a"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_m02/facade.png",
+        "bytes": 165106,
+        "sha256": "d0e0b645a88e2347437c3cac789af5617f1d1aa1c0c4b0a0b59c483a68df0148"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_m02/facade.svg",
+        "bytes": 799140,
+        "sha256": "e24a1d4cef4981935b324cb559dca10ee6b464d21b6201128b81ca23eb17ab1a"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_m02/profile.json",
+        "bytes": 96738,
+        "sha256": "479f69cf67cd8a2a982f6fcf8e9fb465c2c0a1fd1ba45685babc74ef36a092e9"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_m02/source-ledger.json",
+        "bytes": 203990,
+        "sha256": "79b257a3e24e3b07c2830a75456b0db20050ce5b8eaf00410c818ef0a518086c"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_p00/facade.png",
+        "bytes": 362385,
+        "sha256": "f1257ec20baabf4d90885e5d442b4cd14800558b4d71726f64bd24e25643530a"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_p00/facade.svg",
+        "bytes": 1726370,
+        "sha256": "0b8d74fc244f6b9348a3aac9a932ebd6a4519f26de174b0482677ed59af45295"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_p00/profile.json",
+        "bytes": 16203,
+        "sha256": "7d39e6a3b1b2bd070fb566c0cdc36d9622b3fd60b3397c403d1ef0bba953a19a"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_p00/source-ledger.json",
+        "bytes": 27837,
+        "sha256": "d28ae2c0927c26e7e8c34fceb1d126cfbb6a41a2302707d8b7fce829419388c3"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_p01/facade.png",
+        "bytes": 167178,
+        "sha256": "83c1a0108a3a8c73f3c5d5b4d79a96218dbce029fcc53dd8ddb55863738061de"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_p01/facade.svg",
+        "bytes": 275399,
+        "sha256": "7f3ab089cd9e13fc24528316e1afc0bab579a6f416dc3c816dfcb04843a6a11f"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_p01/profile.json",
+        "bytes": 27498,
+        "sha256": "47ad51d1c823d8d70bb16f9ddeed46e7d5e7f4db8296f09fecd270cbb7d539d4"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_p01/source-ledger.json",
+        "bytes": 61843,
+        "sha256": "e4e804b4a3d2232dc9486f62330f7322be0bffadfa0ef86d1f2ccdff950c3c72"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_p02/facade.png",
+        "bytes": 174454,
+        "sha256": "d493005f922b6e727bd0529d6d6710b6aebb0680a08da70fe74c977630fa1e57"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_p02/facade.svg",
+        "bytes": 900317,
+        "sha256": "4620acf7d3fdc4d20c884aa347d872824a65af5dcda54e217ead9d27577dbed6"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_p02/profile.json",
+        "bytes": 6811,
+        "sha256": "4318429c41f28982af3937f71fa19c51974f216440c651b9eeb3321ce7e5322e"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m02_p02/source-ledger.json",
+        "bytes": 7429,
+        "sha256": "c96c0ab4514787eb92e905ac6b2357eb770d7efe28ddc50d4ab699fdf0a26f4f"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m06_m01/facade.png",
+        "bytes": 111637,
+        "sha256": "2160b4d5bbd6606227895dac25f57931f9c0cf88f362ae70c5d5b0700fd7c9f1"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m06_m01/facade.svg",
+        "bytes": 400653,
+        "sha256": "5eb70686586c9cda769513ebe22f7d0f5e6e2cb7ead8f51f2e8d047e2c821bc1"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m06_m01/profile.json",
+        "bytes": 7401,
+        "sha256": "21f1bef011ae89ec2aea099b74aa1e9e32d78d49339f0c61d3f5403b9e29960a"
+      },
+      {
+        "path": "content/helsinki/city-facades/v1/c_m06_m01/source-ledger.json",
+        "bytes": 9559,
+        "sha256": "687e3f0e5c0f4215be9c8818927ba36d368b11a46523838ed92fc477053fa8a6"
+      }
+    ]
+  },
+  "scope": {
+    "buildings": 9,
+    "ownerCells": 5,
+    "selectedSourceTriangles": 271,
+    "planeCharts": 144,
+    "detailedAtlases": 5,
+    "atlasDimensions": [
+      1024,
+      1024
+    ],
+    "addedDetailedBc7GpuBytes": 6990640,
+    "newDrawsPerOwnerCell": 1,
+    "distantTexturesAdded": 0
+  },
+  "preservation": {
+    "municipalGeometryAndWinding": "exact",
+    "unselectedUvsAndImages": "exact",
+    "collisionRelativeToCurrentTramSupportWorld": "exact",
+    "all304CellsRetained": true,
+    "optimizedDeliveryTiersRetained": true
+  },
+  "limits": [
+    "These nine referenced public elevations do not complete the remaining constant-wall qualification queue.",
+    "Mannerheimintie 5 unverified corner and tower wings remain unchanged.",
+    "Hotel Kamp whole-front module dimensions are original approximations; only one observed wooden portal is added.",
+    "Facade source dimensions are exact; authored openings and architectural details are not an engineering survey."
+  ]
+}

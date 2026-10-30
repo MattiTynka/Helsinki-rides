@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "sourceRelease": "senate-20261020-optimized",
+  "sourceManifestSha256": "27d697c4c918cea8f03a05d79faad4b8d68be4d30c37249cfe50af3f13818455",
+  "derivativeRelease": "senate-20261020-optimized-m1",
+  "sourcePayloadsRetainedExact": true,
+  "remainingMipLevelsExact": true,
+  "minimumReducedSourceSize": 1024,
+  "reducedTextures": 490,
+  "skipped": {
+    "not-zstandard": 9,
+    "png": 1,
+    "small": 6
+  },
+  "sourceTextureBytes": 293727533,
+  "reducedTextureBytes": 77845827,
+  "reducedSourceBytes": 292590777
+}

@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "sourceRelease": "senate-20261020-optimized-m1-cb",
+  "sourceManifestSha256": "5a3502a4641de1a79dfd40dbb06724b59d4e908d16f3a5218b8e7dcead3f7ebd",
+  "sourceCommit": "9bbbba7fecaf3ae4bb478aeae9b17b5baf8d9389",
+  "art": [
+    {
+      "profile": "senate-reference-facades-20261020-103017637K",
+      "profileSha256": "c6982dd1501c705071e92ec478c44ce156f50e88e49462833618498520b7cfa9",
+      "art": {
+        "path": "facade.png",
+        "sha256": "5286f5a7053eac78322a96bb9ee5eaeb2a060539b9eff45fe1f538581db36be1",
+        "width": 768,
+        "height": 256,
+        "license": "CC0-1.0",
+        "attribution": "Original reference-led facade artwork by the Helsinki Rides project (2026). Appearance references are not reproduced.",
+        "references": [
+          {
+            "title": "National Archives Rauhankatu17 south front, Google Street View August2024; actual panorama opened, five central axes and four per wing",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=yoCqw1K73FLOkY5yCIzL2g&viewpoint=60.1715249,24.9528007&heading=355&pitch=12",
+            "role": "appearance-reference-only"
+          },
+          {
+            "title": "Porthania public south courtyard, Google Street View August2022; actual panorama opened, five glazing ribbons and low glazed east pavilion",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=GvIVZAGPa_DomRG-ry6QoQ&viewpoint=60.1699118,24.9484906&heading=1.92",
+            "role": "appearance-reference-only"
+          },
+          {
+            "title": "Aleksanterinkatu16 north front, Google Street View August2024; three separate historic facade layouts and current museum entrances",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=BuvcPILQ9NFQkdsZIJHe4A&viewpoint=60.1691141,24.9542295&heading=199.84",
+            "role": "appearance-reference-only"
+          },
+          {
+            "title": "Helsinki city architectural study K4 Elefantti25May2005 page7, complete north elevation photograph; Sederholm, Remander, Brummer physical identity and upper opening counts",
+            "url": "https://www.hel.fi/static/helsinki/paatosasiakirjat/Kh2005/Esityslista33/Liitteet/Kaupungintalokorttelin_K4_tilaselvitys,_25.5.2005.pdf?Action=sd&id=052420180",
+            "role": "appearance-reference-only"
+          },
+          {
+            "title": "Porthania east Fabianinkatu facade, Google Street View August2024; actual lower and upward panoramas opened, five northern ribbon rows, separate five-floor glass inset and blank tiled south wall",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=q-HpFGEjf1ptz76wRfkypw&viewpoint=60.1702431,24.9491533&heading=290&pitch=38",
+            "role": "appearance-reference-only"
+          },
+          {
+            "title": "Brummer14 north front, Google Street View April2023; clear full facade: seven upper windows, eastmost and centre ground doors, five shuttered ground windows",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=MZqCZZwZe1PPuQCx_E5UCg&viewpoint=60.1691298,24.9542107&heading=130&pitch=0",
+            "role": "appearance-reference-only"
+          }
+        ]
+      }
+    },
+    {
+      "profile": "senate-reference-facades-20261020-103036705N",
+      "profileSha256": "ce9b4a12f06f90cdf3e9237c4f51805a4c34810b9b6e6edf2cb6ba643dbd9b23",
+      "art": {
+        "path": "facade.png",
+        "sha256": "e1f75c00384ebf69e97a62282ec6397928ff8b9ae1a588d926524b2e3932bdc3",
+        "width": 768,
+        "height": 320,
+        "license": "CC0-1.0",
+        "attribution": "Original reference-led facade artwork by the Helsinki Rides project (2026). Appearance references are not reproduced.",
+        "references": [
+          {
+            "title": "National Archives Rauhankatu17 south front, Google Street View August2024; actual panorama opened, five central axes and four per wing",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=yoCqw1K73FLOkY5yCIzL2g&viewpoint=60.1715249,24.9528007&heading=355&pitch=12",
+            "role": "appearance-reference-only"
+          },
+          {
+            "title": "Porthania public south courtyard, Google Street View August2022; actual panorama opened, five glazing ribbons and low glazed east pavilion",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=GvIVZAGPa_DomRG-ry6QoQ&viewpoint=60.1699118,24.9484906&heading=1.92",
+            "role": "appearance-reference-only"
+          },
+          {
+            "title": "Aleksanterinkatu16 north front, Google Street View August2024; three separate historic facade layouts and current museum entrances",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=BuvcPILQ9NFQkdsZIJHe4A&viewpoint=60.1691141,24.9542295&heading=199.84",
+            "role": "appearance-reference-only"
+          },
+          {
+            "title": "Helsinki city architectural study K4 Elefantti25May2005 page7, complete north elevation photograph; Sederholm, Remander, Brummer physical identity and upper opening counts",
+            "url": "https://www.hel.fi/static/helsinki/paatosasiakirjat/Kh2005/Esityslista33/Liitteet/Kaupungintalokorttelin_K4_tilaselvitys,_25.5.2005.pdf?Action=sd&id=052420180",
+            "role": "appearance-reference-only"
+          },
+          {
+            "title": "Porthania east Fabianinkatu facade, Google Street View August2024; actual lower and upward panoramas opened, five northern ribbon rows, separate five-floor glass inset and blank tiled south wall",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=q-HpFGEjf1ptz76wRfkypw&viewpoint=60.1702431,24.9491533&heading=290&pitch=38",
+            "role": "appearance-reference-only"
+          },
+          {
+            "title": "Brummer14 north front, Google Street View April2023; clear full facade: seven upper windows, eastmost and centre ground doors, five shuttered ground windows",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=MZqCZZwZe1PPuQCx_E5UCg&viewpoint=60.1691298,24.9542107&heading=130&pitch=0",
+            "role": "appearance-reference-only"
+          }
+        ]
+      }
+    },
+    {
+      "profile": "senate-reference-facades-20261020-1030368080",
+      "profileSha256": "126f33a778ceb29ad7a783be4e84daa54a6441e39000e4f45fa6c76cc810e20b",
+      "art": {
+        "path": "facade.png",
+        "sha256": "c53e35525395531ada9f75bf48548ecd763345c39e9a43e74c50ddf173449a81",
+        "width": 768,
+        "height": 768,
+        "license": "CC0-1.0",
+        "attribution": "Original reference-led facade artwork by the Helsinki Rides project (2026). Appearance references are not reproduced.",
+        "references": [
+          {
+            "title": "National Archives Rauhankatu17 south front, Google Street View August2024; actual panorama opened, five central axes and four per wing",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=yoCqw1K73FLOkY5yCIzL2g&viewpoint=60.1715249,24.9528007&heading=355&pitch=12",
+            "role": "appearance-reference-only"
+          },
+          {
+            "title": "Porthania public south courtyard, Google Street View August2022; actual panorama opened, five glazing ribbons and low glazed east pavilion",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=GvIVZAGPa_DomRG-ry6QoQ&viewpoint=60.1699118,24.9484906&heading=1.92",
+            "role": "appearance-reference-only"
+          },
+          {
+            "title": "Aleksanterinkatu16 north front, Google Street View August2024; three separate historic facade layouts and current museum entrances",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=BuvcPILQ9NFQkdsZIJHe4A&viewpoint=60.1691141,24.9542295&heading=199.84",
+            "role": "appearance-reference-only"
+          },
+          {
+            "title": "Helsinki city architectural study K4 Elefantti25May2005 page7, complete north elevation photograph; Sederholm, Remander, Brummer physical identity and upper opening counts",
+            "url": "https://www.hel.fi/static/helsinki/paatosasiakirjat/Kh2005/Esityslista33/Liitteet/Kaupungintalokorttelin_K4_tilaselvitys,_25.5.2005.pdf?Action=sd&id=052420180",
+            "role": "appearance-reference-only"
+          },
+          {
+            "title": "Porthania east Fabianinkatu facade, Google Street View August2024; actual lower and upward panoramas opened, five northern ribbon rows, separate five-floor glass inset and blank tiled south wall",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=q-HpFGEjf1ptz76wRfkypw&viewpoint=60.1702431,24.9491533&heading=290&pitch=38",
+            "role": "appearance-reference-only"
+          },
+          {
+            "title": "Brummer14 north front, Google Street View April2023; clear full facade: seven upper windows, eastmost and centre ground doors, five shuttered ground windows",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&pano=MZqCZZwZe1PPuQCx_E5UCg&viewpoint=60.1691298,24.9542107&heading=130&pitch=0",
+            "role": "appearance-reference-only"
+          }
+        ]
+      }
+    }
+  ],
+  "preservation": "Facade charts preserve the original municipal geometry, winding, unrelated UVs, textures and collision. Entrance geometry is separately recorded in senate-entrances.json.",
+  "scope": "Aleksanterinkatu 14-18 north front, Rauhankatu 17 south front, Porthania public south courtyard and east frontage.",
+  "limitations": "Unobserved side, rear and roof surfaces remain original. Snellmaninkatu rear annex remains unresolved. Original authored dimensions approximate the inspected architecture; no survey accuracy is claimed."
+}

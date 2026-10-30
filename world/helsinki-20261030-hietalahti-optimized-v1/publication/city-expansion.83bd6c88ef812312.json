@@ -1,0 +1,484 @@
+{
+  "schemaVersion": 1,
+  "kind": "incremental-new-strip-web-delivery",
+  "producer": {
+    "files": {
+      "tools/world/append_delivery_city.ts": "b409bc5b66e91f727ea4c7333aef09150f580cf21352c70c8302483ebea04b34",
+      "tools/world/lib/delivery-city.ts": "87b5539b28baab8853f9ec10097e29b98f907d6df94055c76785df549e1f9ba8",
+      "packages/world-schema/src/index.ts": "bd9698f246de047679798ba580bdfcdc67d92b3449128414025fece86702ead1",
+      "packages/world-schema/src/coordinates.ts": "ef7ca670e8cc5dfb43924cbeb92f8f1d08b47e7d467bb17931ee0b88bb9d877c",
+      "packages/world-schema/src/types.ts": "12af4d7696b3d58d3bddedf420feda190a7e50586eeff11cfb9143c01de846f3",
+      "packages/world-schema/src/collision.ts": "3ad170403c6a4fe18152675e6093ed4c55e3c514f6b56699a5da98396be20989",
+      "packages/world-schema/src/terrain.ts": "2c03cdd7c953d6a1f8aed775cbd6dc98d7af298cbf0505bf6a0923792c394e24",
+      "packages/world-schema/src/roads.ts": "da7f0e7dbd4f53e77256cbea0d7e27395490a0d4dd18276055b865985300762f",
+      "packages/world-schema/src/packed-roads.ts": "22117394c6c403c0fe051c5f45f46bfc708e51a9e3cf1e4466e9b7a7e7c4dc4e",
+      "packages/world-schema/src/validate.ts": "07aeab14a0b9d0089a1b019f2920e5e9709c7410174ce7d177a33b46781641a2",
+      "packages/world-schema/src/payload.ts": "5426a612f7ee4c1bb1dc097a118d1cb514aad6778ec895f6010ee8022d76590b",
+      "packages/world-schema/src/supported-area.ts": "34ac986cba6dfd350ae2c3654044fc6770bd1264ab2c478943647252bcb60e85",
+      "packages/world-schema/src/ktx2-mips.ts": "06e0f176c5faf3934f06f2ad004db3cc72e7a95469af0d9b03bab0eebf8c9602",
+      "tools/world/lib/delivery-city-payloads.ts": "09e5c446ec2df18f4bc3cb8924d9c992d5af9bfcc1dbaa1dad9f5ccb0f8bfddd",
+      "tools/world/lib/facade-glb.ts": "f5826bc03a6189ffcf0c9ca205bc9458b281212b7e7dbf388481d928181060bc",
+      "tools/world/lib/compact-glb.ts": "55d10d97e2a5a9f056431696dd4f29c0b1b32b5775f09643bd9cfb526525e37f",
+      "tools/world/lib/shared-textures.ts": "cf3d350b3a8e7f51ad2b844d6672fb1c43e49e6a32154e06a5fe966304a34c65",
+      "tools/world/lib/ktx2-mips.ts": "7404bd58801868a9623306b9ba5ac83621be5304985cc01cc96f21363d1c214c",
+      "tools/world/lib/optimize-city-lods.ts": "491bdafdffebab1935178eecf0e553d9cb579de0ffe4a64f2af2cfec98ff54b1",
+      "tools/world/lib/append-ground-glb.ts": "2f3bc067a33261fb34ce528d8e4c5e9feed395b7c13483a6c72db45eba6e82f3",
+      "tools/world/lib/delivery-city-provenance.ts": "584826ad169574aaa6a1c64d015fed942c6f3d24ef6eaecda4b28436b297c6a1",
+      "tools/world/lib/delivery-city-append.ts": "03b68515beb6bd77cd6da98f6da5e9f252e600ea0acb8bb47f465492e003a6b2",
+      "tools/world/lib/delivery-road-file.ts": "6b0f1c6985e24f952ec81902375be9c62922ce8811dfc18eaa84a00de7ff6486",
+      "tools/world/lib/append-city-cells.ts": "c602201c1d177e20f49ba28480f324fea842b46454babdaa5335530c8e11b350",
+      "tools/world/lib/ground.ts": "a84508a2848bb8324ffd7078735a3e2cf7f6f2b08c49a9af1b6af421a17d4f46",
+      "tools/world/lib/geometry.ts": "420d2363df749c58d2c0fbb7c4acc404e8d29d3bd5617da505f92d747fbf9d16",
+      "tools/world/lib/frontier-ground.ts": "9f2025aaaf65ae6669f4a888352d7202a6e60f9704a1d4c899ae469d948a5ea8",
+      "tools/world/lib/gltf.ts": "0f5fff8c1161f7ce9ea7a210060c91ca035d2bf2ff47b6c5d706a49561395173",
+      "tools/world/lib/glb-quantization.ts": "c784f06ebb83ad9bcf6341608a3ce0c379fcefd8a338ed7cb7f3c864770101d3",
+      "tools/world/lib/replace-ground-glb.ts": "86ff4c01148d0d0cdaee4f2a5dd55fbbee06e155983d56c23c253fabc2ec4182",
+      "tools/world/lib/delivery-city-frontier.ts": "d3259ac30e00e752339fea2eac70bc55fb31fe46d97d497d204fa00ad6ab6ca8",
+      "tools/world/lib/ground-region-patch.ts": "be08b48f8b7c3ea6ca0428af2aaf6a49b1e581a2e0bb4e3ccb2dca5d7e75d352",
+      "tools/world/lib/textures.ts": "225f1483145dd7e04f7a2d707d4102cccac1842c797f0975e4865eb2caeea2cf",
+      "tools/world/lib/delivery-city-floor-coverage.ts": "d56598b7f40cb499660797333f75eb98e586020da97fbefb9e21f6affcc96296",
+      "tools/world/lib/delivery-frontier-selection.ts": "b5f8a8848cb0998f09fee660b30b98c0233e5b21c9da2cd471202ffec80719ca",
+      "tools/world/lib/delivery-city-files.ts": "833d59081c0240eaeb68ffd75d7c0bb4ac11b8861a584c28b6f2d7bca4fc31cb",
+      "tools/world/lib/delivery-supported-area.ts": "d5e0290e1e8f2bf3157d1765724998b20b73937c90b9297cb8f326d521513a67",
+      "tools/world/lib/delivery-city-roads.ts": "93012ee2b057826d597a736c12bda59da24975ffe25c8a3a8c1054768aa633bb",
+      "tools/world/lib/road-outside-repair.ts": "7ea43c970c9b9f2ff6cbe5241939da2a273cd36d4599a08ccd1eb9077550fc4a",
+      "tools/world/lib/source-files.ts": "c25714c2a4631caee91c48af15fff2a47d6143cfc06f4d80e5b04a8056ca996a",
+      "pnpm-lock.yaml": "0615d69743d1c1d979f0a75448d5d947523fe48aea93e2534a114a00bc3c9acc",
+      "package.json": "b3e909d32a3a24e4207f260e0efdd38162a1aa8e2ceb7a1fc8de11edb3c42fb3"
+    },
+    "runtime": {
+      "node": "24.11.1",
+      "v8": "13.6.233.10-node.28"
+    }
+  },
+  "acceptedManifestSha256": "0e18e55e8730f01144eef72a80decffbb53cdd658222f87a7e8ad6f75f2c4260",
+  "supportedArea": {
+    "reviewSha256": "1bda0343fb311fc1be439629d8426f25e866338901421309545d4c1e8b14f7df",
+    "acceptedManifestSha256": "0e18e55e8730f01144eef72a80decffbb53cdd658222f87a7e8ad6f75f2c4260",
+    "sourceFiles": [
+      {
+        "bytes": 1306,
+        "sha256": "51145e2f590641ecf8bf351c4afa2dbd53c0afafc81ded7f868cd3c8648dc0b4"
+      },
+      {
+        "bytes": 1720,
+        "sha256": "8a7b94bcd188012038a81ed67cbbd637f913aba32ae61d71cd1d5e2d986406c5"
+      },
+      {
+        "bytes": 35123,
+        "sha256": "c26f3a990a7e9a85e012097928afd808902e36dde2d65a69f74867c0f051d71b"
+      },
+      {
+        "bytes": 490973,
+        "sha256": "8efb014298ecdc7571cf7521ce973d6f934454df30cafef5b6fad395d2385ac0"
+      },
+      {
+        "bytes": 30630112,
+        "sha256": "a88dd8fffa93fc6018da4f7dc1f56056b20a416911cdc58db3f323e520bbde15"
+      },
+      {
+        "bytes": 115925,
+        "sha256": "334e5e29101fae3bea1c134f6918048f36dd85890650e3741409bf63a195123d"
+      },
+      {
+        "bytes": 590286,
+        "sha256": "5013a0634931b19ec970b6a9de4544b6db5ec99ec0badcb5eb012f3e92bc153b"
+      },
+      {
+        "bytes": 16504113,
+        "sha256": "d62db740b3a7f804ca1b40f117873de07ceb6fdc11981fa8963f7013dc88c634"
+      },
+      {
+        "bytes": 1095372,
+        "sha256": "a7a5d3c3d609448335b7702201bd58f4d5a1f0dba22d43671459a60eb79de4f4"
+      },
+      {
+        "bytes": 923140,
+        "sha256": "2ff6e8bc11f69cdca341db9a796dd621626c5aec47831a83f6471ad9789d4982"
+      },
+      {
+        "bytes": 2577,
+        "sha256": "75c16d36075a1c0e7dc5a402172f35617348ba7a065c94c0b5cc6e499a7f6c07"
+      },
+      {
+        "bytes": 35998,
+        "sha256": "c9fe8baeb244fa32eef73c05b0592f30312dca8b2953e07edac8a3087ac12e86"
+      },
+      {
+        "bytes": 34482,
+        "sha256": "21d78c402010320a67cea03c48e5bf8aeaf7970a8475c3bf0068950e6e05de7e"
+      },
+      {
+        "bytes": 451588,
+        "sha256": "4ab511a1665daba33ccaa9444a588a4aeedb137ea131914af6599c7ae6bda65e"
+      },
+      {
+        "bytes": 633991,
+        "sha256": "4370f32ef4ec8c1c8a684b71ddba966f29e8fcfd1dbf37907fd88e6925467924"
+      },
+      {
+        "bytes": 590083,
+        "sha256": "3ece3effa9586db72b83136829b98a84ac8fdaf56c5522576acd284d9ebaed1f"
+      },
+      {
+        "bytes": 30630112,
+        "sha256": "a88dd8fffa93fc6018da4f7dc1f56056b20a416911cdc58db3f323e520bbde15"
+      },
+      {
+        "bytes": 43878342,
+        "sha256": "e9bdba770e624dcd5ba8dbb6f59ec9a48741d16846254597097855a70d70faf0"
+      },
+      {
+        "bytes": 3760703,
+        "sha256": "0e18e55e8730f01144eef72a80decffbb53cdd658222f87a7e8ad6f75f2c4260"
+      }
+    ],
+    "acceptedPlayableGeometryPreserved": true
+  },
+  "roads": {
+    "acceptedRoadsSha256": "d64177441f5a321a7470526dc7e01624e4a7093f26b8686bb2e2dd53531a9d17",
+    "mergedRoadsInputSha256": "6bda71fb11125c97012e30040e058bbccf6a93a315742d8a685ef036f3ab3ae2",
+    "acceptedRecordsPreserved": false,
+    "acceptedPlayablePiecewiseGeometryPreserved": true,
+    "roadMergeReceiptSha256": "301152d40f594d9f867b865c3eaaa9591b8d3100d1d305734cde26fb5b72e99c",
+    "outsideProjectionReceiptSha256": "fbd05948805c3732ad20f97d880e852ad42c8999e547146c02fc3b2fdb8068a9",
+    "changes": [
+      {
+        "kind": "lanes",
+        "id": "122948203:0:f0",
+        "beforeSha256": "b382df62b64cf70430c17e7a7bf4e996ebeef612d51fba9561acd264d2936251",
+        "afterSha256": "4cd752738f36a5d7750b2f3308993e1975015e0c90a96047d700afd77411f872",
+        "acceptedPiecewiseGeometryPreserved": true
+      },
+      {
+        "kind": "lanes",
+        "id": "122948203:0:b0",
+        "beforeSha256": "4bcbdb24dcac82c93724055b7cfd63e61ed9855bfa5a25d165134dffe5a242d4",
+        "afterSha256": "12b2379c3dab748693e6e9cc7599822cffd95f5ea24efd957b704d4f2aaca6e9",
+        "acceptedPiecewiseGeometryPreserved": true
+      },
+      {
+        "kind": "lanes",
+        "id": "333061570:0:f0",
+        "beforeSha256": "cfff14f2a38d6b84a4fd4b5bf20edde5a0891bba2defb9541c89c317521a635e",
+        "afterSha256": "4688b8a2718b0df8bdde3e14ee90538f37b1451c3116181da47a2da6ad9fe6f3",
+        "acceptedPiecewiseGeometryPreserved": true
+      },
+      {
+        "kind": "lanes",
+        "id": "333061570:0:b0",
+        "beforeSha256": "06d99eea441f3da8e417d669307415ee1bcbe4f6b1f67ea59aa6ef8e0b85f182",
+        "afterSha256": "449403f56cfb1070df09d256900c9872d84032a71802cd9b1e649c95e4f00a95",
+        "acceptedPiecewiseGeometryPreserved": true
+      },
+      {
+        "kind": "footways",
+        "id": "w692229813",
+        "beforeSha256": "150521adaa194dd524d55edf48753e8448d03d572d2bf8f4233217826e78d659",
+        "afterSha256": "42e108bdeed30d34e95872b3a70fd7f2aed0a0b5b978cf89264480b9ffa4ed9a",
+        "acceptedPiecewiseGeometryPreserved": true
+      },
+      {
+        "kind": "footways",
+        "id": "w29282225",
+        "beforeSha256": "237811b0011b5c0e17aaf2c9b5e4e155acd49e4f80c432b3b6ddf052ea932a01",
+        "afterSha256": "c389eab38b488580d6742bca33586ee99f15ce1c273fc1af3f3ccf492e425629",
+        "acceptedPiecewiseGeometryPreserved": true
+      },
+      {
+        "kind": "footways",
+        "id": "w1552575431",
+        "beforeSha256": "6188e6ed8f3ca2c9ad332e57ca1e73658137600fb181c4577e6b1566896feda7",
+        "afterSha256": "695b1ee07ea3602b95243a3dc6ec7765d63f5988cd61be54a5fa9b44aca80245",
+        "acceptedPiecewiseGeometryPreserved": true
+      }
+    ],
+    "status": "PASS_SOURCE_QUALIFIED_ROAD_MERGE_PENDING_RUNTIME"
+  },
+  "acceptedCells": 515,
+  "newCells": 260,
+  "acceptedRuntimeSha256": "9a9d5b4f5a786a5a05ad9e6da884f7cb74d62d944e6fb47f976fd14d9b272ae4",
+  "oldRuntimeChangedSamples": 42,
+  "oldRuntimeChanges": "lower-only within source-bound five accepted metres at declared west/north/south frontiers",
+  "delivery": {
+    "mode": "external",
+    "worldBudgetBytes": 1500000000,
+    "inclusive": true
+  },
+  "coverageIndexSha256": "755c455a555f55179c1a5f21091067aca3c82727c524e1d2c33d9592a714b6b2",
+  "changedCoverageOutsideNativeBands": [],
+  "strips": [
+    {
+      "indexSha256": "8515b32f9e79bcbf3fa5a94501ff46ca0c0f020dd3a4636c14c07c7803618515",
+      "nativeCacheSha256": "dee40883646201dfa5443a9c35f95ab625f4d033416bc66957a574bd0485ea6c",
+      "nativeAuthority": {
+        "cacheSha256": "c76257e619d63d7adff92eac500ae7b43b106d436c6e1108779fc97f74b1b42f",
+        "cacheBytes": 292122442,
+        "originalMetadataSha256": "caa3ad74d72648024b9721e7165d1f15024d0c1c9e530192e6c93bc4d6a01ed4",
+        "producerFiles": {
+          "tools/world/build_cells.ts": "f49333b740c544cacadac43f473248491e72bb5da7f70882c3bff69a2e02e68c",
+          "packages/world-schema/src/index.ts": "bd9698f246de047679798ba580bdfcdc67d92b3449128414025fece86702ead1",
+          "packages/world-schema/src/coordinates.ts": "ef7ca670e8cc5dfb43924cbeb92f8f1d08b47e7d467bb17931ee0b88bb9d877c",
+          "packages/world-schema/src/types.ts": "12af4d7696b3d58d3bddedf420feda190a7e50586eeff11cfb9143c01de846f3",
+          "packages/world-schema/src/collision.ts": "3ad170403c6a4fe18152675e6093ed4c55e3c514f6b56699a5da98396be20989",
+          "packages/world-schema/src/terrain.ts": "2c03cdd7c953d6a1f8aed775cbd6dc98d7af298cbf0505bf6a0923792c394e24",
+          "packages/world-schema/src/roads.ts": "da7f0e7dbd4f53e77256cbea0d7e27395490a0d4dd18276055b865985300762f",
+          "packages/world-schema/src/packed-roads.ts": "22117394c6c403c0fe051c5f45f46bfc708e51a9e3cf1e4466e9b7a7e7c4dc4e",
+          "packages/world-schema/src/validate.ts": "07aeab14a0b9d0089a1b019f2920e5e9709c7410174ce7d177a33b46781641a2",
+          "packages/world-schema/src/payload.ts": "5426a612f7ee4c1bb1dc097a118d1cb514aad6778ec895f6010ee8022d76590b",
+          "packages/world-schema/src/supported-area.ts": "7fb485984cc8b219eb723914bb24ec886492e02c47057070031df47dbfdca4cc",
+          "packages/world-schema/src/ktx2-mips.ts": "06e0f176c5faf3934f06f2ad004db3cc72e7a95469af0d9b03bab0eebf8c9602",
+          "tools/world/lib/atlas.ts": "9a55d2d2d78ba100249f92430a5b9a5216d84d124427430e5292b523f503a029",
+          "tools/world/lib/gltf.ts": "0f5fff8c1161f7ce9ea7a210060c91ca035d2bf2ff47b6c5d706a49561395173",
+          "tools/world/lib/glb-quantization.ts": "c784f06ebb83ad9bcf6341608a3ce0c379fcefd8a338ed7cb7f3c864770101d3",
+          "tools/world/lib/geometry.ts": "420d2363df749c58d2c0fbb7c4acc404e8d29d3bd5617da505f92d747fbf9d16",
+          "tools/world/lib/grade.ts": "b3d637e047422eea888500eaa9e96cd3a028d910238f4ae68dd28575b4e0a4b5",
+          "tools/world/lib/ground.ts": "a84508a2848bb8324ffd7078735a3e2cf7f6f2b08c49a9af1b6af421a17d4f46",
+          "tools/world/lib/textures.ts": "225f1483145dd7e04f7a2d707d4102cccac1842c797f0975e4865eb2caeea2cf",
+          "tools/world/lib/district-ground.ts": "09b1afeeee7c89ad19f5e301ce9e6a526133847911475b8034ef4a5083de567c",
+          "tools/world/lib/delivery-road-file.ts": "6b0f1c6985e24f952ec81902375be9c62922ce8811dfc18eaa84a00de7ff6486",
+          "tools/world/lib/surface-way.ts": "617d61e42590d8ba49bc0bbe4f5626d3c95d31aca10b524c0b3862edbe660abe",
+          "tools/world/lib/coastal-mask.ts": "bec063e5e99b33f9eff15151a1a233647b796f177ece28fb3e441cb70aa2338d",
+          "tools/world/lib/coastal-raster.ts": "2842f623d49ef9b4a216e06be15196f8e6805380db52145508bb63404940d4e3",
+          "tools/world/lib/carriageway-grade.ts": "00fea24b64e98d9babcc0b7d035571d9115fda2d24e6467bae7b537f153fc616",
+          "tools/world/lib/raw-deck-grade.ts": "c64b4f3269308f1a72da19aa60d46ac9190503fb8f4a976bdf27f7286b85ad10",
+          "tools/world/lib/drivable-corridors.ts": "a5895dac7eb7951cca89674d6deb20c57055f0f0069fbabd259ae2e804de6f43",
+          "tools/world/lib/coastal-registration.ts": "c6fbae8f46439698d200a1b70eeef051b0e7e302857c07a2a084eb717fabdc43",
+          "tools/world/lib/append-city-cells.ts": "c602201c1d177e20f49ba28480f324fea842b46454babdaa5335530c8e11b350",
+          "tools/world/lib/facade-glb.ts": "f5826bc03a6189ffcf0c9ca205bc9458b281212b7e7dbf388481d928181060bc",
+          "tools/world/lib/frontier-ground.ts": "9f2025aaaf65ae6669f4a888352d7202a6e60f9704a1d4c899ae469d948a5ea8",
+          "tools/world/lib/replace-ground-glb.ts": "86ff4c01148d0d0cdaee4f2a5dd55fbbee06e155983d56c23c253fabc2ec4182",
+          "tools/world/lib/coastal-shore-seals.ts": "1a1d938ab73a2f6f9d340dbcdf6682971fcc914a0805a5db86e5abd3adef0ee3",
+          "tools/world/lib/vertical-seal-mesh.ts": "308939841e597d6a756a7d46b67e427c488965fbb5fa82b5f879c69f804e2d9a",
+          "tools/world/lib/delivery-city-ground.ts": "3697196b2e1ad22953196d583853ecb5df2fc3fcb507d950c9bf43a2c24eeea5",
+          "tools/world/lib/untextured.ts": "adfd572ec04162ea3ca8130afa713735edac6ebaec71f8067b6e51e34aedeff2",
+          "tools/world/lib/vegetation.ts": "17600ec41feb18e5bda6201435ec9cf7ea14602a3fa5a29af0733fcb6cd13f97",
+          "tools/world/lib/facade-restoration-registry.ts": "19fe32a59de84aaa13d8ac169e543d75449a592538c9cbb4e939bb749081631a",
+          "tools/world/lib/facade-restoration.ts": "36ff83b974d51d8796cf9d94ff9e2aafee80fa625cd2f0178cd96fd359d8001d",
+          "tools/world/lib/topelia-facade-map.ts": "b900eb13787d25eac961903a00235b27f1248e06a576c3295e3a2fd8e13562d5",
+          "tools/world/lib/facade-restoration-types.ts": "40210c8ad567f8085424060b0bdad9fad1aa4b10df2075293f74c3fbec986589",
+          "tools/world/lib/library-facade-restoration.ts": "2c0d000bf1b6de8b8fbb5482b1c165faf8252ab672f485aeb77dc96eb004c140",
+          "tools/world/lib/bank-facade-restoration.ts": "ce667cea712649177dbb5a601a9052929e71d51118b0d221fcbf4c0e2c5bc47c",
+          "tools/world/lib/kirkkokatu-facade-restoration.ts": "00ceb5a9f784229ee2d17d93425587aa55b0ce657ca258709fdb8401d116fc9d",
+          "tools/world/lib/kirkkokatu12-facade-restoration.ts": "fd0009babbdbac668384b8270e4b699b368c2f88e09a4fdf805933ae62db3560",
+          "tools/world/lib/rauhankatu19-facade-restoration.ts": "1bef042ba88eca525458873901c5b152e3b9b34630846885b91a968ca51ab104",
+          "tools/world/lib/estates-facade-restoration.ts": "f90fcf0b56c348107d8f35e89c7225eda2dea9f302a97fb6e06c12ed8ff1e536",
+          "tools/world/lib/kirkkokatu14-facade-restoration.ts": "788c27af64feca323215a55d81885f6bf22ce8f83772d5482bd94d92a9c81111",
+          "tools/world/lib/church-facade-restoration.ts": "25cdb5238c5e15530baa196ff67bca35f7f4398be22b42832436bcb4a91e4d9d",
+          "tools/world/lib/esplanadi-facade-restoration.ts": "3841a6cf29145571c1a894f69f14dc2a2d7bf64e8e75a01da423feea85b92ae2",
+          "tools/world/lib/finlandia-facade-restoration.ts": "181a65d14c6ef50cffd655237efb561e8ad114c80f5e718970dff78c2065ff8d",
+          "tools/world/lib/runeberg55a-facade.ts": "564b2e065325b076ab81c3ec5dcd74e626f67fe221179e1d16c39536bbfcb65e",
+          "tools/world/lib/delivery-city-cache.ts": "db316badc58bb6aeb03f32138e66e3df3a6558d6d02ef0d1b23be5757197e38b",
+          "tools/world/lib/delivery-city-source.ts": "f2c524c2f8728ceb225f411f6c606d2b68a44d63e27fb734d3af4dc1aba9dc16",
+          "tools/world/lib/delivery-duplicate-skirts.ts": "82dfca6d79db89ec4cf34a79e1100ee62a7c054e4ec21d5281375b6ac8d8fd40",
+          "tools/world/lib/facade-charts.ts": "160538dfd7791a2e8f0e698c528ad9417fe8cc9cafa0f27914ff8349176c3402",
+          "tools/world/lib/delivery-exact-convex-coverage.ts": "4fedbfb55ef0a4993d7a5f51ac1baaa7df9d6bbb253898f9d7925c61520afbb0"
+        },
+        "inputHashes": {
+          "config": "10884f2c9eaea4f12aeeae69647f094cad0bdf0ba12413864a569cd6407fcbf4",
+          "origin": "46e5a24375dc3fa48b38795d69481bf2b73512e622c3358714db354869d794e7",
+          "terrain": "e145517f6bc27398b6017749e94a0a5d71329a37854c16cdff8f325267833a08",
+          "footprints": "b9acc80717deb9a4e92d62885f73f8af3a8c0592563c45b359ed727dcfdc57a7",
+          "streetParts": "1ac1409cf70cd6c3ad1ab7139fd6f365898d5c654e499616a1892d1b669645b2",
+          "osmLedger": "e67a0bcf4835ea9e332e8e842b9d3f427ab53da883ca1dad714f02eda6706dcb",
+          "exclusions": "e91cbb9e242f614890cecd491e7d28f4b4d9877b96fd0af759c9c36ea42ddbec"
+        }
+      },
+      "region": [
+        -1792,
+        768,
+        800,
+        1792
+      ],
+      "plan": {
+        "axis": "z",
+        "cut": 763,
+        "protectedSide": "north",
+        "acceptedBounds": [
+          -1792,
+          -2304,
+          800,
+          768
+        ],
+        "geographicRegion": [
+          -1792,
+          768,
+          800,
+          1792
+        ],
+        "groundRegion": [
+          -1792,
+          763,
+          800,
+          1792
+        ],
+        "sourceBand": [
+          -1792,
+          763,
+          800,
+          774
+        ]
+      },
+      "replacementRegions": [
+        [
+          -1792,
+          763,
+          800,
+          774
+        ]
+      ],
+      "overlapAuthority": [
+        null,
+        "8dfc2d033b44b9bb88177ed276ea24ff48e14660a56887953a2dcd56fe70e945"
+      ],
+      "discardedExactFloat32ZeroArea": 105
+    },
+    {
+      "indexSha256": "494b2a9f988764244914cb4d4c92d85f676d482d72ec88b9a0eb621d2f079864",
+      "nativeCacheSha256": "ee62cf3bcd219d8f3e0fc3aa2e711c516d5ee31230aab28118cedb1974c5ff2a",
+      "nativeAuthority": {
+        "cacheSha256": "0c2dbe750f38c244b44021da2f5421d18049f39ccb8ed8039cb7b86f92d9ec95",
+        "cacheBytes": 177410669,
+        "originalMetadataSha256": "df4ebbd8fbdba7b8325077572584a87751996b50f5025e81c524ff211c2501e0",
+        "producerFiles": {
+          "tools/world/build_cells.ts": "f49333b740c544cacadac43f473248491e72bb5da7f70882c3bff69a2e02e68c",
+          "packages/world-schema/src/index.ts": "bd9698f246de047679798ba580bdfcdc67d92b3449128414025fece86702ead1",
+          "packages/world-schema/src/coordinates.ts": "ef7ca670e8cc5dfb43924cbeb92f8f1d08b47e7d467bb17931ee0b88bb9d877c",
+          "packages/world-schema/src/types.ts": "12af4d7696b3d58d3bddedf420feda190a7e50586eeff11cfb9143c01de846f3",
+          "packages/world-schema/src/collision.ts": "3ad170403c6a4fe18152675e6093ed4c55e3c514f6b56699a5da98396be20989",
+          "packages/world-schema/src/terrain.ts": "2c03cdd7c953d6a1f8aed775cbd6dc98d7af298cbf0505bf6a0923792c394e24",
+          "packages/world-schema/src/roads.ts": "da7f0e7dbd4f53e77256cbea0d7e27395490a0d4dd18276055b865985300762f",
+          "packages/world-schema/src/packed-roads.ts": "22117394c6c403c0fe051c5f45f46bfc708e51a9e3cf1e4466e9b7a7e7c4dc4e",
+          "packages/world-schema/src/validate.ts": "07aeab14a0b9d0089a1b019f2920e5e9709c7410174ce7d177a33b46781641a2",
+          "packages/world-schema/src/payload.ts": "5426a612f7ee4c1bb1dc097a118d1cb514aad6778ec895f6010ee8022d76590b",
+          "packages/world-schema/src/supported-area.ts": "34ac986cba6dfd350ae2c3654044fc6770bd1264ab2c478943647252bcb60e85",
+          "packages/world-schema/src/ktx2-mips.ts": "06e0f176c5faf3934f06f2ad004db3cc72e7a95469af0d9b03bab0eebf8c9602",
+          "tools/world/lib/atlas.ts": "9a55d2d2d78ba100249f92430a5b9a5216d84d124427430e5292b523f503a029",
+          "tools/world/lib/gltf.ts": "0f5fff8c1161f7ce9ea7a210060c91ca035d2bf2ff47b6c5d706a49561395173",
+          "tools/world/lib/glb-quantization.ts": "c784f06ebb83ad9bcf6341608a3ce0c379fcefd8a338ed7cb7f3c864770101d3",
+          "tools/world/lib/geometry.ts": "420d2363df749c58d2c0fbb7c4acc404e8d29d3bd5617da505f92d747fbf9d16",
+          "tools/world/lib/grade.ts": "b3d637e047422eea888500eaa9e96cd3a028d910238f4ae68dd28575b4e0a4b5",
+          "tools/world/lib/ground.ts": "a84508a2848bb8324ffd7078735a3e2cf7f6f2b08c49a9af1b6af421a17d4f46",
+          "tools/world/lib/textures.ts": "225f1483145dd7e04f7a2d707d4102cccac1842c797f0975e4865eb2caeea2cf",
+          "tools/world/lib/district-ground.ts": "09b1afeeee7c89ad19f5e301ce9e6a526133847911475b8034ef4a5083de567c",
+          "tools/world/lib/delivery-road-file.ts": "6b0f1c6985e24f952ec81902375be9c62922ce8811dfc18eaa84a00de7ff6486",
+          "tools/world/lib/surface-way.ts": "617d61e42590d8ba49bc0bbe4f5626d3c95d31aca10b524c0b3862edbe660abe",
+          "tools/world/lib/coastal-mask.ts": "bec063e5e99b33f9eff15151a1a233647b796f177ece28fb3e441cb70aa2338d",
+          "tools/world/lib/coastal-raster.ts": "2842f623d49ef9b4a216e06be15196f8e6805380db52145508bb63404940d4e3",
+          "tools/world/lib/carriageway-grade.ts": "00fea24b64e98d9babcc0b7d035571d9115fda2d24e6467bae7b537f153fc616",
+          "tools/world/lib/raw-deck-grade.ts": "c64b4f3269308f1a72da19aa60d46ac9190503fb8f4a976bdf27f7286b85ad10",
+          "tools/world/lib/drivable-corridors.ts": "a5895dac7eb7951cca89674d6deb20c57055f0f0069fbabd259ae2e804de6f43",
+          "tools/world/lib/coastal-registration.ts": "c6fbae8f46439698d200a1b70eeef051b0e7e302857c07a2a084eb717fabdc43",
+          "tools/world/lib/append-city-cells.ts": "c602201c1d177e20f49ba28480f324fea842b46454babdaa5335530c8e11b350",
+          "tools/world/lib/facade-glb.ts": "f5826bc03a6189ffcf0c9ca205bc9458b281212b7e7dbf388481d928181060bc",
+          "tools/world/lib/frontier-ground.ts": "9f2025aaaf65ae6669f4a888352d7202a6e60f9704a1d4c899ae469d948a5ea8",
+          "tools/world/lib/replace-ground-glb.ts": "86ff4c01148d0d0cdaee4f2a5dd55fbbee06e155983d56c23c253fabc2ec4182",
+          "tools/world/lib/coastal-shore-seals.ts": "1a1d938ab73a2f6f9d340dbcdf6682971fcc914a0805a5db86e5abd3adef0ee3",
+          "tools/world/lib/vertical-seal-mesh.ts": "308939841e597d6a756a7d46b67e427c488965fbb5fa82b5f879c69f804e2d9a",
+          "tools/world/lib/delivery-city-ground.ts": "3697196b2e1ad22953196d583853ecb5df2fc3fcb507d950c9bf43a2c24eeea5",
+          "tools/world/lib/untextured.ts": "adfd572ec04162ea3ca8130afa713735edac6ebaec71f8067b6e51e34aedeff2",
+          "tools/world/lib/vegetation.ts": "17600ec41feb18e5bda6201435ec9cf7ea14602a3fa5a29af0733fcb6cd13f97",
+          "tools/world/lib/facade-restoration-registry.ts": "19fe32a59de84aaa13d8ac169e543d75449a592538c9cbb4e939bb749081631a",
+          "tools/world/lib/facade-restoration.ts": "36ff83b974d51d8796cf9d94ff9e2aafee80fa625cd2f0178cd96fd359d8001d",
+          "tools/world/lib/topelia-facade-map.ts": "b900eb13787d25eac961903a00235b27f1248e06a576c3295e3a2fd8e13562d5",
+          "tools/world/lib/facade-restoration-types.ts": "40210c8ad567f8085424060b0bdad9fad1aa4b10df2075293f74c3fbec986589",
+          "tools/world/lib/library-facade-restoration.ts": "2c0d000bf1b6de8b8fbb5482b1c165faf8252ab672f485aeb77dc96eb004c140",
+          "tools/world/lib/bank-facade-restoration.ts": "ce667cea712649177dbb5a601a9052929e71d51118b0d221fcbf4c0e2c5bc47c",
+          "tools/world/lib/kirkkokatu-facade-restoration.ts": "00ceb5a9f784229ee2d17d93425587aa55b0ce657ca258709fdb8401d116fc9d",
+          "tools/world/lib/kirkkokatu12-facade-restoration.ts": "fd0009babbdbac668384b8270e4b699b368c2f88e09a4fdf805933ae62db3560",
+          "tools/world/lib/rauhankatu19-facade-restoration.ts": "1bef042ba88eca525458873901c5b152e3b9b34630846885b91a968ca51ab104",
+          "tools/world/lib/estates-facade-restoration.ts": "f90fcf0b56c348107d8f35e89c7225eda2dea9f302a97fb6e06c12ed8ff1e536",
+          "tools/world/lib/kirkkokatu14-facade-restoration.ts": "788c27af64feca323215a55d81885f6bf22ce8f83772d5482bd94d92a9c81111",
+          "tools/world/lib/church-facade-restoration.ts": "25cdb5238c5e15530baa196ff67bca35f7f4398be22b42832436bcb4a91e4d9d",
+          "tools/world/lib/esplanadi-facade-restoration.ts": "3841a6cf29145571c1a894f69f14dc2a2d7bf64e8e75a01da423feea85b92ae2",
+          "tools/world/lib/finlandia-facade-restoration.ts": "181a65d14c6ef50cffd655237efb561e8ad114c80f5e718970dff78c2065ff8d",
+          "tools/world/lib/runeberg55a-facade.ts": "564b2e065325b076ab81c3ec5dcd74e626f67fe221179e1d16c39536bbfcb65e",
+          "tools/world/lib/delivery-city-cache.ts": "db316badc58bb6aeb03f32138e66e3df3a6558d6d02ef0d1b23be5757197e38b",
+          "tools/world/lib/delivery-city-source.ts": "f2c524c2f8728ceb225f411f6c606d2b68a44d63e27fb734d3af4dc1aba9dc16",
+          "tools/world/lib/delivery-duplicate-skirts.ts": "82dfca6d79db89ec4cf34a79e1100ee62a7c054e4ec21d5281375b6ac8d8fd40",
+          "tools/world/lib/facade-charts.ts": "160538dfd7791a2e8f0e698c528ad9417fe8cc9cafa0f27914ff8349176c3402",
+          "tools/world/lib/delivery-exact-convex-coverage.ts": "4fedbfb55ef0a4993d7a5f51ac1baaa7df9d6bbb253898f9d7925c61520afbb0"
+        },
+        "inputHashes": {
+          "config": "34673fa15157eca0c32bae30a12ff9a0b3a6cc1c140d5853e214484ed7db19a7",
+          "origin": "46e5a24375dc3fa48b38795d69481bf2b73512e622c3358714db354869d794e7",
+          "terrain": "e145517f6bc27398b6017749e94a0a5d71329a37854c16cdff8f325267833a08",
+          "footprints": "b9acc80717deb9a4e92d62885f73f8af3a8c0592563c45b359ed727dcfdc57a7",
+          "streetParts": "1ac1409cf70cd6c3ad1ab7139fd6f365898d5c654e499616a1892d1b669645b2",
+          "osmLedger": "e67a0bcf4835ea9e332e8e842b9d3f427ab53da883ca1dad714f02eda6706dcb",
+          "exclusions": "75cb89c4aed91df26b284658283627f69affd86cd4e115262840d3216953f301"
+        }
+      },
+      "region": [
+        -2816,
+        -384,
+        -1792,
+        1152
+      ],
+      "plan": {
+        "axis": "x",
+        "cut": -1787,
+        "protectedSide": "east",
+        "acceptedBounds": [
+          -1792,
+          -2304,
+          800,
+          768
+        ],
+        "geographicRegion": [
+          -2816,
+          -384,
+          -1792,
+          1152
+        ],
+        "groundRegion": [
+          -2816,
+          -384,
+          -1787,
+          1152
+        ],
+        "sourceBand": [
+          -1798,
+          -384,
+          -1787,
+          1152
+        ]
+      },
+      "replacementRegions": [
+        [
+          -1798,
+          -384,
+          -1792,
+          1152
+        ],
+        [
+          -1792,
+          -384,
+          -1787,
+          763
+        ],
+        [
+          -1792,
+          774,
+          -1787,
+          1152
+        ]
+      ],
+      "overlapAuthority": [
+        "8dfc2d033b44b9bb88177ed276ea24ff48e14660a56887953a2dcd56fe70e945",
+        null
+      ],
+      "discardedExactFloat32ZeroArea": 554
+    }
+  ],
+  "preservation": {
+    "acceptedBuildingRecordsPrefix": true,
+    "acceptedRoadRecordsPrefix": false,
+    "acceptedPlayableRoadGeometryPreserved": true,
+    "acceptedSharedImagesAndLowMipPayloadsExact": true,
+    "acceptedAssetsAndGameplayExactExceptPlayAreaAndReviewedSupportedArea": true,
+    "oldBinPhysicalPrefixes": true,
+    "coarseDrawsAtMost3": true
+  },
+  "status": "CANDIDATE_NATIVE_RUNTIME_TREE_SOIL_AND_ADVERSARIAL_GATES_REQUIRED"
+}

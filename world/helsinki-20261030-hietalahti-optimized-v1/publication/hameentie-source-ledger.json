@@ -1,0 +1,400 @@
+{
+  "schemaVersion": 1,
+  "id": "hameentie-junatie-source-ledger-v1",
+  "status": "NATIVE_COMPONENT_QUALIFIED_FINAL_RUNTIME_REVIEW_PENDING",
+  "profileSha256": "ae8692172b20d9a284797e705e8f6539499a80366ce424e28b7f7e65b4dbeb3f",
+  "sourceWorld": {
+    "worldReleaseId": "senate-20261021-city-mips-stage-v1",
+    "manifestSha256": "647128c37c0fd8bcd0f7ffad874a9a3c172e6722195c21f5fd1b64b4f951dc39",
+    "qualification": "Fresh original-four-bridge plus native-city descendant with bounded NEW-atlas mip delivery. The two fifth-owner collision and six visual payload refs are fully byte-identical to the native baseline; all719 fifth HTER influence values are Float32-bit identical.",
+    "collisionFiles": [
+      {
+        "cell": "c_p04_m17",
+        "path": "cells/c_p04_m17.expanded.cb598255c3d057b2.hcol.gz",
+        "bytes": 180881,
+        "sha256": "cb598255c3d057b2373cddf6bdcf9d37c535373e418d21ab82909960f273455b",
+        "triangles": 11812,
+        "compression": "gzip",
+        "decodedBytes": 572924,
+        "decodedSha256": "3b24419014b57f7df719e04244aefeef576af5f8b51c5ee4e26dfd06f26b8ba7",
+        "boundsXZ": [
+          496.944091796875,
+          -2185.58251953125,
+          640,
+          -2036.6822509765625
+        ],
+        "actualDecodedSha256": "3b24419014b57f7df719e04244aefeef576af5f8b51c5ee4e26dfd06f26b8ba7"
+      },
+      {
+        "cell": "c_p04_m18",
+        "path": "cells/c_p04_m18.expanded.44cd3ecd14ad7e61.hcol.gz",
+        "bytes": 452529,
+        "sha256": "44cd3ecd14ad7e61c96d8ac013b17858208ecfcf5db92cb8da8a7340e4d6cdd0",
+        "triangles": 28955,
+        "compression": "gzip",
+        "decodedBytes": 1432312,
+        "decodedSha256": "1a9496a53fb62c2c4dd438474fb6fdf7d4c4426eb1559100c0f3e28e467790b0",
+        "boundsXZ": [
+          512,
+          -2304,
+          640,
+          -2176
+        ],
+        "actualDecodedSha256": "1a9496a53fb62c2c4dd438474fb6fdf7d4c4426eb1559100c0f3e28e467790b0"
+      },
+      {
+        "cell": "c_p05_m17",
+        "path": "cells/c_p05_m17.expanded.390f68f2bdcaaf80.hcol.gz",
+        "bytes": 187547,
+        "sha256": "390f68f2bdcaaf806ce73a6fd29e73489498767745077f2b6b96e4e10edcc48a",
+        "triangles": 12295,
+        "compression": "gzip",
+        "decodedBytes": 605724,
+        "decodedSha256": "b57505ff90ad1e85c22c019ede1192dcca3747a0fa1302781d7e6ee0bcdc7d2f",
+        "boundsXZ": [
+          630.4338989257812,
+          -2176.380615234375,
+          774.1094970703125,
+          -2004.481201171875
+        ],
+        "actualDecodedSha256": "b57505ff90ad1e85c22c019ede1192dcca3747a0fa1302781d7e6ee0bcdc7d2f"
+      },
+      {
+        "cell": "c_p05_m18",
+        "path": "cells/c_p05_m18.expanded.613292fad0fa4ef7.hcol.gz",
+        "bytes": 501431,
+        "sha256": "613292fad0fa4ef7a73e75b352b64924ad74040b244ba4c7a41f44762f79754f",
+        "triangles": 31753,
+        "compression": "gzip",
+        "decodedBytes": 1576840,
+        "decodedSha256": "e5636ca310bf7614687b794588eb79a6d922adac9322421beb8f228f672b9768",
+        "boundsXZ": [
+          640,
+          -2311.733154296875,
+          768,
+          -2176
+        ],
+        "actualDecodedSha256": "e5636ca310bf7614687b794588eb79a6d922adac9322421beb8f228f672b9768"
+      }
+    ]
+  },
+  "geodata": {
+    "originProjected": [
+      25497350,
+      6672960,
+      7.5
+    ],
+    "horizontalCrs": "EPSG:3879",
+    "heightDatum": "N2000",
+    "runtimeFrame": "X east, Y up, Z south",
+    "municipalStreetParts": {
+      "path": "content/helsinki/city-expansion-20261021/street-parts-public-v1.geojson",
+      "sha256": "cff57b6922ae3c768d8959c5c2a4888759fc583eace80f5b3df8d4a1ad13ca9b",
+      "license": "CC-BY-4.0",
+      "attribution": "City of Helsinki"
+    },
+    "openStreetMap": {
+      "path": "content/helsinki/city-expansion-20261021/osm-public-v1.json",
+      "sha256": "86bdbd537cbf4a7731b5f0291f5b916a640418033a9ebddf7d498321989b478a",
+      "license": "ODbL-1.0",
+      "attribution": "OpenStreetMap contributors",
+      "copyright": "https://www.openstreetmap.org/copyright"
+    }
+  },
+  "references": [
+    {
+      "id": "upper-street-view",
+      "provider": "Google Maps Street View",
+      "panoramaId": "nWz-_VVMkeDUCCyl_hAKXA",
+      "imageDate": "2024-08",
+      "locationWgs84": [
+        60.1892693,
+        24.9639423
+      ],
+      "heading": 15,
+      "pitch": -8,
+      "observations": [
+        "Dark asphalt with central embedded tram tracks and a tan central strip.",
+        "Raised granite kerb; west foot/cycle deck has a black diagonal lattice steel railing and a white dashed division."
+      ],
+      "scope": "Appearance reference observed by the parent agent; no metric height or width inferred, no pixels redistributed."
+    },
+    {
+      "id": "underpass-street-view",
+      "provider": "Google Maps Street View",
+      "panoramaId": "nUj2PIfAbI9sAYe0Q6M4Qw",
+      "imageDate": "2026-05",
+      "locationWgs84": [
+        60.18937,
+        24.9636647
+      ],
+      "heading": 105,
+      "pitch": 5,
+      "observations": [
+        "Deep flat concrete fascia and parallel underside girders.",
+        "Coursed grey stone abutments/wingwalls, black diagonal steel railing above; no arch."
+      ],
+      "scope": "Appearance reference observed by the parent agent; no metric height or width inferred, no pixels redistributed."
+    }
+  ],
+  "geometryAuthority": {
+    "upperSourcePartIds": [
+      61822,
+      61823,
+      61828,
+      616159,
+      61829,
+      61830,
+      61831,
+      61834,
+      61835
+    ],
+    "lowerSourcePartIds": [
+      50806,
+      50811,
+      50815,
+      50818,
+      87521,
+      61801,
+      61802,
+      61813,
+      61814,
+      61820,
+      549852,
+      549857,
+      616205
+    ],
+    "lowerRoadWayIds": [
+      25601475,
+      316358461,
+      132576240,
+      62211494
+    ],
+    "lowerCycleWayIds": [
+      19836000
+    ],
+    "upperRoadWayIds": [
+      26427985,
+      26427986
+    ],
+    "upperFootCycleWayIds": [
+      26427992,
+      28582275
+    ],
+    "upperTramWayIds": [
+      26427987,
+      28563029
+    ],
+    "bankMeasurements": "Actual diagnostic native HCOL ground; projected source rings and mapped axes. The missing native upper-deck terrain valley is never a bridge-height authority.",
+    "upperCentreBankY": [
+      12.85691329442258,
+      12.74362200113519
+    ],
+    "upperFullWidthBankSamples": 708,
+    "lowerFullWidthBankSamples": 434,
+    "lowerMissingBankSamples": 0,
+    "lowerRectangleST": [
+      -1,
+      -25,
+      29.5,
+      24
+    ],
+    "sourceEdgeToleranceMetres": 0.00025,
+    "unresolvedGeometricLevelOverlaps": 0,
+    "upperRetainingWayIds": [
+      799540236,
+      61269615
+    ],
+    "upperApproachPartIds": [
+      61079,
+      61090,
+      550189
+    ],
+    "geometricLevelOverlaps": 111,
+    "overlapDisposition": "Genuine named lower street-part masks own the canonical floor even where projected upper parts overlap. Independently named upper-only differences are removed; all unselected architecture and lower counterparts remain protected.",
+    "lowerBranchFootWayIds": [
+      27176584
+    ],
+    "lowerBoundaryAuthority": "Exact original source face index and ordered Float32 SHA, mapped municipal ring IDs, and both actual decoded repaired lower floor banks. Native curb-axis records and absent shared-boundary edge records are distinct."
+  },
+  "integration": {
+    "publicationPrefix": "publication/hameentie-",
+    "preserveOriginalFourBridgePublicationFiles": true,
+    "doNotReapplyOriginalFourBridgeGeometry": true,
+    "requireSharedTextureAndM1Deduplication": true,
+    "upperWaysRemainDisabled": true,
+    "sourceHistory": "Only the sanitized export may be published; workspace history is unrelated.",
+    "overlapDisposition": "canonical-named-lower-source",
+    "exactUpperRetainingEnvelopeMetres": 0.025,
+    "nativeFallbackPolicy": "Only original raised:yard upward floors fully covered by named actual lower source union and the bounded field may lower; never raise or erase unselected levels."
+  },
+  "artwork": {
+    "license": "CC0-1.0",
+    "scope": "Original procedural appearance/profile recipe; third-party source geodata remains under its own attribution and license."
+  },
+  "remaining": [
+    "Actual rebound/final candidate native checks, Standard/Low appearance and real keyboard traversal must bind the final manifest and source fingerprints.",
+    "Upper source road enablement and embedded source tram rail placement must consume the published exact common upper road masks and actual road-tagged HCOL; lower ground or terrain may not select the upper road.",
+    "Root final closed-world budget, adversarial review, public source audit and hosted deployment proof remain required."
+  ],
+  "nativeBaselineSourceWorld": {
+    "worldReleaseId": "senate-20261021-city-diagnostic-v2",
+    "manifestSha256": "02fe1a14dbebc1506013ce47d9c449fea09ca258349f535f78775b8d816b2f1d",
+    "qualification": "DIAGNOSTIC_ONLY; not a published or accepted bridge world",
+    "collisionFiles": [
+      {
+        "cell": "c_p04_m17",
+        "path": "cells/c_p04_m17.expanded.cb598255c3d057b2.hcol.gz",
+        "bytes": 180881,
+        "sha256": "cb598255c3d057b2373cddf6bdcf9d37c535373e418d21ab82909960f273455b",
+        "triangles": 11812,
+        "compression": "gzip",
+        "decodedBytes": 572924,
+        "decodedSha256": "3b24419014b57f7df719e04244aefeef576af5f8b51c5ee4e26dfd06f26b8ba7",
+        "boundsXZ": [
+          496.944091796875,
+          -2185.58251953125,
+          640,
+          -2036.6822509765625
+        ],
+        "actualDecodedSha256": "3b24419014b57f7df719e04244aefeef576af5f8b51c5ee4e26dfd06f26b8ba7"
+      },
+      {
+        "cell": "c_p04_m18",
+        "path": "cells/c_p04_m18.expanded.44cd3ecd14ad7e61.hcol.gz",
+        "bytes": 452529,
+        "sha256": "44cd3ecd14ad7e61c96d8ac013b17858208ecfcf5db92cb8da8a7340e4d6cdd0",
+        "triangles": 28955,
+        "compression": "gzip",
+        "decodedBytes": 1432312,
+        "decodedSha256": "1a9496a53fb62c2c4dd438474fb6fdf7d4c4426eb1559100c0f3e28e467790b0",
+        "boundsXZ": [
+          512,
+          -2304,
+          640,
+          -2176
+        ],
+        "actualDecodedSha256": "1a9496a53fb62c2c4dd438474fb6fdf7d4c4426eb1559100c0f3e28e467790b0"
+      },
+      {
+        "cell": "c_p05_m17",
+        "path": "cells/c_p05_m17.expanded.390f68f2bdcaaf80.hcol.gz",
+        "bytes": 187547,
+        "sha256": "390f68f2bdcaaf806ce73a6fd29e73489498767745077f2b6b96e4e10edcc48a",
+        "triangles": 12295,
+        "compression": "gzip",
+        "decodedBytes": 605724,
+        "decodedSha256": "b57505ff90ad1e85c22c019ede1192dcca3747a0fa1302781d7e6ee0bcdc7d2f",
+        "boundsXZ": [
+          630.4338989257812,
+          -2176.380615234375,
+          774.1094970703125,
+          -2004.481201171875
+        ],
+        "actualDecodedSha256": "b57505ff90ad1e85c22c019ede1192dcca3747a0fa1302781d7e6ee0bcdc7d2f"
+      },
+      {
+        "cell": "c_p05_m18",
+        "path": "cells/c_p05_m18.expanded.613292fad0fa4ef7.hcol.gz",
+        "bytes": 501431,
+        "sha256": "613292fad0fa4ef7a73e75b352b64924ad74040b244ba4c7a41f44762f79754f",
+        "triangles": 31753,
+        "compression": "gzip",
+        "decodedBytes": 1576840,
+        "decodedSha256": "e5636ca310bf7614687b794588eb79a6d922adac9322421beb8f228f672b9768",
+        "boundsXZ": [
+          640,
+          -2311.733154296875,
+          768,
+          -2176
+        ],
+        "actualDecodedSha256": "e5636ca310bf7614687b794588eb79a6d922adac9322421beb8f228f672b9768"
+      }
+    ]
+  },
+  "repairs": {
+    "lowerField": "Only selected original ground/kerb source faces inside the explicit same-level field may lower. Original floor at/below target remains literal. Architecture and source levels are not selected from Y alone.",
+    "upperWall799": "Exact upper retaining-way node identity connects actual upper road/tram endpoints. Only pinned wall/wall-join inventories inside the replacement span are removed; independent true lower curbs remain separate.",
+    "lowerWallCaps": "526 original799 wall-join cap faces inside actual lower61814 bind both decoded repaired bank sources. Original XZ/UV spans remain; only these obsolete caps can rise at most28.46mm to the already existing actual lower floor bank.",
+    "horizontalOmission": "The complete projected source floor/cap omission inventory is intersected with actual named lower union and the true source-axis influence, then actual repaired floor coverage is subtracted. Seven microcomponents totalling0.0000701985555m2 require15 paired near/coarse/HCOL triangles; no broad rectangular floor is added.",
+    "verticalSkins": "All original native lower/removed upper curb axes and all original shared named-lower floor boundary edges are inventoried. Only actual two-bank intervals reconstruct vertical skins; exact qualified original lower-curb intervals are partitioned away, leaving exterior original attributes/indices literal. Existing curb spans and earlier source-boundary ownership are subtracted to prevent duplicate new skins.",
+    "newAbsentSkinUV": "There is no original curb UV on an absent skin. New UV uses original native axis world repeat U=dot(XZ,axisDirection)/4m and V=Y/2m, distinguished from literal preservation of all existing floor/curb source UVs.",
+    "approachSides": "Only generated outer-approach vertical soffit skins are replaced by actual native ground/cap and authored upper-foot-floor plane limits. Every floor edge/envelope crossing is inserted. All horizontal upper road and foot-floor triangles stay identical.",
+    "fallbackHeightfield": "Only the actual four grid vertices influencing selected floor polygons may lower. All outside Float32 terrain bits remain unchanged; HCOL supplies physical upper/lower separation."
+  },
+  "componentEvidence": {
+    "candidateManifestSha256": "c0be11f640b83c3db46412cf2c1c2200fa54d6e738021436b541d75f19778dfe",
+    "qualification": "Native geometry component evidence only. Rebound/final descendant and browser acceptance remain separately required.",
+    "nativeVehicle": {
+      "actualRuns": 12,
+      "vehicles": [
+        "Lumi",
+        "Revontuli"
+      ],
+      "routes": [
+        "upper public road",
+        "lower north carriageway",
+        "lower south carriageway"
+      ],
+      "directions": "Both",
+      "method": "Actual native StaticWorld+HCOL+HTER and NativeVehicle; initial fixture only, continuous movement thereafter; no recovery, forced support or later teleport."
+    },
+    "nativeCharacter": {
+      "actualRunsAtEachSpeed": 10,
+      "speeds": [
+        3.6,
+        1.4
+      ],
+      "waypointTolerances": [
+        0.14,
+        0.3
+      ],
+      "routes": [
+        "upper road fixture",
+        "upper west public foot/cycle chain",
+        "upper east public foot/cycle chain",
+        "lower19836000 public foot/cycle",
+        "lower27176584 public branch footway"
+      ],
+      "directions": "Both",
+      "method": "Actual native Character capsule/controller, continuous non-teleported movement."
+    },
+    "bank": {
+      "fullWidthSamples": 35299,
+      "missing": 0,
+      "maximumErrorMetres": 0.0003554970737056351
+    },
+    "lowerPerimeter": {
+      "sourcePlaneSamples": 886,
+      "maximumErrorMetres": 0.0000985008484812866
+    },
+    "actualSoffit": {
+      "samples": 10153,
+      "minimumClearanceMetres": 3.0042728286026783
+    },
+    "terrain": {
+      "changedSamples": 719,
+      "outsideBitExactSamples": 7967570
+    },
+    "bankSkins": {
+      "axes": 706,
+      "activeIntervals": 2342,
+      "bankRows": 4684,
+      "physicalFaces": 7918,
+      "missingBanks": 0,
+      "actualBankErrorMetres": 0,
+      "barycentricError": 0,
+      "nearAndCoarseOrientedTriangleMatches": 7918,
+      "sourceOrNewUVError": 0
+    },
+    "caps": {
+      "upwardPhysicalTriangles": 916,
+      "exactNearAndCoarseMatches": 916,
+      "maximumFloorBankHeightErrorMetres": 2.384185791015625e-7
+    },
+    "tests": {
+      "focused": 39,
+      "worldTypecheck": true
+    }
+  }
+}

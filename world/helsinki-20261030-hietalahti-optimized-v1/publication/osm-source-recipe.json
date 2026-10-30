@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "title": "OpenStreetMap source and derived road database for Helsinki Rides",
+  "license": "ODbL-1.0",
+  "licenseUrl": "https://opendatacommons.org/licenses/odbl/1-0/",
+  "attribution": "OpenStreetMap contributors",
+  "sourceRepository": "https://github.com/MattiTynka/Helsinki-rides",
+  "originalInput": {
+    "path": "city-north.json",
+    "bytes": 52878591,
+    "sha256": "707388efff3d70d40c3e71898d22dbdb908d1137a67f6dac2e3b13ef26c49c1a"
+  },
+  "publishedInput": {
+    "path": "osm-source.json.gz",
+    "contentEncoding": "gzip",
+    "bytes": 3665558,
+    "sha256": "07c9e43804561d2e126857b3528870b35765c6d5d7d92ec2d2eef53d8c481035",
+    "uncompressedBytes": 28150909,
+    "uncompressedSha256": "4269b30ffe83083c457eece8560908e1aa78793c077ffee32492f0d68f627e90",
+    "elements": 114535
+  },
+  "sourcePreparation": {
+    "script": "tools/release/prepare-osm-publication.py",
+    "scriptSha256": "d688788ee58ab27d5b30d03fccffa32ca9ab80a022f4f2b0cfb7daf295b38fce",
+    "command": "python tools/release/prepare-osm-publication.py --source data/raw/city-north-20261019/osm/city-north.json --ledger data/raw/city-north-20261019/osm/ledger.json --out build/pages-publication",
+    "method": "Remove each element user and uid; remove tags named email or prefixed contact: (case insensitive), and any other tag with an email-shaped literal or percent-decoded value. Serialize UTF-8 compact JSON with one final newline; gzip with mtime zero.",
+    "removedFields": {
+      "user": 114533,
+      "uid": 114533,
+      "contactTags": 676,
+      "emailValueTags": 0
+    },
+    "note": "The original local acquisition is preserved. This published extract intentionally excludes contributor identity and contact tags; it is not a byte-identical copy of the original acquisition."
+  },
+  "historicalRoadBuild": {
+    "command": "node tools/world/build_roads.ts --osm-ledger data/raw/city-north-20261019/osm/ledger.json --snapshot city-north --origin content/helsinki/world-origin.json --config content/helsinki/city-north-20261019/roads-v1.json --terrain data/work/city-north-20261019/terrain-source/terrain.bin --street-parts data/raw/city-north-20261019/street-parts/city-north.geojson --out data/work/city-north-20261019/roads-v1",
+    "toolSha256": "3fd14b2be9c2d3f7bfe6a78a07409ef6f03aad900138f0c597a5e64e2bfa3963",
+    "baseRoadGraphSha256": "8dbd2214d0a1cde9a5e0f73e0fa5900ec9ef7865d9c94f14689f094d50167701",
+    "alterations": "Filter supported surface roads/access classes, project coordinates to the documented EPSG:3879 runtime frame, split junctions into directed lanes, respect turn restrictions, derive widths/speeds/surfaces from retained tags, register physical lanes against municipal street polygons, sample terrain heights, and generate parking/footways. Exact algorithms are tools/world/build_roads.ts and its imported lib modules; configuration is content/helsinki/city-north-20261019/roads-v1.json."
+  },
+  "finalRoadGraph": {
+    "file": "roads.30bf27aaad.json",
+    "sha256": "30bf27aaad5ba169f1b46408b46cd8b3aebc7548c38a66549e5a20d5d714d424",
+    "bytes": 8534495,
+    "downloadLocation": "Use the roads.path entry in the game world manifest; the complete unencrypted JSON derivative is served with the game.",
+    "additionalAlterations": "Four physical lane point arrays/lengths on OSM ways8034579 and79518605 and two internal seam connector point arrays/lengths follow municipal carriageways52449 and52206. Registration transitions from unchanged geometry at Z>=-925 to full correction at Z<=-945. Inserted heights follow native repaired asphalt. All IDs/topology/turn metadata and all other graph fields remain unchanged. The full final graph itself is the machine-readable derivative database offered for download.",
+    "historicalCommands": [
+      "node data/work/city-north-20261019/verification/valskari-source-roads-candidate-v1.mjs",
+      "node data/work/city-north-20261019/promote-road-registration-v1.mjs"
+    ],
+    "reproductionScope": "Historical commands document the actual producer chain; full standalone reproduction additionally requires the municipal terrain/register inputs and recorded local final-registration plan. The complete final derivative database is provided directly, rather than claiming this source extract alone rebuilds every artwork output."
+  },
+  "minimizationVerification": {
+    "method": "Rerun the exact current road builder with the minimized source and retargeted source-hash bindings. Compare parsed output against the original base graph after restoring only source.sha256.",
+    "result": "PASS: every node, lane, connector, parking item, footway and other graph field is identical; only source.sha256 identifies the minimized input.",
+    "lanes": 4431,
+    "connectors": 6050,
+    "nodes": 2203,
+    "parkingAreas": 80,
+    "footways": 6140
+  },
+  "otherOsmUses": "Steps, retaining walls, coastlines/water and tram axes retain their original geometry/references and required map tags in this extract. Public builder algorithms and content configurations describe their conversion; game artwork is served as produced works with OpenStreetMap attribution."
+}

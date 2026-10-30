@@ -1,0 +1,2206 @@
+{
+  "schemaVersion": 1,
+  "sourceRelease": "senate-20261020-optimized-m1-cb",
+  "sourceManifestSha256": "5a3502a4641de1a79dfd40dbb06724b59d4e908d16f3a5218b8e7dcead3f7ebd",
+  "derivativeRelease": "senate-20261020-entrances-candidate-v6",
+  "patches": [
+    {
+      "id": "university",
+      "region": [
+        -85,
+        -8,
+        -72,
+        17
+      ],
+      "observations": {
+        "sourceParts": [
+          "472018",
+          "472023",
+          "472024",
+          "472025"
+        ],
+        "osmWay": "27184047",
+        "sourceFlight": "ylre-472018+472023+472024",
+        "streetViewPanorama": "IQJ0fJOOhTjz_4nEZ8JIAQ",
+        "streetViewDate": "August 2024",
+        "lowerSteps": 8,
+        "upperBroadSteps": 4,
+        "upperDoorBaySteps": 4,
+        "lowerWidth": 13.4,
+        "outerWidth": 16.9,
+        "upperWidth": 11,
+        "footHeight": 1.1293973522573535,
+        "landingHeight": 2.594451897278428,
+        "doorHeight": 3.9944518972784278,
+        "frame": {
+          "origin": [
+            -75.19622930752615,
+            3.7074210496225333
+          ],
+          "uphill": [
+            -0.9985005276798564,
+            0.05474591292441413
+          ]
+        },
+        "limitations": "Subdivision, tread run, upper rise and plinth dimensions are reference-led approximations, not a measured architectural survey. Google imagery supplies visual observations only."
+      }
+    },
+    {
+      "id": "palace",
+      "region": [
+        70,
+        -23,
+        83,
+        18
+      ],
+      "observations": {
+        "sourceParts": [
+          "58581",
+          "58582",
+          "58583",
+          "58584",
+          "58585",
+          "58586",
+          "58588",
+          "58590",
+          "58591",
+          "58594",
+          "58595",
+          "58596"
+        ],
+        "streetViewPanorama": "BUK0H3Kabg3u9WBVC-pg3Q",
+        "streetViewDate": "August 2024",
+        "northSteps": 5,
+        "southSteps": 7,
+        "uphillDirection": "east",
+        "northApproach": [
+          73.75,
+          -10.45,
+          -0.30838110387413775
+        ],
+        "southApproach": [
+          73.75,
+          3.75,
+          -0.6942488942062546
+        ],
+        "riser": 0.1929338951660584,
+        "treadDepth": 0.35,
+        "northLandingDepth": 0.9362596548093065,
+        "southLandingDepth": 0.3900000000000001,
+        "terraceHeight": 0.6562883719561543,
+        "northFrame": {
+          "origin": [
+            75.87785547917186,
+            -10.379735439920985
+          ],
+          "uphill": [
+            0.9985245949675211,
+            -0.05430131899823375
+          ]
+        },
+        "southFrame": {
+          "origin": [
+            76.3428,
+            3.75
+          ],
+          "uphill": [
+            0.9992369843029864,
+            -0.0390569993864536
+          ]
+        },
+        "surveyedCurb": [
+          [
+            78.50713574022228,
+            -23
+          ],
+          [
+            78.6653,
+            -19.2751
+          ],
+          [
+            72.0137,
+            -19.0312
+          ],
+          [
+            73.2961,
+            12.7909
+          ],
+          [
+            80.0262,
+            12.5831
+          ],
+          [
+            80.2715592622092,
+            18
+          ]
+        ],
+        "perimeterRamps": "Two smooth section lofts bend behind the source lamp piers to the common terrace. Their approach heights follow the source street grade; their final sections share the exact terrace boundary.",
+        "limitations": "Step counts and architectural subdivision are street-level observations. Width, rail, grille, pier and ramp subdivisions are original approximations fitted to licensed register footprints and existing source street/terrace height anchors. Noisy terrain bumps are not architectural authority. Geometry outside the expanded entrance perimeter remains exact."
+      }
+    }
+  ],
+  "preservation": {
+    "unselectedGroundOutsideRegionsExact": true,
+    "nonGroundGeometryMaterialsAndImagesExact": true,
+    "nonGroundCollidersExact": true,
+    "wholeMapAndTextureTiersRetained": true
+  },
+  "changes": [
+    {
+      "cell": "c_m01_m01",
+      "before": {
+        "id": "c_m01_m01",
+        "cx": -1,
+        "cz": -1,
+        "boundsXZ": [
+          -128,
+          -128,
+          0,
+          0
+        ],
+        "visual": {
+          "lod0": {
+            "path": "cells/c_m01_m01.lod0.73c7e20af417f170.glb",
+            "bytes": 1168900,
+            "sha256": "73c7e20af417f170f381a6b836826aaa8a490354d0a4a40fb8850c0712f09fa4",
+            "triangles": 52792,
+            "drawCalls": 11,
+            "atlases": 11,
+            "textureBytesEstimate": 3757896
+          },
+          "lod1": {
+            "path": "cells/c_m01_m01.lod0.73c7e20af417f170.glb",
+            "bytes": 1168900,
+            "sha256": "73c7e20af417f170f381a6b836826aaa8a490354d0a4a40fb8850c0712f09fa4",
+            "triangles": 52792,
+            "drawCalls": 11,
+            "atlases": 11,
+            "textureBytesEstimate": 3757896
+          },
+          "lod2": {
+            "path": "cells/c_m01_m01.lod2.07bedbb3e68b7a53.glb",
+            "sha256": "07bedbb3e68b7a5348637999a836189b2e69fb63926211698edb3ed5d9248a82",
+            "bytes": 1036344,
+            "triangles": 46472,
+            "drawCalls": 1,
+            "atlases": 0,
+            "textureBytesEstimate": 0
+          }
+        },
+        "collision": {
+          "path": "cells/c_m01_m01.56d45df5de.hcol.091bdc8abc1c.gz",
+          "sha256": "091bdc8abc1c954c0a8ab8028ec9dc6e11ec71fd895e809b1291e12c5e8c858e",
+          "bytes": 136579,
+          "triangles": 13933,
+          "compression": "gzip",
+          "decodedBytes": 427620,
+          "decodedSha256": "56d45df5deebacb843a6200779a6c2a9ea0ea2bed243ba2f01d6285e2e5b59d6",
+          "boundsXZ": [
+            -140.8925018310547,
+            -128,
+            24.618600845336914,
+            0
+          ]
+        },
+        "buildingIds": [
+          "BID_4d58c091-9185-42fd-a8be-78f1f6eb891f",
+          "BID_aef35921-ee3b-4933-a292-2ef951919d63",
+          "BID_b7c8604a-ac1a-4a03-9999-f22bd72237d1",
+          "BID_cf43c58b-5f52-4da0-9e2a-2cb440430d86",
+          "BID_3a9b6d01-301d-421b-9b85-f8b4d7165e8e",
+          "BID_6dce0924-73fc-4181-a01d-72b01ff3c661"
+        ],
+        "buildings": [
+          {
+            "id": "BID_4d58c091-9185-42fd-a8be-78f1f6eb891f",
+            "registerId": "103027179C",
+            "vtj": "103027179C",
+            "address": "Hallituskatu 7, 00170 Helsinki Finland",
+            "storeys": 3,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 38754,
+            "boundsRuntime": {
+              "min": [
+                -34.189,
+                2.433,
+                -125.583
+              ],
+              "max": [
+                24.619,
+                64.83,
+                -66.797
+              ]
+            },
+            "cell": "c_m01_m01",
+            "landmark": "helsinki-cathedral"
+          },
+          {
+            "id": "BID_aef35921-ee3b-4933-a292-2ef951919d63",
+            "registerId": "103027180D",
+            "vtj": "103027180D",
+            "address": "Hallituskatu 7, 00170 Helsinki Finland",
+            "storeys": 2,
+            "match": "matched",
+            "matchOffsetMeters": 0,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 16,
+            "boundsRuntime": {
+              "min": [
+                -68.299,
+                2.555,
+                -55.174
+              ],
+              "max": [
+                -57.864,
+                25.011,
+                -39.385
+              ]
+            },
+            "cell": "c_m01_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_b7c8604a-ac1a-4a03-9999-f22bd72237d1",
+            "registerId": "103036767N",
+            "vtj": "103036767N",
+            "address": "Yliopistonkatu 2, 00170 Helsinki Finland",
+            "storeys": null,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 12,
+            "boundsRuntime": {
+              "min": [
+                -140.892,
+                0.977,
+                -35.46
+              ],
+              "max": [
+                -103.63,
+                8.849,
+                -20.182
+              ]
+            },
+            "cell": "c_m01_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_cf43c58b-5f52-4da0-9e2a-2cb440430d86",
+            "registerId": "103036769R",
+            "vtj": "103036769R",
+            "address": "Yliopistonkatu 1, 00170 Helsinki Finland",
+            "storeys": 6,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 715,
+            "boundsRuntime": {
+              "min": [
+                -133.587,
+                4.77,
+                -115.793
+              ],
+              "max": [
+                -87.543,
+                32.75,
+                -67.653
+              ]
+            },
+            "cell": "c_m01_m01",
+            "landmark": null
+          }
+        ],
+        "sourceTiles": [
+          "0007_75877.glb",
+          "0008_75878.glb",
+          "0005_75877.glb"
+        ]
+      },
+      "after": {
+        "id": "c_m01_m01",
+        "cx": -1,
+        "cz": -1,
+        "boundsXZ": [
+          -128,
+          -128,
+          0,
+          0
+        ],
+        "visual": {
+          "lod0": {
+            "path": "cells/c_m01_m01.lod0.026a822ba888d375.glb",
+            "bytes": 1820456,
+            "sha256": "026a822ba888d375d6914f48654c7292b1a3fe6e3a5d1393fc11748986a87ca6",
+            "triangles": 53615,
+            "drawCalls": 14,
+            "atlases": 13,
+            "textureBytesEstimate": 4456946.666666667
+          },
+          "lod1": {
+            "path": "cells/c_m01_m01.lod0.026a822ba888d375.glb",
+            "bytes": 1820456,
+            "sha256": "026a822ba888d375d6914f48654c7292b1a3fe6e3a5d1393fc11748986a87ca6",
+            "triangles": 53615,
+            "drawCalls": 14,
+            "atlases": 13,
+            "textureBytesEstimate": 4456946.666666667
+          },
+          "lod2": {
+            "path": "cells/c_m01_m01.lod2.1b067e17fffcd62e.glb",
+            "sha256": "1b067e17fffcd62e2a0fa9719fe404d591782ad0ece35b415cf4c92696a891ae",
+            "bytes": 2669520,
+            "triangles": 47387,
+            "drawCalls": 1,
+            "atlases": 0,
+            "textureBytesEstimate": 0
+          }
+        },
+        "collision": {
+          "path": "cells/c_m01_m01.entrances.hcol.88d59a463b90.gz",
+          "sha256": "88d59a463b90b1a5ab0c63339475226a735494d30b651e6f24cfb0d2f69ed0ba",
+          "bytes": 219791,
+          "triangles": 14760,
+          "compression": "gzip",
+          "decodedBytes": 733224,
+          "decodedSha256": "949158acbfc08fd6090ebd29b3c0723aecb80825a063f7d61c98b64e2493d3be",
+          "boundsXZ": [
+            -140.8925018310547,
+            -128,
+            24.618600845336914,
+            0
+          ]
+        },
+        "buildingIds": [
+          "BID_4d58c091-9185-42fd-a8be-78f1f6eb891f",
+          "BID_aef35921-ee3b-4933-a292-2ef951919d63",
+          "BID_b7c8604a-ac1a-4a03-9999-f22bd72237d1",
+          "BID_cf43c58b-5f52-4da0-9e2a-2cb440430d86",
+          "BID_3a9b6d01-301d-421b-9b85-f8b4d7165e8e",
+          "BID_6dce0924-73fc-4181-a01d-72b01ff3c661"
+        ],
+        "buildings": [
+          {
+            "id": "BID_4d58c091-9185-42fd-a8be-78f1f6eb891f",
+            "registerId": "103027179C",
+            "vtj": "103027179C",
+            "address": "Hallituskatu 7, 00170 Helsinki Finland",
+            "storeys": 3,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 38754,
+            "boundsRuntime": {
+              "min": [
+                -34.189,
+                2.433,
+                -125.583
+              ],
+              "max": [
+                24.619,
+                64.83,
+                -66.797
+              ]
+            },
+            "cell": "c_m01_m01",
+            "landmark": "helsinki-cathedral"
+          },
+          {
+            "id": "BID_aef35921-ee3b-4933-a292-2ef951919d63",
+            "registerId": "103027180D",
+            "vtj": "103027180D",
+            "address": "Hallituskatu 7, 00170 Helsinki Finland",
+            "storeys": 2,
+            "match": "matched",
+            "matchOffsetMeters": 0,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 16,
+            "boundsRuntime": {
+              "min": [
+                -68.299,
+                2.555,
+                -55.174
+              ],
+              "max": [
+                -57.864,
+                25.011,
+                -39.385
+              ]
+            },
+            "cell": "c_m01_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_b7c8604a-ac1a-4a03-9999-f22bd72237d1",
+            "registerId": "103036767N",
+            "vtj": "103036767N",
+            "address": "Yliopistonkatu 2, 00170 Helsinki Finland",
+            "storeys": null,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 12,
+            "boundsRuntime": {
+              "min": [
+                -140.892,
+                0.977,
+                -35.46
+              ],
+              "max": [
+                -103.63,
+                8.849,
+                -20.182
+              ]
+            },
+            "cell": "c_m01_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_cf43c58b-5f52-4da0-9e2a-2cb440430d86",
+            "registerId": "103036769R",
+            "vtj": "103036769R",
+            "address": "Yliopistonkatu 1, 00170 Helsinki Finland",
+            "storeys": 6,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 715,
+            "boundsRuntime": {
+              "min": [
+                -133.587,
+                4.77,
+                -115.793
+              ],
+              "max": [
+                -87.543,
+                32.75,
+                -67.653
+              ]
+            },
+            "cell": "c_m01_m01",
+            "landmark": null
+          }
+        ],
+        "sourceTiles": [
+          "0007_75877.glb",
+          "0008_75878.glb",
+          "0005_75877.glb"
+        ]
+      },
+      "authoredPieces": 20
+    },
+    {
+      "cell": "c_m01_p00",
+      "before": {
+        "id": "c_m01_p00",
+        "cx": -1,
+        "cz": 0,
+        "boundsXZ": [
+          -128,
+          0,
+          0,
+          128
+        ],
+        "visual": {
+          "lod0": {
+            "path": "cells/c_m01_p00.lod0.0174d1684131356b.glb",
+            "bytes": 304912,
+            "sha256": "0174d1684131356b3c39ed9c71b65e97c903319d528e79c107f1ca913569418f",
+            "triangles": 12663,
+            "drawCalls": 13,
+            "atlases": 13,
+            "textureBytesEstimate": 5593096
+          },
+          "lod1": {
+            "path": "cells/c_m01_p00.lod0.0174d1684131356b.glb",
+            "bytes": 304912,
+            "sha256": "0174d1684131356b3c39ed9c71b65e97c903319d528e79c107f1ca913569418f",
+            "triangles": 12663,
+            "drawCalls": 13,
+            "atlases": 13,
+            "textureBytesEstimate": 5593096
+          },
+          "lod2": {
+            "path": "cells/c_m01_p00.lod2.79c7ff470e7fefb9.glb",
+            "sha256": "79c7ff470e7fefb9c093484bb08b12ab1beab396b6f27784a040b3af7a27f88c",
+            "bytes": 114644,
+            "triangles": 10313,
+            "drawCalls": 1,
+            "atlases": 0,
+            "textureBytesEstimate": 0
+          }
+        },
+        "collision": {
+          "path": "cells/c_m01_p00.bdfadeaaf9.hcol.776e38e715a9.gz",
+          "sha256": "776e38e715a95d21da0cde1ebc44e4402adbc910e92154724da8b485aca4cf0e",
+          "bytes": 111755,
+          "triangles": 10487,
+          "compression": "gzip",
+          "decodedBytes": 331564,
+          "decodedSha256": "bdfadeaaf9aac1d29054a33a2ebfa6d2a4809a4e79396d782059801dd5a3eee0",
+          "boundsXZ": [
+            -160.46600341796875,
+            -37.51679992675781,
+            0,
+            130.5802001953125
+          ]
+        },
+        "buildingIds": [
+          "BID_3a9b6d01-301d-421b-9b85-f8b4d7165e8e",
+          "BID_53cd142d-f7d6-4c61-912e-b49f2c81be6d",
+          "BID_5bac9749-f118-47f5-b325-795ce356e887",
+          "BID_80c53f54-9ffd-4adc-87b1-acfbcad4f9f0",
+          "BID_c1ed64dc-b27c-4abd-8eef-70ac6291cd30",
+          "BID_1b6c3f66-d6e5-4d79-b595-b0ae2cfd013b",
+          "BID_25282e66-d9cd-4189-8576-d52b910ec056",
+          "BID_29d5c8c9-a6e1-439b-ad4e-cceab20d9f9e",
+          "BID_7b481eea-a20a-4b3d-bf1d-c7a31503812d",
+          "BID_795788e5-0053-46b8-b2a3-b1eede344011"
+        ],
+        "buildings": [
+          {
+            "id": "BID_3a9b6d01-301d-421b-9b85-f8b4d7165e8e",
+            "registerId": "103036766M",
+            "vtj": "103036766M",
+            "address": "Yliopistonkatu 2, 00170 Helsinki Finland",
+            "storeys": 5,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 414,
+            "boundsRuntime": {
+              "min": [
+                -160.466,
+                -3.19,
+                -37.52
+              ],
+              "max": [
+                -80.591,
+                26.706,
+                49.564
+              ]
+            },
+            "cell": "c_m01_p00",
+            "landmark": null
+          },
+          {
+            "id": "BID_53cd142d-f7d6-4c61-912e-b49f2c81be6d",
+            "registerId": "103027187M",
+            "vtj": "103027187M",
+            "address": "Aleksanterinkatu 26-28, 00170 Helsinki Finland",
+            "storeys": 5,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 691,
+            "boundsRuntime": {
+              "min": [
+                -62.213,
+                -3.75,
+                59.544
+              ],
+              "max": [
+                -10.75,
+                22.31,
+                129.271
+              ]
+            },
+            "cell": "c_m01_p00",
+            "landmark": null
+          },
+          {
+            "id": "BID_5bac9749-f118-47f5-b325-795ce356e887",
+            "registerId": "103036775X",
+            "vtj": "103036775X",
+            "address": "Unioninkatu 30, 00100 Helsinki Finland",
+            "storeys": 7,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 344,
+            "boundsRuntime": {
+              "min": [
+                -115.187,
+                -2.99,
+                103.804
+              ],
+              "max": [
+                -77.225,
+                23.95,
+                126.306
+              ]
+            },
+            "cell": "c_m01_p00",
+            "landmark": null
+          },
+          {
+            "id": "BID_80c53f54-9ffd-4adc-87b1-acfbcad4f9f0",
+            "registerId": "103027186L",
+            "vtj": "103027186L",
+            "address": "Unioninkatu 25, 00170 Helsinki Finland",
+            "storeys": 5,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 64,
+            "boundsRuntime": {
+              "min": [
+                -59.854,
+                -3.71,
+                108.338
+              ],
+              "max": [
+                -34.83,
+                20.51,
+                130.577
+              ]
+            },
+            "cell": "c_m01_p00",
+            "landmark": null
+          },
+          {
+            "id": "BID_c1ed64dc-b27c-4abd-8eef-70ac6291cd30",
+            "registerId": "103036774W",
+            "vtj": "103036774W",
+            "address": "Aleksanterinkatu 30-34, 00100 Helsinki Finland",
+            "storeys": 7,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 228,
+            "boundsRuntime": {
+              "min": [
+                -155.285,
+                -4.3,
+                62.55
+              ],
+              "max": [
+                -77.835,
+                24.75,
+                107.949
+              ]
+            },
+            "cell": "c_m01_p00",
+            "landmark": null
+          }
+        ],
+        "sourceTiles": [
+          "0009_75879.glb",
+          "0016_75880.glb",
+          "0015_75880.glb"
+        ]
+      },
+      "after": {
+        "id": "c_m01_p00",
+        "cx": -1,
+        "cz": 0,
+        "boundsXZ": [
+          -128,
+          0,
+          0,
+          128
+        ],
+        "visual": {
+          "lod0": {
+            "path": "cells/c_m01_p00.lod0.6e32e2ed79e4f44a.glb",
+            "bytes": 891516,
+            "sha256": "6e32e2ed79e4f44addb04933661a5f189f1bc3bcd76175c5fb63d38003899132",
+            "triangles": 13789,
+            "drawCalls": 16,
+            "atlases": 15,
+            "textureBytesEstimate": 6292146.666666667
+          },
+          "lod1": {
+            "path": "cells/c_m01_p00.lod0.6e32e2ed79e4f44a.glb",
+            "bytes": 891516,
+            "sha256": "6e32e2ed79e4f44addb04933661a5f189f1bc3bcd76175c5fb63d38003899132",
+            "triangles": 13789,
+            "drawCalls": 16,
+            "atlases": 15,
+            "textureBytesEstimate": 6292146.666666667
+          },
+          "lod2": {
+            "path": "cells/c_m01_p00.lod2.3c512289a89533f8.glb",
+            "sha256": "3c512289a89533f8677396ccf9a8b8c89fadff8423cd17285abbf3f97b84d97c",
+            "bytes": 586876,
+            "triangles": 11626,
+            "drawCalls": 1,
+            "atlases": 0,
+            "textureBytesEstimate": 0
+          }
+        },
+        "collision": {
+          "path": "cells/c_m01_p00.entrances.hcol.6b17f451027a.gz",
+          "sha256": "6b17f451027a892ac960476b5c88291114cd25e2aedca129ee3916720d863073",
+          "bytes": 180612,
+          "triangles": 11613,
+          "compression": "gzip",
+          "decodedBytes": 576252,
+          "decodedSha256": "6f3f41efdf3c5f6740a0537af2af41859608de266c33806d94be69af24842315",
+          "boundsXZ": [
+            -160.46600341796875,
+            -37.51679992675781,
+            0,
+            130.5802001953125
+          ]
+        },
+        "buildingIds": [
+          "BID_3a9b6d01-301d-421b-9b85-f8b4d7165e8e",
+          "BID_53cd142d-f7d6-4c61-912e-b49f2c81be6d",
+          "BID_5bac9749-f118-47f5-b325-795ce356e887",
+          "BID_80c53f54-9ffd-4adc-87b1-acfbcad4f9f0",
+          "BID_c1ed64dc-b27c-4abd-8eef-70ac6291cd30",
+          "BID_1b6c3f66-d6e5-4d79-b595-b0ae2cfd013b",
+          "BID_25282e66-d9cd-4189-8576-d52b910ec056",
+          "BID_29d5c8c9-a6e1-439b-ad4e-cceab20d9f9e",
+          "BID_7b481eea-a20a-4b3d-bf1d-c7a31503812d",
+          "BID_795788e5-0053-46b8-b2a3-b1eede344011"
+        ],
+        "buildings": [
+          {
+            "id": "BID_3a9b6d01-301d-421b-9b85-f8b4d7165e8e",
+            "registerId": "103036766M",
+            "vtj": "103036766M",
+            "address": "Yliopistonkatu 2, 00170 Helsinki Finland",
+            "storeys": 5,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 414,
+            "boundsRuntime": {
+              "min": [
+                -160.466,
+                -3.19,
+                -37.52
+              ],
+              "max": [
+                -80.591,
+                26.706,
+                49.564
+              ]
+            },
+            "cell": "c_m01_p00",
+            "landmark": null
+          },
+          {
+            "id": "BID_53cd142d-f7d6-4c61-912e-b49f2c81be6d",
+            "registerId": "103027187M",
+            "vtj": "103027187M",
+            "address": "Aleksanterinkatu 26-28, 00170 Helsinki Finland",
+            "storeys": 5,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 691,
+            "boundsRuntime": {
+              "min": [
+                -62.213,
+                -3.75,
+                59.544
+              ],
+              "max": [
+                -10.75,
+                22.31,
+                129.271
+              ]
+            },
+            "cell": "c_m01_p00",
+            "landmark": null
+          },
+          {
+            "id": "BID_5bac9749-f118-47f5-b325-795ce356e887",
+            "registerId": "103036775X",
+            "vtj": "103036775X",
+            "address": "Unioninkatu 30, 00100 Helsinki Finland",
+            "storeys": 7,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 344,
+            "boundsRuntime": {
+              "min": [
+                -115.187,
+                -2.99,
+                103.804
+              ],
+              "max": [
+                -77.225,
+                23.95,
+                126.306
+              ]
+            },
+            "cell": "c_m01_p00",
+            "landmark": null
+          },
+          {
+            "id": "BID_80c53f54-9ffd-4adc-87b1-acfbcad4f9f0",
+            "registerId": "103027186L",
+            "vtj": "103027186L",
+            "address": "Unioninkatu 25, 00170 Helsinki Finland",
+            "storeys": 5,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 64,
+            "boundsRuntime": {
+              "min": [
+                -59.854,
+                -3.71,
+                108.338
+              ],
+              "max": [
+                -34.83,
+                20.51,
+                130.577
+              ]
+            },
+            "cell": "c_m01_p00",
+            "landmark": null
+          },
+          {
+            "id": "BID_c1ed64dc-b27c-4abd-8eef-70ac6291cd30",
+            "registerId": "103036774W",
+            "vtj": "103036774W",
+            "address": "Aleksanterinkatu 30-34, 00100 Helsinki Finland",
+            "storeys": 7,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 228,
+            "boundsRuntime": {
+              "min": [
+                -155.285,
+                -4.3,
+                62.55
+              ],
+              "max": [
+                -77.835,
+                24.75,
+                107.949
+              ]
+            },
+            "cell": "c_m01_p00",
+            "landmark": null
+          }
+        ],
+        "sourceTiles": [
+          "0009_75879.glb",
+          "0016_75880.glb",
+          "0015_75880.glb"
+        ]
+      },
+      "authoredPieces": 30
+    },
+    {
+      "cell": "c_p00_m01",
+      "before": {
+        "id": "c_p00_m01",
+        "cx": 0,
+        "cz": -1,
+        "boundsXZ": [
+          0,
+          -128,
+          128,
+          0
+        ],
+        "visual": {
+          "lod0": {
+            "path": "cells/c_p00_m01.lod0.e786b88843841374.glb",
+            "bytes": 284492,
+            "sha256": "e786b88843841374bf52288797c96df7b962da57071acf2c90462b475445ab10",
+            "triangles": 10470,
+            "drawCalls": 12,
+            "atlases": 12,
+            "textureBytesEstimate": 4107672
+          },
+          "lod1": {
+            "path": "cells/c_p00_m01.lod0.e786b88843841374.glb",
+            "bytes": 284492,
+            "sha256": "e786b88843841374bf52288797c96df7b962da57071acf2c90462b475445ab10",
+            "triangles": 10470,
+            "drawCalls": 12,
+            "atlases": 12,
+            "textureBytesEstimate": 4107672
+          },
+          "lod2": {
+            "path": "cells/c_p00_m01.lod2.e077bc8c14d6a36f.glb",
+            "sha256": "e077bc8c14d6a36f4be94113045c906af88d64c8abcecbfa9ac4db41111e016e",
+            "bytes": 108964,
+            "triangles": 7924,
+            "drawCalls": 1,
+            "atlases": 0,
+            "textureBytesEstimate": 0
+          }
+        },
+        "collision": {
+          "path": "cells/c_p00_m01.9138895247.hcol.10050f460a10.gz",
+          "sha256": "10050f460a10e4c418f5b65710341c50356d787b5a1f03d15d81743e9a7ba76e",
+          "bytes": 101531,
+          "triangles": 10021,
+          "compression": "gzip",
+          "decodedBytes": 317412,
+          "decodedSha256": "9138895247e75fd04b05f1058f359e4574e77c267cf308262cb6258a914c6e1f",
+          "boundsXZ": [
+            -3.552713678800501e-15,
+            -141.34640502929688,
+            133.57850646972656,
+            1.7763568394002505e-15
+          ]
+        },
+        "buildingIds": [
+          "BID_00e919fa-b7d0-45f5-b572-e487b570e2a2",
+          "BID_3677c184-27a3-415a-8ae0-f894211951f2",
+          "BID_53acb2e0-f25e-4a94-bb0d-16421e4cda93",
+          "BID_599fa0c7-2621-45a9-ba09-63feb53464d5",
+          "BID_99d6f027-9c19-4bb5-82c2-4513b60960e8",
+          "BID_b1ff7eef-416b-4a7e-a200-c4782f9b7c11",
+          "BID_db130e10-22f6-42b0-9483-005bf6cfab26",
+          "BID_ff4fb2ce-421f-44d5-9919-0bdb1929ae52",
+          "BID_4d58c091-9185-42fd-a8be-78f1f6eb891f",
+          "BID_555111ed-5985-4bd5-9796-c155e050c91b",
+          "BID_605933e6-479d-4346-aadd-c3f42dc41a32",
+          "BID_840d4037-8a59-46c9-be6c-202d63bc4cc6"
+        ],
+        "buildings": [
+          {
+            "id": "BID_00e919fa-b7d0-45f5-b572-e487b570e2a2",
+            "registerId": "103027181E",
+            "vtj": "103027181E",
+            "address": "Hallituskatu 7, 00170 Helsinki Finland",
+            "storeys": 3,
+            "match": "matched",
+            "matchOffsetMeters": 0.001,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 16,
+            "boundsRuntime": {
+              "min": [
+                52.934,
+                1.103,
+                -60.871
+              ],
+              "max": [
+                63.015,
+                24.991,
+                -45.223
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_3677c184-27a3-415a-8ae0-f894211951f2",
+            "registerId": "103027183H",
+            "vtj": "103027183H",
+            "address": "Snellmaninkatu 6, 00170 Helsinki Finland",
+            "storeys": 3,
+            "match": "matched",
+            "matchOffsetMeters": 0,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 22,
+            "boundsRuntime": {
+              "min": [
+                28.769,
+                2.01,
+                -93.613
+              ],
+              "max": [
+                36.958,
+                17.39,
+                -82.998
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_53acb2e0-f25e-4a94-bb0d-16421e4cda93",
+            "registerId": "register-744614",
+            "vtj": null,
+            "address": "Helsinki Finland",
+            "storeys": null,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 84,
+            "boundsRuntime": {
+              "min": [
+                28.591,
+                1.66,
+                -111.571
+              ],
+              "max": [
+                60.764,
+                19.865,
+                -83.374
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_599fa0c7-2621-45a9-ba09-63feb53464d5",
+            "registerId": "1030176267",
+            "vtj": "1030176267",
+            "address": "Snellmaninkatu 3, 00170 Helsinki Finland",
+            "storeys": 4,
+            "match": "matched",
+            "matchOffsetMeters": 0,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 316,
+            "boundsRuntime": {
+              "min": [
+                77.068,
+                1.41,
+                -112.86
+              ],
+              "max": [
+                101.733,
+                29.32,
+                -61.353
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_99d6f027-9c19-4bb5-82c2-4513b60960e8",
+            "registerId": "1030176278",
+            "vtj": "1030176278",
+            "address": "Hallituskatu 5, 00170 Helsinki Finland",
+            "storeys": 4,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 32,
+            "boundsRuntime": {
+              "min": [
+                100.647,
+                -0.02,
+                -82.256
+              ],
+              "max": [
+                133.579,
+                25.99,
+                -62.554
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_b1ff7eef-416b-4a7e-a200-c4782f9b7c11",
+            "registerId": "103027182F",
+            "vtj": "103027182F",
+            "address": "Kirkkokatu 16, 00170 Helsinki Finland",
+            "storeys": 3,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 120,
+            "boundsRuntime": {
+              "min": [
+                25.198,
+                1.686,
+                -141.349
+              ],
+              "max": [
+                59.152,
+                19.62,
+                -109.937
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_db130e10-22f6-42b0-9483-005bf6cfab26",
+            "registerId": "103027178B",
+            "vtj": "103027178B",
+            "address": "Snellmaninkatu 2, 00170 Helsinki Finland",
+            "storeys": 1,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 42,
+            "boundsRuntime": {
+              "min": [
+                29.401,
+                1.396,
+                -84.561
+              ],
+              "max": [
+                62.134,
+                8.92,
+                -60.622
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_ff4fb2ce-421f-44d5-9919-0bdb1929ae52",
+            "registerId": "1030176289",
+            "vtj": "1030176289",
+            "address": "Snellmaninkatu 3, 00170 Helsinki Finland",
+            "storeys": 2,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 12,
+            "boundsRuntime": {
+              "min": [
+                110.418,
+                2.781,
+                -114.947
+              ],
+              "max": [
+                131.87,
+                9.989,
+                -93.323
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          }
+        ],
+        "sourceTiles": [
+          "0013_75878.glb",
+          "0010_75877.glb",
+          "0014_75878.glb",
+          "0012_75877.glb"
+        ]
+      },
+      "after": {
+        "id": "c_p00_m01",
+        "cx": 0,
+        "cz": -1,
+        "boundsXZ": [
+          0,
+          -128,
+          128,
+          0
+        ],
+        "visual": {
+          "lod0": {
+            "path": "cells/c_p00_m01.lod0.91666db007fa929d.glb",
+            "bytes": 843684,
+            "sha256": "91666db007fa929d0dfb4e187e66164d69590dea90783e10dc733d2345f2bc8f",
+            "triangles": 11344,
+            "drawCalls": 17,
+            "atlases": 14,
+            "textureBytesEstimate": 4806722.666666667
+          },
+          "lod1": {
+            "path": "cells/c_p00_m01.lod0.91666db007fa929d.glb",
+            "bytes": 843684,
+            "sha256": "91666db007fa929d0dfb4e187e66164d69590dea90783e10dc733d2345f2bc8f",
+            "triangles": 11344,
+            "drawCalls": 17,
+            "atlases": 14,
+            "textureBytesEstimate": 4806722.666666667
+          },
+          "lod2": {
+            "path": "cells/c_p00_m01.lod2.63a7daaa24b442d2.glb",
+            "sha256": "63a7daaa24b442d2b699b332fffc981b8cca68b9474f6d2739d42b0345413e6b",
+            "bytes": 636452,
+            "triangles": 9099,
+            "drawCalls": 1,
+            "atlases": 0,
+            "textureBytesEstimate": 0
+          }
+        },
+        "collision": {
+          "path": "cells/c_p00_m01.entrances.hcol.71f9f64b2bd1.gz",
+          "sha256": "71f9f64b2bd126feeda230b5ed5d86b3100023534b99d8852018bb611f8f29e9",
+          "bytes": 161708,
+          "triangles": 10805,
+          "compression": "gzip",
+          "decodedBytes": 533688,
+          "decodedSha256": "f91c0a7e18dfcfede024c882d3201cf5996b0774b02d5d8301e37d58ad82df42",
+          "boundsXZ": [
+            -3.552713678800501e-15,
+            -141.34640502929688,
+            133.57850646972656,
+            0
+          ]
+        },
+        "buildingIds": [
+          "BID_00e919fa-b7d0-45f5-b572-e487b570e2a2",
+          "BID_3677c184-27a3-415a-8ae0-f894211951f2",
+          "BID_53acb2e0-f25e-4a94-bb0d-16421e4cda93",
+          "BID_599fa0c7-2621-45a9-ba09-63feb53464d5",
+          "BID_99d6f027-9c19-4bb5-82c2-4513b60960e8",
+          "BID_b1ff7eef-416b-4a7e-a200-c4782f9b7c11",
+          "BID_db130e10-22f6-42b0-9483-005bf6cfab26",
+          "BID_ff4fb2ce-421f-44d5-9919-0bdb1929ae52",
+          "BID_4d58c091-9185-42fd-a8be-78f1f6eb891f",
+          "BID_555111ed-5985-4bd5-9796-c155e050c91b",
+          "BID_605933e6-479d-4346-aadd-c3f42dc41a32",
+          "BID_840d4037-8a59-46c9-be6c-202d63bc4cc6"
+        ],
+        "buildings": [
+          {
+            "id": "BID_00e919fa-b7d0-45f5-b572-e487b570e2a2",
+            "registerId": "103027181E",
+            "vtj": "103027181E",
+            "address": "Hallituskatu 7, 00170 Helsinki Finland",
+            "storeys": 3,
+            "match": "matched",
+            "matchOffsetMeters": 0.001,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 16,
+            "boundsRuntime": {
+              "min": [
+                52.934,
+                1.103,
+                -60.871
+              ],
+              "max": [
+                63.015,
+                24.991,
+                -45.223
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_3677c184-27a3-415a-8ae0-f894211951f2",
+            "registerId": "103027183H",
+            "vtj": "103027183H",
+            "address": "Snellmaninkatu 6, 00170 Helsinki Finland",
+            "storeys": 3,
+            "match": "matched",
+            "matchOffsetMeters": 0,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 22,
+            "boundsRuntime": {
+              "min": [
+                28.769,
+                2.01,
+                -93.613
+              ],
+              "max": [
+                36.958,
+                17.39,
+                -82.998
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_53acb2e0-f25e-4a94-bb0d-16421e4cda93",
+            "registerId": "register-744614",
+            "vtj": null,
+            "address": "Helsinki Finland",
+            "storeys": null,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 84,
+            "boundsRuntime": {
+              "min": [
+                28.591,
+                1.66,
+                -111.571
+              ],
+              "max": [
+                60.764,
+                19.865,
+                -83.374
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_599fa0c7-2621-45a9-ba09-63feb53464d5",
+            "registerId": "1030176267",
+            "vtj": "1030176267",
+            "address": "Snellmaninkatu 3, 00170 Helsinki Finland",
+            "storeys": 4,
+            "match": "matched",
+            "matchOffsetMeters": 0,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 316,
+            "boundsRuntime": {
+              "min": [
+                77.068,
+                1.41,
+                -112.86
+              ],
+              "max": [
+                101.733,
+                29.32,
+                -61.353
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_99d6f027-9c19-4bb5-82c2-4513b60960e8",
+            "registerId": "1030176278",
+            "vtj": "1030176278",
+            "address": "Hallituskatu 5, 00170 Helsinki Finland",
+            "storeys": 4,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 32,
+            "boundsRuntime": {
+              "min": [
+                100.647,
+                -0.02,
+                -82.256
+              ],
+              "max": [
+                133.579,
+                25.99,
+                -62.554
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_b1ff7eef-416b-4a7e-a200-c4782f9b7c11",
+            "registerId": "103027182F",
+            "vtj": "103027182F",
+            "address": "Kirkkokatu 16, 00170 Helsinki Finland",
+            "storeys": 3,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 120,
+            "boundsRuntime": {
+              "min": [
+                25.198,
+                1.686,
+                -141.349
+              ],
+              "max": [
+                59.152,
+                19.62,
+                -109.937
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_db130e10-22f6-42b0-9483-005bf6cfab26",
+            "registerId": "103027178B",
+            "vtj": "103027178B",
+            "address": "Snellmaninkatu 2, 00170 Helsinki Finland",
+            "storeys": 1,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 42,
+            "boundsRuntime": {
+              "min": [
+                29.401,
+                1.396,
+                -84.561
+              ],
+              "max": [
+                62.134,
+                8.92,
+                -60.622
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          },
+          {
+            "id": "BID_ff4fb2ce-421f-44d5-9919-0bdb1929ae52",
+            "registerId": "1030176289",
+            "vtj": "1030176289",
+            "address": "Snellmaninkatu 3, 00170 Helsinki Finland",
+            "storeys": 2,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 12,
+            "boundsRuntime": {
+              "min": [
+                110.418,
+                2.781,
+                -114.947
+              ],
+              "max": [
+                131.87,
+                9.989,
+                -93.323
+              ]
+            },
+            "cell": "c_p00_m01",
+            "landmark": null
+          }
+        ],
+        "sourceTiles": [
+          "0013_75878.glb",
+          "0010_75877.glb",
+          "0014_75878.glb",
+          "0012_75877.glb"
+        ]
+      },
+      "authoredPieces": 33
+    },
+    {
+      "cell": "c_p00_p00",
+      "before": {
+        "id": "c_p00_p00",
+        "cx": 0,
+        "cz": 0,
+        "boundsXZ": [
+          0,
+          0,
+          128,
+          128
+        ],
+        "visual": {
+          "lod0": {
+            "path": "cells/c_p00_p00.lod0.36e1ce20e43548c1.glb",
+            "bytes": 4890304,
+            "sha256": "36e1ce20e43548c1782e69f7ff85632f54ef6ef3bbefd5b9e510badf67de7ddb",
+            "triangles": 166140,
+            "drawCalls": 14,
+            "atlases": 13,
+            "textureBytesEstimate": 3495720
+          },
+          "lod1": {
+            "path": "cells/c_p00_p00.lod1.7a5d51ddd4422a94.glb",
+            "bytes": 2102816,
+            "sha256": "7a5d51ddd4422a940d5acbecbf78e8ffc9a9c39ae135db775ff17f6a256c62d2",
+            "triangles": 52603,
+            "drawCalls": 14,
+            "atlases": 13,
+            "textureBytesEstimate": 7687978
+          },
+          "lod2": {
+            "path": "cells/c_p00_p00.lod2.26076c5fa504143b.glb",
+            "sha256": "26076c5fa504143bd9cf314b4526ad1fe1e8aceb1417643fdbbdddbac2ba023c",
+            "bytes": 476212,
+            "triangles": 30018,
+            "drawCalls": 1,
+            "atlases": 0,
+            "textureBytesEstimate": 0
+          }
+        },
+        "collision": {
+          "path": "cells/c_p00_p00.054264bc35.hcol.fac7bedd27c7.gz",
+          "sha256": "fac7bedd27c73471cde57929b6b590b85a71c9790ee21a55e72f6e95f1607517",
+          "bytes": 139187,
+          "triangles": 13445,
+          "compression": "gzip",
+          "decodedBytes": 433852,
+          "decodedSha256": "054264bc352469d63563cc3541bf71b880fc63ec4402ed9d726853928f5168eb",
+          "boundsXZ": [
+            -5.242254734039307,
+            -3.2655551433563232,
+            133.54600524902344,
+            128
+          ]
+        },
+        "buildingIds": [
+          "BID_1b6c3f66-d6e5-4d79-b595-b0ae2cfd013b",
+          "BID_21e7efa4-4405-497a-8d61-8807bca19bc3",
+          "BID_29d5c8c9-a6e1-439b-ad4e-cceab20d9f9e",
+          "BID_605933e6-479d-4346-aadd-c3f42dc41a32",
+          "BID_73e62b80-3d1e-4567-9cce-8c984930fa2f",
+          "BID_d2a467be-bbb0-461a-8ddd-5189ab532c4a"
+        ],
+        "buildings": [
+          {
+            "id": "BID_1b6c3f66-d6e5-4d79-b595-b0ae2cfd013b",
+            "registerId": "103027185K",
+            "vtj": "103027185K",
+            "address": "Aleksanterinkatu 20, 00170 Helsinki Finland",
+            "storeys": 4,
+            "match": "matched",
+            "matchOffsetMeters": 0,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 416,
+            "boundsRuntime": {
+              "min": [
+                -5.242,
+                -4.001,
+                54.419
+              ],
+              "max": [
+                68.323,
+                13.59,
+                109.259
+              ]
+            },
+            "cell": "c_p00_p00",
+            "landmark": null
+          },
+          {
+            "id": "BID_21e7efa4-4405-497a-8d61-8807bca19bc3",
+            "registerId": "103017637K",
+            "vtj": "103017637K",
+            "address": "Aleksanterinkatu 14-18, 00170 Helsinki Finland",
+            "storeys": 4,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "flat-colour",
+            "triangles": 532,
+            "boundsRuntime": {
+              "min": [
+                76.227,
+                -4.773,
+                52.689
+              ],
+              "max": [
+                133.546,
+                17.63,
+                119.675
+              ]
+            },
+            "cell": "c_p00_p00",
+            "landmark": null
+          }
+        ],
+        "sourceTiles": [
+          "0017_75880.glb",
+          "0018_75880.glb"
+        ]
+      },
+      "after": {
+        "id": "c_p00_p00",
+        "cx": 0,
+        "cz": 0,
+        "boundsXZ": [
+          0,
+          0,
+          128,
+          128
+        ],
+        "visual": {
+          "lod0": {
+            "path": "cells/c_p00_p00.lod0.f2d44ed5a36bde44.glb",
+            "bytes": 5490052,
+            "sha256": "f2d44ed5a36bde44ffe63c3edac9bbb8844e8e585481b331d1437d368e2a8371",
+            "triangles": 166434,
+            "drawCalls": 19,
+            "atlases": 15,
+            "textureBytesEstimate": 4194770.666666667
+          },
+          "lod1": {
+            "path": "cells/c_p00_p00.lod1.6d12c560778ed9d8.glb",
+            "bytes": 2718508,
+            "sha256": "6d12c560778ed9d8ecf5dec9559cd24ed04160e21401f9a8a5b8920813562097",
+            "triangles": 52580,
+            "drawCalls": 19,
+            "atlases": 15,
+            "textureBytesEstimate": 8387028.666666667
+          },
+          "lod2": {
+            "path": "cells/c_p00_p00.lod2.5b43ebe6e734233d.glb",
+            "sha256": "5b43ebe6e734233d3a02f7fcbe5313380c4f16da158239690548a4c50c9217a0",
+            "bytes": 1409740,
+            "triangles": 30608,
+            "drawCalls": 1,
+            "atlases": 0,
+            "textureBytesEstimate": 0
+          }
+        },
+        "collision": {
+          "path": "cells/c_p00_p00.entrances.hcol.4db6b76b91f4.gz",
+          "sha256": "4db6b76b91f489b060cb30077eae37b876ecb406273df5b4aeed9a9ca6e85de5",
+          "bytes": 201599,
+          "triangles": 13422,
+          "compression": "gzip",
+          "decodedBytes": 656276,
+          "decodedSha256": "d789364c36cc3228a241c0ee134a4e0833eeb2f1a81a488fb7b7c87d761813f8",
+          "boundsXZ": [
+            -5.242254734039307,
+            -3.2655551433563232,
+            133.54600524902344,
+            128
+          ]
+        },
+        "buildingIds": [
+          "BID_1b6c3f66-d6e5-4d79-b595-b0ae2cfd013b",
+          "BID_21e7efa4-4405-497a-8d61-8807bca19bc3",
+          "BID_29d5c8c9-a6e1-439b-ad4e-cceab20d9f9e",
+          "BID_605933e6-479d-4346-aadd-c3f42dc41a32",
+          "BID_73e62b80-3d1e-4567-9cce-8c984930fa2f",
+          "BID_d2a467be-bbb0-461a-8ddd-5189ab532c4a"
+        ],
+        "buildings": [
+          {
+            "id": "BID_1b6c3f66-d6e5-4d79-b595-b0ae2cfd013b",
+            "registerId": "103027185K",
+            "vtj": "103027185K",
+            "address": "Aleksanterinkatu 20, 00170 Helsinki Finland",
+            "storeys": 4,
+            "match": "matched",
+            "matchOffsetMeters": 0,
+            "collider": "prism",
+            "texture": "textured",
+            "triangles": 416,
+            "boundsRuntime": {
+              "min": [
+                -5.242,
+                -4.001,
+                54.419
+              ],
+              "max": [
+                68.323,
+                13.59,
+                109.259
+              ]
+            },
+            "cell": "c_p00_p00",
+            "landmark": null
+          },
+          {
+            "id": "BID_21e7efa4-4405-497a-8d61-8807bca19bc3",
+            "registerId": "103017637K",
+            "vtj": "103017637K",
+            "address": "Aleksanterinkatu 14-18, 00170 Helsinki Finland",
+            "storeys": 4,
+            "match": "matched",
+            "matchOffsetMeters": 0.003,
+            "collider": "prism",
+            "texture": "flat-colour",
+            "triangles": 532,
+            "boundsRuntime": {
+              "min": [
+                76.227,
+                -4.773,
+                52.689
+              ],
+              "max": [
+                133.546,
+                17.63,
+                119.675
+              ]
+            },
+            "cell": "c_p00_p00",
+            "landmark": null
+          }
+        ],
+        "sourceTiles": [
+          "0017_75880.glb",
+          "0018_75880.glb"
+        ]
+      },
+      "authoredPieces": 23
+    }
+  ],
+  "loweredSafetySamples": 78,
+  "changedTerrain": [
+    {
+      "x": -85,
+      "z": -8,
+      "before": 1.7544187307357788,
+      "after": 1.6953285932540894
+    },
+    {
+      "x": -84,
+      "z": -8,
+      "before": 1.6847121715545654,
+      "after": 1.6815403699874878
+    },
+    {
+      "x": -85,
+      "z": -7,
+      "before": 1.8977340459823608,
+      "after": 1.6953285932540894
+    },
+    {
+      "x": -84,
+      "z": -7,
+      "before": 1.7181334495544434,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": -7,
+      "before": 1.6288278102874756,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": -7,
+      "before": 1.5293315649032593,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -85,
+      "z": -6,
+      "before": 2.0697503089904785,
+      "after": 1.6953285932540894
+    },
+    {
+      "x": -84,
+      "z": -6,
+      "before": 1.885488510131836,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": -6,
+      "before": 1.7045066356658936,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": -6,
+      "before": 1.5965700149536133,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -85,
+      "z": -5,
+      "before": 2.230708122253418,
+      "after": 1.7361549139022827
+    },
+    {
+      "x": -84,
+      "z": -5,
+      "before": 2.0452656745910645,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": -5,
+      "before": 1.8586792945861816,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": -5,
+      "before": 1.6673790216445923,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -85,
+      "z": -4,
+      "before": 2.2322351932525635,
+      "after": 1.776981234550476
+    },
+    {
+      "x": -84,
+      "z": -4,
+      "before": 2.1746277809143066,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": -4,
+      "before": 1.9780464172363281,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": -4,
+      "before": 2.033940315246582,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -85,
+      "z": -3,
+      "before": 2.2322351932525635,
+      "after": 1.8178075551986694
+    },
+    {
+      "x": -84,
+      "z": -3,
+      "before": 2.363431453704834,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": -3,
+      "before": 2.1098430156707764,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": -3,
+      "before": 2.065751552581787,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -85,
+      "z": -2,
+      "before": 2.389381170272827,
+      "after": 1.8701894283294678
+    },
+    {
+      "x": -84,
+      "z": -2,
+      "before": 2.5205774307250977,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": -2,
+      "before": 2.3465118408203125,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": -2,
+      "before": 2.20455265045166,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -85,
+      "z": -1,
+      "before": 2.3669638633728027,
+      "after": 1.9225714206695557
+    },
+    {
+      "x": -84,
+      "z": -1,
+      "before": 2.677114248275757,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": -1,
+      "before": 2.584609031677246,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": -1,
+      "before": 2.388211727142334,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -85,
+      "z": 0,
+      "before": 2.3319849967956543,
+      "after": 1.9749534130096436
+    },
+    {
+      "x": -84,
+      "z": 0,
+      "before": 2.710108757019043,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": 0,
+      "before": 2.7241461277008057,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": 0,
+      "before": 2.4357385635375977,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -85,
+      "z": 1,
+      "before": 2.297006130218506,
+      "after": 2.004016160964966
+    },
+    {
+      "x": -84,
+      "z": 1,
+      "before": 2.6751298904418945,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": 1,
+      "before": 2.867133855819702,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": 1,
+      "before": 2.6860177516937256,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -85,
+      "z": 2,
+      "before": 2.230994462966919,
+      "after": 1.992356538772583
+    },
+    {
+      "x": -84,
+      "z": 2,
+      "before": 2.640151023864746,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": 2,
+      "before": 2.867133855819702,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": 2,
+      "before": 2.6860177516937256,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -85,
+      "z": 3,
+      "before": 2.164982795715332,
+      "after": 1.9806969165802002
+    },
+    {
+      "x": -84,
+      "z": 3,
+      "before": 2.574139356613159,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": 3,
+      "before": 2.886457681655884,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": 3,
+      "before": 2.6860177516937256,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -85,
+      "z": 4,
+      "before": 2.0288169384002686,
+      "after": 1.9353082180023193
+    },
+    {
+      "x": -84,
+      "z": 4,
+      "before": 2.4379734992980957,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": 4,
+      "before": 2.847130060195923,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": 4,
+      "before": 2.6860177516937256,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -85,
+      "z": 5,
+      "before": 1.8926509618759155,
+      "after": 1.889919638633728
+    },
+    {
+      "x": -84,
+      "z": 5,
+      "before": 2.301807403564453,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": 5,
+      "before": 2.7109639644622803,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": 5,
+      "before": 2.6860177516937256,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -84,
+      "z": 6,
+      "before": 2.1656415462493896,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": 6,
+      "before": 2.574798107147217,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": 6,
+      "before": 2.5924184322357178,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -84,
+      "z": 7,
+      "before": 2.114668130874634,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": 7,
+      "before": 2.438632011413574,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": 7,
+      "before": 2.5924184322357178,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -84,
+      "z": 8,
+      "before": 1.9708424806594849,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": 8,
+      "before": 2.294806480407715,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": 8,
+      "before": 2.4554526805877686,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -84,
+      "z": 9,
+      "before": 1.827016830444336,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": 9,
+      "before": 2.1509809494018555,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": 9,
+      "before": 2.311627149581909,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -84,
+      "z": 10,
+      "before": 1.683191180229187,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": 10,
+      "before": 2.007155179977417,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": 10,
+      "before": 2.1702280044555664,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -84,
+      "z": 11,
+      "before": 1.6367195844650269,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": 11,
+      "before": 1.8633296489715576,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": 11,
+      "before": 2.066772222518921,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -84,
+      "z": 12,
+      "before": 1.482396125793457,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": 12,
+      "before": 1.7090060710906982,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": 12,
+      "before": 1.9124486446380615,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -83,
+      "z": 13,
+      "before": 1.5546826124191284,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -82,
+      "z": 13,
+      "before": 1.6627845764160156,
+      "after": 1.4793972969055176
+    },
+    {
+      "x": -76,
+      "z": 14,
+      "before": 1.4795058965682983,
+      "after": 1.4793972969055176
+    }
+  ],
+  "status": "BUILT_RUNTIME_AND_VISUAL_REVIEW_REQUIRED"
+}

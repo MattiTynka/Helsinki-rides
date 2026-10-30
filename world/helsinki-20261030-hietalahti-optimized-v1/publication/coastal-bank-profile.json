@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "kind": "native-new-strip-coastal-bank-closure",
+  "sourceOsmSha256": "0c158c071166235c743e9ce4e19e22934f71f52894ecf105a198fa63fb03a0c5",
+  "inlandProfileSha256": "8199c5bc6825d38cd5c6e5043923d066994a5289278278888b145e5e8e583981",
+  "regionXZ": [-1792, -2304, 800, -1152],
+  "waterY": -7.5,
+  "policy": "Close actual encoded native ground shoreline cuts vertically to the existing sea plane. Retain source coastline XZ, horizontal floors, original geometry/resources, terrain and open bridge/pier spans. Existing vertical faces are subtracted. Each new face is bound to an actual encoded native visual floor with a literal HCOL twin; no artificial map-edge quay or underwater land is created.",
+  "sources": [
+    {"name": "City of Helsinki native ground", "license": "CC-BY-4.0"},
+    {"name": "OpenStreetMap contributors", "license": "ODbL-1.0"}
+  ]
+}
