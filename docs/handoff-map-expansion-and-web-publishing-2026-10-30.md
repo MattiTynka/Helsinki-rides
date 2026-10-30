@@ -6,7 +6,7 @@ Later application update: the user requested removal of all invisible geographic
 
 ## Repositories and source of truth
 
-The working repository and the D: authoring backup served different purposes. The backup is the dated `BackUP_HP-Home_2025-12-14/Apps/Helsinki-rides` copy on D:. It supplied historical documents, authoring inputs and pipeline context. It was kept read-only. A file existing there did not establish that the deployed game used it.
+The working repository and the D: authoring backup served different purposes. The backup is a separate dated authoring copy on the D drive. It supplied historical documents, authoring inputs and pipeline context. It was kept read-only. A file existing there did not establish that the deployed game used it.
 
 The initial ground truth was GitHub `MattiTynka/Helsinki-rides` and the actual public Pages release. Before changing content, I bound the deployed source commit, release descriptor, manifest, archive and runtime. The previous live source was `03d072e0f549f27de7bc45eb62d16d30ed42517f`, with world `senate-20261025-civilian-flee` and manifest `0e18e55e8730f01144eef72a80decffbb53cdd658222f87a7e8ad6f75f2c4260`.
 
