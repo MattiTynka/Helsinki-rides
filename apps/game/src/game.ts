@@ -1,7 +1,7 @@
 // The game: fixed-step simulation driven by input commands, views synchronised from the sim state every frame
 // (plan section 2 and 15). Nothing in here is simulation logic.
 import * as THREE from 'three';
-import { CIVILIAN_VARIANTS, civilianVariant, type Shot } from '@helsinki/sim';
+import { CIVILIAN_VARIANTS, civilianVariant, LiveGrid, type Shot } from '@helsinki/sim';
 import { initPhysics, Simulation, StaticWorld, TICK_SECONDS, NEUTRAL, Button, headingToYaw, encodeCommand, decodeCommand, resolveAimTarget, groundBelowBundle, type Command, type EncodedCommand, type GameEvent, type SimState, type V3 } from '@helsinki/sim';
 import { parseCollisionBundle } from '@helsinki/world-schema';
 import { forgetAutoTier, rememberAutoTier, type GameConfig, type Lighting } from './config.ts';
@@ -20,6 +20,9 @@ import { interpolateState } from './render/interpolation.ts';
 import { Hud, type FrameStats } from './ui/hud.ts';
 import { GlbLoader, loadWorldData, mark, resolveRelease, type Progress, type WorldData } from './world/loader.ts';
 import { CollisionStream } from './world/collision-stream.ts';
+import { LiveCellSource } from './world/live/live-source.ts';
+import { LiveRecording } from './world/live/recording.ts';
+import { LiveVisuals } from './world/live/live-visuals.ts';
 import { resolveDropInTarget } from './world/drop-in.ts';
 import { CellVisualStream, missingVisualCoverage, type StreamFocus } from './world/cell-streaming.ts';
 import { i18n } from './i18n/index.ts';
@@ -45,6 +48,31 @@ export interface WorldVisualStreaming {
   persistentTextureBytes: number;
   readonly totalTextureBudgetBytes: number;
   readonly fallbackTextureBudgetBytes: number;
+  /** The live squares' two visual streams (zero without live cells); taken from the detail stream only while near. */
+  readonly liveTextureBudgetBytes: number;
+  liveNear: boolean;
+}
+
+/** The release detail stream's texture budget: the live slices come out of it only while live squares are near. */
+function detailTextureBudget(s: WorldVisualStreaming): number {
+  const base = s.totalTextureBudgetBytes - s.persistentTextureBytes - s.fallbackTextureBudgetBytes;
+  return s.liveNear ? Math.max(base - s.liveTextureBudgetBytes, base / 2) : base;
+}
+
+/** Moves the live slices in or out of the detail budget when the live visual window fills or empties. */
+function syncLiveTextureBudget(s: WorldVisualStreaming, live: LiveVisuals | null): void {
+  const near = live?.near ?? false;
+  if (near === s.liveNear) return;
+  s.liveNear = near;
+  s.detail.setTextureBudget(detailTextureBudget(s));
+}
+
+/** Live city cells (docs/live-kartta-cells-plan-2026-10-30.md): the release's missing squares, built from kartta.hel.fi. */
+interface LiveCells {
+  readonly grid: LiveGrid;
+  readonly source: LiveCellSource;
+  /** Review builds: the exact live collision bytes each inserted square used, for offline replay. */
+  readonly recording: LiveRecording | null;
 }
 
 function persistentRoots(assets: AssetLibrary): THREE.Object3D[] {
@@ -62,6 +90,11 @@ export class Game {
   readonly streaming: WorldVisualStreaming | null;
   /** Streamed collision bytes; null when every cell was loaded at startup (`?collision=all`). */
   readonly collision: CollisionStream | null;
+  /** Null with `?live=0` or `?collision=all`. */
+  readonly live: LiveCells | null;
+  readonly liveVisuals: LiveVisuals | null;
+  get liveSource(): LiveCellSource | null { return this.live?.source ?? null; }
+  get liveRecording(): LiveRecording | null { return this.live?.recording ?? null; }
   readonly cameraRig: ChaseCamera;
   readonly input: Input;
   readonly hud: Hud;
@@ -122,7 +155,7 @@ export class Game {
   private stepBlock: 'collision' | 'models' | null = null;
 
   private constructor(config: GameConfig, data: WorldData, world: StaticWorld, scene: CityScene, loader: GlbLoader, assets: AssetLibrary, canvas: HTMLCanvasElement, streaming: WorldVisualStreaming | null, collision: CollisionStream | null,
-    effects: Effects, shadowMaterial: THREE.MeshBasicMaterial) {
+    effects: Effects, shadowMaterial: THREE.MeshBasicMaterial, live: LiveCells | null, liveVisuals: LiveVisuals | null) {
     this.config = config;
     this.effects = effects;
     this.shadowMaterial = shadowMaterial;
@@ -141,6 +174,8 @@ export class Game {
     this.assets = assets;
     this.streaming = streaming;
     this.collision = collision;
+    this.live = live;
+    this.liveVisuals = liveVisuals;
     this.sim = new Simulation(world, { seed: config.seed });
     this.cameraRig = new ChaseCamera(scene.camera);
     this.input = new Input(canvas, config.review);
@@ -190,8 +225,11 @@ export class Game {
         () => ({ ok: true as const }), error => ({ ok: false as const, error }));
     }, config.collision);
     const [data] = await Promise.all([dataReady, initPhysics().then(() => mark('helsinki:physics-ready'))]);
-    const collision = data.collisionCells ? new CollisionStream(data.base, data.manifest.cells, data.collisionCells, data.collision) : null;
-    const world = Game.buildWorld(data, collision);
+    const live = config.live && data.collisionCells ? Game.liveCells(data) : null;
+    const collision = data.collisionCells
+      ? new CollisionStream(data.base, data.manifest.cells, data.collisionCells, data.collision, {}, live && { grid: live.grid, source: live.source, terrain: data.terrain })
+      : null;
+    const world = Game.buildWorld(data, collision, live);
     const loaded = await assetResult;
     if (!loaded.ok) throw loaded.error;
     mark('helsinki:assets-ready');
@@ -199,10 +237,14 @@ export class Game {
     const hasFallbacks = data.manifest.cells.every(cell => !!cell.visual.lod2);
     if (data.scenery) scene.addScenery(data.scenery, assets.scenery, data.manifest.cellSize, hasFallbacks);
     let streaming: WorldVisualStreaming | null = null;
+    let liveVisuals: LiveVisuals | null = null;
     if (hasFallbacks) {
       const persistentTextureBytes = textureBytesOf(persistentRoots(assets));
       const totalTextureBudgetBytes = (config.textureBudgetMb ?? (config.preset === 'low' ? 160 : 320)) * 2 ** 20;
       const fallbackBudget = 4 * 2 ** 20;
+      // Fixed slices for the live squares' streams, lent by the detail stream while a live square is near.
+      const liveDetailBudget = live ? (config.preset === 'low' ? 32 : 64) * 2 ** 20 : 0;
+      const liveFallbackBudget = live ? (config.preset === 'low' ? 8 : 16) * 2 ** 20 : 0;
       const backend = (lod: 'lod0' | 'lod1' | 'lod2') => ({
         load: (cell: typeof data.manifest.cells[number], signal: AbortSignal) => scene.loadCell(loader, data.base, cell, lod, signal),
         prepare: (_cell: typeof data.manifest.cells[number], view: CellView, signal: AbortSignal) => scene.prepareCell(view, signal),
@@ -222,7 +264,10 @@ export class Game {
         geometryBudgetBytes: tier.fallback.geometryBudgetMiB * 2 ** 20,
         concurrency: mobile ? 1 : 2, level: 'lod2', maxCells: tier.fallback.maxCells,
       });
-      streaming = { detail, fallback, persistentTextureBytes, totalTextureBudgetBytes, fallbackTextureBudgetBytes: fallbackBudget };
+      streaming = { detail, fallback, persistentTextureBytes, totalTextureBudgetBytes, fallbackTextureBudgetBytes: fallbackBudget,
+        liveTextureBudgetBytes: liveDetailBudget + liveFallbackBudget, liveNear: false };
+      if (live) liveVisuals = new LiveVisuals({ scene, loader, grid: live.grid, source: live.source, terrain: data.terrain, low, mobile: mobile === true,
+        detail: tier.detail, fallback: tier.fallback, detailTextureBudgetBytes: liveDetailBudget, fallbackTextureBudgetBytes: liveFallbackBudget });
       // The fog terminates within the coarse residency ring; outside geometry is not kept hidden in memory.
       scene.scene.fog = new THREE.Fog(0x9fb8d4, tier.fog.near, tier.fog.far);
       // Fully fogged geometry contributes no visible pixels. Clip it instead of still drawing every
@@ -233,6 +278,8 @@ export class Game {
       const focus = { x, z, velocityX: 0, velocityZ: 0 };
       fallback.update(focus);
       detail.update(focus);
+      liveVisuals?.update(focus);
+      syncLiveTextureBudget(streaming, liveVisuals);
       // Wait for the playable neighbourhood. Outer-ring work continues inside the same budgets.
       await Promise.all([fallback.settleNear(tier.settle.fallback), detail.settleNear(tier.settle.detail)]);
       if (fallback.stats().errors.length) throw new Error(`Initial city fallback load failed: ${fallback.stats().errors.join('; ')}`);
@@ -250,13 +297,14 @@ export class Game {
       }
     }
     mark('helsinki:visuals-ready');
-    const game = new Game(config, data, world, scene, loader, assets, canvas, streaming, collision, effects, shadowMaterial);
+    const game = new Game(config, data, world, scene, loader, assets, canvas, streaming, collision, effects, shadowMaterial, live, liveVisuals);
     // Everything in the scene at spawn (cells, scenery, coastal water, landmarks, the player and the actors synced
     // so far) is uploaded and compiled before Play, with the deferred actors loading and preparing alongside.
     const deferred = game.loadDeferredAssets();
     progress(0, 1, 'graphics');
     await scene.prepareObject(scene.scene);
     await warmup.prepareShared();
+    await liveVisuals?.prepareWarmup();
     progress(1, 1, 'graphics');
     progress(0, 1, 'people and cars');
     await deferred;
@@ -277,7 +325,7 @@ export class Game {
       const streaming = this.streaming;
       if (!streaming) return;
       streaming.persistentTextureBytes = textureBytesOf(persistentRoots(this.assets));
-      streaming.detail.setTextureBudget(streaming.totalTextureBudgetBytes - streaming.persistentTextureBytes - streaming.fallbackTextureBudgetBytes);
+      streaming.detail.setTextureBudget(detailTextureBudget(streaming));
     }, error => {
       console.error('Police models failed to load; retrying', error);
       this.modelLoading.failed = true;
@@ -289,11 +337,28 @@ export class Game {
    * Collision world from the release data. Streamed: the simulation inserts cells as it moves, exactly as an offline
    * replay with the same residency rules does. Otherwise every cell in manifest order, so collider handles match.
    */
-  static buildWorld(data: WorldData, collision: CollisionStream | null): StaticWorld {
+  static buildWorld(data: WorldData, collision: CollisionStream | null, live: LiveCells | null = null): StaticWorld {
     const world = new StaticWorld(data.terrain, data.roads, data.gameplay);
-    if (collision && data.collisionCells) world.enableStreaming(data.collisionCells, id => collision.get(id));
-    else for (const c of data.manifest.cells) world.addCell(c.id, data.collision.get(c.id)!);
+    if (collision && data.collisionCells) {
+      world.enableStreaming(data.collisionCells, live ? id => {
+        const bytes = collision.get(id);
+        // Bytes the simulation inserts stay the square's answer for the session, and the recording's.
+        if (bytes && live.grid.isLiveId(id)) {
+          live.source.pin(id, bytes);
+          live.recording?.record(id, bytes);
+        }
+        return bytes;
+      } : id => collision.get(id), live?.grid ?? null);
+    } else for (const c of data.manifest.cells) world.addCell(c.id, data.collision.get(c.id)!);
     return world;
+  }
+
+  private static liveCells(data: WorldData): LiveCells {
+    const cells = data.manifest.cells, buildings = cells.flatMap(cell => cell.buildings);
+    const ids = cells.map(cell => cell.id);
+    const source = new LiveCellSource({ origin: data.manifest.origin.originProjected, originId: data.manifest.origin.id, staticCellIds: ids,
+      staticBuildingIds: buildings.map(b => b.id), staticVtj: buildings.flatMap(b => [b.vtj, b.registerId].filter((v): v is string => !!v)) });
+    return { grid: new LiveGrid(ids), source, recording: __CAPTURE_REPLAY__ ? new LiveRecording() : null };
   }
 
   /** Start a fresh simulation (same seed) without reloading the page or the GPU assets. */
@@ -305,7 +370,7 @@ export class Game {
     this.vehicleViews.clear();
     for (const c of this.characterViews.values()) c.dispose();
     this.characterViews.clear();
-    this.world = Game.buildWorld(this.data, this.collision);
+    this.world = Game.buildWorld(this.data, this.collision, this.live);
     this.sim = new Simulation(this.world, { seed });
     this.commandLog.length = 0;
     this.traceLog.length = 0;
@@ -350,6 +415,7 @@ export class Game {
       for (const [stream, range] of [[this.streaming.detail, params.detail], [this.streaming.fallback, params.fallback]] as const) {
         stream.setOptions({ radius: range.radius, maxCells: range.maxCells, geometryBudgetBytes: range.geometryBudgetMiB * 2 ** 20 });
       }
+      this.liveVisuals?.setRanges(params.detail, params.fallback);
     }
     this.vehicleDetailRange = params.vehicleDetailRange;
     for (const view of this.vehicleViews.values()) view.setDetailRange(params.vehicleDetailRange);
@@ -651,6 +717,8 @@ export class Game {
         const focus: StreamFocus = { x: position[0], z: position[2], velocityX, velocityZ };
         this.streaming.fallback.update(focus);
         this.streaming.detail.update(focus);
+        this.liveVisuals?.update(focus);
+        syncLiveTextureBudget(this.streaming, this.liveVisuals);
         const failed = this.streaming.fallback.hasErrors() || this.streaming.detail.hasErrors();
         this.hud.setWorldLoading(this.visualLoading.blocked || collisionWaiting
           ? i18n.text(failed ? 'world.streetsFailed' : 'world.streets')
@@ -713,7 +781,10 @@ export class Game {
     const top = this.world.groundHeight(x, z) + 30;
     let y = this.world.groundHeight(x, z) - 0.4;
     for (const id of this.world.cellsAt(x, z)) {
-      const h = groundBelowBundle(parseCollisionBundle(collision.get(id)!), x, top, z, 80);
+      // A live square next to the address need not be loaded; drop-in plans never require one.
+      const bytes = collision.get(id);
+      if (!bytes) continue;
+      const h = groundBelowBundle(parseCollisionBundle(bytes), x, top, z, 80);
       if (h !== null) y = Math.max(y, h);
     }
     return [x, y, z];
@@ -732,6 +803,8 @@ export class Game {
       const focus = { x: position[0], z: position[2], velocityX: 0, velocityZ: 0 };
       this.streaming.fallback.update(focus);
       this.streaming.detail.update(focus);
+      this.liveVisuals?.update(focus);
+      syncLiveTextureBudget(this.streaming, this.liveVisuals);
     }
   }
 

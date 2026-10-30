@@ -6,13 +6,13 @@ import path from 'node:path';
 import { parseArgs } from 'node:util';
 import { decodeCommand, initPhysics, Simulation, type EncodedCommand } from '../../packages/sim/src/index.ts';
 import type { WorldManifest } from '../../packages/world-schema/src/index.ts';
-import { readRoadGraph, readSimulationPayload, replayWorld } from './lib/simulation-payload.ts';
+import { readRoadGraph, readSimulationPayload, replayWorld, type RecordedLiveCells } from './lib/simulation-payload.ts';
 
 const { values } = parseArgs({ options: { release: { type: 'string' }, recording: { type: 'string' } } });
 if (!values.release || !values.recording) throw new Error('--release and --recording are required');
 
 const manifest = JSON.parse(readFileSync(path.join(values.release, 'manifest.json'), 'utf8')) as WorldManifest;
-const rec = JSON.parse(readFileSync(values.recording, 'utf8')) as { release: string; seed: number; ending: string; ticks: number; hash: string; commands: EncodedCommand[]; collision?: string };
+const rec = JSON.parse(readFileSync(values.recording, 'utf8')) as { release: string; seed: number; ending: string; ticks: number; hash: string; commands: EncodedCommand[]; collision?: string; live?: RecordedLiveCells | null };
 if (rec.release !== manifest.worldReleaseId) throw new Error(`recording is from ${rec.release}, --release is ${manifest.worldReleaseId}`);
 
 await initPhysics();
@@ -22,7 +22,7 @@ const world = replayWorld(
   await readSimulationPayload(values.release, manifest.terrain),
   await readRoadGraph(values.release,manifest.roads),
   JSON.parse(readFileSync(path.join(values.release, manifest.gameplay.path), 'utf8')),
-  manifest.cells, collision, rec.collision,
+  manifest.cells, collision, rec.collision, rec.live,
 );
 const sim = new Simulation(world, { seed: rec.seed });
 const t0 = performance.now();

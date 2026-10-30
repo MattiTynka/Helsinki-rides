@@ -1,9 +1,12 @@
 // Decoded collision bundles for the simulation's streamed residency (packages/sim/src/collision-residency.ts). The
 // simulation decides which cells are inserted; this only fetches bytes ahead of its rings and keeps them while near.
-// When a step needs a cell that has not arrived, the game blocks ticks until it has.
-import type { CellDescriptor } from '@helsinki/world-schema';
-import type { CollisionCellRef, ResidencySource } from '@helsinki/sim';
+// When a step needs a cell that has not arrived, the game blocks ticks until it has. Live squares (grid squares the
+// manifest lacks, world/live) are built by the live source instead of fetched; prefetches of them that fall out of
+// range are aborted.
+import type { CellDescriptor, TerrainGrid } from '@helsinki/world-schema';
+import type { CollisionCellRef, LiveGrid, ResidencySource } from '@helsinki/sim';
 import { fetchSimulationPayload } from './payload.ts';
+import { edgeOverrides, type LiveCellSource } from './live/live-source.ts';
 
 export interface CollisionStreamStats {
   readonly cached: number;
@@ -29,6 +32,13 @@ export interface CollisionStreamOptions {
   readonly retrySeconds: number;
 }
 
+/** Live city cells: the grid, the worker-backed source and the release terrain their seams copy. */
+export interface CollisionStreamLive {
+  readonly grid: LiveGrid;
+  readonly source: LiveCellSource;
+  readonly terrain: TerrainGrid;
+}
+
 const DEFAULTS: CollisionStreamOptions = { concurrency: 4, cacheBytes: 64 * 2 ** 20, playerMargin: 160, actorMargin: 48, lookaheadSeconds: 4, retrySeconds: 2 };
 
 export class CollisionStream {
@@ -49,12 +59,18 @@ export class CollisionStream {
   private fetchedBytes = 0;
   private evicted = 0;
   private readonly errors: string[] = [];
+  private readonly live: CollisionStreamLive | null;
+  /** Abort controllers of pending live builds. */
+  private readonly liveJobs = new Map<string, AbortController>();
+  /** Pending cells a step asked for (ensure, request): never aborted. */
+  private readonly demanded = new Set<string>();
 
-  constructor(base: string, cells: readonly CellDescriptor[], extents: readonly CollisionCellRef[], initial: ReadonlyMap<string, Uint8Array>, options: Partial<CollisionStreamOptions> = {}) {
+  constructor(base: string, cells: readonly CellDescriptor[], extents: readonly CollisionCellRef[], initial: ReadonlyMap<string, Uint8Array>, options: Partial<CollisionStreamOptions> = {}, live?: CollisionStreamLive | null) {
     this.base = base;
     this.cells = new Map(cells.map(c => [c.id, c]));
     this.extents = extents;
     this.options = { ...DEFAULTS, ...options };
+    this.live = live ?? null;
     for (const [id, bytes] of initial) this.store(id, bytes);
     this.pinned = new Set(initial.keys());
   }
@@ -64,14 +80,22 @@ export class CollisionStream {
   /** Resolves when every listed cell is available. Missing cells are requested at once, ahead of prefetching. */
   ensure(ids: readonly string[]): Promise<void> {
     const waits: Promise<Uint8Array>[] = [];
-    for (const id of ids) if (!this.bytes.has(id)) waits.push(this.start(id));
+    for (const id of ids) {
+      if (this.bytes.has(id)) continue;
+      waits.push(this.start(id));
+      if (this.pending.has(id)) this.demanded.add(id);
+    }
     return waits.length ? Promise.all(waits).then(() => undefined) : Promise.resolve();
   }
 
   /** Request cells a step is waiting for without awaiting them; a blocked frame calls this every frame. */
   request(ids: readonly string[]): void {
     const now = performance.now();
-    for (const id of ids) if (!this.bytes.has(id) && !this.pending.has(id) && !this.coolingDown(id, now)) this.start(id).catch(() => {});
+    for (const id of ids) {
+      if (this.bytes.has(id)) continue;
+      if (!this.pending.has(id) && !this.coolingDown(id, now)) this.start(id).catch(() => {});
+      if (this.pending.has(id)) this.demanded.add(id);
+    }
   }
 
   /** Prefetch around the simulation's residency sources (the player first), nearest first, and trim the cache. */
@@ -81,7 +105,7 @@ export class CollisionStream {
     const player = sources[0];
     if (player) focus.push({ x: player.x + playerVelocity[0] * o.lookaheadSeconds, z: player.z + playerVelocity[1] * o.lookaheadSeconds, radius: player.want });
     const ranked: { id: string; d: number }[] = [];
-    for (const cell of this.extents) {
+    const rank = (cell: CollisionCellRef): void => {
       let d = Infinity;
       const b = cell.boundsXZ;
       for (const f of focus) {
@@ -94,9 +118,22 @@ export class CollisionStream {
         d = Math.min(d, Math.hypot(dx, dz) - f.radius);
       }
       if (d <= 0) ranked.push({ id: cell.id, d });
+    };
+    for (const cell of this.extents) rank(cell);
+    if (this.live) {
+      const near = new Map<string, CollisionCellRef>();
+      for (const f of focus) for (const ref of this.live.grid.near(f.x, f.z, f.radius)) near.set(ref.id, ref);
+      for (const ref of near.values()) rank(ref);
     }
     ranked.sort((a, b) => a.d - b.d || (a.id < b.id ? -1 : 1));
     this.prefetch = new Set(ranked.map(r => r.id));
+    // Live builds nobody needs any more give their kartta.hel.fi requests back.
+    for (const [id, controller] of this.liveJobs) {
+      if (this.prefetch.has(id) || this.demanded.has(id)) continue;
+      controller.abort();
+      this.liveJobs.delete(id);
+      this.pending.delete(id);
+    }
     const now = performance.now();
     this.queue = ranked.map(r => r.id).filter(id => !this.bytes.has(id) && !this.pending.has(id) && !this.coolingDown(id, now));
     this.pump();
@@ -122,24 +159,46 @@ export class CollisionStream {
   private start(id: string): Promise<Uint8Array> {
     const existing = this.pending.get(id);
     if (existing) return existing;
-    const cell = this.cells.get(id);
-    if (!cell) return Promise.reject(new Error(`unknown collision cell ${id}`));
-    const job = fetchSimulationPayload(this.base + cell.collision.path, cell.collision).then(bytes => {
+    const load = this.load(id);
+    if (!load) return Promise.reject(new Error(`unknown collision cell ${id}`));
+    const job: Promise<Uint8Array> = load.then(bytes => {
       this.store(id, bytes);
       this.failedAt.delete(id);
       this.fetched++;
       this.fetchedBytes += bytes.byteLength;
       return this.bytes.get(id)!;
     }, (error: unknown) => {
-      this.failedAt.set(id, performance.now());
-      this.errors.push(`${id}: ${error instanceof Error ? error.message : String(error)}`);
+      // An aborted live prefetch is not a failure: it starts afresh when wanted again.
+      if (!(error instanceof DOMException && error.name === 'AbortError')) {
+        this.failedAt.set(id, performance.now());
+        this.errors.push(`${id}: ${error instanceof Error ? error.message : String(error)}`);
+      }
       throw error;
     }).finally(() => {
+      if (this.pending.get(id) !== job) return; // aborted and since superseded
       this.pending.delete(id);
+      this.liveJobs.delete(id);
+      this.demanded.delete(id);
       this.pump();
     });
     this.pending.set(id, job);
     return job;
+  }
+
+  /** A manifest cell's bytes from the release host, or a live square's from the live source; null for neither. */
+  private load(id: string): Promise<Uint8Array> | null {
+    const cell = this.cells.get(id);
+    if (cell) return fetchSimulationPayload(this.base + cell.collision.path, cell.collision);
+    const live = this.live;
+    const c = live?.grid.isLiveId(id) ? live.grid.parse(id) : null;
+    if (!live || !c) return null;
+    const controller = new AbortController();
+    this.liveJobs.set(id, controller);
+    return live.source.collision(c[0], c[1], edgeOverrides(live.grid, live.terrain, c[0], c[1]), controller.signal).then(result => {
+      // A speculative build that found its sources unavailable is retried later; only a step's demand settles for empty.
+      if (result.empty && !this.demanded.has(id) && !live.source.pinned(id)) throw new Error('live sources unavailable');
+      return result.hcol;
+    });
   }
 
   private pump(): void {

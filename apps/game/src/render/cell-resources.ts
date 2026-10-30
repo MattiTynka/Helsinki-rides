@@ -14,18 +14,23 @@ function resources(roots: readonly THREE.Object3D[]): { geometries: Set<THREE.Bu
   return { geometries, materials, textures };
 }
 
-/** Device-transcoded mip bytes, including textures held by invisible actors or an incoming detached cell. */
+/** Device bytes of one texture: its transcoded mip levels, or RGBA8 (with any generated chain) for an image. */
+export function textureGpuBytes(texture: THREE.Texture): number {
+  const compressed = texture as THREE.CompressedTexture;
+  if (compressed.isCompressedTexture && compressed.mipmaps.length) {
+    return compressed.mipmaps.reduce((sum, mip) => sum + (mip as { data: ArrayBufferView }).data.byteLength, 0);
+  }
+  const image = texture.image as { width?: number; height?: number } | undefined;
+  return (image?.width ?? 0) * (image?.height ?? 0) * 4 * (texture.generateMipmaps ? 4 / 3 : 1);
+}
+
+/**
+ * Device-transcoded mip bytes, including textures held by invisible actors or an incoming detached cell. Live city
+ * textures (`userData.liveShared`) count like any other: a view's uploads and budgets still see them.
+ */
 export function textureBytesOf(roots: readonly THREE.Object3D[]): number {
   let bytes = 0;
-  for (const texture of resources(roots).textures) {
-    const compressed = texture as THREE.CompressedTexture;
-    if (compressed.isCompressedTexture && compressed.mipmaps.length) {
-      bytes += compressed.mipmaps.reduce((sum, mip) => sum + (mip as { data: ArrayBufferView }).data.byteLength, 0);
-    } else {
-      const image = texture.image as { width?: number; height?: number } | undefined;
-      bytes += (image?.width ?? 0) * (image?.height ?? 0) * 4 * (texture.generateMipmaps ? 4 / 3 : 1);
-    }
-  }
+  for (const texture of resources(roots).textures) bytes += textureGpuBytes(texture);
   return bytes;
 }
 
@@ -44,7 +49,10 @@ export function geometryBytesOf(root: THREE.Object3D): number {
   return [...buffers].reduce((bytes, buffer) => bytes + buffer.byteLength, 0);
 }
 
-/** Each parsed cell GLB owns its resources. Never call this on actor clones, which share the asset library. */
+/**
+ * Each parsed cell GLB owns its resources. Never call this on actor clones, which share the asset library. Live city
+ * textures (`userData.liveShared`) are shared across squares and views; their refcounted cache disposes them.
+ */
 export function disposeCellResources(root: THREE.Object3D): void {
   root.removeFromParent();
   const owned = resources([root]);
@@ -52,6 +60,7 @@ export function disposeCellResources(root: THREE.Object3D): void {
   for (const material of owned.materials) material.dispose();
   const bitmaps = new Set<ImageBitmap>();
   for (const texture of owned.textures) {
+    if (texture.userData['liveShared'] === true) continue;
     texture.dispose();
     // Texture.dispose releases GPU storage but Three.js deliberately leaves ImageBitmap.close
     // to the owner. A single bitmap can back several maps/materials inside this independent GLB.

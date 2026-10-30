@@ -539,11 +539,12 @@ async function runOnce(run: number): Promise<RunResult> {
   check('duration', seconds <= MAX_SECONDS, `${seconds.toFixed(1)} s of simulation`);
   // Offline replay of this run's command trace on a fresh Node simulation with the same seed.
   // One evaluate so the hash, the command log and the trace come from the same tick (the loop keeps running).
-  const { hash, commands, browserTrace, collision } = await page.evaluate(() => {
-    const g = (window as unknown as { __HELSINKI_GAME__: { hash(): string; commands(): EncodedCommand[]; trace(): string[]; collision(): { residency: string | null } } }).__HELSINKI_GAME__;
-    return { hash: g.hash(), commands: g.commands(), browserTrace: g.trace(), collision: g.collision().residency };
+  const { hash, commands, browserTrace, collision, live } = await page.evaluate(() => {
+    const g = (window as unknown as { __HELSINKI_GAME__: { hash(): string; commands(): EncodedCommand[]; trace(): string[]; collision(): { residency: string | null };
+      liveCells(): { version: string; cells: Record<string, string> } | null } }).__HELSINKI_GAME__;
+    return { hash: g.hash(), commands: g.commands(), browserTrace: g.trace(), collision: g.collision().residency, live: g.liveCells() };
   });
-  const world = replayWorld(terrainBytes, roadsJson, gameplayJson, manifest.cells, new Map(collisionFiles), collision);
+  const world = replayWorld(terrainBytes, roadsJson, gameplayJson, manifest.cells, new Map(collisionFiles), collision, live);
   const sim = new Simulation(world, { seed });
   let firstDivergence: { tick: number; browser: string; node: string } | null = null;
   for (const c of commands) {
@@ -556,7 +557,7 @@ async function runOnce(run: number): Promise<RunResult> {
   check('replay', replayMatch, `${commands.length} commands, browser ${hash}, node ${replayHash}${firstDivergence ? `, first divergence at tick ${firstDivergence.tick}` : ''}`);
   if (firstDivergence) { note(`  browser: ${firstDivergence.browser}`); note(`  node:    ${firstDivergence.node}`); }
   // The input recording: enough to replay this run offline (tools/verify/replay-recording.ts).
-  writeFileSync(path.join(OUT, `run-${String(run).padStart(2, '0')}-recording.json`), JSON.stringify({ release, seed, ending, ticks: commands.length, hash, commands, collision: collision ?? undefined }) + '\n');
+  writeFileSync(path.join(OUT, `run-${String(run).padStart(2, '0')}-recording.json`), JSON.stringify({ release, seed, ending, ticks: commands.length, hash, commands, collision: collision ?? undefined, live: live ?? undefined }) + '\n');
   return { run, ending, checks, pass: checks.every(c => c.pass), seconds, fpsMin, fpsAvg, drawCallsMax, ticks: s.tick - startTick, hash, replayHash };
 }
 

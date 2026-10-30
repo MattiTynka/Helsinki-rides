@@ -197,8 +197,9 @@ export class Simulation {
     for (const d of this.gameplay.vehicleDefinitions) this.defs.set(d.id, d);
     for (const w of this.gameplay.weapons) this.weaponDefs.set(w.id, w);
     this.wanted = new WantedState(this.gameplay.wanted);
-    // A streamed world inserts the start's collision first (the loader fetched exactly these cells).
-    if (world.streamed) world.applyResidency(world.planResidency(initialResidencySources(this.gameplay), Infinity));
+    // A streamed world inserts the start's collision first (the loader fetched exactly these cells). Live squares
+    // wait for the first steps, which block until their bytes arrive; construction never requires them.
+    if (world.streamed) world.applyResidency(world.planResidency(initialResidencySources(this.gameplay), Infinity, { live: false }));
     // Rapier's query broadphase is empty until its first step. Prime the static world
     // before validating any spawn and before adding characters or dynamic cars.
     this.world.physics.step();
@@ -374,9 +375,9 @@ export class Simulation {
     this.player.teleport(position, yaw);
   }
 
-  /** Every cell a drop-in at XZ inserts at once, including the rings ahead of need. */
+  /** Every cell a drop-in at XZ inserts at once, including the rings ahead of need; live squares follow with the next steps. */
   dropInPlan(x: number, z: number): ResidencyPlan {
-    return this.world.planResidency([source(x, z, RESIDENCY.player), ...this.collisionSources()], Infinity);
+    return this.world.planResidency([source(x, z, RESIDENCY.player), ...this.collisionSources()], Infinity, { live: false });
   }
 
   step(command: Command): GameEvent[] {

@@ -133,9 +133,9 @@ export class CellVisualStream<T extends CellResource> {
   private cancelledLoads = 0;
   private failures = 0;
   private readonly now: () => number;
-  private readonly cells: readonly CellDescriptor[];
-  /** A release manifest is immutable for this stream's lifetime. Do not rescan buildings every frame. */
-  private readonly boundsByCell: ReadonlyMap<string, readonly [number, number, number, number]>;
+  private cells: readonly CellDescriptor[];
+  /** Rebuilt only when the candidate list changes (`setCells`). Do not rescan buildings every frame. */
+  private boundsByCell: ReadonlyMap<string, readonly [number, number, number, number]>;
   private readonly backend: CellStreamBackend<T>;
   private options: CellStreamOptions;
 
@@ -169,6 +169,18 @@ export class CellVisualStream<T extends CellResource> {
       ...(maxCells !== undefined && Number.isInteger(maxCells) && maxCells > 0 ? { maxCells } : {}),
       ...(geometryBudgetBytes !== undefined && geometryBudgetBytes > 0 ? { geometryBudgetBytes } : {}),
     };
+    this.reselect();
+    this.pump();
+  }
+
+  /**
+   * Replace the candidate list (live city squares near the focus; a release stream keeps its manifest). Resident and
+   * pending cells that are no longer candidates are evicted or cancelled by the reselection, as on any focus move.
+   */
+  setCells(cells: readonly CellDescriptor[]): void {
+    if (this.disposed) return;
+    this.cells = cells;
+    this.boundsByCell = new Map(cells.map(cell => [cell.id, visualBounds(cell)]));
     this.reselect();
     this.pump();
   }

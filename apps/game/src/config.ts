@@ -52,6 +52,8 @@ export interface GameConfig {
   readonly vehicleDetailRange: number;
   /** `?collision=all` loads every collision cell at startup instead of streaming them. */
   readonly collision: CollisionMode;
+  /** Squares the release lacks are built from kartta.hel.fi as the player nears them; `?live=0` turns this off. */
+  readonly live: boolean;
   /** `?mipdrop=0|1`: measurement override of the detail tier's texture mip drop (null: the tier decides). */
   readonly mipDrop: 0 | 1 | null;
 }
@@ -147,6 +149,7 @@ export function readConfig(): GameConfig {
     dynamicResolution: q.get('dynres') === '1' || (!review && q.get('dynres') !== '0'),
     vehicleDetailRange: tier.vehicleDetailRange,
     collision: q.get('collision') === 'all' ? 'all' : 'streamed',
+    live: q.get('live') !== '0',
     mipDrop: q.get('mipdrop') === '1' ? 1 : q.get('mipdrop') === '0' ? 0 : null,
   };
 }

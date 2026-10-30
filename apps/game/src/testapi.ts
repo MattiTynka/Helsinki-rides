@@ -10,6 +10,7 @@ import * as THREE from 'three';
 import { inspectCharacter, type CharacterPoseSnapshot } from './render/character-inspection.ts';
 import type { CellStreamStats } from './world/cell-streaming.ts';
 import type { CollisionStreamStats } from './world/collision-stream.ts';
+import type { LiveRecordingData, LiveSourceStats } from './world/live/contract.ts';
 import type { ShootingEffectsSnapshot } from './render/effects.ts';
 import { inspectTextureOwnership, type TextureOwnershipSnapshot } from './review/texture-ownership.ts';
 
@@ -85,8 +86,14 @@ export interface HelsinkiTestApi {
   /** Sorted ids of the cells resident in the detail and fallback streams (null without streaming). */
   residentCells(): { detail: string[]; fallback: string[] } | null;
   awaitVisuals(): Promise<void>;
-  /** Collision residency: the rules a recording replays under (null: every cell resident), resident cells and bytes. */
-  collision(): { residency: string | null; resident: number; blocked: boolean; blockedFrames: number; blockedSeconds: number; missingCells: string[]; stream: CollisionStreamStats | null };
+  /**
+   * Collision residency: the rules a recording replays under (null: every cell resident), resident cells and bytes,
+   * and the live city cell source (null: live cells off).
+   */
+  collision(): { residency: string | null; resident: number; blocked: boolean; blockedFrames: number; blockedSeconds: number; missingCells: string[]; stream: CollisionStreamStats | null;
+    live: LiveSourceStats | null };
+  /** The live collision bytes this session inserted, for a recording's offline replay (null: live cells off). */
+  liveCells(): LiveRecordingData | null;
   /** Officer and patrol models load after startup; ticks wait while police near the player have none. */
   deferredModels(): { blocked: boolean; blockedFrames: number; blockedSeconds: number; failed: boolean; ready: boolean };
   renderBreakdown(): { triangles: number; drawCalls: number; groups: { id: string; triangles: number; drawCalls: number }[] };
@@ -157,7 +164,8 @@ export function installTestApi(game: Game, onStart: () => void): HelsinkiTestApi
     awaitVisuals: () => game.awaitVisuals(),
     collision: () => ({ residency: game.world.streamed ? COLLISION_RESIDENCY : null, resident: game.world.residentCells().length,
       blocked: game.collisionLoading.blocked, blockedFrames: game.collisionLoading.blockedFrames, blockedSeconds: game.collisionLoading.blockedSeconds,
-      missingCells: game.collisionLoading.missingCells.slice(), stream: game.collision?.stats() ?? null }),
+      missingCells: game.collisionLoading.missingCells.slice(), stream: game.collision?.stats() ?? null, live: game.liveSource?.stats() ?? null }),
+    liveCells: () => game.liveRecording?.export() ?? null,
     deferredModels: () => ({ ...game.modelLoading, ready: game.actorModelsReady() }),
     renderBreakdown: () => renderBreakdown(game),
     start: onStart,

@@ -140,6 +140,18 @@ export class CityScene {
     if (!source) throw new Error(`cell ${descriptor.id} has no ${lod}`);
     const gltf = await loader.load(base + source.path, signal);
     const group = gltf.scene;
+    const triangles = this.adoptCellGroup(group, lod);
+    const view: CellView = { id: descriptor.id, group, descriptor, lod, triangles, textureBytes: textureBytesOf([group]), geometryBytes: geometryBytesOf(group) };
+    return view;
+  }
+
+  /**
+   * The one path from a freshly built, never rendered cell group (a release GLB or a live city square) to a showable
+   * one: the low preset's coarse batching, static matrices and the city material adaptation for the current lighting
+   * and material class. Each distinct source material is adapted once and then disposed; textures stay with the
+   * adapted copies. Returns the triangle count.
+   */
+  adoptCellGroup(group: THREE.Group, lod: 'lod0' | 'lod1' | 'lod2'): number {
     if (this.preset === 'low' && lod === 'lod2') partitionCoarseCell(group);
     let triangles = 0;
     const adapted = new Map<THREE.Material, THREE.Material>();
@@ -159,12 +171,11 @@ export class CityScene {
       const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
       mesh.material = Array.isArray(mesh.material) ? mats.map(materialFor) : materialFor(mats[0]!);
     });
-    // The parsed materials belong to this cell's GLB and were never rendered; the adapted ones replace them.
+    // The source materials belong to this cell and were never rendered; the adapted ones replace them.
     for (const source of adapted.keys()) source.dispose();
     group.matrixAutoUpdate = false;
     group.updateMatrix();
-    const view: CellView = { id: descriptor.id, group, descriptor, lod, triangles, textureBytes: textureBytesOf([group]), geometryBytes: geometryBytesOf(group) };
-    return view;
+    return triangles;
   }
 
   async prepareCell(view: CellView, signal?: AbortSignal): Promise<void> {

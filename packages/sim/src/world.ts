@@ -6,7 +6,8 @@ import {
   type CollisionBundle, type GameplayBundle, type RoadGraph, type TerrainGrid,
 } from '@helsinki/world-schema';
 import { TICK_SECONDS } from './commands.ts';
-import { CollisionResidency, residencyPins, type CollisionCellRef, type ResidencyPlan, type ResidencySource } from './collision-residency.ts';
+import { CollisionResidency, residencyPins, type CollisionCellRef, type ResidencyPlan, type ResidencyPlanOptions, type ResidencySource } from './collision-residency.ts';
+import { LIVE_CELL_SIZE, LIVE_GROUND_COLLIDER_ID, LIVE_GROUND_N, LIVE_GROUND_NO_DATA, LIVE_GROUND_STEP, parseCellId, squareKey, type LiveGrid } from './live-grid.ts';
 
 export { RAPIER };
 
@@ -34,6 +35,8 @@ export class StaticWorld {
   private streaming: { readonly residency: CollisionResidency; readonly source: (cellId: string) => Uint8Array | undefined } | null = null;
   /** Cells inserted since the last physics step; Rapier queries cannot see them yet. */
   private readonly unsettled = new Set<string>();
+  /** Y of each resident live cell's ground lattice (live-grid.ts), by square key: ground height beyond the terrain grid. */
+  private readonly liveGround = new Map<number, Float32Array>();
 
   constructor(terrain: TerrainGrid, roads: RoadGraph, gameplay: GameplayBundle) {
     this.physics = new RAPIER.World({ x: 0, y: -9.81, z: 0 });
@@ -54,8 +57,27 @@ export class StaticWorld {
     return new StaticWorld(parseTerrain(terrainBytes, { copy: false }), roads, gameplay);
   }
 
+  /** Terrain grid height; beyond the grid, resident live ground where it has data, else the grid's clamped edge. */
   groundHeight(x: number, z: number): number {
-    return sampleTerrain(this.terrain, x, z);
+    const t = this.terrain;
+    if (this.liveGround.size && !(x >= t.x0 && x <= t.x0 + (t.nx - 1) * t.resolution && z >= t.z0 && z <= t.z0 + (t.nz - 1) * t.resolution)) {
+      const h = this.liveGroundHeight(x, z);
+      if (h !== null) return h;
+    }
+    return sampleTerrain(t, x, z);
+  }
+
+  /** Bilinear height on the live ground lattice of the square containing XZ; null without one or without data. */
+  private liveGroundHeight(x: number, z: number): number | null {
+    const cx = Math.floor(x / LIVE_CELL_SIZE), cz = Math.floor(z / LIVE_CELL_SIZE);
+    const y = this.liveGround.get(squareKey(cx, cz));
+    if (!y) return null;
+    const n = LIVE_GROUND_N, u = (x - cx * LIVE_CELL_SIZE) / LIVE_GROUND_STEP, v = (z - cz * LIVE_CELL_SIZE) / LIVE_GROUND_STEP;
+    const ix = Math.min(Math.max(Math.floor(u), 0), n - 2), iz = Math.min(Math.max(Math.floor(v), 0), n - 2);
+    const tx = u - ix, tz = v - iz, i = iz * n + ix;
+    const a = y[i]!, b = y[i + 1]!, c = y[i + n]!, d = y[i + n + 1]!;
+    if (!(a > LIVE_GROUND_NO_DATA && b > LIVE_GROUND_NO_DATA && c > LIVE_GROUND_NO_DATA && d > LIVE_GROUND_NO_DATA)) return null;
+    return (a * (1 - tx) + b * tx) * (1 - tz) + (c * (1 - tx) + d * tx) * tz;
   }
 
   addCell(cellId: string, bundleBytes: Uint8Array): CollisionBundle {
@@ -64,6 +86,7 @@ export class StaticWorld {
     const body = this.physics.createRigidBody(RAPIER.RigidBodyDesc.fixed());
     const handles: number[] = [];
     for (const c of bundle.colliders) {
+      if (c.id === LIVE_GROUND_COLLIDER_ID) this.keepLiveGround(cellId, c.positions);
       if (c.indices.length === 0) continue;
       const flags = c.group === 'ground' ? RAPIER.TriMeshFlags.FIX_INTERNAL_EDGES : undefined;
       const desc = RAPIER.ColliderDesc.trimesh(c.positions, c.indices, flags)
@@ -81,6 +104,15 @@ export class StaticWorld {
     return bundle;
   }
 
+  /** Copy a live ground lattice's Y values (positions row-major iz * N + ix) for groundHeight. */
+  private keepLiveGround(cellId: string, positions: Float32Array): void {
+    const square = parseCellId(cellId);
+    if (!square || positions.length !== LIVE_GROUND_N * LIVE_GROUND_N * 3) return;
+    const y = new Float32Array(LIVE_GROUND_N * LIVE_GROUND_N);
+    for (let i = 0; i < y.length; i++) y[i] = positions[i * 3 + 1]!;
+    this.liveGround.set(squareKey(square[0], square[1]), y);
+  }
+
   /** Remove a resident cell's colliders (streaming residency). */
   removeCell(cellId: string): void {
     const body = this.cellBodies.get(cellId);
@@ -90,23 +122,28 @@ export class StaticWorld {
     this.cellColliders.delete(cellId);
     this.cellBodies.delete(cellId);
     this.unsettled.delete(cellId);
+    if (this.liveGround.size) {
+      const square = parseCellId(cellId);
+      if (square) this.liveGround.delete(squareKey(square[0], square[1]));
+    }
   }
 
   /**
    * Opt into collision streaming before any cell is added. Residency then follows the simulation (see
    * collision-residency.ts); `source` returns a cell's decoded HCOL bytes, or undefined while they are unavailable.
+   * With `live`, residency also plans the live squares (live-grid.ts) and `source` serves their bytes too.
    */
-  enableStreaming(cells: readonly CollisionCellRef[], source: (cellId: string) => Uint8Array | undefined): void {
+  enableStreaming(cells: readonly CollisionCellRef[], source: (cellId: string) => Uint8Array | undefined, live: LiveGrid | null = null): void {
     if (this.cellColliders.size) throw new Error('Collision streaming must be enabled before any cell is added');
-    this.streaming = { residency: new CollisionResidency(cells, residencyPins(this.roads, this.gameplay)), source };
+    this.streaming = { residency: new CollisionResidency(cells, residencyPins(this.roads, this.gameplay), live), source };
   }
 
   get streamed(): boolean { return this.streaming !== null; }
 
   /** Residency changes for these sources; the pinned destinations are always included. */
-  planResidency(sources: readonly ResidencySource[], ahead?: number): ResidencyPlan {
+  planResidency(sources: readonly ResidencySource[], ahead?: number, options?: ResidencyPlanOptions): ResidencyPlan {
     if (!this.streaming) return { insert: [], remove: [] };
-    return this.streaming.residency.plan(sources, new Set(this.cellColliders.keys()), ahead);
+    return this.streaming.residency.plan(sources, new Set(this.cellColliders.keys()), ahead, options);
   }
 
   /** Cells of a plan whose bytes are not available yet; the plan cannot be applied until this is empty. */
@@ -135,7 +172,7 @@ export class StaticWorld {
 
   residentCells(): string[] { return [...this.cellColliders.keys()]; }
 
-  /** Streamed cells whose bounds contain or touch XZ. */
+  /** Streamed cells whose bounds contain or touch XZ, live squares included. */
   cellsAt(x: number, z: number): string[] {
     return this.streaming ? this.streaming.residency.cellsAt(x, z).map(c => c.id) : [];
   }
