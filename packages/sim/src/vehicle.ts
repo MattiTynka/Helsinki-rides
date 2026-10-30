@@ -184,13 +184,14 @@ export class Vehicle {
     return Math.hypot(v[0] - b[0], v[1] - b[1], v[2] - b[2]);
   }
 
-  /** Keep a complete swept footprint inside qualified coverage, including a narrow gap between safe endpoints. */
+  /** Coverage diagnostics and automatic spawn qualification; not a traversal fence. */
   get coveragePose(): VehicleCoveragePose { return { position: this.position, rotation: this.rotation, steerAngle: this.steerAngle }; }
 
   supportedByCoverage(world: StaticWorld): boolean {
     return !world.gameplay.supportedArea || supportsVehiclePose(world.gameplay, this.def, this.position, this.rotation, this.steerAngle);
   }
 
+  /** Offline coverage-repair diagnostic. Simulation deliberately never clips vehicle movement to this mask. */
   constrainToSupportedArea(world: StaticWorld, before: VehicleCoveragePose): void {
     if (!world.gameplay.supportedArea) return;
     const after = this.coveragePose, fraction = supportedVehicleMotionFraction(world.gameplay, this.def, before, after);

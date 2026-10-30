@@ -40,14 +40,30 @@ export class SafeSpawns {
   }
 
   character(x: number, z: number, yaw: number, excludeBody?: RAPIER.RigidBody, preferRoad = false): Placement {
+    return this.find({ x, z, yaw }, this.characterFootprint(excludeBody), preferRoad);
+  }
+
+  /** Restore a hidden interaction capsule locally, including beyond authoring coverage. */
+  nearbyCharacter(x: number, z: number, yaw: number, excludeBody?: RAPIER.RigidBody): Placement {
+    const footprint = this.characterFootprint(excludeBody);
+    for (const distance of [0, 1.5, 3, 6, 12]) for (let i = 0; i < (distance ? 16 : 1); i++) {
+      const angle = i * Math.PI / 8;
+      const candidate = { x: x + Math.cos(angle) * distance, z: z + Math.sin(angle) * distance, yaw };
+      const placed = this.validate(candidate, footprint, undefined, false);
+      if (placed) return placed;
+    }
+    return this.character(x, z, yaw, excludeBody);
+  }
+
+  private characterFootprint(excludeBody?: RAPIER.RigidBody): Footprint {
     const shape = new RAPIER.Capsule(CHARACTER.halfHeight, CHARACTER.radius);
-    return this.find({ x, z, yaw }, {
+    return {
       radius: CHARACTER_MARGIN,
       points: [[0, 0], [CHARACTER_MARGIN, 0], [-CHARACTER_MARGIN, 0], [0, CHARACTER_MARGIN], [0, -CHARACTER_MARGIN]],
       clearance: p => !this.world.physics.intersectionWithShape(
         { x: p[0], y: p[1] + FEET_TO_CENTRE + 0.06, z: p[2] }, IDENTITY, shape,
         undefined, groups(GROUP.character, GROUP.static | GROUP.vehicle | GROUP.character), undefined, excludeBody),
-    }, preferRoad);
+    };
   }
 
   vehicle(x: number, z: number, yaw: number, def: VehicleDefinition, excludeBody?: RAPIER.RigidBody, preferRoad = false): Placement {
@@ -109,9 +125,9 @@ export class SafeSpawns {
     throw new Error('No supported, clear recovery point exists inside the playable terrain');
   }
 
-  private validate(c: Candidate, footprint: Footprint, expectedY?: number): Placement | null {
-    if (!Number.isFinite(c.yaw) || !this.contains(c.x, c.z, 0)) return null;
-    if (this.world.gameplay.supportedArea && (footprint.coverage ? !footprint.coverage(c) : !this.contains(c.x, c.z, footprint.radius))) return null;
+  private validate(c: Candidate, footprint: Footprint, expectedY?: number, qualified = true): Placement | null {
+    if (![c.x, c.z, c.yaw].every(Number.isFinite) || (qualified && !this.contains(c.x, c.z, 0))) return null;
+    if (qualified && this.world.gameplay.supportedArea && (footprint.coverage ? !footprint.coverage(c) : !this.contains(c.x, c.z, footprint.radius))) return null;
     const heights: number[] = [];
     for (const [px, pz] of footprint.points) {
       const [dx, dz] = rotateXZ(px, pz, c.yaw), x = c.x + dx, z = c.z + dz;
@@ -120,7 +136,7 @@ export class SafeSpawns {
       // physical support probes without imposing their extra 20 cm corners on the source mask.
       const bounds = this.bounds;
       const inBounds = x >= bounds.minX + .05 && x <= bounds.maxX - .05 && z >= bounds.minZ + .05 && z <= bounds.maxZ - .05;
-      if (!(footprint.coverage && this.world.gameplay.supportedArea ? inBounds : this.contains(x, z, .05)) || !this.world.queryable(x, z)) return null;
+      if ((qualified && !(footprint.coverage && this.world.gameplay.supportedArea ? inBounds : this.contains(x, z, .05))) || !this.world.queryable(x, z)) return null;
       const originY = expectedY === undefined ? this.world.groundHeight(x, z) + 8 : expectedY + 2;
       const ray = new RAPIER.Ray({ x, y: originY, z }, { x: 0, y: -1, z: 0 });
       const hit = this.world.physics.castRayAndGetNormal(ray, expectedY === undefined ? 40 : 4, false, undefined, groups(GROUP.bullet, GROUP.static));

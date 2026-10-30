@@ -1219,44 +1219,172 @@ test('well-connected lane reach counts equal a breadth-first search from every l
 
 
 function canalGameplay(): GameplayBundle {
-  return { ...gameplay, supportedArea: { schemaVersion: 1, regions: [{ id: 'qualified-city',
-    outer: [[-100,-100],[100,-100],[100,100],[-100,100]], holes: [[[8,-20],[9,-20],[9,20],[8,20]]] }] } };
+  return { ...gameplay, playArea: { minX: -15, maxX: 15, minZ: -15, maxZ: 15 },
+    supportedArea: { schemaVersion: 1, regions: [{ id: 'qualified-city',
+      outer: [[-12,-12],[12,-12],[12,12],[-12,12]], holes: [[[8,-10],[9,-10],[9,10],[8,10]]] }] } };
 }
 
-test('qualified coverage blocks walking and a one-tick leap over a canal without recovery jitter', () => {
+test('walking crosses coverage holes, the outer mask and rectangular playArea without clipping or recovery', () => {
   const sim = recoverySim(canalGameplay());
-  for (let i = 0; i < 20; i++) sim.step(NEUTRAL);
-  sim.player.move(sim.world, 1200, 0);
-  sim.world.physics.step();
-  assert.ok(sim.player.position[0] <= 8 - CHARACTER.radius - .019, 'safe destination across the canal is not reachable through it');
-  const stopped = sim.player.position[0];
-  assert.ok(stopped > 7.5, `move reaches the local edge: ${stopped}`);
-  for (let i = 0; i < 120; i++) sim.step(cmd({ moveZ: 1, yaw: Math.PI / 2 }));
-  assert.ok(Math.abs(sim.player.position[0] - stopped) < .0001, `edge holds locally instead of repeatedly recovering: ${stopped} -> ${sim.player.position[0]}`);
-  assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 0);
-  assert.throws(() => sim.dropIn([8.5, 0, 0], 0), /qualified world coverage/);
+  try {
+    settle(sim);
+    for (let i = 0; i < 400; i++) sim.step(cmd({ moveZ: 1, yaw: Math.PI / 2 }));
+    assert.ok(sim.player.position[0] > 22, `ordinary controls pass all former boundaries: ${sim.player.position[0]}`);
+    for (let i = 0; i < 400; i++) sim.step(cmd({ moveZ: 1, yaw: -Math.PI / 2 }));
+    assert.ok(Math.abs(sim.player.position[0]) < .1, 'the return journey crosses the same boundaries');
+    assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 0);
+    assert.doesNotThrow(() => sim.dropIn([8.5, 0, 0], 0), 'a coverage hole no longer rejects drop-in');
+    sim.step(NEUTRAL);
+    assert.ok(Math.abs(sim.player.position[0] - 8.5) < .01);
+    assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 0);
+  } finally { sim.world.physics.free(); }
 });
 
-test('a fast vehicle stops at its oriented footprint before a canal without recovery jitter', () => {
+test('a fast vehicle crosses coverage holes and rectangular playArea without a velocity reset or recovery', () => {
   const sim = recoverySim(canalGameplay()), vehicle = sim.vehicles.get('car-1')!;
-  vehicle.body.setLinvel({ x: 1200, y: 0, z: 0 }, true);
-  sim.step(NEUTRAL);
-  sim.step(NEUTRAL);
-  assert.ok(vehicle.position[0] > 0 && vehicle.position[0] < 6.934, `oriented tyre/body plus 10 cm retained before canal: ${vehicle.position[0]}`);
-  assert.equal(vehicle.body.linvel().x, 0);
-  const stopped = vehicle.position[0];
-  for (let i = 0; i < 60; i++) sim.step(NEUTRAL);
-  assert.ok(Math.abs(vehicle.position[0] - stopped) < .02, `vehicle remains at its local boundary: ${stopped} -> ${vehicle.position[0]}, events ${JSON.stringify(sim.log)}`);
-  assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 0);
+  try {
+    vehicle.body.setLinvel({ x: 1200, y: 0, z: 0 }, true);
+    for (let i = 0; i < 4; i++) sim.step(NEUTRAL);
+    assert.ok(vehicle.position[0] > 18, `physical movement is not clipped at a mask or rectangle: ${vehicle.position[0]}`);
+    assert.ok(vehicle.body.linvel().x > 0, 'coverage does not zero horizontal velocity');
+    assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 0);
+  } finally { sim.world.physics.free(); }
 });
 
-test('recovery and local vehicle admission reject unqualified canal ground despite an underlying collider', () => {
+test('qualified local vehicle admission remains separate from free player traversal', () => {
   const sim = recoverySim(canalGameplay());
-  assert.equal(sim.trySpawnVehicle('in-canal', 'car', [8.5, 0], 0, 0), null);
-  sim.player.teleport([8.5, 1, 0], 0);
-  sim.step(NEUTRAL);
-  assert.ok(sim.player.position[0] < 8 || sim.player.position[0] > 9);
-  assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 1);
+  try {
+    assert.equal(sim.trySpawnVehicle('in-canal', 'car', [8.5, 0], 0, 0), null);
+    sim.player.teleport([8.5, 1, 0], 0);
+    for (let i = 0; i < 60; i++) sim.step(NEUTRAL);
+    assert.ok(Math.abs(sim.player.position[0] - 8.5) < .01, 'an admitted player is not teleported out of the coverage hole');
+    assert.equal(sim.player.grounded, true);
+    assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 0);
+  } finally { sim.world.physics.free(); }
+});
+
+test('driving, steering, exiting and re-entering work beyond the former coverage boundaries', () => {
+  const sim = recoverySim(canalGameplay()), vehicle = sim.vehicles.get('car-1')!;
+  try {
+    boardStoppedCar(sim);
+    vehicle.place([0, 0, -6], Math.PI / 2);
+    for (let i = 0; i < 210; i++) sim.step(cmd({ moveZ: 1 }));
+    assert.ok(vehicle.position[0] > 20, `throttle passes both the mask and rectangle: ${vehicle.position[0]}`);
+    const yaw = vehicle.yaw;
+    for (let i = 0; i < 20; i++) sim.step(cmd({ moveZ: 1, moveX: .25 }));
+    assert.ok(Math.abs(wrapAngle(vehicle.yaw - yaw)) > .02, 'the car still steers outside coverage');
+    for (let i = 0; i < 180; i++) sim.step(cmd({ buttons: Button.handbrake }));
+    assert.equal(sim.mode, 'driving');
+    assert.ok(vehicle.position[0] > 15);
+    sim.step(cmd({ buttons: Button.interact }));
+    waitForMode(sim, 'onFoot');
+    assert.ok(sim.player.position[0] > 15, 'exit does not require the old coverage mask');
+    settle(sim);
+    sim.step(cmd({ buttons: Button.interact }));
+    waitForMode(sim, 'driving');
+    assert.equal(sim.playerVehicle, vehicle);
+    assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 0);
+  } finally { sim.world.physics.free(); }
+});
+
+test('a moving-car entry interruption restores the player locally beyond coverage and playArea', () => {
+  const sim = recoverySim(canalGameplay()), vehicle = sim.vehicles.get('car-1')!;
+  try {
+    vehicle.place([30, 0, -6], 0);
+    const beside = vehicle.localToWorld([2.1, 0, -.95]);
+    sim.player.teleport([beside[0], 0, beside[2]], vehicle.yaw);
+    settle(sim);
+    sim.step(cmd({ buttons: Button.interact }));
+    for (let i = 0; i < 300 && sim.vehicleInteraction?.stage !== 'enter'; i++) sim.step(NEUTRAL);
+    assert.equal(sim.vehicleInteraction?.stage, 'enter', 'ordinary interaction reaches the hidden seating pose');
+    const before = [...sim.player.position];
+    assert.ok(before[0]! > 30);
+    vehicle.body.setLinvel({ x: 2, y: 0, z: 0 }, true);
+    sim.step(NEUTRAL);
+    assert.equal(sim.mode, 'onFoot');
+    assert.equal(sim.player.inVehicle, null);
+    assert.equal(vehicle.driver, null);
+    assert.ok(sim.log.some(e => e.type === 'vehicleEntryBlocked'));
+    settle(sim);
+    const feet = sim.player.position;
+    assert.ok(feet[0] > 15 && Math.hypot(feet[0] - before[0]!, feet[2] - before[2]!) < 3,
+      `an interrupted entry stays beside the car: ${before} -> ${feet}`);
+    const support = sim.world.groundBelow(feet[0], feet[1] + .2, feet[2], 1);
+    assert.ok(support && Math.abs(feet[1] - support.y) < .15 && sim.player.grounded);
+    assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 0);
+  } finally { sim.world.physics.free(); }
+});
+
+test('an emergency exit from a blocked flipped car restores nearby ground beyond coverage and playArea', () => {
+  const sim = recoverySim(canalGameplay()), vehicle = sim.vehicles.get('car-1')!;
+  try {
+    vehicle.place([30, 0, -6], 0);
+    boardStoppedCar(sim);
+    rollOver(sim);
+    const blockers = [sideBlocker(sim, 1), sideBlocker(sim, -1)];
+    sim.step(NEUTRAL);
+    sim.step(cmd({ buttons: Button.interact }));
+    assert.equal(sim.mode, 'onFoot');
+    assert.ok(sim.events.some(e => e.type === 'vehicleExitSqueezed'));
+    assert.equal(sim.player.inVehicle, null);
+    assert.equal(vehicle.driver, null);
+    for (const blocker of blockers) sim.world.physics.removeCollider(blocker, true);
+    settle(sim);
+    const feet = sim.player.position;
+    assert.ok(feet[0] > 15 && Math.hypot(feet[0] - vehicle.position[0], feet[2] - vehicle.position[2]) < 13,
+      `the last-resort exit stays near the car: ${vehicle.position} -> ${feet}`);
+    const support = sim.world.groundBelow(feet[0], feet[1] + .2, feet[2], 1);
+    assert.ok(support && Math.abs(feet[1] - support.y) < .15 && sim.player.grounded);
+    assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 0);
+  } finally { sim.world.physics.free(); }
+});
+
+test('physical building collision still blocks walking beyond the former coverage boundaries', () => {
+  const sim = recoverySim({ ...canalGameplay(), vehicles: [] });
+  try {
+    box(sim, [20, 2, 0], [.5, 2, 10]);
+    settle(sim);
+    for (let i = 0; i < 500; i++) sim.step(cmd({ moveZ: 1, yaw: Math.PI / 2 }));
+    assert.ok(sim.player.position[0] > 19 && sim.player.position[0] < 19.5,
+      `the physical facade, rather than the old mask, stops the player: ${sim.player.position[0]}`);
+    assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 0);
+  } finally { sim.world.physics.free(); }
+});
+
+test('a ledge climb completes across a coverage boundary and the rectangular playArea edge', () => {
+  const content: GameplayBundle = { ...gameplay, vehicles: [],
+    playArea: { minX: -12, maxX: 12, minZ: -12, maxZ: 1.6 },
+    supportedArea: { schemaVersion: 1, regions: [{ id: 'ledge-approach',
+      outer: [[-12,-12],[12,-12],[12,1.6],[-12,1.6]] }] } };
+  const sim = recoverySim(content);
+  try {
+    box(sim, [0, .7, 3], [2, .7, 1.5]);
+    settle(sim);
+    for (let i = 0; i < 130; i++) sim.step(cmd({
+      moveZ: sim.player.position[2] < 2.5 ? 1 : 0,
+      buttons: i === 0 ? Button.jump : 0,
+    }));
+    assert.equal(sim.log.filter(e => e.type === 'climb').length, 1);
+    assert.ok(sim.player.position[2] > 2 && sim.player.grounded);
+    assert.ok(sim.player.position[1] >= 1.4 && sim.player.position[1] < 1.45);
+    assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 0);
+  } finally { sim.world.physics.free(); }
+});
+
+test('positions beyond all four coverage and playArea edges do not trigger geographic recovery', () => {
+  const sim = recoverySim(canalGameplay()), vehicle = sim.vehicles.get('car-1')!;
+  try {
+    for (const [x, z] of [[-30, 0], [30, 0], [0, -30], [0, 30]]) {
+      sim.dropIn([x!, 1, z!], 0);
+      for (let i = 0; i < 30; i++) sim.step(NEUTRAL);
+      assert.ok(Math.hypot(sim.player.position[0] - x!, sim.player.position[2] - z!) < .01);
+      assert.equal(sim.player.grounded, true);
+      vehicle.place([x!, 0, z! + 5], 0);
+      for (let i = 0; i < 30; i++) sim.step(NEUTRAL);
+      assert.ok(Math.hypot(vehicle.position[0] - x!, vehicle.position[2] - z! - 5) < .1);
+    }
+    assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 0);
+  } finally { sim.world.physics.free(); }
 });
 
 test('vehicle spawn and movement use the oriented footprint on a narrow supported road', () => {

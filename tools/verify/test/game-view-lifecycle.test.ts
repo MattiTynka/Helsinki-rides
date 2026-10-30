@@ -41,14 +41,15 @@ test('visual loading waits clear accumulated time and do not advance hidden simu
   assert.equal(context.visualLoading.blockedFrames, 1);
 });
 
-test('missing visuals cannot stop death or outside-map recovery ticks', () => {
+test('visual streaming follows players beyond playArea while death and real fall recovery can advance', () => {
   const player = { alive: true, mode: 'onFoot', inVehicle: null, position: [60, 0, 60] };
   const context = { streaming: {}, state: { player, vehicles: [] }, scene: { cells: new Map(), fallbackCells: new Map() },
     data: { gameplay: { killHeight: -25, playArea: { minX: 0, maxX: 128, minZ: 0, maxZ: 128 } }, manifest: { cells: [{ id: 'missing', boundsXZ: [0, 0, 128, 128] }] } } };
   const missing = () => Game.prototype.missingVisualCells.call(context as unknown as Game);
   assert.deepEqual(missing(), ['missing']);
   player.alive = false; assert.deepEqual(missing(), []);
-  player.alive = true; player.position = [-1, 0, 60]; assert.deepEqual(missing(), []);
+  player.alive = true; player.position = [-1, 0, 60]; assert.deepEqual(missing(), ['missing'], 'nearby cells still load beyond the old rectangle');
+  player.position = [NaN, 0, 60]; assert.deepEqual(missing(), []);
   player.position = [60, -30, 60]; assert.deepEqual(missing(), []);
   player.position = [60, 0, 60]; player.mode = 'busted'; assert.deepEqual(missing(), []);
 });

@@ -2,6 +2,8 @@
 
 Date: 30 October 2026. This records the completed Hietalahti release and the workflow used to produce it. Further map expansion was stopped at the user's request. Viikki remains deferred.
 
+Later application update: the user requested removal of all invisible geographic traversal boundaries. See [Free traversal without geographic fences](free-traversal-2026-10-30.md). The optimized world described below is unchanged; the application no longer uses the qualified coverage mask as a player movement fence.
+
 ## Repositories and source of truth
 
 The working repository and the D: authoring backup served different purposes. The backup is the dated `BackUP_HP-Home_2025-12-14/Apps/Helsinki-rides` copy on D:. It supplied historical documents, authoring inputs and pipeline context. It was kept read-only. A file existing there did not establish that the deployed game used it.

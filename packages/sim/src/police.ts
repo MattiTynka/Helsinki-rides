@@ -2,7 +2,7 @@
 // following with pure pursuit), pursue directly within sight, box a stopped car in, get out to arrest a player
 // on foot, and return fire only after the player discharges a weapon in the current encounter.
 // Caps per star come from the tuning table.
-import { containsSupportedArea, LaneSegmentIndex, pointAlong, type GameplayBundle, type LaneHit, type RoadIndex, type RoadLane, type Vec3 } from '@helsinki/world-schema';
+import { LaneSegmentIndex, pointAlong, type GameplayBundle, type LaneHit, type RoadIndex, type RoadLane, type Vec3 } from '@helsinki/world-schema';
 import { Character, CHARACTER } from './character.ts';
 import { TICK_HZ } from './commands.ts';
 import { clamp, distanceXZ, normalize, wrapAngle, type V3 } from './math.ts';
@@ -899,7 +899,6 @@ export class PoliceForce {
     if (!v || u.onFoot) return;
     if (v.speed > 1.5) { v.input.throttle = 0; v.input.brake = 1; v.input.handbrake = true; v.input.steer = 0; return; }
     const exit = v.localToWorld(v.def.seat.exits[0]!);
-    if (this.sim.gameplay.supportedArea && !containsSupportedArea(this.sim.gameplay, exit[0], exit[2], CHARACTER.radius + 0.02)) return;
     const probe = this.sim.world.groundBelow(exit[0], exit[1] + 1.5, exit[2], 6, v.body);
     const officer = u.officer;
     officer.inVehicle = null;

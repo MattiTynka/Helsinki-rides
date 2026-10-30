@@ -68,13 +68,11 @@ export class Hud {
   private readonly minimap = el<HTMLCanvasElement>('minimap');
   private readonly mapCtx: CanvasRenderingContext2D;
   private readonly area: GameplayBundle['playArea'];
-  private readonly supportedArea: GameplayBundle['supportedArea'];
   private readonly scale = 2; // px per metre on the base layer
   /** The base layer is drawn lazily in tiles: the whole city at this scale is a 66 MB canvas. */
   private readonly tileSize = 256;
   /** Each tile also draws this many pixels of its neighbours, so subpixel-positioned tiles overlap without seams. */
   private readonly tileGutter = 1;
-  private readonly mapSize: readonly [number, number];
   private readonly tileShapes = new Map<string, MapShape[]>();
   private readonly tiles = new Map<string, HTMLCanvasElement>();
   private lastStars = -1;
@@ -96,13 +94,11 @@ export class Hud {
     this.worldLoading.setAttribute('role', 'status');
     document.body.append(this.worldLoading);
     this.area = gameplay.playArea;
-    this.supportedArea = gameplay.supportedArea;
     this.mapCtx = this.minimap.getContext('2d')!;
-    this.mapSize = [Math.ceil((this.area.maxX - this.area.minX) * this.scale), Math.ceil((this.area.maxZ - this.area.minZ) * this.scale)];
     this.indexBase(roads.graph, gameplay);
     el<HTMLDivElement>('attribution').textContent = manifest.attribution.join(' · ');
     const labels = [...gameplay.landmarks, ...gameplay.addresses]
-      .filter(a => !gameplay.supportedArea || resolveDropInTarget(gameplay, roads, ...a.position) !== null).map(a => a.label);
+      .filter(a => resolveDropInTarget(gameplay, roads, ...a.position) !== null).map(a => a.label);
     for (const l of labels) { const o = document.createElement('option'); o.value = l; o.textContent = placeLabel(l); this.dropin.appendChild(o); }
     i18n.subscribe(() => {
       for (const option of this.dropin.options) if (option.value) option.textContent = placeLabel(option.value);
@@ -156,24 +152,11 @@ export class Hud {
     const cached = this.tiles.get(key);
     if (cached) { this.tiles.delete(key); this.tiles.set(key, cached); return cached; }
     const ox = tx * this.tileSize, oy = ty * this.tileSize;
-    const width = Math.min(this.tileSize, this.mapSize[0] - ox), height = Math.min(this.tileSize, this.mapSize[1] - oy);
-    if (tx < 0 || ty < 0 || width <= 0 || height <= 0) return null;
+    const width = this.tileSize, height = this.tileSize;
     const g = this.tileGutter, canvas = document.createElement('canvas');
     canvas.width = width + 2 * g; canvas.height = height + 2 * g;
     const c = canvas.getContext('2d')!;
     c.translate(g - ox, g - oy);
-    // The gutter never extends the map beyond the original full layer's edges.
-    c.beginPath(); c.rect(0, 0, this.mapSize[0], this.mapSize[1]); c.clip();
-    if (this.supportedArea) {
-      c.fillStyle = '#101827';
-      c.fillRect(ox - g, oy - g, width + 2 * g, height + 2 * g);
-      c.beginPath();
-      for (const region of this.supportedArea.regions) for (const ring of [region.outer, ...region.holes ?? []]) {
-        ring.forEach((point, i) => { const [x, y] = this.toMap(point[0], point[1]); if (i === 0) c.moveTo(x, y); else c.lineTo(x, y); });
-        c.closePath();
-      }
-      c.clip('evenodd');
-    }
     c.fillStyle = '#1c2230';
     c.fillRect(ox - g, oy - g, width + 2 * g, height + 2 * g);
     c.lineCap = 'round';

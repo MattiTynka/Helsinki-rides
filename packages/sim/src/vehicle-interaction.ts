@@ -1,4 +1,4 @@
-import { containsSupportedArea, supportsSegment, type VehicleInteractionDefinition } from '@helsinki/world-schema';
+import { type VehicleInteractionDefinition } from '@helsinki/world-schema';
 import { CHARACTER, FEET_TO_CENTRE, type Character } from './character.ts';
 import { rotate, wrapAngle, type V3 } from './math.ts';
 import type { Vehicle } from './vehicle.ts';
@@ -163,7 +163,6 @@ function routeRound(world: StaticWorld, v: Vehicle, p: Character, target: V3): V
  * `other`, who is moving out of the way).
  */
 function walkClear(world: StaticWorld, p: Character, from: V3, to: V3, other?: Character): boolean {
-  if (world.gameplay.supportedArea && !supportsSegment(world.gameplay, [from[0], from[2]], [to[0], to[2]], CHARACTER.radius + 0.08)) return false;
   const lift = FEET_TO_CENTRE + 0.2, start = { x: from[0], y: from[1] + lift, z: from[2] };
   return !world.physics.castShape(start, IDENTITY, { x: to[0] - from[0], y: to[1] - from[1], z: to[2] - from[2] }, new RAPIER.Capsule(CHARACTER.halfHeight, CHARACTER.radius - 0.03),
     0, 1, true, RAPIER.QueryFilterFlags.EXCLUDE_SENSORS, groups(GROUP.character, GROUP.static | GROUP.vehicle | GROUP.character), p.collider, p.body,
@@ -369,8 +368,6 @@ export function vehicleShovePlan(world: StaticWorld, v: Vehicle, p: Character, b
 
 /** Ground at about the height of `feet` with room for `who` to stand there, ignoring `other`; returns the feet. */
 function standingRoom(world: StaticWorld, feet: V3, who: Character, other: Character): V3 | null {
-  const margin = CHARACTER.radius + 0.08;
-  if (!containsSupportedArea(world.gameplay, feet[0], feet[2], margin)) return null;
   const support = world.groundBelow(feet[0], feet[1] + 0.6, feet[2], 1.2);
   if (!support || Math.abs(support.y - feet[1]) > 0.4) return null;
   const at: V3 = [feet[0], support.y + 0.025, feet[2]];
@@ -420,8 +417,6 @@ function vehiclePathClear(world: StaticWorld, v: Vehicle, shift: number): boolea
 function exitClearance(world: StaticWorld, v: Vehicle, p: Character, blocksUpperDoor: ((collider: RAPIER.Collider) => boolean) | undefined, standLocal: V3, samples: readonly V3[], shift = 0, mask = GROUP.static | GROUP.vehicle | GROUP.character, counts?: (collider: RAPIER.Collider) => boolean): V3 | null {
   const moved = ([x, y, z]: V3): V3 => v.localToWorld([x, y, z + shift]);
   const stage = moved(standLocal);
-  const margin = CHARACTER.radius + 0.08;
-  if (!containsSupportedArea(world.gameplay, stage[0], stage[2], margin)) return null;
   const support = world.groundBelow(stage[0], stage[1] + 0.6, stage[2], 1.2, v.body);
   if (!support || Math.abs(support.y - stage[1]) > 0.4) return null;
   const feet: V3 = [stage[0], support.y + 0.025, stage[2]];

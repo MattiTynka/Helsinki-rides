@@ -3,7 +3,7 @@
 import * as THREE from 'three';
 import { CIVILIAN_VARIANTS, civilianVariant, type Shot } from '@helsinki/sim';
 import { initPhysics, Simulation, StaticWorld, TICK_SECONDS, NEUTRAL, Button, headingToYaw, encodeCommand, decodeCommand, resolveAimTarget, groundBelowBundle, type Command, type EncodedCommand, type GameEvent, type SimState, type V3 } from '@helsinki/sim';
-import { containsSupportedArea, parseCollisionBundle } from '@helsinki/world-schema';
+import { parseCollisionBundle } from '@helsinki/world-schema';
 import { forgetAutoTier, rememberAutoTier, type GameConfig, type Lighting } from './config.ts';
 import { GameAudio } from './audio/audio.ts';
 import { Input } from './input/input.ts';
@@ -724,8 +724,7 @@ export class Game {
     if (!this.streaming) return [];
     const p = this.state.player, car = this.state.vehicles.find(vehicle => vehicle.id === p.inVehicle);
     const position = car?.position ?? p.position;
-    if (!p.alive || p.mode === 'wasted' || p.mode === 'busted' || !position.every(Number.isFinite) || position[1] < this.data.gameplay.killHeight ||
-      !containsSupportedArea(this.data.gameplay, position[0], position[2])) return [];
+    if (!p.alive || p.mode === 'wasted' || p.mode === 'busted' || !position.every(Number.isFinite) || position[1] < this.data.gameplay.killHeight) return [];
     // At the fastest supported speed the next five 60Hz ticks cover under five metres. Twelve metres
     // includes the whole car and a margin before its front can enter an unseen cell during this frame.
     return missingVisualCoverage(this.data.manifest.cells, position[0], position[2], 12, this.scene.cells, this.scene.fallbackCells);

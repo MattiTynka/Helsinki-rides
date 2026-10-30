@@ -1,7 +1,7 @@
 // The fixed-step simulation (plan section 2): one Command in, one tick of player, vehicles, police and wanted
 // state out. No rendering, no DOM, no Three.js. Everything the renderer needs is in `state()`; everything a
 // replay needs is the seed plus the command stream.
-import { containsSupportedArea, type Anchor, type GameEvent, type GameplayBundle, type VehicleDefinition, type WeaponDefinition } from '@helsinki/world-schema';
+import { type Anchor, type GameEvent, type GameplayBundle, type VehicleDefinition, type WeaponDefinition } from '@helsinki/world-schema';
 import { BODY, Character, CHARACTER, FEET_TO_CENTRE, type CharacterClip, type ClimbView, type JumpKind, type JumpPhase } from './character.ts';
 import { Button, has, NEUTRAL, TICK_HZ, TICK_SECONDS, type Command } from './commands.ts';
 import { clamp, distanceXZ, dot, fnv1a, lengthXZ, normalize, Rng, rotate, sub, wrapAngle, yawOf, type Quat, type V3 } from './math.ts';
@@ -366,7 +366,7 @@ export class Simulation {
    * world inserts the destination's collision now; the player then holds still for one step while Rapier registers it.
    */
   dropIn(position: V3, yaw: number): void {
-    if (this.gameplay.supportedArea && !containsSupportedArea(this.gameplay, position[0], position[2], CHARACTER.radius + 0.02)) throw new Error('Drop-in is outside qualified world coverage');
+    if (!position.every(Number.isFinite) || !Number.isFinite(yaw)) throw new Error('Drop-in coordinates must be finite');
     if (this.world.streamed) {
       this.world.applyResidency(this.dropInPlan(position[0], position[2]));
       this.settleTicks = 1;
@@ -409,12 +409,10 @@ export class Simulation {
     if (this.mode === 'exiting' && this.playerVehicle) this.brakeVehicle(this.playerVehicle);
 
     const filter = (): boolean => true;
-    const coverageStarts = this.gameplay.supportedArea ? new Map([...this.vehicles.values()].map(v => [v, v.coveragePose])) : null;
     for (const v of this.vehicles.values()) v.step(this.world, filter);
     for (const c of this.characters.values()) if (!c.inVehicle && (c.alive || !c.grounded)) c.move(this.world, c.alive ? c.desiredVx : 0, c.alive ? c.desiredVz : 0);
 
     this.world.physics.step(this.eventQueue);
-    if (coverageStarts) for (const [vehicle, before] of coverageStarts) vehicle.constrainToSupportedArea(this.world, before);
     this.world.markStepped();
     this.drainContacts();
 
@@ -755,7 +753,7 @@ export class Simulation {
     if (vehicleDoorClearance(this.world, v, p, this.blocksUpperDoor)) {
       // The clip ends standing at the corner: step back into the world there and walk to the door.
       const feet = vehiclePushClearance(this.world, v, p, clip);
-      const safe = feet ? { position: feet, yaw: p.yaw } : this.safeSpawns.character(stand[0], stand[2], p.yaw, p.body);
+      const safe = feet ? { position: feet, yaw: p.yaw } : this.safeSpawns.nearbyCharacter(stand[0], stand[2], p.yaw, p.body);
       p.teleport(safe.position, safe.yaw);
       this.entryStage = 'approach';
       this.approachRoute = (feet && vehicleReturnRoute(this.world, v, p)) || vehicleApproachRoute(v, p.position);
@@ -794,7 +792,7 @@ export class Simulation {
   private cancelVehicleEntry(): void {
     // Once posing starts the capsule is hidden. Every interruption must restore supported collision.
     if (this.pendingVehicle && this.entryStage !== 'approach') {
-      const safe = this.safeSpawns.character(this.player.position[0], this.player.position[2], this.player.yaw, this.player.body);
+      const safe = this.safeSpawns.nearbyCharacter(this.player.position[0], this.player.position[2], this.player.yaw, this.player.body);
       this.player.teleport(safe.position, safe.yaw);
     }
     if (this.pendingVehicle?.driver === 'player') this.pendingVehicle.driver = null;
@@ -910,7 +908,7 @@ export class Simulation {
    * ground. There is no clip for it, so he appears there.
    */
   private squeezeOut(v: Vehicle): void {
-    const safe = this.safeSpawns.character(v.position[0], v.position[2], v.yaw);
+    const safe = this.safeSpawns.nearbyCharacter(v.position[0], v.position[2], v.yaw);
     this.leaveVehicle(v);
     this.player.teleport(safe.position, safe.yaw);
     this.emit('vehicleExitSqueezed', v.id);
@@ -1075,14 +1073,15 @@ export class Simulation {
   private checkKillPlane(): void {
     const kill = this.gameplay.killHeight;
     const pv = this.playerVehicle;
-    const outside = (p: V3): boolean => !Number.isFinite(p[1]) || p[1] < kill || !this.safeSpawns.contains(p[0], p[2]);
-    const vehicleOutside = (v: Vehicle): boolean => outside(v.position) || !v.supportedByCoverage(this.world);
-    if (pv && vehicleOutside(pv)) { this.recoverVehicle(pv); this.emit('killPlane', pv.id); }
+    // Geographic coverage qualifies automatic spawns, not traversal. Recover only an
+    // actual fall or invalid physics state, never a crossing of an invisible XZ fence.
+    const outside = (p: V3): boolean => !p.every(Number.isFinite) || p[1] < kill;
+    if (pv && outside(pv.position)) { this.recoverVehicle(pv); this.emit('killPlane', pv.id); }
     else if (!pv && outside(this.player.position)) {
       this.recoverPlayer();
       this.emit('killPlane', 'player');
     }
-    for (const v of this.vehicles.values()) if (v !== pv && vehicleOutside(v)) this.recoverVehicle(v);
+    for (const v of this.vehicles.values()) if (v !== pv && outside(v.position)) this.recoverVehicle(v);
   }
 
   private wasted(): void {
