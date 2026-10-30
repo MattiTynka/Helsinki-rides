@@ -49,3 +49,21 @@ test('full and bounded district builds retain identical road, sidewalk and wall 
  const source=loadGeoJsonPolygons(street,origin[0]!,origin[1]!,p=>String(p.osan_id));assert.equal(source.length,3);
  }finally{const absolute=path.resolve(temp);assert.ok(absolute.startsWith(path.resolve(os.tmpdir())+path.sep)&&path.basename(absolute).startsWith('helsinki-ground-area-'));fs.rmSync(absolute,{recursive:true,force:true});}
 });
+
+test('bounded coast requires complete local chains while unrelated incomplete retained-area coast cannot lower remote terrain',()=>{
+ const temp=fs.mkdtempSync(path.join(os.tmpdir(),'helsinki-ground-area-'));try{
+  const origin=[25497350,6672960,7.5],fullArea={minX:-96,maxX:96,minZ:-48,maxZ:48},target={minX:-64,maxX:-32,minZ:-16,maxZ:16},assembly=groundAssemblyArea(fullArea,target),terrain:TerrainGrid={x0:-96,z0:-48,nx:193,nz:97,resolution:1,heights:new Float32Array(193*97).fill(3)};
+  const street=path.join(temp,'parts.geojson');fs.writeFileSync(street,JSON.stringify({type:'FeatureCollection',features:[]}));
+  const node=(id:number,x:number,n:number)=>{const[lat,lon]=gk25ToGeodetic(origin[0]!+x,origin[1]!+n);return{type:'node',id,lat,lon};},coast=(id:number,nodes:number[])=>({type:'way',id,nodes,tags:{natural:'coastline'}});
+  const complete=[node(1,-48,-60),node(2,-48,60),coast(10,[1,2])],remoteIncomplete=[node(3,48,-60),node(4,48,0),coast(11,[3,4])],ledger=path.join(temp,'ledger.json');
+  const save=(elements:unknown[])=>{const bytes=Buffer.from(JSON.stringify({elements}));fs.writeFileSync(path.join(temp,'osm.json'),bytes);fs.writeFileSync(ledger,JSON.stringify({snapshots:{test:{path:'osm.json',sha256:createHash('sha256').update(bytes).digest('hex')}}}));};save([...complete,...remoteIncomplete]);
+  const config=JSON.parse(fs.readFileSync(new URL('../../../content/helsinki/district-expansion/cells.json',import.meta.url),'utf8'));config.playArea=fullArea;delete config.carriagewayGrade;delete config.drivableCorridors;config.coastal={waterElevationN2000:7.5,safetyFloorY:-20};
+  const options={terrain,footprints:[],originProjected:origin,config:config as DistrictGroundConfig,osmLedger:ledger,osmSnapshot:'test',streetParts:street};
+  assert.throws(()=>buildDistrictGround(options),/incomplete coastline ends inside/,'Full build retains its source-closure requirement');
+  const bounded=buildDistrictGround({...options,groundWorkArea:target});assert.deepEqual(bounded.coastal!.mask.area,assembly);assert.ok(bounded.coastal!.mask.stats.waterArea>0);assert.ok(bounded.coastal!.loweredSamples>0,'Local water still receives its safety floor');
+  for(let iz=0;iz<terrain.nz;iz++)for(let ix=0;ix<terrain.nx;ix++){const x=terrain.x0+ix,z=terrain.z0+iz;if(x<assembly.minX||x>assembly.maxX||z<assembly.minZ||z>assembly.maxZ)assert.equal(bounded.runtimeTerrain.heights[iz*terrain.nx+ix],terrain.heights[iz*terrain.nx+ix],'Outside assembly terrain remains bit-exact');}
+  for(const piece of bounded.coastal!.waterPieces)for(let i=0;i<piece.positions.length;i+=3)assert.ok(piece.positions[i]!>=assembly.minX-1e-7&&piece.positions[i]!<=assembly.maxX+1e-7&&piece.positions[i+2]!>=assembly.minZ-1e-7&&piece.positions[i+2]!<=assembly.maxZ+1e-7);
+  save([node(1,-48,-60),node(2,-48,0),coast(10,[1,2]),...remoteIncomplete]);assert.throws(()=>buildDistrictGround({...options,groundWorkArea:target}),/incomplete coastline ends inside/,'An incomplete chain within assembly still fails');
+  assert.deepEqual(terrain.heights,new Float32Array(193*97).fill(3),'Source terrain is immutable');
+ }finally{const absolute=path.resolve(temp);assert.ok(absolute.startsWith(path.resolve(os.tmpdir())+path.sep)&&path.basename(absolute).startsWith('helsinki-ground-area-'));fs.rmSync(absolute,{recursive:true,force:true});}
+});

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "kind": "ruoholahti-public-route-candidates",
+  "accepted": {
+    "directory": "../accepted-world/world/senate-20261025-civilian-flee",
+    "manifestSha256": "0e18e55e8730f01144eef72a80decffbb53cdd658222f87a7e8ad6f75f2c4260"
+  },
+  "candidateRoads": {
+    "file": "../work/ruoholahti-source-graph-v1/roads-source/roads.json",
+    "sha256": "0c233e4fa258e1e5895d818f2f687ac8f15e4154348d9947e47a7f8af1231e30"
+  },
+  "osm": {
+    "file": "../sources/raw-v2/osm/southwest-cumulative-20261029.json",
+    "sha256": "a6bf71bae890ab60b4249c8546e6b7185ce37c9ede4137e9c4aefbd9a755e65a"
+  },
+  "serializedFloorWorld": {
+    "directory": "../work/cumulative-city-measured-ground-v1/world",
+    "manifestSha256": "f5251b0acdb96a478fef29848ae9204d399e43f54d898a32ac37ceafa2d5b647"
+  },
+  "bridgeProfile": {
+    "file": "content/helsinki/southwest-20261029/ruoholahti-bridge.json",
+    "sha256": "30bbb4bf8381d88ab1012ed240a67fade0916945bfdc4d854f6637d220bcb70f"
+  },
+  "levelInventory": {
+    "file": "../evidence/ruoholahti-routes/serialized-level-selectors-v1.json",
+    "sha256": "50b863f5eb89d841199df524dfea44e7721414f76e41cba38c83edb292d6f779"
+  },
+  "boundsXZ": [
+    -2816,
+    500,
+    -1400,
+    1152
+  ],
+  "routes": [
+    {
+      "id": "selkamerensilta-both-directions-public-approach-ring",
+      "laneGoals": [
+        "122961573:0:f0",
+        "27192169:0:b0",
+        "27192169:0:f0",
+        "86957349:0:f0"
+      ]
+    },
+    {
+      "id": "ruoholahti-public-street-ring",
+      "laneGoals": [
+        "122961573:0:f0",
+        "332452658:1:f0",
+        "86957349:0:f0"
+      ]
+    }
+  ]
+}

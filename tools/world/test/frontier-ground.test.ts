@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {encodeCollisionBundle,parseCollisionBundle} from '../../../packages/world-schema/src/index.ts';
-import {clipFrontierMesh,frontierTriangleKey,addNativeFrontier,clipFrontierCollision,prepareNativeFrontier,planCityFrontier,frontierRuntimeLoweringAllowed,type FrontierMesh} from '../lib/frontier-ground.ts';
+import {clipFrontierMesh,frontierTriangleKey,addNativeFrontier,clipFrontierCollision,prepareNativeFrontier,planCityFrontier,composeCityFrontiers,subtractFrontierRectangle,frontierRuntimeLoweringAllowed,type FrontierMesh} from '../lib/frontier-ground.ts';
 const mesh=():FrontierMesh=>({attributes:{POSITION:new Float32Array([-2,0,0,2,0,0,2,0,2]),NORMAL:new Int8Array([0,127,0,0,127,0,0,127,0]),TEXCOORD_0:new Float32Array([0,0,2,0,2,2])},components:{POSITION:3,NORMAL:3,TEXCOORD_0:2},normalized:{POSITION:false,NORMAL:true,TEXCOORD_0:false},indices:new Uint32Array([0,2,1])});
 test('frontier clips the original plane, UVs, winding and raw normalized normals together',()=>{
  const before=mesh(),copy=structuredClone(before),out=clipFrontierMesh(before,{cutX:0,side:'east'});assert.deepEqual(before,copy);assert.equal(out.mesh.indices.length,6);assert.ok(out.mesh.attributes.POSITION!.every((v,i)=>i%3!==0||v>=0));assert.ok(out.mesh.attributes.NORMAL instanceof Int8Array);
@@ -48,4 +48,27 @@ test('explicit north and south clipping preserves winding, UVs and non-ground HC
  for(const [out,inside]of[[south,(z:number)=>z>=1],[north,(z:number)=>z<=1]]as const)for(let i=0;i<out.mesh.attributes.POSITION!.length/3;i++){const z=out.mesh.attributes.POSITION![i*3+2]!;assert.ok(inside(z));assert.equal(out.mesh.attributes.TEXCOORD_0![i*2+1],z);assert.equal(out.mesh.attributes.NORMAL![i*3+1],127);}
  const items=[{id:'g:c',group:'ground' as const,ref:null,positions:before.attributes.POSITION as Float32Array,indices:before.indices,triangleTags:new Uint16Array([1])},{id:'b:old-west-patch',group:'buildings' as const,ref:'old',positions:before.attributes.POSITION as Float32Array,indices:before.indices,triangleTags:new Uint16Array([0])}],bytes=encodeCollisionBundle({originId:'test',frame:'X-east,Y-up,Z-south',cell:'c',surfaceTags:['wall','road']},items),out=parseCollisionBundle(clipFrontierCollision(bytes,{cut:1,axis:'z',side:'south'}).bytes);assert.deepEqual(out.colliders[1],items[1]);assert.deepEqual(out.colliders[0]!.triangleTags,new Uint16Array([1]));
  assert.throws(()=>clipFrontierMesh(before,{cut:1,axis:'x',side:'south'}),/Z frontier/);assert.throws(()=>clipFrontierMesh(before,{cut:1,cutX:2,axis:'z',side:'south'}),/Conflicting frontier cuts/);assert.throws(()=>clipFrontierMesh(before,{cut:1,axis:'z',cutAxis:0,side:'south'}),/Conflicting frontier axes/);
+});
+
+test('explicit bounded southern and western seams cannot lower terrain beyond their declared cross-axis interval',()=>{
+ const accepted=[0,0,32,32]as const,south=planCityFrontier(accepted,[8,32,24,48],{axis:'z',side:'south'}),west=planCityFrontier(accepted,[-16,8,0,24],{axis:'x',side:'west'});
+ assert.deepEqual(south.sourceBand,[8,27,24,38]);assert.deepEqual(west.sourceBand,[-6,8,5,24]);
+ assert.ok(frontierRuntimeLoweringAllowed(south,8,30,3,2));assert.ok(frontierRuntimeLoweringAllowed(west,2,8,3,2));
+ assert.equal(frontierRuntimeLoweringAllowed(south,7,30,3,2),false);assert.equal(frontierRuntimeLoweringAllowed(west,2,25,3,2),false);
+ assert.equal(frontierRuntimeLoweringAllowed(west,2,8,Infinity,2),false);
+ assert.throws(()=>planCityFrontier(accepted,[-16,8,0,24],{axis:'z',side:'west'}),/disagrees/);
+ assert.throws(()=>planCityFrontier(accepted,[8,32,24,48],{axis:'z',side:'north'}));
+ assert.equal(composeCityFrontiers(accepted,[{region:[8,32,24,48],axis:'z',side:'south'}]).length,1);
+});
+
+test('southwest frontier bands partition the shared corner once and reject unsupported extensions and duplicate regions',()=>{
+ const accepted=[0,0,32,32]as const,west={region:[-16,0,0,48]as const,axis:'x' as const,side:'west' as const},south={region:[0,32,32,48]as const,axis:'z' as const,side:'south' as const},plans=composeCityFrontiers(accepted,[west,south]);
+ assert.deepEqual(plans[0]!.regions,[[-6,0,5,48]]);assert.deepEqual(plans[1]!.regions,[[5,27,32,38]]);
+ const area=(r:readonly number[])=>(r[2]!-r[0]!)*(r[3]!-r[1]!);
+ assert.equal(plans.flatMap(p=>p.regions).reduce((n,r)=>n+area(r),0),11*48+32*11-5*11);
+ assert.throws(()=>composeCityFrontiers(accepted,[west]),/adjoining/);
+ assert.throws(()=>composeCityFrontiers(accepted,[south,south]),/overlap/);
+ assert.throws(()=>composeCityFrontiers(accepted,[{region:south.region,axis:'z'}]),/both axis and side/);
+ assert.throws(()=>composeCityFrontiers(accepted,[]),/At least one/);
+ const hole=subtractFrontierRectangle([0,0,8,8],[2,2,6,6]);assert.equal(hole.reduce((n,r)=>n+area(r),0),48);assert.equal(hole.length,4);
 });

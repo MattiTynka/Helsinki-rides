@@ -1216,3 +1216,55 @@ test('well-connected lane reach counts equal a breadth-first search from every l
   assert.deepEqual(reachableCounts(index), ids.map(bfs));
   assert.deepEqual(wellConnectedLanes(index).lanes.map(l => l.id), ['a', 'b', 'c']);
 });
+
+
+function canalGameplay(): GameplayBundle {
+  return { ...gameplay, supportedArea: { schemaVersion: 1, regions: [{ id: 'qualified-city',
+    outer: [[-100,-100],[100,-100],[100,100],[-100,100]], holes: [[[8,-20],[9,-20],[9,20],[8,20]]] }] } };
+}
+
+test('qualified coverage blocks walking and a one-tick leap over a canal without recovery jitter', () => {
+  const sim = recoverySim(canalGameplay());
+  for (let i = 0; i < 20; i++) sim.step(NEUTRAL);
+  sim.player.move(sim.world, 1200, 0);
+  sim.world.physics.step();
+  assert.ok(sim.player.position[0] <= 8 - CHARACTER.radius - .019, 'safe destination across the canal is not reachable through it');
+  const stopped = sim.player.position[0];
+  assert.ok(stopped > 7.5, `move reaches the local edge: ${stopped}`);
+  for (let i = 0; i < 120; i++) sim.step(cmd({ moveZ: 1, yaw: Math.PI / 2 }));
+  assert.ok(Math.abs(sim.player.position[0] - stopped) < .0001, `edge holds locally instead of repeatedly recovering: ${stopped} -> ${sim.player.position[0]}`);
+  assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 0);
+  assert.throws(() => sim.dropIn([8.5, 0, 0], 0), /qualified world coverage/);
+});
+
+test('a fast vehicle stops at its oriented footprint before a canal without recovery jitter', () => {
+  const sim = recoverySim(canalGameplay()), vehicle = sim.vehicles.get('car-1')!;
+  vehicle.body.setLinvel({ x: 1200, y: 0, z: 0 }, true);
+  sim.step(NEUTRAL);
+  sim.step(NEUTRAL);
+  assert.ok(vehicle.position[0] > 0 && vehicle.position[0] < 6.934, `oriented tyre/body plus 10 cm retained before canal: ${vehicle.position[0]}`);
+  assert.equal(vehicle.body.linvel().x, 0);
+  const stopped = vehicle.position[0];
+  for (let i = 0; i < 60; i++) sim.step(NEUTRAL);
+  assert.ok(Math.abs(vehicle.position[0] - stopped) < .02, `vehicle remains at its local boundary: ${stopped} -> ${vehicle.position[0]}, events ${JSON.stringify(sim.log)}`);
+  assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 0);
+});
+
+test('recovery and local vehicle admission reject unqualified canal ground despite an underlying collider', () => {
+  const sim = recoverySim(canalGameplay());
+  assert.equal(sim.trySpawnVehicle('in-canal', 'car', [8.5, 0], 0, 0), null);
+  sim.player.teleport([8.5, 1, 0], 0);
+  sim.step(NEUTRAL);
+  assert.ok(sim.player.position[0] < 8 || sim.player.position[0] > 9);
+  assert.equal(sim.log.filter(e => e.type === 'killPlane').length, 1);
+});
+
+test('vehicle spawn and movement use the oriented footprint on a narrow supported road', () => {
+  const content: GameplayBundle = { ...gameplay, supportedArea: {schemaVersion:1,regions:[{id:'narrow-road',outer:[[-1.1,-99],[1.1,-99],[1.1,99],[-1.1,99]]}]} };
+  const sim=recoverySim(content),vehicle=sim.vehicles.get('car-1')!;
+  const start=vehicle.position[2];vehicle.body.setLinvel({x:0,y:0,z:6},true);sim.step(NEUTRAL);
+  assert.ok(vehicle.position[2]>start,'a fitting vehicle moves along the road');
+  assert.equal(sim.log.filter(e=>e.type==='killPlane').length,0);
+  assert.equal(sim.trySpawnVehicle('crosswise','car',[0,20],Math.PI/2,0),null,'the same narrow road rejects a transverse body');
+  assert.ok(sim.trySpawnVehicle('aligned','car',[0,20],0,0),'local admission uses the same complete oriented footprint');
+});

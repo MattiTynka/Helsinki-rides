@@ -23,7 +23,13 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
-          fetch-depth: 0
+          fetch-depth: 1
+          fetch-tags: false
+      - name: Fetch only the selected source commit ancestry for the history audit
+        shell: bash
+        run: |
+          git fetch --no-tags --unshallow origin "$GITHUB_SHA"
+          git update-ref refs/heads/main "$GITHUB_SHA"
       - name: Set up pnpm
         uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa # v4
         with:
@@ -46,10 +52,13 @@ jobs:
         run: pnpm test:source
       - name: Test release tooling
         run: python -m unittest discover -s tools/release/test -p 'test_*.py'
-      - name: Audit source and committed history
-        run: python tools/release/source_release.py audit --images --git
+      - name: Audit source and its complete selected ancestry
+        run: python tools/release/audit-source-history.py --source-sha "$GITHUB_SHA" --report "$RUNNER_TEMP/source-history-audit.json"
       - name: Validate the committed world descriptor
         run: python tools/release/stage-pages-world.py validate --descriptor content/releases/pages.json --github-env "$GITHUB_ENV"
+      - name: Refuse external providers without a served-object verification gate
+        if: env.WORLD_DELIVERY_MODE == 'external' && env.WORLD_DELIVERY_PROVIDER != 'github-raw'
+        run: python -c "raise SystemExit('External-world publication requires the selected origin and a served-object verification gate. Local packet staging alone cannot activate it.')"
       - name: Build the pinned production game
         env:
           HELSINKI_PAGES_RELEASE: '1'
@@ -59,7 +68,14 @@ jobs:
         run: |
           curl --proto '=https' --tlsv1.2 --fail --location --max-redirs 3 --retry 3 --max-time 1200 --max-filesize "$PAGES_WORLD_ARCHIVE_BYTES" "$PAGES_WORLD_ARCHIVE_URL" --output "$RUNNER_TEMP/pages-world.tar.gz"
       - name: Verify every world payload and stage the Pages artifact
+        if: env.WORLD_DELIVERY_MODE != 'external'
         run: python tools/release/stage-pages-world.py stage --descriptor content/releases/pages.json --archive "$RUNNER_TEMP/pages-world.tar.gz" --out apps/game/dist-pages --source-sha "$GITHUB_SHA"
+      - name: Stage the GitHub raw world separately from the Pages shell
+        if: env.WORLD_DELIVERY_PROVIDER == 'github-raw'
+        run: python tools/release/stage-pages-world.py stage --descriptor content/releases/pages.json --archive "$RUNNER_TEMP/pages-world.tar.gz" --out apps/game/dist-pages --source-sha "$GITHUB_SHA" --world-out "$RUNNER_TEMP/validated-world"
+      - name: Verify every pinned hosted asset before publishing the shell
+        if: env.WORLD_DELIVERY_PROVIDER == 'github-raw'
+        run: python tools/release/verify-github-raw-world.py --descriptor content/releases/pages.json --world "$RUNNER_TEMP/validated-world/world/$VITE_WORLD_RELEASE" --out "$RUNNER_TEMP/served-world-proof" --shell apps/game/dist-pages
       - name: Configure Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
       - name: Upload the verified Pages artifact

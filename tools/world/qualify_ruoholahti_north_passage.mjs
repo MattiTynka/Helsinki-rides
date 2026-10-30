@@ -1,0 +1,24 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {buildExtraBridgeDeck} from './lib/delivery-extra-bridges-mesh.ts';
+import {sourceLowerBridgeAxis,qualifyScopedBridgePassageWithNativeMotion} from './lib/delivery-bridge-passages.ts';
+import {readLayeredSourceParts} from './lib/layered-bridge-source.ts';
+import {readSimulationPayload,readRoadGraph} from '../verify/lib/simulation-payload.ts';
+import {readSourceFile,sourceSha256,writeSourceJson} from './lib/source-files.ts';
+import {bindDeliveryProducer,verifyDeliveryProducer,publicDeliveryProducer} from './lib/delivery-city-provenance.ts';
+const output=process.argv[2],offsetZ=Number(process.argv[3]??1);assert.ok(offsetZ>=0&&offsetZ<=1.5);assert.ok(output&&!fs.existsSync(output),'Fresh evidence output required');
+const read=file=>{const bytes=fs.readFileSync(file);return{file,sha256:sourceSha256(bytes),value:JSON.parse(bytes)};};
+const profileFile=read(process.argv[4]??'../evidence/ruoholahti-bridges/west-native-banks-v4/native-bank-profile.json'),nativeFile=read('../evidence/ruoholahti-bridges/west-native-banks-v4/native-bridge-ground-faces.json');
+const nativeRoot='../work/cumulative-west-build-v1/cells-native',index=read(path.join(nativeRoot,'cells.json')),worldRoot='../work/stage-a-tree-soil-v1/world',manifest=read(path.join(worldRoot,'manifest.json'));
+const streets=read('../sources/raw-v2/street-parts/southwest-cumulative-20261029.geojson'),osm=read('../sources/raw-v2/osm/southwest-cumulative-20261029.json'),origin=read('content/helsinki/world-origin.json');
+const producer=['./lib/delivery-bridge-passages.ts','../../packages/world-schema/src/index.ts','../verify/lib/simulation-payload.ts','./qualify_ruoholahti_north_passage.mjs'].map(p=>bindDeliveryProducer(new URL(p,import.meta.url)));
+assert.equal(index.sha256,nativeFile.value.nativeCellsIndexSha256);const profile=profileFile.value.fit.profile;assert.equal(profileFile.value.fit.proof.status,'MEASURED_BANDS_QUALIFIED_NATIVE_SERIALIZATION_AND_LOWER_PASSAGES_PENDING');
+for(const pin of profileFile.value.inputs)assert.equal(sourceSha256(fs.readFileSync(pin.file)),pin.sha256);
+const sourceAxis=sourceLowerBridgeAxis(osm.value,739516012,1064603309,11737797449,origin.value),axis=sourceAxis.axis.map(([x,z])=>[x,z+offsetZ]),sourceParts=[162839,162853].flatMap(id=>readLayeredSourceParts(streets.value,[id],streets.value.features.find(f=>f.properties.osan_id===id).properties.alueen_nimi));
+const cells=[];for(const ref of nativeFile.value.files){const cell=index.value.cells.find(c=>c.id===ref.cell);assert.deepEqual(cell.collision,ref.ref);cells.push({id:cell.id,bytes:await readSimulationPayload(nativeRoot,cell.collision)});}
+const terrainBytes=fs.readFileSync(path.join(nativeRoot,'runtime-terrain.bin')),roads=await readRoadGraph(worldRoot,manifest.value.roads),gameplay=JSON.parse(readSourceFile(worldRoot,manifest.value.gameplay)),upperFloors=buildExtraBridgeDeck(profile).faces.filter(f=>f.role==='road'||f.role==='footway').map(f=>f.points);
+const proof=await qualifyScopedBridgePassageWithNativeMotion({axis,bodyRadiusMetres:.69,sourceParts,native:nativeFile.value.faces,upperFloors,deckThicknessMetres:profile.deckThicknessMetres,minimumClearanceMetres:2.2},{terrainBytes,roads,gameplay,cells,profile},{maximumTrackErrorMetres:.22});
+for(const p of producer)verifyDeliveryProducer(p);const inputs=[profileFile,nativeFile,index,manifest,streets,osm,origin];for(const pin of inputs)assert.equal(sourceSha256(fs.readFileSync(pin.file)),pin.sha256);fs.mkdirSync(output,{recursive:false});
+const receipt=writeSourceJson(output,'north-passage-qualification.json',{schemaVersion:1,status:proof.status,inputs:inputs.map(({file,sha256})=>({file,sha256})),producer:producer.map(publicDeliveryProducer),authoredSourceBend:{sourceAxis:sourceAxis.proof,sourceAxisCoordinates:sourceAxis.axis,translationRuntimeXZ:[0,offsetZ],axis,bodyRadiusMetres:.69},proof,remaining:['Final serialized upper/closure packet binding','Final supported-area and road/footway source admission','Live upper and north-lower travel; south hidden passage must stay closed']});
+console.log(JSON.stringify({sha256:receipt.sha256,status:proof.status,minimumClearance:proof.minimumClearanceMetres,runs:proof.motion.runs.map(({offsetZ,reverse,ticks,maximumTrackError})=>({offsetZ,reverse,ticks,maximumTrackError}))}));

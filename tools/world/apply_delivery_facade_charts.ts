@@ -126,7 +126,7 @@ export async function applyDeliveryFacadeCharts(args:{baseline:string;current:st
       assert.equal(baseLevel?.sha256,selected.baselineLevels[level],'Pinned baseline tier changed');
       const cached=cache.get(old.path);if(cached){
         next.visual[level]={...old,path:cached.ref.path,sha256:cached.ref.sha256,bytes:cached.ref.bytes,
-          drawCalls:old.drawCalls+cached.proof.addedPrimitives,atlases:old.atlases+(level==='lod2'?0:1),textureBytesEstimate:old.textureBytesEstimate+cached.proof.textureBytesEstimate};
+          drawCalls:old.drawCalls+cached.proof.addedPrimitives,atlases:old.atlases+(level==='lod2'?0:1),textureBytesEstimate:old.textureBytesEstimate+cached.proof.fallbackBytes};
         proofs.push({level,alias:true,...cached.proof});continue;
       }
       const bytes=pinned(current,old),images=deliveryFacadeImages(current,old,bytes,manifest.sharedTextures??[]),targets=await rebindDeliveryFacadeFaces(bytes,images,selected.faces,p.charts),common={expectedSha256:old.sha256,charts:p.charts,targets,externalImages:images};
@@ -140,10 +140,12 @@ export async function applyDeliveryFacadeCharts(args:{baseline:string;current:st
       assert.equal(validation.issues.numErrors,0,JSON.stringify(validation.issues.messages.filter(m=>m.severity===0)));
       const hash=sha(result.bytes),name=`cells/${cell.id}.${level}.${hash.slice(0,16)}.glb`;
       const ref={...old,path:name,sha256:hash,bytes:result.bytes.length,drawCalls:old.drawCalls+result.proof.addedPrimitives,
-        atlases:old.atlases+(level==='lod2'?0:1),textureBytesEstimate:old.textureBytesEstimate+result.proof.textureBytesEstimate};
+        // Manifest scheduling uses an RGBA+mips upper bound; the chart proof's
+        // textureBytesEstimate is the separate compressed GPU estimate.
+        atlases:old.atlases+(level==='lod2'?0:1),textureBytesEstimate:old.textureBytesEstimate+result.proof.fallbackBytes};
       assert.ok(ref.drawCalls<=24,'Facade exceeds per-cell draw cap');if(grouped&&level==='lod2')assert.ok(ref.drawCalls<=3,'Grouped facade exceeds the 3-draw distant-tier cap');
       next.visual[level]=ref;pending.set(name,result.bytes);cache.set(old.path,{ref,proof:result.proof});proofs.push({level,...result.proof});
-      if(level==='lod0')addedTextureEstimate+=result.proof.textureBytesEstimate;
+      if(level==='lod0')addedTextureEstimate+=result.proof.fallbackBytes;
     }
     next.buildings=next.buildings.map(b=>ownerIds.has(b.id)?{...b,texture:'textured'}:b);assert.deepEqual(next.collision,cell.collision);pinned(current,cell.collision);
     updates.push({cell:cell.id,before:cell,after:next,proofs});

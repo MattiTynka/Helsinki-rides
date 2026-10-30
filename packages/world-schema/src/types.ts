@@ -299,6 +299,8 @@ export interface GameplayBundle {
   readonly originId: string;
   readonly killHeight: number;
   readonly playArea: { readonly minX: number; readonly maxX: number; readonly minZ: number; readonly maxZ: number };
+  /** Qualified XZ coverage, independent of collider/height/layer validity. Absent in legacy worlds. */
+  readonly supportedArea?: SupportedArea;
   readonly player: { readonly spawn: { readonly position: Vec2; readonly headingDeg: number }; readonly health: number; readonly armour: number };
   readonly vehicleDefinitions: readonly VehicleDefinition[];
   readonly vehicles: readonly VehicleSpawn[];
@@ -310,6 +312,12 @@ export interface GameplayBundle {
   readonly landmarks: readonly AddressEntry[];
   readonly district: { readonly name: string; readonly boundary: readonly Vec2[] };
   readonly playerStart: { readonly weapons: readonly { readonly id: string; readonly reserve: number }[] };
+}
+
+export interface SupportedArea {
+  readonly schemaVersion: 1;
+  /** Normalized disjoint components. Rings close implicitly; adjacent regions must be merged. */
+  readonly regions: readonly { readonly id: string; readonly outer: readonly Vec2[]; readonly holes?: readonly (readonly Vec2[])[] }[];
 }
 
 // ---- events and saves ----

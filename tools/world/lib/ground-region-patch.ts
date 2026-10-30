@@ -37,11 +37,13 @@ export function retainGroundOutsideRectangle(mesh:FrontierMesh,region:AppendRect
   const middle=clipTracked(clipTracked(selected,0,region[0],'east'),0,region[2],'west'),bottom=withoutAligned(clipTracked(middle,2,region[1],'west'),2,region[1]),top=withoutAligned(clipTracked(middle,2,region[3],'east'),2,region[3]);
   return mergeTracked([left,right,bottom,top,unselected].filter(p=>p.mesh.indices.length),mesh);
 }
-export function patchGroundCollision(bytes:Uint8Array,region:AppendRectangle,pieces:readonly GroundPiece[]){
+export function patchGroundCollision(bytes:Uint8Array,region:AppendRectangle,pieces:readonly GroundPiece[],selectTriangle?:(colliderId:string,triangle:number,tag:string)=>boolean){
   const old=parseCollisionBundle(bytes),tags=[...old.header.surfaceTags],tag=(name:string)=>{let id=tags.indexOf(name);if(id<0){id=tags.length;tags.push(name);}assert.ok(id<=65535);return id;};let appended=false;
   const native=pieces.filter(p=>p.use!=='visual'),colliders=old.colliders.map(c=>{
     if(c.group!=='ground'&&c.group!=='kerbs')return c;
-    const kept=retainGroundOutsideRectangle({attributes:{POSITION:c.positions},components:{POSITION:3},normalized:{POSITION:false},indices:c.indices},region),positions=Array.from(kept.mesh.attributes.POSITION!),indices=Array.from(kept.mesh.indices),triangleTags=kept.sourceTriangles.map(i=>c.triangleTags[i]!);
+    const selected=(i:number)=>selectTriangle?.(c.id,i,old.header.surfaceTags[c.triangleTags[i]!]!)??true;
+    if(selectTriangle&&!c.triangleTags.some((_tag,i)=>selected(i)))return c;
+    const kept=retainGroundOutsideRectangle({attributes:{POSITION:c.positions},components:{POSITION:3},normalized:{POSITION:false},indices:c.indices},region,selected),positions=Array.from(kept.mesh.attributes.POSITION!),indices=Array.from(kept.mesh.indices),triangleTags=kept.sourceTriangles.map(i=>c.triangleTags[i]!);
     if(!appended&&c.group==='ground'){for(const p of native){const offset=positions.length/3;for(const v of p.positions)positions.push(v);for(const i of p.indices)indices.push(i+offset);for(let i=0;i<p.indices.length/3;i++)triangleTags.push(tag(p.tag));}appended=true;}
     return{...c,positions:Float32Array.from(positions),indices:Uint32Array.from(indices),triangleTags:Uint16Array.from(triangleTags)};
   });

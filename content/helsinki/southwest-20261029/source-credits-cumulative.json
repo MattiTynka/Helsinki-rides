@@ -1,0 +1,72 @@
+[
+  {
+    "title": "City of Helsinki 3D city information model, textured LoD2 buildings (3D Tiles, layer Rakennukset_LOD2_tekstuureilla)",
+    "url": "https://kartta.hel.fi/3d/",
+    "license": "CC BY 4.0 (stated for the city information model on hel.fi/3d; the 3D Tiles service is the city's own distribution of it)",
+    "attribution": "Buildings: Helsinki 3D city model © City of Helsinki, CC BY 4.0",
+    "id": "helsinki-lod2-textured-southwest-cumulative-20261029",
+    "snapshot": "southwest-cumulative-20261029",
+    "retrievedAt": "2026-10-29T18:39:25.687Z",
+    "sha256": "6c0b24262cb5679d4d22f6b8f79bcc33f1d1ee466d5f4b1340068f05be6771e2"
+  },
+  {
+    "title": "City of Helsinki terrain model 2021 (quantized-mesh, layer 2021_terrain \"Maastomalli\")",
+    "url": "https://kartta.hel.fi/3d/",
+    "license": "CC BY 4.0 (plan v3 sections 1 and 18: confirmed by the city for the LoD2, terrain, tree and mesh layers of its 3D map stream)",
+    "attribution": "Terrain: Helsinki terrain model 2021 © City of Helsinki, CC BY 4.0",
+    "id": "helsinki-terrain-2021-southwest-cumulative-20261029",
+    "snapshot": "southwest-cumulative-20261029",
+    "retrievedAt": "2026-10-29T18:42:18.454Z",
+    "sha256": "fd41a14477fe83c45f616a4974cd1c581b56bde599f996be9199d632c6818fcb"
+  },
+  {
+    "title": "City of Helsinki building footprints with register attributes (Rakennukset_alue_rekisteritiedot)",
+    "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs",
+    "license": "CC BY 4.0 (City of Helsinki open geographic data terms; layer-level licence text not separately verified)",
+    "attribution": "Building register © City of Helsinki, CC BY 4.0",
+    "id": "helsinki-building-register-wfs-southwest-cumulative-20261029",
+    "snapshot": "southwest-cumulative-20261029",
+    "retrievedAt": "2026-10-29T18:42:19.354Z",
+    "sha256": "b9acc80717deb9a4e92d62885f73f8af3a8c0592563c45b359ed727dcfdc57a7"
+  },
+  {
+    "title": "City of Helsinki public area register, street and green parts (YLRE_Katu_ja_viherosat_kaikki_alue)",
+    "url": "https://kartta.hel.fi/ws/geoserver/avoindata/wfs",
+    "license": "CC BY 4.0 (City of Helsinki open geographic data terms; layer-level licence text not separately verified)",
+    "attribution": "Street areas © City of Helsinki, CC BY 4.0",
+    "id": "helsinki-street-parts-wfs-southwest-cumulative-20261029",
+    "snapshot": "southwest-cumulative-20261029",
+    "retrievedAt": "2026-10-29T18:42:20.731Z",
+    "sha256": "1ac1409cf70cd6c3ad1ab7139fd6f365898d5c654e499616a1892d1b669645b2"
+  },
+  {
+    "title": "City of Helsinki 3D city model, tree layer Katu_ja_puistopuut: Katu- ja puistopuut (street and park trees, the public tree register)",
+    "url": "https://kartta.hel.fi/3d/",
+    "license": "CC BY 4.0 (plan v3 sections 1 and 18: confirmed by the city for the LoD2, terrain, tree and mesh layers of its 3D map stream)",
+    "attribution": "Trees: Helsinki 3D city model tree layers © City of Helsinki, CC BY 4.0",
+    "id": "helsinki-trees-street-southwest-cumulative-20261029",
+    "snapshot": "southwest-cumulative-20261029",
+    "retrievedAt": "2026-10-29T18:39:32.169Z",
+    "sha256": "3e83e714819d116dcec380f0d5cf828fd98ea841f886541a9568f20365d3d2e2"
+  },
+  {
+    "title": "City of Helsinki 3D city model, tree layer Tontti_ja_metsapuut: Tontti- ja metsäpuut (plot and forest trees)",
+    "url": "https://kartta.hel.fi/3d/",
+    "license": "CC BY 4.0 (plan v3 sections 1 and 18: confirmed by the city for the LoD2, terrain, tree and mesh layers of its 3D map stream)",
+    "attribution": "Trees: Helsinki 3D city model tree layers © City of Helsinki, CC BY 4.0",
+    "id": "helsinki-trees-plot-southwest-cumulative-20261029",
+    "snapshot": "southwest-cumulative-20261029",
+    "retrievedAt": "2026-10-29T18:40:07.883Z",
+    "sha256": "e3f9880bdd486aa2ffeaa0e5f4ca8d9e7eb8b1f86e65470bb56b4b5a96502624"
+  },
+  {
+    "title": "OpenStreetMap (API 0.6 map snapshot)",
+    "url": "https://www.openstreetmap.org/",
+    "license": "ODbL 1.0",
+    "attribution": "Road data © OpenStreetMap contributors, ODbL 1.0",
+    "id": "osm-southwest-cumulative-20261029",
+    "snapshot": "southwest-cumulative-20261029",
+    "retrievedAt": "2026-10-29T18:42:23.145Z",
+    "sha256": "a6bf71bae890ab60b4249c8546e6b7185ce37c9ede4137e9c4aefbd9a755e65a"
+  }
+]

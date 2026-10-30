@@ -1,0 +1,32 @@
+// Diagnostic only: actual StaticWorld HCOL, immutable world, complete route capsule sweeps.
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {parseArgs} from 'node:util';
+import {initPhysics, StaticWorld, RAPIER, CHARACTER, FEET_TO_CENTRE, CHARACTER_SKIN} from '../../../packages/sim/src/index.ts';
+import {groups, GROUP} from '../../../packages/sim/src/world.ts';
+import {supportsSegment} from '../../../packages/world-schema/src/index.ts';
+import {readSimulationPayload, readRoadGraph} from '../../verify/lib/simulation-payload.ts';
+import {readSourceFile, sourceSha256, writeSourceJson} from './source-files.ts';
+
+export async function openStaticWalkScene(worldRoot,radius=.5,spacing=.2){
+const manifestBytes=fs.readFileSync(path.join(worldRoot,'manifest.json')),manifest=JSON.parse(manifestBytes),gameplay=JSON.parse(readSourceFile(worldRoot,manifest.gameplay));
+await initPhysics();const world=StaticWorld.fromBytes(await readSimulationPayload(worldRoot,manifest.terrain),await readRoadGraph(worldRoot,manifest.roads),gameplay);
+const identities=new Map(),pins=new Map(),decoded=new Map();let cacheBytes=0,samples=0,sweeps=0,peakRss=0;
+const shape=new RAPIER.Capsule(FEET_TO_CENTRE-radius,radius),rotation={x:0,y:0,z:0,w:1};
+const characterBody=world.physics.createRigidBody(RAPIER.RigidBodyDesc.kinematicPositionBased()),characterCollider=world.physics.createCollider(RAPIER.ColliderDesc.capsule(CHARACTER.halfHeight,CHARACTER.radius).setCollisionGroups(groups(GROUP.character,GROUP.static)),characterBody);
+const controller=world.physics.createCharacterController(CHARACTER_SKIN);controller.setMaxSlopeClimbAngle(50*Math.PI/180);controller.setMinSlopeSlideAngle(60*Math.PI/180);controller.enableAutostep(.45,.25,true);controller.enableSnapToGround(.4);controller.setApplyImpulsesToDynamicBodies(false);
+async function resident(a,b){const rect=[Math.min(a[0],b[0])-8,Math.min(a[1],b[1])-8,Math.max(a[0],b[0])+8,Math.max(a[1],b[1])+8],needed=manifest.cells.filter(c=>{const q=c.collision.boundsXZ??c.boundsXZ;return q[0]<=rect[2]&&q[2]>=rect[0]&&q[1]<=rect[3]&&q[3]>=rect[1];}),wanted=new Set(needed.map(c=>c.id));for(const id of world.residentCells())if(!wanted.has(id)){for(const h of world.cellColliders.get(id))identities.delete(h);world.removeCell(id);}for(const cell of needed)if(!world.cellColliders.has(cell.id)){let bytes=decoded.get(cell.id);if(!bytes){bytes=await readSimulationPayload(worldRoot,cell.collision);while(cacheBytes+bytes.length>128*1024*1024&&decoded.size){const [id,old]=decoded.entries().next().value;decoded.delete(id);cacheBytes-=old.length;}decoded.set(cell.id,bytes);cacheBytes+=bytes.length;}const bundle=world.addCell(cell.id,bytes),handles=world.cellColliders.get(cell.id);let i=0;for(const c of bundle.colliders)if(c.indices.length)identities.set(handles[i++],{cell:cell.id,id:c.id,group:c.group,ref:c.ref});pins.set(cell.id,{id:cell.id,storedSha256:cell.collision.sha256,decodedSha256:sourceSha256(bytes)});}world.physics.step();world.markStepped();peakRss=Math.max(peakRss,process.memoryUsage().rss);}
+const hard=c=>{const s=world.surfaceAt(c.handle,null);return !!s&&(s.group==='ground'||s.group==='kerb');};
+const obstacle=c=>world.isStatic(c.handle)&&!hard(c)&&world.surfaceAt(c.handle,null)?.group!=='terrain';
+function at(x,z){const origin=world.groundHeight(x,z)+15,heights=[];for(const[dx,dz]of[[0,0],...Array.from({length:12},(_,k)=>[Math.cos(k*Math.PI/6)*radius,Math.sin(k*Math.PI/6)*radius])]){const hit=world.physics.castRayAndGetNormal(new RAPIER.Ray({x:x+dx,y:origin,z:z+dz},{x:0,y:-1,z:0}),35,true,undefined,undefined,undefined,undefined,hard);if(!hit||hit.normal.y<.6||world.surfaceAt(hit.collider.handle,hit.featureId??null)?.tag==='water')return {x,z,error:'missing hard native floor',probe:[dx,dz],hit:hit?{normal:hit.normal,toi:hit.timeOfImpact,identity:identities.get(hit.collider.handle),surface:world.surfaceAt(hit.collider.handle,hit.featureId??null)}:null};heights.push(origin-hit.timeOfImpact);}return{x,z,floor:heights[0],high:Math.max(...heights),range:Math.max(...heights)-Math.min(...heights)};}
+function check(a,b,options={}){const failures=[];if(!supportsSegment(gameplay,a,b,radius))failures.push({reason:'unsupported capsule corridor'});const count=Math.max(1,Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])/spacing));let previous;
+ for(let j=0;j<=count;j++){samples++;const t=j/count,p=at(a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t);if(p.error){failures.push({reason:p.error,...p});previous=undefined;continue;}if(p.range>.45)failures.push({reason:'native floor cross-section exceeds autostep',x:p.x,z:p.z,range:p.range});const centre={x:p.x,y:p.high+FEET_TO_CENTRE+CHARACTER_SKIN+.01,z:p.z},overlap=world.physics.intersectionWithShape(centre,rotation,shape,undefined,undefined,undefined,undefined,obstacle);if(overlap)failures.push({reason:'static capsule overlap',x:p.x,z:p.z,collider:identities.get(overlap.handle)});
+ if(previous){sweeps++;const hit=world.physics.castShape(previous.centre,rotation,{x:centre.x-previous.centre.x,y:centre.y-previous.centre.y,z:centre.z-previous.centre.z},shape,0,1,true,undefined,undefined,undefined,undefined,obstacle);if(hit)failures.push({reason:'continuous static capsule sweep',x:p.x,z:p.z,collider:identities.get(hit.collider.handle)});
+ // Native controller also sees ground walls, terrain, kerbs and autosteps, never ignored by the non-floor cast.
+ if(options.controller!==false){characterBody.setTranslation({x:previous.p.x,y:previous.p.high+FEET_TO_CENTRE+CHARACTER_SKIN,z:previous.p.z},false);world.physics.propagateModifiedBodyPositionsToColliders();const desired={x:p.x-previous.p.x,y:.0001,z:p.z-previous.p.z};controller.computeColliderMovement(characterCollider,desired,undefined,groups(GROUP.character,GROUP.static));const movement=controller.computedMovement(),error=Math.hypot(movement.x-desired.x,movement.z-desired.z);if(error>.025){const contacts=[];for(let k=0;k<controller.numComputedCollisions();k++){const c=controller.computedCollision(k);if(c)contacts.push({collider:identities.get(c.collider.handle)??world.surfaceAt(c.collider.handle,null),normal:c.normal1});}failures.push({reason:'native controller movement blocked',x:p.x,z:p.z,error,contacts});}
+ }}previous={p,centre};}
+ return {sampleCount:count+1,failures};}
+
+return {world,manifest,gameplay,resident,check,at,shape,rotation,obstacle,identities, stats:()=>({samples,sweeps,peakRss,collisionPins:[...pins.values()]}),close:()=>world.physics.free()};
+}

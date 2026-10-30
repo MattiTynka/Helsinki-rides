@@ -1,6 +1,7 @@
-import type { VehicleDefinition } from '@helsinki/world-schema';
+import { containsSupportedArea, type VehicleDefinition } from '@helsinki/world-schema';
 import { CHARACTER, FEET_TO_CENTRE } from './character.ts';
-import { clamp, type V3 } from './math.ts';
+import { supportsVehiclePose } from './coverage-footprint.ts';
+import { clamp, quatYaw, type V3 } from './math.ts';
 import { GROUP, groups, RAPIER, type StaticWorld } from './world.ts';
 
 interface Placement { readonly position: V3; readonly yaw: number }
@@ -9,6 +10,7 @@ interface Footprint {
   readonly radius: number;
   readonly points: readonly (readonly [number, number])[];
   readonly clearance: (position: V3, yaw: number) => boolean;
+  readonly coverage?: (candidate: Candidate) => boolean;
 }
 
 const IDENTITY = { x: 0, y: 0, z: 0, w: 1 };
@@ -33,7 +35,8 @@ export class SafeSpawns {
 
   contains(x: number, z: number, margin = 0): boolean {
     const b = this.bounds;
-    return Number.isFinite(x) && Number.isFinite(z) && x >= b.minX + margin && x <= b.maxX - margin && z >= b.minZ + margin && z <= b.maxZ - margin;
+    return Number.isFinite(x) && Number.isFinite(z) && x >= b.minX + margin && x <= b.maxX - margin && z >= b.minZ + margin && z <= b.maxZ - margin
+      && containsSupportedArea(this.world.gameplay, x, z, margin);
   }
 
   character(x: number, z: number, yaw: number, excludeBody?: RAPIER.RigidBody, preferRoad = false): Placement {
@@ -65,6 +68,7 @@ export class SafeSpawns {
     return {
       radius: Math.hypot(halfX, halfZ),
       points: [[0, 0], [-halfX, -halfZ], [halfX, -halfZ], [-halfX, halfZ], [halfX, halfZ], ...def.wheels.map(w => [w.position[0], w.position[2]] as const)],
+      coverage: c => supportsVehiclePose(this.world.gameplay, def, [Math.fround(c.x), 0, Math.fround(c.z)], quatYaw(c.yaw).map(Math.fround) as [number, number, number, number]),
       clearance: (p, angle) => boxes.every(box => {
         const [dx, dz] = rotateXZ(box.centre[0], box.centre[2], angle);
         return !this.world.physics.intersectionWithShape(
@@ -106,12 +110,17 @@ export class SafeSpawns {
   }
 
   private validate(c: Candidate, footprint: Footprint, expectedY?: number): Placement | null {
-    if (!Number.isFinite(c.yaw) || !this.contains(c.x, c.z)) return null;
+    if (!Number.isFinite(c.yaw) || !this.contains(c.x, c.z, 0)) return null;
+    if (this.world.gameplay.supportedArea && (footprint.coverage ? !footprint.coverage(c) : !this.contains(c.x, c.z, footprint.radius))) return null;
     const heights: number[] = [];
     for (const [px, pz] of footprint.points) {
       const [dx, dz] = rotateXZ(px, pz, c.yaw), x = c.x + dx, z = c.z + dz;
       // A streamed world may not have this cell's collision registered: the fallback heightfield is not support.
-      if (!this.contains(x, z, 0.05) || !this.world.queryable(x, z)) return null;
+      // Vehicle coverage is certified by its entire oriented body above. Retain the broader
+      // physical support probes without imposing their extra 20 cm corners on the source mask.
+      const bounds = this.bounds;
+      const inBounds = x >= bounds.minX + .05 && x <= bounds.maxX - .05 && z >= bounds.minZ + .05 && z <= bounds.maxZ - .05;
+      if (!(footprint.coverage && this.world.gameplay.supportedArea ? inBounds : this.contains(x, z, .05)) || !this.world.queryable(x, z)) return null;
       const originY = expectedY === undefined ? this.world.groundHeight(x, z) + 8 : expectedY + 2;
       const ray = new RAPIER.Ray({ x, y: originY, z }, { x: 0, y: -1, z: 0 });
       const hit = this.world.physics.castRayAndGetNormal(ray, expectedY === undefined ? 40 : 4, false, undefined, groups(GROUP.bullet, GROUP.static));

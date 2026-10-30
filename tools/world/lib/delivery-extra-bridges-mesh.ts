@@ -15,15 +15,19 @@ export interface ExtraBridgeDeckProfile {
   /** Authored approximation, constrained by measured bank sections and complete
    * lower-floor clearance. This is not a survey of the missing upper deck. */
   crownMetres:number;deckThicknessMetres:number;maximumGrade:number;
+  /** Independently source-measured rises for raised sidepaths. Each field still
+   * reaches the exact unchanged native bank rows. Absent means legacy shared crown. */
+  crownByBand?:Partial<Record<ExtraBridgeBand,number>>;
   /** Curved streets can cross the frame's t=0 line. Source identities, rather
    * than the sign of an arbitrary coordinate, keep each side continuous. */
   sideByPartId?:Record<string,-1|1>;
   /** A source bridge island can start and end entirely between the two road
    * banks. Its explicitly authored kerb height follows the common road field. */
   authoredMedianAboveRoadMetres?:number;
-  barriers?:{kind:'mesh-crash'|'picket'|'noise-opaque'|'noise-clear';sourcePartIds:number[];startS:number;endS:number;heightMetres:number;thicknessMetres:number;edge?:'source-part'}[];
+  barriers?:{kind:'mesh-crash'|'picket'|'noise-opaque'|'noise-clear';sourcePartIds:number[];startS:number;endS:number;heightMetres:number;thicknessMetres:number;edge?:'source-part';colour?:[number,number,number]}[];
   piers?:ExtraBridgePier[];
 }
+export type ExtraBridgeBand=`${ExtraBridgeRole}:${-1|0|1}`;
 export interface ExtraBridgeFace extends BridgeFace {sourcePartIds:number[];colour?:[number,number,number]}
 export function extraBridgeUpperBankZones(profile:ExtraBridgeDeckProfile):TramSupportPatch[]{
   const result:TramSupportPatch[]=[];
@@ -44,11 +48,12 @@ const rangeFor=(profile:ExtraBridgeDeckProfile,bank:ExtraBridgeDeckProfile['bank
 type FieldTriangle=[[number,number,number],[number,number,number],[number,number,number]];
 function extraBridgeField(profile:ExtraBridgeDeckProfile,role:ExtraBridgeRole,sign:number):FieldTriangle[]{
   const[a,b]=profile.banks,L=b.s-a.s;assert.ok(L>5&&L<350&&profile.crownMetres>=0&&profile.crownMetres<=12&&profile.deckThicknessMetres>=.25&&profile.deckThicknessMetres<=1.2);
+  const crown=profile.crownByBand?.[`${role}:${sign}` as ExtraBridgeBand]??profile.crownMetres;
   const medianOffset=role==='median'?profile.authoredMedianAboveRoadMetres:undefined;if(medianOffset!==undefined)assert.ok(medianOffset>=.08&&medianOffset<=.2);const referenceRole=medianOffset===undefined?role:'road';
-  const A=rangeFor(profile,a,referenceRole,sign),B=rangeFor(profile,b,referenceRole,sign),sourceT=profile.upperParts.filter(p=>p.role===role).flatMap(p=>p.rings.flat().map(p=>extraBridgeLocal(profile.frame,p)[1])),extent=sourceT.flatMap(t=>[(t-A.min)/(A.max-A.min),(t-B.min)/(B.max-B.min)]),values=[Math.min(-2,...extent)-1,0,1,Math.max(3,...extent)+1,...A.segments.flatMap(p=>[p.t0,p.t1]).map(t=>(t-A.min)/(A.max-A.min)),...B.segments.flatMap(p=>[p.t0,p.t1]).map(t=>(t-B.min)/(B.max-B.min))].sort((x,y)=>x-y),cuts=values.filter((v,i)=>!i||v-values[i-1]!>1e-10),stations=profile.crownMetres?[0,.25,.5,.75,1]:[0,1],result:FieldTriangle[]=[];
+  const A=rangeFor(profile,a,referenceRole,sign),B=rangeFor(profile,b,referenceRole,sign),sourceT=profile.upperParts.filter(p=>p.role===role).flatMap(p=>p.rings.flat().map(p=>extraBridgeLocal(profile.frame,p)[1])),extent=sourceT.flatMap(t=>[(t-A.min)/(A.max-A.min),(t-B.min)/(B.max-B.min)]),values=[Math.min(-2,...extent)-1,0,1,Math.max(3,...extent)+1,...A.segments.flatMap(p=>[p.t0,p.t1]).map(t=>(t-A.min)/(A.max-A.min)),...B.segments.flatMap(p=>[p.t0,p.t1]).map(t=>(t-B.min)/(B.max-B.min))].sort((x,y)=>x-y),cuts=values.filter((v,i)=>!i||v-values[i-1]!>1e-10),stations=crown?[0,.25,.5,.75,1]:[0,1],result:FieldTriangle[]=[];
   const row=(u:number,v:number):[number,number,number]=>{
     const V=Math.max(0,Math.min(1,v)),ta=A.min+(A.max-A.min)*V,tb=B.min+(B.max-B.min)*V,y0=extraBridgeBankHeight(A.segments,ta,referenceRole),y1=extraBridgeBankHeight(B.segments,tb,referenceRole),lo=A.min+(B.min-A.min)*u,width=(A.max-A.min)+((B.max-B.min)-(A.max-A.min))*u;
-    return[a.s+u*L,lo+width*v,y0+(y1-y0)*u+profile.crownMetres*16*u*u*(1-u)*(1-u)+(medianOffset??0)];
+    return[a.s+u*L,lo+width*v,y0+(y1-y0)*u+crown*16*u*u*(1-u)*(1-u)+(medianOffset??0)];
   };
   // The new authored field is explicitly piecewise planar. Native bank knots
   // survive exactly, without a one-metre tessellation across a straight deck.
@@ -64,14 +69,26 @@ export function extraBridgeDeckHeight(profile:ExtraBridgeDeckProfile,s:number,t:
 }
 export function validateExtraBridgeDeck(profile:ExtraBridgeDeckProfile){
   assert.equal(profile.surfaceMethod,'native-bank-piecewise-planar-ruled-sections-v1');
+  for(const barrier of profile.barriers??[])if(barrier.colour!==undefined)assert.ok(Array.isArray(barrier.colour)&&barrier.colour.length===3&&barrier.colour.every(v=>Number.isFinite(v)&&v>=0&&v<=1),'Invalid authored barrier colour');
   assert.ok(profile.maximumGrade>0&&profile.maximumGrade<=.15);
   const[a,b]=profile.banks;assert.ok(a.s<b.s);assert.ok(profile.upperParts.length>0&&new Set(profile.upperParts.map(p=>p.id)).size===profile.upperParts.length);
+  const bandGrades:Record<string,number>={};
+  if(profile.crownByBand!==undefined){
+    assert.ok(profile.crownByBand&&typeof profile.crownByBand==='object'&&!Array.isArray(profile.crownByBand)&&Object.keys(profile.crownByBand).length>0,'Measured crown bands must be a nonempty object');
+    const bands=new Set(profile.upperParts.flatMap(p=>p.rings.flat().map(v=>`${p.role}:${extraBridgePartSide(profile,p.role,extraBridgeLocal(profile.frame,v)[1],p.id)}`)));
+    for(const[key,crown]of Object.entries(profile.crownByBand)){
+      assert.ok(bands.has(key)&&/^(road|walk|cycle|median):(-1|0|1)$/.test(key),'Unknown source crown band');assert.ok(Number.isFinite(crown)&&crown>=0&&crown<=12,'Invalid source crown');
+      const[role,side]=key.split(':');let grade=0;
+      for(const[p,q,r]of extraBridgeField(profile,role as ExtraBridgeRole,Number(side))){const ds1=q[0]-p[0],dt1=q[1]-p[1],ds2=r[0]-p[0],dt2=r[1]-p[1],det=ds1*dt2-ds2*dt1;if(Math.abs(det)<1e-12)continue;grade=Math.max(grade,Math.abs(((q[2]-p[2])*dt2-(r[2]-p[2])*dt1)/det));}
+      assert.ok(grade<=profile.maximumGrade,`Measured ${key} longitudinal grade ${grade} exceeds bounded profile`);bandGrades[key]=grade;
+    }
+  }
   if(profile.authoredMedianAboveRoadMetres!==undefined)for(const part of profile.upperParts.filter(p=>p.role==='median')){const s=part.rings.flat().map(p=>extraBridgeLocal(profile.frame,p)[0]);assert.ok(Math.min(...s)>a.s+.001&&Math.max(...s)<b.s-.001,'An authored island offset cannot replace a real bank boundary');}
   let maximumGrade=0;
   for(let s=a.s;s<b.s-.001;s+=.25)for(const t of[-4,0,4]){
     const y0=extraBridgeDeckHeight(profile,s,t,'road'),y1=extraBridgeDeckHeight(profile,Math.min(b.s,s+.25),t,'road');
     maximumGrade=Math.max(maximumGrade,Math.abs(y1-y0)/Math.min(.25,b.s-s));
-  }assert.ok(maximumGrade<=profile.maximumGrade,`Extra bridge grade ${maximumGrade} exceeds bounded profile`);return{surfaceMethod:profile.surfaceMethod,maximumGrade};
+  }assert.ok(maximumGrade<=profile.maximumGrade,`Extra bridge grade ${maximumGrade} exceeds bounded profile`);return{surfaceMethod:profile.surfaceMethod,maximumGrade,...(profile.crownByBand?{bandGrades}: {})};
 }
 /** Emit identical Float32 floor triangles for visual tiers and HCOL. The exact
  * source polygons own X/Z. Native bank diagonal breaks own the joining rows. */
@@ -139,7 +156,7 @@ export function buildExtraBridgeDeck(profile:ExtraBridgeDeckProfile,options:{coa
         // End caps are open at actual source banks. Only the declared longitudinal
         // source outer edge owns a barrier; a transverse street exit never does.
         if(Math.abs(V[0]-U[0])<.8*Math.hypot(V[0]-U[0],V[1]-U[1]))continue;
-        const grey:[number,number,number]=[.38,.40,.39],H=barrier.heightMetres,th=barrier.thicknessMetres;
+        const grey:[number,number,number]=barrier.colour??[.38,.40,.39],H=barrier.heightMetres,th=barrier.thicknessMetres;
         bar(A,B,.12,th*1.5,.03,[owner.id],[.37,.36,.34],'concrete');
         if(barrier.kind.startsWith('noise-')){
           bar(A,B,H-.15,th,.15,[owner.id],barrier.kind==='noise-opaque'?[.55,.56,.54]:[.45,.61,.60],barrier.kind==='noise-opaque'?'concrete':'glass');
@@ -167,7 +184,7 @@ export function buildExtraBridgeDeck(profile:ExtraBridgeDeckProfile,options:{coa
       const P=ring[i-1]!,Q=ring[i]!,L=Math.hypot(Q[0]-P[0],Q[1]-P[1]);if(L<.0001||Math.abs(Q[0]-P[0])<L*.8)continue;const count=Math.ceil(L/2);
       for(let k=0;k<count;k++){
         const at=(v:number)=>[P[0]+(Q[0]-P[0])*v,P[1]+(Q[1]-P[1])*v]as[number,number],U=at(k/count),V=at((k+1)/count);if(Math.max(U[0],V[0])<barrier.startS||Math.min(U[0],V[0])>barrier.endS)continue;
-        const point=([s,t]:[number,number])=>{const[x,z]=extraBridgeWorld(profile.frame,s,t);return f32([x,extraBridgeDeckHeight(profile,s,t,part.role,part.id),z]);},A=point(U),B=point(V),grey:[number,number,number]=[.52,.54,.53],H=barrier.heightMetres,th=barrier.thicknessMetres;
+        const point=([s,t]:[number,number])=>{const[x,z]=extraBridgeWorld(profile.frame,s,t);return f32([x,extraBridgeDeckHeight(profile,s,t,part.role,part.id),z]);},A=point(U),B=point(V),grey:[number,number,number]=barrier.colour??[.52,.54,.53],H=barrier.heightMetres,th=barrier.thicknessMetres;
         bar(A,B,.15,th*1.5,0,[part.id],[.45,.44,.42],'concrete');bar(A,B,H-.15,th,.15,[part.id],barrier.kind==='noise-clear'?[.45,.61,.60]:[.55,.56,.54],barrier.kind==='noise-clear'?'glass':'concrete');bar(A,B,.05,th*1.1,H-.05,[part.id],grey);bar(A,f32([A[0]+(B[0]-A[0])*.025,A[1],A[2]+(B[2]-A[2])*.025]),H,.05,0,[part.id],grey);
       }
     }

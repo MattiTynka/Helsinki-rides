@@ -15,6 +15,7 @@ const { values } = parseArgs({ options: {
   cycles: { type: 'string', default: '3' }, 'dwell-seconds': { type: 'string', default: '10' },
   'duration-seconds': { type: 'string', default: '0' }, preset: { type: 'string', default: 'standard' },
   'runtime-sha256': { type: 'string' }, 'manifest-sha256': { type: 'string' },
+  'drop-in': { type: 'string', multiple: true },
   headful: { type: 'boolean', default: false }, trace: { type: 'boolean', default: false },
 } });
 assert.ok(values.out, '--out is required and must be a new evidence directory');
@@ -72,6 +73,7 @@ async function readSnapshot(label, phase = 'dwell') {
     const collector = window.__streamResidencyFrames;
     const frames = collector.frames.splice(0);
     return { tick: state.tick, position: state.player.position, mode: state.player.mode,
+      actors: { characters: state.characters.length, vehicles: state.vehicles.length, policeUnits: state.police.length },
       stats: api.stats(), stream: api.streaming(), textureMemory: api.textureMemory(), textureOwnership: api.textureOwnership(), frames,
       rendererHeapBytes: performance.memory?.usedJSHeapSize ?? null };
   });
@@ -153,7 +155,7 @@ async function retainedEndpoint(cycle, label) {
   required(`cycle-${cycle}:gpu-texture-byte-budget`, ownership.ownedGpuMiB <= limits.totalTextureMiB + .01,
     { ownedGpuMiB: ownership.ownedGpuMiB, totalTextureBudgetMiB: limits.totalTextureMiB, sharedBytesSaved: ownership.sharedBytesSaved });
   return { cycle, label, stats: data.stats, stream: data.stream, textureMemory: data.textureMemory, textureOwnership: ownership,
-    position: data.position, beforeGCMetrics: beforeGC, afterGCMetrics: metrics,
+    position: data.position, actors: data.actors, tick: data.tick, beforeGCMetrics: beforeGC, afterGCMetrics: metrics,
     retainedHeapMiB: metrics.JSHeapUsedSize / 2 ** 20, seconds: data.seconds };
 }
 async function capture(label) {
@@ -219,7 +221,13 @@ try {
     assert.ok(found, `Required native drop-in missing: ${label}`); return found;
   };
   const senate = choose('Senate Square', /^Senate Square$/i);
-  route = [senate, choose('Mannerheimintie / Lasipalatsi', /Mannerheimintie.*Lasipalatsi/i),
+  if (values['drop-in']) {
+    assert.ok(values['drop-in'].length >= 1 && values['drop-in'].length <= 30, 'Select1..30 native residency stops');
+    for (const label of values['drop-in']) assert.ok(availableLabels.includes(label), `Unknown native residency stop: ${label}`);
+    assert.ok(values['drop-in'].some(label => label !== senate), 'Residency route must leave Senate Square');
+    route = [senate, ...values['drop-in']];
+    if (route.at(-1) !== senate) route.push(senate);
+  } else route = [senate, choose('Mannerheimintie / Lasipalatsi', /Mannerheimintie.*Lasipalatsi/i),
     choose('Esplanadi', /^Esplanadi$/i), choose('Uspenski Cathedral / Rahapajankatu', /Uspenski.*Rahapajankatu/i),
     choose('Parliament House / Mannerheimintie', /Parliament House/i),
     choose('Temppeliaukio public approach', /Temppeliaukio/i),
@@ -234,8 +242,8 @@ try {
     chromium: session.browser.version(), angle: process.env.HELSINKI_VERIFY_ANGLE ?? 'd3d11',
     headful: values.headful, viewport: page.viewportSize(), platform: process.platform };
   await page.evaluate(() => {
-    const collector = window.__streamResidencyFrames = { frames: [], last: performance.now() };
-    const frame = now => { collector.frames.push(now - collector.last); collector.last = now; requestAnimationFrame(frame); };
+    const collector = window.__streamResidencyFrames = { frames: [], last: null };
+    const frame = now => { if (collector.last !== null) collector.frames.push(now - collector.last); collector.last = now; requestAnimationFrame(frame); };
     requestAnimationFrame(frame);
   });
   if (values.trace) {

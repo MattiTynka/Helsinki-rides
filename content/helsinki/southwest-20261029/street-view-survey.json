@@ -1,0 +1,434 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Visual reference only. Municipal and OSM inputs establish geometry. No Google imagery is included in game assets.",
+  "inspectionDate": "2026-10-29",
+  "status": "SURVEY_IN_PROGRESS_NOT_GEOMETRY_ACCEPTANCE",
+  "views": [
+    {
+      "id": "bulevardi-54",
+      "stage": "A",
+      "provider": "Google Street View",
+      "captureDate": "2024-08",
+      "panoramaId": "1hASrVaQnLNB9ilQ_CXw8w",
+      "url": "https://www.google.com/maps/@60.1620458,24.9305312,3a,75y,137.31h,90t/data=!3m7!1e1!3m5!1s1hASrVaQnLNB9ilQ_CXw8w!2e0!7i16384!8i8192",
+      "latitude": 60.1620458,
+      "longitude": 24.9305312,
+      "headingDegrees": 137.31,
+      "runtimeXZ": [
+        -1207.386,
+        831.036
+      ],
+      "inspection": "Opened during implementation planning in this session.",
+      "observations": [
+        "Brick elevation and opening between buildings",
+        "Different paved surfaces and curb transitions must remain distinct"
+      ],
+      "uncertainty": "Perspective image does not establish measured curb heights or widths.",
+      "sourceBindingStatus": "GEOMETRIC_BEARING_MATCH_PENDING_GAME_ELEVATION_COMPARISON",
+      "gameComparisonStatus": "PENDING_CANDIDATE_BUILD",
+      "sourceBindings": {
+        "modelSha256": "e6703ec54b68a9cd7585e23ab40c3070f903a14f1c36f83b0aa2658fee1bc900",
+        "binarySha256": "609400859d0d698f6f43e459117ec4d73efcec69c1f94eb69ab41058572501fe",
+        "buildingIds": [
+          "BID_04b25160-160a-4bbe-9d61-2fc92e490655"
+        ],
+        "vtjIds": [
+          "1030750310"
+        ],
+        "sourceAddresses": [
+          "Bulevardi 46, 00120 Helsinki Finland"
+        ],
+        "evidence": "build/city-expansion-southwest/evidence/survey-bearing-bindings.json",
+        "qualification": "Inspected horizontal bearing intersects the same source building at three synthetic inspection levels. No panorama camera height or building dimension inferred."
+      }
+    },
+    {
+      "id": "punavuorenkatu-kivenhakkaajankatu",
+      "stage": "A",
+      "provider": "Google Street View",
+      "captureDate": "2024-08",
+      "panoramaId": "Eel86j5MBOGNXZclTKNyjA",
+      "url": "https://www.google.com/maps/@60.1606974,24.9364223,3a,75y,145.73h,90t/data=!3m7!1e1!3m5!1sEel86j5MBOGNXZclTKNyjA!2e0!7i16384!8i8192",
+      "latitude": 60.1606974,
+      "longitude": 24.9364223,
+      "headingDegrees": 145.73,
+      "runtimeXZ": [
+        -880.416,
+        981.597
+      ],
+      "panoramaLabel": "1 Stenhuggaregatan",
+      "inspection": "Opened during implementation; inspected front and clockwise oblique views.",
+      "observations": [
+        "Projecting upper facade above recessed ground-floor entry",
+        "Separate stepped entrances and continuous narrow asphalt sidewalk",
+        "Stone base and curb visible beside marked pedestrian crossing",
+        "Cars obscure parts of the curb"
+      ],
+      "uncertainty": "Oblique view was rotated in the browser; its exact heading was not independently read. No dimensions inferred from imagery.",
+      "sourceBindingStatus": "GEOMETRIC_BEARING_MATCH_PENDING_GAME_ELEVATION_COMPARISON",
+      "gameComparisonStatus": "PENDING_CANDIDATE_BUILD",
+      "sourceBindings": {
+        "modelSha256": "e6703ec54b68a9cd7585e23ab40c3070f903a14f1c36f83b0aa2658fee1bc900",
+        "binarySha256": "609400859d0d698f6f43e459117ec4d73efcec69c1f94eb69ab41058572501fe",
+        "buildingIds": [
+          "BID_de547907-942e-45e1-98f7-278fd36c2e36"
+        ],
+        "vtjIds": [
+          "1030850528"
+        ],
+        "sourceAddresses": [
+          "Punavuorenkatu 14, 00150 Helsinki Finland"
+        ],
+        "evidence": "build/city-expansion-southwest/evidence/survey-bearing-bindings.json",
+        "qualification": "Inspected horizontal bearing intersects the identified source building at the synthetic 10 m inspection level; the 2 m and 5 m rays have no matching hit. No panorama camera height or building dimension inferred."
+      }
+    },
+    {
+      "id": "eiranranta-1",
+      "stage": "B",
+      "provider": "Google Street View",
+      "captureDate": "2024-08",
+      "panoramaId": "_oA17n6BEu2Qqvb-2H4W-g",
+      "url": "https://www.google.com/maps/@60.1549413,24.9359211,3a,90y,0h,90t/data=!3m7!1e1!3m5!1s_oA17n6BEu2Qqvb-2H4W-g!2e0!7i16384!8i8192",
+      "latitude": 60.1549413,
+      "longitude": 24.9359211,
+      "runtimeXZ": [
+        -908.87,
+        1622.886
+      ],
+      "panoramaLabel": "1 Eiranranta",
+      "inspection": "Opened during implementation; inspected north-facing building and rotated east-facing street/waterfront view.",
+      "observations": [
+        "Fenced play area beside low-rise building and separate sidewalk",
+        "Asphalt carriageway with repaired patches, curbs and parked cars",
+        "Planting and hedges separate the street from the shore",
+        "Waterfront edge itself is obscured by vegetation"
+      ],
+      "uncertainty": "The image does not qualify a waterfront collision edge, public access through the fenced area, or measured curb heights.",
+      "sourceBindingStatus": "PENDING_NEW_SOURCE_MATCH",
+      "gameComparisonStatus": "PENDING_CANDIDATE_BUILD"
+    },
+    {
+      "id": "ruoholahti-canal-selkameronkatu",
+      "stage": "D",
+      "provider": "Google Street View",
+      "captureDate": "2020-11",
+      "panoramaId": "NXapBj6AUwnruBXym_pTpg",
+      "url": "https://www.google.com/maps/@60.1615236,24.9151559,3a,90y,0h,90t/data=!3m7!1e1!3m5!1sNXapBj6AUwnruBXym_pTpg!2e0!7i16384!8i8192",
+      "latitude": 60.1615236,
+      "longitude": 24.9151559,
+      "runtimeXZ": [
+        -2061.203,
+        888.22
+      ],
+      "panoramaLabel": "Helsinki, Uusimaa",
+      "inspection": "Inspected north-facing canal elevation and clockwise street-side oblique view during implementation.",
+      "observations": [
+        "Lower canal-side path and higher building-side path are separated by a planted bank",
+        "Bridge deck crosses above the canal with a visible open span and supports",
+        "Paved access down toward the lower path",
+        "Railings follow the water edge and bridge; tree trunks and building columns interrupt sight lines",
+        "Recessed ground-floor entrance under projecting balcony"
+      ],
+      "uncertainty": "November 2020 imagery may not show later changes. Exact deck levels, structural dimensions and both approach connectivity need municipal/source qualification; no dimensions inferred from the panorama.",
+      "scopeFinding": "The canal view lies south of provisional D z=768. Stage D requires a revised build/source envelope reaching z=1152 and named supported coverage, without opening all of Jatkasaari.",
+      "sourceBindingStatus": "PENDING_NEW_SOURCE_MATCH",
+      "gameComparisonStatus": "PENDING_CANDIDATE_BUILD"
+    },
+    {
+      "id": "merikatu-1",
+      "stage": "C",
+      "provider": "Google Street View",
+      "captureDate": "2024-08",
+      "panoramaId": "c6QTedRp-PF2dROAn8IQmA",
+      "url": "https://www.google.com/maps/@60.1559729,24.9495535,3a,75y,0.42h,90t/data=!3m7!1e1!3m5!1sc6QTedRp-PF2dROAn8IQmA!2e0!7i16384!8i8192",
+      "latitude": 60.1559729,
+      "longitude": 24.9495535,
+      "headingDegrees": 0.42,
+      "runtimeXZ": [
+        -151.654,
+        1508.607
+      ],
+      "panoramaLabel": "1 Havsgatan",
+      "inspection": "Opened during implementation planning in this session.",
+      "observations": [
+        "Stone base with arched openings",
+        "Projecting entrance surrounds",
+        "Asphalt sidewalk and curb-side parking"
+      ],
+      "uncertainty": "Parked cars obscure ground; park and opposite shore were not inspected in this view.",
+      "sourceBindingStatus": "GEOMETRIC_BEARING_MATCH_PENDING_GAME_ELEVATION_COMPARISON",
+      "gameComparisonStatus": "PENDING_CANDIDATE_BUILD",
+      "sourceBindings": {
+        "modelSha256": "e6703ec54b68a9cd7585e23ab40c3070f903a14f1c36f83b0aa2658fee1bc900",
+        "binarySha256": "609400859d0d698f6f43e459117ec4d73efcec69c1f94eb69ab41058572501fe",
+        "buildingIds": [
+          "BID_c0349c89-d87c-4bb4-a91f-67eea45d95ee"
+        ],
+        "vtjIds": [
+          "103113091R"
+        ],
+        "sourceAddresses": [
+          "Neitsytpolku 2a, 00140 Helsinki Finland"
+        ],
+        "evidence": "build/city-expansion-southwest/evidence/survey-bearing-bindings.json",
+        "qualification": "Inspected horizontal bearing intersects the same source building at three synthetic inspection levels. No panorama camera height or building dimension inferred."
+      }
+    },
+    {
+      "id": "selkamerensilta-south-approach",
+      "stage": "D",
+      "provider": "Google Street View",
+      "captureDate": "2024-08",
+      "panoramaId": "FboCtY8wj41lDLKUp6YCUA",
+      "url": "https://www.google.com/maps/@60.1612017,24.9157305,3a,75y,351.83h,90t/data=!3m7!1e1!3m5!1sFboCtY8wj41lDLKUp6YCUA!2e0!7i16384!8i8192",
+      "latitude": 60.1612017,
+      "longitude": 24.9157305,
+      "headingsInspectedDegrees": [
+        351.83
+      ],
+      "runtimeXZ": [
+        -2029.3424961790442,
+        924.1249639187008
+      ],
+      "panoramaLabel": "9 Selk?merenkatu",
+      "inspection": "Opened via Google Maps place Street View and followed the road with browser arrow controls. Views visually inspected during implementation.",
+      "observations": [
+        "South approach carriageway and separate sidewalks connect to the bridge.",
+        "Curb parking ends before a marked crosswalk. Trees partially obscure facade bases."
+      ],
+      "sourceBinding": {
+        "status": "SOURCE_IDENTITIES_MATCHED_DECK_HEIGHT_UNQUALIFIED",
+        "osmRoadWay": 27192169,
+        "municipalPartIds": [
+          41050,
+          41061,
+          41063,
+          162846
+        ],
+        "municipalBridgeIds": [
+          97745,
+          97746,
+          97747,
+          97748
+        ],
+        "sourceInventory": "evidence/ruoholahti-bridges/source-inventory.json"
+      },
+      "uncertainty": "Visual reference only; no dimensions, height, crossfall or structural profiles inferred from imagery. Official 2021 terrain is not a qualified deck surface. Google pixels are not copied into assets.",
+      "gameComparisonStatus": "PENDING_CANDIDATE_BUILD"
+    },
+    {
+      "id": "selkamerensilta-south-deck",
+      "stage": "D",
+      "provider": "Google Street View",
+      "captureDate": "2024-08",
+      "panoramaId": "E10H9sVDcWgVbJVILnUhGg",
+      "url": "https://www.google.com/maps/@60.1615485,24.9156713,3a,75y,351.83h,90t/data=!3m7!1e1!3m5!1sE10H9sVDcWgVbJVILnUhGg!2e0!7i16384!8i8192",
+      "latitude": 60.1615485,
+      "longitude": 24.9156713,
+      "headingsInspectedDegrees": [
+        351.83
+      ],
+      "runtimeXZ": [
+        -2032.5804407335818,
+        885.4820587616414
+      ],
+      "panoramaLabel": "Selk?merenkadun silta",
+      "inspection": "Opened via Google Maps place Street View and followed the road with browser arrow controls. Views visually inspected during implementation.",
+      "observations": [
+        "Raised side paths separated from the asphalt carriageway by curbs.",
+        "Green metal railings along both deck sides; a visible transverse deck joint."
+      ],
+      "sourceBinding": {
+        "status": "SOURCE_IDENTITIES_MATCHED_DECK_HEIGHT_UNQUALIFIED",
+        "osmRoadWay": 27192169,
+        "municipalPartIds": [
+          41050,
+          41061,
+          41063,
+          162846
+        ],
+        "municipalBridgeIds": [
+          97745,
+          97746,
+          97747,
+          97748
+        ],
+        "sourceInventory": "evidence/ruoholahti-bridges/source-inventory.json"
+      },
+      "uncertainty": "Visual reference only; no dimensions, height, crossfall or structural profiles inferred from imagery. Official 2021 terrain is not a qualified deck surface. Google pixels are not copied into assets.",
+      "gameComparisonStatus": "PENDING_CANDIDATE_BUILD"
+    },
+    {
+      "id": "selkamerensilta-midspan",
+      "stage": "D",
+      "provider": "Google Street View",
+      "captureDate": "2024-08",
+      "panoramaId": "waJpmo6MnQXoyE0K7TYj3g",
+      "url": "https://www.google.com/maps/@60.1617299,24.9156423,3a,75y,351.83h,90t/data=!3m7!1e1!3m5!1swaJpmo6MnQXoyE0K7TYj3g!2e0!7i16384!8i8192",
+      "latitude": 60.1617299,
+      "longitude": 24.9156423,
+      "headingsInspectedDegrees": [
+        351.83
+      ],
+      "runtimeXZ": [
+        -2034.164932191372,
+        865.2693271208555
+      ],
+      "panoramaLabel": "Selk?merenkadun silta",
+      "inspection": "Opened via Google Maps place Street View and followed the road with browser arrow controls. Views visually inspected during implementation.",
+      "observations": [
+        "Continuous road and raised side paths across the canal.",
+        "Northern crosswalk and street connection visible."
+      ],
+      "sourceBinding": {
+        "status": "SOURCE_IDENTITIES_MATCHED_DECK_HEIGHT_UNQUALIFIED",
+        "osmRoadWay": 27192169,
+        "municipalPartIds": [
+          41050,
+          41061,
+          41063,
+          162846
+        ],
+        "municipalBridgeIds": [
+          97745,
+          97746,
+          97747,
+          97748
+        ],
+        "sourceInventory": "evidence/ruoholahti-bridges/source-inventory.json"
+      },
+      "uncertainty": "Visual reference only; no dimensions, height, crossfall or structural profiles inferred from imagery. Official 2021 terrain is not a qualified deck surface. Google pixels are not copied into assets.",
+      "gameComparisonStatus": "PENDING_CANDIDATE_BUILD"
+    },
+    {
+      "id": "selkamerensilta-north-approach",
+      "stage": "D",
+      "provider": "Google Street View",
+      "captureDate": "2024-08",
+      "panoramaId": "Btz9qRfBkCK7u4iBcWmqSw",
+      "url": "https://www.google.com/maps/@60.1619163,24.9156183,3a,75y,351.83h,90t/data=!3m7!1e1!3m5!1sBtz9qRfBkCK7u4iBcWmqSw!2e0!7i16384!8i8192",
+      "latitude": 60.1619163,
+      "longitude": 24.9156183,
+      "headingsInspectedDegrees": [
+        351.83,
+        90,
+        180
+      ],
+      "runtimeXZ": [
+        -2035.4710587449372,
+        844.4998740516603
+      ],
+      "panoramaLabel": "8 Selk?merenkatu",
+      "inspection": "Opened via Google Maps place Street View and followed the road with browser arrow controls. Views visually inspected during implementation.",
+      "observations": [
+        "Northern crosswalk, west cycle markings and curb transitions inspected.",
+        "East-facing view shows open water and a lower canal path separated from the upper building-side path by a planted slope.",
+        "South-facing view confirms separate raised paths and railings across the bridge."
+      ],
+      "sourceBinding": {
+        "status": "SOURCE_IDENTITIES_MATCHED_DECK_HEIGHT_UNQUALIFIED",
+        "osmRoadWay": 27192169,
+        "municipalPartIds": [
+          41050,
+          41061,
+          41063,
+          162846
+        ],
+        "municipalBridgeIds": [
+          97745,
+          97746,
+          97747,
+          97748
+        ],
+        "sourceInventory": "evidence/ruoholahti-bridges/source-inventory.json"
+      },
+      "uncertainty": "Visual reference only; no dimensions, height, crossfall or structural profiles inferred from imagery. Official 2021 terrain is not a qualified deck surface. Google pixels are not copied into assets.",
+      "gameComparisonStatus": "PENDING_CANDIDATE_BUILD"
+    },
+    {
+      "id": "bulevardi-46-source-front",
+      "stage": "A",
+      "provider": "Google Street View",
+      "captureDate": "2024-08",
+      "panoramaId": "DFU7wWTAI0r911P0RZVi-A",
+      "url": "https://www.google.com/maps/@60.1622469,24.9310972,3a,75y,177.46h,90t/data=!3m7!1e1!3m5!1sDFU7wWTAI0r911P0RZVi-A!2e0!7i16384!8i8192",
+      "latitude": 60.1622469,
+      "longitude": 24.9310972,
+      "headingDegrees": 177.46,
+      "runtimeXZ": [
+        -1175.934445887804,
+        808.6633804775774
+      ],
+      "panoramaLabel": "44 Bulevardi",
+      "inspection": "Opened through Bulevardi 46 address result, inspected initial south-facing view and clockwise oblique view.",
+      "observations": [
+        "Red brick facade with arched green-framed windows, decorative horizontal courses and stone plinth",
+        "Two ground-level glazed doors under separate small dark canopies; small basement windows retained",
+        "Continuous asphalt walking strip at building, separate asphalt cycle strip by street, cobbled bands around trees",
+        "Raised edge beside cobbled tram carriageway; rails visible and remain distinct from cycle/walking surfaces"
+      ],
+      "uncertainty": "Panorama UI labels location 44 Bulevardi while the searched/source building is 46. Geometry identity must use model position/visible elevation rather than label. No height or width inferred from imagery.",
+      "sourceBindingStatus": "GEOMETRIC_BEARING_MATCH_PENDING_GAME_ELEVATION_COMPARISON",
+      "gameComparisonStatus": "PENDING_CANDIDATE_BUILD",
+      "sourceBindings": {
+        "modelSha256": "e6703ec54b68a9cd7585e23ab40c3070f903a14f1c36f83b0aa2658fee1bc900",
+        "binarySha256": "609400859d0d698f6f43e459117ec4d73efcec69c1f94eb69ab41058572501fe",
+        "buildingIds": [
+          "BID_04b25160-160a-4bbe-9d61-2fc92e490655"
+        ],
+        "vtjIds": [
+          "1030750310"
+        ],
+        "sourceAddresses": [
+          "Bulevardi 46, 00120 Helsinki Finland"
+        ],
+        "evidence": "build/city-expansion-southwest/evidence/survey-bearing-bindings.json",
+        "qualification": "Inspected horizontal bearing intersects the same source building at three synthetic inspection levels. No panorama camera height or building dimension inferred."
+      }
+    },
+    {
+      "id": "hietalahti-hall-lonnrotinkatu-34",
+      "stage": "A",
+      "provider": "Google Street View",
+      "captureDate": "2024-08",
+      "panoramaId": "ZQyuxc5qTA_fTs2BFi2pmQ",
+      "url": "https://www.google.com/maps/@60.1632405,24.9295769,3a,75y,196.37h,90t/data=!3m7!1e1!3m5!1sZQyuxc5qTA_fTs2BFi2pmQ!2e0!7i16384!8i8192",
+      "latitude": 60.1632405,
+      "longitude": 24.9295769,
+      "headingDegrees": 196.37,
+      "headingsInspectedDegrees": [
+        196.37,
+        180,
+        90
+      ],
+      "runtimeXZ": [
+        -1260.2334025613964,
+        697.8723978260532
+      ],
+      "panoramaLabel": "34 Lönnrotinkatu",
+      "inspection": "Opened the address Street View button and verified official Google attribution and August 2024 date. Inspected the long elevation, entry and eastern rounded end/crossing. The place gallery initially opened a user-contributed September 2017 indoor panorama, which was rejected for this exterior survey.",
+      "observations": [
+        "Red brick piers divide pale plaster window surrounds with tall green-grey window frames; stone plinth and pitched standing-seam roof remain distinct.",
+        "Recessed timber entrance has a small metal hood and a low threshold; the adjacent asphalt sidewalk has a raised stone curb.",
+        "Eastern rounded end meets a crossing at a junction; visible construction barriers in the 2024 view are date-specific, not assumed permanent.",
+        "Street carriageway is asphalt with lane arrows and crossings; the entry-side walk is separate from vehicle lanes."
+      ],
+      "uncertainty": "No dimensions or heights inferred. This viewpoint lies inside the original accepted rectangle; existing hall ownership and repaired assets must remain preserved. Exact source-building identity and game comparison remain pending.",
+      "gameComparisonStatus": "PENDING_CANDIDATE_CAPTURE",
+      "sourceBindingStatus": "ACCEPTED_OWNER_IDENTIFIED_PENDING_GAME_COMPARISON",
+      "sourceBindings": {
+        "buildingIds": [
+          "BID_8a935bf0-93b9-4800-adce-88e974ad0630"
+        ],
+        "vtjIds": [
+          "103075027V"
+        ],
+        "acceptedOwnerCell": "c_m10_p05",
+        "acceptedManifestSha256": "0e18e55e8730f01144eef72a80decffbb53cdd658222f87a7e8ad6f75f2c4260",
+        "evidence": "build/city-expansion-southwest/evidence/survey-bearing-bindings.json",
+        "qualification": "The surveyed bearing intersects this source building at synthetic2/5/10m inspection levels; the same BID and VTJ are an accepted owner. These are inspection slices, not panorama camera heights. Accepted owner geometry/textures remain authoritative."
+      }
+    }
+  ]
+}

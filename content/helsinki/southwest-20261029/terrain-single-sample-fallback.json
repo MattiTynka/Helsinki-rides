@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "kind": "qualified-single-sample-parent-terrain-source",
+  "primary": {
+    "indexSha256": "fd41a14477fe83c45f616a4974cd1c581b56bde599f996be9199d632c6818fcb",
+    "ledgerSha256": "5b7cbb85055a76b753fce556c2871d889fc1e966912b1e636f321262e0a9e79f",
+    "snapshot": "southwest-20261029",
+    "zoom": 18,
+    "layer": "https://kartta.hel.fi/3d/datasource-data/4383570b-33a3-4a9f-ae16-93373aff5ffa/",
+    "version": "1.1708423032937557"
+  },
+  "metadata": {
+    "path": "../../../../sources/raw-v1/terrain/southwest-20261029/layer.json",
+    "bytes": 4984,
+    "sha256": "9b994694b63e133c26561edee47a35f2d79c199da88478007950c9bdff40b531"
+  },
+  "originSha256": "46e5a24375dc3fa48b38795d69481bf2b73512e622c3358714db354869d794e7",
+  "scope": {
+    "path": "scope.json",
+    "bytes": 1680,
+    "sha256": "b4c0f8008b8e232b7dd98553ceda80c6f430b3297a624316c7b8bcab781fd730"
+  },
+  "guardMetres": 128,
+  "protectedBuildRegions": [
+    {
+      "id": "a-hietalahti-punavuori",
+      "boundsRuntimeXZ": [
+        -1792,
+        768,
+        -768,
+        1152
+      ]
+    },
+    {
+      "id": "b-eira",
+      "boundsRuntimeXZ": [
+        -1792,
+        1152,
+        -768,
+        1792
+      ]
+    },
+    {
+      "id": "c-kaivopuisto-ullanlinna",
+      "boundsRuntimeXZ": [
+        -768,
+        768,
+        896,
+        1792
+      ]
+    },
+    {
+      "id": "d-ruoholahti",
+      "boundsRuntimeXZ": [
+        -2816,
+        -384,
+        -1792,
+        1152
+      ]
+    }
+  ],
+  "sample": {
+    "runtimeXZ": [
+      -2638,
+      1696
+    ],
+    "projectedEN": [
+      25494712,
+      6671264
+    ],
+    "parent": {
+      "zoom": 17,
+      "x": 149207,
+      "y": 109338,
+      "file": {
+        "path": "../../../../evidence/terrain-hole/17_149207_109338.terrain",
+        "bytes": 25733,
+        "sha256": "767b797bb78982f15ef0e8fcf7895f443b4deb3201b84e79da48c1f6113a417b"
+      },
+      "downloadReceipt": {
+        "path": "../../../../evidence/terrain-hole/parent-tile-download.json",
+        "bytes": 775,
+        "sha256": "7f3444159c861e313c04bd993d7ecebaf01b36ad025238b3887c343fbb8a34fa"
+      }
+    },
+    "triangle": {
+      "index": 174,
+      "vertices": [
+        213,
+        214,
+        215
+      ],
+      "uv": [
+        [
+          3535,
+          32328
+        ],
+        [
+          4120,
+          32767
+        ],
+        [
+          3226,
+          32767
+        ]
+      ],
+      "heightsN2000": [
+        3.0492862592404295,
+        2.343615917035024,
+        2.47554133038578
+      ],
+      "barycentric": [
+        0.000025211859537937715,
+        0.5756403512168105,
+        0.4243344369236516
+      ]
+    },
+    "heightN2000": 2.399614204286685,
+    "runtimeFloat32Bits": "c0a3365c",
+    "lodComparison": {
+      "report": {
+        "path": "../../../../evidence/terrain-hole/parent-source-triangle-report.json",
+        "bytes": 8770,
+        "sha256": "2fd90724f7acdf980f9d09d995f5c22b3afdd19f41afc1335180819bf1e960d4"
+      },
+      "maximumNearDeltaMetres": 0.04899215694895798,
+      "maximumObservedDeltaMetres": 0.48500707933913745,
+      "interpretation": "Measured nearby source LOD disagreement, not a bound on real-world terrain error."
+    }
+  },
+  "reason": "The pinned z18 source has an exactly demonstrated boundary notch at this single sample. The point is outside all planned build envelopes, including the reviewed Ruoholahti south extension to z1152, each expanded by 128 metres. Use the strictly containing triangle from the same pinned Helsinki terrain layer at z17 only when the z18 sample has no source triangle; this is explicit lower-resolution source evidence and no playable support claim."
+}

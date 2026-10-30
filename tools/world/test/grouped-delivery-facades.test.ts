@@ -48,6 +48,9 @@ test('two source owners in one cell share one atlas and draw partition across de
     assert.deepEqual(deliveryFacadeSourceOwners(profile.cells[0]!),[{id:'A',vtj:'vtj-A'},{id:'B',vtj:'vtj-B'}]);assert.equal(profile.cells.length,1);assert.equal(profile.charts.length,2);
     const proof=await applyDeliveryFacadeCharts({baseline:f.world,current:f.world,cityModel:f.cityDir,profile:profileFile,out:path.join(f.root,'payloads')});
     const update=proof.updates[0];assert.deepEqual(update.after.buildings.map((b:any)=>b.texture),['textured','textured']);assert.equal(update.after.visual.lod0.drawCalls,2);assert.equal(update.after.visual.lod0.atlases,2);
+    // 128² + 64² + ... + 1² RGBA texels = 87,380 bytes. The manifest
+    // scheduler divides this upper bound by four; a BC7 estimate here undercounts.
+    assert.equal(proof.addedTextureEstimate,87380);assert.equal(update.after.visual.lod0.textureBytesEstimate,100+87380);
     assert.equal(update.after.visual.lod2.drawCalls,2);assert.equal(update.after.visual.lod2.atlases,0);assert.equal(update.after.visual.lod2.textureBytesEstimate,0);assert.equal(proof.files.length,2);assert.deepEqual(update.after.visual.lod1,update.after.visual.lod0);
     assert.deepEqual(update.after.collision,f.manifest.cells[0]!.collision);assert.deepEqual(fs.readFileSync(path.join(f.world,'manifest.json')),f.manifestBytes);
     const after=fs.readFileSync(path.join(f.root,'payloads',update.after.visual.lod0.path));assert.deepEqual((await readFacadeChartTriangles(after,new Map())).map(t=>t.key).sort(),(await readFacadeChartTriangles(f.detail)).map(t=>t.key).sort());

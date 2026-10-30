@@ -1,0 +1,7657 @@
+{
+  "schemaVersion": 1,
+  "scope": "First Bulevardi/Abrahaminkatu walking circuit only; broader district walking remains unqualified",
+  "evidencePolicy": "Real keyboard walking from native Senate spawn through source-confirmed accepted public paths, exact qualified new footway/crossing circuit, and return. No fixture teleport. This is a runnable plan, not a completed journey. Revised local obstacle bypass uses native HCOL, preserves source-node endpoints, and is not an OSM-authored alternative footway. Captured vehicle poses are a snapshot; real-keyboard travel remains required.",
+  "binding": {
+    "walkingPlan": {
+      "path": "../work/stage-a-walking-circuit-plan-v1.json",
+      "sha256": "8a7b94bcd188012038a81ed67cbbd637f913aba32ae61d71cd1d5e2d986406c5"
+    },
+    "roadMerge": {
+      "path": "../evidence/stage-a-road-walk-merge-v3/road-merge-receipt.json",
+      "sha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+    },
+    "osm": {
+      "path": "../sources/raw-v1/osm/southwest-20261029.json",
+      "sha256": "a88dd8fffa93fc6018da4f7dc1f56056b20a416911cdc58db3f323e520bbde15"
+    },
+    "acceptedApproachOsm": {
+      "path": "content/helsinki/city-expansion-20261021/osm-public-v3.json",
+      "sha256": "0c158c071166235c743e9ce4e19e22934f71f52894ecf105a198fa63fb03a0c5"
+    },
+    "acceptedApproachLedger": {
+      "path": "content/helsinki/city-expansion-20261021/osm-public-ledger-v3.json",
+      "sha256": "aa9cbf621dac7b348608e25696168e8820d4d56ab0e37c80b0c2fd913fa2cb7b"
+    },
+    "acceptedManifest": {
+      "path": "../accepted-world/world/senate-20261025-civilian-flee/manifest.json",
+      "sha256": "0e18e55e8730f01144eef72a80decffbb53cdd658222f87a7e8ad6f75f2c4260"
+    },
+    "expandedSupportedAreaSha256": "c9fe8baeb244fa32eef73c05b0592f30312dca8b2953e07edac8a3087ac12e86",
+    "mergedRoadsSha256": "6bda71fb11125c97012e30040e058bbccf6a93a315742d8a685ef036f3ab3ae2",
+    "producerSha256": "a6810b1c58f5774fb94c9643d98a68a5b181057ab99355420634e6e4c39c2e26",
+    "observedVehicleDetour": {
+      "manifestSha256": "b0ca22a67978a6e267b3dd29f402be856393be46298457dd9e51df23ead4842e",
+      "originalPlan": {
+        "file": "content/helsinki/southwest-20261029/walk-stage-a.json",
+        "sha256": "aaed0092c0a4217e4b552c692e60f174eb7a8a3329d99f21bc9fa3c3a73f8501"
+      },
+      "diagnostic": {
+        "file": "../evidence/stage-a-parked-car-detour-v3/vehicle-obstruction-diagnostic.json",
+        "sha256": "961d9382cf871df850d25964dcb611c4d87c82e52c50910a249a6a0d6edcb187"
+      },
+      "failure": {
+        "file": "../evidence/stage-a-walk-pre-tree-v1/results.json",
+        "sha256": "dba26db999b8c403d40aaddb1c3e3b04891d15857f519e3d08478216ef94754a"
+      },
+      "producerSha256": "36d4582f15fa2aa0b1485942e6e5bc2dcbef5303367133e12359dd32fc5ad5e7"
+    },
+    "vehicleScan": {
+      "file": "../evidence/stage-a-vehicle-route-scan-v1/route-vehicle-scan.json",
+      "sha256": "5c19b5038be997e5d1ac162cbe87714318868a911db82892e5132ea9c0617b66"
+    }
+  },
+  "approach": {
+    "sourceNodeStart": 314737043,
+    "sourceNodeEnd": 7169794600,
+    "lengthMetres": 1381.71121892131,
+    "sourceWays": [
+      {
+        "id": 308725070,
+        "sha256": "59ea73c9aa654dd519910a58a7e8966be7955c02633d1643fba429a5734be36b",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 28591358,
+        "sha256": "243a005c4a53162746ba1b3b0b0f126a7a16035b7b80fa009bc1882e297b296e",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 1395932038,
+        "sha256": "5c6608a6ade3ae8269c921aea902d75f69295ab24ca33900e3fb5da2effc5e52",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 1395932042,
+        "sha256": "174130a3c1219670f93605a07d636736b32b113b5c0e5f34dbfaa4173e26a9d9",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 1395932041,
+        "sha256": "a8c8556c399ec8cde5858e425bcd0aa41d26aa8d3fa5ac15d06ab00f4a639202",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 28636497,
+        "sha256": "c59b08210273f0a6402b17e62e216d8fe3ea3b90db0a32fbc8241adf04260431",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 86402938,
+        "sha256": "2127db6b954b032181331953544d1c97bd8d22f82912329a2367113f18f8bf8c",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 19746151,
+        "sha256": "01f61b1250b670fd8445a43df0348fa26e20da746e55f0f3b7359c00865bebf2",
+        "highway": "pedestrian",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 123949248,
+        "sha256": "af27181e5a2797f472ebefd842684ebf9d3d08249540342c12b25757fb6248a6",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 1273089595,
+        "sha256": "3bd55b4087f5204b5476461ac8d6e7c0ed28fcf3e28aac7096eb700b213b1cd5",
+        "highway": "pedestrian",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 315666933,
+        "sha256": "5a9f5f321cae31cc4d0bdf6db91f93169f18c6b68ad4f7de6ec3fedfbc05d5a4",
+        "highway": "pedestrian",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 38100752,
+        "sha256": "0a9547f29d769d08c909a57ef0d5cf9bb63e27cd7c092748d16a4b48c1f5506d",
+        "highway": "pedestrian",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 1273089600,
+        "sha256": "00a0fbe9914c0e36e7206deb453b2787f4530e3391fb0d6ad29bc53e4cb84370",
+        "highway": "pedestrian",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 27183685,
+        "sha256": "ab3361d506435705ae7c29025420707cf84a733e9ac33acf3a2b932e76fef8cf",
+        "highway": "path",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 28329814,
+        "sha256": "a6141863d6c3f9cdf7e370903d0264125806b289b7e2bc6ad05fdf501ea53d0c",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 1552578832,
+        "sha256": "c0f26f6d12094475f6f608c94bbcbb8d1d280f5ce893209227bb10d9e28d51ae",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 1552578834,
+        "sha256": "894b7e6b23e11176b6a66fbbc2bf7961a0570dcee437e2e0abb4dc8943ad73b5",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 296774093,
+        "sha256": "ea9f50c4fc82876504d8e0e6d2ed78a1a1fe524d0644bbf1a83cd64d670da512",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 28656250,
+        "sha256": "c0a59347ac24aa48d56d445f700af6b057545d146e698449d168a08fbbde8558",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 1021873101,
+        "sha256": "61ec920036e71c58f963a1ae29934ddaef3ea7b9d87257e3cf9a16ed00da1555",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 1021873102,
+        "sha256": "5b6a252025446114136c820811ba04630fb025cc36be23f8db47f877fb28f6da",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 1021873103,
+        "sha256": "7bab15a8023663b830a4098f2ffd90876176eff1ade3f22e2bcc4ab2ac386b60",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 147249979,
+        "sha256": "2b0e1b57e8ed47bc2899034297874f3e6ef5c92186be53622deee1810ebf3ddb",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 1021873100,
+        "sha256": "68b6ab5a75cd6099a9bc29a02ca69b45acee16df414c15ad345e5677b10be894",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 147249978,
+        "sha256": "5e6cc936665862b4f00410a49d330c4f5ea947970a2279faf3795a3363913fb4",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 28656247,
+        "sha256": "92abe42fd4269ea7b2949f0a49e0ad7ac0df7d484eea3a8c987293c20901c01a",
+        "highway": "footway",
+        "foot": "yes",
+        "access": null
+      },
+      {
+        "id": 692229812,
+        "sha256": "6e5c264de0c2a7ecd10935be9446a5eb59b20200e29ede3a6a9b445bd83a7d1a",
+        "highway": "cycleway",
+        "foot": "designated",
+        "access": null
+      },
+      {
+        "id": 692229810,
+        "sha256": "59bef95bca2c3d6a36a75b619a951ee7f178ac80c68097712693c61bd6716ed7",
+        "highway": "cycleway",
+        "foot": "designated",
+        "access": null
+      },
+      {
+        "id": 147250533,
+        "sha256": "b024eebeb3b8ac095b907624473fa146deaded17ac707583b1d1dfef535ef26c",
+        "highway": "cycleway",
+        "foot": "designated",
+        "access": null
+      },
+      {
+        "id": 26703637,
+        "sha256": "e0eaa780903298dba81e5dcac9f3bca501c779282741912b1e4ca1190616aed8",
+        "highway": "cycleway",
+        "foot": "designated",
+        "access": null
+      },
+      {
+        "id": 34031121,
+        "sha256": "892e0e8f662eef3a59cb90e77887f5ad0e685d0741bfa1f59122f285c5449f17",
+        "highway": "footway",
+        "foot": null,
+        "access": null
+      },
+      {
+        "id": 692229813,
+        "sha256": "2728a1fa045e643cc38b40daf9ed1af956daf48de3c6743c3f60a72ff5f6eb43",
+        "highway": "cycleway",
+        "foot": "designated",
+        "access": null
+      }
+    ],
+    "steps": [
+      {
+        "from": 314737043,
+        "to": 1003245952,
+        "wayId": 308725070
+      },
+      {
+        "from": 1003245952,
+        "to": 6055299247,
+        "wayId": 28591358
+      },
+      {
+        "from": 6055299247,
+        "to": 314030383,
+        "wayId": 28591358
+      },
+      {
+        "from": 314030383,
+        "to": 5555352073,
+        "wayId": 28591358
+      },
+      {
+        "from": 5555352073,
+        "to": 12920914883,
+        "wayId": 28591358
+      },
+      {
+        "from": 12920914883,
+        "to": 314737039,
+        "wayId": 1395932038
+      },
+      {
+        "from": 314737039,
+        "to": 12920914884,
+        "wayId": 1395932038
+      },
+      {
+        "from": 12920914884,
+        "to": 12920914890,
+        "wayId": 1395932042
+      },
+      {
+        "from": 12920914890,
+        "to": 12920914889,
+        "wayId": 1395932042
+      },
+      {
+        "from": 12920914889,
+        "to": 314736936,
+        "wayId": 1395932041
+      },
+      {
+        "from": 314736936,
+        "to": 7669521797,
+        "wayId": 28636497
+      },
+      {
+        "from": 7669521797,
+        "to": 7669521800,
+        "wayId": 28636497
+      },
+      {
+        "from": 7669521800,
+        "to": 7669521802,
+        "wayId": 28636497
+      },
+      {
+        "from": 7669521802,
+        "to": 317947099,
+        "wayId": 28636497
+      },
+      {
+        "from": 317947099,
+        "to": 7669521804,
+        "wayId": 28636497
+      },
+      {
+        "from": 7669521804,
+        "to": 7669521806,
+        "wayId": 28636497
+      },
+      {
+        "from": 7669521806,
+        "to": 7669521809,
+        "wayId": 28636497
+      },
+      {
+        "from": 7669521809,
+        "to": 7669521812,
+        "wayId": 28636497
+      },
+      {
+        "from": 7669521812,
+        "to": 7669521814,
+        "wayId": 28636497
+      },
+      {
+        "from": 7669521814,
+        "to": 7669521817,
+        "wayId": 28636497
+      },
+      {
+        "from": 7669521817,
+        "to": 7669521820,
+        "wayId": 28636497
+      },
+      {
+        "from": 7669521820,
+        "to": 7673005209,
+        "wayId": 28636497
+      },
+      {
+        "from": 7673005209,
+        "to": 7673005211,
+        "wayId": 28636497
+      },
+      {
+        "from": 7673005211,
+        "to": 7673005214,
+        "wayId": 28636497
+      },
+      {
+        "from": 7673005214,
+        "to": 1003854375,
+        "wayId": 28636497
+      },
+      {
+        "from": 1003854375,
+        "to": 314736833,
+        "wayId": 28636497
+      },
+      {
+        "from": 314736833,
+        "to": 7673005217,
+        "wayId": 86402938
+      },
+      {
+        "from": 7673005217,
+        "to": 337808987,
+        "wayId": 86402938
+      },
+      {
+        "from": 337808987,
+        "to": 9914854711,
+        "wayId": 86402938
+      },
+      {
+        "from": 9914854711,
+        "to": 7673005219,
+        "wayId": 86402938
+      },
+      {
+        "from": 7673005219,
+        "to": 7673005221,
+        "wayId": 86402938
+      },
+      {
+        "from": 7673005221,
+        "to": 7673005224,
+        "wayId": 86402938
+      },
+      {
+        "from": 7673005224,
+        "to": 7673005227,
+        "wayId": 86402938
+      },
+      {
+        "from": 7673005227,
+        "to": 7673005230,
+        "wayId": 86402938
+      },
+      {
+        "from": 7673005230,
+        "to": 7673005232,
+        "wayId": 86402938
+      },
+      {
+        "from": 7673005232,
+        "to": 7673005235,
+        "wayId": 86402938
+      },
+      {
+        "from": 7673005235,
+        "to": 7673005238,
+        "wayId": 86402938
+      },
+      {
+        "from": 7673005238,
+        "to": 7673005243,
+        "wayId": 86402938
+      },
+      {
+        "from": 7673005243,
+        "to": 296250846,
+        "wayId": 86402938
+      },
+      {
+        "from": 296250846,
+        "to": 9593591219,
+        "wayId": 19746151
+      },
+      {
+        "from": 9593591219,
+        "to": 56439093,
+        "wayId": 19746151
+      },
+      {
+        "from": 56439093,
+        "to": 296250562,
+        "wayId": 123949248
+      },
+      {
+        "from": 296250562,
+        "to": 311040288,
+        "wayId": 123949248
+      },
+      {
+        "from": 311040288,
+        "to": 3217980946,
+        "wayId": 1273089595
+      },
+      {
+        "from": 3217980946,
+        "to": 3217980945,
+        "wayId": 315666933
+      },
+      {
+        "from": 3217980945,
+        "to": 3217980943,
+        "wayId": 315666933
+      },
+      {
+        "from": 3217980943,
+        "to": 3217980941,
+        "wayId": 315666933
+      },
+      {
+        "from": 3217980941,
+        "to": 3217980939,
+        "wayId": 315666933
+      },
+      {
+        "from": 3217980939,
+        "to": 3217980936,
+        "wayId": 315666933
+      },
+      {
+        "from": 3217980936,
+        "to": 3217980934,
+        "wayId": 315666933
+      },
+      {
+        "from": 3217980934,
+        "to": 3217980932,
+        "wayId": 315666933
+      },
+      {
+        "from": 3217980932,
+        "to": 3217980929,
+        "wayId": 315666933
+      },
+      {
+        "from": 3217980929,
+        "to": 3217980927,
+        "wayId": 315666933
+      },
+      {
+        "from": 3217980927,
+        "to": 296250595,
+        "wayId": 38100752
+      },
+      {
+        "from": 296250595,
+        "to": 11434504011,
+        "wayId": 1273089600
+      },
+      {
+        "from": 11434504011,
+        "to": 3217980910,
+        "wayId": 27183685
+      },
+      {
+        "from": 3217980910,
+        "to": 3217980902,
+        "wayId": 27183685
+      },
+      {
+        "from": 3217980902,
+        "to": 298273886,
+        "wayId": 27183685
+      },
+      {
+        "from": 298273886,
+        "to": 10922447939,
+        "wayId": 28329814
+      },
+      {
+        "from": 10922447939,
+        "to": 311113245,
+        "wayId": 28329814
+      },
+      {
+        "from": 311113245,
+        "to": 1004552580,
+        "wayId": 28329814
+      },
+      {
+        "from": 1004552580,
+        "to": 9085916665,
+        "wayId": 1552578832
+      },
+      {
+        "from": 9085916665,
+        "to": 298275344,
+        "wayId": 1552578832
+      },
+      {
+        "from": 298275344,
+        "to": 14125449495,
+        "wayId": 1552578832
+      },
+      {
+        "from": 14125449495,
+        "to": 311112501,
+        "wayId": 1552578834
+      },
+      {
+        "from": 311112501,
+        "to": 14125464729,
+        "wayId": 1552578834
+      },
+      {
+        "from": 14125464729,
+        "to": 298273888,
+        "wayId": 296774093
+      },
+      {
+        "from": 298273888,
+        "to": 1004288831,
+        "wayId": 296774093
+      },
+      {
+        "from": 1004288831,
+        "to": 7646103062,
+        "wayId": 296774093
+      },
+      {
+        "from": 7646103062,
+        "to": 7646103064,
+        "wayId": 296774093
+      },
+      {
+        "from": 7646103064,
+        "to": 7646103066,
+        "wayId": 296774093
+      },
+      {
+        "from": 7646103066,
+        "to": 9085916675,
+        "wayId": 296774093
+      },
+      {
+        "from": 9085916675,
+        "to": 298276293,
+        "wayId": 296774093
+      },
+      {
+        "from": 298276293,
+        "to": 7646246529,
+        "wayId": 296774093
+      },
+      {
+        "from": 7646246529,
+        "to": 1994501372,
+        "wayId": 296774093
+      },
+      {
+        "from": 1994501372,
+        "to": 298276292,
+        "wayId": 296774093
+      },
+      {
+        "from": 298276292,
+        "to": 298276289,
+        "wayId": 296774093
+      },
+      {
+        "from": 298276289,
+        "to": 298276288,
+        "wayId": 296774093
+      },
+      {
+        "from": 298276288,
+        "to": 314936315,
+        "wayId": 28656250
+      },
+      {
+        "from": 314936315,
+        "to": 3229573465,
+        "wayId": 28656250
+      },
+      {
+        "from": 3229573465,
+        "to": 292727246,
+        "wayId": 1021873101
+      },
+      {
+        "from": 292727246,
+        "to": 292727226,
+        "wayId": 1021873102
+      },
+      {
+        "from": 292727226,
+        "to": 292727224,
+        "wayId": 1021873103
+      },
+      {
+        "from": 292727224,
+        "to": 313975197,
+        "wayId": 1021873103
+      },
+      {
+        "from": 313975197,
+        "to": 2403900986,
+        "wayId": 1021873103
+      },
+      {
+        "from": 2403900986,
+        "to": 317122138,
+        "wayId": 147249979
+      },
+      {
+        "from": 317122138,
+        "to": 1604768109,
+        "wayId": 147249979
+      },
+      {
+        "from": 1604768109,
+        "to": 292727220,
+        "wayId": 1021873100
+      },
+      {
+        "from": 292727220,
+        "to": 1604768108,
+        "wayId": 147249978
+      },
+      {
+        "from": 1604768108,
+        "to": 292727219,
+        "wayId": 147249978
+      },
+      {
+        "from": 292727219,
+        "to": 292727290,
+        "wayId": 28656247
+      },
+      {
+        "from": 292727290,
+        "to": 7628444164,
+        "wayId": 692229812
+      },
+      {
+        "from": 7628444164,
+        "to": 7628444165,
+        "wayId": 692229812
+      },
+      {
+        "from": 7628444165,
+        "to": 7628444167,
+        "wayId": 692229812
+      },
+      {
+        "from": 7628444167,
+        "to": 7628444171,
+        "wayId": 692229812
+      },
+      {
+        "from": 7628444171,
+        "to": 7628444170,
+        "wayId": 692229812
+      },
+      {
+        "from": 7628444170,
+        "to": 7628444168,
+        "wayId": 692229812
+      },
+      {
+        "from": 7628444168,
+        "to": 7628444172,
+        "wayId": 692229812
+      },
+      {
+        "from": 7628444172,
+        "to": 537519899,
+        "wayId": 692229812
+      },
+      {
+        "from": 537519899,
+        "to": 7628444175,
+        "wayId": 692229812
+      },
+      {
+        "from": 7628444175,
+        "to": 7628444173,
+        "wayId": 692229812
+      },
+      {
+        "from": 7628444173,
+        "to": 7628444174,
+        "wayId": 692229812
+      },
+      {
+        "from": 7628444174,
+        "to": 296250768,
+        "wayId": 692229812
+      },
+      {
+        "from": 296250768,
+        "to": 292858660,
+        "wayId": 692229810
+      },
+      {
+        "from": 292858660,
+        "to": 292858659,
+        "wayId": 692229810
+      },
+      {
+        "from": 292858659,
+        "to": 311086401,
+        "wayId": 692229810
+      },
+      {
+        "from": 311086401,
+        "to": 6497762828,
+        "wayId": 147250533
+      },
+      {
+        "from": 6497762828,
+        "to": 7628444179,
+        "wayId": 147250533
+      },
+      {
+        "from": 7628444179,
+        "to": 2195109764,
+        "wayId": 147250533
+      },
+      {
+        "from": 2195109764,
+        "to": 7628444178,
+        "wayId": 147250533
+      },
+      {
+        "from": 7628444178,
+        "to": 2195109759,
+        "wayId": 147250533
+      },
+      {
+        "from": 2195109759,
+        "to": 7628509303,
+        "wayId": 147250533
+      },
+      {
+        "from": 7628509303,
+        "to": 7892501734,
+        "wayId": 147250533
+      },
+      {
+        "from": 7892501734,
+        "to": 7628509304,
+        "wayId": 147250533
+      },
+      {
+        "from": 7628509304,
+        "to": 7628509306,
+        "wayId": 147250533
+      },
+      {
+        "from": 7628509306,
+        "to": 1007824446,
+        "wayId": 147250533
+      },
+      {
+        "from": 1007824446,
+        "to": 310148893,
+        "wayId": 147250533
+      },
+      {
+        "from": 310148893,
+        "to": 292858658,
+        "wayId": 147250533
+      },
+      {
+        "from": 292858658,
+        "to": 310148889,
+        "wayId": 26703637
+      },
+      {
+        "from": 310148889,
+        "to": 7628509308,
+        "wayId": 26703637
+      },
+      {
+        "from": 7628509308,
+        "to": 9195348973,
+        "wayId": 26703637
+      },
+      {
+        "from": 9195348973,
+        "to": 2195109745,
+        "wayId": 26703637
+      },
+      {
+        "from": 2195109745,
+        "to": 9195348972,
+        "wayId": 26703637
+      },
+      {
+        "from": 9195348972,
+        "to": 9623103442,
+        "wayId": 26703637
+      },
+      {
+        "from": 9623103442,
+        "to": 9195348971,
+        "wayId": 26703637
+      },
+      {
+        "from": 9195348971,
+        "to": 7908131201,
+        "wayId": 26703637
+      },
+      {
+        "from": 7908131201,
+        "to": 9195348970,
+        "wayId": 26703637
+      },
+      {
+        "from": 9195348970,
+        "to": 9195348969,
+        "wayId": 26703637
+      },
+      {
+        "from": 9195348969,
+        "to": 9195348968,
+        "wayId": 26703637
+      },
+      {
+        "from": 9195348968,
+        "to": 9195348967,
+        "wayId": 26703637
+      },
+      {
+        "from": 9195348967,
+        "to": 9195348966,
+        "wayId": 26703637
+      },
+      {
+        "from": 9195348966,
+        "to": 1007824409,
+        "wayId": 26703637
+      },
+      {
+        "from": 1007824409,
+        "to": 1011415132,
+        "wayId": 26703637
+      },
+      {
+        "from": 1011415132,
+        "to": 9195348975,
+        "wayId": 26703637
+      },
+      {
+        "from": 9195348975,
+        "to": 9195348965,
+        "wayId": 26703637
+      },
+      {
+        "from": 9195348965,
+        "to": 9195348964,
+        "wayId": 26703637
+      },
+      {
+        "from": 9195348964,
+        "to": 9195348963,
+        "wayId": 26703637
+      },
+      {
+        "from": 9195348963,
+        "to": 9195348962,
+        "wayId": 26703637
+      },
+      {
+        "from": 9195348962,
+        "to": 9195348961,
+        "wayId": 26703637
+      },
+      {
+        "from": 9195348961,
+        "to": 9195348974,
+        "wayId": 26703637
+      },
+      {
+        "from": 9195348974,
+        "to": 7629116276,
+        "wayId": 26703637
+      },
+      {
+        "from": 7629116276,
+        "to": 7629116278,
+        "wayId": 26703637
+      },
+      {
+        "from": 7629116278,
+        "to": 347376700,
+        "wayId": 26703637
+      },
+      {
+        "from": 347376700,
+        "to": 347376695,
+        "wayId": 26703637
+      },
+      {
+        "from": 347376695,
+        "to": 2195102681,
+        "wayId": 26703637
+      },
+      {
+        "from": 2195102681,
+        "to": 6383565305,
+        "wayId": 26703637
+      },
+      {
+        "from": 6383565305,
+        "to": 7884270176,
+        "wayId": 26703637
+      },
+      {
+        "from": 7884270176,
+        "to": 2195102659,
+        "wayId": 26703637
+      },
+      {
+        "from": 2195102659,
+        "to": 9570551179,
+        "wayId": 26703637
+      },
+      {
+        "from": 9570551179,
+        "to": 6518255471,
+        "wayId": 26703637
+      },
+      {
+        "from": 6518255471,
+        "to": 313984222,
+        "wayId": 34031121
+      },
+      {
+        "from": 313984222,
+        "to": 313984206,
+        "wayId": 34031121
+      },
+      {
+        "from": 313984206,
+        "to": 313984218,
+        "wayId": 34031121
+      },
+      {
+        "from": 313984218,
+        "to": 6518255472,
+        "wayId": 34031121
+      },
+      {
+        "from": 6518255472,
+        "to": 313984207,
+        "wayId": 692229813
+      },
+      {
+        "from": 313984207,
+        "to": 292859321,
+        "wayId": 692229813
+      },
+      {
+        "from": 292859321,
+        "to": 313984213,
+        "wayId": 692229813
+      },
+      {
+        "from": 313984213,
+        "to": 6518255473,
+        "wayId": 692229813
+      },
+      {
+        "from": 6518255473,
+        "to": 7646006160,
+        "wayId": 692229813
+      },
+      {
+        "from": 7646006160,
+        "to": 7646006157,
+        "wayId": 692229813
+      },
+      {
+        "from": 7646006157,
+        "to": 1007824392,
+        "wayId": 692229813
+      },
+      {
+        "from": 1007824392,
+        "to": 337781845,
+        "wayId": 692229813
+      },
+      {
+        "from": 337781845,
+        "to": 1007824591,
+        "wayId": 692229813
+      },
+      {
+        "from": 1007824591,
+        "to": 7169794600,
+        "wayId": 692229813
+      }
+    ],
+    "geometryStatus": "PUBLIC_OSM_SOURCE_CONNECTED_WITHIN_ACCEPTED_GEOGRAPHY; ACTUAL_COLLISION_TRAVEL_PENDING"
+  },
+  "routes": [
+    {
+      "id": "senate-bulevardi-crossing-return",
+      "waypoints": [
+        {
+          "label": "Senate Square west public crossing",
+          "xz": [
+            -63,
+            24
+          ],
+          "radius": 0.8,
+          "timeoutSeconds": 120,
+          "source": {
+            "kind": "accepted-square-approach",
+            "baselinePlan": "content/helsinki/district-expansion/walk-plan.json"
+          }
+        },
+        {
+          "label": "Unioninkatu Aleksanterinkatu crossing",
+          "xz": [
+            -62.583,
+            59.085
+          ],
+          "radius": 0.6,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 314737043
+          }
+        },
+        {
+          "label": "Accepted public node 1003245952",
+          "xz": [
+            -63.306,
+            61.291
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1003245952,
+            "wayId": 308725070,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 6055299247",
+          "xz": [
+            -68.047,
+            60.619
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 6055299247,
+            "wayId": 28591358,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 314030383",
+          "xz": [
+            -70.317,
+            60.706
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 314030383,
+            "wayId": 28591358,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 5555352073",
+          "xz": [
+            -75.386,
+            61.137
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 5555352073,
+            "wayId": 28591358,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 12920914883",
+          "xz": [
+            -78.14,
+            61.28
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 12920914883,
+            "wayId": 28591358,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 314737039",
+          "xz": [
+            -79.933,
+            61.379
+          ],
+          "radius": 0.12,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 314737039,
+            "wayId": 1395932038,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 12920914884",
+          "xz": [
+            -156.852,
+            64.318
+          ],
+          "radius": 0.12,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 12920914884,
+            "wayId": 1395932038,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 12920914890",
+          "xz": [
+            -162.626,
+            64.748
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 12920914890,
+            "wayId": 1395932042,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 12920914889",
+          "xz": [
+            -168.228,
+            65.167
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 12920914889,
+            "wayId": 1395932042,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 314736936",
+          "xz": [
+            -168.052,
+            67.473
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 314736936,
+            "wayId": 1395932041,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7669521797",
+          "xz": [
+            -167.4,
+            79.429
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521797,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7669521800",
+          "xz": [
+            -166.842,
+            89.668
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521800,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7669521802",
+          "xz": [
+            -166.398,
+            97.813
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521802,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 317947099",
+          "xz": [
+            -166.316,
+            99.273
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 317947099,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7669521804",
+          "xz": [
+            -166.087,
+            103.986
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521804,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7669521806",
+          "xz": [
+            -165.884,
+            108.108
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521806,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7669521809",
+          "xz": [
+            -165.311,
+            119.785
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521809,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7669521812",
+          "xz": [
+            -165.043,
+            125.222
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521812,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Observed parked-car-14 outbound detour 1",
+          "xz": [
+            -163.48724365234375,
+            127.53172302246094
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "observed-vehicle-native-collision-detour",
+            "wayId": 28636497,
+            "fromNode": 7669521812,
+            "toNode": 7669521814,
+            "vehicleId": "city-car-14",
+            "diagnosticSha256": "961d9382cf871df850d25964dcb611c4d87c82e52c50910a249a6a0d6edcb187"
+          }
+        },
+        {
+          "label": "Observed parked-car-14 outbound detour 2",
+          "xz": [
+            -163.48724365234375,
+            134.72445678710938
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "observed-vehicle-native-collision-detour",
+            "wayId": 28636497,
+            "fromNode": 7669521812,
+            "toNode": 7669521814,
+            "vehicleId": "city-car-14",
+            "diagnosticSha256": "961d9382cf871df850d25964dcb611c4d87c82e52c50910a249a6a0d6edcb187"
+          }
+        },
+        {
+          "label": "Accepted public node 7669521814",
+          "xz": [
+            -164.348,
+            139.295
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521814,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7669521817",
+          "xz": [
+            -164.206,
+            142.18
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521817,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7669521820",
+          "xz": [
+            -163.895,
+            148.62
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521820,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7673005209",
+          "xz": [
+            -163.578,
+            155.06
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005209,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7673005211",
+          "xz": [
+            -163.304,
+            160.553
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005211,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7673005214",
+          "xz": [
+            -162.834,
+            170.247
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005214,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 1003854375",
+          "xz": [
+            -162.43,
+            178.414
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1003854375,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 314736833",
+          "xz": [
+            -163.508,
+            180.419
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 314736833,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7673005217",
+          "xz": [
+            -169.782,
+            180.737
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005217,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 337808987",
+          "xz": [
+            -171.581,
+            180.825
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 337808987,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 9914854711",
+          "xz": [
+            -173.507,
+            180.912
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9914854711,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7673005219",
+          "xz": [
+            -179.348,
+            181.209
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005219,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7673005221",
+          "xz": [
+            -190.191,
+            181.735
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005221,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7673005224",
+          "xz": [
+            -192.539,
+            181.856
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005224,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7673005227",
+          "xz": [
+            -209.45,
+            182.689
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005227,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7673005230",
+          "xz": [
+            -222.764,
+            183.347
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005230,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7673005232",
+          "xz": [
+            -229.393,
+            183.676
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005232,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7673005235",
+          "xz": [
+            -233.662,
+            183.885
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005235,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7673005238",
+          "xz": [
+            -241.613,
+            184.28
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005238,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7673005243",
+          "xz": [
+            -250.918,
+            184.74
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005243,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 296250846",
+          "xz": [
+            -261.416,
+            185.255
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 296250846,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 9593591219",
+          "xz": [
+            -261.198,
+            189.98
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9593591219,
+            "wayId": 19746151,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Accepted public node 56439093",
+          "xz": [
+            -260.979,
+            193.801
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 56439093,
+            "wayId": 19746151,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Accepted public node 296250562",
+          "xz": [
+            -260.69,
+            199.785
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 296250562,
+            "wayId": 123949248,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 311040288",
+          "xz": [
+            -260.531,
+            202.704
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 311040288,
+            "wayId": 123949248,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 3217980946",
+          "xz": [
+            -260.171,
+            210.603
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980946,
+            "wayId": 1273089595,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Accepted public node 3217980945",
+          "xz": [
+            -262.242,
+            210.758
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980945,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Accepted public node 3217980943",
+          "xz": [
+            -265.301,
+            211.624
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980943,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Accepted public node 3217980941",
+          "xz": [
+            -268.134,
+            213.071
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980941,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Accepted public node 3217980939",
+          "xz": [
+            -270.628,
+            215.041
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980939,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Accepted public node 3217980936",
+          "xz": [
+            -272.69,
+            217.468
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980936,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Accepted public node 3217980934",
+          "xz": [
+            -274.241,
+            220.241
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980934,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Accepted public node 3217980932",
+          "xz": [
+            -275.215,
+            223.259
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980932,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Accepted public node 3217980929",
+          "xz": [
+            -275.584,
+            226.412
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980929,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Accepted public node 3217980927",
+          "xz": [
+            -275.524,
+            227.192
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980927,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Accepted public node 296250595",
+          "xz": [
+            -327.934,
+            229.724
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 296250595,
+            "wayId": 38100752,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Accepted public node 11434504011",
+          "xz": [
+            -330.06,
+            235.939
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 11434504011,
+            "wayId": 1273089600,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Accepted public node 3217980910",
+          "xz": [
+            -331.573,
+            239.336
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980910,
+            "wayId": 27183685,
+            "highway": "path"
+          }
+        },
+        {
+          "label": "Accepted public node 3217980902",
+          "xz": [
+            -342.302,
+            249.065
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980902,
+            "wayId": 27183685,
+            "highway": "path"
+          }
+        },
+        {
+          "label": "Accepted public node 298273886",
+          "xz": [
+            -350.352,
+            256.467
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 298273886,
+            "wayId": 27183685,
+            "highway": "path"
+          }
+        },
+        {
+          "label": "Accepted public node 10922447939",
+          "xz": [
+            -350.435,
+            263.308
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 10922447939,
+            "wayId": 28329814,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 311113245",
+          "xz": [
+            -350.3,
+            267.185
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 311113245,
+            "wayId": 28329814,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 1004552580",
+          "xz": [
+            -349.927,
+            272.801
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1004552580,
+            "wayId": 28329814,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 9085916665",
+          "xz": [
+            -354.591,
+            273.042
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9085916665,
+            "wayId": 1552578832,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 298275344",
+          "xz": [
+            -355.402,
+            273.632
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 298275344,
+            "wayId": 1552578832,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 14125449495",
+          "xz": [
+            -356.851,
+            273.709
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 14125449495,
+            "wayId": 1552578832,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 311112501",
+          "xz": [
+            -360.798,
+            273.906
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 311112501,
+            "wayId": 1552578834,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 14125464729",
+          "xz": [
+            -365.523,
+            274.136
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 14125464729,
+            "wayId": 1552578834,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 298273888",
+          "xz": [
+            -367.427,
+            274.235
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 298273888,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 1004288831",
+          "xz": [
+            -368.86,
+            274.312
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1004288831,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7646103062",
+          "xz": [
+            -372.408,
+            274.487
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7646103062,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7646103064",
+          "xz": [
+            -379.853,
+            274.86
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7646103064,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7646103066",
+          "xz": [
+            -387.937,
+            275.265
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7646103066,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 9085916675",
+          "xz": [
+            -396.992,
+            275.726
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9085916675,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 298276293",
+          "xz": [
+            -398.953,
+            276.37
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 298276293,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7646246529",
+          "xz": [
+            -404.352,
+            280.154
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7646246529,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 1994501372",
+          "xz": [
+            -413.59,
+            286.62
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1994501372,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 298276292",
+          "xz": [
+            -424.067,
+            293.964
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 298276292,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 298276289",
+          "xz": [
+            -458.382,
+            318.892
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 298276289,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 298276288",
+          "xz": [
+            -459.864,
+            324.172
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 298276288,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 314936315",
+          "xz": [
+            -465.6,
+            325.716
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 314936315,
+            "wayId": 28656250,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 3229573465",
+          "xz": [
+            -469.41,
+            326.749
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3229573465,
+            "wayId": 28656250,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 292727246",
+          "xz": [
+            -474.231,
+            329.43
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292727246,
+            "wayId": 1021873101,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 292727226",
+          "xz": [
+            -475.692,
+            330.509
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292727226,
+            "wayId": 1021873102,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 292727224",
+          "xz": [
+            -479.331,
+            332.935
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292727224,
+            "wayId": 1021873103,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 313975197",
+          "xz": [
+            -482.197,
+            334.838
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 313975197,
+            "wayId": 1021873103,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 2403900986",
+          "xz": [
+            -483.564,
+            335.683
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 2403900986,
+            "wayId": 1021873103,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 317122138",
+          "xz": [
+            -488.858,
+            339.367
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 317122138,
+            "wayId": 147249979,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 1604768109",
+          "xz": [
+            -491.641,
+            341.292
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1604768109,
+            "wayId": 147249979,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 292727220",
+          "xz": [
+            -493.702,
+            342.727
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292727220,
+            "wayId": 1021873100,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 1604768108",
+          "xz": [
+            -498.585,
+            346.11
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1604768108,
+            "wayId": 147249978,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 292727219",
+          "xz": [
+            -500.834,
+            346.721
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292727219,
+            "wayId": 147249978,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 292727290",
+          "xz": [
+            -502.916,
+            346.619
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292727290,
+            "wayId": 28656247,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628444164",
+          "xz": [
+            -508.432,
+            350.391
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444164,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628444165",
+          "xz": [
+            -514.571,
+            354.575
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444165,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628444167",
+          "xz": [
+            -517.86,
+            356.823
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444167,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628444171",
+          "xz": [
+            -522.209,
+            359.794
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444171,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628444170",
+          "xz": [
+            -528.037,
+            363.789
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444170,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628444168",
+          "xz": [
+            -532.125,
+            366.57
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444168,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628444172",
+          "xz": [
+            -544.214,
+            374.838
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444172,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 537519899",
+          "xz": [
+            -547.069,
+            376.785
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 537519899,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628444175",
+          "xz": [
+            -551.047,
+            379.656
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444175,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628444173",
+          "xz": [
+            -557.775,
+            384.531
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444173,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628444174",
+          "xz": [
+            -566.014,
+            390.484
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444174,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 296250768",
+          "xz": [
+            -578.625,
+            399.609
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 296250768,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 292858660",
+          "xz": [
+            -582.447,
+            402.413
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292858660,
+            "wayId": 692229810,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 292858659",
+          "xz": [
+            -583.947,
+            403.515
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292858659,
+            "wayId": 692229810,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 311086401",
+          "xz": [
+            -588.508,
+            406.887
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 311086401,
+            "wayId": 692229810,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 6497762828",
+          "xz": [
+            -591.369,
+            408.89
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 6497762828,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628444179",
+          "xz": [
+            -631.663,
+            436.897
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444179,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 2195109764",
+          "xz": [
+            -634.058,
+            438.566
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 2195109764,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628444178",
+          "xz": [
+            -636.036,
+            439.935
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444178,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 2195109759",
+          "xz": [
+            -650.002,
+            449.627
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 2195109759,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628509303",
+          "xz": [
+            -652.858,
+            451.607
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628509303,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7892501734",
+          "xz": [
+            -657.658,
+            454.934
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7892501734,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628509304",
+          "xz": [
+            -663.108,
+            458.706
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628509304,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628509306",
+          "xz": [
+            -668.302,
+            462.3
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628509306,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 1007824446",
+          "xz": [
+            -705.086,
+            487.792
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1007824446,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 310148893",
+          "xz": [
+            -708.286,
+            489.973
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 310148893,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 292858658",
+          "xz": [
+            -713.453,
+            493.478
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292858658,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 310148889",
+          "xz": [
+            -718.365,
+            496.983
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 310148889,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7628509308",
+          "xz": [
+            -735.765,
+            509.011
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628509308,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9195348973",
+          "xz": [
+            -750.033,
+            519.125
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348973,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 2195109745",
+          "xz": [
+            -753.166,
+            521.35
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 2195109745,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9195348972",
+          "xz": [
+            -780.223,
+            540.544
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348972,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9623103442",
+          "xz": [
+            -803.325,
+            556.923
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9623103442,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9195348971",
+          "xz": [
+            -812.642,
+            563.532
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348971,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7908131201",
+          "xz": [
+            -819.987,
+            568.751
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7908131201,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9195348970",
+          "xz": [
+            -825.627,
+            572.745
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348970,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9195348969",
+          "xz": [
+            -830.172,
+            575.972
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348969,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9195348968",
+          "xz": [
+            -832.605,
+            577.697
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348968,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9195348967",
+          "xz": [
+            -833.822,
+            578.553
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348967,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9195348966",
+          "xz": [
+            -834.622,
+            579.121
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348966,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 1007824409",
+          "xz": [
+            -837.567,
+            581.213
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1007824409,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 1011415132",
+          "xz": [
+            -841.628,
+            583.916
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1011415132,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9195348975",
+          "xz": [
+            -845.511,
+            586.118
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348975,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9195348965",
+          "xz": [
+            -847.478,
+            587.42
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348965,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9195348964",
+          "xz": [
+            -850.173,
+            589.312
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348964,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9195348963",
+          "xz": [
+            -857.139,
+            593.071
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348963,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9195348962",
+          "xz": [
+            -861.778,
+            596.242
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348962,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9195348961",
+          "xz": [
+            -872.923,
+            603.751
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348961,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9195348974",
+          "xz": [
+            -891.642,
+            616.802
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348974,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7629116276",
+          "xz": [
+            -895.853,
+            619.729
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7629116276,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7629116278",
+          "xz": [
+            -928.513,
+            642.682
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7629116278,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 347376700",
+          "xz": [
+            -936.175,
+            648.122
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 347376700,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 347376695",
+          "xz": [
+            -939.831,
+            651.038
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 347376695,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 2195102681",
+          "xz": [
+            -941.192,
+            651.984
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 2195102681,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 6383565305",
+          "xz": [
+            -952.956,
+            660.908
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 6383565305,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7884270176",
+          "xz": [
+            -961.807,
+            667.049
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7884270176,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 2195102659",
+          "xz": [
+            -973.302,
+            675.015
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 2195102659,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 9570551179",
+          "xz": [
+            -973.891,
+            675.427
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9570551179,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 6518255471",
+          "xz": [
+            -974.897,
+            676.128
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 6518255471,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 313984222",
+          "xz": [
+            -978.213,
+            671.166
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 313984222,
+            "wayId": 34031121,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 313984206",
+          "xz": [
+            -979.072,
+            669.862
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 313984206,
+            "wayId": 34031121,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 313984218",
+          "xz": [
+            -979.959,
+            668.569
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 313984218,
+            "wayId": 34031121,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 6518255472",
+          "xz": [
+            -983.336,
+            663.529
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 6518255472,
+            "wayId": 34031121,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Accepted public node 313984207",
+          "xz": [
+            -985.936,
+            665.309
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 313984207,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 292859321",
+          "xz": [
+            -991.136,
+            668.936
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292859321,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 313984213",
+          "xz": [
+            -997.087,
+            673.198
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 313984213,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 6518255473",
+          "xz": [
+            -999.438,
+            674.789
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 6518255473,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7646006160",
+          "xz": [
+            -1034.043,
+            698.831
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7646006160,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7646006157",
+          "xz": [
+            -1049.389,
+            709.623
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7646006157,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 1007824392",
+          "xz": [
+            -1061.736,
+            718.323
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1007824392,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 337781845",
+          "xz": [
+            -1067.754,
+            722.528
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 337781845,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 1007824591",
+          "xz": [
+            -1075.071,
+            727.612
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1007824591,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Accepted public node 7169794600",
+          "xz": [
+            -1095.775,
+            742.51
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7169794600,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 1",
+          "xz": [
+            -1107.544,
+            751.121
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 2",
+          "xz": [
+            -1132.018,
+            768
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 9",
+          "xz": [
+            -1133.447,
+            768.986
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 16",
+          "xz": [
+            -1134.877,
+            769.971
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 23",
+          "xz": [
+            -1136.306,
+            770.957
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 30",
+          "xz": [
+            -1137.735,
+            771.943
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 37",
+          "xz": [
+            -1139.164,
+            772.928
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 44",
+          "xz": [
+            -1140.593,
+            773.914
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 51",
+          "xz": [
+            -1142.022,
+            774.9
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 58",
+          "xz": [
+            -1143.452,
+            775.885
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 65",
+          "xz": [
+            -1144.881,
+            776.871
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 72",
+          "xz": [
+            -1146.31,
+            777.856
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 79",
+          "xz": [
+            -1147.739,
+            778.842
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 86",
+          "xz": [
+            -1149.168,
+            779.828
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 90",
+          "xz": [
+            -1149.985,
+            780.391
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 97",
+          "xz": [
+            -1151.401,
+            781.333
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 100",
+          "xz": [
+            -1152.008,
+            781.737
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 107",
+          "xz": [
+            -1153.392,
+            782.752
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 114",
+          "xz": [
+            -1154.777,
+            783.767
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 121",
+          "xz": [
+            -1156.161,
+            784.781
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 128",
+          "xz": [
+            -1157.546,
+            785.796
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 132",
+          "xz": [
+            -1158.337,
+            786.376
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 139",
+          "xz": [
+            -1159.744,
+            787.37
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 146",
+          "xz": [
+            -1161.151,
+            788.365
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 153",
+          "xz": [
+            -1162.558,
+            789.359
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 160",
+          "xz": [
+            -1163.965,
+            790.354
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 167",
+          "xz": [
+            -1165.372,
+            791.348
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 174",
+          "xz": [
+            -1166.779,
+            792.342
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 181",
+          "xz": [
+            -1168.186,
+            793.337
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 184",
+          "xz": [
+            -1168.789,
+            793.763
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 1 way 692229813 point 185",
+          "xz": [
+            -1168.789,
+            793.763
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              7169794600,
+              337763214
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          },
+          "capture": true
+        },
+        {
+          "label": "Circuit 2 way 30566646 point 1",
+          "xz": [
+            -1168.644,
+            793.964
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 30566646,
+            "sourceNodePair": [
+              337763214,
+              337763224
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 2 way 30566646 point 8",
+          "xz": [
+            -1167.629,
+            795.369
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 30566646,
+            "sourceNodePair": [
+              337763214,
+              337763224
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 2 way 30566646 point 15",
+          "xz": [
+            -1166.614,
+            796.774
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 30566646,
+            "sourceNodePair": [
+              337763214,
+              337763224
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 2 way 30566646 point 20",
+          "xz": [
+            -1165.889,
+            797.777
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 30566646,
+            "sourceNodePair": [
+              337763214,
+              337763224
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 2 way 30566646 point 27",
+          "xz": [
+            -1164.911,
+            799.139
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 30566646,
+            "sourceNodePair": [
+              337763214,
+              337763224
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 2 way 30566646 point 29",
+          "xz": [
+            -1164.631,
+            799.528
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 30566646,
+            "sourceNodePair": [
+              337763214,
+              337763224
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 2 way 30566646 point 36",
+          "xz": [
+            -1163.632,
+            800.913
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 30566646,
+            "sourceNodePair": [
+              337763214,
+              337763224
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 2 way 30566646 point 37",
+          "xz": [
+            -1163.489,
+            801.111
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 30566646,
+            "sourceNodePair": [
+              337763214,
+              337763224
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 2 way 30566646 point 44",
+          "xz": [
+            -1162.505,
+            802.475
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 30566646,
+            "sourceNodePair": [
+              337763214,
+              337763224
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 2 way 30566646 point 51",
+          "xz": [
+            -1161.52,
+            803.84
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 30566646,
+            "sourceNodePair": [
+              337763214,
+              337763224
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 2 way 30566646 point 58",
+          "xz": [
+            -1160.536,
+            805.204
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 30566646,
+            "sourceNodePair": [
+              337763214,
+              337763224
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 2 way 30566646 point 62",
+          "xz": [
+            -1159.973,
+            805.984
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 30566646,
+            "sourceNodePair": [
+              337763214,
+              337763224
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          },
+          "capture": true
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 1",
+          "xz": [
+            -1159.973,
+            805.984
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 8",
+          "xz": [
+            -1158.549,
+            804.988
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 15",
+          "xz": [
+            -1157.124,
+            803.993
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 22",
+          "xz": [
+            -1155.7,
+            802.997
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 29",
+          "xz": [
+            -1154.276,
+            802.001
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 36",
+          "xz": [
+            -1152.851,
+            801.006
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 43",
+          "xz": [
+            -1151.427,
+            800.01
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 50",
+          "xz": [
+            -1150.014,
+            799.036
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 57",
+          "xz": [
+            -1148.601,
+            798.062
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 64",
+          "xz": [
+            -1147.187,
+            797.087
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 71",
+          "xz": [
+            -1145.774,
+            796.113
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 78",
+          "xz": [
+            -1144.361,
+            795.139
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 85",
+          "xz": [
+            -1142.948,
+            794.165
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 92",
+          "xz": [
+            -1141.535,
+            793.19
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 94",
+          "xz": [
+            -1141.131,
+            792.912
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 3 way 1552575431 point 95",
+          "xz": [
+            -1141.131,
+            792.912
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 1552575431,
+            "sourceNodePair": [
+              337763224,
+              322015339
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          },
+          "capture": true
+        },
+        {
+          "label": "Circuit 4 way 694281002 point 1",
+          "xz": [
+            -1141.272,
+            792.712
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 694281002,
+            "sourceNodePair": [
+              322015339,
+              6518372890
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 4 way 694281002 point 8",
+          "xz": [
+            -1142.259,
+            791.314
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 694281002,
+            "sourceNodePair": [
+              322015339,
+              6518372890
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 4 way 694281002 point 15",
+          "xz": [
+            -1143.247,
+            789.915
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 694281002,
+            "sourceNodePair": [
+              322015339,
+              6518372890
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 4 way 694281002 point 22",
+          "xz": [
+            -1144.234,
+            788.516
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 694281002,
+            "sourceNodePair": [
+              322015339,
+              6518372890
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 4 way 694281002 point 25",
+          "xz": [
+            -1144.657,
+            787.917
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 694281002,
+            "sourceNodePair": [
+              322015339,
+              6518372890
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 4 way 694281002 point 32",
+          "xz": [
+            -1145.637,
+            786.532
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 694281002,
+            "sourceNodePair": [
+              322015339,
+              6518372890
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 4 way 694281002 point 33",
+          "xz": [
+            -1145.777,
+            786.334
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 694281002,
+            "sourceNodePair": [
+              322015339,
+              6518372890
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 4 way 694281002 point 40",
+          "xz": [
+            -1146.738,
+            784.972
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 694281002,
+            "sourceNodePair": [
+              322015339,
+              6518372890
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 4 way 694281002 point 42",
+          "xz": [
+            -1147.013,
+            784.583
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 694281002,
+            "sourceNodePair": [
+              322015339,
+              6518372890
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 4 way 694281002 point 49",
+          "xz": [
+            -1147.94,
+            783.23
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 694281002,
+            "sourceNodePair": [
+              322015339,
+              6518372890
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 4 way 694281002 point 51",
+          "xz": [
+            -1148.205,
+            782.844
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 694281002,
+            "sourceNodePair": [
+              322015339,
+              6518372890
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 4 way 694281002 point 58",
+          "xz": [
+            -1149.128,
+            781.456
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 694281002,
+            "sourceNodePair": [
+              322015339,
+              6518372890
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 4 way 694281002 point 60",
+          "xz": [
+            -1149.392,
+            781.06
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 694281002,
+            "sourceNodePair": [
+              322015339,
+              6518372890
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 4 way 694281002 point 64",
+          "xz": [
+            -1149.985,
+            780.391
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 694281002,
+            "sourceNodePair": [
+              322015339,
+              6518372890
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          },
+          "capture": true
+        },
+        {
+          "label": "Circuit 5 way 692229813 point 1",
+          "xz": [
+            -1149.985,
+            780.391
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              6518372890,
+              7169794600
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 5 way 692229813 point 8",
+          "xz": [
+            -1148.556,
+            779.405
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              6518372890,
+              7169794600
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 5 way 692229813 point 15",
+          "xz": [
+            -1147.127,
+            778.42
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              6518372890,
+              7169794600
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 5 way 692229813 point 22",
+          "xz": [
+            -1145.697,
+            777.434
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              6518372890,
+              7169794600
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 5 way 692229813 point 29",
+          "xz": [
+            -1144.268,
+            776.448
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              6518372890,
+              7169794600
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 5 way 692229813 point 36",
+          "xz": [
+            -1142.839,
+            775.463
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              6518372890,
+              7169794600
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 5 way 692229813 point 43",
+          "xz": [
+            -1141.41,
+            774.477
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              6518372890,
+              7169794600
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 5 way 692229813 point 50",
+          "xz": [
+            -1139.981,
+            773.491
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              6518372890,
+              7169794600
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 5 way 692229813 point 57",
+          "xz": [
+            -1138.552,
+            772.506
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              6518372890,
+              7169794600
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 5 way 692229813 point 64",
+          "xz": [
+            -1137.122,
+            771.52
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              6518372890,
+              7169794600
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 5 way 692229813 point 71",
+          "xz": [
+            -1135.693,
+            770.535
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              6518372890,
+              7169794600
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 5 way 692229813 point 78",
+          "xz": [
+            -1134.264,
+            769.549
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              6518372890,
+              7169794600
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 5 way 692229813 point 85",
+          "xz": [
+            -1132.835,
+            768.563
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              6518372890,
+              7169794600
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 5 way 692229813 point 90",
+          "xz": [
+            -1107.544,
+            751.121
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              6518372890,
+              7169794600
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          }
+        },
+        {
+          "label": "Circuit 5 way 692229813 point 91",
+          "xz": [
+            -1095.775,
+            742.51
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "wayId": 692229813,
+            "sourceNodePair": [
+              6518372890,
+              7169794600
+            ],
+            "qualifiedMergeSha256": "6e8d5762ae31c4b186574ea3363c68b809f6e62e681f979a9c10113118d83057"
+          },
+          "capture": true
+        },
+        {
+          "label": "Return public node 1007824591",
+          "xz": [
+            -1075.071,
+            727.612
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1007824591,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 337781845",
+          "xz": [
+            -1067.754,
+            722.528
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 337781845,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 1007824392",
+          "xz": [
+            -1061.736,
+            718.323
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1007824392,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7646006157",
+          "xz": [
+            -1049.389,
+            709.623
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7646006157,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7646006160",
+          "xz": [
+            -1034.043,
+            698.831
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7646006160,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 6518255473",
+          "xz": [
+            -999.438,
+            674.789
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 6518255473,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 313984213",
+          "xz": [
+            -997.087,
+            673.198
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 313984213,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 292859321",
+          "xz": [
+            -991.136,
+            668.936
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292859321,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 313984207",
+          "xz": [
+            -985.936,
+            665.309
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 313984207,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 6518255472",
+          "xz": [
+            -983.336,
+            663.529
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 6518255472,
+            "wayId": 692229813,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 313984218",
+          "xz": [
+            -979.959,
+            668.569
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 313984218,
+            "wayId": 34031121,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 313984206",
+          "xz": [
+            -979.072,
+            669.862
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 313984206,
+            "wayId": 34031121,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 313984222",
+          "xz": [
+            -978.213,
+            671.166
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 313984222,
+            "wayId": 34031121,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 6518255471",
+          "xz": [
+            -974.897,
+            676.128
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 6518255471,
+            "wayId": 34031121,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 9570551179",
+          "xz": [
+            -973.891,
+            675.427
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9570551179,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 2195102659",
+          "xz": [
+            -973.302,
+            675.015
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 2195102659,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7884270176",
+          "xz": [
+            -961.807,
+            667.049
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7884270176,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 6383565305",
+          "xz": [
+            -952.956,
+            660.908
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 6383565305,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 2195102681",
+          "xz": [
+            -941.192,
+            651.984
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 2195102681,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 347376695",
+          "xz": [
+            -939.831,
+            651.038
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 347376695,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 347376700",
+          "xz": [
+            -936.175,
+            648.122
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 347376700,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7629116278",
+          "xz": [
+            -928.513,
+            642.682
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7629116278,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7629116276",
+          "xz": [
+            -895.853,
+            619.729
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7629116276,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9195348974",
+          "xz": [
+            -891.642,
+            616.802
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348974,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9195348961",
+          "xz": [
+            -872.923,
+            603.751
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348961,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9195348962",
+          "xz": [
+            -861.778,
+            596.242
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348962,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9195348963",
+          "xz": [
+            -857.139,
+            593.071
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348963,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9195348964",
+          "xz": [
+            -850.173,
+            589.312
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348964,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9195348965",
+          "xz": [
+            -847.478,
+            587.42
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348965,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9195348975",
+          "xz": [
+            -845.511,
+            586.118
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348975,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 1011415132",
+          "xz": [
+            -841.628,
+            583.916
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1011415132,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 1007824409",
+          "xz": [
+            -837.567,
+            581.213
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1007824409,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9195348966",
+          "xz": [
+            -834.622,
+            579.121
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348966,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9195348967",
+          "xz": [
+            -833.822,
+            578.553
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348967,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9195348968",
+          "xz": [
+            -832.605,
+            577.697
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348968,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9195348969",
+          "xz": [
+            -830.172,
+            575.972
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348969,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9195348970",
+          "xz": [
+            -825.627,
+            572.745
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348970,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7908131201",
+          "xz": [
+            -819.987,
+            568.751
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7908131201,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9195348971",
+          "xz": [
+            -812.642,
+            563.532
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348971,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9623103442",
+          "xz": [
+            -803.325,
+            556.923
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9623103442,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9195348972",
+          "xz": [
+            -780.223,
+            540.544
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348972,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 2195109745",
+          "xz": [
+            -753.166,
+            521.35
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 2195109745,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 9195348973",
+          "xz": [
+            -750.033,
+            519.125
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9195348973,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628509308",
+          "xz": [
+            -735.765,
+            509.011
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628509308,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 310148889",
+          "xz": [
+            -718.365,
+            496.983
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 310148889,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 292858658",
+          "xz": [
+            -713.453,
+            493.478
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292858658,
+            "wayId": 26703637,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 310148893",
+          "xz": [
+            -708.286,
+            489.973
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 310148893,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 1007824446",
+          "xz": [
+            -705.086,
+            487.792
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1007824446,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628509306",
+          "xz": [
+            -668.302,
+            462.3
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628509306,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628509304",
+          "xz": [
+            -663.108,
+            458.706
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628509304,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7892501734",
+          "xz": [
+            -657.658,
+            454.934
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7892501734,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628509303",
+          "xz": [
+            -652.858,
+            451.607
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628509303,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 2195109759",
+          "xz": [
+            -650.002,
+            449.627
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 2195109759,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628444178",
+          "xz": [
+            -636.036,
+            439.935
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444178,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 2195109764",
+          "xz": [
+            -634.058,
+            438.566
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 2195109764,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628444179",
+          "xz": [
+            -631.663,
+            436.897
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444179,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 6497762828",
+          "xz": [
+            -591.369,
+            408.89
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 6497762828,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 311086401",
+          "xz": [
+            -588.508,
+            406.887
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 311086401,
+            "wayId": 147250533,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 292858659",
+          "xz": [
+            -583.947,
+            403.515
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292858659,
+            "wayId": 692229810,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 292858660",
+          "xz": [
+            -582.447,
+            402.413
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292858660,
+            "wayId": 692229810,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 296250768",
+          "xz": [
+            -578.625,
+            399.609
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 296250768,
+            "wayId": 692229810,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628444174",
+          "xz": [
+            -566.014,
+            390.484
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444174,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628444173",
+          "xz": [
+            -557.775,
+            384.531
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444173,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628444175",
+          "xz": [
+            -551.047,
+            379.656
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444175,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 537519899",
+          "xz": [
+            -547.069,
+            376.785
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 537519899,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628444172",
+          "xz": [
+            -544.214,
+            374.838
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444172,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628444168",
+          "xz": [
+            -532.125,
+            366.57
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444168,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628444170",
+          "xz": [
+            -528.037,
+            363.789
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444170,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628444171",
+          "xz": [
+            -522.209,
+            359.794
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444171,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628444167",
+          "xz": [
+            -517.86,
+            356.823
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444167,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628444165",
+          "xz": [
+            -514.571,
+            354.575
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444165,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 7628444164",
+          "xz": [
+            -508.432,
+            350.391
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7628444164,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 292727290",
+          "xz": [
+            -502.916,
+            346.619
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292727290,
+            "wayId": 692229812,
+            "highway": "cycleway"
+          }
+        },
+        {
+          "label": "Return public node 292727219",
+          "xz": [
+            -500.834,
+            346.721
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292727219,
+            "wayId": 28656247,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 1604768108",
+          "xz": [
+            -498.585,
+            346.11
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1604768108,
+            "wayId": 147249978,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 292727220",
+          "xz": [
+            -493.702,
+            342.727
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292727220,
+            "wayId": 147249978,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 1604768109",
+          "xz": [
+            -491.641,
+            341.292
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1604768109,
+            "wayId": 1021873100,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 317122138",
+          "xz": [
+            -488.858,
+            339.367
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 317122138,
+            "wayId": 147249979,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 2403900986",
+          "xz": [
+            -483.564,
+            335.683
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 2403900986,
+            "wayId": 147249979,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 313975197",
+          "xz": [
+            -482.197,
+            334.838
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 313975197,
+            "wayId": 1021873103,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 292727224",
+          "xz": [
+            -479.331,
+            332.935
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292727224,
+            "wayId": 1021873103,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 292727226",
+          "xz": [
+            -475.692,
+            330.509
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292727226,
+            "wayId": 1021873103,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 292727246",
+          "xz": [
+            -474.231,
+            329.43
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 292727246,
+            "wayId": 1021873102,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 3229573465",
+          "xz": [
+            -469.41,
+            326.749
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3229573465,
+            "wayId": 1021873101,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 314936315",
+          "xz": [
+            -465.6,
+            325.716
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 314936315,
+            "wayId": 28656250,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 298276288",
+          "xz": [
+            -459.864,
+            324.172
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 298276288,
+            "wayId": 28656250,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 298276289",
+          "xz": [
+            -458.382,
+            318.892
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 298276289,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 298276292",
+          "xz": [
+            -424.067,
+            293.964
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 298276292,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 1994501372",
+          "xz": [
+            -413.59,
+            286.62
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1994501372,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7646246529",
+          "xz": [
+            -404.352,
+            280.154
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7646246529,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 298276293",
+          "xz": [
+            -398.953,
+            276.37
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 298276293,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 9085916675",
+          "xz": [
+            -396.992,
+            275.726
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9085916675,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7646103066",
+          "xz": [
+            -387.937,
+            275.265
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7646103066,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7646103064",
+          "xz": [
+            -379.853,
+            274.86
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7646103064,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7646103062",
+          "xz": [
+            -372.408,
+            274.487
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7646103062,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 1004288831",
+          "xz": [
+            -368.86,
+            274.312
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1004288831,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 298273888",
+          "xz": [
+            -367.427,
+            274.235
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 298273888,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 14125464729",
+          "xz": [
+            -365.523,
+            274.136
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 14125464729,
+            "wayId": 296774093,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 311112501",
+          "xz": [
+            -360.798,
+            273.906
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 311112501,
+            "wayId": 1552578834,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 14125449495",
+          "xz": [
+            -356.851,
+            273.709
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 14125449495,
+            "wayId": 1552578834,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 298275344",
+          "xz": [
+            -355.402,
+            273.632
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 298275344,
+            "wayId": 1552578832,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 9085916665",
+          "xz": [
+            -354.591,
+            273.042
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9085916665,
+            "wayId": 1552578832,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 1004552580",
+          "xz": [
+            -349.927,
+            272.801
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1004552580,
+            "wayId": 1552578832,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 311113245",
+          "xz": [
+            -350.3,
+            267.185
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 311113245,
+            "wayId": 28329814,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 10922447939",
+          "xz": [
+            -350.435,
+            263.308
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 10922447939,
+            "wayId": 28329814,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 298273886",
+          "xz": [
+            -350.352,
+            256.467
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 298273886,
+            "wayId": 28329814,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 3217980902",
+          "xz": [
+            -342.302,
+            249.065
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980902,
+            "wayId": 27183685,
+            "highway": "path"
+          }
+        },
+        {
+          "label": "Return public node 3217980910",
+          "xz": [
+            -331.573,
+            239.336
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980910,
+            "wayId": 27183685,
+            "highway": "path"
+          }
+        },
+        {
+          "label": "Return public node 11434504011",
+          "xz": [
+            -330.06,
+            235.939
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 11434504011,
+            "wayId": 27183685,
+            "highway": "path"
+          }
+        },
+        {
+          "label": "Return public node 296250595",
+          "xz": [
+            -327.934,
+            229.724
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 296250595,
+            "wayId": 1273089600,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Return public node 3217980927",
+          "xz": [
+            -275.524,
+            227.192
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980927,
+            "wayId": 38100752,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Return public node 3217980929",
+          "xz": [
+            -275.584,
+            226.412
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980929,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Return public node 3217980932",
+          "xz": [
+            -275.215,
+            223.259
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980932,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Return public node 3217980934",
+          "xz": [
+            -274.241,
+            220.241
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980934,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Return public node 3217980936",
+          "xz": [
+            -272.69,
+            217.468
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980936,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Return public node 3217980939",
+          "xz": [
+            -270.628,
+            215.041
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980939,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Return public node 3217980941",
+          "xz": [
+            -268.134,
+            213.071
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980941,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Return public node 3217980943",
+          "xz": [
+            -265.301,
+            211.624
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980943,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Return public node 3217980945",
+          "xz": [
+            -262.242,
+            210.758
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980945,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Return public node 3217980946",
+          "xz": [
+            -260.171,
+            210.603
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 3217980946,
+            "wayId": 315666933,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Return public node 311040288",
+          "xz": [
+            -260.531,
+            202.704
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 311040288,
+            "wayId": 1273089595,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Return public node 296250562",
+          "xz": [
+            -260.69,
+            199.785
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 296250562,
+            "wayId": 123949248,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 56439093",
+          "xz": [
+            -260.979,
+            193.801
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 56439093,
+            "wayId": 123949248,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 9593591219",
+          "xz": [
+            -261.198,
+            189.98
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9593591219,
+            "wayId": 19746151,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Return public node 296250846",
+          "xz": [
+            -261.416,
+            185.255
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 296250846,
+            "wayId": 19746151,
+            "highway": "pedestrian"
+          }
+        },
+        {
+          "label": "Return public node 7673005243",
+          "xz": [
+            -250.918,
+            184.74
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005243,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7673005238",
+          "xz": [
+            -241.613,
+            184.28
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005238,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7673005235",
+          "xz": [
+            -233.662,
+            183.885
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005235,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7673005232",
+          "xz": [
+            -229.393,
+            183.676
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005232,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7673005230",
+          "xz": [
+            -222.764,
+            183.347
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005230,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7673005227",
+          "xz": [
+            -209.45,
+            182.689
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005227,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7673005224",
+          "xz": [
+            -192.539,
+            181.856
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005224,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7673005221",
+          "xz": [
+            -190.191,
+            181.735
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005221,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7673005219",
+          "xz": [
+            -179.348,
+            181.209
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005219,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 9914854711",
+          "xz": [
+            -173.507,
+            180.912
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 9914854711,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 337808987",
+          "xz": [
+            -171.581,
+            180.825
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 337808987,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7673005217",
+          "xz": [
+            -169.782,
+            180.737
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005217,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 314736833",
+          "xz": [
+            -163.508,
+            180.419
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 314736833,
+            "wayId": 86402938,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 1003854375",
+          "xz": [
+            -162.43,
+            178.414
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1003854375,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7673005214",
+          "xz": [
+            -162.834,
+            170.247
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005214,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7673005211",
+          "xz": [
+            -163.304,
+            160.553
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005211,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7673005209",
+          "xz": [
+            -163.578,
+            155.06
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7673005209,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7669521820",
+          "xz": [
+            -163.895,
+            148.62
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521820,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7669521817",
+          "xz": [
+            -164.206,
+            142.18
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521817,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7669521814",
+          "xz": [
+            -164.348,
+            139.295
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521814,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Observed parked-car-14 return detour 1",
+          "xz": [
+            -163.48724365234375,
+            134.72445678710938
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "observed-vehicle-native-collision-detour",
+            "wayId": 28636497,
+            "fromNode": 7669521814,
+            "toNode": 7669521812,
+            "vehicleId": "city-car-14",
+            "diagnosticSha256": "961d9382cf871df850d25964dcb611c4d87c82e52c50910a249a6a0d6edcb187"
+          }
+        },
+        {
+          "label": "Observed parked-car-14 return detour 2",
+          "xz": [
+            -163.48724365234375,
+            127.53172302246094
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "observed-vehicle-native-collision-detour",
+            "wayId": 28636497,
+            "fromNode": 7669521814,
+            "toNode": 7669521812,
+            "vehicleId": "city-car-14",
+            "diagnosticSha256": "961d9382cf871df850d25964dcb611c4d87c82e52c50910a249a6a0d6edcb187"
+          }
+        },
+        {
+          "label": "Return public node 7669521812",
+          "xz": [
+            -165.043,
+            125.222
+          ],
+          "radius": 0.18,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521812,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7669521809",
+          "xz": [
+            -165.311,
+            119.785
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521809,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7669521806",
+          "xz": [
+            -165.884,
+            108.108
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521806,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7669521804",
+          "xz": [
+            -166.087,
+            103.986
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521804,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 317947099",
+          "xz": [
+            -166.316,
+            99.273
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 317947099,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7669521802",
+          "xz": [
+            -166.398,
+            97.813
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521802,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7669521800",
+          "xz": [
+            -166.842,
+            89.668
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521800,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 7669521797",
+          "xz": [
+            -167.4,
+            79.429
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 7669521797,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 314736936",
+          "xz": [
+            -168.052,
+            67.473
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 314736936,
+            "wayId": 28636497,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 12920914889",
+          "xz": [
+            -168.228,
+            65.167
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 12920914889,
+            "wayId": 1395932041,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 12920914890",
+          "xz": [
+            -162.626,
+            64.748
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 12920914890,
+            "wayId": 1395932042,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 12920914884",
+          "xz": [
+            -156.852,
+            64.318
+          ],
+          "radius": 0.12,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 12920914884,
+            "wayId": 1395932042,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 314737039",
+          "xz": [
+            -79.933,
+            61.379
+          ],
+          "radius": 0.12,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 314737039,
+            "wayId": 1395932038,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 12920914883",
+          "xz": [
+            -78.14,
+            61.28
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 12920914883,
+            "wayId": 1395932038,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 5555352073",
+          "xz": [
+            -75.386,
+            61.137
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 5555352073,
+            "wayId": 28591358,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 314030383",
+          "xz": [
+            -70.317,
+            60.706
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 314030383,
+            "wayId": 28591358,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 6055299247",
+          "xz": [
+            -68.047,
+            60.619
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 6055299247,
+            "wayId": 28591358,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 1003245952",
+          "xz": [
+            -63.306,
+            61.291
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 1003245952,
+            "wayId": 28591358,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Return public node 314737043",
+          "xz": [
+            -62.583,
+            59.085
+          ],
+          "radius": 0.45,
+          "timeoutSeconds": 120,
+          "source": {
+            "type": "node",
+            "id": 314737043,
+            "wayId": 308725070,
+            "highway": "footway"
+          }
+        },
+        {
+          "label": "Senate Square west return",
+          "xz": [
+            -63,
+            24
+          ],
+          "radius": 0.8,
+          "timeoutSeconds": 120,
+          "source": {
+            "kind": "accepted-square-approach"
+          }
+        },
+        {
+          "label": "Native Senate player spawn return",
+          "xz": [
+            -12,
+            14
+          ],
+          "radius": 0.8,
+          "timeoutSeconds": 120,
+          "source": {
+            "kind": "accepted-player-spawn",
+            "manifestSha256": "0e18e55e8730f01144eef72a80decffbb53cdd658222f87a7e8ad6f75f2c4260"
+          },
+          "capture": true
+        }
+      ]
+    }
+  ],
+  "fixtures": []
+}

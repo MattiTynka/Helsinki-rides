@@ -3,7 +3,7 @@
 import * as THREE from 'three';
 import { CIVILIAN_VARIANTS, civilianVariant, type Shot } from '@helsinki/sim';
 import { initPhysics, Simulation, StaticWorld, TICK_SECONDS, NEUTRAL, Button, headingToYaw, encodeCommand, decodeCommand, resolveAimTarget, groundBelowBundle, type Command, type EncodedCommand, type GameEvent, type SimState, type V3 } from '@helsinki/sim';
-import { parseCollisionBundle } from '@helsinki/world-schema';
+import { containsSupportedArea, parseCollisionBundle } from '@helsinki/world-schema';
 import { forgetAutoTier, rememberAutoTier, type GameConfig, type Lighting } from './config.ts';
 import { GameAudio } from './audio/audio.ts';
 import { Input } from './input/input.ts';
@@ -19,6 +19,7 @@ import { interpolateState } from './render/interpolation.ts';
 import { Hud, type FrameStats } from './ui/hud.ts';
 import { GlbLoader, loadWorldData, mark, resolveRelease, type Progress, type WorldData } from './world/loader.ts';
 import { CollisionStream } from './world/collision-stream.ts';
+import { resolveDropInTarget } from './world/drop-in.ts';
 import { CellVisualStream, missingVisualCoverage, type StreamFocus } from './world/cell-streaming.ts';
 import { i18n } from './i18n/index.ts';
 import { catchUpSteps, FramePacer } from './render/frame-pacing.ts';
@@ -139,7 +140,7 @@ export class Game {
     this.sim = new Simulation(world, { seed: config.seed });
     this.cameraRig = new ChaseCamera(scene.camera);
     this.input = new Input(canvas, config.review);
-    this.hud = new Hud(config.hud && !config.review, data.manifest, data.gameplay, data.roads);
+    this.hud = new Hud(config.hud && !config.review, data.manifest, data.gameplay, world.roads);
     this.hud.onDropIn = label => { void this.dropIn(label)?.catch(error => {
       console.error('Drop-in failed', error);
       this.hud.showNotice('dropin.failed', this.state.time);
@@ -663,8 +664,9 @@ export class Game {
   teleport(x: number, z: number, headingDeg = 0): void | Promise<void> {
     if (this.sim.mode !== 'onFoot' || this.collisionLoading.teleporting) return;
     this.input.reset();
-    const lane = this.world.roads.nearestLane(x, z, undefined, 80);
-    const tx = lane ? lane.point[0] : x, tz = lane ? lane.point[2] : z;
+    const target = resolveDropInTarget(this.data.gameplay, this.world.roads, x, z);
+    if (!target) return Promise.reject(new Error('Drop-in is outside qualified world coverage'));
+    const [tx, tz] = target;
     const collision = this.collision;
     if (!collision) { this.placePlayer(this.sim.groundPoint(tx, tz), x, z, headingDeg); return; }
     const missing = (): string[] => [...new Set(this.world.unavailable(this.sim.dropInPlan(tx, tz)).concat(this.world.cellsAt(tx, tz).filter(id => !collision.get(id))))];
@@ -722,9 +724,8 @@ export class Game {
     if (!this.streaming) return [];
     const p = this.state.player, car = this.state.vehicles.find(vehicle => vehicle.id === p.inVehicle);
     const position = car?.position ?? p.position;
-    const area = this.data.gameplay.playArea;
     if (!p.alive || p.mode === 'wasted' || p.mode === 'busted' || !position.every(Number.isFinite) || position[1] < this.data.gameplay.killHeight ||
-      position[0] < area.minX || position[0] > area.maxX || position[2] < area.minZ || position[2] > area.maxZ) return [];
+      !containsSupportedArea(this.data.gameplay, position[0], position[2])) return [];
     // At the fastest supported speed the next five 60Hz ticks cover under five metres. Twelve metres
     // includes the whole car and a margin before its front can enter an unseen cell during this frame.
     return missingVisualCoverage(this.data.manifest.cells, position[0], position[2], 12, this.scene.cells, this.scene.fallbackCells);

@@ -68,14 +68,19 @@ test('continuous profile rejects a discontinuity, an excessive plane residual an
 
 test('reviewed nonplanar profile is per source ID and bounded without changing conservative defaults', () => {
   const t = tree(), p = { ...profile(), maximumAdjacentStep: .059, plane: { slope: .83, maximumResidual: .1669 } }, s = samples(0).map((_, i) => support(.5 * i / 8));
+  const bark={root:[[0,0,0],[1,0,0],[0,0,1]] as [number,number,number][],triangles:[[[0,0,0],[0,4,0],[1,0,0]]] as [[number,number,number],[number,number,number],[number,number,number]][]};
   assert.equal(assessTreeSoil(t, s, s, clear(), p).status, 'UNRESOLVED');
   const spec = { ...reviewed(t, 'continuous'), limits: { maximumRangeMetres: .5, maximumAdjacentStepMetres: .06, maximumPlaneResidualMetres: .17, maximumSlope: .85 } };
-  assert.equal(qualifyReviewedTreeProfile(t, p, clear(), [], spec).limits.maximumPlaneResidualMetres, .17);
+  assert.equal(qualifyReviewedTreeProfile(t, bark, p, clear(), [], spec).limits.maximumPlaneResidualMetres, .17);
   assert.equal(treeSoilPolicy.maximumPlaneResidualMetres, .04);
-  assert.throws(() => qualifyReviewedTreeProfile(tree('different'), p, clear(), [], spec));
-  assert.throws(() => qualifyReviewedTreeProfile(t, { ...p, maximumAdjacentStep: .061 }, clear(), [], spec), /profile failed/);
-  assert.throws(() => qualifyReviewedTreeProfile(t, p, { ...clear(), buildingIds: ['real'] }, [], spec), /source or actual visible obstacle/);
-  assert.throws(() => qualifyReviewedTreeProfile(t, p, clear(), [], { ...spec, limits: { ...spec.limits, maximumPlaneResidualMetres: 2 } }), /Unbounded/);
+  assert.throws(() => qualifyReviewedTreeProfile(tree('different'), bark, p, clear(), [], spec));
+  assert.throws(() => qualifyReviewedTreeProfile(t, bark, { ...p, maximumAdjacentStep: .061 }, clear(), [], spec), /profile failed/);
+  assert.throws(() => qualifyReviewedTreeProfile(t, bark, p, { ...clear(), buildingIds: ['real'] }, [], spec), /source or actual visible obstacle/);
+  assert.throws(() => qualifyReviewedTreeProfile(t, bark, p, clear(), [], { ...spec, limits: { ...spec.limits, maximumPlaneResidualMetres: 2 } }), /Unbounded/);
+  const privateTree={...t,colliderHeight:0};assert.ok(qualifyReviewedTreeProfile(privateTree,bark,p,clear(),[],spec).visibleBarkAboveHighestSoil>=1);
+  const shortBark={...bark,triangles:[[[0,0,0],[0,.5,0],[1,0,0]]] as typeof bark.triangles};
+  assert.throws(()=>qualifyReviewedTreeProfile(privateTree,shortBark,p,clear(),[],spec),/visible bark/);
+  assert.throws(()=>qualifyReviewedTreeProfile(privateTree,{...bark,triangles:[]},p,clear(),[],spec),/finite triangles/);
 });
 
 test('reviewed omission requires exact new position and physical obstruction or only outside-domain missing support', () => {

@@ -1,0 +1,43 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import polygonClipping from 'polygon-clipping';
+import {decodeRoadGraph,type RoadLane} from '../../../packages/world-schema/src/index.ts';
+import {decodeDeliverySimulation} from '../lib/delivery-city-payloads.ts';
+import {sourceSha256} from '../lib/source-files.ts';
+import {readReviewedUdenmaankatuCrossing,reviewedUdenmaankatuSourceParts,reviewedUdenmaankatuFloorSupport,type UdenmaankatuCrossingContext,type ReviewedUdenmaankatuSourceAuthority,type ReviewedUdenmaankatuFloorAuthority} from '../lib/reviewed-udenmaankatu-crossing.ts';
+const approvalFile='../evidence/udenmaankatu-crossing-root-approval-v1.json',available=fs.existsSync(approvalFile);
+export function udenmaankatuCrossingFixture(){
+ const pin=(file:string)=>({file,sha256:sourceSha256(fs.readFileSync(file))}),approval=pin(approvalFile),value=JSON.parse(fs.readFileSync(approvalFile,'utf8'));
+ const originalWorld={directory:'../accepted-world/world/senate-20261025-civilian-flee',manifestSha256:'0e18e55e8730f01144eef72a80decffbb53cdd658222f87a7e8ad6f75f2c4260'},currentWorld={directory:'../work/cumulative-city-east-walking-seam-v1/world',manifestSha256:'d453fdd79db114c914322f0209121c34819206b294004bdcece2739f0f3b4701'};
+ const graph=(w:typeof originalWorld)=>{const m=JSON.parse(fs.readFileSync(w.directory+'/manifest.json','utf8'));return decodeRoadGraph(decodeDeliverySimulation(fs.readFileSync(w.directory+'/'+m.roads.path),m.roads));},sourceMask=pin('../evidence/w29282225-supported-area-source-qualified-v4.json'),mask=JSON.parse(fs.readFileSync(sourceMask.file,'utf8'));
+ const overrides=new Map<string,Buffer>(),reads=new Map<string,{file:string;sha256:string;bytes:number}>();
+ const context:UdenmaankatuCrossingContext={original:graph(originalWorld),current:graph(currentWorld),originalWorld,currentWorld,sourceMask,coverage:{playArea:mask.qualification.expanded,supportedArea:mask.supportedArea},sourcePins:{osmSha256:'a6bf71bae890ab60b4249c8546e6b7185ce37c9ede4137e9c4aefbd9a755e65a',streetPartsSha256:'1ac1409cf70cd6c3ad1ab7139fd6f365898d5c654e499616a1892d1b669645b2'},provenanceArchive:pin('../evidence/udenmaankatu-crossing-root-provenance-v1/mapping.json'),read:(p,cap=16*1024*1024)=>{const file=path.resolve(p.file),stat=fs.lstatSync(file);assert.ok(stat.isFile()&&!stat.isSymbolicLink()&&stat.size>0&&stat.size<=cap);const b=overrides.get(file)??fs.readFileSync(file);reads.set(file,{file,sha256:sourceSha256(b),bytes:b.length});return b;}};
+ const proposal=JSON.parse(fs.readFileSync('../evidence/udenmaankatu-driveway-source-probe-v1/result.json','utf8'));
+ return{approval,value,context,proposal,overrides,reads};
+}
+let cached:ReturnType<typeof udenmaankatuCrossingFixture>&{prepared:ReturnType<typeof readReviewedUdenmaankatuCrossing>};
+function load(){if(!cached){const fixture=udenmaankatuCrossingFixture();cached={...fixture,prepared:readReviewedUdenmaankatuCrossing(fixture.approval,fixture.context)};}return cached;}
+test('fabricated source/floor crossing roles reject without file access',()=>{const lane={}as RoadLane;assert.throws(()=>reviewedUdenmaankatuSourceParts({}as ReviewedUdenmaankatuSourceAuthority,lane,[],[],{}),/Unrecognized/);assert.throws(()=>reviewedUdenmaankatuFloorSupport({}as ReviewedUdenmaankatuFloorAuthority,lane,[],[]),/Unrecognized/);});
+test('literal finite crossing has separate roles and detached exact two records',{skip:!available},()=>{
+ const f=load(),q=f.prepared;assert.deepEqual(q.reviewedRecords.map(r=>r.id),['1204623899:0:f0','1204623899:0:b0']);assert.equal(q.receipt.noProtectedHeightException,true);assert.equal(q.receipt.privateContinuationAndConnectorNotGranted,true);
+ const r=f.proposal.rows[0],parts=reviewedUdenmaankatuSourceParts(q.sourceAuthority,r.after,r.exposure.intervals,r.admission.admittedIntervals,f.proposal.way);assert.ok(parts.length);assert.ok(parts.every(p=>p.id==='59319'&&p.properties.paatyyppi==='Kevyt liikenne'&&p.properties.alatyyppi==='Jalankulkualue'));
+ parts[0]!.rings[0]![0]![0]+=1;assert.notDeepEqual(parts,reviewedUdenmaankatuSourceParts(q.sourceAuthority,r.after,r.exposure.intervals,r.admission.admittedIntervals,f.proposal.way));
+ const altered=structuredClone(q.reviewedRecords[0]!);(altered.points[0]as number[])[1]!+=.000001;assert.throws(()=>reviewedUdenmaankatuSourceParts(q.sourceAuthority,altered,r.exposure.intervals,r.admission.admittedIntervals,f.proposal.way),/AFTER/);
+ assert.throws(()=>reviewedUdenmaankatuSourceParts(q.floorAuthority as unknown as ReviewedUdenmaankatuSourceAuthority,r.after,r.exposure.intervals,r.admission.admittedIntervals,f.proposal.way),/Unrecognized/);
+});
+test('source crossing rejects changed way, whole-route intervals and the inherited private connector',{skip:!available},()=>{
+ const f=load(),r=f.proposal.rows[0],call=(lane=r.after,exposure=r.exposure.intervals,admitted=r.admission.admittedIntervals,way=f.proposal.way)=>reviewedUdenmaankatuSourceParts(f.prepared.sourceAuthority,lane,exposure,admitted,way);
+ assert.throws(()=>call(r.after,[[0,r.after.length]]),/exposure/);assert.throws(()=>call(r.after,r.exposure.intervals,[[0,r.after.length]]),/admitted/);assert.throws(()=>call(r.after,r.exposure.intervals,r.admission.admittedIntervals,{...f.proposal.way,tags:{highway:'service'}}),/way changed/);assert.throws(()=>call({...r.after,id:'1204623899:0:f0>1204623899:0:b0'}),/Unreviewed/);
+});
+function height(points:number[][],x:number,z:number){const[a,b,c]=points as[number[],number[],number[]],den=(b[2]!-c[2]!)*(a[0]!-c[0]!)+(c[0]!-b[0]!)*(a[2]!-c[2]!),u=((b[2]!-c[2]!)*(x-c[0]!)+(c[0]!-b[0]!)*(z-c[2]!))/den,v=((c[2]!-a[2]!)*(x-c[0]!)+(a[0]!-c[0]!)*(z-c[2]!))/den;return u*a[1]!+v*b[1]!+(1-u-v)*c[1]!;}
+test('raised sidewalk support keeps the ordinary .20m limit and exact clipped domain',{skip:!available},()=>{
+ const f=load(),r=f.proposal.rows[0],floor=f.value.records[0].floor,support=reviewedUdenmaankatuFloorSupport(f.prepared.floorAuthority,r.after,r.exposure.intervals,r.admission.admittedIntervals);
+ const face=floor.faces.find((p:any)=>p.tag==='raised:asphalt'&&p.intersection[0][0].length>=4);assert.ok(face);const ring=face.intersection[0][0].slice(0,-1),x=ring.reduce((s:number,p:number[])=>s+p[0]!,0)/ring.length,z=ring.reduce((s:number,p:number[])=>s+p[1]!,0)/ring.length,y=height(face.points,x,z);assert.ok(support.at(x,y,z));assert.equal(support.at(x,y+.201,z),null);
+ let outside:{x:number;y:number;z:number}|undefined;for(const native of floor.faces){const[a,b,c]=native.points as number[][];for(const point of[a,b,c]){const centre=[(a![0]!+b![0]!+c![0]!)/3,(a![2]!+b![2]!+c![2]!)/3],xx=point![0]!*.99+centre[0]!*.01,zz=point![2]!*.99+centre[1]!*.01,d=.00001,box=[[[xx-d,zz-d],[xx+d,zz-d],[xx+d,zz+d],[xx-d,zz+d],[xx-d,zz-d]]]as polygonClipping.Polygon;if(polygonClipping.intersection(box,r.continuousSweep.geometry).length===0){outside={x:xx,z:zz,y:height(native.points,xx,zz)};break;}}if(outside)break;}
+ assert.ok(outside,'A literal native face extends beyond the reviewed finite footprint');assert.equal(support.at(outside.x,outside.y,outside.z),null);support.verifyInputs();
+});
+test('mutable current graph and future parent/mask cannot reuse crossing authority',{skip:!available},()=>{
+ const f=udenmaankatuCrossingFixture();assert.throws(()=>readReviewedUdenmaankatuCrossing(f.approval,{...f.context,currentWorld:{...f.context.currentWorld,manifestSha256:'0'.repeat(64)}}),/alias/);assert.throws(()=>readReviewedUdenmaankatuCrossing(f.approval,{...f.context,sourceMask:{...f.context.sourceMask,sha256:'0'.repeat(64)}}));const q=readReviewedUdenmaankatuCrossing(f.approval,f.context),r=f.proposal.rows[0];(f.context.current.lanes[0]!.points[0]as number[])[0]!+=1;assert.throws(()=>reviewedUdenmaankatuSourceParts(q.sourceAuthority,r.after,r.exposure.intervals,r.admission.admittedIntervals,f.proposal.way),/context changed/);
+});
+test('source consumer and final sampler guard reject post-construction input tampering',{skip:!available},()=>{
+ const f=udenmaankatuCrossingFixture(),q=readReviewedUdenmaankatuCrossing(f.approval,f.context),r=f.proposal.rows[0],support=reviewedUdenmaankatuFloorSupport(q.floorAuthority,r.after,r.exposure.intervals,r.admission.admittedIntervals),file=path.resolve(f.context.sourceMask.file),bytes=Buffer.from(fs.readFileSync(file));bytes[100]=bytes[100]!^1;f.overrides.set(file,bytes);
+ assert.throws(()=>reviewedUdenmaankatuSourceParts(q.sourceAuthority,r.after,r.exposure.intervals,r.admission.admittedIntervals,f.proposal.way),/input changed/);assert.throws(()=>support.verifyInputs(),/input changed/);
+});

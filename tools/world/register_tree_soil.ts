@@ -18,6 +18,7 @@ import { decodeTreeBarkModels, measureTreeBarkProfile, planTreeCaseSink, qualify
 import {readFullBarkStructureFaces,qualifyFullBarkStructureOmission,type FullBarkStructureBinding} from './lib/tree-structural-registration.ts';
 import {qualifyPreciseLakeTreeSource,qualifyPreciseLakeWaterMask,type PreciseLakeTreeBinding,type PreciseLakeWaterClassification} from './lib/tree-precise-water-registration.ts';
 import {readRetainedShoreBarkNative,qualifyRetainedPreciseLakeBank,type RetainedShoreTreeBinding} from './lib/tree-retained-shore-registration.ts';
+import {qualifyReviewedNativeTree, type ReviewedNativeTreeBinding} from './lib/tree-reviewed-native-registration.ts';
 
 interface Index { originId: string; cellSize: number; cells: CellDescriptor[]; [key: string]: unknown }
 interface Scenery { originId: string; assets: { id: string; sha256: string }[]; instances: RegistrationScenery[]; [key: string]: unknown }
@@ -29,11 +30,12 @@ export const treeSoilPolicy = Object.freeze({ sinkMetres: .3, changeThresholdMet
 interface PinnedFile { path: string; sha256: string }
 export interface ReviewedTreeCase {
   id: string; sourcePosition: [number, number, number];
-  kind: 'continuous' | 'retain-shore-bank' | 'omit-source-intersection' | 'omit-ground-barrier' | 'omit-outside-ground' | 'omit-model-water-incompatibility';
+  kind: 'continuous' | 'retain-shore-bank' | 'retain-reviewed-native' | 'omit-reviewed-native-ground' | 'omit-source-intersection' | 'omit-ground-barrier' | 'omit-outside-ground' | 'omit-model-water-incompatibility';
   reason: string; proof: PinnedFile & { rowSha256: string };
   limits?: { maximumRangeMetres: number; maximumAdjacentStepMetres: number; maximumPlaneResidualMetres: number; maximumSlope: number };
   fullBarkStructure?:FullBarkStructureBinding;
   retainedShore?:RetainedShoreTreeBinding;
+  reviewedNative?: ReviewedNativeTreeBinding;
   waterModel?: { model: string; municipalPart: { id: string; sha256: string }; sourceWater: { id: string; sha256: string };
     preciseMunicipalWater?:PreciseLakeTreeBinding;
     regularSampleCount: number; reference: { metadata: PinnedFile; image: PinnedFile } };
@@ -44,14 +46,19 @@ interface ReviewedTreeCases {
 }
 
 /** Per-ID reviewed bounds, not a relaxation of the ordinary policy. The full actual root/grid remains mandatory. */
-export function qualifyReviewedTreeProfile(tree: RegistrationTree, profile: TreeBarkProfile, context: TreeSoilContext, obstacles: readonly VisibleTreeObstacle[], spec: ReviewedTreeCase) {
+export function qualifyReviewedTreeProfile(tree: RegistrationTree, model: TreeBarkModel, profile: TreeBarkProfile, context: TreeSoilContext, obstacles: readonly VisibleTreeObstacle[], spec: ReviewedTreeCase) {
   assert.equal(spec.kind, 'continuous'); assert.equal(spec.id, tree.id); assert.deepEqual(spec.sourcePosition, tree.position); const limits = spec.limits; assert.ok(limits);
   assert.ok(limits.maximumRangeMetres > 0 && limits.maximumRangeMetres <= 2 && limits.maximumAdjacentStepMetres > 0 && limits.maximumAdjacentStepMetres <= .08 && limits.maximumPlaneResidualMetres > 0 && limits.maximumPlaneResidualMetres <= .2 && limits.maximumSlope > 0 && limits.maximumSlope <= 4, 'Unbounded reviewed tree profile');
   assert.ok(profile.range && profile.plane && profile.missing === 0 && profile.range[1] - profile.range[0] <= limits.maximumRangeMetres && profile.maximumAdjacentStep <= limits.maximumAdjacentStepMetres && profile.plane.maximumResidual <= limits.maximumPlaneResidualMetres && profile.plane.slope <= limits.maximumSlope, `${tree.id}: reviewed continuous profile failed`);
   assert.ok(!context.retainingWallIds.length && !context.buildingIds.length && !context.waterPointIndices.length && !obstacles.length, `${tree.id}: reviewed profile intersects a source or actual visible obstacle`);
   const afterY = Math.abs(profile.range[0] - .3 - tree.position[1]) > .15 ? profile.range[0] - .3 : tree.position[1];
-  assert.ok(afterY <= profile.range[0] - .01 && afterY + tree.colliderHeight - profile.range[1] >= 1, `${tree.id}: model does not retain a planted root and visible clear trunk`);
-  return { profileSha256: profile.sha256, limits, clearTrunkAboveHighestSoil: afterY + tree.colliderHeight - profile.range[1] };
+  // Private-yard trees intentionally have no physics trunk. Their collider height
+  // therefore says nothing about visible bark; qualify the actual pinned model.
+  assert.ok(model.triangles.length>0,'Visible bark model must contain finite triangles');let highestLocalBark=-Infinity;
+  for(const triangle of model.triangles)for(const point of triangle){assert.ok(point.every(Number.isFinite),'Visible bark model must contain finite triangles');highestLocalBark=Math.max(highestLocalBark,point[1]);}
+  const visibleBarkAboveHighestSoil=afterY+highestLocalBark*tree.scale[1]-profile.range[1];
+  assert.ok(afterY <= profile.range[0] - .01 && visibleBarkAboveHighestSoil >= 1, `${tree.id}: model does not retain a planted root and visible bark`);
+  return { profileSha256: profile.sha256, limits, barkModelSha256:sha(JSON.stringify(model)), visibleBarkAboveHighestSoil };
 }
 
 export function qualifyReviewedTreeOmission(tree: RegistrationTree, spec: ReviewedTreeCase, context: TreeSoilContext, currentObstacles: readonly VisibleTreeObstacle[], targetObstacles: readonly VisibleTreeObstacle[],
@@ -310,7 +317,8 @@ export async function registerTreeSoil(options: RegisterTreeSoilOptions) {
       report.coastal?.mask?.water ?? [], report.coastal?.decks?.polygons ?? [], inspect.points(points));
     let decision = assessTreeSoil(tree, samples, visual, context), profile: TreeBarkProfile | undefined, obstacles: VisibleTreeObstacle[] = [], currentObstacles: VisibleTreeObstacle[] = [], caseProof: unknown;
     const spec = reviewedById.get(tree.id); let denseVisual: Support[] = [], denseContext = context;
-    if (decision.reasons.includes('dense-bark-profile-required') || spec) {
+    const inspectUnresolved=decision.status==='UNRESOLVED';
+    if (decision.reasons.includes('dense-bark-profile-required') || inspectUnresolved || spec) {
       profile = measureTreeBarkProfile(model, tree, collision);
       const sampledContext = inspect.points([...profile.rootPoints, ...profile.gridPoints]);
       denseContext = { retainingWallIds: [...new Set([...context.retainingWallIds, ...sampledContext.retainingWallIds])], buildingIds: [...new Set([...context.buildingIds, ...sampledContext.buildingIds])], waterPointIndices: [...context.waterPointIndices, ...sampledContext.waterPointIndices] };
@@ -321,7 +329,7 @@ export async function registerTreeSoil(options: RegisterTreeSoilOptions) {
           const bounds = building.boundsRuntime; return bounds.min[0] <= x + radius && bounds.max[0] >= x - radius && bounds.min[2] <= z + radius && bounds.max[2] >= z - radius;
         })).map(cell => ({ id: cell.id, bytes: payload(cell, 'visual') }));
         obstacles = await visibleTreeObstacles(tree, model, target, profile.range, nearbyPayloads);
-        if (spec) currentObstacles = await visibleTreeObstacles(tree, model, tree.position[1], profile.range, nearbyPayloads);
+        if (spec || inspectUnresolved) currentObstacles = await visibleTreeObstacles(tree, model, tree.position[1], profile.range, nearbyPayloads);
       }
       denseVisual = await rendered(profile.gridPoints);
       decision = assessTreeSoil(tree, [...samples, ...profile.gridSamples], [...visual, ...denseVisual], denseContext, profile, obstacles);
@@ -330,9 +338,21 @@ export async function registerTreeSoil(options: RegisterTreeSoilOptions) {
       assert.ok(profile && reviewed);
       if (spec.kind === 'continuous') {
         assert.ok(!decision.reasons.includes('visible-collision-mismatch') && !decision.reasons.includes('incomplete-visible-and-colliding-support'), 'Reviewed profile cannot hide support mismatch');
-        caseProof = qualifyReviewedTreeProfile(tree, profile, denseContext, [...obstacles, ...currentObstacles], spec);
+        caseProof = qualifyReviewedTreeProfile(tree, model, profile, denseContext, [...obstacles, ...currentObstacles], spec);
         const correction = planTreeCaseSink(tree, Array<Support>(9).fill(null), samples.slice(0, 9), profile.range![0], profile.range![0] - .3, .15, 'continuous-soil-sink');
         decision = { ...decision, status: correction.applied ? 'QUALIFIED_Y_CORRECTION' : 'KEEP_ALREADY_PLANTED', reasons: [], correction };
+      } else if (spec.kind === 'retain-reviewed-native' || spec.kind === 'omit-reviewed-native-ground') {
+        assert.ok(spec.reviewedNative && profile.range);
+        assert.equal(spec.kind === 'omit-reviewed-native-ground', spec.reviewedNative.kind === 'omit-native-ground-conflict', 'Native review action mismatch');
+        const target = Math.abs(profile.range[0] - .3 - tree.position[1]) > .15 ? profile.range[0] - .3 : tree.position[1];
+        const native = await readRetainedShoreBarkNative(tree, model, target, index.cells, payload);
+        const proof = qualifyReviewedNativeTree(tree, model, spec.reviewedNative, {profile, context: denseContext, parts, collision: samples, visual, denseVisual, native});
+        caseProof = proof;
+        if (spec.kind === 'omit-reviewed-native-ground') { omittedIds.add(tree.id); decision = {...decision, status: 'REVIEWED_OMISSION', reasons: [], correction: null}; }
+        else {
+          const correction = planTreeCaseSink(tree, Array<Support>(9).fill(null), samples.slice(0, 9), proof.anchor, proof.target, .15, 'continuous-soil-sink');
+          decision = {...decision, status: correction.applied ? 'QUALIFIED_Y_CORRECTION' : 'KEEP_ALREADY_PLANTED', reasons: [], correction};
+        }
       } else if(spec.kind==='retain-shore-bank'){
         assert.ok(spec.retainedShore&&profile.range);const precise=preciseWaterByTree.get(tree.id);assert.ok(precise);const waterY=report.coastal?.waterY;assert.ok(Number.isFinite(waterY));const target=Math.min(profile.range[0]-.3,waterY!-.02),native=await readRetainedShoreBarkNative(tree,model,target,index.cells,payload);
         const proof=qualifyRetainedPreciseLakeBank(tree,model,spec.retainedShore,{source:precise,water:report.coastal?.mask?.water??[],waterY:waterY!,context:denseContext,points,collision:samples,visual,profile,denseVisual,native});caseProof=proof;
@@ -357,13 +377,13 @@ export async function registerTreeSoil(options: RegisterTreeSoilOptions) {
     }
     if (decision.correction) corrections.push(decision.correction);
     rows.push({ id: tree.id, sourcePosition: tree.position, model: tree.model, points, collision: samples, visual, context, ...decision,
-      ...(profile ? { profile, obstacles } : {}), ...(spec ? { reviewedCase: spec, caseProof, currentObstacles } : {}) });
+      ...(profile ? { profile, obstacles, currentObstacles } : {}), ...(spec ? { reviewedCase: spec, caseProof } : {}) });
     peakRssBytes = Math.max(peakRssBytes, process.memoryUsage().rss);
     assert.ok(peakRssBytes < 500 * 2 ** 20, `500MiB tree registration guard exceeded: ${peakRssBytes}`);
     if (rows.length % 40 === 0) { global.gc?.(); process.stdout.write(JSON.stringify({ planned: rows.length, total: ordered.length, rssMiB: peakRssBytes / 2 ** 20 }) + '\n'); }
   }
   const producerSources = [import.meta.url, new URL('./lib/tree-ground-registration.ts', import.meta.url).href, new URL('./lib/tree-bark-registration.ts', import.meta.url).href,
-    new URL('./lib/tree-structural-registration.ts',import.meta.url).href,new URL('./lib/tree-precise-water-registration.ts',import.meta.url).href,new URL('./lib/tree-retained-shore-registration.ts',import.meta.url).href,new URL('./lib/geometry.ts', import.meta.url).href].map(url => { const file = fileURLToPath(url); return { path: file, sha256: sha(read(file)) }; });
+    new URL('./lib/tree-structural-registration.ts',import.meta.url).href,new URL('./lib/tree-precise-water-registration.ts',import.meta.url).href,new URL('./lib/tree-retained-shore-registration.ts',import.meta.url).href,new URL('./lib/tree-reviewed-native-registration.ts',import.meta.url).href,new URL('./lib/geometry.ts', import.meta.url).href].map(url => { const file = fileURLToPath(url); return { path: file, sha256: sha(read(file)) }; });
   const counts = { total: rows.length, corrections: corrections.filter(c => c.applied).length, keep: rows.filter(r => r.status === 'KEEP_ALREADY_PLANTED').length,
     unresolved: rows.filter(r => r.status === 'UNRESOLVED').length, continuous: corrections.filter(c => c.policy === 'continuous-soil-sink').length, omitted: omittedIds.size,
     acceptedSceneryProtected: accepted.instances.length, acceptedSceneryPresent: accepted.instances.filter(p => scenery.instances.some(q => q.id === p.id)).length };

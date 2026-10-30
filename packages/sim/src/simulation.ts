@@ -1,7 +1,7 @@
 // The fixed-step simulation (plan section 2): one Command in, one tick of player, vehicles, police and wanted
 // state out. No rendering, no DOM, no Three.js. Everything the renderer needs is in `state()`; everything a
 // replay needs is the seed plus the command stream.
-import type { Anchor, GameEvent, GameplayBundle, VehicleDefinition, WeaponDefinition } from '@helsinki/world-schema';
+import { containsSupportedArea, type Anchor, type GameEvent, type GameplayBundle, type VehicleDefinition, type WeaponDefinition } from '@helsinki/world-schema';
 import { BODY, Character, CHARACTER, FEET_TO_CENTRE, type CharacterClip, type ClimbView, type JumpKind, type JumpPhase } from './character.ts';
 import { Button, has, NEUTRAL, TICK_HZ, TICK_SECONDS, type Command } from './commands.ts';
 import { clamp, distanceXZ, dot, fnv1a, lengthXZ, normalize, Rng, rotate, sub, wrapAngle, yawOf, type Quat, type V3 } from './math.ts';
@@ -249,7 +249,7 @@ export class Simulation {
   spawnVehicle(id: string | null, definitionId: string, xz: [number, number], yaw: number): Vehicle {
     const def = this.definition(definitionId);
     const vid = id ?? `veh-${++this.vehicleSerial}`;
-    const safe = this.safeSpawns.contains(xz[0], xz[1]) ? null : this.safeSpawns.vehicle(xz[0], xz[1], yaw, def);
+    const safe = !this.gameplay.supportedArea && this.safeSpawns.contains(xz[0], xz[1]) ? null : this.safeSpawns.vehicle(xz[0], xz[1], yaw, def);
     const g = safe?.position ?? this.groundPoint(xz[0], xz[1]);
     yaw = safe?.yaw ?? yaw;
     return this.createVehicle(vid, def, g, yaw);
@@ -366,6 +366,7 @@ export class Simulation {
    * world inserts the destination's collision now; the player then holds still for one step while Rapier registers it.
    */
   dropIn(position: V3, yaw: number): void {
+    if (this.gameplay.supportedArea && !containsSupportedArea(this.gameplay, position[0], position[2], CHARACTER.radius + 0.02)) throw new Error('Drop-in is outside qualified world coverage');
     if (this.world.streamed) {
       this.world.applyResidency(this.dropInPlan(position[0], position[2]));
       this.settleTicks = 1;
@@ -408,10 +409,12 @@ export class Simulation {
     if (this.mode === 'exiting' && this.playerVehicle) this.brakeVehicle(this.playerVehicle);
 
     const filter = (): boolean => true;
+    const coverageStarts = this.gameplay.supportedArea ? new Map([...this.vehicles.values()].map(v => [v, v.coveragePose])) : null;
     for (const v of this.vehicles.values()) v.step(this.world, filter);
     for (const c of this.characters.values()) if (!c.inVehicle && (c.alive || !c.grounded)) c.move(this.world, c.alive ? c.desiredVx : 0, c.alive ? c.desiredVz : 0);
 
     this.world.physics.step(this.eventQueue);
+    if (coverageStarts) for (const [vehicle, before] of coverageStarts) vehicle.constrainToSupportedArea(this.world, before);
     this.world.markStepped();
     this.drainContacts();
 
@@ -1073,12 +1076,13 @@ export class Simulation {
     const kill = this.gameplay.killHeight;
     const pv = this.playerVehicle;
     const outside = (p: V3): boolean => !Number.isFinite(p[1]) || p[1] < kill || !this.safeSpawns.contains(p[0], p[2]);
-    if (pv && outside(pv.position)) { this.recoverVehicle(pv); this.emit('killPlane', pv.id); }
+    const vehicleOutside = (v: Vehicle): boolean => outside(v.position) || !v.supportedByCoverage(this.world);
+    if (pv && vehicleOutside(pv)) { this.recoverVehicle(pv); this.emit('killPlane', pv.id); }
     else if (!pv && outside(this.player.position)) {
       this.recoverPlayer();
       this.emit('killPlane', 'player');
     }
-    for (const v of this.vehicles.values()) if (v !== pv && outside(v.position)) this.recoverVehicle(v);
+    for (const v of this.vehicles.values()) if (v !== pv && vehicleOutside(v)) this.recoverVehicle(v);
   }
 
   private wasted(): void {

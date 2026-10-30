@@ -1,7 +1,8 @@
 // Vehicles: one dynamic cuboid chassis per car with Rapier's raycast vehicle controller (plan section 6). Driver
 // input is either the player's command or a police AI steering target. Damage states follow the definition.
-import type { VehicleDefinition } from '@helsinki/world-schema';
+import { type VehicleDefinition } from '@helsinki/world-schema';
 import { TICK_SECONDS } from './commands.ts';
+import { interpolateVehicleCoveragePose, supportedVehicleMotionFraction, supportsVehiclePose, supportsVehicleTransition, vehicleCoverageRadius, type VehicleCoveragePose } from './coverage-footprint.ts';
 import { clamp, moveToward, rotate, yawOf, type Quat, type V3 } from './math.ts';
 import { GROUP, groups, RAPIER, type StaticWorld } from './world.ts';
 
@@ -181,6 +182,67 @@ export class Vehicle {
   get deltaV(): number {
     const v = this.velocity, b = this.velocityBefore;
     return Math.hypot(v[0] - b[0], v[1] - b[1], v[2] - b[2]);
+  }
+
+  /** Keep a complete swept footprint inside qualified coverage, including a narrow gap between safe endpoints. */
+  get coveragePose(): VehicleCoveragePose { return { position: this.position, rotation: this.rotation, steerAngle: this.steerAngle }; }
+
+  supportedByCoverage(world: StaticWorld): boolean {
+    return !world.gameplay.supportedArea || supportsVehiclePose(world.gameplay, this.def, this.position, this.rotation, this.steerAngle);
+  }
+
+  constrainToSupportedArea(world: StaticWorld, before: VehicleCoveragePose): void {
+    if (!world.gameplay.supportedArea) return;
+    const after = this.coveragePose, fraction = supportedVehicleMotionFraction(world.gameplay, this.def, before, after);
+    if (fraction === 1) return;
+    // Genuine invalid physics states belong to the existing recovery check. A
+    // precision retreat cannot certify a non-finite position or orientation.
+    if (!after.position.every(Number.isFinite) || !after.rotation.every(Number.isFinite) || Math.hypot(...after.rotation) < 1e-12) return;
+    // A tangential move can have far less inward clearance than its travel-distance
+    // backoff. Certify Rapier's actual Float32 pose, including quaternion rounding,
+    // rather than allowing a supported double-precision endpoint to trigger recovery.
+    const startedSupported = supportsVehiclePose(world.gameplay, this.def, before.position, before.rotation, before.steerAngle);
+    const rotationUnchanged = before.rotation.every((value, i) => value === after.rotation[i]);
+    const apply = (pose: VehicleCoveragePose): boolean => {
+      const q = rotationUnchanged ? after.rotation : pose.rotation;
+      this.body.setTranslation({ x: pose.position[0], y: after.position[1], z: pose.position[2] }, true);
+      // setRotation normalizes even a previously returned Float32 quaternion.
+      // Preserve an already matching physical orientation without rewriting it.
+      const current = this.rotation;
+      if (q.some((value, i) => value !== current[i])) this.body.setRotation({ x: q[0], y: q[1], z: q[2], w: q[3] }, true);
+      this.steerAngle = pose.steerAngle ?? 0;
+      return !startedSupported || supportsVehicleTransition(world.gameplay, this.def, before, this.coveragePose);
+    };
+    let retainedFraction = fraction, certified = false;
+    for (let attempt = 0; attempt <= 24; attempt++) {
+      const pose = retainedFraction === 0 ? before : interpolateVehicleCoveragePose(before, after, retainedFraction);
+      if (apply(pose)) { certified = true; break; }
+      if (retainedFraction === 0) break;
+      retainedFraction = attempt < 23 ? retainedFraction / 2 : 0;
+    }
+    if (!certified) {
+      // A restored prior quaternion may itself round differently. Search only
+      // nearby representable translations, in nearest-first order, and certify
+      // the complete path from the real prior pose to each actual readback.
+      // The body extent sets a precision floor near the coordinate origin.
+      const radius = vehicleCoverageRadius(this.def);
+      const quantum = (coordinate: number) => 2 ** (Math.floor(Math.log2(Math.max(1, Math.abs(coordinate), radius))) - 23);
+      const qx = quantum(before.position[0]), qz = quantum(before.position[2]);
+      const candidates: { x: number; z: number; distance: number }[] = [];
+      for (let x = -8; x <= 8; x++) for (let z = -8; z <= 8; z++) if (x || z) {
+        candidates.push({ x: Math.fround(before.position[0] + x * qx), z: Math.fround(before.position[2] + z * qz), distance: (x * qx) ** 2 + (z * qz) ** 2 });
+      }
+      candidates.sort((a, b) => a.distance - b.distance || a.x - b.x || a.z - b.z);
+      for (const candidate of candidates) {
+        if (apply({ position: [candidate.x, after.position[1], candidate.z], rotation: before.rotation, steerAngle: before.steerAngle })) { certified = true; break; }
+      }
+      if (!certified) throw new Error('No certified vehicle pose within the bounded Float32 precision retreat');
+    }
+    this.def.wheels.forEach((wheel, i) => this.controller.setWheelSteering(i, wheel.steer ? this.steerAngle : 0));
+    const velocity = this.body.linvel();
+    this.body.setLinvel({ x: 0, y: velocity.y, z: 0 }, true);
+    this.body.setAngvel({ x: 0, y: 0, z: 0 }, true);
+    world.physics.propagateModifiedBodyPositionsToColliders();
   }
 
   step(world: StaticWorld, filter: (c: RAPIER.Collider) => boolean): void {

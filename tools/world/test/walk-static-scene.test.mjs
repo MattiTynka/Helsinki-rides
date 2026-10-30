@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {test} from 'node:test';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {encodeCollisionBundle,encodeTerrain} from '../../../packages/world-schema/src/index.ts';
+import {sourceSha256} from '../lib/source-files.ts';
+import {openStaticWalkScene} from '../lib/walk-static-scene.mjs';
+const plane=(id,group,p)=>({id,group,ref:id,positions:Float32Array.from(p),indices:Uint32Array.from([0,1,2,0,2,3]),triangleTags:new Uint16Array(2)});
+async function fixture(extra,run,floor=true){const root=fs.mkdtempSync(path.join(os.tmpdir(),'helsinki-walk-scene-'));try{const put=(name,data)=>{const bytes=Buffer.from(data);fs.writeFileSync(path.join(root,name),bytes);return{path:name,bytes:bytes.length,sha256:sourceSha256(bytes)};},gameplay={playArea:{minX:-10,maxX:10,minZ:-10,maxZ:10},player:{spawn:{position:[-2,0]}},killHeight:-20},roads={schemaVersion:2,originId:'fixture',source:{id:'fixture',sha256:'0'.repeat(64),attribution:'fixture',license:'CC0'},nodes:[],lanes:[],connectors:[],parking:[],footways:[]},ground=plane('floor','ground',[-5,0,-5,-5,0,5,5,0,5,5,0,-5]);const collision=put('cell.hcol',encodeCollisionBundle({originId:'fixture',frame:'X-east,Y-up,Z-south',cell:'cell',surfaceTags:['asphalt']},[...(floor?[ground]:[]),...extra]));const manifest={terrain:put('terrain.bin',encodeTerrain({x0:-10,z0:-10,resolution:10,nx:3,nz:3,heights:new Float32Array(9).fill(-1)})),roads:put('roads.json',JSON.stringify(roads)),gameplay:put('gameplay.json',JSON.stringify(gameplay)),cells:[{id:'cell',boundsXZ:[-5,-5,5,5],collision:{...collision,boundsXZ:[-5,-5,5,5]}}]};put('manifest.json',JSON.stringify(manifest));const scene=await openStaticWalkScene(root);try{await scene.resident([-2,0],[2,0]);await run(scene);}finally{scene.close();}}finally{const absolute=path.resolve(root);assert.ok(absolute.startsWith(path.resolve(os.tmpdir())+path.sep)&&path.basename(absolute).startsWith('helsinki-walk-scene-'));fs.rmSync(absolute,{recursive:true,force:true});}}
+test('scene uses native floor, excludes its diagnostic body, and continuously catches a thin trunk between clear endpoints',async()=>{
+ await fixture([plane('thin-trunk','trees',[.1,0,.499,.1,2,.499,.101,2,.499,.101,0,.499])],scene=>{assert.equal(scene.check([0,0],[0,0]).failures.length,0);assert.equal(scene.check([.2,0],[.2,0]).failures.length,0);const scan=scene.check([0,0],[.2,0]);assert.ok(scan.failures.some(f=>f.reason==='continuous static capsule sweep'&&f.collider.id==='thin-trunk'));assert.ok(!scene.check([-2,-2],[-1,-2]).failures.length);assert.ok(!scene.check([-1,-2],[-2,-2]).failures.length);});
+ await fixture([],scene=>assert.ok(scene.check([0,0],[1,0]).failures.some(f=>f.reason==='missing hard native floor')),false);
+});
+test('native character-controller checks retain ground-group vertical walls',async()=>{await fixture([plane('ground-wall','ground',[0,0,-2,0,2,-2,0,2,2,0,0,2])],scene=>{const result=scene.check([-1,0],[1,0]);assert.ok(result.failures.some(f=>f.reason==='native controller movement blocked'));});});

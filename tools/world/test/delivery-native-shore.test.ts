@@ -2,6 +2,8 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {bbox,signedArea,type LocalPolygon} from '../lib/geometry.ts';
 import {clipNativeWaterFace,shoreDomain,restoreNativeShoreTerrain,type NativeShoreProfile} from '../lib/delivery-native-shore.ts';
+import {loadGeoJsonPolygons} from '../lib/geometry.ts';
+import {fileURLToPath} from 'node:url';
 
 function polygon(id:string,ring:number[][],properties:Record<string,unknown>={}):LocalPolygon{const rings=[ring as [number,number][]];return{id,rings,bbox:bbox(rings),properties};}
 function fixture(){const part=polygon('123',[[0,1200],[2,1200],[2,1202],[0,1202]],{paatyyppi:'Nurmikot ja niityt',osan_id:123});const profile:NativeShoreProfile={schemaVersion:1,kind:'source-bound-native-shore-restoration',domainMethod:'municipal-land',newRegionXZ:[-10,-1300,10,-1152],seaWaterY:-7.5,nativeMetadataSha256:'a'.repeat(64),retainedWaterSha256:'b'.repeat(64),streetPartsSha256:'c'.repeat(64),municipalWaterSha256:'d'.repeat(64),protectedMunicipalWater:[{id:'precise-lake',properties:{type:'water'},rings:[[[4,1195],[5,1195],[5,1205],[4,1205]]]}],municipalParts:[{id:part.id,rings:part.rings,properties:part.properties}],reason:'Restore the exact authoritative municipal lawn source domain.'};const water=polygon('water',[[-5,1195],[5,1195],[5,1205],[-5,1205]]);return{part,profile,coastal:{mask:{water:[water]},decks:{polygons:[]as LocalPolygon[]},waterY:-7.5}};}
@@ -17,4 +19,17 @@ test('bank context requires literal owner bounds and an actual precise shoreline
 });
 test('already exact native safety at the protected old frontier is retained, while unrelated modifications and protected-edge writes fail',()=>{
   const grid=(heights:number[])=>({x0:0,z0:-1153,nx:2,nz:2,resolution:1,heights:Float32Array.from(heights)}),old=grid([-30,-30,-30,-30]),repaired=grid([2,2,2,2]),current=grid([-30,-30,2,2]),result=restoreNativeShoreTerrain(current,old,repaired,[-10,-1200,10,-1152]);assert.deepEqual(Array.from(result.terrain.heights),[2,2,2,2]);assert.equal(result.changes.length,2);assert.deepEqual(result.alreadyNative,[2,3]);assert.throws(()=>restoreNativeShoreTerrain(grid([1,-30,2,2]),old,repaired,[-10,-1200,10,-1152]),/Later geometry/);assert.throws(()=>restoreNativeShoreTerrain(grid([-30,-30,-30,2]),old,repaired,[-10,-1200,10,-1152]),/Protected old-region/);
+});
+
+test('the individually reviewed West shore uses literal three owners and the complete official sea veto',()=>{
+  const {part,profile}=fixture();
+  const sea=loadGeoJsonPolygons(fileURLToPath(new URL('../../../content/helsinki/city-expansion-20261021/native-shore/municipal-sea-v1.geojson',import.meta.url)),25497350,6672960,p=>`Maavesi_merialue.${p.tietopalvelu_id}`);
+  profile.reviewScope='southwest-20261029-west-shore';profile.newRegionXZ=[-2816,-384,-1792,1152];profile.domainMethod='precise-water-native-bank';
+  profile.bankCells=[{id:'c_m19_p01',boundsXZ:[-2432,128,-2304,256]},{id:'c_m18_p01',boundsXZ:[-2304,128,-2176,256]},{id:'c_m17_m01',boundsXZ:[-2176,-128,-2048,0]}];
+  profile.municipalWaterSha256='df81bd93bb6493c8c4df8d6827b04a24a548e44e1fd8859b6b8bb13e6221f823';profile.protectedMunicipalWater=sea.map(({id,properties,rings})=>({id,properties,rings}));
+  const coastal={waterY:-7.5,mask:{water:[polygon('fixture-water',[[-2816,-1152],[-1792,-1152],[-1792,384],[-2816,384]])]},decks:{polygons:[]}};
+  const result=shoreDomain(profile,[part],coastal,sea,profile.bankCells);assert.ok(result.domain.length);
+  const changed=structuredClone(profile);changed.bankCells![0]!.boundsXZ[0]-=1;assert.throws(()=>shoreDomain(changed,[part],coastal,sea,profile.bankCells));
+  assert.throws(()=>shoreDomain({...profile,reviewScope:undefined},[part],coastal,sea,profile.bankCells),/limited to.*northern/);
+  assert.throws(()=>shoreDomain({...profile,municipalWaterSha256:'0'.repeat(64)},[part],coastal,sea,profile.bankCells),/literal complete official sea/);
 });

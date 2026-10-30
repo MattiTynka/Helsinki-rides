@@ -208,12 +208,12 @@ test('tier table reproduces the Standard, Low and mobile numbers and is immutabl
   });
   assert.deepEqual(tierFor('low'), {
     detail: { radius: 170, maxCells: 16, geometryBudgetMiB: 96 }, fallback: { radius: 300, maxCells: 28, geometryBudgetMiB: 64 },
-    settle: { fallback: 150, detail: 100 }, fog: { near: 160, far: 300 }, cameraFar: 300, foliageLodScale: 1, vehicleDetailRange: 30,
+    settle: { fallback: 150, detail: 100 }, fog: { near: 160, far: 300 }, cameraFar: 300, foliageLodScale: .8, vehicleDetailRange: 30,
     materialClass: 'lambert', mipDrop: 0, maxRenderPixels: 1440000,
   });
   assert.deepEqual(tierFor('low', true), {
     detail: { radius: 140, maxCells: 12, geometryBudgetMiB: 64 }, fallback: { radius: 240, maxCells: 20, geometryBudgetMiB: 48 },
-    settle: { fallback: 100, detail: 72 }, fog: { near: 130, far: 240 }, cameraFar: 240, foliageLodScale: 1, vehicleDetailRange: 30,
+    settle: { fallback: 100, detail: 72 }, fog: { near: 130, far: 240 }, cameraFar: 240, foliageLodScale: .8, vehicleDetailRange: 30,
     materialClass: 'lambert', mipDrop: 0, maxRenderPixels: 921600,
   });
   assert.deepEqual(tierFor('standard', true), { ...QUALITY_TIERS.standard, maxRenderPixels: 921600 }, 'mobile Standard keeps desktop streaming, as before');

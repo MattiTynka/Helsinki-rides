@@ -207,7 +207,9 @@ export function buildDistrictGround(options: {
   if (config.coastal) {
     const waterY = config.coastal.waterElevationN2000 - options.originProjected[2]!;
     if (!Number.isFinite(waterY) || !Number.isFinite(config.coastal.safetyFloorY) || config.coastal.safetyFloorY >= waterY - 2) throw new Error('invalid coastal water or safety plane');
-    const originalMask = buildCoastalMask(osm as CoastalOsm, {area, originProjected:options.originProjected});
+    // Coastline closure and water safety are bounded by the same source-backed assembly domain.
+    // Unrelated incomplete chains in retained districts cannot authorize or block a new strip.
+    const originalMask = buildCoastalMask(osm as CoastalOsm, {area:assemblyArea, originProjected:options.originProjected});
     const registration=options.coastalRegistration?loadCoastalRegistration(options.coastalRegistration,originalMask,options.originProjected,{streetPartsSha256:sha256(readFileSync(options.streetParts)),osmSha256:osmSnap.sha256}):null;
     const mask=registration?.mask??originalMask;
     const decks = sourceCoastalDecks(osm as CoastalOsm, parts, options.originProjected);

@@ -1,0 +1,231 @@
+{
+  "schemaVersion": 1,
+  "kind": "ruoholahti-public-route-candidates",
+  "accepted": {
+    "directory": "../accepted-world/world/senate-20261025-civilian-flee",
+    "manifestSha256": "0e18e55e8730f01144eef72a80decffbb53cdd658222f87a7e8ad6f75f2c4260"
+  },
+  "candidateRoads": {
+    "file": "../work/ruoholahti-source-graph-v4/roads-source-registered.json",
+    "sha256": "46af3a9e2b81cd70630ae16bb7e68c886dce92eea2f5ef44ea7c29820bbf29d3"
+  },
+  "osm": {
+    "file": "../sources/raw-v2/osm/southwest-cumulative-20261029.json",
+    "sha256": "a6bf71bae890ab60b4249c8546e6b7185ce37c9ede4137e9c4aefbd9a755e65a"
+  },
+  "serializedFloorWorld": {
+    "directory": "../work/cumulative-city-native-rdo-v1/world",
+    "manifestSha256": "a6872e68f4a96898d5a915dc99cf3cfb01ce82b4ec6f45bafb8932eb0a4032be"
+  },
+  "bridgeProfile": {
+    "file": "content/helsinki/southwest-20261029/ruoholahti-bridge.json",
+    "sha256": "30bbb4bf8381d88ab1012ed240a67fade0916945bfdc4d854f6637d220bcb70f"
+  },
+  "levelInventory": {
+    "file": "../evidence/ruoholahti-routes/serialized-level-selectors-v4.json",
+    "sha256": "828b84603f77005e73ea594122b98d1e6a38afc51aa5db293fa781f654c1ec1d"
+  },
+  "boundsXZ": [
+    -2816,
+    500,
+    -1400,
+    1152
+  ],
+  "routes": [
+    {
+      "id": "selkamerensilta-both-directions-public-approach-ring",
+      "laneGoals": [
+        "122961573:0:f0",
+        "27192169:0:b0",
+        "27192169:0:f0",
+        "86957349:0:f1"
+      ]
+    },
+    {
+      "id": "ruoholahti-public-carriageway-ring",
+      "laneGoals": [
+        "122961573:0:f0",
+        "139418672:0:f0",
+        "332452658:3:f0",
+        "86957349:0:f1"
+      ]
+    }
+  ],
+  "withheldLanes": [
+    {
+      "id": "124314484:0:f0",
+      "recordSha256": "4076718998604f0b306a48fabe249805902c78d1d50779266336f42922de05be",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "124314484:0:b0",
+      "recordSha256": "b5430204f1d8eead13c5316b3da33cffa4391e37ee7a98d101fd5c6388c12c44",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "124448648:0:f0",
+      "recordSha256": "1c661a65b80aeeb1b482fcd9e0cda2f5b87c58518d0137bd79f6356d91a0dc49",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "124448648:0:b0",
+      "recordSha256": "12b086eedf225858326410df0a28b1db412b30ebd5a83dfb9c8c807122f24935",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "217122749:0:f0",
+      "recordSha256": "14bc7eb72e01167a0a502e3daa7fd0b9d14e8527a5c1e5936b174b4ac32288b5",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "217122749:0:b0",
+      "recordSha256": "c75fc9ff426f3051ea90fa6ccbf50176ddf69f4f3f370290ebb8ae44bb71986a",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "28963957:0:f0",
+      "recordSha256": "b39976a9d96aec4f05669579099604642e4fe4b93bb6b39dc0ee6b23b3e7d218",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "28963957:3:f0",
+      "recordSha256": "5f02de6f66a53b4ea9706a0717cdc08736909382430a15cac0b87aa485346e3a",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "73064578:1:f0",
+      "recordSha256": "dc8b72fa849eab8ff320f194599d7ec50619f3330b54367f696f18655346a7e3",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "73064578:2:f0",
+      "recordSha256": "5d49dca5945f6d8345d5ba3877aec2cfe29748442c39c30919a935caf46fe8ac",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "73064578:3:f0",
+      "recordSha256": "1eefb839bc0f5e32466c41cdbd6a4770a9d74168057c5e6d23e47ab9d96f2d65",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "73064578:4:f0",
+      "recordSha256": "6bec8ed51a956224a3ed991e5328371041f2e9cb51fb76159682b8e697c6dde3",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "73064578:5:f0",
+      "recordSha256": "174e29c9c1e0ecdf65c002734ac03875abf40fc003843087af8726bb644a0edf",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "231643799:1:f0",
+      "recordSha256": "94ea8a0b3507054bfeac9068f93604b40bb5ab75e2a34e9fbf3f2b39b6826635",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "231643799:1:b0",
+      "recordSha256": "6d4bb15120646bf06a40fff5daf6252554cc6d6fac0a7fbd651ce362d22160c3",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "73064553:0:f0",
+      "recordSha256": "e7245d8caf7ec79cafd42875e3ca6a1eb10f1bf4140be4ba2383a3dcfd3cb1be",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "14828341:0:f0",
+      "recordSha256": "022135ffdefa0a48f489c3fe384688d22091b7385e4fb211cdc85e912c65f4d3",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "14828341:0:b0",
+      "recordSha256": "2acedcd0ecbe79171b8188c7aa76674ec837f687940e9ef38378744649da61e4",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "14828621:0:f0",
+      "recordSha256": "9d831f50dc74855627115daf53dedb3b91ae69735ebc72b742215f6967ee021e",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "14828621:0:b0",
+      "recordSha256": "c3b9ac5075f802a8f717496ac7560cca4ea6813215e28a67045f3f3b23a5fc4c",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "40351526:0:f0",
+      "recordSha256": "d38108a538fd169ec0a755ecf8b584b7315d76a3e23725244abd59152a253b28",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "60961737:3:f0",
+      "recordSha256": "9c09ac8bd74920fb9fc9f4dfafe964d20fcde0ace3d68f84aeac570e95424b91",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "60961739:0:f0",
+      "recordSha256": "5fa3cd6ddbff3b99463372ccae121e066311b050b78822f47b8ae79712f4f136",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "73064564:0:f0",
+      "recordSha256": "a02f8401ec7090279bcd7c05f742cf36fa8195692e596396c956d9d1210914db",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "73064564:1:f0",
+      "recordSha256": "beffd5e4bb1b427e7ebcb58ec634ecdcaa7e5f627b3c9faafc428ead160e0a19",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "73064576:0:f0",
+      "recordSha256": "4e978b7eb8a7183fddb92674b0b67786263434700f8b9fe091e575181fa78fdd",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "81520352:0:f0",
+      "recordSha256": "d926d9cdc98590e5eeac46c28d67af7d451fa251110e7450ab89eeafedafe93b",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "138605723:0:f0",
+      "recordSha256": "9df99b654fa4e1d5e3c14670d00a4a132355043eb7e2e775a77eade6966a6869",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "138605723:0:b0",
+      "recordSha256": "ce3b0d31c1e343ff6af076e1be47ea13ac83313cc78cd487badf61f99b45a40b",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "231643803:0:f0",
+      "recordSha256": "be0724f77ef802d693c6278eea19d43c5e81ce84b22ead058ace664748b8d8c2",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "231643803:0:b0",
+      "recordSha256": "855be2ad36e5b4baf4bd6e59ea4cf9d8be98b638b195b0d1bb065e66d6ccb915",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "378002077:0:f0",
+      "recordSha256": "2c5149f79a313588be998b034ccb6858ded1ef9e92009567eb1874e48a64b77d",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "378002078:0:f0",
+      "recordSha256": "367f0d86b3cb68bbe3ed17ee100b5f8ed1fa7e191f12b38d4b6c286d07890fe8",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "928817678:0:f0",
+      "recordSha256": "75aca4f6a9bda47418c8047985d23c62b942f1e8b93083e40ac90e60db20b9a4",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    },
+    {
+      "id": "607816333:0:f0",
+      "recordSha256": "732fcd1ebb00174319ad0fa30c2398bf6f0b061b92553829d321b25692b0106c",
+      "reason": "Generated lane lies along an HKL-maintained other-carriageway strip. Ordinary vehicle admission is unqualified; select source-public carriageway lane instead. The two reviewed Selkamerenkatu crossing records are separately qualified; this exclusion concerns other use."
+    }
+  ]
+}
