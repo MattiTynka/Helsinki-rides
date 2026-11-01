@@ -1,0 +1,11582 @@
+[
+ {
+  "names": [
+   "Kanavamäenpolku",
+   "Pyörökiventie"
+  ],
+  "parts": 3,
+  "box": [
+   5897,
+   -1995,
+   5914,
+   -1976
+  ],
+  "plane": [
+   -1.0903711002857168,
+   0,
+   0
+  ],
+  "note": "Kanavamäenpolku: own street anchors 5/11, length 22 m, slope -0.25 levelled"
+ },
+ {
+  "names": [
+   "Laajasalontie"
+  ],
+  "parts": 1,
+  "box": [
+   5409,
+   -382,
+   5427,
+   -374
+  ],
+  "plane": [
+   409.57845508359105,
+   -0.07489057408168809,
+   -0.02318511097199894
+  ],
+  "note": "Laajasalontie: own street anchors 5/6, length 18 m"
+ },
+ {
+  "names": [
+   "Sotkatie"
+  ],
+  "parts": 2,
+  "box": [
+   -5522,
+   616,
+   -5502,
+   631
+  ],
+  "plane": [
+   12.673948486699018,
+   0.0031951553053607804,
+   0.0011017016333873413
+  ],
+  "note": "Sotkatie: own street anchors 9/9, length 18 m"
+ },
+ {
+  "names": [
+   "Viikintie"
+  ],
+  "parts": 2,
+  "box": [
+   5012,
+   -5545,
+   5040,
+   -5512
+  ],
+  "plane": [
+   20.078691154308565,
+   -0.0011866668494517657,
+   0.0014781201133324533
+  ],
+  "note": "Viikintie: own street anchors 2/8, length 39 m"
+ },
+ {
+  "names": [
+   "Tulisuontie"
+  ],
+  "parts": 1,
+  "box": [
+   6060,
+   -3616,
+   6062,
+   -3614
+  ],
+  "plane": [
+   13.8121013215125,
+   0,
+   0
+  ],
+  "note": "Tulisuontie: own street anchors 4/4, length 2 m"
+ },
+ {
+  "names": [
+   "Marjaniementie"
+  ],
+  "parts": 23,
+  "box": [
+   6813,
+   -4486,
+   6845,
+   -4346
+  ],
+  "plane": [
+   5.767108887889188,
+   0.000029213489334953765,
+   0.0006287351931631743
+  ],
+  "note": "Marjaniementie: own street anchors 5/36, length 139 m"
+ },
+ {
+  "names": [
+   "Klv - P K Y"
+  ],
+  "parts": 1,
+  "box": [
+   -1014,
+   -2655,
+   -1009,
+   -2603
+  ],
+  "plane": [
+   -67.11691423719495,
+   0.00022107272302293913,
+   -0.02788626402836625
+  ],
+  "note": "Klv - P K Y: street anchors 4/6, length 53 m"
+ },
+ {
+  "names": [
+   "Kontulankaari"
+  ],
+  "parts": 1,
+  "box": [
+   7218,
+   -7395,
+   7243,
+   -7355
+  ],
+  "plane": [
+   103.47554811788811,
+   0.014428651877489559,
+   0.024529742645383684
+  ],
+  "note": "Kontulankaari: own street anchors 9/9, length 46 m"
+ },
+ {
+  "names": [
+   "Klv - P K Y",
+   "Mikkolantie"
+  ],
+  "parts": 4,
+  "box": [
+   1233,
+   -7057,
+   1282,
+   -6982
+  ],
+  "plane": [
+   16.795948263976964,
+   0,
+   0
+  ],
+  "note": "Klv - P K Y: street anchors 3/0, length 86 m"
+ },
+ {
+  "names": [
+   "Klv - P K Y"
+  ],
+  "parts": 1,
+  "box": [
+   630,
+   -6425,
+   646,
+   -6408
+  ],
+  "plane": [
+   4.920697323650064,
+   0.001138493039784076,
+   -0.0011818541631036738
+  ],
+  "note": "Klv - P K Y: own street anchors 3/9, length 20 m"
+ },
+ {
+  "names": [
+   "Pohjoisbaana"
+  ],
+  "parts": 1,
+  "box": [
+   667,
+   -6389,
+   675,
+   -6381
+  ],
+  "plane": [
+   -395.70389344451394,
+   0.05639384228187383,
+   -0.05788095089266303
+  ],
+  "note": "Pohjoisbaana: own street anchors 8/4, length 7 m"
+ },
+ {
+  "names": [
+   "Pohjoisbaana"
+  ],
+  "parts": 1,
+  "box": [
+   763,
+   -6502,
+   786,
+   -6480
+  ],
+  "plane": [
+   47.177977586232,
+   -0.004583956762751825,
+   0.004606764627543305
+  ],
+  "note": "Pohjoisbaana: street anchors 23/24, length 27 m"
+ },
+ {
+  "names": [
+   "Klv - I K Y"
+  ],
+  "parts": 2,
+  "box": [
+   6538,
+   -4422,
+   6568,
+   -4270
+  ],
+  "plane": [
+   24.307519387720347,
+   0.0014520179597369725,
+   0.008354536560837483
+  ],
+  "note": "Klv - I K Y: street anchors 4/3, length 155 m"
+ },
+ {
+  "names": [
+   "Klv - I K Y"
+  ],
+  "parts": 2,
+  "box": [
+   7187,
+   -7378,
+   7216,
+   -7335
+  ],
+  "plane": [
+   -34.88068053512907,
+   -0.017932444110327732,
+   -0.02603991200237456
+  ],
+  "note": "Klv - I K Y: street anchors 10/11, length 47 m"
+ },
+ {
+  "names": [
+   "Vanha Helsingintie"
+  ],
+  "parts": 2,
+  "box": [
+   3152,
+   -9005,
+   3188,
+   -8912
+  ],
+  "plane": [
+   221.5212185639585,
+   -0.00965519259705479,
+   0.02003310809815556
+  ],
+  "note": "Vanha Helsingintie: own street anchors 11/5, length 98 m"
+ },
+ {
+  "names": [
+   "Vanha Helsingintie"
+  ],
+  "parts": 1,
+  "box": [
+   3136,
+   -9060,
+   3185,
+   -9009
+  ],
+  "plane": [
+   13.747976704736068,
+   0.0005876988913069653,
+   0.0005574953443152868
+  ],
+  "note": "Vanha Helsingintie: own street anchors 7/6, length 71 m"
+ },
+ {
+  "names": [
+   "Kaupintie"
+  ],
+  "parts": 8,
+  "box": [
+   -3429,
+   -7215,
+   -3402,
+   -7193
+  ],
+  "plane": [
+   19.722724789029,
+   0,
+   0
+  ],
+  "note": "Kaupintie: street anchors 16/4, length 30 m, slope 0.23 levelled"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 1,
+  "box": [
+   -4129,
+   -7289,
+   -4123,
+   -7222
+  ],
+  "plane": [
+   -15.904602049189133,
+   0.00008177972210819653,
+   -0.004324354490992373
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 5/5, length 66 m"
+ },
+ {
+  "names": [
+   "Ylityspolku"
+  ],
+  "parts": 3,
+  "box": [
+   -5521,
+   -6195,
+   -5510,
+   -6139
+  ],
+  "plane": [
+   451.2034155978421,
+   0.00015501286917041487,
+   0.06994527117324656
+  ],
+  "note": "Ylityspolku: street anchors 3/4, length 57 m"
+ },
+ {
+  "names": [
+   "Revontulentie"
+  ],
+  "parts": 1,
+  "box": [
+   2857,
+   -12312,
+   2863,
+   -12307
+  ],
+  "plane": [
+   -24.78519376915951,
+   -0.0033776789616961336,
+   -0.0034630448286607283
+  ],
+  "note": "Revontulentie: own street anchors 6/10, length 7 m"
+ },
+ {
+  "names": [
+   "Maaherrantie"
+  ],
+  "parts": 20,
+  "box": [
+   2756,
+   -6529,
+   2889,
+   -6443
+  ],
+  "plane": [
+   25.957418376028212,
+   0.014287291548096213,
+   0.009517801030379748
+  ],
+  "crest": {
+   "ax": 0.8322400522701107,
+   "az": 0.5544154537866377,
+   "at": -1248.6394982538793,
+   "plane": [
+    -60.613448568085076,
+    -0.043413704561181564,
+    -0.028921017018097833
+   ],
+   "ends": [
+    -1323.3755960069225,
+    -1174.5424642383941
+   ]
+  },
+  "note": "Maaherrantie: own street anchors 16/20, length 149 m, crest 2.5 m (38 % under)"
+ },
+ {
+  "names": [
+   "Maaherrantie"
+  ],
+  "parts": 13,
+  "box": [
+   2011,
+   -6874,
+   2161,
+   -6855
+  ],
+  "plane": [
+   5.619239414651517,
+   -0.001976004759221211,
+   0.00008250803801999665
+  ],
+  "note": "Maaherrantie: own street anchors 30/47, length 150 m"
+ },
+ {
+  "names": [
+   "Maaherrantie"
+  ],
+  "parts": 4,
+  "box": [
+   1617,
+   -6853,
+   1639,
+   -6839
+  ],
+  "plane": [
+   18.79803992654987,
+   -0.009175251609824171,
+   -0.00027118746380124653
+  ],
+  "note": "Maaherrantie: own street anchors 11/11, length 21 m"
+ },
+ {
+  "names": [
+   "Maaherrantie"
+  ],
+  "parts": 8,
+  "box": [
+   1348,
+   -6880,
+   1389,
+   -6864
+  ],
+  "plane": [
+   8.207189282413308,
+   0.0018209944921379103,
+   0.0001863026187924061
+  ],
+  "note": "Maaherrantie: own street anchors 11/13, length 40 m"
+ },
+ {
+  "names": [
+   "Rantaradan varsiraitti",
+   "Hakamäentie"
+  ],
+  "parts": 22,
+  "box": [
+   -1869,
+   -4359,
+   -1598,
+   -4141
+  ],
+  "plane": [
+   -14.30938969222273,
+   -0.008676116564502005,
+   -0.004871206074810796
+  ],
+  "note": "Rantaradan varsiraitti: own street anchors 6/17, length 327 m"
+ },
+ {
+  "names": [
+   "Klv - L Ky"
+  ],
+  "parts": 2,
+  "box": [
+   -5264,
+   -6094,
+   -5216,
+   -5934
+  ],
+  "plane": [
+   -121.39092436241855,
+   0.008251424879548691,
+   -0.03008991897617145
+  ],
+  "note": "Klv - L Ky: street anchors 10/5, length 164 m"
+ },
+ {
+  "names": [
+   "Rantaradan varsiraitti"
+  ],
+  "parts": 2,
+  "box": [
+   -2955,
+   -5248,
+   -2936,
+   -5234
+  ],
+  "plane": [
+   151.39619386964466,
+   0.021425354726839967,
+   0.014389987958142723
+  ],
+  "note": "Rantaradan varsiraitti: own street anchors 3/3, length 21 m"
+ },
+ {
+  "names": [
+   "Rantaradan varsiraitti"
+  ],
+  "parts": 3,
+  "box": [
+   -3183,
+   -5421,
+   -3171,
+   -5410
+  ],
+  "plane": [
+   -793.7434513923711,
+   -0.10667069618577335,
+   -0.0861395587930139
+  ],
+  "note": "Rantaradan varsiraitti: own street anchors 4/4, length 13 m, slope -0.14"
+ },
+ {
+  "names": [
+   "Rantaradan varsiraitti"
+  ],
+  "parts": 2,
+  "box": [
+   -3309,
+   -5515,
+   -3270,
+   -5487
+  ],
+  "plane": [
+   -24.977849260264676,
+   -0.005517834165412975,
+   -0.003837078066316276
+  ],
+  "note": "Rantaradan varsiraitti: own street anchors 9/17, length 48 m"
+ },
+ {
+  "names": [
+   "Rantaradan varsiraitti"
+  ],
+  "parts": 1,
+  "box": [
+   -3412,
+   -5590,
+   -3396,
+   -5577
+  ],
+  "plane": [
+   8.312954293067419,
+   -0.0008173397851853347,
+   -0.0005826351498477537
+  ],
+  "note": "Rantaradan varsiraitti: own street anchors 3/3, length 17 m"
+ },
+ {
+  "names": [
+   "Hellesilta"
+  ],
+  "parts": 3,
+  "box": [
+   11509,
+   -4188,
+   11538,
+   -4179
+  ],
+  "plane": [
+   -106.02329793402613,
+   0.009584328579995822,
+   0.0014716991132302994
+  ],
+  "note": "Hellesilta: street anchors 18/11, length 29 m"
+ },
+ {
+  "names": [
+   "Aurinkotuulensilta"
+  ],
+  "parts": 1,
+  "box": [
+   11435,
+   -4381,
+   11462,
+   -4349
+  ],
+  "plane": [
+   207.8244356004396,
+   -0.033320813610120265,
+   -0.040485552918285324
+  ],
+  "note": "Aurinkotuulensilta: street anchors 8/10, length 38 m"
+ },
+ {
+  "names": [
+   "Kalteenpolku"
+  ],
+  "parts": 2,
+  "box": [
+   6943,
+   -10363,
+   6977,
+   -10321
+  ],
+  "plane": [
+   -962.578890743198,
+   0.047411348070703484,
+   -0.06419313682458225
+  ],
+  "note": "Kalteenpolku: street anchors 11/5, length 53 m"
+ },
+ {
+  "names": [
+   "Piimäenpolku",
+   "Pitäjänmäentie"
+  ],
+  "parts": 10,
+  "box": [
+   -3910,
+   -4957,
+   -3900,
+   -4932
+  ],
+  "plane": [
+   -218.11728643060096,
+   0.000606617966689639,
+   -0.046392707497088674
+  ],
+  "crest": {
+   "ax": 0.013074600470422802,
+   "az": -0.9999145237581755,
+   "at": 4892.812859397106,
+   "plane": [
+    564.7327710729359,
+    -0.001485318108578009,
+    0.11359361630421938
+   ],
+   "ends": [
+    4880.189772662551,
+    4905.261639162854
+   ]
+  },
+  "note": "Piimäenpolku: own street anchors 43/52, length 25 m, crest 0.8 m (90 % under)"
+ },
+ {
+  "names": [
+   "Kellosilta"
+  ],
+  "parts": 5,
+  "box": [
+   -748,
+   -3510,
+   -709,
+   -3490
+  ],
+  "plane": [
+   20.019319796059886,
+   -0.0787645208857096,
+   0.018382383700300473
+  ],
+  "note": "Kellosilta: own street anchors 7/6, length 38 m"
+ },
+ {
+  "names": [
+   "Opastinsilta"
+  ],
+  "parts": 6,
+  "box": [
+   -710,
+   -3347,
+   -670,
+   -3326
+  ],
+  "plane": [
+   20.322662256003394,
+   -0.03705923143272454,
+   0.008662393122873499
+  ],
+  "note": "Opastinsilta: own street anchors 12/12, length 38 m"
+ },
+ {
+  "names": [
+   "Vihdintie"
+  ],
+  "parts": 20,
+  "box": [
+   -4041,
+   -5899,
+   -3990,
+   -5829
+  ],
+  "plane": [
+   135.7071727564262,
+   0.005883265766954254,
+   0.01561990537046083
+  ],
+  "note": "Vihdintie: own street anchors 20/22, length 83 m"
+ },
+ {
+  "names": [
+   "Säterinpolku"
+  ],
+  "parts": 1,
+  "box": [
+   2082,
+   -8114,
+   2099,
+   -8064
+  ],
+  "plane": [
+   47.348212563998246,
+   0.0013940010033262277,
+   0.005824705475318206
+  ],
+  "note": "Säterinpolku: own street anchors 5/5, length 52 m"
+ },
+ {
+  "names": [
+   "Johan Sederholmin tie",
+   "Väylänsuu"
+  ],
+  "parts": 6,
+  "box": [
+   5308,
+   -2284,
+   5338,
+   -2271
+  ],
+  "plane": [
+   -37.931369485234164,
+   0.006539241988034169,
+   0.00012377852191203335
+  ],
+  "note": "Johan Sederholmin tie: own street anchors 12/10, length 31 m"
+ },
+ {
+  "names": [
+   "MERIKYLPYLÄN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -4418,
+   1619,
+   -4411,
+   1626
+  ],
+  "plane": [
+   -5.673689028779247,
+   0,
+   0
+  ],
+  "note": "MERIKYLPYLÄN PUISTO: own street anchors 2/2, length 8 m"
+ },
+ {
+  "names": [
+   "LÄNSIULAPANNIEMI"
+  ],
+  "parts": 1,
+  "box": [
+   -5104,
+   1736,
+   -5102,
+   1738
+  ],
+  "plane": [
+   -2.5735939558520218,
+   0,
+   0
+  ],
+  "note": "LÄNSIULAPANNIEMI: own street anchors 4/4, length 2 m"
+ },
+ {
+  "names": [
+   "Laukkaluodonpolku"
+  ],
+  "parts": 3,
+  "box": [
+   -5058,
+   -186,
+   -5052,
+   -176
+  ],
+  "plane": [
+   -85.95994786285483,
+   -0.017804347593138908,
+   0.05176040326029706
+  ],
+  "crest": {
+   "ax": 0.3252710696367815,
+   "az": -0.9456208179060696,
+   "at": -1473.0141443269308,
+   "plane": [
+    -321.6422109551643,
+    -0.06984771873502406,
+    0.2030597341252685
+   ],
+   "ends": [
+    -1478.1478259105822,
+    -1467.7575537569521
+   ]
+  },
+  "note": "Laukkaluodonpolku: own street anchors 4/5, length 10 m, slope -0.13, crest 0.4 m (42 % under)"
+ },
+ {
+  "names": [
+   "Killingholman silta"
+  ],
+  "parts": 1,
+  "box": [
+   4650,
+   -1372,
+   4663,
+   -1325
+  ],
+  "plane": [
+   -6.384516224922392,
+   0,
+   0
+  ],
+  "note": "Killingholman silta: street anchors 0/5, length 47 m"
+ },
+ {
+  "names": [
+   "Vuorilahdenniemi"
+  ],
+  "parts": 1,
+  "box": [
+   5212,
+   1002,
+   5216,
+   1004
+  ],
+  "plane": [
+   -4.767288807946501,
+   0,
+   0
+  ],
+  "note": "Vuorilahdenniemi: terrain anchors 14/14, length 3 m"
+ },
+ {
+  "names": [
+   "Poikkilaakson uimaranta"
+  ],
+  "parts": 1,
+  "box": [
+   7358,
+   426,
+   7361,
+   430
+  ],
+  "plane": [
+   -6.660489247301447,
+   0,
+   0
+  ],
+  "note": "Poikkilaakson uimaranta: own street anchors 2/2, length 4 m"
+ },
+ {
+  "names": [
+   "Seurasaari"
+  ],
+  "parts": 1,
+  "box": [
+   -3595,
+   -854,
+   -3592,
+   -851
+  ],
+  "plane": [
+   -6.168949879431175,
+   0,
+   0
+  ],
+  "note": "Seurasaari: own street anchors 6/6, length 4 m"
+ },
+ {
+  "names": [
+   "Seurasaari"
+  ],
+  "parts": 1,
+  "box": [
+   -3772,
+   -797,
+   -3768,
+   -792
+  ],
+  "plane": [
+   -5.724239508493726,
+   0,
+   0
+  ],
+  "note": "Seurasaari: own street anchors 7/7, length 4 m"
+ },
+ {
+  "names": [
+   "Seurasaari"
+  ],
+  "parts": 1,
+  "box": [
+   -3638,
+   -907,
+   -3634,
+   -904
+  ],
+  "plane": [
+   -6.274384748187315,
+   0,
+   0
+  ],
+  "note": "Seurasaari: own street anchors 4/4, length 5 m"
+ },
+ {
+  "names": [
+   "RUNAR SCHILDTIN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -3795,
+   -6411,
+   -3781,
+   -6397
+  ],
+  "plane": [
+   34.34372248747749,
+   -0.006710623918552351,
+   0.007756840901535121
+  ],
+  "note": "RUNAR SCHILDTIN PUISTO: own street anchors 3/3, length 16 m"
+ },
+ {
+  "names": [
+   "ALPPIPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -910,
+   -2317,
+   -900,
+   -2314
+  ],
+  "plane": [
+   9.819713780896178,
+   0.011373841405769806,
+   -0.0003921861761449557
+  ],
+  "note": "ALPPIPUISTO: own street anchors 3/3, length 10 m"
+ },
+ {
+  "names": [
+   "SAVONPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -933,
+   -2770,
+   -894,
+   -2762
+  ],
+  "plane": [
+   15.673405706647621,
+   0,
+   0
+  ],
+  "note": "SAVONPUISTO: street anchors 0/3, length 39 m"
+ },
+ {
+  "names": [
+   "RUONASALMEN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6275,
+   -2970,
+   6283,
+   -2959
+  ],
+  "plane": [
+   -6.402786130807926,
+   0.0017501556875332085,
+   0.0034498554266343177
+  ],
+  "note": "RUONASALMEN PUISTO: street anchors 4/3, length 11 m"
+ },
+ {
+  "names": [
+   "KORPPAANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -3618,
+   -4019,
+   -3609,
+   -4015
+  ],
+  "plane": [
+   -5.3521100922529286,
+   0,
+   0
+  ],
+  "note": "KORPPAANPUISTO: own street anchors 4/4, length 9 m"
+ },
+ {
+  "names": [
+   "KORPPAANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -3536,
+   -3861,
+   -3528,
+   -3855
+  ],
+  "plane": [
+   14.226473657656301,
+   0.011741044123715485,
+   -0.00566516656732645
+  ],
+  "note": "KORPPAANPUISTO: own street anchors 6/3, length 8 m"
+ },
+ {
+  "names": [
+   "KORPPAANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -3568,
+   -3910,
+   -3561,
+   -3907
+  ],
+  "plane": [
+   -5.71889715574533,
+   0,
+   0
+  ],
+  "note": "KORPPAANPUISTO: own street anchors 4/4, length 8 m"
+ },
+ {
+  "names": [
+   "PIKKU HUOPALAHDEN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -3350,
+   -3147,
+   -3341,
+   -3137
+  ],
+  "plane": [
+   -1.489562887257331,
+   -0.00479305600202103,
+   0.006584263834386535
+  ],
+  "note": "PIKKU HUOPALAHDEN PUISTO: own street anchors 5/9, length 9 m"
+ },
+ {
+  "names": [
+   "Tilkanniitty"
+  ],
+  "parts": 2,
+  "box": [
+   -3486,
+   -3493,
+   -3469,
+   -3423
+  ],
+  "plane": [
+   -9.972552250576895,
+   0.00024083003214656084,
+   -0.0012531226599865725
+  ],
+  "note": "Tilkanniitty: own street anchors 2/2, length 71 m"
+ },
+ {
+  "names": [
+   "Tilkanniitty"
+  ],
+  "parts": 1,
+  "box": [
+   -3521,
+   -3659,
+   -3511,
+   -3655
+  ],
+  "plane": [
+   -149.9551247677584,
+   -0.03886935039066959,
+   -0.002265124630327758
+  ],
+  "note": "Tilkanniitty: own street anchors 4/7, length 10 m"
+ },
+ {
+  "names": [
+   "PUUTARHURINLEHTO"
+  ],
+  "parts": 1,
+  "box": [
+   -3231,
+   -4164,
+   -3219,
+   -4158
+  ],
+  "plane": [
+   -26.461878714138862,
+   -0.004455436483307486,
+   -0.001573978352670477
+  ],
+  "note": "PUUTARHURINLEHTO: own street anchors 2/2, length 13 m"
+ },
+ {
+  "names": [
+   "PUUTARHURINLEHTO"
+  ],
+  "parts": 1,
+  "box": [
+   -3251,
+   -4059,
+   -3238,
+   -4051
+  ],
+  "plane": [
+   -7.784028841936251,
+   -0.0005025791883836295,
+   -0.00021279126971155614
+  ],
+  "note": "PUUTARHURINLEHTO: own street anchors 3/3, length 14 m"
+ },
+ {
+  "names": [
+   "Tilkanniitty"
+  ],
+  "parts": 2,
+  "box": [
+   -3308,
+   -3880,
+   -3295,
+   -3870
+  ],
+  "plane": [
+   -45.519310494404706,
+   -0.00729951308391446,
+   -0.004223275785702645
+  ],
+  "note": "Tilkanniitty: own street anchors 3/3, length 14 m"
+ },
+ {
+  "names": [
+   "PYÖRÖKIVEN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6058,
+   -2243,
+   6064,
+   -2239
+  ],
+  "plane": [
+   -5.90192283265777,
+   0,
+   0
+  ],
+  "note": "PYÖRÖKIVEN PUISTO: own street anchors 2/2, length 7 m"
+ },
+ {
+  "names": [
+   "Vanhaväylä"
+  ],
+  "parts": 1,
+  "box": [
+   5918,
+   -2613,
+   5923,
+   -2602
+  ],
+  "plane": [
+   -90.28629739900997,
+   -0.0049004738478254685,
+   -0.04339197282390418
+  ],
+  "note": "Vanhaväylä: own street anchors 3/8, length 10 m"
+ },
+ {
+  "names": [
+   "VERKATEHTAANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   1715,
+   -4876,
+   1718,
+   -4870
+  ],
+  "plane": [
+   -6.257113066034304,
+   0,
+   0
+  ],
+  "note": "VERKATEHTAANPUISTO: own street anchors 4/4, length 7 m"
+ },
+ {
+  "names": [
+   "VERKATEHTAANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   1669,
+   -4876,
+   1673,
+   -4870
+  ],
+  "plane": [
+   4.103307337881265,
+   -0.0007688702234210269,
+   0.0018032756876216623
+  ],
+  "note": "VERKATEHTAANPUISTO: own street anchors 3/6, length 6 m"
+ },
+ {
+  "names": [
+   "VERKATEHTAANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   1686,
+   -4877,
+   1691,
+   -4870
+  ],
+  "plane": [
+   -16.639650877719006,
+   0.0006202652945485856,
+   -0.0018993137620828219
+  ],
+  "note": "VERKATEHTAANPUISTO: own street anchors 6/3, length 6 m"
+ },
+ {
+  "names": [
+   "VERKATEHTAANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   1537,
+   -4893,
+   1543,
+   -4890
+  ],
+  "plane": [
+   4.849022699320465,
+   -0.004884475472167343,
+   0.00040759697764435537
+  ],
+  "note": "VERKATEHTAANPUISTO: own street anchors 3/5, length 6 m"
+ },
+ {
+  "names": [
+   "KUSTAA VAASAN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   1477,
+   -4964,
+   1479,
+   -4958
+  ],
+  "plane": [
+   -268.2999378046643,
+   0.004704871523523034,
+   -0.052388399130597646
+  ],
+  "note": "KUSTAA VAASAN PUISTO: own street anchors 5/3, length 6 m"
+ },
+ {
+  "names": [
+   "Hakamäentie"
+  ],
+  "parts": 1,
+  "box": [
+   -2095,
+   -4416,
+   -2061,
+   -4345
+  ],
+  "plane": [
+   -0.427711840008552,
+   0.0029294661342262906,
+   -0.006726746671786184
+  ],
+  "note": "Hakamäentie: street anchors 5/3, length 75 m"
+ },
+ {
+  "names": [
+   "VALLILAN PUISTO (KANGASALAN KENTTÄ)"
+  ],
+  "parts": 1,
+  "box": [
+   84,
+   -3087,
+   89,
+   -3078
+  ],
+  "plane": [
+   -29.820397926384434,
+   0.006495679013112573,
+   -0.013711714510768566
+  ],
+  "note": "VALLILAN PUISTO (KANGASALAN KENTTÄ): own street anchors 3/3, length 9 m"
+ },
+ {
+  "names": [
+   "KAUPPALANPUISTO "
+  ],
+  "parts": 1,
+  "box": [
+   -2883,
+   -4688,
+   -2873,
+   -4678
+  ],
+  "plane": [
+   77.5140754389743,
+   0.010840958715285997,
+   0.010795461064143386
+  ],
+  "note": "KAUPPALANPUISTO : own street anchors 7/9, length 11 m"
+ },
+ {
+  "names": [
+   "KAUPPALANPUISTO "
+  ],
+  "parts": 1,
+  "box": [
+   -3041,
+   -4468,
+   -3034,
+   -4462
+  ],
+  "plane": [
+   -5.289207959132511,
+   0,
+   0
+  ],
+  "note": "KAUPPALANPUISTO : own street anchors 5/5, length 7 m"
+ },
+ {
+  "names": [
+   "Eteläinen Uunisaari"
+  ],
+  "parts": 1,
+  "box": [
+   -137,
+   2028,
+   -132,
+   2033
+  ],
+  "plane": [
+   -5.378751236390503,
+   0,
+   0
+  ],
+  "note": "Eteläinen Uunisaari: own street anchors 3/3, length 5 m"
+ },
+ {
+  "names": [
+   "Eteläinen Uunisaari"
+  ],
+  "parts": 1,
+  "box": [
+   35,
+   1904,
+   39,
+   1911
+  ],
+  "plane": [
+   -6.69151749940028,
+   0,
+   0
+  ],
+  "note": "Eteläinen Uunisaari: own street anchors 3/3, length 7 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -1952,
+   -3401,
+   -1945,
+   -3399
+  ],
+  "plane": [
+   9.222149267273569,
+   0,
+   0
+  ],
+  "note": "Keskuspuisto: terrain anchors 8/17, length 7 m, slope -0.19 levelled"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2285,
+   -4040,
+   -2280,
+   -4036
+  ],
+  "plane": [
+   7.789062105255364,
+   0,
+   0
+  ],
+  "note": "Keskuspuisto: own street anchors 6/6, length 4 m"
+ },
+ {
+  "names": [
+   "RUNAR SCHILDTIN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -3880,
+   -6563,
+   -3874,
+   -6559
+  ],
+  "plane": [
+   143.52030582047064,
+   0.05214061650004424,
+   -0.011759574444412627
+  ],
+  "note": "RUNAR SCHILDTIN PUISTO: own street anchors 5/3, length 5 m"
+ },
+ {
+  "names": [
+   "KONALAN TAIMISTO JA HUOLTOTIE"
+  ],
+  "parts": 2,
+  "box": [
+   -4523,
+   -6837,
+   -4498,
+   -6816
+  ],
+  "plane": [
+   9.295859433706992,
+   -0.0004640020812520495,
+   0.00038048227419048425
+  ],
+  "note": "KONALAN TAIMISTO JA HUOLTOTIE: street anchors 3/3, length 30 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 1,
+  "box": [
+   -4745,
+   -7227,
+   -4725,
+   -7221
+  ],
+  "plane": [
+   70.65791833909815,
+   0.013763079993116482,
+   -0.000455277848869979
+  ],
+  "note": "Kehä I / Muurimestarintie: street anchors 4/5, length 20 m"
+ },
+ {
+  "names": [
+   "Laurinniitty"
+  ],
+  "parts": 1,
+  "box": [
+   -4167,
+   -6992,
+   -4160,
+   -6989
+  ],
+  "plane": [
+   7.7160678903664435,
+   0,
+   0
+  ],
+  "note": "Laurinniitty: own street anchors 4/4, length 6 m"
+ },
+ {
+  "names": [
+   "Lassilan reunapuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -4387,
+   -6660,
+   -4380,
+   -6654
+  ],
+  "plane": [
+   556.9649169989299,
+   0.09258190773081094,
+   0.021340901715619764
+  ],
+  "note": "Lassilan reunapuisto: own street anchors 8/4, length 6 m"
+ },
+ {
+  "names": [
+   "Tuorinniemenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   4862,
+   -1961,
+   4867,
+   -1958
+  ],
+  "plane": [
+   -5.165563784427508,
+   0,
+   0
+  ],
+  "note": "Tuorinniemenpuisto: own street anchors 2/2, length 5 m"
+ },
+ {
+  "names": [
+   "Tuorinniemenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   4818,
+   -1894,
+   4825,
+   -1891
+  ],
+  "plane": [
+   -5.325199839363916,
+   0,
+   0
+  ],
+  "note": "Tuorinniemenpuisto: own street anchors 1/1, length 7 m"
+ },
+ {
+  "names": [
+   "SIMPPUPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   4178,
+   -2243,
+   4181,
+   -2240
+  ],
+  "plane": [
+   -3.8101542685475023,
+   0,
+   0
+  ],
+  "note": "SIMPPUPUISTO: own street anchors 4/4, length 3 m"
+ },
+ {
+  "names": [
+   "SIMPPUPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   4162,
+   -2243,
+   4164,
+   -2241
+  ],
+  "plane": [
+   -3.7346253106745424,
+   0,
+   0
+  ],
+  "note": "SIMPPUPUISTO: own street anchors 4/4, length 3 m"
+ },
+ {
+  "names": [
+   "SORSAVUORENPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   4468,
+   -2104,
+   4475,
+   -2095
+  ],
+  "plane": [
+   292.35013499912276,
+   -0.037380507275048276,
+   0.05937168285478918
+  ],
+  "note": "SORSAVUORENPUISTO: terrain anchors 8/8, length 9 m"
+ },
+ {
+  "names": [
+   "Tuurholmanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   4686,
+   -1080,
+   4690,
+   -1076
+  ],
+  "plane": [
+   -5.886914151701092,
+   0,
+   0
+  ],
+  "note": "Tuurholmanpuisto: own street anchors 4/4, length 4 m"
+ },
+ {
+  "names": [
+   "Henrik Borgströmin puisto"
+  ],
+  "parts": 1,
+  "box": [
+   4203,
+   -986,
+   4207,
+   -982
+  ],
+  "plane": [
+   -6.633618404995308,
+   0,
+   0
+  ],
+  "note": "Henrik Borgströmin puisto: own street anchors 3/3, length 5 m"
+ },
+ {
+  "names": [
+   "Henrik Borgströmin puisto"
+  ],
+  "parts": 1,
+  "box": [
+   4272,
+   -1002,
+   4276,
+   -999
+  ],
+  "plane": [
+   -6.37824686060582,
+   0,
+   0
+  ],
+  "note": "Henrik Borgströmin puisto: own street anchors 4/4, length 3 m"
+ },
+ {
+  "names": [
+   "TAHVONLAHTI"
+  ],
+  "parts": 1,
+  "box": [
+   4252,
+   296,
+   4257,
+   298
+  ],
+  "plane": [
+   -6.586516026626183,
+   0,
+   0
+  ],
+  "note": "TAHVONLAHTI: terrain anchors 12/12, length 5 m"
+ },
+ {
+  "names": [
+   "VALLILAN SIIRTOLAPUUTARHA"
+  ],
+  "parts": 1,
+  "box": [
+   470,
+   -3419,
+   473,
+   -3415
+  ],
+  "plane": [
+   89.5267768138301,
+   -0.012867509751651027,
+   0.02607652195048544
+  ],
+  "note": "VALLILAN SIIRTOLAPUUTARHA: own street anchors 3/6, length 5 m"
+ },
+ {
+  "names": [
+   "TERVASAARI"
+  ],
+  "parts": 1,
+  "box": [
+   970,
+   -413,
+   975,
+   -390
+  ],
+  "plane": [
+   -14.920070937294529,
+   0.0023316544274447114,
+   -0.018224426647035937
+  ],
+  "note": "TERVASAARI: own street anchors 2/2, length 22 m"
+ },
+ {
+  "names": [
+   "KAUPPALANPUISTO "
+  ],
+  "parts": 1,
+  "box": [
+   -3099,
+   -4424,
+   -3086,
+   -4412
+  ],
+  "plane": [
+   -79.58007313041126,
+   -0.012993849845337186,
+   -0.007864415230723289
+  ],
+  "note": "KAUPPALANPUISTO : own street anchors 7/6, length 10 m"
+ },
+ {
+  "names": [
+   "KOSKIPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   1595,
+   -5211,
+   1614,
+   -5200
+  ],
+  "plane": [
+   -414.90360286845623,
+   0.09549187854234942,
+   -0.04944831036492319
+  ],
+  "note": "KOSKIPUISTO: terrain anchors 8/8, length 21 m"
+ },
+ {
+  "names": [
+   "Herttoniemen kartanonpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   5193,
+   -2121,
+   5201,
+   -2118
+  ],
+  "plane": [
+   -6.064208221414831,
+   0,
+   0
+  ],
+  "note": "Herttoniemen kartanonpuisto: own street anchors 2/2, length 8 m"
+ },
+ {
+  "names": [
+   "Herttoniemen kartanonpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   5103,
+   -2164,
+   5106,
+   -2160
+  ],
+  "plane": [
+   -5.7808493671585195,
+   0,
+   0
+  ],
+  "note": "Herttoniemen kartanonpuisto: own street anchors 4/4, length 5 m"
+ },
+ {
+  "names": [
+   "Herttoniemen kartanonpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   5194,
+   -2154,
+   5200,
+   -2152
+  ],
+  "plane": [
+   -6.227933107219235,
+   0,
+   0
+  ],
+  "note": "Herttoniemen kartanonpuisto: own street anchors 2/2, length 6 m"
+ },
+ {
+  "names": [
+   "Herttoniemen kartanonpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   5189,
+   -2153,
+   5193,
+   -2151
+  ],
+  "plane": [
+   -5.632137592448991,
+   0,
+   0
+  ],
+  "note": "Herttoniemen kartanonpuisto: own street anchors 1/1, length 4 m"
+ },
+ {
+  "names": [
+   "Renginpolku"
+  ],
+  "parts": 2,
+  "box": [
+   -5170,
+   -8270,
+   -5090,
+   -8228
+  ],
+  "plane": [
+   5.434228437980779,
+   -0.006494647059956067,
+   0.0035242683134858958
+  ],
+  "note": "Renginpolku: own street anchors 30/28, length 90 m"
+ },
+ {
+  "names": [
+   "Karviaismäki, aluepuisto"
+  ],
+  "parts": 2,
+  "box": [
+   2646,
+   -8053,
+   2657,
+   -7982
+  ],
+  "plane": [
+   408.4232592751951,
+   -0.0048457762794326615,
+   0.048711436069113864
+  ],
+  "note": "Karviaismäki, aluepuisto: street anchors 4/7, length 72 m"
+ },
+ {
+  "names": [
+   "Karviaismäki, aluepuisto"
+  ],
+  "parts": 1,
+  "box": [
+   2662,
+   -8135,
+   2666,
+   -8125
+  ],
+  "plane": [
+   189.31883455757657,
+   -0.0016896791778964798,
+   0.022458366247248618
+  ],
+  "note": "Karviaismäki, aluepuisto: own street anchors 3/3, length 10 m"
+ },
+ {
+  "names": [
+   "Karviaismäki, aluepuisto"
+  ],
+  "parts": 2,
+  "box": [
+   3053,
+   -8177,
+   3060,
+   -8166
+  ],
+  "plane": [
+   -205.39822728576513,
+   0.009974468499065017,
+   -0.021816312551512135
+  ],
+  "note": "Karviaismäki, aluepuisto: own street anchors 2/2, length 11 m"
+ },
+ {
+  "names": [
+   "Karviaismäki, aluepuisto"
+  ],
+  "parts": 1,
+  "box": [
+   3126,
+   -8314,
+   3133,
+   -8308
+  ],
+  "plane": [
+   278.5453167827493,
+   0.026623074533796785,
+   0.04293376584685498
+  ],
+  "note": "Karviaismäki, aluepuisto: own street anchors 8/4, length 6 m"
+ },
+ {
+  "names": [
+   "Sörnäisten Rantatie"
+  ],
+  "parts": 1,
+  "box": [
+   873,
+   -1896,
+   914,
+   -1867
+  ],
+  "plane": [
+   -4.8415268986504,
+   -0.00008251960712926125,
+   -0.0000547106199243492
+  ],
+  "note": "Sörnäisten Rantatie: own street anchors 6/9, length 48 m"
+ },
+ {
+  "names": [
+   "Puistometsä"
+  ],
+  "parts": 1,
+  "box": [
+   3296,
+   -7783,
+   3302,
+   -7779
+  ],
+  "plane": [
+   22.225070082860448,
+   0,
+   0
+  ],
+  "note": "Puistometsä: own street anchors 4/4, length 6 m"
+ },
+ {
+  "names": [
+   "VARJAKANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   9532,
+   -5711,
+   9538,
+   -5706
+  ],
+  "plane": [
+   -1151.1275392606826,
+   0.13946182151072775,
+   0.03233225584944737
+  ],
+  "note": "VARJAKANPUISTO: own street anchors 6/3, length 6 m, slope 0.14"
+ },
+ {
+  "names": [
+   "KURKIMOISIONPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   9698,
+   -6347,
+   9701,
+   -6340
+  ],
+  "plane": [
+   -35.78765189105973,
+   -0.00021347124805718223,
+   -0.005277920746351724
+  ],
+  "note": "KURKIMOISIONPUISTO: own street anchors 3/6, length 7 m"
+ },
+ {
+  "names": [
+   "Savelanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   2314,
+   -7484,
+   2318,
+   -7481
+  ],
+  "plane": [
+   0.8605195639728471,
+   0,
+   0
+  ],
+  "note": "Savelanpuisto: own street anchors 6/6, length 4 m"
+ },
+ {
+  "names": [
+   "Myllypuron urheilupuisto läntinen"
+  ],
+  "parts": 1,
+  "box": [
+   6601,
+   -4773,
+   6607,
+   -4769
+  ],
+  "plane": [
+   -0.935489077198425,
+   0,
+   0
+  ],
+  "note": "Myllypuron urheilupuisto läntinen: own street anchors 1/1, length 6 m"
+ },
+ {
+  "names": [
+   "Puistikko"
+  ],
+  "parts": 1,
+  "box": [
+   3427,
+   -8512,
+   3431,
+   -8496
+  ],
+  "plane": [
+   -995.0420184042058,
+   0.00036845447411283584,
+   -0.11759137769987175
+  ],
+  "note": "Puistikko: street anchors 3/3, length 16 m"
+ },
+ {
+  "names": [
+   "Laukkaluodonpolku"
+  ],
+  "parts": 2,
+  "box": [
+   -5053,
+   -268,
+   -5040,
+   -209
+  ],
+  "plane": [
+   17.404064112630277,
+   0.006695216289966517,
+   -0.04425846551207291
+  ],
+  "note": "Laukkaluodonpolku: own street anchors 4/4, length 59 m"
+ },
+ {
+  "names": [
+   "Liljasaarenpuisto"
+  ],
+  "parts": 2,
+  "box": [
+   -5564,
+   -1566,
+   -5549,
+   -1537
+  ],
+  "plane": [
+   -8.799873590159358,
+   -0.0015763385685359716,
+   0.003294918339224308
+  ],
+  "note": "Liljasaarenpuisto: street anchors 2/2, length 31 m"
+ },
+ {
+  "names": [
+   "VALLILANLAAKSO"
+  ],
+  "parts": 1,
+  "box": [
+   -206,
+   -3528,
+   -194,
+   -3517
+  ],
+  "plane": [
+   -2.3914377641229834,
+   0.0010770310185350702,
+   -0.0010055907451501092
+  ],
+  "note": "VALLILANLAAKSO: own street anchors 4/4, length 13 m"
+ },
+ {
+  "names": [
+   "VALLILANLAAKSO"
+  ],
+  "parts": 1,
+  "box": [
+   129,
+   -3773,
+   135,
+   -3767
+  ],
+  "plane": [
+   -82.30440542439155,
+   -0.016130597331339723,
+   -0.023124877811689922
+  ],
+  "note": "VALLILANLAAKSO: terrain anchors 9/16, length 5 m"
+ },
+ {
+  "names": [
+   "Strömbergin puisto"
+  ],
+  "parts": 1,
+  "box": [
+   -4848,
+   -5572,
+   -4838,
+   -5564
+  ],
+  "plane": [
+   -441.0069682919833,
+   -0.049893086009677866,
+   -0.0355890632964525
+  ],
+  "note": "Strömbergin puisto: own street anchors 5/9, length 9 m"
+ },
+ {
+  "names": [
+   "LINNAVUORENPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   9548,
+   -5827,
+   9555,
+   -5818
+  ],
+  "plane": [
+   0.17192186891662775,
+   -0.000300894838142089,
+   0.000586272166530974
+  ],
+  "note": "LINNAVUORENPUISTO: own street anchors 3/5, length 9 m"
+ },
+ {
+  "names": [
+   "Marjaniemen siirtolapuutarha"
+  ],
+  "parts": 1,
+  "box": [
+   6636,
+   -3973,
+   6644,
+   -3968
+  ],
+  "plane": [
+   -4.67915301657694,
+   0,
+   0
+  ],
+  "note": "Marjaniemen siirtolapuutarha: own street anchors 4/4, length 8 m"
+ },
+ {
+  "names": [
+   "Marjaniemen siirtolapuutarha"
+  ],
+  "parts": 1,
+  "box": [
+   6607,
+   -4193,
+   6614,
+   -4187
+  ],
+  "plane": [
+   -13.97339527212947,
+   0.0011001535213549267,
+   -0.000634512076201482
+  ],
+  "note": "Marjaniemen siirtolapuutarha: own street anchors 8/4, length 7 m"
+ },
+ {
+  "names": [
+   "Myllypuron liikuntapuisto"
+  ],
+  "parts": 1,
+  "box": [
+   6859,
+   -5123,
+   6865,
+   -5118
+  ],
+  "plane": [
+   34.84572429025965,
+   -0.011324955507200488,
+   -0.008416246327525056
+  ],
+  "note": "Myllypuron liikuntapuisto: own street anchors 3/6, length 5 m"
+ },
+ {
+  "names": [
+   "Puistometsä"
+  ],
+  "parts": 1,
+  "box": [
+   2404,
+   -5877,
+   2413,
+   -5863
+  ],
+  "plane": [
+   -160.17147704264738,
+   -0.02262624307751568,
+   -0.03549129363564953
+  ],
+  "note": "Puistometsä: own street anchors 3/3, length 14 m"
+ },
+ {
+  "names": [
+   "Tulisuontien puistometsä"
+  ],
+  "parts": 1,
+  "box": [
+   6654,
+   -3716,
+   6662,
+   -3707
+  ],
+  "plane": [
+   26.20884407240221,
+   0.02946094800494019,
+   0.06132669146383863
+  ],
+  "note": "Tulisuontien puistometsä: own street anchors 10/5, length 8 m"
+ },
+ {
+  "names": [
+   "HALLAINVUORI"
+  ],
+  "parts": 1,
+  "box": [
+   5301,
+   -5787,
+   5305,
+   -5785
+  ],
+  "plane": [
+   14.665293983590674,
+   0,
+   0
+  ],
+  "note": "HALLAINVUORI: own street anchors 2/2, length 4 m"
+ },
+ {
+  "names": [
+   "TALINLEHTO"
+  ],
+  "parts": 1,
+  "box": [
+   -4933,
+   -5278,
+   -4909,
+   -5263
+  ],
+  "plane": [
+   -47.56733526269904,
+   -0.005829260334678912,
+   -0.003225303437810144
+  ],
+  "note": "TALINLEHTO: own street anchors 2/1, length 26 m"
+ },
+ {
+  "names": [
+   "TALINLEHTO"
+  ],
+  "parts": 1,
+  "box": [
+   -5062,
+   -5032,
+   -5055,
+   -5024
+  ],
+  "plane": [
+   -2.4169967681883437,
+   0,
+   0
+  ],
+  "note": "TALINLEHTO: own street anchors 4/4, length 9 m"
+ },
+ {
+  "names": [
+   "UUTELA"
+  ],
+  "parts": 1,
+  "box": [
+   12121,
+   -3859,
+   12127,
+   -3854
+  ],
+  "plane": [
+   -6.357571184868899,
+   0,
+   0
+  ],
+  "note": "UUTELA: own street anchors 4/4, length 6 m"
+ },
+ {
+  "names": [
+   "TALIN KARTANOPUISTO",
+   "TALINHUIPPU "
+  ],
+  "parts": 3,
+  "box": [
+   -5682,
+   -4506,
+   -5659,
+   -4492
+  ],
+  "plane": [
+   -16.150851821018442,
+   -0.0013147700732030292,
+   -0.0006289103252777212
+  ],
+  "note": "TALIN KARTANOPUISTO: own street anchors 3/3, length 24 m"
+ },
+ {
+  "names": [
+   "STRÖMSINLAHDENPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6474,
+   -3379,
+   6478,
+   -3373
+  ],
+  "plane": [
+   -12.098082507948156,
+   0.03919949171680359,
+   0.07337266690909315
+  ],
+  "note": "STRÖMSINLAHDENPUISTO: own street anchors 5/3, length 6 m"
+ },
+ {
+  "names": [
+   "Strömbergin puisto"
+  ],
+  "parts": 1,
+  "box": [
+   -4804,
+   -5674,
+   -4795,
+   -5670
+  ],
+  "plane": [
+   15.864154252349826,
+   0.004609185155120851,
+   -0.0008626721932934771
+  ],
+  "note": "Strömbergin puisto: own street anchors 2/2, length 9 m"
+ },
+ {
+  "names": [
+   "HALLAINVUORI"
+  ],
+  "parts": 1,
+  "box": [
+   5320,
+   -5741,
+   5324,
+   -5738
+  ],
+  "plane": [
+   13.731994749940103,
+   0,
+   0
+  ],
+  "note": "HALLAINVUORI: own street anchors 2/2, length 4 m"
+ },
+ {
+  "names": [
+   "Linnalahdenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   9031,
+   -5692,
+   9037,
+   -5686
+  ],
+  "plane": [
+   -1213.1711122531433,
+   0.08241347075249408,
+   -0.08234752301595752
+  ],
+  "note": "Linnalahdenpuisto: own street anchors 17/8, length 7 m"
+ },
+ {
+  "names": [
+   "KOKKOKALLIO"
+  ],
+  "parts": 1,
+  "box": [
+   -5452,
+   -6601,
+   -5448,
+   -6596
+  ],
+  "plane": [
+   -453.717612687538,
+   -0.017736650940863352,
+   -0.0584035410215395
+  ],
+  "note": "KOKKOKALLIO: own street anchors 3/6, length 5 m"
+ },
+ {
+  "names": [
+   "KOKKOKALLIO"
+  ],
+  "parts": 1,
+  "box": [
+   -5536,
+   -6649,
+   -5531,
+   -6644
+  ],
+  "plane": [
+   29.05718698535132,
+   0,
+   0
+  ],
+  "note": "KOKKOKALLIO: own street anchors 4/4, length 5 m"
+ },
+ {
+  "names": [
+   "KOKKOKALLIO"
+  ],
+  "parts": 1,
+  "box": [
+   -5525,
+   -6630,
+   -5520,
+   -6625
+  ],
+  "plane": [
+   30.173471597391117,
+   0,
+   0
+  ],
+  "note": "KOKKOKALLIO: own street anchors 4/4, length 4 m"
+ },
+ {
+  "names": [
+   "KOKKOKALLIO"
+  ],
+  "parts": 1,
+  "box": [
+   -5442,
+   -6656,
+   -5437,
+   -6654
+  ],
+  "plane": [
+   30.32122599302235,
+   0,
+   0
+  ],
+  "note": "KOKKOKALLIO: own street anchors 4/4, length 5 m"
+ },
+ {
+  "names": [
+   "KOKKOKALLIO"
+  ],
+  "parts": 1,
+  "box": [
+   -5456,
+   -6605,
+   -5452,
+   -6601
+  ],
+  "plane": [
+   -622.6937316762192,
+   -0.09258360462191287,
+   -0.02221323557453091
+  ],
+  "note": "KOKKOKALLIO: own street anchors 3/6, length 4 m"
+ },
+ {
+  "names": [
+   "KOKKOKALLIO"
+  ],
+  "parts": 1,
+  "box": [
+   -5472,
+   -6570,
+   -5466,
+   -6565
+  ],
+  "plane": [
+   -270.8274745542471,
+   -0.028564687351785363,
+   -0.02169952447826843
+  ],
+  "note": "KOKKOKALLIO: own street anchors 3/6, length 5 m"
+ },
+ {
+  "names": [
+   "Vihdintie"
+  ],
+  "parts": 4,
+  "box": [
+   -4459,
+   -6518,
+   -4442,
+   -6499
+  ],
+  "plane": [
+   -46.684210558034664,
+   -0.004463777376197948,
+   -0.005462311422764376
+  ],
+  "note": "Vihdintie: own street anchors 4/4, length 22 m"
+ },
+ {
+  "names": [
+   "KORSUPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -4668,
+   -6233,
+   -4656,
+   -6227
+  ],
+  "plane": [
+   -52.12524630368041,
+   -0.008713047954590747,
+   -0.0030118868779516056
+  ],
+  "note": "KORSUPUISTO: own street anchors 3/2, length 12 m"
+ },
+ {
+  "names": [
+   "KORSUPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -4804,
+   -6141,
+   -4796,
+   -6126
+  ],
+  "plane": [
+   70.12730325753894,
+   0.0034112514052733085,
+   0.007489975998058713
+  ],
+  "note": "KORSUPUISTO: own street anchors 2/2, length 15 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2116,
+   -5792,
+   -2110,
+   -5787
+  ],
+  "plane": [
+   5.732993819674225,
+   0,
+   0
+  ],
+  "note": "Keskuspuisto: own street anchors 4/4, length 7 m"
+ },
+ {
+  "names": [
+   "PIRTTIPOLUNPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -756,
+   -6274,
+   -749,
+   -6270
+  ],
+  "plane": [
+   13.245696105644,
+   0,
+   0
+  ],
+  "note": "PIRTTIPOLUNPUISTO: own street anchors 5/5, length 6 m"
+ },
+ {
+  "names": [
+   "HILAPELTO"
+  ],
+  "parts": 1,
+  "box": [
+   -6195,
+   -7533,
+   -6190,
+   -7528
+  ],
+  "plane": [
+   -61.78221077045193,
+   -0.005740485881087424,
+   -0.005206147882836849
+  ],
+  "note": "HILAPELTO: own street anchors 3/5, length 5 m"
+ },
+ {
+  "names": [
+   "SIMO KLEMETINPOJAN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   4235,
+   -6940,
+   4237,
+   -6934
+  ],
+  "plane": [
+   20.030409244852,
+   0,
+   0
+  ],
+  "note": "SIMO KLEMETINPOJAN PUISTO: own street anchors 4/4, length 5 m"
+ },
+ {
+  "names": [
+   "SIMO KLEMETINPOJAN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   4186,
+   -7020,
+   4191,
+   -7017
+  ],
+  "plane": [
+   21.542324594223057,
+   0,
+   0
+  ],
+  "note": "SIMO KLEMETINPOJAN PUISTO: own street anchors 3/3, length 5 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2179,
+   -7485,
+   -2171,
+   -7478
+  ],
+  "plane": [
+   56.51035589375317,
+   0.007236941892869891,
+   0.003299934148575114
+  ],
+  "note": "Keskuspuisto: own street anchors 8/4, length 6 m"
+ },
+ {
+  "names": [
+   "KAARELANPUISTO",
+   "MÄTÄJOEN VARSI"
+  ],
+  "parts": 3,
+  "box": [
+   -4248,
+   -9030,
+   -4231,
+   -9006
+  ],
+  "plane": [
+   133.12503648860985,
+   -0.010402576747539171,
+   0.018517889537047975
+  ],
+  "note": "KAARELANPUISTO: own street anchors 3/3, length 25 m"
+ },
+ {
+  "names": [
+   "KARTANONHAKA"
+  ],
+  "parts": 2,
+  "box": [
+   -5009,
+   -8036,
+   -5001,
+   -8031
+  ],
+  "plane": [
+   35.84436980164217,
+   0.015598465358369083,
+   -0.006334291677548183
+  ],
+  "note": "KARTANONHAKA: own street anchors 8/4, length 8 m"
+ },
+ {
+  "names": [
+   "Piianpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -5443,
+   -8333,
+   -5440,
+   -8325
+  ],
+  "plane": [
+   10.636246615570565,
+   0,
+   0
+  ],
+  "note": "Piianpuisto: own street anchors 4/4, length 8 m"
+ },
+ {
+  "names": [
+   "Piianpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -5360,
+   -8280,
+   -5348,
+   -8271
+  ],
+  "plane": [
+   13.676836101966376,
+   0.008024559296978019,
+   -0.0047176698847447174
+  ],
+  "note": "Piianpuisto: own street anchors 3/3, length 12 m"
+ },
+ {
+  "names": [
+   "Itäinen Pukkisaari",
+   "Seurasaaren silta"
+  ],
+  "parts": 3,
+  "box": [
+   -3753,
+   -2075,
+   -3747,
+   -2026
+  ],
+  "plane": [
+   56.65677650460836,
+   -0.000004541818117199062,
+   0.030511166150967176
+  ],
+  "note": "Itäinen Pukkisaari: street anchors 4/6, length 49 m"
+ },
+ {
+  "names": [
+   "Seurasaaren silta"
+  ],
+  "parts": 1,
+  "box": [
+   -3755,
+   -1976,
+   -3748,
+   -1887
+  ],
+  "plane": [
+   0.4763528797657086,
+   -0.000029696876047357115,
+   0.0033106131247278466
+  ],
+  "note": "Seurasaaren silta: street anchors 5/6, length 89 m"
+ },
+ {
+  "names": [
+   "ITSENÄISYYDEN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   1215,
+   -7775,
+   1222,
+   -7772
+  ],
+  "plane": [
+   131.47822130762893,
+   -0.04454517131833575,
+   0.009567776961738047
+  ],
+  "note": "ITSENÄISYYDEN PUISTO: own street anchors 6/11, length 6 m"
+ },
+ {
+  "names": [
+   "Sysiniitty"
+  ],
+  "parts": 1,
+  "box": [
+   -938,
+   -9415,
+   -932,
+   -9408
+  ],
+  "plane": [
+   11.66185857312237,
+   0,
+   0
+  ],
+  "note": "Sysiniitty: own street anchors 5/5, length 6 m"
+ },
+ {
+  "names": [
+   "NUOTIOPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -1467,
+   -8727,
+   -1463,
+   -8725
+  ],
+  "plane": [
+   22.463384126909908,
+   0,
+   0
+  ],
+  "note": "NUOTIOPUISTO: own street anchors 4/4, length 4 m"
+ },
+ {
+  "names": [
+   "NUOTIOPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -1404,
+   -8718,
+   -1400,
+   -8712
+  ],
+  "plane": [
+   24.709596473776735,
+   0,
+   0
+  ],
+  "note": "NUOTIOPUISTO: own street anchors 2/2, length 6 m"
+ },
+ {
+  "names": [
+   "NUOTIOPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -1389,
+   -8663,
+   -1384,
+   -8659
+  ],
+  "plane": [
+   21.633180320647615,
+   0,
+   0
+  ],
+  "note": "NUOTIOPUISTO: own street anchors 4/4, length 5 m"
+ },
+ {
+  "names": [
+   "NUOTIOPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -1450,
+   -8768,
+   -1445,
+   -8764
+  ],
+  "plane": [
+   24.068150597831657,
+   0,
+   0
+  ],
+  "note": "NUOTIOPUISTO: own street anchors 4/4, length 5 m"
+ },
+ {
+  "names": [
+   "REPOVUORENPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -1699,
+   -8969,
+   -1696,
+   -8965
+  ],
+  "plane": [
+   22.305724018713526,
+   0,
+   0
+  ],
+  "note": "REPOVUORENPUISTO: own street anchors 3/3, length 4 m"
+ },
+ {
+  "names": [
+   "SUURSUONPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -510,
+   -7296,
+   -506,
+   -7290
+  ],
+  "plane": [
+   402.5717774384768,
+   0.015927207357076582,
+   0.05226158412383328
+  ],
+  "note": "SUURSUONPUISTO: own street anchors 5/3, length 7 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 1,
+  "box": [
+   444,
+   -8303,
+   455,
+   -8290
+  ],
+  "plane": [
+   0.4371512048255557,
+   -0.0004916575976417599,
+   -0.0008260554961337081
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 5/6, length 12 m"
+ },
+ {
+  "names": [
+   "Panuntie"
+  ],
+  "parts": 8,
+  "box": [
+   -270,
+   -5774,
+   -241,
+   -5745
+  ],
+  "plane": [
+   49.40588875266474,
+   0.005789820048428196,
+   0.0036762957598258203
+  ],
+  "note": "Panuntie: own street anchors 11/11, length 27 m"
+ },
+ {
+  "names": [
+   "KIRJOKIVENPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -2903,
+   -7843,
+   -2901,
+   -7839
+  ],
+  "plane": [
+   20.86893416717475,
+   0,
+   0
+  ],
+  "note": "KIRJOKIVENPUISTO: own street anchors 3/3, length 4 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2740,
+   -11120,
+   -2726,
+   -11110
+  ],
+  "plane": [
+   12.760574807107723,
+   0,
+   0
+  ],
+  "note": "Keskuspuisto: street anchors 3/0, length 15 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2191,
+   -9798,
+   -2158,
+   -9775
+  ],
+  "plane": [
+   -409.43098357825477,
+   0.10748067169254964,
+   -0.06833638532243456
+  ],
+  "crest": {
+   "ax": 0.8438762371263492,
+   "az": -0.5365378797563819,
+   "at": 3415.5129140881654,
+   "plane": [
+    137.0510826758514,
+    -0.027539526247666153,
+    0.01750967543858649
+   ],
+   "ends": [
+    3397.948487136096,
+    3432.957537455871
+   ]
+  },
+  "note": "Keskuspuisto: own street anchors 6/6, length 35 m, crest 1.4 m (46 % under)"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2485,
+   -9636,
+   -2470,
+   -9613
+  ],
+  "plane": [
+   -1155.3012072238676,
+   -0.05718452239614967,
+   -0.10749316653117742
+  ],
+  "note": "Keskuspuisto: own street anchors 6/6, length 22 m, slope -0.12"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2210,
+   -9849,
+   -2188,
+   -9835
+  ],
+  "plane": [
+   -267.7360123860823,
+   0.11981754651200885,
+   -0.05642476401727734
+  ],
+  "crest": {
+   "ax": 0.9047022013804725,
+   "az": -0.42604451271824517,
+   "at": 2204.0190022340016,
+   "plane": [
+    84.90702797135717,
+    -0.02493480570886642,
+    0.011742358017641728
+   ],
+   "ends": [
+    2193.269121073436,
+    2214.768918254079
+   ]
+  },
+  "note": "Keskuspuisto: own street anchors 6/6, length 21 m, crest 0.9 m (45 % under)"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 4,
+  "box": [
+   -2110,
+   -7764,
+   -2101,
+   -7699
+  ],
+  "plane": [
+   -81.05748448875681,
+   0.0007886160250731041,
+   -0.013152999431657375
+  ],
+  "note": "Keskuspuisto: own street anchors 8/4, length 65 m"
+ },
+ {
+  "names": [
+   "Vihdintie"
+  ],
+  "parts": 2,
+  "box": [
+   -6417,
+   -8868,
+   -6382,
+   -8809
+  ],
+  "plane": [
+   29.01110283605268,
+   0.00024845387853790094,
+   -0.0004617287204934832
+  ],
+  "note": "Vihdintie: own street anchors 5/5, length 64 m"
+ },
+ {
+  "names": [
+   "Konalan puisto",
+   "PÄIVÄLÄISENPUISTO"
+  ],
+  "parts": 2,
+  "box": [
+   -5522,
+   -7008,
+   -5463,
+   -6916
+  ],
+  "plane": [
+   261.4851036916309,
+   0.014793436382400634,
+   0.024358630465683324
+  ],
+  "note": "Konalan puisto: own street anchors 5/4, length 105 m"
+ },
+ {
+  "names": [
+   "TALINLEHTO"
+  ],
+  "parts": 1,
+  "box": [
+   -4870,
+   -5501,
+   -4851,
+   -5496
+  ],
+  "plane": [
+   -6.14332694479069,
+   -0.0010296063871497135,
+   -0.00010018147347828846
+  ],
+  "note": "TALINLEHTO: own street anchors 3/3, length 19 m"
+ },
+ {
+  "names": [
+   "Pakilanpuisto"
+  ],
+  "parts": 2,
+  "box": [
+   -1672,
+   -7938,
+   -1650,
+   -7861
+  ],
+  "plane": [
+   -2.178268690450338,
+   0.0007198949400379892,
+   -0.0033485501660398083
+  ],
+  "note": "Pakilanpuisto: own street anchors 4/5, length 80 m"
+ },
+ {
+  "names": [
+   "Suojavyöhyke",
+   "Pakilanpuisto"
+  ],
+  "parts": 4,
+  "box": [
+   -999,
+   -8110,
+   -981,
+   -8037
+  ],
+  "plane": [
+   68.11978673411531,
+   0.0010237689502224083,
+   0.005007354965342289
+  ],
+  "note": "Suojavyöhyke: own street anchors 5/4, length 74 m"
+ },
+ {
+  "names": [
+   "Suojavyöhyke",
+   "Pakilanpuisto"
+  ],
+  "parts": 3,
+  "box": [
+   -710,
+   -8116,
+   -694,
+   -8059
+  ],
+  "plane": [
+   -46.89153934952861,
+   -0.002162228898305038,
+   -0.009397310540333317
+  ],
+  "note": "Suojavyöhyke: own street anchors 4/3, length 57 m"
+ },
+ {
+  "names": [
+   "TIKKURILAN RANTAPUISTO"
+  ],
+  "parts": 2,
+  "box": [
+   3898,
+   -13301,
+   3940,
+   -13251
+  ],
+  "plane": [
+   -20.557673661427213,
+   0.0013614580610548455,
+   -0.0016873346243646999
+  ],
+  "note": "TIKKURILAN RANTAPUISTO: own street anchors 5/4, length 61 m"
+ },
+ {
+  "names": [
+   "Tuorinniemenpuisto",
+   "Kaivolahti uimaranta"
+  ],
+  "parts": 2,
+  "box": [
+   4830,
+   -1826,
+   4838,
+   -1819
+  ],
+  "plane": [
+   58.49565789045645,
+   -0.016245118752584962,
+   -0.007589255539510267
+  ],
+  "note": "Tuorinniemenpuisto: own street anchors 7/15, length 8 m"
+ },
+ {
+  "names": [
+   "HEVOSSALMEN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   5653,
+   1052,
+   5659,
+   1058
+  ],
+  "plane": [
+   45.08941601967045,
+   -0.01124098686753178,
+   0.011233288320450596
+  ],
+  "note": "HEVOSSALMEN PUISTO: terrain anchors 7/16, length 7 m"
+ },
+ {
+  "names": [
+   "Suopuisto"
+  ],
+  "parts": 1,
+  "box": [
+   7233,
+   -8005,
+   7234,
+   -8001
+  ],
+  "plane": [
+   28.380843992629465,
+   0,
+   0
+  ],
+  "note": "Suopuisto: own street anchors 2/2, length 4 m"
+ },
+ {
+  "names": [
+   "EMÄNNÄNPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   7518,
+   -6841,
+   7525,
+   -6836
+  ],
+  "plane": [
+   18.272970820941644,
+   0,
+   0
+  ],
+  "note": "EMÄNNÄNPUISTO: own street anchors 4/4, length 7 m"
+ },
+ {
+  "names": [
+   "MUSTIKKAMÄKI"
+  ],
+  "parts": 1,
+  "box": [
+   7869,
+   -6989,
+   7872,
+   -6983
+  ],
+  "plane": [
+   27.397623841438733,
+   0,
+   0
+  ],
+  "note": "MUSTIKKAMÄKI: own street anchors 4/4, length 6 m"
+ },
+ {
+  "names": [
+   "MUSTIKKAMÄKI"
+  ],
+  "parts": 1,
+  "box": [
+   7943,
+   -6925,
+   7949,
+   -6921
+  ],
+  "plane": [
+   29.522587616885495,
+   0,
+   0
+  ],
+  "note": "MUSTIKKAMÄKI: own street anchors 4/4, length 5 m"
+ },
+ {
+  "names": [
+   "Linnanpellonpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   8534,
+   -6661,
+   8541,
+   -6653
+  ],
+  "plane": [
+   2.3006021877209655,
+   -0.010127494904952693,
+   -0.013239941737784549
+  ],
+  "note": "Linnanpellonpuisto: own street anchors 3/6, length 7 m"
+ },
+ {
+  "names": [
+   "MIKONMÄKI I"
+  ],
+  "parts": 1,
+  "box": [
+   -4017,
+   -7588,
+   -4013,
+   -7584
+  ],
+  "plane": [
+   26.49507096911412,
+   0,
+   0
+  ],
+  "note": "MIKONMÄKI I: own street anchors 6/6, length 4 m"
+ },
+ {
+  "names": [
+   "MIKONMÄKI I"
+  ],
+  "parts": 1,
+  "box": [
+   -4011,
+   -7624,
+   -4008,
+   -7622
+  ],
+  "plane": [
+   28.11814008400067,
+   0,
+   0
+  ],
+  "note": "MIKONMÄKI I: own street anchors 4/4, length 4 m"
+ },
+ {
+  "names": [
+   "Kurkimäenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   6487,
+   -6792,
+   6490,
+   -6785
+  ],
+  "plane": [
+   35.04515167666494,
+   0,
+   0
+  ],
+  "note": "Kurkimäenpuisto: own street anchors 4/4, length 6 m"
+ },
+ {
+  "names": [
+   "Kurkimäenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   6436,
+   -6877,
+   6442,
+   -6873
+  ],
+  "plane": [
+   32.2446522987342,
+   0,
+   0
+  ],
+  "note": "Kurkimäenpuisto: own street anchors 4/4, length 6 m"
+ },
+ {
+  "names": [
+   "Kurkimäenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   6466,
+   -6855,
+   6469,
+   -6850
+  ],
+  "plane": [
+   34.41076646888448,
+   0,
+   0
+  ],
+  "note": "Kurkimäenpuisto: own street anchors 4/4, length 5 m"
+ },
+ {
+  "names": [
+   "Kurkimäenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   6515,
+   -6840,
+   6519,
+   -6832
+  ],
+  "plane": [
+   35.76857191994554,
+   0,
+   0
+  ],
+  "note": "Kurkimäenpuisto: own street anchors 4/4, length 7 m"
+ },
+ {
+  "names": [
+   "Kurkimäenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   6515,
+   -6808,
+   6519,
+   -6800
+  ],
+  "plane": [
+   34.801662833407946,
+   0,
+   0
+  ],
+  "note": "Kurkimäenpuisto: own street anchors 4/4, length 7 m"
+ },
+ {
+  "names": [
+   "Kurkimäenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   6495,
+   -6831,
+   6502,
+   -6828
+  ],
+  "plane": [
+   35.1098539907325,
+   0,
+   0
+  ],
+  "note": "Kurkimäenpuisto: own street anchors 4/4, length 6 m"
+ },
+ {
+  "names": [
+   "Kurkimäenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   6491,
+   -6905,
+   6496,
+   -6899
+  ],
+  "plane": [
+   31.79161578149736,
+   0,
+   0
+  ],
+  "note": "Kurkimäenpuisto: own street anchors 4/4, length 6 m"
+ },
+ {
+  "names": [
+   "Ulvilanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -4630,
+   -4343,
+   -4627,
+   -4338
+  ],
+  "plane": [
+   2.769438885684414,
+   0,
+   0
+  ],
+  "note": "Ulvilanpuisto: terrain anchors 22/15, length 5 m"
+ },
+ {
+  "names": [
+   "Suojavyöhyke"
+  ],
+  "parts": 1,
+  "box": [
+   5263,
+   -7166,
+   5275,
+   -7152
+  ],
+  "plane": [
+   -23.51942990564753,
+   -0.009053503198996287,
+   -0.01103468464125818
+  ],
+  "note": "Suojavyöhyke: own street anchors 3/3, length 16 m"
+ },
+ {
+  "names": [
+   "KUNINKAANKARTANONSAARI",
+   "Puistikko"
+  ],
+  "parts": 3,
+  "box": [
+   1789,
+   -5163,
+   1823,
+   -5146
+  ],
+  "plane": [
+   155.50500240868658,
+   -0.04127287283885679,
+   0.01624713176388902
+  ],
+  "note": "KUNINKAANKARTANONSAARI: own street anchors 6/7, length 34 m"
+ },
+ {
+  "names": [
+   "Mustankivenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   10493,
+   -3973,
+   10509,
+   -3962
+  ],
+  "plane": [
+   -387.199579013222,
+   0.029493149376866465,
+   -0.01932881466956993
+  ],
+  "note": "Mustankivenpuisto: own street anchors 2/2, length 17 m"
+ },
+ {
+  "names": [
+   "Leikkipuisto Ulvila",
+   "Ulvilanpuisto"
+  ],
+  "parts": 2,
+  "box": [
+   -4858,
+   -4128,
+   -4854,
+   -4122
+  ],
+  "plane": [
+   0.9602204321464587,
+   0,
+   0
+  ],
+  "note": "Leikkipuisto Ulvila: own street anchors 3/3, length 6 m"
+ },
+ {
+  "names": [
+   "KIELOSAARENPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -5386,
+   -4082,
+   -5368,
+   -4074
+  ],
+  "plane": [
+   -98.54130767075601,
+   -0.015366887147151868,
+   -0.0024308114472889005
+  ],
+  "note": "KIELOSAARENPUISTO: own street anchors 5/5, length 18 m"
+ },
+ {
+  "names": [
+   "MÄTÄJOKILAAKSO",
+   "KAARELANPUISTO"
+  ],
+  "parts": 2,
+  "box": [
+   -4328,
+   -8511,
+   -4310,
+   -8496
+  ],
+  "plane": [
+   -30.91486977130205,
+   -0.0033702407047240777,
+   -0.0029911041011816846
+  ],
+  "note": "MÄTÄJOKILAAKSO: own street anchors 3/3, length 21 m"
+ },
+ {
+  "names": [
+   "KAARELANPUISTO",
+   "MÄTÄJOKILAAKSO"
+  ],
+  "parts": 2,
+  "box": [
+   -4499,
+   -8302,
+   -4482,
+   -8287
+  ],
+  "plane": [
+   -60.11568323060541,
+   -0.006039025243605738,
+   -0.0050602418299399415
+  ],
+  "note": "KAARELANPUISTO: own street anchors 3/3, length 20 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -1939,
+   -3285,
+   -1932,
+   -3279
+  ],
+  "plane": [
+   -3.6874422978352346,
+   -0.0024621528481630476,
+   -0.002363832214956888
+  ],
+  "note": "Keskuspuisto: own street anchors 3/6, length 5 m"
+ },
+ {
+  "names": [
+   "KARTANONHAKA"
+  ],
+  "parts": 2,
+  "box": [
+   -4639,
+   -8136,
+   -4627,
+   -8126
+  ],
+  "plane": [
+   130.86597063753993,
+   0.014262159687994451,
+   0.006949512730184908
+  ],
+  "note": "KARTANONHAKA: own street anchors 4/5, length 13 m"
+ },
+ {
+  "names": [
+   "KARTANONHAKA"
+  ],
+  "parts": 2,
+  "box": [
+   -4809,
+   -7917,
+   -4792,
+   -7903
+  ],
+  "plane": [
+   -60.240777289545804,
+   -0.006360955163611707,
+   -0.004816917302759204
+  ],
+  "note": "KARTANONHAKA: own street anchors 3/3, length 20 m"
+ },
+ {
+  "names": [
+   "KARTANONHAKA"
+  ],
+  "parts": 1,
+  "box": [
+   -5031,
+   -8072,
+   -5023,
+   -8066
+  ],
+  "plane": [
+   41.857207048248036,
+   0.02658326880972638,
+   -0.012457961487271497
+  ],
+  "note": "KARTANONHAKA: own street anchors 6/3, length 8 m"
+ },
+ {
+  "names": [
+   "KARTANONHAKA",
+   "MÄTÄJOEN VARSI"
+  ],
+  "parts": 2,
+  "box": [
+   -4791,
+   -7627,
+   -4772,
+   -7621
+  ],
+  "plane": [
+   32.896160392179155,
+   0.006515588534147063,
+   -0.0009530399609575418
+  ],
+  "note": "KARTANONHAKA: own street anchors 3/4, length 19 m"
+ },
+ {
+  "names": [
+   "KARTANONHAKA"
+  ],
+  "parts": 1,
+  "box": [
+   -4765,
+   -7376,
+   -4760,
+   -7363
+  ],
+  "plane": [
+   -57.04268550229233,
+   -0.002289487299084223,
+   -0.007493278514567691
+  ],
+  "note": "KARTANONHAKA: own street anchors 5/6, length 14 m"
+ },
+ {
+  "names": [
+   "KARTANONHAKA",
+   "MÄTÄJOEN VARSI"
+  ],
+  "parts": 2,
+  "box": [
+   -4749,
+   -7321,
+   -4729,
+   -7316
+  ],
+  "plane": [
+   53.96294255007259,
+   0.009986089646959089,
+   -0.0002978146370212741
+  ],
+  "note": "KARTANONHAKA: own street anchors 4/5, length 20 m"
+ },
+ {
+  "names": [
+   "TALIN KARTANOPUISTO"
+  ],
+  "parts": 2,
+  "box": [
+   -5605,
+   -4871,
+   -5599,
+   -4862
+  ],
+  "plane": [
+   -6.483780980918277,
+   0,
+   0
+  ],
+  "note": "TALIN KARTANOPUISTO: own street anchors 9/9, length 8 m"
+ },
+ {
+  "names": [
+   "POUTAMÄENPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -5122,
+   -4954,
+   -5113,
+   -4943
+  ],
+  "plane": [
+   -58.07118795187138,
+   -0.0040936796790272505,
+   -0.006857588924062668
+  ],
+  "note": "POUTAMÄENPUISTO: own street anchors 3/3, length 11 m"
+ },
+ {
+  "names": [
+   "MÄTÄJOEN VARSI",
+   "KAARELANPUISTO"
+  ],
+  "parts": 3,
+  "box": [
+   -4659,
+   -9231,
+   -4650,
+   -9222
+  ],
+  "plane": [
+   -0.1211668280040108,
+   0.002232139498126645,
+   -0.0024150966417685873
+  ],
+  "note": "MÄTÄJOEN VARSI: own street anchors 3/3, length 10 m"
+ },
+ {
+  "names": [
+   "KLAUKKALANPUISTO",
+   "Suojavyöhyke"
+  ],
+  "parts": 3,
+  "box": [
+   1092,
+   -8311,
+   1194,
+   -8275
+  ],
+  "plane": [
+   5.941427899129119,
+   0.0008399965742368067,
+   0.00026971549366301803
+  ],
+  "note": "KLAUKKALANPUISTO: own street anchors 5/4, length 106 m"
+ },
+ {
+  "names": [
+   "ULLAKSENPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   10102,
+   -3419,
+   10108,
+   -3415
+  ],
+  "plane": [
+   -6.166635529763066,
+   0,
+   0
+  ],
+  "note": "ULLAKSENPUISTO: own street anchors 4/4, length 6 m"
+ },
+ {
+  "names": [
+   "TYYNELÄNPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   2546,
+   -9510,
+   2552,
+   -9506
+  ],
+  "plane": [
+   7.6825073243728195,
+   0,
+   0
+  ],
+  "note": "TYYNELÄNPUISTO: own street anchors 3/3, length 6 m"
+ },
+ {
+  "names": [
+   "PUIMURIPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   2776,
+   -8843,
+   2779,
+   -8832
+  ],
+  "plane": [
+   8.990377849690013,
+   0,
+   0
+  ],
+  "note": "PUIMURIPUISTO: street anchors 1/0, length 11 m"
+ },
+ {
+  "names": [
+   "KUHANKEITTÄJÄNPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   2767,
+   -9835,
+   2772,
+   -9830
+  ],
+  "plane": [
+   8.023983603016855,
+   0,
+   0
+  ],
+  "note": "KUHANKEITTÄJÄNPUISTO: own street anchors 4/4, length 5 m"
+ },
+ {
+  "names": [
+   "Satamakaari"
+  ],
+  "parts": 3,
+  "box": [
+   11938,
+   -6326,
+   11994,
+   -6259
+  ],
+  "plane": [
+   -234.99354223051165,
+   0.0117715074004659,
+   -0.015019469933610995
+  ],
+  "note": "Satamakaari: street anchors 19/12, length 78 m"
+ },
+ {
+  "names": [
+   "Porolahdenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   5448,
+   -2630,
+   5455,
+   -2625
+  ],
+  "plane": [
+   -6.249332183697927,
+   0,
+   0
+  ],
+  "note": "Porolahdenpuisto: own street anchors 4/4, length 7 m"
+ },
+ {
+  "names": [
+   "Mustankivenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   10445,
+   -4105,
+   10449,
+   -4102
+  ],
+  "plane": [
+   3.934040545636993,
+   0,
+   0
+  ],
+  "note": "Mustankivenpuisto: own street anchors 3/3, length 3 m"
+ },
+ {
+  "names": [
+   "VANHANKALLIONPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   11119,
+   -3663,
+   11122,
+   -3660
+  ],
+  "plane": [
+   -0.6665023208398497,
+   0,
+   0
+  ],
+  "note": "VANHANKALLIONPUISTO: own street anchors 4/4, length 3 m"
+ },
+ {
+  "names": [
+   "Koivuniemi"
+  ],
+  "parts": 1,
+  "box": [
+   8070,
+   -4176,
+   8076,
+   -4174
+  ],
+  "plane": [
+   -424.1098714364887,
+   0.04976566266604396,
+   -0.003772814200543479
+  ],
+  "note": "Koivuniemi: terrain anchors 16/7, length 7 m"
+ },
+ {
+  "names": [
+   "Maarlahti / Vartiokylän lahti"
+  ],
+  "parts": 2,
+  "box": [
+   8573,
+   -4297,
+   8627,
+   -4274
+  ],
+  "plane": [
+   -2.5897192327881537,
+   0,
+   0
+  ],
+  "note": "Maarlahti / Vartiokylän lahti: street anchors 24/0, length 57 m"
+ },
+ {
+  "names": [
+   "HALTIALAN KARTANO "
+  ],
+  "parts": 1,
+  "box": [
+   160,
+   -11558,
+   190,
+   -11554
+  ],
+  "plane": [
+   38.777185664373576,
+   -0.13544572748154549,
+   0.0011208750409065853
+  ],
+  "note": "HALTIALAN KARTANO : own street anchors 5/3, length 30 m, slope -0.14"
+ },
+ {
+  "names": [
+   "FALLKULLAN KARTANO "
+  ],
+  "parts": 1,
+  "box": [
+   4735,
+   -9898,
+   4739,
+   -9895
+  ],
+  "plane": [
+   8.087700418315386,
+   0,
+   0
+  ],
+  "note": "FALLKULLAN KARTANO : own street anchors 4/4, length 4 m"
+ },
+ {
+  "names": [
+   "Lokkisaarenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   10493,
+   -4763,
+   10501,
+   -4758
+  ],
+  "plane": [
+   -1.9709564376769082,
+   0,
+   0
+  ],
+  "note": "Lokkisaarenpuisto: own street anchors 3/3, length 7 m"
+ },
+ {
+  "names": [
+   "Siltamäen aluepuisto"
+  ],
+  "parts": 2,
+  "box": [
+   1650,
+   -11855,
+   1659,
+   -11846
+  ],
+  "plane": [
+   -720.2291250711679,
+   0.04631443217795742,
+   -0.054513564042621934
+  ],
+  "note": "Siltamäen aluepuisto: own street anchors 7/3, length 9 m"
+ },
+ {
+  "names": [
+   "Siltamäen aluepuisto"
+  ],
+  "parts": 3,
+  "box": [
+   1654,
+   -12201,
+   1690,
+   -12186
+  ],
+  "plane": [
+   3.8054878415108178,
+   0,
+   0
+  ],
+  "note": "Siltamäen aluepuisto: street anchors 0/3, length 37 m"
+ },
+ {
+  "names": [
+   "Siltamäen aluepuisto"
+  ],
+  "parts": 1,
+  "box": [
+   2096,
+   -12263,
+   2105,
+   -12258
+  ],
+  "plane": [
+   50.530548194517394,
+   -0.008700363252191722,
+   0.0022887016006948096
+  ],
+  "note": "Siltamäen aluepuisto: own street anchors 3/6, length 8 m"
+ },
+ {
+  "names": [
+   "Ilveskorvenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   10155,
+   -5726,
+   10160,
+   -5722
+  ],
+  "plane": [
+   361.5672160023386,
+   -0.03785372388352715,
+   -0.0053145493962713335
+  ],
+  "note": "Ilveskorvenpuisto: own street anchors 3/6, length 5 m"
+ },
+ {
+  "names": [
+   "Myllypuron urheilupuisto läntinen"
+  ],
+  "parts": 1,
+  "box": [
+   6544,
+   -4659,
+   6548,
+   -4655
+  ],
+  "plane": [
+   -186.8685350264721,
+   0.04090511349715851,
+   0.017603037349772206
+  ],
+  "note": "Myllypuron urheilupuisto läntinen: own street anchors 6/4, length 5 m"
+ },
+ {
+  "names": [
+   "HALLAINVUORI"
+  ],
+  "parts": 1,
+  "box": [
+   5039,
+   -5558,
+   5053,
+   -5546
+  ],
+  "plane": [
+   17.65336053693085,
+   0,
+   0
+  ],
+  "note": "HALLAINVUORI: street anchors 6/6, length 13 m, slope 0.82 levelled"
+ },
+ {
+  "names": [
+   "TULVANIITTY",
+   "Savelanpuisto"
+  ],
+  "parts": 2,
+  "box": [
+   1803,
+   -7580,
+   1847,
+   -7535
+  ],
+  "plane": [
+   3.176631670239381,
+   -0.00007972501080836112,
+   0.00007923711690265593
+  ],
+  "note": "TULVANIITTY: own street anchors 4/5, length 59 m"
+ },
+ {
+  "names": [
+   "PITÄJÄNMÄKI",
+   "Pitäjänmäenpolku"
+  ],
+  "parts": 3,
+  "box": [
+   -5447,
+   -6280,
+   -5370,
+   -6254
+  ],
+  "plane": [
+   20.986450351943592,
+   -0.000804700184125729,
+   0.0002326121584658146
+  ],
+  "note": "PITÄJÄNMÄKI: own street anchors 3/4, length 78 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 2,
+  "box": [
+   -2543,
+   -5200,
+   -2458,
+   -5155
+  ],
+  "plane": [
+   -57.15568200455879,
+   -0.012514274284416713,
+   -0.006143104670708265
+  ],
+  "note": "Keskuspuisto: street anchors 4/4, length 93 m"
+ },
+ {
+  "names": [
+   "VESALANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   8208,
+   -7828,
+   8215,
+   -7823
+  ],
+  "plane": [
+   18.026092755097302,
+   0,
+   0
+  ],
+  "note": "VESALANPUISTO: own street anchors 2/2, length 7 m"
+ },
+ {
+  "names": [
+   "TAPANINVAINIO"
+  ],
+  "parts": 1,
+  "box": [
+   2143,
+   -9851,
+   2147,
+   -9845
+  ],
+  "plane": [
+   5.644627785910226,
+   0,
+   0
+  ],
+  "note": "TAPANINVAINIO: own street anchors 2/2, length 6 m"
+ },
+ {
+  "names": [
+   "LONGINOJANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   3674,
+   -8387,
+   3679,
+   -8375
+  ],
+  "plane": [
+   33.1160974012384,
+   -0.0008533182046131369,
+   0.0028404505381908096
+  ],
+  "note": "LONGINOJANPUISTO: own street anchors 2/1, length 12 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2618,
+   -5080,
+   -2352,
+   -4912
+  ],
+  "plane": [
+   94.08214843747758,
+   0.015168048809716433,
+   0.009994768649815846
+  ],
+  "note": "Keskuspuisto: street anchors 4/6, length 313 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 2,
+  "box": [
+   -2459,
+   -4837,
+   -2455,
+   -4835
+  ],
+  "plane": [
+   2.2677304708222383,
+   0,
+   0
+  ],
+  "note": "Keskuspuisto: own street anchors 1/1, length 3 m"
+ },
+ {
+  "names": [
+   "Korttelipuisto"
+  ],
+  "parts": 1,
+  "box": [
+   3284,
+   -12685,
+   3290,
+   -12683
+  ],
+  "plane": [
+   8.30100905716602,
+   0,
+   0
+  ],
+  "note": "Korttelipuisto: own street anchors 1/1, length 5 m"
+ },
+ {
+  "names": [
+   "Myllypuron liikuntapuisto"
+  ],
+  "parts": 1,
+  "box": [
+   6837,
+   -5067,
+   6844,
+   -5064
+  ],
+  "plane": [
+   -0.13922257756348255,
+   0,
+   0
+  ],
+  "note": "Myllypuron liikuntapuisto: own street anchors 4/4, length 8 m"
+ },
+ {
+  "names": [
+   "Myllypuron urheilupuisto läntinen"
+  ],
+  "parts": 1,
+  "box": [
+   6515,
+   -4480,
+   6520,
+   -4477
+  ],
+  "plane": [
+   -3.2644376638376893,
+   0,
+   0
+  ],
+  "note": "Myllypuron urheilupuisto läntinen: own street anchors 4/4, length 4 m"
+ },
+ {
+  "names": [
+   "Myllypuron urheilupuisto läntinen"
+  ],
+  "parts": 1,
+  "box": [
+   6565,
+   -4724,
+   6572,
+   -4715
+  ],
+  "plane": [
+   -25.856696951234415,
+   -0.017115746074235248,
+   -0.02919166556157666
+  ],
+  "note": "Myllypuron urheilupuisto läntinen: own street anchors 3/6, length 8 m"
+ },
+ {
+  "names": [
+   "Maratontunneli",
+   "KIVIKON ULKOILUPUISTO"
+  ],
+  "parts": 2,
+  "box": [
+   7015,
+   -9254,
+   7022,
+   -9249
+  ],
+  "plane": [
+   414.59328307070973,
+   -0.03935282264089325,
+   0.01103920312065151
+  ],
+  "note": "Maratontunneli: own street anchors 8/14, length 7 m"
+ },
+ {
+  "names": [
+   "KIINALAISPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6972,
+   -8546,
+   6987,
+   -8532
+  ],
+  "plane": [
+   94.74036203530764,
+   -0.0038111163752222775,
+   0.0036309653571346486
+  ],
+  "note": "KIINALAISPUISTO: own street anchors 3/3, length 17 m"
+ },
+ {
+  "names": [
+   "KIINALAISPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6956,
+   -8630,
+   6957,
+   -8625
+  ],
+  "plane": [
+   44.56389525612522,
+   0,
+   0
+  ],
+  "note": "KIINALAISPUISTO: terrain anchors 7/12, length 5 m, slope -0.18 levelled"
+ },
+ {
+  "names": [
+   "KAIVANTOPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6445,
+   -9334,
+   6450,
+   -9329
+  ],
+  "plane": [
+   176.46808779268596,
+   -0.011592673246221572,
+   0.006934259532836484
+  ],
+  "note": "KAIVANTOPUISTO: own street anchors 3/6, length 4 m"
+ },
+ {
+  "names": [
+   "KAIVANTOPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6463,
+   -9281,
+   6470,
+   -9276
+  ],
+  "plane": [
+   32.20950097172656,
+   0,
+   0
+  ],
+  "note": "KAIVANTOPUISTO: own street anchors 4/4, length 7 m"
+ },
+ {
+  "names": [
+   "KAIVANTOPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6510,
+   -9381,
+   6517,
+   -9375
+  ],
+  "plane": [
+   315.5208466394174,
+   -0.01828039394277318,
+   0.017259395111079157
+  ],
+  "note": "KAIVANTOPUISTO: own street anchors 3/6, length 6 m"
+ },
+ {
+  "names": [
+   "KAIVANTOPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6442,
+   -9324,
+   6446,
+   -9318
+  ],
+  "plane": [
+   37.0755448196837,
+   0,
+   0
+  ],
+  "note": "KAIVANTOPUISTO: own street anchors 5/5, length 6 m"
+ },
+ {
+  "names": [
+   "KAIVANTOPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6496,
+   -9373,
+   6498,
+   -9369
+  ],
+  "plane": [
+   34.792509759061986,
+   0,
+   0
+  ],
+  "note": "KAIVANTOPUISTO: own street anchors 4/4, length 4 m"
+ },
+ {
+  "names": [
+   "AARREPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   8461,
+   -7717,
+   8463,
+   -7713
+  ],
+  "plane": [
+   9.423221998291133,
+   0,
+   0
+  ],
+  "note": "AARREPUISTO: own street anchors 4/4, length 4 m"
+ },
+ {
+  "names": [
+   "AARREPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   8424,
+   -7709,
+   8430,
+   -7702
+  ],
+  "plane": [
+   -15.625065796601334,
+   0.0010320173411166689,
+   -0.00223981127425816
+  ],
+  "note": "AARREPUISTO: own street anchors 7/4, length 6 m"
+ },
+ {
+  "names": [
+   "AARREPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   8390,
+   -7701,
+   8396,
+   -7695
+  ],
+  "plane": [
+   -20.134143451245173,
+   -0.03421514544788025,
+   -0.041394769931953415
+  ],
+  "note": "AARREPUISTO: own street anchors 4/9, length 5 m"
+ },
+ {
+  "names": [
+   "AARREPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   8321,
+   -7674,
+   8327,
+   -7667
+  ],
+  "plane": [
+   -1.708833673493018,
+   -0.00691002846913275,
+   -0.009767804903654035
+  ],
+  "note": "AARREPUISTO: own street anchors 3/6, length 6 m"
+ },
+ {
+  "names": [
+   "AARREPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   8485,
+   -7705,
+   8493,
+   -7698
+  ],
+  "plane": [
+   30.684970877725195,
+   -0.007664368964564443,
+   -0.005679188635888247
+  ],
+  "note": "AARREPUISTO: own street anchors 3/7, length 8 m"
+ },
+ {
+  "names": [
+   "VESALANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   8148,
+   -7871,
+   8156,
+   -7868
+  ],
+  "plane": [
+   111.35046379128352,
+   -0.01023045463729316,
+   0.001237077615798319
+  ],
+  "note": "VESALANPUISTO: own street anchors 4/7, length 8 m"
+ },
+ {
+  "names": [
+   "Linnanpellonpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   8620,
+   -6705,
+   8623,
+   -6699
+  ],
+  "plane": [
+   -225.33946685273597,
+   0.002798528239243634,
+   -0.030603531003333507
+  ],
+  "note": "Linnanpellonpuisto: own street anchors 11/6, length 6 m"
+ },
+ {
+  "names": [
+   "RASINPUISTO (ITÄ)"
+  ],
+  "parts": 1,
+  "box": [
+   1740,
+   -9701,
+   1745,
+   -9694
+  ],
+  "plane": [
+   3.825389224853142,
+   0,
+   0
+  ],
+  "note": "RASINPUISTO (ITÄ): own street anchors 4/4, length 7 m"
+ },
+ {
+  "names": [
+   "Kurranummi"
+  ],
+  "parts": 1,
+  "box": [
+   3485,
+   -10941,
+   3490,
+   -10938
+  ],
+  "plane": [
+   9.800831997322614,
+   0,
+   0
+  ],
+  "note": "Kurranummi: own street anchors 2/2, length 4 m"
+ },
+ {
+  "names": [
+   "Kurranummi"
+  ],
+  "parts": 1,
+  "box": [
+   3650,
+   -10932,
+   3654,
+   -10930
+  ],
+  "plane": [
+   9.2643823764072,
+   0,
+   0
+  ],
+  "note": "Kurranummi: own street anchors 2/2, length 4 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto",
+   "Hämeenlinnanväylän suojavyöhyke"
+  ],
+  "parts": 3,
+  "box": [
+   -2453,
+   -6032,
+   -2333,
+   -6002
+  ],
+  "plane": [
+   -7.569251575641413,
+   -0.013417851003875398,
+   0.0028356045827131835
+  ],
+  "note": "Keskuspuisto: own street anchors 4/4, length 122 m"
+ },
+ {
+  "names": [
+   "KURKIMOISIONPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   9810,
+   -6326,
+   9815,
+   -6317
+  ],
+  "plane": [
+   -116.44592805301664,
+   0.003930362010727259,
+   -0.011622969419277757
+  ],
+  "note": "KURKIMOISIONPUISTO: own street anchors 5/3, length 9 m"
+ },
+ {
+  "names": [
+   "KURKIMOISIONPUISTO"
+  ],
+  "parts": 2,
+  "box": [
+   9965,
+   -6228,
+   9971,
+   -6222
+  ],
+  "plane": [
+   42.909226243731915,
+   -0.009025684825157499,
+   -0.006555891657421351
+  ],
+  "note": "KURKIMOISIONPUISTO: own street anchors 3/5, length 7 m"
+ },
+ {
+  "names": [
+   "KURKIMOISIONPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   9835,
+   -6084,
+   9840,
+   -6077
+  ],
+  "plane": [
+   -60.224549289259755,
+   -0.030705325827165897,
+   -0.05855762771455064
+  ],
+  "note": "KURKIMOISIONPUISTO: own street anchors 3/6, length 7 m"
+ },
+ {
+  "names": [
+   "Kuninkaantammenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2884,
+   -10607,
+   -2880,
+   -10602
+  ],
+  "plane": [
+   32.20423997624852,
+   0.00013782557535793364,
+   0.0009103047513243439
+  ],
+  "note": "Kuninkaantammenpuisto: own street anchors 6/3, length 5 m"
+ },
+ {
+  "names": [
+   "Linnanpellonpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   8785,
+   -6791,
+   8790,
+   -6787
+  ],
+  "plane": [
+   2.8181665736553363,
+   0,
+   0
+  ],
+  "note": "Linnanpellonpuisto: terrain anchors 11/11, length 5 m"
+ },
+ {
+  "names": [
+   "Länsimäentien suojavihreytys"
+  ],
+  "parts": 1,
+  "box": [
+   8668,
+   -7444,
+   8673,
+   -7439
+  ],
+  "plane": [
+   35.792681586911556,
+   -0.0020584383726888374,
+   0.0016616079843699086
+  ],
+  "note": "Länsimäentien suojavihreytys: own street anchors 4/8, length 7 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 3,
+  "box": [
+   631,
+   -8398,
+   640,
+   -8317
+  ],
+  "plane": [
+   535.5024234123193,
+   -0.0045008291964409005,
+   0.06300054044366231
+  ],
+  "note": "Kehä I / Muurimestarintie: street anchors 4/5, length 81 m"
+ },
+ {
+  "names": [
+   "VALLILANLAAKSO"
+  ],
+  "parts": 1,
+  "box": [
+   123,
+   -3421,
+   127,
+   -3408
+  ],
+  "plane": [
+   38.23134543226061,
+   0.0017099029947197225,
+   0.01211601901853986
+  ],
+  "note": "VALLILANLAAKSO: own street anchors 2/2, length 13 m"
+ },
+ {
+  "names": [
+   "VALLILANLAAKSO"
+  ],
+  "parts": 1,
+  "box": [
+   48,
+   -3442,
+   54,
+   -3425
+  ],
+  "plane": [
+   2.536878507407689,
+   -0.00023028561461105237,
+   0.0015212200436408466
+  ],
+  "note": "VALLILANLAAKSO: own street anchors 4/4, length 17 m"
+ },
+ {
+  "names": [
+   "VALLILAN SIIRTOLAPUUTARHA"
+  ],
+  "parts": 1,
+  "box": [
+   331,
+   -3427,
+   336,
+   -3423
+  ],
+  "plane": [
+   -4.957125236198731,
+   0,
+   0
+  ],
+  "note": "VALLILAN SIIRTOLAPUUTARHA: own street anchors 8/8, length 4 m"
+ },
+ {
+  "names": [
+   "VALLILAN SIIRTOLAPUUTARHA"
+  ],
+  "parts": 1,
+  "box": [
+   234,
+   -3422,
+   238,
+   -3418
+  ],
+  "plane": [
+   -4.478424606651306,
+   0,
+   0
+  ],
+  "note": "VALLILAN SIIRTOLAPUUTARHA: own street anchors 5/5, length 4 m"
+ },
+ {
+  "names": [
+   "VALLILAN SIIRTOLAPUUTARHA"
+  ],
+  "parts": 1,
+  "box": [
+   138,
+   -3415,
+   141,
+   -3411
+  ],
+  "plane": [
+   -11.919870929257224,
+   0.001347060256193009,
+   -0.002315540328494218
+  ],
+  "note": "VALLILAN SIIRTOLAPUUTARHA: own street anchors 7/4, length 5 m"
+ },
+ {
+  "names": [
+   "Bockinpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   1605,
+   -7807,
+   1619,
+   -7790
+  ],
+  "plane": [
+   -100.09734334165887,
+   -0.012674953529448137,
+   -0.01570582572440541
+  ],
+  "note": "Bockinpuisto: own street anchors 3/3, length 19 m"
+ },
+ {
+  "names": [
+   "MUSTAPURONPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   7429,
+   -5883,
+   7433,
+   -5878
+  ],
+  "plane": [
+   2.3128915512346264,
+   0,
+   0
+  ],
+  "note": "MUSTAPURONPUISTO: own street anchors 4/4, length 5 m"
+ },
+ {
+  "names": [
+   "PORNAISTENNIEMI"
+  ],
+  "parts": 1,
+  "box": [
+   2254,
+   -5154,
+   2259,
+   -5136
+  ],
+  "plane": [
+   -160.85221390769394,
+   0.006029274004267003,
+   -0.0272893043181134
+  ],
+  "note": "PORNAISTENNIEMI: own street anchors 2/1, length 18 m"
+ },
+ {
+  "names": [
+   "VERKATEHTAANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   1714,
+   -4920,
+   1792,
+   -4909
+  ],
+  "plane": [
+   36.76784479730137,
+   -0.019688892748464033,
+   0.001526160397349978
+  ],
+  "note": "VERKATEHTAANPUISTO: street anchors 5/5, length 78 m"
+ },
+ {
+  "names": [
+   "MIKONMÄKI I",
+   "Palikkapolku"
+  ],
+  "parts": 3,
+  "box": [
+   -4193,
+   -7632,
+   -4155,
+   -7608
+  ],
+  "plane": [
+   24.744672512548167,
+   -0.009993695219679312,
+   0.005660054665245755
+  ],
+  "note": "MIKONMÄKI I: own street anchors 10/4, length 41 m"
+ },
+ {
+  "names": [
+   "EMÄNNÄNPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   7558,
+   -6908,
+   7566,
+   -6904
+  ],
+  "plane": [
+   153.4371327419063,
+   -0.016665697581532277,
+   0.001384513525904349
+  ],
+  "note": "EMÄNNÄNPUISTO: own street anchors 4/8, length 8 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2141,
+   -4691,
+   -2098,
+   -4648
+  ],
+  "plane": [
+   45.29661419834177,
+   -0.009341900595789777,
+   0.009306539042423326
+  ],
+  "note": "Keskuspuisto: own street anchors 4/4, length 56 m"
+ },
+ {
+  "names": [
+   "Suopuisto"
+  ],
+  "parts": 1,
+  "box": [
+   7132,
+   -8021,
+   7140,
+   -8019
+  ],
+  "plane": [
+   28.403466160789694,
+   0,
+   0
+  ],
+  "note": "Suopuisto: own street anchors 4/4, length 8 m"
+ },
+ {
+  "names": [
+   "Suopuisto"
+  ],
+  "parts": 1,
+  "box": [
+   7203,
+   -7990,
+   7210,
+   -7985
+  ],
+  "plane": [
+   28.330180417906746,
+   0,
+   0
+  ],
+  "note": "Suopuisto: own street anchors 4/4, length 7 m"
+ },
+ {
+  "names": [
+   "Sähköttäjänsilta"
+  ],
+  "parts": 2,
+  "box": [
+   -818,
+   -3015,
+   -788,
+   -2942
+  ],
+  "plane": [
+   -75.80756107725142,
+   0.01333983718565698,
+   -0.036099194640360426
+  ],
+  "note": "Sähköttäjänsilta: street anchors 4/10, length 77 m"
+ },
+ {
+  "names": [
+   "Aurinkoniitty"
+  ],
+  "parts": 2,
+  "box": [
+   -369,
+   -3358,
+   -313,
+   -3316
+  ],
+  "plane": [
+   7.445380205692569,
+   0.0022328898952420724,
+   -0.001607808816184229
+  ],
+  "note": "Aurinkoniitty: street anchors 4/4, length 65 m"
+ },
+ {
+  "names": [
+   "UUTELA"
+  ],
+  "parts": 1,
+  "box": [
+   12310,
+   -3602,
+   12316,
+   -3599
+  ],
+  "plane": [
+   -6.115539859459151,
+   0,
+   0
+  ],
+  "note": "UUTELA: own street anchors 4/4, length 6 m"
+ },
+ {
+  "names": [
+   "Viikinojanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   4521,
+   -6219,
+   4532,
+   -6209
+  ],
+  "plane": [
+   80.38823050448096,
+   -0.009305699615347902,
+   0.006856535720932291
+  ],
+  "note": "Viikinojanpuisto: own street anchors 4/4, length 15 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2265,
+   -7975,
+   -2258,
+   -7970
+  ],
+  "plane": [
+   15.16836736233235,
+   0,
+   0
+  ],
+  "note": "Keskuspuisto: own street anchors 1/1, length 6 m"
+ },
+ {
+  "names": [
+   "Viikinojanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   4548,
+   -6579,
+   4558,
+   -6572
+  ],
+  "plane": [
+   2.811901455067612,
+   -0.002790329542079541,
+   -0.0008993559268775885
+  ],
+  "note": "Viikinojanpuisto: own street anchors 4/5, length 10 m"
+ },
+ {
+  "names": [
+   "Viikinojanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   4544,
+   -6517,
+   4557,
+   -6512
+  ],
+  "plane": [
+   -0.8546009953833069,
+   -0.0006228665411669476,
+   0.00006983434178577161
+  ],
+  "note": "Viikinojanpuisto: own street anchors 4/4, length 13 m"
+ },
+ {
+  "names": [
+   "Viikinojanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   4530,
+   -6316,
+   4543,
+   -6292
+  ],
+  "plane": [
+   5.959829324927107,
+   -0.00019153812171024276,
+   0.001546230153779614
+  ],
+  "note": "Viikinojanpuisto: own street anchors 1/2, length 24 m"
+ },
+ {
+  "names": [
+   "Viikinojanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   4546,
+   -6383,
+   4565,
+   -6372
+  ],
+  "plane": [
+   -10.003968439790363,
+   0.003979377360160606,
+   0.0019061524575160413
+  ],
+  "note": "Viikinojanpuisto: own street anchors 3/3, length 20 m"
+ },
+ {
+  "names": [
+   "Viikinojanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   4546,
+   -6465,
+   4556,
+   -6436
+  ],
+  "plane": [
+   -28.38651146329915,
+   0.00042219553275382564,
+   -0.0033698073771742183
+  ],
+  "note": "Viikinojanpuisto: own street anchors 1/1, length 29 m"
+ },
+ {
+  "names": [
+   "Viikinojanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   4279,
+   -6152,
+   4289,
+   -6146
+  ],
+  "plane": [
+   8.78779656014063,
+   -0.005236545982478846,
+   -0.001471893995511403
+  ],
+  "note": "Viikinojanpuisto: own street anchors 4/4, length 10 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2363,
+   -7672,
+   -2323,
+   -7613
+  ],
+  "plane": [
+   -62.934080515848976,
+   -0.005815713499519745,
+   -0.009616946695280869
+  ],
+  "note": "Keskuspuisto: own street anchors 5/4, length 66 m"
+ },
+ {
+  "names": [
+   "Viikinojanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   4583,
+   -6973,
+   4590,
+   -6970
+  ],
+  "plane": [
+   -55.18220996364123,
+   0.010340591615498109,
+   -0.0006520659366035257
+  ],
+  "note": "Viikinojanpuisto: own street anchors 6/3, length 6 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2399,
+   -8344,
+   -2393,
+   -8339
+  ],
+  "plane": [
+   15.186730263453082,
+   0,
+   0
+  ],
+  "note": "Keskuspuisto: own street anchors 3/3, length 6 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2312,
+   -8371,
+   -2310,
+   -8366
+  ],
+  "plane": [
+   15.172406646758944,
+   0,
+   0
+  ],
+  "note": "Keskuspuisto: own street anchors 3/3, length 5 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2277,
+   -8377,
+   -2274,
+   -8372
+  ],
+  "plane": [
+   15.182496460852388,
+   0,
+   0
+  ],
+  "note": "Keskuspuisto: own street anchors 3/3, length 5 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2240,
+   -8384,
+   -2238,
+   -8379
+  ],
+  "plane": [
+   15.047194011771555,
+   0,
+   0
+  ],
+  "note": "Keskuspuisto: own street anchors 4/4, length 5 m"
+ },
+ {
+  "names": [
+   "Hämeenlinnanväylä"
+  ],
+  "parts": 4,
+  "box": [
+   -2549,
+   -6523,
+   -2498,
+   -6427
+  ],
+  "plane": [
+   -186.6943425464052,
+   -0.0022954341941021665,
+   -0.02984851500387534
+  ],
+  "note": "Hämeenlinnanväylä: own street anchors 9/3, length 97 m"
+ },
+ {
+  "names": [
+   "Hämeenlinnanväylä"
+  ],
+  "parts": 1,
+  "box": [
+   -2798,
+   -7077,
+   -2754,
+   -7054
+  ],
+  "plane": [
+   28.788853472299845,
+   0.00824464715949885,
+   -0.0037940309507877874
+  ],
+  "note": "Hämeenlinnanväylä: own street anchors 4/4, length 47 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 2,
+  "box": [
+   -2149,
+   -6693,
+   -2107,
+   -6605
+  ],
+  "plane": [
+   -144.14821929553884,
+   -0.008898385657298035,
+   -0.02018347065621577
+  ],
+  "note": "Keskuspuisto: own street anchors 5/5, length 93 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2079,
+   -6854,
+   -2047,
+   -6828
+  ],
+  "plane": [
+   21.933746772032144,
+   -0.0016479003102991357,
+   0.0012295586182181418
+  ],
+  "note": "Keskuspuisto: own street anchors 6/6, length 36 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2346,
+   -7513,
+   -2315,
+   -7467
+  ],
+  "plane": [
+   39.12794942305472,
+   -0.001605246018376791,
+   0.002494223448399843
+  ],
+  "note": "Keskuspuisto: own street anchors 5/5, length 50 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -1697,
+   -11470,
+   -1693,
+   -11467
+  ],
+  "plane": [
+   10.974705814384032,
+   0,
+   0
+  ],
+  "note": "Keskuspuisto: own street anchors 2/2, length 5 m"
+ },
+ {
+  "names": [
+   "C511"
+  ],
+  "parts": 1,
+  "box": [
+   2001,
+   2790,
+   2003,
+   2793
+  ],
+  "plane": [
+   -5.766281383705135,
+   0,
+   0
+  ],
+  "note": "C511: terrain anchors 8/10, length 3 m"
+ },
+ {
+  "names": [
+   "SIMO KLEMETINPOJAN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   4226,
+   -7018,
+   4231,
+   -7014
+  ],
+  "plane": [
+   19.19962231120459,
+   0,
+   0
+  ],
+  "note": "SIMO KLEMETINPOJAN PUISTO: own street anchors 3/3, length 6 m"
+ },
+ {
+  "names": [
+   "SIMO KLEMETINPOJAN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   4246,
+   -7024,
+   4251,
+   -7019
+  ],
+  "plane": [
+   12.36707663005813,
+   -0.0033326032624291903,
+   -0.002795659393131563
+  ],
+  "note": "SIMO KLEMETINPOJAN PUISTO: own street anchors 3/4, length 6 m"
+ },
+ {
+  "names": [
+   "SIMO KLEMETINPOJAN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   4207,
+   -7026,
+   4209,
+   -7020
+  ],
+  "plane": [
+   21.11832366978036,
+   0,
+   0
+  ],
+  "note": "SIMO KLEMETINPOJAN PUISTO: own street anchors 3/3, length 6 m"
+ },
+ {
+  "names": [
+   "KAIVANTOPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6501,
+   -9385,
+   6506,
+   -9382
+  ],
+  "plane": [
+   34.013533313311356,
+   0,
+   0
+  ],
+  "note": "KAIVANTOPUISTO: own street anchors 3/3, length 5 m"
+ },
+ {
+  "names": [
+   "Porvoonväylä"
+  ],
+  "parts": 1,
+  "box": [
+   6478,
+   -9261,
+   6494,
+   -9180
+  ],
+  "plane": [
+   38.02216352295622,
+   0.00011116600531935371,
+   0.001017860609866314
+  ],
+  "note": "Porvoonväylä: own street anchors 7/7, length 81 m"
+ },
+ {
+  "names": [
+   "KIVIKON ULKOILUPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6860,
+   -9170,
+   6866,
+   -9166
+  ],
+  "plane": [
+   -393.69107319970675,
+   0.05332368559350651,
+   -0.00747070972705503
+  ],
+  "note": "KIVIKON ULKOILUPUISTO: own street anchors 7/4, length 6 m"
+ },
+ {
+  "names": [
+   "KIVIKON ULKOILUPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6925,
+   -9222,
+   6930,
+   -9217
+  ],
+  "plane": [
+   44.553832542808934,
+   0,
+   0
+  ],
+  "note": "KIVIKON ULKOILUPUISTO: own street anchors 8/8, length 4 m"
+ },
+ {
+  "names": [
+   "Jyrängönpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   371,
+   -4461,
+   373,
+   -4458
+  ],
+  "plane": [
+   6.112126618579442,
+   0,
+   0
+  ],
+  "note": "Jyrängönpuisto: own street anchors 3/4, length 3 m"
+ },
+ {
+  "names": [
+   "HALTIALAN KARTANO "
+  ],
+  "parts": 1,
+  "box": [
+   197,
+   -11639,
+   198,
+   -11637
+  ],
+  "plane": [
+   0.2831647910324211,
+   0,
+   0
+  ],
+  "note": "HALTIALAN KARTANO : own street anchors 3/3, length 3 m"
+ },
+ {
+  "names": [
+   "HALTIALAN KARTANO "
+  ],
+  "parts": 1,
+  "box": [
+   207,
+   -11723,
+   210,
+   -11718
+  ],
+  "plane": [
+   0.620434595694066,
+   0,
+   0
+  ],
+  "note": "HALTIALAN KARTANO : own street anchors 3/3, length 5 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   256,
+   -11005,
+   266,
+   -10992
+  ],
+  "plane": [
+   -139.43205116693693,
+   -0.00435518856612596,
+   -0.013054752494899907
+  ],
+  "note": "Keskuspuisto: own street anchors 6/6, length 11 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto",
+   "Kuusmiehenniitty"
+  ],
+  "parts": 2,
+  "box": [
+   -580,
+   -10180,
+   -571,
+   -10175
+  ],
+  "plane": [
+   9.189556635735485,
+   0,
+   0
+  ],
+  "note": "Keskuspuisto: own street anchors 3/3, length 9 m"
+ },
+ {
+  "names": [
+   "Köyhänmiehenpelto",
+   "Kapteenskanranta"
+  ],
+  "parts": 3,
+  "box": [
+   1322,
+   -9783,
+   1382,
+   -9753
+  ],
+  "plane": [
+   100.65213617018439,
+   -0.017200865771238104,
+   0.007725867987475227
+  ],
+  "note": "Köyhänmiehenpelto: own street anchors 5/11, length 63 m"
+ },
+ {
+  "names": [
+   "OJANVARSIPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   4504,
+   -10298,
+   4516,
+   -10291
+  ],
+  "plane": [
+   13.503043202313469,
+   -0.007348539233915039,
+   -0.0026996239719311696
+  ],
+  "note": "OJANVARSIPUISTO: own street anchors 2/2, length 12 m"
+ },
+ {
+  "names": [
+   "VUOSAARENLAHTI (LIV)"
+  ],
+  "parts": 1,
+  "box": [
+   13047,
+   -4278,
+   13056,
+   -4268
+  ],
+  "plane": [
+   216.65928864758237,
+   -0.011085440052689337,
+   0.018288449247589093
+  ],
+  "note": "VUOSAARENLAHTI (LIV): terrain anchors 8/17, length 9 m"
+ },
+ {
+  "names": [
+   "VUOSAARENLAHTI (LIV)"
+  ],
+  "parts": 1,
+  "box": [
+   13071,
+   -4319,
+   13080,
+   -4310
+  ],
+  "plane": [
+   173.43757225371198,
+   -0.009710971694435336,
+   0.012204804230263155
+  ],
+  "note": "VUOSAARENLAHTI (LIV): terrain anchors 8/16, length 9 m"
+ },
+ {
+  "names": [
+   "VUOSAARENLAHTI (LIV)"
+  ],
+  "parts": 1,
+  "box": [
+   13096,
+   -4362,
+   13105,
+   -4352
+  ],
+  "plane": [
+   -6.241341241617107,
+   0,
+   0
+  ],
+  "note": "VUOSAARENLAHTI (LIV): terrain anchors 16/16, length 9 m"
+ },
+ {
+  "names": [
+   "Uutelansilta",
+   "Uutelantie"
+  ],
+  "parts": 6,
+  "box": [
+   11577,
+   -3795,
+   11606,
+   -3779
+  ],
+  "plane": [
+   719.1910192493217,
+   -0.0599310653335446,
+   0.00771680302608502
+  ],
+  "note": "Uutelansilta: street anchors 10/13, length 28 m"
+ },
+ {
+  "names": [
+   "Sumujensilta"
+  ],
+  "parts": 1,
+  "box": [
+   11505,
+   -4036,
+   11541,
+   -4026
+  ],
+  "plane": [
+   -83.25798570516602,
+   0.0073036175176148035,
+   0.0010606894544862935
+  ],
+  "note": "Sumujensilta: street anchors 9/5, length 35 m"
+ },
+ {
+  "names": [
+   "Vuosaaren satamatien suojavihreytys"
+  ],
+  "parts": 1,
+  "box": [
+   11899,
+   -6531,
+   11955,
+   -6472
+  ],
+  "plane": [
+   183.3468254549607,
+   -0.0095896074610584,
+   0.010064799176853321
+  ],
+  "note": "Vuosaaren satamatien suojavihreytys: own street anchors 4/5, length 77 m"
+ },
+ {
+  "names": [
+   "Vuosaaren satamatien suojavihreytys"
+  ],
+  "parts": 1,
+  "box": [
+   12416,
+   -6194,
+   12425,
+   -6179
+  ],
+  "plane": [
+   -1.2362306635649452,
+   0,
+   0
+  ],
+  "note": "Vuosaaren satamatien suojavihreytys: street anchors 0/4, length 15 m"
+ },
+ {
+  "names": [
+   "Korkeakallionpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   6324,
+   -5572,
+   6325,
+   -5564
+  ],
+  "plane": [
+   21.16090940485045,
+   0,
+   0
+  ],
+  "note": "Korkeakallionpuisto: own street anchors 4/4, length 8 m"
+ },
+ {
+  "names": [
+   "Korkeakallionpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   6299,
+   -5568,
+   6301,
+   -5559
+  ],
+  "plane": [
+   22.100201640558993,
+   0,
+   0
+  ],
+  "note": "Korkeakallionpuisto: own street anchors 4/4, length 8 m"
+ },
+ {
+  "names": [
+   "Vanhaväylä"
+  ],
+  "parts": 1,
+  "box": [
+   5901,
+   -2698,
+   5906,
+   -2686
+  ],
+  "plane": [
+   198.81494652046132,
+   0.00777347963682801,
+   0.09318635708446364
+  ],
+  "note": "Vanhaväylä: own street anchors 7/5, length 12 m"
+ },
+ {
+  "names": [
+   "Vanhaväylä"
+  ],
+  "parts": 1,
+  "box": [
+   5900,
+   -2721,
+   5903,
+   -2708
+  ],
+  "plane": [
+   7.22939676852063,
+   -0.0007994476660157046,
+   0.0029354892692079596
+  ],
+  "note": "Vanhaväylä: own street anchors 12/12, length 14 m"
+ },
+ {
+  "names": [
+   "UUTELA"
+  ],
+  "parts": 1,
+  "box": [
+   12587,
+   -3807,
+   12590,
+   -3803
+  ],
+  "plane": [
+   -5.720392313377847,
+   0,
+   0
+  ],
+  "note": "UUTELA: own street anchors 4/4, length 4 m"
+ },
+ {
+  "names": [
+   "Neitojenranta"
+  ],
+  "parts": 1,
+  "box": [
+   4483,
+   -1724,
+   4488,
+   -1718
+  ],
+  "plane": [
+   -6.129427558150269,
+   0,
+   0
+  ],
+  "note": "Neitojenranta: own street anchors 5/5, length 6 m"
+ },
+ {
+  "names": [
+   "Hallkullanniemi"
+  ],
+  "parts": 1,
+  "box": [
+   12275,
+   -3050,
+   12276,
+   -3050
+  ],
+  "plane": [
+   -4.5010493330025865,
+   0,
+   0
+  ],
+  "note": "Hallkullanniemi: own street anchors 2/2, length 1 m"
+ },
+ {
+  "names": [
+   "Hallkullanniemi"
+  ],
+  "parts": 1,
+  "box": [
+   12270,
+   -3092,
+   12271,
+   -3092
+  ],
+  "plane": [
+   -4.0853667136253575,
+   0,
+   0
+  ],
+  "note": "Hallkullanniemi: own street anchors 2/2, length 1 m"
+ },
+ {
+  "names": [
+   "UUTELA"
+  ],
+  "parts": 2,
+  "box": [
+   12310,
+   -3511,
+   12315,
+   -3506
+  ],
+  "plane": [
+   -0.6572306914439254,
+   -0.0003442644072315675,
+   -0.00005499587645643304
+  ],
+  "note": "UUTELA: own street anchors 4/8, length 4 m"
+ },
+ {
+  "names": [
+   "Uutelan Viljelypalstat"
+  ],
+  "parts": 1,
+  "box": [
+   12295,
+   -3452,
+   12298,
+   -3451
+  ],
+  "plane": [
+   -6.15312427547729,
+   0,
+   0
+  ],
+  "note": "Uutelan Viljelypalstat: terrain anchors 10/10, length 3 m"
+ },
+ {
+  "names": [
+   "Uutelan Viljelypalstat"
+  ],
+  "parts": 1,
+  "box": [
+   12290,
+   -3437,
+   12294,
+   -3435
+  ],
+  "plane": [
+   -6.100141345941159,
+   0,
+   0
+  ],
+  "note": "Uutelan Viljelypalstat: terrain anchors 8/8, length 3 m"
+ },
+ {
+  "names": [
+   "Uutelan Viljelypalstat"
+  ],
+  "parts": 1,
+  "box": [
+   12298,
+   -3469,
+   12304,
+   -3466
+  ],
+  "plane": [
+   -131.45217846957647,
+   0.011055117097992397,
+   0.0030207021555500174
+  ],
+  "note": "Uutelan Viljelypalstat: terrain anchors 12/7, length 6 m"
+ },
+ {
+  "names": [
+   "UUTELA"
+  ],
+  "parts": 1,
+  "box": [
+   12438,
+   -3789,
+   12441,
+   -3783
+  ],
+  "plane": [
+   -5.870495076764465,
+   0,
+   0
+  ],
+  "note": "UUTELA: own street anchors 3/3, length 6 m"
+ },
+ {
+  "names": [
+   "UUTELA"
+  ],
+  "parts": 1,
+  "box": [
+   12256,
+   -3127,
+   12260,
+   -3122
+  ],
+  "plane": [
+   -4.750148933522155,
+   0,
+   0
+  ],
+  "note": "UUTELA: own street anchors 2/2, length 5 m"
+ },
+ {
+  "names": [
+   "Puistometsä"
+  ],
+  "parts": 1,
+  "box": [
+   -561,
+   -9288,
+   -559,
+   -9284
+  ],
+  "plane": [
+   14.585193567526076,
+   0,
+   0
+  ],
+  "note": "Puistometsä: own street anchors 1/1, length 4 m"
+ },
+ {
+  "names": [
+   "Suojavyöhyke"
+  ],
+  "parts": 1,
+  "box": [
+   5151,
+   -7269,
+   5166,
+   -7262
+  ],
+  "plane": [
+   91.78773478331334,
+   -0.023892849080800554,
+   -0.005669586118539147
+  ],
+  "note": "Suojavyöhyke: own street anchors 3/3, length 15 m"
+ },
+ {
+  "names": [
+   "KURKISUONPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6881,
+   -7033,
+   6957,
+   -6992
+  ],
+  "plane": [
+   59.266624616072534,
+   -0.010052119766957052,
+   -0.004925692605913837
+  ],
+  "note": "KURKISUONPUISTO: street anchors 5/11, length 83 m"
+ },
+ {
+  "names": [
+   "Kivikonlaita"
+  ],
+  "parts": 1,
+  "box": [
+   5228,
+   -7491,
+   5237,
+   -7486
+  ],
+  "plane": [
+   -46.57342785495331,
+   0.007742317828755926,
+   -0.0021266854690163172
+  ],
+  "note": "Kivikonlaita: own street anchors 24/10, length 8 m"
+ },
+ {
+  "names": [
+   "Vihdintie"
+  ],
+  "parts": 1,
+  "box": [
+   -3170,
+   -4388,
+   -3131,
+   -4265
+  ],
+  "plane": [
+   -3.65357896091975,
+   0.0003381991875810874,
+   -0.001178938442080296
+  ],
+  "note": "Vihdintie: street anchors 9/11, length 126 m"
+ },
+ {
+  "names": [
+   "Hakamäentie"
+  ],
+  "parts": 8,
+  "box": [
+   -1506,
+   -4221,
+   -1411,
+   -4162
+  ],
+  "plane": [
+   3.916247898560343,
+   -0.008824495990197658,
+   -0.0022594519567778995
+  ],
+  "note": "Hakamäentie: own street anchors 38/41, length 89 m"
+ },
+ {
+  "names": [
+   "Hakamäentie"
+  ],
+  "parts": 7,
+  "box": [
+   -1345,
+   -4185,
+   -1300,
+   -4145
+  ],
+  "plane": [
+   -100.97930893800061,
+   -0.04648498875265305,
+   -0.015201472369122167
+  ],
+  "note": "Hakamäentie: own street anchors 34/32, length 39 m"
+ },
+ {
+  "names": [
+   "Hakamäentie"
+  ],
+  "parts": 8,
+  "box": [
+   -1231,
+   -4159,
+   -988,
+   -4100
+  ],
+  "plane": [
+   -6.0466044931045495,
+   -0.01653711044721475,
+   -0.0024554765846706832
+  ],
+  "note": "Hakamäentie: street anchors 20/27, length 246 m"
+ },
+ {
+  "names": [
+   "Ratapihantie"
+  ],
+  "parts": 3,
+  "box": [
+   -1081,
+   -3827,
+   -1057,
+   -3815
+  ],
+  "plane": [
+   4.06286493494202,
+   -0.026146890458032517,
+   0.005189052599774892
+  ],
+  "note": "Ratapihantie: own street anchors 22/30, length 25 m"
+ },
+ {
+  "names": [
+   "SARVASTON ALUEPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   5680,
+   173,
+   5690,
+   178
+  ],
+  "plane": [
+   183.99558321386917,
+   -0.03317871524897439,
+   -0.0071176201783519554
+  ],
+  "note": "SARVASTON ALUEPUISTO: own street anchors 9/9, length 10 m"
+ },
+ {
+  "names": [
+   "KUSTAA VAASAN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   1322,
+   -5058,
+   1326,
+   -5052
+  ],
+  "plane": [
+   -0.38190567728336333,
+   0,
+   0
+  ],
+  "note": "KUSTAA VAASAN PUISTO: own street anchors 6/6, length 6 m"
+ },
+ {
+  "names": [
+   "KUSTAA VAASAN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   1278,
+   -5068,
+   1287,
+   -5060
+  ],
+  "plane": [
+   35.75565301948982,
+   -0.005839211522146846,
+   0.005509449249923519
+  ],
+  "note": "KUSTAA VAASAN PUISTO: own street anchors 4/6, length 10 m"
+ },
+ {
+  "names": [
+   "KUSTAA VAASAN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   1225,
+   -5065,
+   1230,
+   -5059
+  ],
+  "plane": [
+   1.1117817336123457,
+   0,
+   0
+  ],
+  "note": "KUSTAA VAASAN PUISTO: own street anchors 8/8, length 7 m"
+ },
+ {
+  "names": [
+   "Herttoniemi"
+  ],
+  "parts": 1,
+  "box": [
+   4197,
+   -4448,
+   4207,
+   -4438
+  ],
+  "plane": [
+   -4.882993069107682,
+   0,
+   0
+  ],
+  "note": "Herttoniemi: own street anchors 4/4, length 8 m"
+ },
+ {
+  "names": [
+   "Viikki - Vanhankaupunginlahti"
+  ],
+  "parts": 1,
+  "box": [
+   2874,
+   -5107,
+   2888,
+   -5090
+  ],
+  "plane": [
+   -7.093507082282928,
+   0,
+   0
+  ],
+  "note": "Viikki - Vanhankaupunginlahti: street anchors 0/4, length 18 m"
+ },
+ {
+  "names": [
+   "Herttoniemen kartanonpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   5213,
+   -2075,
+   5229,
+   -2070
+  ],
+  "plane": [
+   -0.6810765502856739,
+   -0.000981207608904602,
+   0.00022320879494936097
+  ],
+  "note": "Herttoniemen kartanonpuisto: own street anchors 4/8, length 16 m"
+ },
+ {
+  "names": [
+   "NEITOJENPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   4374,
+   -1762,
+   4376,
+   -1760
+  ],
+  "plane": [
+   -4.663952372598284,
+   0,
+   0
+  ],
+  "note": "NEITOJENPUISTO: own street anchors 8/8, length 3 m"
+ },
+ {
+  "names": [
+   "Itäväylä"
+  ],
+  "parts": 2,
+  "box": [
+   7995,
+   -5229,
+   8047,
+   -5187
+  ],
+  "plane": [
+   98.55895295536192,
+   -0.008410066455280576,
+   0.005152757034723284
+  ],
+  "note": "Itäväylä: own street anchors 24/18, length 42 m"
+ },
+ {
+  "names": [
+   "Kehä I / Myllymestarintie"
+  ],
+  "parts": 1,
+  "box": [
+   7075,
+   -6118,
+   7094,
+   -6099
+  ],
+  "plane": [
+   18.820932497188366,
+   -0.01978553172708497,
+   -0.022475489239520554
+  ],
+  "note": "Kehä I / Myllymestarintie: own street anchors 12/12, length 20 m"
+ },
+ {
+  "names": [
+   "Kehä I / Myllymestarintie"
+  ],
+  "parts": 2,
+  "box": [
+   6680,
+   -6510,
+   6706,
+   -6483
+  ],
+  "plane": [
+   24.260907687637538,
+   0.0007151164614611296,
+   0.00018871659646508472
+  ],
+  "note": "Kehä I / Myllymestarintie: own street anchors 16/16, length 21 m"
+ },
+ {
+  "names": [
+   "Kehä I / Myllymestarintie"
+  ],
+  "parts": 1,
+  "box": [
+   6694,
+   -6528,
+   6708,
+   -6521
+  ],
+  "plane": [
+   115.29432778612055,
+   -0.014593825897300489,
+   -0.0015343043914109293
+  ],
+  "note": "Kehä I / Myllymestarintie: own street anchors 6/5, length 13 m"
+ },
+ {
+  "names": [
+   "Lahdenväylä"
+  ],
+  "parts": 2,
+  "box": [
+   4937,
+   -7724,
+   5016,
+   -7653
+  ],
+  "plane": [
+   5.499733341977281,
+   -0.010062165463412001,
+   -0.008117076829546549
+  ],
+  "note": "Lahdenväylä: street anchors 13/14, length 81 m"
+ },
+ {
+  "names": [
+   "Lahdenväylä",
+   "Kehä I / Seppämestarintie"
+  ],
+  "parts": 2,
+  "box": [
+   4867,
+   -7768,
+   4936,
+   -7750
+  ],
+  "plane": [
+   318.5574358456123,
+   -0.045913857015655285,
+   0.008876869112181537
+  ],
+  "note": "Lahdenväylä: own street anchors 5/6, length 69 m"
+ },
+ {
+  "names": [
+   "Lahdenväylä"
+  ],
+  "parts": 1,
+  "box": [
+   4787,
+   -7657,
+   4885,
+   -7556
+  ],
+  "plane": [
+   139.83105492391977,
+   0.044876234960582004,
+   0.04476976854934432
+  ],
+  "crest": {
+   "ax": 0.7079460641558218,
+   "az": 0.7062665008665504,
+   "at": -1950.5626255463335,
+   "plane": [
+    -172.25896516349366,
+    -0.0683951353043495,
+    -0.06823287158930376
+   ],
+   "ends": [
+    -2012.0436554894318,
+    -1884.9637860620105
+   ]
+  },
+  "note": "Lahdenväylä: own street anchors 10/4, length 127 m, crest 3.8 m (48 % under)"
+ },
+ {
+  "names": [
+   "Lahdenväylä",
+   "Kehä I / Seppämestarintie"
+  ],
+  "parts": 2,
+  "box": [
+   4747,
+   -7711,
+   4808,
+   -7510
+  ],
+  "plane": [
+   -438.6120761208203,
+   -0.006965923288431131,
+   -0.06466808955156265
+  ],
+  "note": "Lahdenväylä: own street anchors 5/6, length 202 m"
+ },
+ {
+  "names": [
+   "Lahdenväylä"
+  ],
+  "parts": 1,
+  "box": [
+   6240,
+   -9234,
+   6346,
+   -9198
+  ],
+  "plane": [
+   -324.19284151387455,
+   0.04012097116202074,
+   -0.009764380921035577
+  ],
+  "note": "Lahdenväylä: own street anchors 9/10, length 111 m"
+ },
+ {
+  "names": [
+   "ILOMÄENPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6023,
+   -1589,
+   6026,
+   -1583
+  ],
+  "plane": [
+   13.060112336413123,
+   -0.0011371651551233372,
+   0.007416393423218281
+  ],
+  "note": "ILOMÄENPUISTO: own street anchors 3/5, length 6 m"
+ },
+ {
+  "names": [
+   "Armas Lindgrenin tie"
+  ],
+  "parts": 1,
+  "box": [
+   3198,
+   -1164,
+   3208,
+   -1153
+  ],
+  "plane": [
+   0.03565065542780488,
+   -0.0014162575986035467,
+   0.0013023824066368732
+  ],
+  "note": "Armas Lindgrenin tie: terrain anchors 8/10, length 14 m"
+ },
+ {
+  "names": [
+   "Vihdintie"
+  ],
+  "parts": 1,
+  "box": [
+   -4893,
+   -7210,
+   -4875,
+   -7190
+  ],
+  "plane": [
+   -11.804648078591395,
+   0.0066094461330904585,
+   -0.007843150344623432
+  ],
+  "note": "Vihdintie: own street anchors 7/7, length 20 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 2,
+  "box": [
+   -5084,
+   -7232,
+   -5042,
+   -7207
+  ],
+  "plane": [
+   -369.82332395188405,
+   -0.15547786576609662,
+   0.05614598720813993
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 13/17, length 44 m, slope -0.17"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 1,
+  "box": [
+   -5074,
+   -7212,
+   -5053,
+   -7195
+  ],
+  "plane": [
+   14.593277732252076,
+   0,
+   0
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 11/6, length 22 m, slope -0.29 levelled"
+ },
+ {
+  "names": [
+   "Vihdintie",
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 5,
+  "box": [
+   -4756,
+   -7284,
+   -4702,
+   -7246
+  ],
+  "plane": [
+   -28.733921155532798,
+   -0.007365813071315477,
+   -0.0007375279679527219
+  ],
+  "note": "Vihdintie: own street anchors 28/27, length 58 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 2,
+  "box": [
+   -2935,
+   -7365,
+   -2848,
+   -7308
+  ],
+  "plane": [
+   37.41426468784544,
+   0.010760678739672876,
+   -0.0031328104647753343
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 17/19, length 84 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 2,
+  "box": [
+   -2684,
+   -7474,
+   -2604,
+   -7428
+  ],
+  "plane": [
+   49.94968912506525,
+   -0.01998134624832845,
+   0.010405038435441273
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 8/18, length 73 m"
+ },
+ {
+  "names": [
+   "Hämeenlinnanväylä"
+  ],
+  "parts": 1,
+  "box": [
+   -3026,
+   -7579,
+   -3010,
+   -7564
+  ],
+  "plane": [
+   78.29398841879352,
+   0.03977355419091727,
+   -0.008175711908908896
+  ],
+  "note": "Hämeenlinnanväylä: own street anchors 29/15, length 16 m"
+ },
+ {
+  "names": [
+   "Hämeenlinnanväylä"
+  ],
+  "parts": 1,
+  "box": [
+   -3012,
+   -7585,
+   -2996,
+   -7570
+  ],
+  "plane": [
+   50.733289244974785,
+   -0.033174642956730005,
+   0.017183652527098428
+  ],
+  "note": "Hämeenlinnanväylä: own street anchors 17/31, length 13 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 1,
+  "box": [
+   -2892,
+   -7483,
+   -2883,
+   -7475
+  ],
+  "plane": [
+   115.65799866869732,
+   0.03946794097075717,
+   -0.002883226456879727
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 22/10, length 8 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 1,
+  "box": [
+   -2888,
+   -7474,
+   -2879,
+   -7467
+  ],
+  "plane": [
+   23.080114223449343,
+   0,
+   0
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 19/19, length 8 m"
+ },
+ {
+  "names": [
+   "Hämeenlinnanväylä"
+  ],
+  "parts": 2,
+  "box": [
+   -2602,
+   -6697,
+   -2586,
+   -6681
+  ],
+  "plane": [
+   220.33449851110635,
+   -0.019774839346130692,
+   0.038397837120695534
+  ],
+  "note": "Hämeenlinnanväylä: own street anchors 12/25, length 17 m"
+ },
+ {
+  "names": [
+   "Hämeenlinnanväylä"
+  ],
+  "parts": 1,
+  "box": [
+   -2840,
+   -7290,
+   -2834,
+   -7280
+  ],
+  "plane": [
+   26.467879070374643,
+   0,
+   0
+  ],
+  "note": "Hämeenlinnanväylä: own street anchors 19/19, length 10 m"
+ },
+ {
+  "names": [
+   "Hämeenlinnanväylä"
+  ],
+  "parts": 1,
+  "box": [
+   -2616,
+   -6690,
+   -2600,
+   -6674
+  ],
+  "plane": [
+   71.71560828001371,
+   0.03877363644356106,
+   -0.006622203765297746
+  ],
+  "note": "Hämeenlinnanväylä: own street anchors 27/13, length 16 m"
+ },
+ {
+  "names": [
+   "Hämeenlinnanväylä"
+  ],
+  "parts": 1,
+  "box": [
+   -2442,
+   -5502,
+   -2434,
+   -5495
+  ],
+  "plane": [
+   -389.30664954030107,
+   -0.07489838787683718,
+   -0.03887464342698653
+  ],
+  "note": "Hämeenlinnanväylä: own street anchors 10/21, length 9 m"
+ },
+ {
+  "names": [
+   "Hämeenlinnanväylä"
+  ],
+  "parts": 1,
+  "box": [
+   -2354,
+   -5550,
+   -2338,
+   -5532
+  ],
+  "plane": [
+   -43.35381694319742,
+   0.022475864083087042,
+   -0.017829977598833813
+  ],
+  "note": "Hämeenlinnanväylä: own street anchors 8/6, length 22 m"
+ },
+ {
+  "names": [
+   "Hämeenlinnanväylä"
+  ],
+  "parts": 1,
+  "box": [
+   -3194,
+   -7942,
+   -3180,
+   -7931
+  ],
+  "plane": [
+   15.240269185799555,
+   0.02213446007231401,
+   -0.009368545198987045
+  ],
+  "note": "Hämeenlinnanväylä: own street anchors 25/12, length 13 m"
+ },
+ {
+  "names": [
+   "Hämeenlinnanväylä"
+  ],
+  "parts": 1,
+  "box": [
+   -3179,
+   -7948,
+   -3165,
+   -7938
+  ],
+  "plane": [
+   37.64879641592525,
+   -0.04015611646738596,
+   0.01840414452343823
+  ],
+  "note": "Hämeenlinnanväylä: own street anchors 12/26, length 12 m"
+ },
+ {
+  "names": [
+   "Hämeenlinnanväylä"
+  ],
+  "parts": 2,
+  "box": [
+   -3412,
+   -8420,
+   -3369,
+   -8374
+  ],
+  "plane": [
+   154.45540345248045,
+   0.005956292129341672,
+   0.01339385589196637
+  ],
+  "note": "Hämeenlinnanväylä: own street anchors 26/27, length 38 m"
+ },
+ {
+  "names": [
+   "Hämeenlinnanväylä"
+  ],
+  "parts": 4,
+  "box": [
+   -3559,
+   -8736,
+   -3512,
+   -8688
+  ],
+  "plane": [
+   177.72391054477094,
+   0.00845011978684971,
+   0.014738862168503246
+  ],
+  "note": "Hämeenlinnanväylä: own street anchors 26/27, length 51 m"
+ },
+ {
+  "names": [
+   "Hämeenlinnanväylä"
+  ],
+  "parts": 1,
+  "box": [
+   -3815,
+   -9283,
+   -3798,
+   -9276
+  ],
+  "plane": [
+   147.95890564956622,
+   0.03443372012162891,
+   -0.0002486603340960339
+  ],
+  "note": "Hämeenlinnanväylä: own street anchors 23/10, length 17 m"
+ },
+ {
+  "names": [
+   "Hämeenlinnanväylä"
+  ],
+  "parts": 1,
+  "box": [
+   -3798,
+   -9285,
+   -3782,
+   -9278
+  ],
+  "plane": [
+   -102.18057372925566,
+   -0.032178402953802324,
+   0.00005708807074075801
+  ],
+  "note": "Hämeenlinnanväylä: own street anchors 10/23, length 16 m"
+ },
+ {
+  "names": [
+   "Sitratori"
+  ],
+  "parts": 1,
+  "box": [
+   -4215,
+   -7794,
+   -4189,
+   -7780
+  ],
+  "plane": [
+   11.73804333146596,
+   -0.0048242586119433455,
+   0.001953346534073018
+  ],
+  "note": "Sitratori: own street anchors 12/11, length 27 m"
+ },
+ {
+  "names": [
+   "Viikinojanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   4949,
+   -6950,
+   4954,
+   -6944
+  ],
+  "plane": [
+   154.00756663739892,
+   0.005709148863520078,
+   0.025537565996082517
+  ],
+  "note": "Viikinojanpuisto: own street anchors 6/3, length 5 m"
+ },
+ {
+  "names": [
+   "Viikinojanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   4877,
+   -6967,
+   4882,
+   -6965
+  ],
+  "plane": [
+   0.045942194695303584,
+   0,
+   0
+  ],
+  "note": "Viikinojanpuisto: own street anchors 2/2, length 4 m"
+ },
+ {
+  "names": [
+   "Viikinojanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   4815,
+   -6983,
+   4825,
+   -6964
+  ],
+  "plane": [
+   -7.904085758218945,
+   0.0000646024915553463,
+   -0.0009677862521717453
+  ],
+  "note": "Viikinojanpuisto: own street anchors 4/8, length 19 m"
+ },
+ {
+  "names": [
+   "Viikinojanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   5141,
+   -7051,
+   5151,
+   -7041
+  ],
+  "plane": [
+   -32.50506090218488,
+   -0.024848187920435912,
+   -0.024032114433128807
+  ],
+  "note": "Viikinojanpuisto: own street anchors 6/10, length 11 m"
+ },
+ {
+  "names": [
+   "Savelanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   2272,
+   -7529,
+   2286,
+   -7522
+  ],
+  "plane": [
+   143.9351919450918,
+   -0.03747680485633789,
+   0.007674325950709558
+  ],
+  "note": "Savelanpuisto: own street anchors 10/9, length 14 m"
+ },
+ {
+  "names": [
+   "AINO ACKTEN PUISTO"
+  ],
+  "parts": 3,
+  "box": [
+   -3627,
+   -6269,
+   -3617,
+   -6257
+  ],
+  "plane": [
+   1.8685932902069577,
+   0.001574310077435748,
+   -0.002173453429925225
+  ],
+  "note": "AINO ACKTEN PUISTO: own street anchors 3/3, length 12 m"
+ },
+ {
+  "names": [
+   "RAPAKIVENPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   2456,
+   -7880,
+   2461,
+   -7868
+  ],
+  "plane": [
+   -210.75994408103648,
+   -0.004008848358849609,
+   -0.028138098214275323
+  ],
+  "note": "RAPAKIVENPUISTO: own street anchors 12/8, length 11 m"
+ },
+ {
+  "names": [
+   "AINO ACKTEN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -3553,
+   -6207,
+   -3547,
+   -6201
+  ],
+  "plane": [
+   9.666367771288492,
+   0,
+   0
+  ],
+  "note": "AINO ACKTEN PUISTO: own street anchors 4/4, length 6 m"
+ },
+ {
+  "names": [
+   "Karhusaarentie"
+  ],
+  "parts": 2,
+  "box": [
+   13805,
+   -9252,
+   13834,
+   -9230
+  ],
+  "plane": [
+   -1.775850677160046,
+   -0.00039991442014037255,
+   -0.000254394427758961
+  ],
+  "note": "Karhusaarentie: own street anchors 13/13, length 30 m"
+ },
+ {
+  "names": [
+   "Hältingträsk"
+  ],
+  "parts": 1,
+  "box": [
+   15129,
+   -11090,
+   15130,
+   -11089
+  ],
+  "plane": [
+   3.6683600294787597,
+   0,
+   0
+  ],
+  "note": "Hältingträsk: own street anchors 2/2, length 1 m"
+ },
+ {
+  "names": [
+   "Mutars"
+  ],
+  "parts": 1,
+  "box": [
+   10763,
+   -9922,
+   10768,
+   -9916
+  ],
+  "plane": [
+   -1.89711714117492,
+   0,
+   0
+  ],
+  "note": "Mutars: own street anchors 4/4, length 5 m"
+ },
+ {
+  "names": [
+   "Kärr"
+  ],
+  "parts": 1,
+  "box": [
+   13082,
+   -8188,
+   13089,
+   -8182
+  ],
+  "plane": [
+   -7.1850841705396675,
+   0,
+   0
+  ],
+  "note": "Kärr: terrain anchors 3/3, length 6 m"
+ },
+ {
+  "names": [
+   "VANHANVÄYLÄN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6049,
+   -2649,
+   6054,
+   -2647
+  ],
+  "plane": [
+   -6.74630273042988,
+   0,
+   0
+  ],
+  "note": "VANHANVÄYLÄN PUISTO: own street anchors 1/1, length 5 m"
+ },
+ {
+  "names": [
+   "Krabbäcken"
+  ],
+  "parts": 1,
+  "box": [
+   11454,
+   -9339,
+   11463,
+   -9330
+  ],
+  "plane": [
+   557.5296119639145,
+   -0.026654258181957602,
+   0.02741693048749718
+  ],
+  "note": "Krabbäcken: terrain anchors 8/8, length 10 m"
+ },
+ {
+  "names": [
+   "Viikinjyrkkä"
+  ],
+  "parts": 1,
+  "box": [
+   1704,
+   -6152,
+   1757,
+   -6133
+  ],
+  "plane": [
+   1.140814089224547,
+   -0.009503951680739205,
+   -0.0027883721949935308
+  ],
+  "note": "Viikinjyrkkä: street anchors 5/8, length 54 m"
+ },
+ {
+  "names": [
+   "Karviaismäki, aluepuisto"
+  ],
+  "parts": 2,
+  "box": [
+   3150,
+   -8365,
+   3156,
+   -8356
+  ],
+  "plane": [
+   14.128148524852438,
+   -0.0005679111649867881,
+   0.0008095108056312037
+  ],
+  "note": "Karviaismäki, aluepuisto: own street anchors 8/5, length 11 m"
+ },
+ {
+  "names": [
+   "Karviaismäki, aluepuisto"
+  ],
+  "parts": 1,
+  "box": [
+   3279,
+   -8510,
+   3285,
+   -8498
+  ],
+  "plane": [
+   -132.1926897601933,
+   -0.00282470103495506,
+   -0.017455740187762712
+  ],
+  "note": "Karviaismäki, aluepuisto: own street anchors 3/3, length 12 m"
+ },
+ {
+  "names": [
+   "Puistikko"
+  ],
+  "parts": 1,
+  "box": [
+   3355,
+   -8510,
+   3364,
+   -8498
+  ],
+  "plane": [
+   264.754517046722,
+   0.02026110919907627,
+   0.038368914894948467
+  ],
+  "note": "Puistikko: own street anchors 6/3, length 12 m"
+ },
+ {
+  "names": [
+   "Suurkivi"
+  ],
+  "parts": 1,
+  "box": [
+   15702,
+   -11982,
+   15712,
+   -11974
+  ],
+  "plane": [
+   9.34429028125752,
+   0,
+   0
+  ],
+  "note": "Suurkivi: own street anchors 4/4, length 9 m"
+ },
+ {
+  "names": [
+   "Kaskisaarentie",
+   "Lehtisaarentie"
+  ],
+  "parts": 3,
+  "box": [
+   -5293,
+   -530,
+   -5202,
+   -489
+  ],
+  "plane": [
+   58.3477487192273,
+   0.011869756496606081,
+   0.0046551912932554914
+  ],
+  "note": "Kaskisaarentie: own street anchors 7/13, length 98 m"
+ },
+ {
+  "names": [
+   "Meilahden silta"
+  ],
+  "parts": 6,
+  "box": [
+   -3835,
+   -2591,
+   -3798,
+   -2549
+  ],
+  "plane": [
+   106.16539985304574,
+   0.015395507616909372,
+   0.020118503970364295
+  ],
+  "note": "Meilahden silta: street anchors 14/13, length 48 m"
+ },
+ {
+  "names": [
+   "Tuusulanväylä"
+  ],
+  "parts": 2,
+  "box": [
+   -249,
+   -7887,
+   -221,
+   -7865
+  ],
+  "plane": [
+   -40.77944441246365,
+   0.023543148269372958,
+   -0.00784550819456126
+  ],
+  "crest": {
+   "ax": 0.9487099859050352,
+   "az": -0.3161476911888934,
+   "at": 2266.8822913098547,
+   "plane": [
+    321.92172219711296,
+    -0.1282504494754326,
+    0.04273812239566166
+   ],
+   "ends": [
+    2250.9081113836487,
+    2282.9275676271036
+   ]
+  },
+  "note": "Tuusulanväylä: own street anchors 15/15, length 32 m, crest 0.8 m (25 % under)"
+ },
+ {
+  "names": [
+   "Tuusulanväylä"
+  ],
+  "parts": 1,
+  "box": [
+   -261,
+   -7881,
+   -250,
+   -7863
+  ],
+  "plane": [
+   385.39008047546287,
+   -0.009235595656660893,
+   0.04755052527314133
+  ],
+  "note": "Tuusulanväylä: own street anchors 9/10, length 19 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 5,
+  "box": [
+   -426,
+   -8375,
+   -171,
+   -8220
+  ],
+  "plane": [
+   72.95873451455287,
+   -0.01387584365417265,
+   0.006573264917444002
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 17/12, length 291 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 4,
+  "box": [
+   -442,
+   -8289,
+   -389,
+   -8239
+  ],
+  "plane": [
+   58.97593300961745,
+   -0.00471513404416022,
+   0.0042843590910704495
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 18/25, length 54 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 2,
+  "box": [
+   -420,
+   -8266,
+   -205,
+   -8144
+  ],
+  "plane": [
+   57.39284024154996,
+   -0.010756350651376036,
+   0.004998793913562963
+  ],
+  "note": "Kehä I / Muurimestarintie: street anchors 20/5, length 245 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 2,
+  "box": [
+   -421,
+   -8142,
+   -340,
+   -8113
+  ],
+  "plane": [
+   100.48555796138814,
+   0.02923693905946855,
+   0.008369448361525178
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 8/8, length 83 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 1,
+  "box": [
+   60,
+   -8400,
+   75,
+   -8382
+  ],
+  "plane": [
+   956.6785441291237,
+   0.038341617309240225,
+   0.1122334726191975
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 16/17, length 22 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 2,
+  "box": [
+   68,
+   -8381,
+   81,
+   -8362
+  ],
+  "plane": [
+   -775.4290315262689,
+   -0.06321132188255109,
+   -0.095227835460098
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 5/15, length 23 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 1,
+  "box": [
+   -52,
+   -8435,
+   -21,
+   -8414
+  ],
+  "plane": [
+   -42.619251012663554,
+   -0.01663163620670764,
+   -0.0074790039630764985
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 7/7, length 32 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 1,
+  "box": [
+   -113,
+   -8425,
+   -94,
+   -8394
+  ],
+  "plane": [
+   396.76476630469756,
+   -0.02039848728296496,
+   0.04465696222825766
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 7/7, length 34 m"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie",
+   "Kehä I / Seppämestarintie"
+  ],
+  "parts": 4,
+  "box": [
+   1075,
+   -8263,
+   1178,
+   -8199
+  ],
+  "plane": [
+   6.540067675874932,
+   0.0005519098223496897,
+   0.00025830254962850137
+  ],
+  "note": "Kehä I / Muurimestarintie: own street anchors 21/18, length 102 m"
+ },
+ {
+  "names": [
+   "Tuusulanväylä"
+  ],
+  "parts": 4,
+  "box": [
+   -413,
+   -5859,
+   -363,
+   -5816
+  ],
+  "plane": [
+   -106.69893857722855,
+   0.026499971647146334,
+   -0.0245000334867959
+  ],
+  "note": "Tuusulanväylä: own street anchors 7/5, length 65 m"
+ },
+ {
+  "names": [
+   "Tuusulanväylä"
+  ],
+  "parts": 3,
+  "box": [
+   -408,
+   -5665,
+   -351,
+   -5531
+  ],
+  "plane": [
+   65.56369040256995,
+   -0.0017188058908570224,
+   0.007213014962507162
+  ],
+  "note": "Tuusulanväylä: own street anchors 21/18, length 143 m"
+ },
+ {
+  "names": [
+   "Lahdenväylä"
+  ],
+  "parts": 4,
+  "box": [
+   1463,
+   -5680,
+   1544,
+   -5533
+  ],
+  "plane": [
+   -84.66424287782931,
+   0.009132402577823018,
+   -0.013373499759524001
+  ],
+  "note": "Lahdenväylä: own street anchors 6/6, length 167 m"
+ },
+ {
+  "names": [
+   "TALIN KARTANOPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -5626,
+   -4878,
+   -5611,
+   -4875
+  ],
+  "plane": [
+   -6.137214637433639,
+   -0.00007635286504184068,
+   -0.0000043468858298531096
+  ],
+  "note": "TALIN KARTANOPUISTO: street anchors 2/2, length 15 m"
+ },
+ {
+  "names": [
+   "HERTTONIEMEN SIIRTOLAPUUTARHA"
+  ],
+  "parts": 1,
+  "box": [
+   3935,
+   -2705,
+   3941,
+   -2703
+  ],
+  "plane": [
+   -5.823648109772116,
+   0,
+   0
+  ],
+  "note": "HERTTONIEMEN SIIRTOLAPUUTARHA: own street anchors 2/2, length 6 m"
+ },
+ {
+  "names": [
+   "HALTIALAN AARNIMETSÄ (KESKUSP.)"
+  ],
+  "parts": 1,
+  "box": [
+   -1378,
+   -10745,
+   -1376,
+   -10743
+  ],
+  "plane": [
+   14.16004326764605,
+   0,
+   0
+  ],
+  "note": "HALTIALAN AARNIMETSÄ (KESKUSP.): terrain anchors 6/6, length 2 m"
+ },
+ {
+  "names": [
+   "Niskalan Arboretum"
+  ],
+  "parts": 1,
+  "box": [
+   -929,
+   -11660,
+   -925,
+   -11658
+  ],
+  "plane": [
+   13.959838143815414,
+   0,
+   0
+  ],
+  "note": "Niskalan Arboretum: own street anchors 1/1, length 4 m"
+ },
+ {
+  "names": [
+   "Niskalan Arboretum"
+  ],
+  "parts": 1,
+  "box": [
+   -985,
+   -11701,
+   -984,
+   -11696
+  ],
+  "plane": [
+   13.313229552426002,
+   0,
+   0
+  ],
+  "note": "Niskalan Arboretum: own street anchors 1/1, length 5 m"
+ },
+ {
+  "names": [
+   "Ruutinkoski"
+  ],
+  "parts": 1,
+  "box": [
+   -238,
+   -12062,
+   -233,
+   -12057
+  ],
+  "plane": [
+   0.2811091279425284,
+   0,
+   0
+  ],
+  "note": "Ruutinkoski: own street anchors 1/1, length 5 m"
+ },
+ {
+  "names": [
+   "Ruutinkoski"
+  ],
+  "parts": 1,
+  "box": [
+   -443,
+   -12064,
+   -441,
+   -12061
+  ],
+  "plane": [
+   1.2752852121859348,
+   0,
+   0
+  ],
+  "note": "Ruutinkoski: own street anchors 2/2, length 3 m"
+ },
+ {
+  "names": [
+   "Viikki - Vanhankaupunginlahti"
+  ],
+  "parts": 1,
+  "box": [
+   3756,
+   -5002,
+   3764,
+   -4993
+  ],
+  "plane": [
+   -12.053091196179093,
+   -0.0020985524475976205,
+   -0.002670936809869434
+  ],
+  "note": "Viikki - Vanhankaupunginlahti: terrain anchors 9/9, length 9 m"
+ },
+ {
+  "names": [
+   "Viikki - Vanhankaupunginlahti"
+  ],
+  "parts": 1,
+  "box": [
+   3893,
+   -4893,
+   3897,
+   -4888
+  ],
+  "plane": [
+   -6.386094143227257,
+   0,
+   0
+  ],
+  "note": "Viikki - Vanhankaupunginlahti: own street anchors 2/2, length 5 m"
+ },
+ {
+  "names": [
+   "KAARELANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -4434,
+   -9061,
+   -4429,
+   -9055
+  ],
+  "plane": [
+   9.362792382167669,
+   0,
+   0
+  ],
+  "note": "KAARELANPUISTO: own street anchors 1/1, length 5 m"
+ },
+ {
+  "names": [
+   "PAUKKULANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   5843,
+   -7500,
+   5854,
+   -7487
+  ],
+  "plane": [
+   -108.33074378156823,
+   0.00693788762149309,
+   -0.010409727353148006
+  ],
+  "note": "PAUKKULANPUISTO: own street anchors 5/4, length 12 m"
+ },
+ {
+  "names": [
+   "Ratasmyllyntie"
+  ],
+  "parts": 7,
+  "box": [
+   5832,
+   -5544,
+   5857,
+   -5520
+  ],
+  "plane": [
+   23.424855578003907,
+   0.006121309888191744,
+   0.006095082808980614
+  ],
+  "note": "Ratasmyllyntie: own street anchors 7/5, length 33 m"
+ },
+ {
+  "names": [
+   "Latokartanonkaari"
+  ],
+  "parts": 10,
+  "box": [
+   5229,
+   -7125,
+   5251,
+   -7103
+  ],
+  "plane": [
+   17.279694076222064,
+   0.0032382306713577285,
+   0.0029564442844797795
+  ],
+  "note": "Latokartanonkaari: own street anchors 17/17, length 20 m"
+ },
+ {
+  "names": [
+   "Jauhokuja",
+   "Varvasmyllynkuja"
+  ],
+  "parts": 8,
+  "box": [
+   6802,
+   -6262,
+   6866,
+   -6228
+  ],
+  "plane": [
+   4.812758072549368,
+   0.0018809369721307224,
+   -0.0007855598249144911
+  ],
+  "note": "Jauhokuja: street anchors 11/10, length 66 m"
+ },
+ {
+  "names": [
+   "Harakka"
+  ],
+  "parts": 1,
+  "box": [
+   148,
+   2021,
+   151,
+   2034
+  ],
+  "plane": [
+   -127.76936917643944,
+   0.01191054382344249,
+   0.06347916942898049
+  ],
+  "note": "Harakka: own street anchors 1/1, length 13 m"
+ },
+ {
+  "names": [
+   "STRÖMSINLAHDENPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6429,
+   -3306,
+   6444,
+   -3299
+  ],
+  "plane": [
+   34.486302107833666,
+   -0.0053811786192628445,
+   0.001584806938578172
+  ],
+  "note": "STRÖMSINLAHDENPUISTO: own street anchors 4/3, length 15 m"
+ },
+ {
+  "names": [
+   "STRÖMSINLAHDENPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6496,
+   -3466,
+   6503,
+   -3460
+  ],
+  "plane": [
+   -230.18542811915182,
+   0.02869254245034227,
+   -0.010953141461944744
+  ],
+  "note": "STRÖMSINLAHDENPUISTO: own street anchors 10/5, length 9 m"
+ },
+ {
+  "names": [
+   "STRÖMSINLAHDENPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   6536,
+   -3592,
+   6546,
+   -3584
+  ],
+  "plane": [
+   -68.52281728416536,
+   0.013218035813793454,
+   0.006661238684661152
+  ],
+  "note": "STRÖMSINLAHDENPUISTO: own street anchors 8/4, length 9 m"
+ },
+ {
+  "names": [
+   "Teerisuontie"
+  ],
+  "parts": 7,
+  "box": [
+   3584,
+   -9438,
+   3611,
+   -9416
+  ],
+  "plane": [
+   -270.0699947348417,
+   0.12120742244402545,
+   0.016368027969317828
+  ],
+  "crest": {
+   "ax": 0.9910047454318648,
+   "az": 0.13382673324685498,
+   "at": 2303.382198674707,
+   "plane": [
+    98.47115705311165,
+    -0.037353336825073025,
+    -0.005044249350178983
+   ],
+   "ends": [
+    2290.3715604436916,
+    2316.621830733505
+   ]
+  },
+  "note": "Teerisuontie: own street anchors 21/20, length 26 m, crest 0.9 m (40 % under)"
+ },
+ {
+  "names": [
+   "Savelanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   2421,
+   -7426,
+   2428,
+   -7415
+  ],
+  "plane": [
+   58.31820794250034,
+   -0.00384560906483469,
+   0.006474329894432662
+  ],
+  "note": "Savelanpuisto: own street anchors 1/1, length 12 m"
+ },
+ {
+  "names": [
+   "Viikinojanpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   4529,
+   -6778,
+   4542,
+   -6773
+  ],
+  "plane": [
+   -52.099902139912714,
+   0.013695193219252642,
+   0.0020038813421769373
+  ],
+  "note": "Viikinojanpuisto: own street anchors 7/4, length 13 m"
+ },
+ {
+  "names": [
+   "Lucina Hagmanin polku"
+  ],
+  "parts": 1,
+  "box": [
+   2322,
+   -7761,
+   2334,
+   -7752
+  ],
+  "plane": [
+   -26.991617696310193,
+   -0.012586096543181626,
+   -0.007424798618391846
+  ],
+  "note": "Lucina Hagmanin polku: own street anchors 3/3, length 12 m"
+ },
+ {
+  "names": [
+   "Maatullinpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   3812,
+   -11667,
+   3817,
+   -11663
+  ],
+  "plane": [
+   10.009277188194183,
+   0,
+   0
+  ],
+  "note": "Maatullinpuisto: own street anchors 5/5, length 5 m"
+ },
+ {
+  "names": [
+   "Kuusisaarentie"
+  ],
+  "parts": 3,
+  "box": [
+   -4458,
+   -2023,
+   -4446,
+   -2012
+  ],
+  "plane": [
+   -4.732400510066746,
+   0,
+   0
+  ],
+  "note": "Kuusisaarentie: own street anchors 16/12, length 15 m, slope 0.29 levelled"
+ },
+ {
+  "names": [
+   "Harjannetie"
+  ],
+  "parts": 4,
+  "box": [
+   1990,
+   -6279,
+   2012,
+   -6228
+  ],
+  "plane": [
+   -422.9288815883314,
+   -0.0068579211832527,
+   -0.07175711375285394
+  ],
+  "note": "Harjannetie: own street anchors 13/10, length 51 m"
+ },
+ {
+  "names": [
+   "Harjannetie"
+  ],
+  "parts": 4,
+  "box": [
+   2174,
+   -6668,
+   2260,
+   -6638
+  ],
+  "plane": [
+   55.04987010792929,
+   -0.007847807190339881,
+   0.0014899725662150174
+  ],
+  "note": "Harjannetie: own street anchors 14/5, length 87 m"
+ },
+ {
+  "names": [
+   "Harjannetie"
+  ],
+  "parts": 8,
+  "box": [
+   2314,
+   -6690,
+   2359,
+   -6665
+  ],
+  "plane": [
+   141.4934463564394,
+   -0.027773811257862595,
+   0.008003022416744929
+  ],
+  "note": "Harjannetie: own street anchors 8/15, length 50 m"
+ },
+ {
+  "names": [
+   "Professorintie"
+  ],
+  "parts": 4,
+  "box": [
+   -4438,
+   -3764,
+   -4410,
+   -3708
+  ],
+  "plane": [
+   59.02522717110697,
+   0.0023273648982209292,
+   0.009608890658670542
+  ],
+  "note": "Professorintie: own street anchors 15/15, length 56 m"
+ },
+ {
+  "names": [
+   "KONTULAN KELKKAPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   7097,
+   -6534,
+   7102,
+   -6528
+  ],
+  "plane": [
+   31.435227033187534,
+   0,
+   0
+  ],
+  "note": "KONTULAN KELKKAPUISTO: own street anchors 4/4, length 6 m"
+ },
+ {
+  "names": [
+   "KONTULAN KELKKAPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   7092,
+   -6499,
+   7094,
+   -6493
+  ],
+  "plane": [
+   -40.61438078132467,
+   -0.0008814719459708688,
+   -0.011851354064729955
+  ],
+  "note": "KONTULAN KELKKAPUISTO: own street anchors 3/6, length 6 m"
+ },
+ {
+  "names": [
+   "Meilahdenpuisto, Arboretum"
+  ],
+  "parts": 1,
+  "box": [
+   -3563,
+   -2578,
+   -3560,
+   -2575
+  ],
+  "plane": [
+   -6.275476890722265,
+   0,
+   0
+  ],
+  "note": "Meilahdenpuisto, Arboretum: own street anchors 2/2, length 3 m"
+ },
+ {
+  "names": [
+   "Puistokaista"
+  ],
+  "parts": 1,
+  "box": [
+   2220,
+   -9079,
+   2222,
+   -9078
+  ],
+  "plane": [
+   6.661321396659896,
+   0,
+   0
+  ],
+  "note": "Puistokaista: own street anchors 2/2, length 2 m"
+ },
+ {
+  "names": [
+   "Puistokaista"
+  ],
+  "parts": 1,
+  "box": [
+   2214,
+   -9113,
+   2216,
+   -9112
+  ],
+  "plane": [
+   6.587842055671239,
+   0,
+   0
+  ],
+  "note": "Puistokaista: own street anchors 2/2, length 3 m"
+ },
+ {
+  "names": [
+   "Vuotie"
+  ],
+  "parts": 1,
+  "box": [
+   11027,
+   -4282,
+   11035,
+   -4262
+  ],
+  "plane": [
+   -8.427567482716238,
+   -0.0021402333551495106,
+   -0.008505367869309659
+  ],
+  "note": "Vuotie: own street anchors 4/4, length 19 m"
+ },
+ {
+  "names": [
+   "Konalantie"
+  ],
+  "parts": 8,
+  "box": [
+   -5820,
+   -6776,
+   -5789,
+   -6746
+  ],
+  "plane": [
+   15.515960769809249,
+   0,
+   0
+  ],
+  "note": "Konalantie: own street anchors 15/22, length 27 m, slope 0.22 levelled"
+ },
+ {
+  "names": [
+   "Kuninkaantammenkierto"
+  ],
+  "parts": 11,
+  "box": [
+   -3205,
+   -10047,
+   -3181,
+   -10020
+  ],
+  "plane": [
+   80.02330564530098,
+   0.0023838536217689076,
+   0.004632354877271406
+  ],
+  "note": "Kuninkaantammenkierto: own street anchors 9/20, length 23 m"
+ },
+ {
+  "names": [
+   "RUNAR SCHILDTIN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -3586,
+   -6665,
+   -3579,
+   -6659
+  ],
+  "plane": [
+   17.323129514806006,
+   0,
+   0
+  ],
+  "note": "RUNAR SCHILDTIN PUISTO: own street anchors 5/5, length 8 m"
+ },
+ {
+  "names": [
+   "RUNAR SCHILDTIN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -3542,
+   -6654,
+   -3536,
+   -6648
+  ],
+  "plane": [
+   -185.23503767433357,
+   -0.01589086290079419,
+   -0.02195662547625406
+  ],
+  "note": "RUNAR SCHILDTIN PUISTO: own street anchors 3/7, length 8 m"
+ },
+ {
+  "names": [
+   "RUNAR SCHILDTIN PUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -3681,
+   -6474,
+   -3680,
+   -6472
+  ],
+  "plane": [
+   15.620828405901646,
+   0,
+   0
+  ],
+  "note": "RUNAR SCHILDTIN PUISTO: own street anchors 2/2, length 2 m"
+ },
+ {
+  "names": [
+   "PORNAISTENNIEMI"
+  ],
+  "parts": 1,
+  "box": [
+   2211,
+   -5043,
+   2230,
+   -5036
+  ],
+  "plane": [
+   5.5362527637733745,
+   -0.012983010991010869,
+   -0.003329335533053331
+  ],
+  "note": "PORNAISTENNIEMI: own street anchors 2/2, length 19 m"
+ },
+ {
+  "names": [
+   "PORNAISTENNIEMI"
+  ],
+  "parts": 1,
+  "box": [
+   1986,
+   -4802,
+   2001,
+   -4783
+  ],
+  "plane": [
+   -6.521396701975556,
+   0.00008464564144067849,
+   0.00010904928667973699
+  ],
+  "note": "PORNAISTENNIEMI: terrain anchors 10/8, length 22 m"
+ },
+ {
+  "names": [
+   "Vihdintie"
+  ],
+  "parts": 1,
+  "box": [
+   -5064,
+   -7218,
+   -4973,
+   -7187
+  ],
+  "plane": [
+   13.471168264726208,
+   -0.00041659991359293966,
+   0.00013101379810990477
+  ],
+  "note": "Vihdintie: own street anchors 5/5, length 94 m"
+ },
+ {
+  "names": [
+   "Kirkonkylänpolku"
+  ],
+  "parts": 1,
+  "box": [
+   1302,
+   -11211,
+   1319,
+   -11186
+  ],
+  "plane": [
+   5.162778430014197,
+   0,
+   0
+  ],
+  "note": "Kirkonkylänpolku: street anchors 0/8, length 24 m"
+ },
+ {
+  "names": [
+   "Myllyväenaukio"
+  ],
+  "parts": 1,
+  "box": [
+   6199,
+   -5260,
+   6202,
+   -5255
+  ],
+  "plane": [
+   10.433781139724557,
+   0,
+   0
+  ],
+  "note": "Myllyväenaukio: own street anchors 10/10, length 5 m"
+ },
+ {
+  "names": [
+   "Käskynhaltijantie"
+  ],
+  "parts": 1,
+  "box": [
+   381,
+   -7041,
+   397,
+   -7035
+  ],
+  "plane": [
+   45.22683835612047,
+   -0.00636352389437336,
+   0.0022925665316804386
+  ],
+  "note": "Käskynhaltijantie: own street anchors 17/9, length 17 m"
+ },
+ {
+  "names": [
+   "Konepajansilta"
+  ],
+  "parts": 1,
+  "box": [
+   -728,
+   -3004,
+   -670,
+   -2939
+  ],
+  "plane": [
+   -28.7810539324021,
+   -0.011190580917680775,
+   -0.01281020915820129
+  ],
+  "note": "Konepajansilta: street anchors 11/9, length 82 m"
+ },
+ {
+  "names": [
+   "NYLANDERIN PUISTO"
+  ],
+  "parts": 3,
+  "box": [
+   592,
+   -3421,
+   604,
+   -3407
+  ],
+  "plane": [
+   117.44023861228987,
+   -0.013583962426014663,
+   0.033423534012278204
+  ],
+  "note": "NYLANDERIN PUISTO: own street anchors 8/17, length 14 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -1710,
+   -11519,
+   -1706,
+   -11516
+  ],
+  "plane": [
+   9.01000462344302,
+   0,
+   0
+  ],
+  "note": "Keskuspuisto: terrain anchors 10/8, length 4 m"
+ },
+ {
+  "names": [
+   "Mannerheimintie"
+  ],
+  "parts": 9,
+  "box": [
+   -2834,
+   -3121,
+   -2806,
+   -3116
+  ],
+  "plane": [
+   6.564270872709523,
+   0.00017208450463596838,
+   -0.000006974756020254893
+  ],
+  "note": "Mannerheimintie: own street anchors 8/7, length 28 m"
+ },
+ {
+  "names": [
+   "Kylänevantie"
+  ],
+  "parts": 6,
+  "box": [
+   -2828,
+   -4756,
+   -2743,
+   -4722
+  ],
+  "plane": [
+   160.1112723168936,
+   0.036892705750211446,
+   0.011156406417787684
+  ],
+  "note": "Kylänevantie: own street anchors 12/12, length 84 m"
+ },
+ {
+  "names": [
+   "Metsäläntie"
+  ],
+  "parts": 3,
+  "box": [
+   -2420,
+   -5602,
+   -2317,
+   -5579
+  ],
+  "plane": [
+   -56.22598251061322,
+   -0.02276946052047477,
+   -0.0019235556995863424
+  ],
+  "note": "Metsäläntie: own street anchors 12/15, length 103 m"
+ },
+ {
+  "names": [
+   "Metsäläntie"
+  ],
+  "parts": 9,
+  "box": [
+   -2526,
+   -5633,
+   -2446,
+   -5596
+  ],
+  "plane": [
+   -3.2138065131385485,
+   -0.0035988153942878506,
+   -0.0007146650671033142
+  ],
+  "note": "Metsäläntie: own street anchors 17/14, length 80 m"
+ },
+ {
+  "names": [
+   "Hyväntoivonpuisto"
+  ],
+  "parts": 6,
+  "box": [
+   -2027,
+   1141,
+   -1995,
+   1182
+  ],
+  "plane": [
+   6.372745161312283,
+   0.006241137925233935,
+   0.009027617459286106
+  ],
+  "note": "Hyväntoivonpuisto: street anchors 7/9, length 43 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2432,
+   -4763,
+   -2428,
+   -4760
+  ],
+  "plane": [
+   2.888667272322891,
+   0,
+   0
+  ],
+  "note": "Keskuspuisto: own street anchors 1/1, length 3 m"
+ },
+ {
+  "names": [
+   "Lahdenväylän suojavyöhyke"
+  ],
+  "parts": 1,
+  "box": [
+   5551,
+   -8301,
+   5560,
+   -8295
+  ],
+  "plane": [
+   -60.08913509692092,
+   0.015382570671281112,
+   0.001786253323437588
+  ],
+  "note": "Lahdenväylän suojavyöhyke: own street anchors 11/6, length 8 m"
+ },
+ {
+  "names": [
+   "Vihdintie"
+  ],
+  "parts": 2,
+  "box": [
+   -4434,
+   -6545,
+   -4421,
+   -6522
+  ],
+  "plane": [
+   274.3712470442493,
+   0.0007499283227717879,
+   0.04011717678858117
+  ],
+  "note": "Vihdintie: own street anchors 13/5, length 23 m"
+ },
+ {
+  "names": [
+   "Vihdintie"
+  ],
+  "parts": 1,
+  "box": [
+   -4442,
+   -6528,
+   -4429,
+   -6512
+  ],
+  "plane": [
+   -81.76093594101341,
+   0.015184183655174653,
+   -0.02429669598821095
+  ],
+  "note": "Vihdintie: own street anchors 20/8, length 16 m"
+ },
+ {
+  "names": [
+   "Auroranportti"
+  ],
+  "parts": 1,
+  "box": [
+   -1581,
+   -2531,
+   -1503,
+   -2410
+  ],
+  "plane": [
+   -0.9107655906817032,
+   0,
+   0
+  ],
+  "note": "Auroranportti: street anchors 0/25, length 141 m"
+ },
+ {
+  "names": [
+   "Junailijanaukio"
+  ],
+  "parts": 1,
+  "box": [
+   -864,
+   -3130,
+   -850,
+   -3116
+  ],
+  "plane": [
+   26.513348158361808,
+   0,
+   0
+  ],
+  "note": "Junailijanaukio: street anchors 17/17, length 16 m, slope 0.33 levelled"
+ },
+ {
+  "names": [
+   "Junailijankuja"
+  ],
+  "parts": 3,
+  "box": [
+   -835,
+   -3295,
+   -804,
+   -3208
+  ],
+  "plane": [
+   227.66705492034998,
+   0.01503511384605208,
+   0.058441033303671605
+  ],
+  "crest": {
+   "ax": 0.24915636658573095,
+   "az": 0.9684632698196648,
+   "at": -3351.99123832513,
+   "plane": [
+    -138.6663806595818,
+    -0.012194762749201265,
+    -0.04740067439819082
+   ],
+   "ends": [
+    -3398.331049773735,
+    -3308.62962961813
+   ]
+  },
+  "note": "Junailijankuja: own street anchors 20/18, length 90 m, crest 2.3 m (25 % under)"
+ },
+ {
+  "names": [
+   "Pasilansilta"
+  ],
+  "parts": 191,
+  "box": [
+   -1309,
+   -3210,
+   -966,
+   -3094
+  ],
+  "plane": [
+   32.03284628739905,
+   0.026557118483851047,
+   -0.006521976888429225
+  ],
+  "crest": {
+   "ax": 0.9711434028645474,
+   "az": -0.2384963124928089,
+   "at": -355.16677108695205,
+   "plane": [
+    23.634265295427173,
+    0.003592620710549326,
+    -0.0008822865800498232
+   ],
+   "ends": [
+    -524.6445919204585,
+    -184.7349562677637
+   ]
+  },
+  "note": "Pasilansilta: street anchors 52/56, length 340 m, crest 2.0 m (35 % under)"
+ },
+ {
+  "names": [
+   "Helene Schjerfbeckin puisto"
+  ],
+  "parts": 1,
+  "box": [
+   -3855,
+   -9875,
+   -3849,
+   -9861
+  ],
+  "plane": [
+   -86.3828983148619,
+   0.0017126326516764979,
+   -0.01173259271842897
+  ],
+  "note": "Helene Schjerfbeckin puisto: own street anchors 22/8, length 14 m"
+ },
+ {
+  "names": [
+   "Helene Schjerfbeckin puisto"
+  ],
+  "parts": 1,
+  "box": [
+   -3439,
+   -9779,
+   -3433,
+   -9767
+  ],
+  "plane": [
+   -264.0520011125557,
+   0.007379133203727394,
+   -0.03183469717018001
+  ],
+  "note": "Helene Schjerfbeckin puisto: own street anchors 7/5, length 11 m"
+ },
+ {
+  "names": [
+   "Helene Schjerfbeckin puisto"
+  ],
+  "parts": 1,
+  "box": [
+   -3496,
+   -9850,
+   -3494,
+   -9846
+  ],
+  "plane": [
+   22.9626308577114,
+   0,
+   0
+  ],
+  "note": "Helene Schjerfbeckin puisto: own street anchors 7/8, length 4 m"
+ },
+ {
+  "names": [
+   "Itäväylä"
+  ],
+  "parts": 1,
+  "box": [
+   9687,
+   -6836,
+   9706,
+   -6819
+  ],
+  "plane": [
+   25.950194560516206,
+   -0.0014087854697999182,
+   0.0014552574312769115
+  ],
+  "note": "Itäväylä: own street anchors 4/7, length 23 m"
+ },
+ {
+  "names": [
+   "Helene Schjerfbeckin puisto"
+  ],
+  "parts": 1,
+  "box": [
+   -3324,
+   -9846,
+   -3319,
+   -9834
+  ],
+  "plane": [
+   -51.27643325608179,
+   -0.0007104959182151431,
+   -0.007174975672788681
+  ],
+  "note": "Helene Schjerfbeckin puisto: own street anchors 9/8, length 11 m"
+ },
+ {
+  "names": [
+   "Helene Schjerfbeckin puisto"
+  ],
+  "parts": 1,
+  "box": [
+   -3393,
+   -9756,
+   -3381,
+   -9747
+  ],
+  "plane": [
+   -3.423279883749693,
+   -0.004658567794450686,
+   -0.000933957261565134
+  ],
+  "note": "Helene Schjerfbeckin puisto: own street anchors 12/9, length 12 m"
+ },
+ {
+  "names": [
+   "Aallonhalkoja"
+  ],
+  "parts": 13,
+  "box": [
+   1363,
+   -1060,
+   1396,
+   -1030
+  ],
+  "plane": [
+   10.243002235242955,
+   -0.005438716562318533,
+   0.006528201257601459
+  ],
+  "note": "Aallonhalkoja: street anchors 26/31, length 22 m"
+ },
+ {
+  "names": [
+   "Konttisatamankatu",
+   "Finkensilta"
+  ],
+  "parts": 16,
+  "box": [
+   1367,
+   -1003,
+   1619,
+   -834
+  ],
+  "plane": [
+   1.2143117098203229,
+   -0.007889786453103962,
+   -0.005199601926214913
+  ],
+  "note": "Konttisatamankatu: street anchors 57/28, length 294 m"
+ },
+ {
+  "names": [
+   "SORSAPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -1594,
+   -6494,
+   -1591,
+   -6488
+  ],
+  "plane": [
+   11.031873524209953,
+   0,
+   0
+  ],
+  "note": "SORSAPUISTO: own street anchors 3/3, length 5 m"
+ },
+ {
+  "names": [
+   "Ratapihantie"
+  ],
+  "parts": 1,
+  "box": [
+   -1021,
+   -4091,
+   -1010,
+   -4077
+  ],
+  "plane": [
+   151.36168267339377,
+   -0.029576612114339478,
+   0.04066912785147342
+  ],
+  "note": "Ratapihantie: own street anchors 11/11, length 16 m"
+ },
+ {
+  "names": [
+   "Ratapihantie"
+  ],
+  "parts": 5,
+  "box": [
+   -910,
+   -2944,
+   -880,
+   -2934
+  ],
+  "plane": [
+   18.898646361624262,
+   0.0008902903106830587,
+   -0.00010433991415660373
+  ],
+  "note": "Ratapihantie: own street anchors 9/10, length 28 m"
+ },
+ {
+  "names": [
+   "Ratapihantie"
+  ],
+  "parts": 3,
+  "box": [
+   -919,
+   -2942,
+   -913,
+   -2933
+  ],
+  "plane": [
+   -46.256989494426016,
+   -0.0025142851884053436,
+   -0.021074344946208575
+  ],
+  "note": "Ratapihantie: own street anchors 4/8, length 9 m"
+ },
+ {
+  "names": [
+   "Resiinakuja"
+  ],
+  "parts": 5,
+  "box": [
+   -671,
+   -3181,
+   -632,
+   -3161
+  ],
+  "plane": [
+   19.289427044831424,
+   0.0010164687414092582,
+   -0.00023751990133186228
+  ],
+  "note": "Resiinakuja: own street anchors 12/12, length 38 m"
+ },
+ {
+  "names": [
+   "Kruunuvuorensilta"
+  ],
+  "parts": 27,
+  "box": [
+   2277,
+   -756,
+   3260,
+   -41
+  ],
+  "plane": [
+   -2.453738768554452,
+   0,
+   0
+  ],
+  "note": "Kruunuvuorensilta: street anchors 0/16, length 1206 m"
+ },
+ {
+  "names": [
+   "Topparikuja"
+  ],
+  "parts": 5,
+  "box": [
+   -541,
+   -3313,
+   -521,
+   -3273
+  ],
+  "plane": [
+   33.54543613337768,
+   0.0010736475346124822,
+   0.005671822946019619
+  ],
+  "note": "Topparikuja: own street anchors 11/10, length 38 m"
+ },
+ {
+  "names": [
+   "Veturitie"
+  ],
+  "parts": 15,
+  "box": [
+   -1426,
+   -4005,
+   -1367,
+   -3851
+  ],
+  "plane": [
+   -207.55325009472327,
+   -0.011440622364936329,
+   -0.05322332108322515
+  ],
+  "note": "Veturitie: own street anchors 8/97, length 158 m"
+ },
+ {
+  "names": [
+   "Kulosaaren silta"
+  ],
+  "parts": 2,
+  "box": [
+   1674,
+   -1925,
+   1820,
+   -1887
+  ],
+  "plane": [
+   -28.023538860903678,
+   0.020030031869895496,
+   0.00473669847763095
+  ],
+  "crest": {
+   "ax": 0.9731592948320714,
+   "az": 0.2301325419881886,
+   "at": 1260.12172703824,
+   "plane": [
+    74.17728179752316,
+    -0.058897008612912964,
+    -0.013927954425928594
+   ],
+   "ends": [
+    1185.526449096943,
+    1335.371940648053
+   ]
+  },
+  "note": "Kulosaaren silta: own street anchors 3/8, length 150 m, crest 2.9 m (33 % under)"
+ },
+ {
+  "names": [
+   "Ristiretkeläistenkatu"
+  ],
+  "parts": 1,
+  "box": [
+   1910,
+   -6268,
+   1923,
+   -6196
+  ],
+  "plane": [
+   -41.014776745973165,
+   -0.0011602619104245585,
+   -0.009960917079313503
+  ],
+  "note": "Ristiretkeläistenkatu: own street anchors 4/5, length 72 m"
+ },
+ {
+  "names": [
+   "Klv - P K Y"
+  ],
+  "parts": 1,
+  "box": [
+   730,
+   -6538,
+   752,
+   -6515
+  ],
+  "plane": [
+   39.46077079506562,
+   -0.0034215746519430093,
+   0.0035971391139460783
+  ],
+  "note": "Klv - P K Y: own street anchors 4/4, length 28 m"
+ },
+ {
+  "names": [
+   "Klv - P K Y"
+  ],
+  "parts": 1,
+  "box": [
+   799,
+   -6612,
+   824,
+   -6586
+  ],
+  "plane": [
+   75.88762940532577,
+   -0.008146787859843466,
+   0.008438566746704823
+  ],
+  "crest": {
+   "ax": 0.6945594868124957,
+   "az": -0.719435278033238,
+   "at": 5306.2184001682635,
+   "plane": [
+    924.882573432248,
+    -0.1192763057498428,
+    0.12354821123202292
+   ],
+   "ends": [
+    5295.33907052307,
+    5327.694677078768
+   ]
+  },
+  "note": "Klv - P K Y: own street anchors 4/1, length 32 m, crest 0.9 m (21 % under)"
+ },
+ {
+  "names": [
+   "Vennynpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -3204,
+   -10253,
+   -3202,
+   -10252
+  ],
+  "plane": [
+   28.14337612241323,
+   0,
+   0
+  ],
+  "note": "Vennynpuisto: own street anchors 2/2, length 2 m"
+ },
+ {
+  "names": [
+   "SILTALANPUISTO "
+  ],
+  "parts": 1,
+  "box": [
+   1854,
+   -10757,
+   1862,
+   -10749
+  ],
+  "plane": [
+   -89.76781243804619,
+   -0.012919905711717966,
+   -0.011130549793625837
+  ],
+  "note": "SILTALANPUISTO : own street anchors 3/6, length 8 m"
+ },
+ {
+  "names": [
+   "Isoisänsilta"
+  ],
+  "parts": 1,
+  "box": [
+   1634,
+   -1459,
+   1757,
+   -1317
+  ],
+  "plane": [
+   -4.363645299699435,
+   0,
+   0
+  ],
+  "note": "Isoisänsilta: street anchors 18/0, length 175 m"
+ },
+ {
+  "names": [
+   "Junonkadun silta"
+  ],
+  "parts": 9,
+  "box": [
+   1508,
+   -1475,
+   1530,
+   -1454
+  ],
+  "plane": [
+   -15.866667901553068,
+   0.0023374374283345618,
+   -0.005700865297573057
+  ],
+  "note": "Junonkadun silta: own street anchors 24/14, length 20 m"
+ },
+ {
+  "names": [
+   "Pihlajistontie"
+  ],
+  "parts": 1,
+  "box": [
+   3025,
+   -6757,
+   3039,
+   -6746
+  ],
+  "plane": [
+   -83.44190695323297,
+   0.024346200969496443,
+   -0.002186859398306991
+  ],
+  "note": "Pihlajistontie: own street anchors 10/10, length 13 m"
+ },
+ {
+  "names": [
+   "Pirjontie"
+  ],
+  "parts": 2,
+  "box": [
+   -1723,
+   -7210,
+   -1712,
+   -7198
+  ],
+  "plane": [
+   -426.5539425317337,
+   0.002233347910556892,
+   -0.06127911947869161
+  ],
+  "note": "Pirjontie: own street anchors 22/18, length 12 m"
+ },
+ {
+  "names": [
+   "LONGINOJANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   3840,
+   -8446,
+   3855,
+   -8427
+  ],
+  "plane": [
+   19.647227099036044,
+   0.001442555185322538,
+   0.0022236102204023314
+  ],
+  "note": "LONGINOJANPUISTO: own street anchors 10/11, length 20 m"
+ },
+ {
+  "names": [
+   "Kirsikkapuisto"
+  ],
+  "parts": 1,
+  "box": [
+   5290,
+   -2834,
+   5299,
+   -2827
+  ],
+  "plane": [
+   -97.76107514125682,
+   0.014594596072940598,
+   -0.005268654956632875
+  ],
+  "note": "Kirsikkapuisto: own street anchors 26/10, length 9 m"
+ },
+ {
+  "names": [
+   "Kirsikkapuisto"
+  ],
+  "parts": 1,
+  "box": [
+   5329,
+   -2765,
+   5338,
+   -2755
+  ],
+  "plane": [
+   312.3708506389421,
+   -0.035840777069393405,
+   0.04638378325042741
+  ],
+  "note": "Kirsikkapuisto: own street anchors 5/6, length 10 m"
+ },
+ {
+  "names": [
+   "Keskuspuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -24,
+   -11903,
+   -20,
+   -11901
+  ],
+  "plane": [
+   6.289395612575817,
+   0,
+   0
+  ],
+  "note": "Keskuspuisto: own street anchors 1/1, length 4 m"
+ },
+ {
+  "names": [
+   "KIVINOKKA METSÄALUE"
+  ],
+  "parts": 1,
+  "box": [
+   3653,
+   -2908,
+   3657,
+   -2906
+  ],
+  "plane": [
+   1.9756446698075179,
+   0,
+   0
+  ],
+  "note": "KIVINOKKA METSÄALUE: terrain anchors 8/7, length 3 m"
+ },
+ {
+  "names": [
+   "Uutelan Viljelypalstat"
+  ],
+  "parts": 1,
+  "box": [
+   12307,
+   -3499,
+   12311,
+   -3496
+  ],
+  "plane": [
+   -5.679794004041316,
+   0,
+   0
+  ],
+  "note": "Uutelan Viljelypalstat: terrain anchors 13/13, length 5 m"
+ },
+ {
+  "names": [
+   "Maratontie"
+  ],
+  "parts": 3,
+  "box": [
+   7082,
+   -9361,
+   7096,
+   -9354
+  ],
+  "plane": [
+   28.79539884419895,
+   0,
+   0
+  ],
+  "note": "Maratontie: own street anchors 21/20, length 13 m, slope -0.33 levelled"
+ },
+ {
+  "names": [
+   "Haltialan portti"
+  ],
+  "parts": 1,
+  "box": [
+   214,
+   -11259,
+   217,
+   -11256
+  ],
+  "plane": [
+   4.894428728176367,
+   0,
+   0
+  ],
+  "note": "Haltialan portti: own street anchors 1/1, length 3 m"
+ },
+ {
+  "names": [
+   "LONGINOJANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   4198,
+   -8875,
+   4214,
+   -8863
+  ],
+  "plane": [
+   -10.721288412464183,
+   -0.010009463424004628,
+   -0.0067213120429570295
+  ],
+  "note": "LONGINOJANPUISTO: own street anchors 6/7, length 16 m"
+ },
+ {
+  "names": [
+   "PAUKKULANPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   5904,
+   -7420,
+   5908,
+   -7417
+  ],
+  "plane": [
+   10.334297953811667,
+   0,
+   0
+  ],
+  "note": "PAUKKULANPUISTO: terrain anchors 16/16, length 4 m"
+ },
+ {
+  "names": [
+   "SUUTARILAN RANTAPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   2646,
+   -12971,
+   2665,
+   -12963
+  ],
+  "plane": [
+   5.628837769872254,
+   0,
+   0
+  ],
+  "note": "SUUTARILAN RANTAPUISTO: street anchors 0/4, length 18 m"
+ },
+ {
+  "names": [
+   "SUUTARILAN RANTAPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   2253,
+   -12326,
+   2256,
+   -12323
+  ],
+  "plane": [
+   6.052303669593629,
+   0,
+   0
+  ],
+  "note": "SUUTARILAN RANTAPUISTO: own street anchors 1/1, length 3 m"
+ },
+ {
+  "names": [
+   "Kirsikkapuro"
+  ],
+  "parts": 1,
+  "box": [
+   -1676,
+   -7097,
+   -1671,
+   -7091
+  ],
+  "plane": [
+   -384.8785050251007,
+   -0.03888200874607644,
+   -0.046499531399798975
+  ],
+  "note": "Kirsikkapuro: own street anchors 3/6, length 6 m"
+ },
+ {
+  "names": [
+   "Arielinkadun silta"
+  ],
+  "parts": 6,
+  "box": [
+   1323,
+   -1538,
+   1362,
+   -1498
+  ],
+  "plane": [
+   -21.782069045720732,
+   0.004424861002340519,
+   -0.00762400435239813
+  ],
+  "note": "Arielinkadun silta: own street anchors 9/22, length 44 m"
+ },
+ {
+  "names": [
+   "Seurasaari"
+  ],
+  "parts": 1,
+  "box": [
+   -3789,
+   -835,
+   -3784,
+   -830
+  ],
+  "plane": [
+   -6.675417089574985,
+   0,
+   0
+  ],
+  "note": "Seurasaari: terrain anchors 14/14, length 4 m"
+ },
+ {
+  "names": [
+   "PIKKUKOSKENPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   1642,
+   -6589,
+   1649,
+   -6582
+  ],
+  "plane": [
+   -3.534651548965858,
+   0.0007761172486257594,
+   -0.0008235161426052711
+  ],
+  "note": "PIKKUKOSKENPUISTO: own street anchors 6/3, length 6 m"
+ },
+ {
+  "names": [
+   "PIRTTIPOLUNPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   -728,
+   -6464,
+   -722,
+   -6462
+  ],
+  "plane": [
+   12.796413894067014,
+   0,
+   0
+  ],
+  "note": "PIRTTIPOLUNPUISTO: own street anchors 2/2, length 5 m"
+ },
+ {
+  "names": [
+   "KONTULAN KELKKAPUISTO"
+  ],
+  "parts": 1,
+  "box": [
+   7007,
+   -6933,
+   7097,
+   -6886
+  ],
+  "plane": [
+   114.68580760202397,
+   -0.02297872880500757,
+   -0.01101473809529731
+  ],
+  "note": "KONTULAN KELKKAPUISTO: street anchors 5/5, length 97 m"
+ },
+ {
+  "names": [
+   "Atlantinkatu"
+  ],
+  "parts": 23,
+  "box": [
+   -2266,
+   1965,
+   -2170,
+   2054
+  ],
+  "plane": [
+   3.1310432410380935,
+   0.007137313687696731,
+   0.005733118711858828
+  ],
+  "note": "Atlantinkatu: own street anchors 19/24, length 107 m"
+ },
+ {
+  "names": [
+   "B507"
+  ],
+  "parts": 3,
+  "box": [
+   1843,
+   2991,
+   1848,
+   2998
+  ],
+  "plane": [
+   21.016340797870672,
+   -0.0023638577612005596,
+   -0.004694906286233662
+  ],
+  "note": "B507: own street anchors 8/16, length 6 m"
+ },
+ {
+  "names": [
+   "Viikintie"
+  ],
+  "parts": 1,
+  "box": [
+   4278,
+   -5891,
+   4289,
+   -5881
+  ],
+  "plane": [
+   -6.136810829367313,
+   -0.004015575226322275,
+   -0.003409855873560634
+  ],
+  "note": "Viikintie: own street anchors 7/7, length 12 m"
+ },
+ {
+  "names": [
+   "Pitäjänmäentie"
+  ],
+  "parts": 12,
+  "box": [
+   -4888,
+   -5573,
+   -4832,
+   -5518
+  ],
+  "plane": [
+   -51.98760673492774,
+   -0.003968019995372699,
+   -0.006768552356022839
+  ],
+  "note": "Pitäjänmäentie: own street anchors 29/22, length 53 m"
+ },
+ {
+  "names": [
+   "Pitäjänmäentie",
+   "Talin puistotie"
+  ],
+  "parts": 14,
+  "box": [
+   -4658,
+   -5401,
+   -4622,
+   -5364
+  ],
+  "plane": [
+   -15.456709015798634,
+   0.019533731442774278,
+   -0.020712768219188504
+  ],
+  "note": "Pitäjänmäentie: own street anchors 38/46, length 40 m"
+ },
+ {
+  "names": [
+   "Maaherrantie"
+  ],
+  "parts": 5,
+  "box": [
+   845,
+   -6584,
+   882,
+   -6540
+  ],
+  "plane": [
+   -578.8384262080626,
+   0.04141187483735532,
+   -0.08450394303188394
+  ],
+  "note": "Maaherrantie: own street anchors 29/12, length 50 m"
+ },
+ {
+  "names": [
+   "Maexmontaninpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   787,
+   -6500,
+   790,
+   -6497
+  ],
+  "plane": [
+   13.49199634620469,
+   0,
+   0
+  ],
+  "note": "Maexmontaninpuisto: own street anchors 8/8, length 4 m"
+ },
+ {
+  "names": [
+   "Eliel Saarisen tie"
+  ],
+  "parts": 1,
+  "box": [
+   -3331,
+   -5472,
+   -3303,
+   -5452
+  ],
+  "plane": [
+   -200.00160945202435,
+   -0.029265140133053643,
+   -0.02063030188357288
+  ],
+  "note": "Eliel Saarisen tie: own street anchors 17/17, length 34 m"
+ },
+ {
+  "names": [
+   "Kotikonnuntie"
+  ],
+  "parts": 1,
+  "box": [
+   7533,
+   -7568,
+   7557,
+   -7534
+  ],
+  "plane": [
+   -124.04509482916598,
+   -0.02726634517372993,
+   -0.0472431514741445
+  ],
+  "note": "Kotikonnuntie: own street anchors 13/5, length 32 m"
+ },
+ {
+  "names": [
+   "Käskynhaltijantie"
+  ],
+  "parts": 3,
+  "box": [
+   -549,
+   -6716,
+   -442,
+   -6709
+  ],
+  "plane": [
+   23.258433455324887,
+   0.013908948401292295,
+   -0.0008748601530605064
+  ],
+  "note": "Käskynhaltijantie: own street anchors 9/9, length 108 m"
+ },
+ {
+  "names": [
+   "Käskynhaltijantie"
+  ],
+  "parts": 2,
+  "box": [
+   -547,
+   -6690,
+   -449,
+   -6684
+  ],
+  "plane": [
+   23.39483586543572,
+   0.013804337157910736,
+   -0.0007508052373068067
+  ],
+  "note": "Käskynhaltijantie: own street anchors 9/8, length 98 m"
+ },
+ {
+  "names": [
+   "Pakilantie"
+  ],
+  "parts": 1,
+  "box": [
+   -674,
+   -6722,
+   -670,
+   -6721
+  ],
+  "plane": [
+   17.524882404089126,
+   0,
+   0
+  ],
+  "note": "Pakilantie: own street anchors 16/16, length 5 m"
+ },
+ {
+  "names": [
+   "Pakilantie"
+  ],
+  "parts": 1,
+  "box": [
+   -683,
+   -6701,
+   -669,
+   -6695
+  ],
+  "plane": [
+   19.19679145586023,
+   0,
+   0
+  ],
+  "note": "Pakilantie: own street anchors 10/21, length 14 m, slope -0.21 levelled"
+ },
+ {
+  "names": [
+   "Vanha Helsingintie"
+  ],
+  "parts": 1,
+  "box": [
+   3139,
+   -9018,
+   3146,
+   -8967
+  ],
+  "plane": [
+   1002.2624280885811,
+   0.015987494206919774,
+   0.11556874812378176
+  ],
+  "note": "Vanha Helsingintie: own street anchors 9/10, length 52 m"
+ },
+ {
+  "names": [
+   "Vanha Helsingintie"
+  ],
+  "parts": 1,
+  "box": [
+   3147,
+   -8963,
+   3148,
+   -8952
+  ],
+  "plane": [
+   -90.24612039458354,
+   -0.0017802223581535937,
+   -0.012577212929188598
+  ],
+  "note": "Vanha Helsingintie: own street anchors 20/21, length 11 m"
+ },
+ {
+  "names": [
+   "Vanha Helsingintie"
+  ],
+  "parts": 1,
+  "box": [
+   3114,
+   -9028,
+   3120,
+   -8985
+  ],
+  "plane": [
+   1571.9318999656102,
+   0.023367012807779777,
+   0.18085797726863895
+  ],
+  "crest": {
+   "ax": 0.1281358452162692,
+   "az": 0.9917566259777205,
+   "at": -8534.38448812612,
+   "plane": [
+    206.43038186543012,
+    0.002865277573176693,
+    0.02217691711220357
+   ],
+   "ends": [
+    -8554.642057893814,
+    -8511.27632523765
+   ]
+  },
+  "note": "Vanha Helsingintie: own street anchors 9/17, length 43 m, crest 1.4 m (50 % under)"
+ },
+ {
+  "names": [
+   "Vanha Helsingintie"
+  ],
+  "parts": 1,
+  "box": [
+   3123,
+   -8960,
+   3126,
+   -8946
+  ],
+  "plane": [
+   179.63376832533615,
+   0.003368854153062209,
+   0.02009201194031295
+  ],
+  "note": "Vanha Helsingintie: own street anchors 8/9, length 13 m"
+ },
+ {
+  "names": [
+   "Vanha Helsingintie"
+  ],
+  "parts": 1,
+  "box": [
+   3127,
+   -8937,
+   3133,
+   -8894
+  ],
+  "plane": [
+   412.08141483552174,
+   0.0070277229532458,
+   0.04742132017316712
+  ],
+  "note": "Vanha Helsingintie: own street anchors 9/9, length 44 m"
+ },
+ {
+  "names": [
+   "Asemapäällikönkatu"
+  ],
+  "parts": 1,
+  "box": [
+   -880,
+   -3197,
+   -870,
+   -3192
+  ],
+  "plane": [
+   51.61510097055335,
+   0.20650533548334868,
+   -0.048258867555708386
+  ],
+  "crest": {
+   "ax": 0.9737636352664477,
+   "az": -0.22756182156212537,
+   "at": -124.88178140659737,
+   "plane": [
+    31.63401594549783,
+    0.05070315384071748,
+    -0.01184897610576843
+   ],
+   "ends": [
+    -129.8811651910637,
+    -119.88194392142525
+   ]
+  },
+  "note": "Asemapäällikönkatu: own street anchors 6/6, length 10 m, slope 0.13, crest 0.4 m (75 % under)"
+ },
+ {
+  "names": [
+   "Opastinsilta"
+  ],
+  "parts": 1,
+  "box": [
+   -993,
+   -3282,
+   -952,
+   -3259
+  ],
+  "plane": [
+   18.535520669615366,
+   -0.004963743752459459,
+   0.001176947439661702
+  ],
+  "note": "Opastinsilta: street anchors 21/10, length 38 m"
+ },
+ {
+  "names": [
+   "Annala"
+  ],
+  "parts": 1,
+  "box": [
+   1297,
+   -4760,
+   1299,
+   -4757
+  ],
+  "plane": [
+   7.12075757016321,
+   0,
+   0
+  ],
+  "note": "Annala: own street anchors 2/2, length 3 m"
+ },
+ {
+  "names": [
+   "Annala"
+  ],
+  "parts": 1,
+  "box": [
+   1218,
+   -4783,
+   1222,
+   -4777
+  ],
+  "plane": [
+   12.65465578689567,
+   0,
+   0
+  ],
+  "note": "Annala: own street anchors 3/3, length 6 m"
+ },
+ {
+  "names": [
+   "Mäkelänkatu"
+  ],
+  "parts": 1,
+  "box": [
+   -325,
+   -3378,
+   -314,
+   -3366
+  ],
+  "plane": [
+   307.52313849488513,
+   0.059240094072068414,
+   0.08231354975039101
+  ],
+  "note": "Mäkelänkatu: own street anchors 4/4, length 13 m"
+ },
+ {
+  "names": [
+   "Kipparlahden silmukka"
+  ],
+  "parts": 5,
+  "box": [
+   3820,
+   -2566,
+   3887,
+   -2512
+  ],
+  "plane": [
+   277.9247479121209,
+   -0.048104759306500655,
+   0.03668770218209026
+  ],
+  "note": "Kipparlahden silmukka: own street anchors 11/19, length 79 m"
+ },
+ {
+  "names": [
+   "Vallilanraitio",
+   "VALLILANLAAKSO"
+  ],
+  "parts": 10,
+  "box": [
+   -34,
+   -3466,
+   -8,
+   -3442
+  ],
+  "plane": [
+   -97.91623889985534,
+   0.05126001226336056,
+   -0.02833890415271925
+  ],
+  "crest": {
+   "ax": 0.8751619996242938,
+   "az": -0.4838300056978769,
+   "at": 1653.0341113273084,
+   "plane": [
+    166.56921891251406,
+    -0.08876590767652646,
+    0.04907389675894107
+   ],
+   "ends": [
+    1643.145817435421,
+    1663.2572879883808
+   ]
+  },
+  "note": "Vallilanraitio: own street anchors 41/47, length 20 m, crest 0.6 m (45 % under)"
+ },
+ {
+  "names": [
+   "VALLILANLAAKSO"
+  ],
+  "parts": 1,
+  "box": [
+   -209,
+   -3483,
+   -197,
+   -3471
+  ],
+  "plane": [
+   4.604330385444149,
+   0,
+   0
+  ],
+  "note": "VALLILANLAAKSO: street anchors 28/62, length 10 m, slope -0.31 levelled"
+ },
+ {
+  "names": [
+   "VALLILANLAAKSO"
+  ],
+  "parts": 1,
+  "box": [
+   -168,
+   -3456,
+   -156,
+   -3444
+  ],
+  "plane": [
+   256.4062869355388,
+   -0.04909831244575491,
+   0.0749915310251357
+  ],
+  "note": "VALLILANLAAKSO: street anchors 32/65, length 10 m"
+ },
+ {
+  "names": [
+   "Suojavyöhyke"
+  ],
+  "parts": 2,
+  "box": [
+   515,
+   -3437,
+   522,
+   -3427
+  ],
+  "plane": [
+   40.39508523697616,
+   -0.003176679605375843,
+   0.01283240175162958
+  ],
+  "note": "Suojavyöhyke: own street anchors 16/38, length 11 m"
+ },
+ {
+  "names": [
+   "Merihaansilta"
+  ],
+  "parts": 19,
+  "box": [
+   621,
+   -1033,
+   1030,
+   -963
+  ],
+  "plane": [
+   -7.402518846791179,
+   0.0023031838657625553,
+   -0.00007631395772506951
+  ],
+  "note": "Merihaansilta: street anchors 18/23, length 410 m"
+ },
+ {
+  "names": [
+   "Sompasaarenlaituri"
+  ],
+  "parts": 5,
+  "box": [
+   1144,
+   -1206,
+   1168,
+   -1182
+  ],
+  "plane": [
+   -12.261472893741397,
+   0.0025912167771942334,
+   -0.004421219928639887
+  ],
+  "note": "Sompasaarenlaituri: own street anchors 8/19, length 18 m"
+ },
+ {
+  "names": [
+   "Alakiventie"
+  ],
+  "parts": 1,
+  "box": [
+   6763,
+   -5459,
+   6768,
+   -5455
+  ],
+  "plane": [
+   13.988306764327742,
+   -0.0003455883502862192,
+   -0.0002963565126444352
+  ],
+  "note": "Alakiventie: terrain anchors 8/12, length 5 m"
+ },
+ {
+  "names": [
+   "Ellen Thesleffin puisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2785,
+   -10288,
+   -2780,
+   -10280
+  ],
+  "plane": [
+   24.166109205571168,
+   0,
+   0
+  ],
+  "note": "Ellen Thesleffin puisto: own street anchors 3/3, length 7 m"
+ },
+ {
+  "names": [
+   "Tammasaarenlaituri",
+   "Lauttasaarensilta"
+  ],
+  "parts": 17,
+  "box": [
+   -3241,
+   765,
+   -2862,
+   886
+  ],
+  "plane": [
+   -26.370988327002106,
+   -0.006938027731041963,
+   0.001742690895543667
+  ],
+  "note": "Tammasaarenlaituri: street anchors 203/53, length 386 m"
+ },
+ {
+  "names": [
+   "Tilkanniitty"
+  ],
+  "parts": 1,
+  "box": [
+   -3385,
+   -3700,
+   -3372,
+   -3693
+  ],
+  "plane": [
+   104.68306956432541,
+   0.024318243903115495,
+   0.007656137827693581
+  ],
+  "note": "Tilkanniitty: own street anchors 4/4, length 12 m"
+ },
+ {
+  "names": [
+   "Veturitie"
+  ],
+  "parts": 1,
+  "box": [
+   -1260,
+   -3719,
+   -1226,
+   -3674
+  ],
+  "plane": [
+   -277.96512194609494,
+   -0.04851848410953886,
+   -0.0633100552297637
+  ],
+  "note": "Veturitie: own street anchors 8/40, length 56 m"
+ },
+ {
+  "names": [
+   "Radioportti"
+  ],
+  "parts": 1,
+  "box": [
+   -1400,
+   -3725,
+   -1381,
+   -3712
+  ],
+  "plane": [
+   -9.396753148306885,
+   0.021692415539875925,
+   -0.015399589905513019
+  ],
+  "note": "Radioportti: own street anchors 20/8, length 23 m"
+ },
+ {
+  "names": [
+   "Radioportti"
+  ],
+  "parts": 1,
+  "box": [
+   -1438,
+   -3753,
+   -1399,
+   -3732
+  ],
+  "plane": [
+   60.42117649516153,
+   -0.07826548682296722,
+   0.04062836442811325
+  ],
+  "note": "Radioportti: own street anchors 9/20, length 44 m"
+ },
+ {
+  "names": [
+   "Sibeliuksenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2118,
+   -1311,
+   -2113,
+   -1307
+  ],
+  "plane": [
+   37.09907521736434,
+   0.01315742688036308,
+   0.01056373432136019
+  ],
+  "note": "Sibeliuksenpuisto: own street anchors 5/3, length 5 m"
+ },
+ {
+  "names": [
+   "Sibeliuksenpuisto"
+  ],
+  "parts": 1,
+  "box": [
+   -2097,
+   -1346,
+   -2093,
+   -1342
+  ],
+  "plane": [
+   -2.4927435053322595,
+   0,
+   0
+  ],
+  "note": "Sibeliuksenpuisto: own street anchors 5/5, length 4 m"
+ },
+ {
+  "names": [
+   "Vanha Nurmijärventie"
+  ],
+  "parts": 2,
+  "box": [
+   -4676,
+   -9245,
+   -4651,
+   -9221
+  ],
+  "plane": [
+   -5.65852127669779,
+   0.005003017034097688,
+   -0.004768031299593183
+  ],
+  "note": "Vanha Nurmijärventie: own street anchors 7/7, length 28 m"
+ },
+ {
+  "names": [
+   "Laukkaluodonpolku"
+  ],
+  "parts": 1,
+  "box": [
+   -5053,
+   -150,
+   -5042,
+   -134
+  ],
+  "plane": [
+   -18.94379200487991,
+   -0.0024871535690257586,
+   -0.005276180888061265
+  ],
+  "note": "Laukkaluodonpolku: own street anchors 4/4, length 16 m"
+ },
+ {
+  "names": [
+   "Jokiniementie"
+  ],
+  "parts": 1,
+  "box": [
+   1228,
+   -6884,
+   1240,
+   -6848
+  ],
+  "plane": [
+   14.873789113236757,
+   0,
+   0
+  ],
+  "note": "Jokiniementie: street anchors 7/5, length 36 m, slope -0.16 levelled"
+ },
+ {
+  "names": [
+   "Käskynhaltijantie"
+  ],
+  "parts": 1,
+  "box": [
+   388,
+   -7026,
+   403,
+   -7018
+  ],
+  "plane": [
+   452.4805833819278,
+   -0.10762921636910777,
+   0.054533378101801984
+  ],
+  "note": "Käskynhaltijantie: own street anchors 15/17, length 17 m, slope -0.12"
+ },
+ {
+  "names": [
+   "Kaustisentie"
+  ],
+  "parts": 1,
+  "box": [
+   -4162,
+   -7853,
+   -4145,
+   -7832
+  ],
+  "plane": [
+   21.984109381952322,
+   0,
+   0
+  ],
+  "note": "Kaustisentie: street anchors 12/6, length 22 m, slope 0.26 levelled"
+ },
+ {
+  "names": [
+   "Klv - L Ky"
+  ],
+  "parts": 1,
+  "box": [
+   -4375,
+   1395,
+   -4316,
+   1402
+  ],
+  "plane": [
+   -21.194951648553797,
+   -0.0045563387097115335,
+   -0.0002710828297029755
+  ],
+  "note": "Klv - L Ky: own street anchors 3/3, length 59 m"
+ },
+ {
+  "names": [
+   "Metsäläntie"
+  ],
+  "parts": 1,
+  "box": [
+   -2079,
+   -5597,
+   -2047,
+   -5592
+  ],
+  "plane": [
+   3.963066794191527,
+   -0.004589291819200829,
+   0.0006514206405642805
+  ],
+  "note": "Metsäläntie: own street anchors 9/9, length 32 m"
+ },
+ {
+  "names": [
+   "Metsäläntie"
+  ],
+  "parts": 1,
+  "box": [
+   -2081,
+   -5612,
+   -2043,
+   -5606
+  ],
+  "plane": [
+   48.387402542956885,
+   0.02990685486492863,
+   -0.0042975452149929564
+  ],
+  "note": "Metsäläntie: own street anchors 9/9, length 39 m"
+ },
+ {
+  "names": [
+   "Tattarisuonsilta"
+  ],
+  "parts": 1,
+  "box": [
+   6319,
+   -9450,
+   6405,
+   -9415
+  ],
+  "plane": [
+   -36.97516911479407,
+   0.019180106740524987,
+   0.006552382454639333
+  ],
+  "note": "Tattarisuonsilta: street anchors 4/5, length 89 m"
+ },
+ {
+  "names": [
+   "Junailijankuja"
+  ],
+  "parts": 1,
+  "box": [
+   -899,
+   -3569,
+   -878,
+   -3524
+  ],
+  "plane": [
+   14.989129628220248,
+   0,
+   0
+  ],
+  "note": "Junailijankuja: street anchors 14/18, length 43 m, slope 0.12 levelled"
+ },
+ {
+  "names": [
+   "Kirjurinkatu"
+  ],
+  "parts": 1,
+  "box": [
+   -751,
+   -3262,
+   -740,
+   -3227
+  ],
+  "plane": [
+   -363.36466348659434,
+   -0.026692746242369926,
+   -0.11367002128887443
+  ],
+  "note": "Kirjurinkatu: own street anchors 3/3, length 35 m"
+ },
+ {
+  "names": [
+   "Topparikuja"
+  ],
+  "parts": 2,
+  "box": [
+   -568,
+   -3459,
+   -556,
+   -3426
+  ],
+  "plane": [
+   -56.66397409961543,
+   -0.004661536047669593,
+   -0.01928228627255962
+  ],
+  "note": "Topparikuja: own street anchors 7/7, length 33 m"
+ },
+ {
+  "names": [
+   "Vislauskuja"
+  ],
+  "parts": 1,
+  "box": [
+   -654,
+   -3106,
+   -612,
+   -3091
+  ],
+  "plane": [
+   24.090779428353148,
+   -0.00807175359753177,
+   0.001886846859180025
+  ],
+  "note": "Vislauskuja: own street anchors 6/6, length 42 m"
+ },
+ {
+  "names": [
+   "Hakamäentie"
+  ],
+  "parts": 4,
+  "box": [
+   -2375,
+   -4382,
+   -2272,
+   -4331
+  ],
+  "plane": [
+   -1.2561027748755258,
+   -0.012335819640134258,
+   0.0027069101264389005
+  ],
+  "note": "Hakamäentie: own street anchors 34/33, length 100 m"
+ },
+ {
+  "names": [
+   "Länsimäentie"
+  ],
+  "parts": 3,
+  "box": [
+   8992,
+   -6973,
+   9014,
+   -6906
+  ],
+  "plane": [
+   -120.61809311915722,
+   0.00353759336330776,
+   -0.01367594870842558
+  ],
+  "note": "Länsimäentie: street anchors 4/4, length 68 m"
+ },
+ {
+  "names": [
+   "Ritokallionpolku"
+  ],
+  "parts": 3,
+  "box": [
+   -5728,
+   -3780,
+   -5579,
+   -3752
+  ],
+  "plane": [
+   -2.316143940906729,
+   0.0006970316035732094,
+   0.00011726373734699639
+  ],
+  "note": "Ritokallionpolku: own street anchors 2/2, length 150 m"
+ },
+ {
+  "names": [
+   "Hämeentie"
+  ],
+  "parts": 5,
+  "box": [
+   575,
+   -3561,
+   612,
+   -3520
+  ],
+  "plane": [
+   -546.4258496740096,
+   0.04560115439942564,
+   -0.14643339527461582
+  ],
+  "note": "Hämeentie: own street anchors 36/29, length 36 m, slope 0.15"
+ },
+ {
+  "names": [
+   "Viikintie"
+  ],
+  "parts": 4,
+  "box": [
+   1614,
+   -5329,
+   1650,
+   -5309
+  ],
+  "plane": [
+   -441.74137522299236,
+   0.13748976835302212,
+   -0.04120364688702652
+  ],
+  "note": "Viikintie: own street anchors 12/5, length 36 m, slope 0.14"
+ },
+ {
+  "names": [
+   "Huopalahdentie"
+  ],
+  "parts": 5,
+  "box": [
+   -3890,
+   -3528,
+   -3846,
+   -3508
+  ],
+  "plane": [
+   67.56120272162687,
+   0.0200401915553589,
+   -0.00159485322080213
+  ],
+  "note": "Huopalahdentie: own street anchors 12/5, length 44 m"
+ },
+ {
+  "names": [
+   "Junatie"
+  ],
+  "parts": 1,
+  "box": [
+   980,
+   -2125,
+   1131,
+   -2033
+  ],
+  "plane": [
+   2.391440402354095,
+   -0.00047305352100398537,
+   -0.0002779937416952402
+  ],
+  "note": "Junatie: own street anchors 14/14, length 169 m"
+ },
+ {
+  "names": [
+   "Junatie"
+  ],
+  "parts": 2,
+  "box": [
+   1346,
+   -1986,
+   1568,
+   -1915
+  ],
+  "plane": [
+   4.301599439814215,
+   0.0003968020562640022,
+   0.00008708668166536323
+  ],
+  "note": "Junatie: own street anchors 91/7, length 222 m"
+ },
+ {
+  "names": [
+   "Ilmasilta"
+  ],
+  "parts": 1,
+  "box": [
+   5473,
+   -8238,
+   5596,
+   -8114
+  ],
+  "plane": [
+   38.25665995443205,
+   0.0114874468932658,
+   0.011041881908141156
+  ],
+  "note": "Ilmasilta: terrain anchors 34/43, length 139 m"
+ },
+ {
+  "names": [
+   "Kivikon puistosilta"
+  ],
+  "parts": 2,
+  "box": [
+   5925,
+   -8878,
+   6113,
+   -8714
+  ],
+  "plane": [
+   10.184844413342287,
+   0,
+   0
+  ],
+  "note": "Kivikon puistosilta: street anchors 12/0, length 234 m"
+ },
+ {
+  "names": [
+   "Retkeilijänsilta"
+  ],
+  "parts": 15,
+  "box": [
+   9674,
+   -3990,
+   9701,
+   -3887
+  ],
+  "plane": [
+   11.704162506396623,
+   0.00013899305537683055,
+   0.0020823937488670214
+  ],
+  "note": "Retkeilijänsilta: street anchors 17/20, length 102 m"
+ },
+ {
+  "names": [
+   "Vuosaaren silta"
+  ],
+  "parts": 18,
+  "box": [
+   8621,
+   -4311,
+   9005,
+   -4091
+  ],
+  "plane": [
+   28.943724573203006,
+   -0.0048376145977663725,
+   -0.002491112327536514
+  ],
+  "note": "Vuosaaren silta: street anchors 19/14, length 424 m"
+ },
+ {
+  "names": [
+   "Korkeasaaren silta"
+  ],
+  "parts": 8,
+  "box": [
+   1685,
+   -1094,
+   1731,
+   -858
+  ],
+  "plane": [
+   -6.769426993579138,
+   -0.0007856928899914675,
+   -0.004770618016651987
+  ],
+  "note": "Korkeasaaren silta: street anchors 9/7, length 238 m"
+ },
+ {
+  "names": [
+   "Torisilta"
+  ],
+  "parts": 8,
+  "box": [
+   9322,
+   -4060,
+   9354,
+   -4008
+  ],
+  "plane": [
+   17.299656776526902,
+   -0.0006451637264417487,
+   0.0016746283696621109
+  ],
+  "note": "Torisilta: street anchors 18/22, length 48 m"
+ },
+ {
+  "names": [
+   "Pohjavedensilta"
+  ],
+  "parts": 3,
+  "box": [
+   9998,
+   -4086,
+   10044,
+   -4007
+  ],
+  "plane": [
+   35.09872563828419,
+   -0.014027091589264951,
+   -0.026944973346136828
+  ],
+  "note": "Pohjavedensilta: street anchors 5/22, length 87 m"
+ },
+ {
+  "names": [
+   "Rikisilta"
+  ],
+  "parts": 6,
+  "box": [
+   9467,
+   -3988,
+   9492,
+   -3902
+  ],
+  "plane": [
+   104.65052918430717,
+   -0.00305183424059271,
+   0.01764019258944437
+  ],
+  "note": "Rikisilta: street anchors 6/5, length 87 m"
+ },
+ {
+  "names": [
+   "Torisilta"
+  ],
+  "parts": 1,
+  "box": [
+   9307,
+   -3987,
+   9324,
+   -3950
+  ],
+  "plane": [
+   -13.784724892986763,
+   0.0009832659506121577,
+   -0.002405567119468648
+  ],
+  "note": "Torisilta: street anchors 8/9, length 38 m"
+ },
+ {
+  "names": [
+   "Karavaanisilta"
+  ],
+  "parts": 11,
+  "box": [
+   9241,
+   -4062,
+   9299,
+   -3967
+  ],
+  "plane": [
+   -76.9926544137488,
+   0.00484142939540157,
+   -0.009321586978290629
+  ],
+  "crest": {
+   "ax": 0.4609183453930851,
+   "az": -0.8874425496222844,
+   "at": 7835.852773939759,
+   "plane": [
+    466.14519388420325,
+    -0.027106873562820547,
+    0.05219100785923991
+   ],
+   "ends": [
+    7789.338283670518,
+    7882.937296404208
+   ]
+  },
+  "note": "Karavaanisilta: street anchors 29/29, length 94 m, crest 1.6 m (36 % under)"
+ },
+ {
+  "names": [
+   "Aarteenetsijänsilta"
+  ],
+  "parts": 5,
+  "box": [
+   8509,
+   -7792,
+   8634,
+   -7741
+  ],
+  "plane": [
+   202.98601993437538,
+   -0.034801636885872185,
+   -0.013640649696847779
+  ],
+  "note": "Aarteenetsijänsilta: street anchors 4/13, length 132 m"
+ },
+ {
+  "names": [
+   "Varhelansilta"
+  ],
+  "parts": 2,
+  "box": [
+   8641,
+   -7998,
+   8680,
+   -7966
+  ],
+  "plane": [
+   -112.8107820693061,
+   0.012700950707262768,
+   -0.0015671985310864982
+  ],
+  "note": "Varhelansilta: street anchors 21/12, length 39 m"
+ },
+ {
+  "names": [
+   "Munkkiniemen silta"
+  ],
+  "parts": 33,
+  "box": [
+   -3741,
+   -3019,
+   -3478,
+   -2916
+  ],
+  "plane": [
+   17.87363970278112,
+   0.0050909931134677745,
+   0.0013783307218176754
+  ],
+  "note": "Munkkiniemen silta: street anchors 64/42, length 261 m"
+ },
+ {
+  "names": [
+   "Ulappasilta"
+  ],
+  "parts": 17,
+  "box": [
+   10417,
+   -4293,
+   10474,
+   -4136
+  ],
+  "plane": [
+   3.828153738453839,
+   -0.0004921481411422942,
+   -0.00155760884610918
+  ],
+  "note": "Ulappasilta: street anchors 17/8, length 166 m"
+ },
+ {
+  "names": [
+   "Laivalahden silta"
+  ],
+  "parts": 16,
+  "box": [
+   4281,
+   -2016,
+   4327,
+   -1955
+  ],
+  "plane": [
+   -8.24040214411028,
+   0.0022411014838332496,
+   0.0032493001312824425
+  ],
+  "note": "Laivalahden silta: street anchors 36/19, length 57 m"
+ },
+ {
+  "names": [
+   "Mustikkamaan silta"
+  ],
+  "parts": 10,
+  "box": [
+   2429,
+   -1555,
+   2488,
+   -1461
+  ],
+  "plane": [
+   -117.53280966988935,
+   0.0219929391787466,
+   -0.03944548477881714
+  ],
+  "note": "Mustikkamaan silta: street anchors 13/13, length 99 m"
+ },
+ {
+  "names": [
+   "Vuotien purosilta"
+  ],
+  "parts": 7,
+  "box": [
+   11736,
+   -4679,
+   11790,
+   -4600
+  ],
+  "plane": [
+   -257.6794487119619,
+   0.014597022124984819,
+   -0.018114530642211992
+  ],
+  "note": "Vuotien purosilta: street anchors 17/11, length 85 m"
+ },
+ {
+  "names": [
+   "Urheilukalastajansilta"
+  ],
+  "parts": 2,
+  "box": [
+   11605,
+   -3692,
+   11620,
+   -3681
+  ],
+  "plane": [
+   -4.28790545634048,
+   0,
+   0
+  ],
+  "note": "Urheilukalastajansilta: street anchors 7/0, length 14 m"
+ },
+ {
+  "names": [
+   "Viikin puistosilta"
+  ],
+  "parts": 7,
+  "box": [
+   5435,
+   -6963,
+   5513,
+   -6881
+  ],
+  "plane": [
+   -333.17008926531844,
+   0.02943535308330872,
+   -0.02808118481211655
+  ],
+  "crest": {
+   "ax": 0.723554377555967,
+   "az": -0.6902673849455712,
+   "at": 8740.237314724685,
+   "plane": [
+    1065.2678810906323,
+    -0.0863333473256461,
+    0.08236159677917493
+   ],
+   "ends": [
+    8689.106880920857,
+    8787.423991258453
+   ]
+  },
+  "note": "Viikin puistosilta: street anchors 7/11, length 98 m, crest 3.7 m (97 % under)"
+ },
+ {
+  "names": [
+   "Kaivonkatsojantie"
+  ],
+  "parts": 61,
+  "box": [
+   10138,
+   -4112,
+   10166,
+   -4074
+  ],
+  "plane": [
+   3.6502716617302484,
+   0.0014836991305778703,
+   0.0035434327371505823
+  ],
+  "note": "Kaivonkatsojantie over Vuotie: street 4.1 / 0.2 over -1.1, 222 street samples, slope 0.004, 61 runs"
+ },
+ {
+  "names": [
+   "Itäväylä"
+  ],
+  "parts": 17,
+  "box": [
+   3870,
+   -2512,
+   3890,
+   -2490
+  ],
+  "plane": [
+   -20.22587747495689,
+   0.003800310374864071,
+   -0.003193066516996476
+  ],
+  "note": "Itäväylä over Kipparlahden silmukka: street 2.1 / -2.5 over -3.0, 263 street samples, slope 0.005, 17 runs"
+ },
+ {
+  "names": [
+   "Itäväylä"
+  ],
+  "parts": 20,
+  "box": [
+   3888,
+   -2484,
+   3910,
+   -2462
+  ],
+  "plane": [
+   -85.03316260998321,
+   0.015442113218872476,
+   -0.01075500025164697
+  ],
+  "note": "Itäväylä over Kipparlahden silmukka: street 1.7 / -3.2 over -3.4, 258 street samples, slope 0.019, 20 runs"
+ },
+ {
+  "names": [
+   "Itäväylä"
+  ],
+  "parts": 121,
+  "box": [
+   5174,
+   -4088,
+   5228,
+   -4028
+  ],
+  "plane": [
+   12.303625047546678,
+   -0.0009012484384035528,
+   0.0010636030001522432
+  ],
+  "note": "Itäväylä over Muuntajankatu: street 2.8 / -2.3 over -2.6, 198 street samples, slope -0.001, 121 runs"
+ },
+ {
+  "names": [
+   "Itäväylä"
+  ],
+  "parts": 85,
+  "box": [
+   5202,
+   -4064,
+   5256,
+   -4008
+  ],
+  "plane": [
+   5.801329559135961,
+   -0.0003673765129398786,
+   0.0003814028748179302
+  ],
+  "note": "Itäväylä over Muuntajankatu: street 2.1 / -2.2 over -2.3, 40 street samples, slope -0.001, 85 runs"
+ },
+ {
+  "names": [
+   "Kulosaarentie"
+  ],
+  "parts": 48,
+  "box": [
+   2336,
+   -1842,
+   2368,
+   -1798
+  ],
+  "plane": [
+   1.090389064478347,
+   0.009420160227331704,
+   0.011686321998566281
+  ],
+  "note": "Kulosaarentie over Itäväylä: street 2.6 / -3.2 over -3.4, 97 street samples, slope 0.015, 48 runs"
+ },
+ {
+  "names": [
+   "Suunnittelijankatu"
+  ],
+  "parts": 44,
+  "box": [
+   4470,
+   -2938,
+   4522,
+   -2902
+  ],
+  "plane": [
+   -25.038226798736154,
+   0.008213159590736973,
+   0.003068963270763345
+  ],
+  "note": "Suunnittelijankatu over Itäväylä: street 2.8 / -1.3 over -1.8, 242 street samples, slope 0.009, 44 runs"
+ },
+ {
+  "names": [
+   "Lahdenväylä"
+  ],
+  "parts": 25,
+  "box": [
+   2006,
+   -5986,
+   2050,
+   -5944
+  ],
+  "plane": [
+   62.932165895121386,
+   -0.010220956217773807,
+   0.0056230022308625055
+  ],
+  "note": "Lahdenväylä over Hernepellontie: street 8.4 / 3.3 over 3.1, 520 street samples, slope -0.012, 25 runs"
+ },
+ {
+  "names": [
+   "Maratontie"
+  ],
+  "parts": 68,
+  "box": [
+   7084,
+   -9354,
+   7110,
+   -9306
+  ],
+  "plane": [
+   17.364097994075077,
+   -0.0009379540281478964,
+   -0.0019824981972968655
+  ],
+  "note": "Maratontie over Porvoonväylä: street 28.8 / 25.2 over 25.4, 170 street samples, slope -0.002, 68 runs"
+ },
+ {
+  "names": [
+   "Kontulankaari"
+  ],
+  "parts": 45,
+  "box": [
+   7214,
+   -7396,
+   7250,
+   -7364
+  ],
+  "plane": [
+   95.29484050834283,
+   -0.018736800560861914,
+   -0.009227007238839704
+  ],
+  "note": "Kontulankaari over Keinulaudankuja: street 28.6 / 23.4 over 23.0, 157 street samples, slope -0.021, 45 runs"
+ },
+ {
+  "names": [
+   "Lahdenväylä"
+  ],
+  "parts": 38,
+  "box": [
+   3264,
+   -6632,
+   3324,
+   -6562
+  ],
+  "plane": [
+   -78.81296872818841,
+   0.011024259923277309,
+   -0.007442434368617683
+  ],
+  "note": "Lahdenväylä over Pihlajamäentie: street 6.4 / 1.5 over 1.2, 428 street samples, slope 0.013, 38 runs"
+ },
+ {
+  "names": [
+   "Malmin kaari"
+  ],
+  "parts": 79,
+  "box": [
+   2464,
+   -8062,
+   2492,
+   -8018
+  ],
+  "plane": [
+   36.84809723278164,
+   -0.0006895607673959374,
+   0.0038693766552172285
+  ],
+  "note": "Malmin kaari over Kehä I / Seppämestarintie: street 4.0 / 0.6 over 0.5, 79 street samples, slope -0.004, 79 runs"
+ },
+ {
+  "names": [
+   "Harjannetie"
+  ],
+  "parts": 23,
+  "box": [
+   2520,
+   -6772,
+   2552,
+   -6750
+  ],
+  "plane": [
+   25.106844504040737,
+   -0.0015131427920585592,
+   0.0009654327271741367
+  ],
+  "note": "Harjannetie over Maaherrantie: street 14.7 / 9.7 over 9.4, 98 street samples, slope -0.002, 23 runs"
+ },
+ {
+  "names": [
+   "Pihlajamäentie"
+  ],
+  "parts": 107,
+  "box": [
+   3748,
+   -8060,
+   3776,
+   -8014
+  ],
+  "plane": [
+   11.647957146781673,
+   -0.000009618554819205786,
+   -0.0002757831958511642
+  ],
+  "note": "Pihlajamäentie over Kehä I / Seppämestarintie: street 13.9 / 10.2 over 10.4, 93 street samples, slope -0.000, 107 runs"
+ },
+ {
+  "names": [
+   "Koskelantie"
+  ],
+  "parts": 44,
+  "box": [
+   1188,
+   -5276,
+   1298,
+   -5246
+  ],
+  "plane": [
+   21.8601498548469,
+   -0.010162409007811735,
+   0.00020010662456246877
+  ],
+  "note": "Koskelantie over Kustaa Vaasan tie: street 7.6 / 2.0 over 1.8, 153 street samples, slope -0.010, 44 runs"
+ },
+ {
+  "names": [
+   "Sturenkatu"
+  ],
+  "parts": 43,
+  "box": [
+   -42,
+   -2540,
+   -6,
+   -2504
+  ],
+  "plane": [
+   -4.354429869086552,
+   0.007025615782043214,
+   -0.007949892275009201
+  ],
+  "note": "Sturenkatu over Teollisuuskatu: street 15.5 / 9.6 over 9.4, 334 street samples, slope 0.011, 43 runs"
+ },
+ {
+  "names": [
+   "Kehä I / Muurimestarintie"
+  ],
+  "parts": 13,
+  "box": [
+   332,
+   -8370,
+   394,
+   -8344
+  ],
+  "plane": [
+   11.257531632044357,
+   0,
+   0
+  ],
+  "note": "Kehä I / Muurimestarintie over Yhdyskunnantie: street 11.3 / 9.1 over 8.2, 0 street samples, slope 0.000, 13 runs"
+ },
+ {
+  "names": [
+   "Pakilantie"
+  ],
+  "parts": 124,
+  "box": [
+   -1406,
+   -8008,
+   -1360,
+   -7952
+  ],
+  "plane": [
+   22.704909312801686,
+   -0.000026844204022720934,
+   -0.00005291739931937129
+  ],
+  "note": "Pakilantie over Kehä I / Muurimestarintie: street 23.2 / 19.8 over 19.7, 87 street samples, slope -0.000, 124 runs"
+ },
+ {
+  "names": [
+   "Käskynhaltijantie"
+  ],
+  "parts": 16,
+  "box": [
+   -534,
+   -6710,
+   -462,
+   -6686
+  ],
+  "plane": [
+   19.66142838252271,
+   0.0062090952285612615,
+   -0.00037910750487022007
+  ],
+  "note": "Käskynhaltijantie over Tuusulanväylä: street 18.9 / 15.6 over 15.5, 54 street samples, slope 0.006, 16 runs"
+ },
+ {
+  "names": [
+   "Itäväylä"
+  ],
+  "parts": 20,
+  "box": [
+   5620,
+   -4274,
+   5684,
+   -4238
+  ],
+  "plane": [
+   -17.50926032480502,
+   0.0053265592593166305,
+   0.0020364022260740433
+  ],
+  "note": "Itäväylä over Viilarintie: street 3.8 / 0.9 over 0.5, 101 street samples, slope 0.006, 20 runs"
+ }
+]
