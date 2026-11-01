@@ -420,10 +420,10 @@ def _validate_packed_roads(data: bytes) -> None:
     """
     if not data.startswith(b'HROADS01'):
         return
-    if not 32 <= len(data) <= 8_000_000:
-        raise ValueError('packed roads exceed the unchanged8MB transport limit')
+    if not 32 <= len(data) <= 48_000_000:
+        raise ValueError('packed roads exceed the 48MB transport limit')
     version, size, count, reserved, offset, total = struct.unpack_from('<6I', data, 8)
-    if (version != 1 or reserved != 0 or count > 333_333 or not 0 < size <= 8_000_000 - 32
+    if (version != 1 or reserved != 0 or count > 2_000_000 or not 0 < size <= 48_000_000 - 32
             or offset != (32 + size + 7) // 8 * 8 or offset + count * 24 != len(data)
             or total != len(data) or any(data[32 + size:offset])):
         raise ValueError('invalid packed road ranges/version/counts')
@@ -444,7 +444,7 @@ def _validate_packed_roads(data: bytes) -> None:
             or not 0 < len(root['originId']) <= 512 or not isinstance(root['source'], dict)
             or set(root['source']) != {'id', 'sha256', 'attribution', 'license'}
             or any(not isinstance(s, str) or len(s) > 4096 for s in root['source'].values())
-            or not isinstance(strings, list) or len(strings) > 100_000
+            or not isinstance(strings, list) or len(strings) > 500_000
             or any(not isinstance(s, str) or len(s) > 4096 for s in strings)
             or not isinstance(groups, dict) or set(groups) != set(fields)):
         raise ValueError('invalid packed road root/dictionary/groups')
@@ -452,7 +452,7 @@ def _validate_packed_roads(data: bytes) -> None:
     for kind, names in fields.items():
         table = groups[kind]
         if (not isinstance(table, dict) or set(table) != {'fields', 'rows'} or table['fields'] != names
-                or not isinstance(table['rows'], list) or len(table['rows']) > 100_000):
+                or not isinstance(table['rows'], list) or len(table['rows']) > 500_000):
             raise ValueError('invalid packed road table')
         for row in table['rows']:
             if not isinstance(row, list) or len(row) != len(names) + 2:
@@ -483,8 +483,8 @@ def _validate_packed_roads(data: bytes) -> None:
                 raise ValueError('nonfinite packed road coordinate')
             record['position' if kind == 'nodes' else 'points'] = points[0] if kind == 'nodes' else points
             expanded_bytes += len(json.dumps(record, separators=(',', ':'), ensure_ascii=False).encode()) + 1
-            if expanded_bytes > MAX_SIMULATION_BYTES:
-                raise ValueError('expanded road graph exceeds64MiB')
+            if expanded_bytes > 256 * 1024 * 1024:
+                raise ValueError('expanded road graph exceeds256MiB')
             next_point += length
     if next_point != count:
         raise ValueError('unclaimed packed road points')

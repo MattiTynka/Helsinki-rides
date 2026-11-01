@@ -1,17 +1,17 @@
 {
   "deliveryMode": "external",
-  "worldRelease": "helsinki-20261030-hietalahti-optimized-v1",
-  "manifestSha256": "4ef949372affa569adc21c1701b1509bd856c3c583245cfbfc71781d626b64b3",
-  "worldBytes": 1230863991,
+  "worldRelease": "helsinki-20261101-live-roads-v2",
+  "manifestSha256": "7e48558302e23426de3d9ac326b5d0900ea6dedda641e44f0c7fb9ae61793395",
+  "worldBytes": 1306772313,
   "worldBudgetBytes": 1500000000,
   "archiveBudgetBytes": 2000000000,
   "shellBudgetBytes": 20000000,
   "schemaVersion": 3,
   "deliveryProvider": "github-raw",
   "worldOrigin": "https://raw.githubusercontent.com",
-  "worldBaseUrl": "https://raw.githubusercontent.com/MattiTynka/Helsinki-rides/b79144e3de2ed9cf1702a5ddc1ad4fa18a4a47c9/world/",
+  "worldBaseUrl": "https://raw.githubusercontent.com/MattiTynka/Helsinki-rides/4399d86bfa1c5054dad6ef7490f332be6f2d3741/world/",
   "corsOrigin": "https://mattitynka.github.io",
-  "archiveUrl": "https://github.com/MattiTynka/Helsinki-rides/releases/download/hietalahti-optimized-20261030/pages-world.tar.gz",
-  "archiveSha256": "7726349a6a9119ea7e53830c796f5f70cd91df235c293cd45a3e4ad3b26a6a12",
-  "archiveBytes": 1055631192
+  "archiveUrl": "https://github.com/MattiTynka/Helsinki-rides/releases/download/live-roads-20261101/pages-world.tar.gz",
+  "archiveSha256": "ebcc36f2ca4296453d88c27c1f59230069bf35812eedc042ad0a6c674e78fc6c",
+  "archiveBytes": 1130609959
 }

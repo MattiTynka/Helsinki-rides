@@ -559,8 +559,17 @@ class PagesWorldTest(unittest.TestCase):
                 data = b'HROADS01' + struct.pack('<6I', 1, size, count, reserved, offset, 40) + bytes(8)
                 with self.assertRaisesRegex(ValueError, 'ranges/version/counts'):
                     pages._validate_packed_roads(data)
-        with self.assertRaisesRegex(ValueError, '8MB'):
-            pages._validate_packed_roads(b'HROADS01' + bytes(8_000_001))
+        with self.assertRaisesRegex(ValueError, '48MB'):
+            pages._validate_packed_roads(b'HROADS01' + bytes(48_000_001))
+
+    def test_citywide_road_transport_accepts_metadata_above_previous_limit(self):
+        fields = {'nodes': ['id', 'kind'], 'lanes': ['id', 'wayId', 'name', 'highway', 'surface', 'speedLimit', 'width', 'from', 'to', 'length', 'index', 'count'], 'connectors': ['id', 'node', 'from', 'to', 'turn', 'length'], 'parking': ['id', 'kind', 'heading'], 'footways': ['id']}
+        header = {'schemaVersion': 1, 'root': {'schemaVersion': 2, 'originId': 'fixture', 'source': dict(id='osm', sha256='a' * 64, attribution='fixture', license='ODbL')}, 'strings': ['street' * 600] * 2300, 'groups': {kind: {'fields': names, 'rows': []} for kind, names in fields.items()}}
+        text = json.dumps(header, separators=(',', ':')).encode()
+        self.assertGreater(len(text), 8_000_000)
+        offset = (32 + len(text) + 7) // 8 * 8
+        binary = b'HROADS01' + struct.pack('<6I', 1, len(text), 0, 0, offset, offset) + text + bytes(offset - 32 - len(text))
+        pages._validate_packed_roads(binary)
 
     def test_shared_texture_inventory_accepts_content_addressed_ktx2_and_png_dependencies(self):
         textures = self.optimized_textures()
