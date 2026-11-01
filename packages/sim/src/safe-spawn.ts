@@ -24,11 +24,8 @@ export class SafeSpawns {
 
   constructor(world: StaticWorld) {
     this.world = world;
-    const t = world.terrain, p = world.gameplay.playArea, spawn = world.gameplay.player.spawn;
-    this.bounds = {
-      minX: Math.max(p.minX, t.x0), maxX: Math.min(p.maxX, t.x0 + (t.nx - 1) * t.resolution),
-      minZ: Math.max(p.minZ, t.z0), maxZ: Math.min(p.maxZ, t.z0 + (t.nz - 1) * t.resolution),
-    };
+    const spawn = world.gameplay.player.spawn;
+    this.bounds = { ...world.extent };
     if (this.bounds.minX >= this.bounds.maxX || this.bounds.minZ >= this.bounds.maxZ) throw new Error('The playable area has no terrain coverage');
     this.fallback = { x: spawn.position[0], z: spawn.position[1], yaw: Math.PI - spawn.headingDeg * Math.PI / 180 };
   }
@@ -36,7 +33,7 @@ export class SafeSpawns {
   contains(x: number, z: number, margin = 0): boolean {
     const b = this.bounds;
     return Number.isFinite(x) && Number.isFinite(z) && x >= b.minX + margin && x <= b.maxX - margin && z >= b.minZ + margin && z <= b.maxZ - margin
-      && containsSupportedArea(this.world.gameplay, x, z, margin);
+      && containsSupportedArea(this.world.coverage, x, z, margin);
   }
 
   character(x: number, z: number, yaw: number, excludeBody?: RAPIER.RigidBody, preferRoad = false): Placement {
@@ -84,7 +81,7 @@ export class SafeSpawns {
     return {
       radius: Math.hypot(halfX, halfZ),
       points: [[0, 0], [-halfX, -halfZ], [halfX, -halfZ], [-halfX, halfZ], [halfX, halfZ], ...def.wheels.map(w => [w.position[0], w.position[2]] as const)],
-      coverage: c => supportsVehiclePose(this.world.gameplay, def, [Math.fround(c.x), 0, Math.fround(c.z)], quatYaw(c.yaw).map(Math.fround) as [number, number, number, number]),
+      coverage: c => supportsVehiclePose(this.world.coverage, def, [Math.fround(c.x), 0, Math.fround(c.z)], quatYaw(c.yaw).map(Math.fround) as [number, number, number, number]),
       clearance: (p, angle) => boxes.every(box => {
         const [dx, dz] = rotateXZ(box.centre[0], box.centre[2], angle);
         return !this.world.physics.intersectionWithShape(

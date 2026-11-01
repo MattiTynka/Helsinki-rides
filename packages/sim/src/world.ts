@@ -3,7 +3,7 @@
 import RAPIER from '@dimforge/rapier3d-deterministic-compat';
 import {
   parseCollisionBundle, parseTerrain, sampleTerrain, RoadIndex,
-  type CollisionBundle, type GameplayBundle, type RoadGraph, type TerrainGrid,
+  type CollisionBundle, type Coverage, type GameplayBundle, type RoadGraph, type TerrainGrid,
 } from '@helsinki/world-schema';
 import { TICK_SECONDS } from './commands.ts';
 import { CollisionResidency, residencyPins, type CollisionCellRef, type ResidencyPlan, type ResidencyPlanOptions, type ResidencySource } from './collision-residency.ts';
@@ -14,6 +14,10 @@ export { RAPIER };
 /** Collision group bits: membership << 16 | filter. */
 export const GROUP = { static: 0x0001, vehicle: 0x0002, character: 0x0004, bullet: 0x0008, all: 0xffff } as const;
 export const groups = (membership: number, filter: number): number => ((membership & 0xffff) << 16) | (filter & 0xffff);
+
+type Extent = { readonly minX: number; readonly maxX: number; readonly minZ: number; readonly maxZ: number };
+const unionExtent = (a: Extent, b: Extent): Extent =>
+  ({ minX: Math.min(a.minX, b.minX), maxX: Math.max(a.maxX, b.maxX), minZ: Math.min(a.minZ, b.minZ), maxZ: Math.max(a.maxZ, b.maxZ) });
 
 export interface SurfaceInfo {
   readonly tag: string;
@@ -26,6 +30,11 @@ export class StaticWorld {
   readonly terrain: TerrainGrid;
   readonly roads: RoadIndex;
   readonly gameplay: GameplayBundle;
+  /** Where vehicles, spawns and pedestrians may go: the gameplay's play and supported areas, grown by the live squares
+   *  when streaming plans them. */
+  coverage: Coverage;
+  private liveBounds: Extent | null = null;
+  private extentCache: Extent | null = null;
   /** collider handle -> surface tags per triangle, for contact tagging */
   private readonly triangleTags = new Map<number, { tags: Uint16Array; names: readonly string[]; group: string; ref: string | null }>();
   readonly staticHandles = new Set<number>();
@@ -44,6 +53,7 @@ export class StaticWorld {
     this.terrain = terrain;
     this.roads = new RoadIndex(roads);
     this.gameplay = gameplay;
+    this.coverage = gameplay;
     // Fallback heightfield well below the authored ground, so the kill plane is not the only safety net.
     const hf = RAPIER.ColliderDesc.heightfield(terrain.nz - 1, terrain.nx - 1, heightfieldRows(terrain), { x: (terrain.nx - 1) * terrain.resolution, y: 1, z: (terrain.nz - 1) * terrain.resolution })
       .setTranslation(terrain.x0 + (terrain.nx - 1) * terrain.resolution / 2, -0.4, terrain.z0 + (terrain.nz - 1) * terrain.resolution / 2)
@@ -51,6 +61,17 @@ export class StaticWorld {
     const body = this.physics.createRigidBody(RAPIER.RigidBodyDesc.fixed());
     const c = this.physics.createCollider(hf, body);
     this.staticHandles.add(c.handle);
+  }
+
+  /** XZ rectangle with ground to place things on: the play area within the terrain grid, plus the live region. */
+  get extent(): Extent {
+    if (!this.extentCache) {
+      const t = this.terrain, p = this.gameplay.playArea, l = this.liveBounds;
+      const e = { minX: Math.max(p.minX, t.x0), maxX: Math.min(p.maxX, t.x0 + (t.nx - 1) * t.resolution),
+        minZ: Math.max(p.minZ, t.z0), maxZ: Math.min(p.maxZ, t.z0 + (t.nz - 1) * t.resolution) };
+      this.extentCache = l ? unionExtent(e, l) : e;
+    }
+    return this.extentCache;
   }
 
   static fromBytes(terrainBytes: Uint8Array, roads: RoadGraph, gameplay: GameplayBundle): StaticWorld {
@@ -136,6 +157,11 @@ export class StaticWorld {
   enableStreaming(cells: readonly CollisionCellRef[], source: (cellId: string) => Uint8Array | undefined, live: LiveGrid | null = null): void {
     if (this.cellColliders.size) throw new Error('Collision streaming must be enabled before any cell is added');
     this.streaming = { residency: new CollisionResidency(cells, residencyPins(this.roads, this.gameplay), live), source };
+    if (live) {
+      this.liveBounds = live.bounds;
+      this.extentCache = null;
+      this.coverage = { playArea: unionExtent(this.gameplay.playArea, live.bounds), supportedArea: this.gameplay.supportedArea, live };
+    }
   }
 
   get streamed(): boolean { return this.streaming !== null; }

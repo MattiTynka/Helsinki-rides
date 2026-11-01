@@ -53,6 +53,23 @@ export class LiveGrid {
 
   isStatic(cx: number, cz: number): boolean { return this.staticIds.has(cellId(cx, cz)); }
 
+  /** Runtime XZ rectangle of the region's whole squares, live or not. */
+  get bounds(): { minX: number; maxX: number; minZ: number; maxZ: number } {
+    return { minX: this.c0[0] * LIVE_CELL_SIZE, maxX: (this.c1[0] + 1) * LIVE_CELL_SIZE, minZ: this.c0[1] * LIVE_CELL_SIZE, maxZ: (this.c1[1] + 1) * LIVE_CELL_SIZE };
+  }
+
+  /** Whether an XZ box lies wholly, partly or not at all on live squares (supported ground beyond the authored mask). */
+  coversBox(x0: number, z0: number, x1: number, z1: number): 'all' | 'some' | 'none' {
+    if (![x0, z0, x1, z1].every(Number.isFinite)) return 'none';
+    let live = 0, other = 0;
+    for (let cz = Math.floor(z0 / LIVE_CELL_SIZE); cz <= Math.floor(z1 / LIVE_CELL_SIZE); cz++)
+      for (let cx = Math.floor(x0 / LIVE_CELL_SIZE); cx <= Math.floor(x1 / LIVE_CELL_SIZE); cx++) {
+        if (this.isLive(cx, cz)) live++; else other++;
+        if (live && other) return 'some';
+      }
+    return live ? 'all' : 'none';
+  }
+
   id(cx: number, cz: number): string { return cellId(cx, cz); }
 
   parse(id: string): [number, number] | null { return parseCellId(id); }

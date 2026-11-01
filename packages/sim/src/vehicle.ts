@@ -188,13 +188,13 @@ export class Vehicle {
   get coveragePose(): VehicleCoveragePose { return { position: this.position, rotation: this.rotation, steerAngle: this.steerAngle }; }
 
   supportedByCoverage(world: StaticWorld): boolean {
-    return !world.gameplay.supportedArea || supportsVehiclePose(world.gameplay, this.def, this.position, this.rotation, this.steerAngle);
+    return !world.coverage.supportedArea || supportsVehiclePose(world.coverage, this.def, this.position, this.rotation, this.steerAngle);
   }
 
   /** Offline coverage-repair diagnostic. Simulation deliberately never clips vehicle movement to this mask. */
   constrainToSupportedArea(world: StaticWorld, before: VehicleCoveragePose): void {
-    if (!world.gameplay.supportedArea) return;
-    const after = this.coveragePose, fraction = supportedVehicleMotionFraction(world.gameplay, this.def, before, after);
+    if (!world.coverage.supportedArea) return;
+    const after = this.coveragePose, fraction = supportedVehicleMotionFraction(world.coverage, this.def, before, after);
     if (fraction === 1) return;
     // Genuine invalid physics states belong to the existing recovery check. A
     // precision retreat cannot certify a non-finite position or orientation.
@@ -202,7 +202,7 @@ export class Vehicle {
     // A tangential move can have far less inward clearance than its travel-distance
     // backoff. Certify Rapier's actual Float32 pose, including quaternion rounding,
     // rather than allowing a supported double-precision endpoint to trigger recovery.
-    const startedSupported = supportsVehiclePose(world.gameplay, this.def, before.position, before.rotation, before.steerAngle);
+    const startedSupported = supportsVehiclePose(world.coverage, this.def, before.position, before.rotation, before.steerAngle);
     const rotationUnchanged = before.rotation.every((value, i) => value === after.rotation[i]);
     const apply = (pose: VehicleCoveragePose): boolean => {
       const q = rotationUnchanged ? after.rotation : pose.rotation;
@@ -212,7 +212,7 @@ export class Vehicle {
       const current = this.rotation;
       if (q.some((value, i) => value !== current[i])) this.body.setRotation({ x: q[0], y: q[1], z: q[2], w: q[3] }, true);
       this.steerAngle = pose.steerAngle ?? 0;
-      return !startedSupported || supportsVehicleTransition(world.gameplay, this.def, before, this.coveragePose);
+      return !startedSupported || supportsVehicleTransition(world.coverage, this.def, before, this.coveragePose);
     };
     let retainedFraction = fraction, certified = false;
     for (let attempt = 0; attempt <= 24; attempt++) {

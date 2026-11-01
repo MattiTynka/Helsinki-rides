@@ -630,10 +630,8 @@ export class PoliceForce {
       if (sim.vehicles.get(id) !== vehicle) { this.retainedVehicles.delete(id); continue; }
       if (vehicle.driver || vehicle.occupants.size || sim.player.inVehicle === id || sim.vehicleInteraction?.vehicleId === id) continue;
       const p = vehicle.position, distance = distanceXZ(p, sim.playerPosition);
-      const t = sim.world.terrain, b = sim.gameplay.playArea;
-      const inside = p[0] >= Math.max(b.minX, t.x0) && p[0] <= Math.min(b.maxX, t.x0 + (t.nx - 1) * t.resolution)
-        && p[2] >= Math.max(b.minZ, t.z0) && p[2] <= Math.min(b.maxZ, t.z0 + (t.nz - 1) * t.resolution)
-        && vehicle.supportedByCoverage(sim.world);
+      const e = sim.world.extent;
+      const inside = p[0] >= e.minX && p[0] <= e.maxX && p[2] >= e.minZ && p[2] <= e.maxZ && vehicle.supportedByCoverage(sim.world);
       // An off-map body can retire sooner, but a car visible beside the map edge must not pop away.
       if (distance <= POLICE_DISPATCH.abandonedVehicleDistance && (inside || distance <= DESPAWN_DISTANCE)) continue;
       if (sim.removeVehicle(vehicle)) this.retainedVehicles.delete(id);

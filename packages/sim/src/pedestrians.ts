@@ -213,14 +213,13 @@ export function pedestrianGround(world: StaticWorld, point: Vec3, excludeBody?: 
  * `lows`, a probe that finds support also adds the lowest support its rays met to it.
  */
 function groundProbe(world: StaticWorld, point: Vec3, excludeBody?: RAPIER.RigidBody, lows?: number[]): V3 | 'edge' | 'rough' | 'blocked' {
-  const [x, expectedY, z] = point, area = world.gameplay.playArea, t = world.terrain;
-  if (!point.every(Number.isFinite) || !containsSupportedArea(world.gameplay, x, z, RADIUS)) return 'edge';
+  const [x, expectedY, z] = point, e = world.extent;
+  if (!point.every(Number.isFinite) || !containsSupportedArea(world.coverage, x, z, RADIUS)) return 'edge';
   const heights: number[] = [];
   let edge = false, rough = false;
   for (const [dx, dz] of [[0, 0], [RADIUS, 0], [-RADIUS, 0], [0, RADIUS], [0, -RADIUS]]) {
     const px = x + dx!, pz = z + dz!;
-    if (px <= Math.max(area.minX, t.x0) || px >= Math.min(area.maxX, t.x0 + (t.nx - 1) * t.resolution)
-      || pz <= Math.max(area.minZ, t.z0) || pz >= Math.min(area.maxZ, t.z0 + (t.nz - 1) * t.resolution) || !world.queryable(px, pz)) return 'edge';
+    if (px <= e.minX || px >= e.maxX || pz <= e.minZ || pz >= e.maxZ || !world.queryable(px, pz)) return 'edge';
     const hit = world.spawnGroundBelow(px, expectedY + 1.5, pz, 3);
     if (!hit || !hit.surface || !['ground', 'kerbs'].includes(hit.surface.group)
       || /water|sea|ocean|railway|tram/i.test(hit.surface.tag) || Math.abs(hit.y - expectedY) > 1.2

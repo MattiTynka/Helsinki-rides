@@ -1,8 +1,7 @@
-import { supportsConvexFootprint, type GameplayBundle, type Vec2, type VehicleDefinition } from '@helsinki/world-schema';
+import { supportsConvexFootprint, type Coverage, type Vec2, type VehicleDefinition } from '@helsinki/world-schema';
 import { rotate, type Quat, type V3 } from './math.ts';
 
 export type VehicleCoverageDefinition = Pick<VehicleDefinition, 'collider' | 'wheels' | 'wheelRadius' | 'wheelWidth' | 'suspension'>;
-type Coverage = Pick<GameplayBundle, 'playArea' | 'supportedArea'>;
 export interface VehicleCoveragePose {
   readonly position: readonly [number, number, number];
   readonly rotation: readonly [number, number, number, number];

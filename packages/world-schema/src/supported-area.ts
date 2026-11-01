@@ -2,7 +2,10 @@ import type { GameplayBundle, SupportedArea } from './types.ts';
 import type { Vec2 } from './coordinates.ts';
 
 type Area = GameplayBundle['playArea'];
-type Coverage = Pick<GameplayBundle, 'playArea' | 'supportedArea'>;
+/** Ground beyond the authored mask that also counts as supported (the runtime live squares): whether an XZ box lies
+ *  wholly, partly or not at all on it. */
+export interface LiveCoverage { coversBox(x0: number, z0: number, x1: number, z1: number): 'all' | 'some' | 'none' }
+export type Coverage = Pick<GameplayBundle, 'playArea' | 'supportedArea'> & { readonly live?: LiveCoverage };
 type Ring = readonly Vec2[];
 const EPSILON = 1e-8;
 const MAX_VERTICES = 65536;
@@ -319,12 +322,33 @@ export function containsSupportedArea(gameplay: Coverage, x: number, z: number, 
   if (![x, z, margin].every(Number.isFinite) || margin < 0) return false;
   const b = gameplay.playArea;
   if (x < b.minX + margin || x > b.maxX - margin || z < b.minZ + margin || z > b.maxZ - margin) return false;
+  const live = gameplay.live?.coversBox(x - margin, z - margin, x + margin, z + margin) ?? 'none';
+  if (live === 'all') return true;
+  // Across the seam between live squares and the authored mask, the point itself decides: the mask meets the seam.
+  if (live === 'some') return gameplay.live!.coversBox(x, z, x, z) === 'all' || !gameplay.supportedArea
+    || regions(gameplay.supportedArea).some(r => contains(r, [x, z], 0));
   return !gameplay.supportedArea || regions(gameplay.supportedArea).some(r => contains(r, [x, z], margin));
+}
+/** Live coverage of a shape's box grown by the margin. */
+function liveCover(gameplay: Coverage, points: readonly Vec2[], margin: number): 'all' | 'some' | 'none' {
+  if (!gameplay.live) return 'none';
+  return gameplay.live.coversBox(Math.min(...points.map(p => p[0])) - margin, Math.min(...points.map(p => p[1])) - margin,
+    Math.max(...points.map(p => p[0])) + margin, Math.max(...points.map(p => p[1])) + margin);
+}
+/** A shape straddling a live seam: every point along its edges, `step` apart, must be supported. */
+function sampledSupport(gameplay: Coverage, ring: readonly Vec2[], closed: boolean, margin: number, step: number): boolean {
+  for (let i = 0; i < (closed ? ring.length : ring.length - 1); i++) {
+    const a = ring[i]!, c = ring[(i + 1) % ring.length]!, n = Math.max(1, Math.ceil(Math.hypot(c[0] - a[0], c[1] - a[1]) / step));
+    for (let k = 0; k <= n; k++) if (!containsSupportedArea(gameplay, a[0] + (c[0] - a[0]) * k / n, a[1] + (c[1] - a[1]) * k / n, margin)) return false;
+  }
+  return true;
 }
 export function supportsSegment(gameplay: Coverage, from: Vec2, to: Vec2, margin = 0): boolean {
   const rectangle = { playArea: gameplay.playArea };
   if (!containsSupportedArea(rectangle, from[0], from[1], margin) || !containsSupportedArea(rectangle, to[0], to[1], margin)) return false;
   if (!gameplay.supportedArea) return true;
+  const live = liveCover(gameplay, [from, to], margin);
+  if (live !== 'none') return live === 'all' || sampledSupport(gameplay, [from, to], false, margin, 1);
   const x0 = Math.min(from[0], to[0]) - margin, z0 = Math.min(from[1], to[1]) - margin;
   const x1 = Math.max(from[0], to[0]) + margin, z1 = Math.max(from[1], to[1]) + margin;
   return regions(gameplay.supportedArea).some(r => contains(r, from, margin) && contains(r, to, margin)
@@ -348,6 +372,8 @@ export function supportsConvexFootprint(gameplay: Coverage, polygon: readonly Ve
   if (lines.some(([a, b]) => (a[0] === b[0] && a[1] === b[1]) || polygon.some(p => orientation(a, b, p) * winding < 0))) return false;
   if (polygon.some(p => !containsSupportedArea(rectangle, p[0], p[1], margin))) return false;
   if (!gameplay.supportedArea) return true;
+  const live = liveCover(gameplay, polygon, margin);
+  if (live !== 'none') return live === 'all' || sampledSupport(gameplay, polygon, true, margin, 0.5);
   const box: Bounds = [Math.min(...polygon.map(p => p[0])) - margin, Math.min(...polygon.map(p => p[1])) - margin,
     Math.max(...polygon.map(p => p[0])) + margin, Math.max(...polygon.map(p => p[1])) + margin];
   const inside = (p: Vec2) => lines.every(([a, b]) => cross(a, b, p) * winding >= -EPSILON);

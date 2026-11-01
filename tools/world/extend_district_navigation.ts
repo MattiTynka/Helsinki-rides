@@ -13,6 +13,13 @@
 //     --osm ../sources/raw-v2/osm/southwest-cumulative-20261029.json \
 //     --street-parts ../sources/raw-v2/street-parts/southwest-cumulative-20261029.geojson \
 //     --config content/helsinki/roads.json --out ../work/navigation-v1/world
+// With --live-basemap <basemap/>, the new ground is every live square instead (packages/sim/src/live-grid.ts): lanes,
+// connectors and junctions for the public streets reaching them (no service roads), draped on the static base map's
+// ground lattice and bridge decks under its building prisms; no footways, street-part parking or supported-area
+// change (the simulation counts live squares as supported, and parked cars use curb slots along the lanes).
+//   node tools/world/extend_district_navigation.ts --world ../work/navigation-v1/world \
+//     --osm ../sources/raw-v2/osm/live-region-drivable-20261031.json --live-basemap ../work/basemap-v1/basemap \
+//     --config content/helsinki/roads.json --release helsinki-20261101-live-roads-v1 --out ../work/live-roads-v1/world
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -25,15 +32,19 @@ import {
   type GameplayBundle, type RoadConnector, type RoadGraph, type RoadLane, type RoadNode, type SupportedArea, type TerrainGrid,
   type Vec3, type WorldManifest,
 } from '../../packages/world-schema/src/index.ts';
+import { LiveGrid } from '../../packages/sim/src/live-grid.ts';
+import { blockKey, blockOf, decodeBaseBlock, type BaseMapIndex } from '../../apps/game/src/world/live/convert/base-map.ts';
+import { LIVE_GROUND_N, LIVE_GROUND_QUADS, LIVE_GROUND_STEP, type BaseSquare } from '../../apps/game/src/world/live/contract.ts';
 import { centroid, pointInPolygon, ringDistance, signedArea, type Pt } from './lib/geometry.ts';
 import { roadLaneLayout } from './lib/road-lane-layout.ts';
 
 const { values } = parseArgs({ options: {
   world: { type: 'string' }, 'old-manifest': { type: 'string' }, osm: { type: 'string' }, 'street-parts': { type: 'string' },
   config: { type: 'string' }, out: { type: 'string' }, release: { type: 'string', default: 'helsinki-20261030-navigation-v1' },
-  'manifest-sha256': { type: 'string' }, 'public-only': { type: 'boolean', default: false },
+  'manifest-sha256': { type: 'string' }, 'public-only': { type: 'boolean', default: false }, 'live-basemap': { type: 'string' },
 } });
-for (const k of ['world', 'old-manifest', 'osm', 'street-parts', 'config', 'out'] as const) if (!values[k]) throw new Error(`--${k} is required`);
+const liveMode = !!values['live-basemap'];
+for (const k of ['world', 'osm', 'config', 'out', ...liveMode ? [] : ['old-manifest', 'street-parts'] as const] as const) if (!values[k]) throw new Error(`--${k} is required`);
 const worldDir = values.world!, outDir = values.out!;
 if (fs.existsSync(outDir)) throw new Error(`${outDir} exists; the release is written into a new directory`);
 if (!/^[a-z0-9][a-z0-9-]{0,95}$/.test(values.release!)) throw new Error('--release must be a lowercase release id');
@@ -63,13 +74,16 @@ const terrain: TerrainGrid = parseTerrain(new Uint8Array(readPayload(manifest.te
 const [E0, N0] = manifest.origin.originProjected;
 const area = gameplay.playArea;
 const config = JSON.parse(fs.readFileSync(values.config!, 'utf8'));
-const oldCells = new Set((JSON.parse(fs.readFileSync(values['old-manifest']!, 'utf8')) as WorldManifest).cells.map(c => c.id));
+const oldCells = liveMode ? null : new Set((JSON.parse(fs.readFileSync(values['old-manifest']!, 'utf8')) as WorldManifest).cells.map(c => c.id));
 const cellById = new Map(manifest.cells.map(c => [c.id, c]));
-const newCells = new Set(manifest.cells.filter(c => !oldCells.has(c.id)).map(c => c.id));
+const newCells = new Set(oldCells ? manifest.cells.filter(c => !oldCells.has(c.id)).map(c => c.id) : []);
 const cellOf = (x: number, z: number) => cellId(Math.floor(x / manifest.cellSize), Math.floor(z / manifest.cellSize));
-const isNew = (x: number, z: number) => newCells.has(cellOf(x, z));
-const inPlay = (x: number, z: number) => x >= area.minX && x <= area.maxX && z >= area.minZ && z <= area.maxZ && cellById.has(cellOf(x, z));
-log(`world ${manifest.worldReleaseId}: ${manifest.cells.length} cells, ${newCells.size} new; roads ${roads.lanes.length} lanes`);
+const liveGrid = liveMode ? new LiveGrid(manifest.cells.map(c => c.id)) : null;
+if (liveGrid && manifest.cellSize !== 128) throw new Error('Live squares need the 128 m cell grid');
+const isLive = (x: number, z: number) => !!liveGrid?.isLive(Math.floor(x / 128), Math.floor(z / 128));
+const isNew = (x: number, z: number) => liveGrid ? isLive(x, z) : newCells.has(cellOf(x, z));
+const inPlay = (x: number, z: number) => isLive(x, z) || (x >= area.minX && x <= area.maxX && z >= area.minZ && z <= area.maxZ && cellById.has(cellOf(x, z)));
+log(`world ${manifest.worldReleaseId}: ${manifest.cells.length} cells, ${liveMode ? 'live squares' : `${newCells.size} new`}; roads ${roads.lanes.length} lanes`);
 
 // ---- collision probe: every static triangle at an XZ, from the published HCOL bundles ----
 const WALK = 1, BLOCK = 2;
@@ -155,13 +169,85 @@ class CollisionProbe {
 const probe = new CollisionProbe(72);
 const terrainAt = (x: number, z: number) => sampleTerrain(terrain, x, z);
 
+// ---- live squares: the static base map's ground lattice, bridge decks and building prisms ----
+interface BasePrism { base: number; top: number; box: [number, number, number, number]; rings: number[][] }
+interface BaseEntry { square: BaseSquare; prisms: BasePrism[] }
+const baseDir = values['live-basemap'];
+const baseIndex = baseDir ? JSON.parse(fs.readFileSync(path.join(baseDir, 'index.json'), 'utf8')) as BaseMapIndex : null;
+const baseBlocks = new Map<string, Map<string, BaseEntry>>();
+let baseLoads = 0;
+function baseSquare(cx: number, cz: number): BaseEntry | null {
+  const key = blockKey(...blockOf(cx, cz));
+  let block = baseBlocks.get(key);
+  if (block) { baseBlocks.delete(key); baseBlocks.set(key, block); }
+  else {
+    block = new Map();
+    const ref = baseIndex!.blocks[key];
+    if (ref) {
+      const stored = fs.readFileSync(path.join(baseDir!, ref.file));
+      if (sha256(stored) !== ref.sha256) throw new Error(`${ref.file} differs from the base map index`);
+      for (const square of decodeBaseBlock(new Uint8Array(gunzipSync(stored)))) {
+        const prisms = square.prisms.flatMap(p => p.polygons.map(rings => {
+          const box: [number, number, number, number] = [Infinity, Infinity, -Infinity, -Infinity];
+          for (let i = 0; i < rings[0]!.length; i += 2) {
+            box[0] = Math.min(box[0], rings[0]![i]!); box[1] = Math.min(box[1], rings[0]![i + 1]!);
+            box[2] = Math.max(box[2], rings[0]![i]!); box[3] = Math.max(box[3], rings[0]![i + 1]!);
+          }
+          return { base: p.base, top: p.top, box, rings: rings.map(r => [...r]) };
+        }));
+        block.set(`${square.cx},${square.cz}`, { square, prisms });
+      }
+    }
+    baseLoads++;
+    baseBlocks.set(key, block);
+    if (baseBlocks.size > 48) baseBlocks.delete(baseBlocks.keys().next().value!);
+  }
+  return block.get(`${cx},${cz}`) ?? null;
+}
+const insideRings = (rings: readonly number[][], x: number, z: number) => {
+  let inside = false;
+  for (const r of rings) for (let i = 0, j = r.length - 2; i < r.length; j = i, i += 2) {
+    if ((r[i + 1]! > z) !== (r[j + 1]! > z) && x < r[j]! + (z - r[j + 1]!) * (r[i]! - r[j]!) / (r[i + 1]! - r[j + 1]!)) inside = !inside;
+  }
+  return inside;
+};
+/** Base map ground height at XZ (bilinear on the lattice), NaN on water, holes or without data. */
+function baseGround(x: number, z: number): number {
+  const cx = Math.floor(x / 128), cz = Math.floor(z / 128), s = baseSquare(cx, cz)?.square;
+  if (!s || s.kind !== 'land' || !s.heights || !s.quads) return NaN;
+  const fx = (x - cx * 128) / LIVE_GROUND_STEP, fz = (z - cz * 128) / LIVE_GROUND_STEP;
+  const ix = Math.min(LIVE_GROUND_QUADS - 1, Math.floor(fx)), iz = Math.min(LIVE_GROUND_QUADS - 1, Math.floor(fz)), u = fx - ix, v = fz - iz;
+  if (s.quads[iz * LIVE_GROUND_QUADS + ix]! < 0) return NaN;
+  const h = (i: number, k: number) => s.heights![(iz + k) * LIVE_GROUND_N + ix + i]!;
+  return (h(0, 0) * (1 - u) + h(1, 0) * u) * (1 - v) + (h(0, 1) * (1 - u) + h(1, 1) * u) * v;
+}
+/** Every surface over XZ in a live square: ground, the bridge deck, and building prisms as blocking roofs. */
+function baseHits(x: number, z: number): Hit[] {
+  const cx = Math.floor(x / 128), cz = Math.floor(z / 128), entry = baseSquare(cx, cz), hits: Hit[] = [];
+  if (!entry) return hits;
+  const ground = baseGround(x, z);
+  if (Number.isFinite(ground)) hits.push({ y: ground, kind: WALK });
+  const deck = entry.square.deck;
+  if (deck) {
+    const q = Math.min(LIVE_GROUND_QUADS - 1, Math.floor((z - cz * 128) / LIVE_GROUND_STEP)) * LIVE_GROUND_QUADS + Math.min(LIVE_GROUND_QUADS - 1, Math.floor((x - cx * 128) / LIVE_GROUND_STEP));
+    const p = deck.quads[q]!;
+    if (p) hits.push({ y: deck.planes[(p - 1) * 3]! + deck.planes[(p - 1) * 3 + 1]! * x + deck.planes[(p - 1) * 3 + 2]! * z, kind: WALK });
+  }
+  for (const prism of entry.prisms) {
+    if (x < prism.box[0] || x > prism.box[2] || z < prism.box[1] || z > prism.box[3] || !insideRings(prism.rings, x, z)) continue;
+    hits.push({ y: prism.top, kind: BLOCK });
+  }
+  return hits;
+}
+const groundAt = (x: number, z: number) => isLive(x, z) ? baseGround(x, z) : terrainAt(x, z);
+
 /** The walkable surface at XZ: continuing from `near` when given, else the deck for bridges, else the one nearest the
  * terrain grid. `blocked` when a building or landmark volume lies over it. */
 function surface(x: number, z: number, near: number | null, bridge: boolean): { y: number | null; blocked: boolean } {
-  const hits = probe.hits(x, z), walk = hits.filter(h => h.kind === WALK);
+  const hits = isLive(x, z) ? baseHits(x, z) : probe.hits(x, z), walk = hits.filter(h => h.kind === WALK);
   if (!walk.length) return { y: null, blocked: hits.some(h => h.kind === BLOCK) };
   let best = walk[0]!;
-  const target = near ?? (bridge ? Infinity : terrainAt(x, z));
+  const target = near ?? (bridge ? Infinity : groundAt(x, z));
   if (Number.isFinite(target)) for (const h of walk) if (Math.abs(h.y - target) < Math.abs(best.y - target)) best = h;
   return { y: best.y, blocked: hits.some(h => h.kind === BLOCK && h.y > best.y + 0.3) };
 }
@@ -281,6 +367,8 @@ const driveWays: Way[] = [];
 for (const w of ways) {
   const t = w.tags, hw = t['highway']!;
   if (!drivable.has(hw) || t['area'] === 'yes' || !reachesNew(w.nodes)) continue;
+  // Across the whole live region, service roads (yards, lots, driveways) would outweigh the streets.
+  if (liveMode && hw === 'service') continue;
   const access = t['motor_vehicle'] ?? t['vehicle'] ?? t['access'];
   if (access === 'no' || access === 'private') { drop('way:access'); continue; }
   if (layered(t)) { drop('way:tunnel-or-indoor'); continue; }
@@ -347,6 +435,11 @@ for (const w of driveWays) {
   }
 }
 log(`drivable: ${driveWays.length} way runs, ${pieces.length} new pieces, ${representedPieces} already in the graph`);
+// Drape block by block, so the base map cache holds the blocks being probed.
+if (liveMode) {
+  const order = (p: Piece) => { const [bx, bz] = blockOf(Math.floor(p.base[0]![0] / 128), Math.floor(p.base[0]![1] / 128)); return bz * 4096 + bx; };
+  pieces.sort((a, b) => order(a) - order(b) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+}
 
 // ---- lanes (build_roads.ts layout and offsets), draped on collision ----
 const speedFor = (hw: string, tags: Record<string, string>): number => {
@@ -471,6 +564,9 @@ for (let pass = 0; ; pass++) {
       const angle = Math.atan2(cross, dot) * 180 / Math.PI;
       const turn = reversal ? 'u-turn' : Math.abs(angle) < 30 ? 'straight' : angle > 0 ? 'left' : 'right';
       if (turn === 'straight' && inLane.count > 1 && outLane.count > 1 && inLane.index !== outLane.index) continue;
+      // Where a divided road's carriageways meet, the turn from one into the other is a hairpin no car makes in the
+      // node's few metres; patrols routed through one jammed against the kerb.
+      if (liveMode && !reversal && Math.abs(angle) > 150) continue;
       const points = curve(inLane.points[inLane.points.length - 1]!, t0, outLane.points[0]!, t1);
       connectors.push({ id: `${inLane.id}>${outLane.id}`, node, from: inLane.id, to: outLane.id, turn, points, length: polylineLength(points) });
     }
@@ -511,9 +607,14 @@ log(`connectors: ${connectors.length} new; ${newLanes.length} lanes kept`);
 // ---- nodes ----
 const nodes: RoadNode[] = roads.nodes.map(n => kinds.has(n.id) && kinds.get(n.id) !== n.kind ? { ...n, kind: kinds.get(n.id)! } : n);
 const changedKinds = nodes.filter((n, i) => n !== roads.nodes[i]).map(n => ({ id: n.id, from: existingNodes.get(n.id)!.kind, to: n.kind }));
+const laneEnds = new Map<string, Vec3[]>();
+for (const l of newLanes) {
+  (laneEnds.get(l.from) ?? laneEnds.set(l.from, []).get(l.from)!).push(l.points[0]!);
+  (laneEnds.get(l.to) ?? laneEnds.set(l.to, []).get(l.to)!).push(l.points[l.points.length - 1]!);
+}
 for (const [id, kind] of kinds) {
   if (existingNodes.has(id)) continue;
-  const ends = newLanes.flatMap(l => [...l.from === id ? [l.points[0]!] : [], ...l.to === id ? [l.points[l.points.length - 1]!] : []]);
+  const ends = laneEnds.get(id)!;
   const xz = nodeXZ.get(Number(id.slice(1)))!;
   nodes.push({ id, position: [round3(xz[0]), round3(ends.reduce((s, p) => s + p[1], 0) / ends.length), round3(xz[1])], kind });
 }
@@ -524,7 +625,7 @@ const existingFootways = new Set(roads.footways.map(f => f.id));
 const footwayIndex = new LaneSegmentIndex(roads.footways as unknown as RoadLane[]);
 const footways: { id: string; points: Vec3[] }[] = [];
 let footwayCandidates = 0;
-for (const w of ways) {
+for (const w of liveMode ? [] : ways) {
   const t = w.tags, hw = t['highway']!;
   if (!footwayClasses.has(hw) || t['area'] === 'yes' || existingFootways.has(`w${w.id}`) || !reachesNew(w.nodes)) continue;
   const foot = t['foot'], access = t['access'];
@@ -564,7 +665,7 @@ log(`footways: ${footways.length} stretches from ${footwayCandidates} ways`);
 // ---- street parts: parking slots and the supported-area classes ----
 interface Part { id: string; main: string; sub: string; rings: Pt[][]; bbox: [number, number, number, number] }
 const parts: Part[] = [];
-{
+if (!liveMode) {
   const gj = JSON.parse(fs.readFileSync(values['street-parts']!, 'utf8')) as { features: { geometry: { type: string; coordinates: unknown } | null; properties: Record<string, unknown> }[] };
   gj.features.forEach((f, i) => {
     const polys = f.geometry?.type === 'Polygon' ? [f.geometry.coordinates as number[][][]] : f.geometry?.type === 'MultiPolygon' ? f.geometry.coordinates as number[][][][] : [];
@@ -628,251 +729,257 @@ for (const key of ['lanes', 'connectors', 'parking', 'footways'] as const) {
 }
 
 // ---- supported area: a 1 m raster of qualified ground, traced, simplified and united with the current mask ----
-const MARGIN = 32;
-let rx0 = Infinity, rz0 = Infinity, rx1 = -Infinity, rz1 = -Infinity;
-for (const id of newCells) { const b = cellById.get(id)!.boundsXZ; rx0 = Math.min(rx0, b[0]); rz0 = Math.min(rz0, b[1]); rx1 = Math.max(rx1, b[2]); rz1 = Math.max(rz1, b[3]); }
-// Pixel corners sit on half metres, so traced edges never coincide with the integer edges of the current mask.
-const X0 = Math.max(area.minX, Math.floor(rx0 - MARGIN)) + 0.5, Z0 = Math.max(area.minZ, Math.floor(rz0 - MARGIN)) + 0.5;
-const W = Math.floor(Math.min(area.maxX, rx1 + MARGIN) - X0), H = Math.floor(Math.min(area.maxZ, rz1 + MARGIN) - Z0);
-const domain = new Uint8Array(W * H), want = new Uint8Array(W * H), water = new Uint8Array(W * H);
-// The new cells, and the built cells within MARGIN of them, inside the play area.
-const size = manifest.cellSize, gx0 = Math.floor(X0 / size) - 1, gz0 = Math.floor(Z0 / size) - 1;
-const gw = Math.ceil((X0 + W) / size) - gx0 + 2, gh = Math.ceil((Z0 + H) / size) - gz0 + 2, cellState = new Uint8Array(gw * gh);
-for (let gz = 0; gz < gh; gz++) for (let gx = 0; gx < gw; gx++) { const id = cellId(gx + gx0, gz + gz0); cellState[gz * gw + gx] = newCells.has(id) ? 2 : cellById.has(id) ? 1 : 0; }
-for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) {
-  const x = X0 + i + 0.5, z = Z0 + j + 0.5, cx = Math.floor(x / size) - gx0, cz = Math.floor(z / size) - gz0, state = cellState[cz * gw + cx]!;
-  let inside = state === 2;
-  if (state === 1) for (let dz = -1; dz <= 1 && !inside; dz++) for (let dx = -1; dx <= 1 && !inside; dx++) {
-    if (cellState[(cz + dz) * gw + cx + dx] !== 2) continue;
-    const bx = Math.max((cx + dx + gx0) * size, Math.min(x, (cx + dx + gx0 + 1) * size)), bz = Math.max((cz + dz + gz0) * size, Math.min(z, (cz + dz + gz0 + 1) * size));
-    inside = Math.hypot(x - bx, z - bz) <= MARGIN;
-  }
-  domain[j * W + i] = state === 2 ? 2 : inside ? 1 : 0;
-}
-function fillPolygon(rings: readonly Pt[][], target: Uint8Array) {
-  let z0 = Infinity, z1 = -Infinity;
-  for (const [, z] of rings[0]!) { z0 = Math.min(z0, z); z1 = Math.max(z1, z); }
-  for (let j = Math.max(0, Math.ceil(z0 - Z0 - 0.5)); j <= Math.min(H - 1, Math.floor(z1 - Z0 - 0.5)); j++) {
-    const zc = Z0 + j + 0.5, xs: number[] = [];
-    for (const ring of rings) for (let k = 0, m = ring.length - 1; k < ring.length; m = k++) {
-      const a = ring[m]!, b = ring[k]!;
-      if ((a[1] > zc) !== (b[1] > zc)) xs.push(a[0] + (zc - a[1]) * (b[0] - a[0]) / (b[1] - a[1]));
+// (Live mode leaves the gameplay as it is: the simulation counts live squares as supported.)
+function extendSupportedArea() {
+  const MARGIN = 32;
+  let rx0 = Infinity, rz0 = Infinity, rx1 = -Infinity, rz1 = -Infinity;
+  for (const id of newCells) { const b = cellById.get(id)!.boundsXZ; rx0 = Math.min(rx0, b[0]); rz0 = Math.min(rz0, b[1]); rx1 = Math.max(rx1, b[2]); rz1 = Math.max(rz1, b[3]); }
+  // Pixel corners sit on half metres, so traced edges never coincide with the integer edges of the current mask.
+  const X0 = Math.max(area.minX, Math.floor(rx0 - MARGIN)) + 0.5, Z0 = Math.max(area.minZ, Math.floor(rz0 - MARGIN)) + 0.5;
+  const W = Math.floor(Math.min(area.maxX, rx1 + MARGIN) - X0), H = Math.floor(Math.min(area.maxZ, rz1 + MARGIN) - Z0);
+  const domain = new Uint8Array(W * H), want = new Uint8Array(W * H), water = new Uint8Array(W * H);
+  // The new cells, and the built cells within MARGIN of them, inside the play area.
+  const size = manifest.cellSize, gx0 = Math.floor(X0 / size) - 1, gz0 = Math.floor(Z0 / size) - 1;
+  const gw = Math.ceil((X0 + W) / size) - gx0 + 2, gh = Math.ceil((Z0 + H) / size) - gz0 + 2, cellState = new Uint8Array(gw * gh);
+  for (let gz = 0; gz < gh; gz++) for (let gx = 0; gx < gw; gx++) { const id = cellId(gx + gx0, gz + gz0); cellState[gz * gw + gx] = newCells.has(id) ? 2 : cellById.has(id) ? 1 : 0; }
+  for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) {
+    const x = X0 + i + 0.5, z = Z0 + j + 0.5, cx = Math.floor(x / size) - gx0, cz = Math.floor(z / size) - gz0, state = cellState[cz * gw + cx]!;
+    let inside = state === 2;
+    if (state === 1) for (let dz = -1; dz <= 1 && !inside; dz++) for (let dx = -1; dx <= 1 && !inside; dx++) {
+      if (cellState[(cz + dz) * gw + cx + dx] !== 2) continue;
+      const bx = Math.max((cx + dx + gx0) * size, Math.min(x, (cx + dx + gx0 + 1) * size)), bz = Math.max((cz + dz + gz0) * size, Math.min(z, (cz + dz + gz0 + 1) * size));
+      inside = Math.hypot(x - bx, z - bz) <= MARGIN;
     }
-    xs.sort((a, b) => a - b);
-    for (let k = 0; k + 1 < xs.length; k += 2) {
-      for (let i = Math.max(0, Math.ceil(xs[k]! - X0 - 0.5)); i <= Math.min(W - 1, Math.floor(xs[k + 1]! - X0 - 0.5)); i++) if (domain[j * W + i]) target[j * W + i] = 1;
-    }
+    domain[j * W + i] = state === 2 ? 2 : inside ? 1 : 0;
   }
-}
-const WATER = new Set(['Merivesi-alue', 'Lammikko', 'Koristeallas', 'Kahluuallas', 'Oja, ojanne', 'Vesileikki']);
-const NOT_GROUND = new Set(['Rakennukset', 'Muu rakenne', 'Tukimuuri', 'Rantamuurit', 'Koristemuuri']);
-let selectedParts = 0;
-for (const part of parts) {
-  if (part.bbox[2] < X0 || part.bbox[0] > X0 + W || part.bbox[3] < Z0 || part.bbox[1] > Z0 + H) continue;
-  if (WATER.has(part.sub)) fillPolygon(part.rings, water);
-  else if (!NOT_GROUND.has(part.sub) && !(part.main === 'Erityiskohteet' && part.sub !== 'Pihapiiri')) { fillPolygon(part.rings, want); selectedParts++; }
-}
-function paintBuffer(points: readonly Vec3[], radius: number) {
-  for (let k = 0; k < points.length; k++) {
-    const a = points[k]!, b = points[Math.min(points.length - 1, k + 1)]!;
-    const i0 = Math.max(0, Math.floor(Math.min(a[0], b[0]) - radius - X0)), i1 = Math.min(W - 1, Math.ceil(Math.max(a[0], b[0]) + radius - X0));
-    const j0 = Math.max(0, Math.floor(Math.min(a[2], b[2]) - radius - Z0)), j1 = Math.min(H - 1, Math.ceil(Math.max(a[2], b[2]) + radius - Z0));
-    const dx = b[0] - a[0], dz = b[2] - a[2], len2 = dx * dx + dz * dz;
-    for (let j = j0; j <= j1; j++) for (let i = i0; i <= i1; i++) {
-      if (!domain[j * W + i]) continue;
-      const x = X0 + i + 0.5, z = Z0 + j + 0.5, t = len2 > 0 ? Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[2]) * dz) / len2)) : 0;
-      if (Math.hypot(x - a[0] - dx * t, z - a[2] - dz * t) <= radius) want[j * W + i] = 1;
-    }
-  }
-}
-// Curb-parked cars sit up to lane.width / 2 + 2.7 m from a lane; street-edge walkers at lane.width / 2 + 3.5 m.
-for (const lane of graph.lanes) if (lane.points.some(p => p[0] >= X0 && p[0] <= X0 + W && p[2] >= Z0 && p[2] <= Z0 + H)) paintBuffer(lane.points, lane.width / 2 + 4.5);
-for (const f of graph.footways) if (f.points.some(p => p[0] >= X0 && p[0] <= X0 + W && p[2] >= Z0 && p[2] <= Z0 + H)) paintBuffer(f.points, 2.5);
-for (const p of parking) for (const q of p.points) paintBuffer([q], 3.5);
-// Like the current mask, the new districts' private yards are walkable ground too, unless --public-only.
-if (!values['public-only']) for (let k = 0; k < W * H; k++) if (domain[k] === 2) want[k] = 1;
-const covered = new Uint8Array(W * H);
-let probed = 0;
-for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) {
-  const k = j * W + i;
-  if (!want[k] || water[k]) continue;
-  probed++;
-  const hits = probe.hits(X0 + i + 0.5, Z0 + j + 0.5);
-  // Ground that nothing built stands on; holes (sea, unbuilt) have no walkable triangle.
-  const top = hits.find(h => h.kind === WALK || h.kind === BLOCK);
-  if (top && top.kind === WALK) covered[k] = 1;
-}
-log(`supported area raster ${W}x${H}: ${probed} probed pixels, ${covered.reduce((s, v) => s + v, 0)} covered; ${probe.loads} collision loads`);
-
-/** 4-connected components of `value` pixels; returns labels (-1 elsewhere) and sizes. */
-function components(grid: Uint8Array, value: number): { label: Int32Array; sizes: number[]; border: boolean[] } {
-  const label = new Int32Array(W * H).fill(-1), sizes: number[] = [], border: boolean[] = [], stack: number[] = [];
-  for (let s = 0; s < W * H; s++) {
-    if (grid[s] !== value || label[s] !== -1) continue;
-    const id = sizes.length;
-    let size = 0, edge = false;
-    label[s] = id; stack.push(s);
-    while (stack.length) {
-      const k = stack.pop()!, i = k % W, j = (k - i) / W;
-      size++;
-      if (i === 0 || j === 0 || i === W - 1 || j === H - 1) edge = true;
-      for (const n of [i > 0 ? k - 1 : -1, i < W - 1 ? k + 1 : -1, j > 0 ? k - W : -1, j < H - 1 ? k + W : -1]) {
-        if (n >= 0 && grid[n] === value && label[n] === -1) { label[n] = id; stack.push(n); }
+  function fillPolygon(rings: readonly Pt[][], target: Uint8Array) {
+    let z0 = Infinity, z1 = -Infinity;
+    for (const [, z] of rings[0]!) { z0 = Math.min(z0, z); z1 = Math.max(z1, z); }
+    for (let j = Math.max(0, Math.ceil(z0 - Z0 - 0.5)); j <= Math.min(H - 1, Math.floor(z1 - Z0 - 0.5)); j++) {
+      const zc = Z0 + j + 0.5, xs: number[] = [];
+      for (const ring of rings) for (let k = 0, m = ring.length - 1; k < ring.length; m = k++) {
+        const a = ring[m]!, b = ring[k]!;
+        if ((a[1] > zc) !== (b[1] > zc)) xs.push(a[0] + (zc - a[1]) * (b[0] - a[0]) / (b[1] - a[1]));
+      }
+      xs.sort((a, b) => a - b);
+      for (let k = 0; k + 1 < xs.length; k += 2) {
+        for (let i = Math.max(0, Math.ceil(xs[k]! - X0 - 0.5)); i <= Math.min(W - 1, Math.floor(xs[k + 1]! - X0 - 0.5)); i++) if (domain[j * W + i]) target[j * W + i] = 1;
       }
     }
-    sizes.push(size); border.push(edge);
   }
-  return { label, sizes, border };
-}
-// Pinches (two pixels touching only at a corner) would make rings touch; close them.
-for (let changed = true; changed;) {
-  changed = false;
-  for (let j = 0; j + 1 < H; j++) for (let i = 0; i + 1 < W; i++) {
-    const a = covered[j * W + i]!, b = covered[j * W + i + 1]!, c = covered[(j + 1) * W + i]!, d = covered[(j + 1) * W + i + 1]!;
-    if (a === d && b === c && a !== b) { if (a) covered[j * W + i + 1] = 1; else covered[j * W + i] = 1; changed = true; }
+  const WATER = new Set(['Merivesi-alue', 'Lammikko', 'Koristeallas', 'Kahluuallas', 'Oja, ojanne', 'Vesileikki']);
+  const NOT_GROUND = new Set(['Rakennukset', 'Muu rakenne', 'Tukimuuri', 'Rantamuurit', 'Koristemuuri']);
+  let selectedParts = 0;
+  for (const part of parts) {
+    if (part.bbox[2] < X0 || part.bbox[0] > X0 + W || part.bbox[3] < Z0 || part.bbox[1] > Z0 + H) continue;
+    if (WATER.has(part.sub)) fillPolygon(part.rings, water);
+    else if (!NOT_GROUND.has(part.sub) && !(part.main === 'Erityiskohteet' && part.sub !== 'Pihapiiri')) { fillPolygon(part.rings, want); selectedParts++; }
   }
-}
-{
-  const holes = components(covered, 0);
-  for (let k = 0; k < W * H; k++) if (!covered[k] && !holes.border[holes.label[k]!] && holes.sizes[holes.label[k]!]! < 6) covered[k] = 1;
+  function paintBuffer(points: readonly Vec3[], radius: number) {
+    for (let k = 0; k < points.length; k++) {
+      const a = points[k]!, b = points[Math.min(points.length - 1, k + 1)]!;
+      const i0 = Math.max(0, Math.floor(Math.min(a[0], b[0]) - radius - X0)), i1 = Math.min(W - 1, Math.ceil(Math.max(a[0], b[0]) + radius - X0));
+      const j0 = Math.max(0, Math.floor(Math.min(a[2], b[2]) - radius - Z0)), j1 = Math.min(H - 1, Math.ceil(Math.max(a[2], b[2]) + radius - Z0));
+      const dx = b[0] - a[0], dz = b[2] - a[2], len2 = dx * dx + dz * dz;
+      for (let j = j0; j <= j1; j++) for (let i = i0; i <= i1; i++) {
+        if (!domain[j * W + i]) continue;
+        const x = X0 + i + 0.5, z = Z0 + j + 0.5, t = len2 > 0 ? Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[2]) * dz) / len2)) : 0;
+        if (Math.hypot(x - a[0] - dx * t, z - a[2] - dz * t) <= radius) want[j * W + i] = 1;
+      }
+    }
+  }
+  // Curb-parked cars sit up to lane.width / 2 + 2.7 m from a lane; street-edge walkers at lane.width / 2 + 3.5 m.
+  for (const lane of graph.lanes) if (lane.points.some(p => p[0] >= X0 && p[0] <= X0 + W && p[2] >= Z0 && p[2] <= Z0 + H)) paintBuffer(lane.points, lane.width / 2 + 4.5);
+  for (const f of graph.footways) if (f.points.some(p => p[0] >= X0 && p[0] <= X0 + W && p[2] >= Z0 && p[2] <= Z0 + H)) paintBuffer(f.points, 2.5);
+  for (const p of parking) for (const q of p.points) paintBuffer([q], 3.5);
+  // Like the current mask, the new districts' private yards are walkable ground too, unless --public-only.
+  if (!values['public-only']) for (let k = 0; k < W * H; k++) if (domain[k] === 2) want[k] = 1;
+  const covered = new Uint8Array(W * H);
+  let probed = 0;
+  for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) {
+    const k = j * W + i;
+    if (!want[k] || water[k]) continue;
+    probed++;
+    const hits = probe.hits(X0 + i + 0.5, Z0 + j + 0.5);
+    // Ground that nothing built stands on; holes (sea, unbuilt) have no walkable triangle.
+    const top = hits.find(h => h.kind === WALK || h.kind === BLOCK);
+    if (top && top.kind === WALK) covered[k] = 1;
+  }
+  log(`supported area raster ${W}x${H}: ${probed} probed pixels, ${covered.reduce((s, v) => s + v, 0)} covered; ${probe.loads} collision loads`);
+
+  /** 4-connected components of `value` pixels; returns labels (-1 elsewhere) and sizes. */
+  function components(grid: Uint8Array, value: number): { label: Int32Array; sizes: number[]; border: boolean[] } {
+    const label = new Int32Array(W * H).fill(-1), sizes: number[] = [], border: boolean[] = [], stack: number[] = [];
+    for (let s = 0; s < W * H; s++) {
+      if (grid[s] !== value || label[s] !== -1) continue;
+      const id = sizes.length;
+      let size = 0, edge = false;
+      label[s] = id; stack.push(s);
+      while (stack.length) {
+        const k = stack.pop()!, i = k % W, j = (k - i) / W;
+        size++;
+        if (i === 0 || j === 0 || i === W - 1 || j === H - 1) edge = true;
+        for (const n of [i > 0 ? k - 1 : -1, i < W - 1 ? k + 1 : -1, j > 0 ? k - W : -1, j < H - 1 ? k + W : -1]) {
+          if (n >= 0 && grid[n] === value && label[n] === -1) { label[n] = id; stack.push(n); }
+        }
+      }
+      sizes.push(size); border.push(edge);
+    }
+    return { label, sizes, border };
+  }
+  // Pinches (two pixels touching only at a corner) would make rings touch; close them.
+  for (let changed = true; changed;) {
+    changed = false;
+    for (let j = 0; j + 1 < H; j++) for (let i = 0; i + 1 < W; i++) {
+      const a = covered[j * W + i]!, b = covered[j * W + i + 1]!, c = covered[(j + 1) * W + i]!, d = covered[(j + 1) * W + i + 1]!;
+      if (a === d && b === c && a !== b) { if (a) covered[j * W + i + 1] = 1; else covered[j * W + i] = 1; changed = true; }
+    }
+  }
+  {
+    const holes = components(covered, 0);
+    for (let k = 0; k < W * H; k++) if (!covered[k] && !holes.border[holes.label[k]!] && holes.sizes[holes.label[k]!]! < 6) covered[k] = 1;
+    const blobs = components(covered, 1);
+    for (let k = 0; k < W * H; k++) if (covered[k] && blobs.sizes[blobs.label[k]!]! < 30) covered[k] = 0;
+  }
   const blobs = components(covered, 1);
-  for (let k = 0; k < W * H; k++) if (covered[k] && blobs.sizes[blobs.label[k]!]! < 30) covered[k] = 0;
-}
-const blobs = components(covered, 1);
 
-// Trace pixel boundaries: each edge keeps its pixel on the left; a corner has at most one outgoing edge (no pinches).
-const corners = (W + 1) * (H + 1);
-const nextCorner = new Int32Array(corners).fill(-1);
-for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) {
-  if (!covered[j * W + i]) continue;
-  const c = (x: number, z: number) => z * (W + 1) + x;
-  if (i === 0 || !covered[j * W + i - 1]) nextCorner[c(i, j)] = c(i, j + 1);
-  if (j === H - 1 || !covered[(j + 1) * W + i]) nextCorner[c(i, j + 1)] = c(i + 1, j + 1);
-  if (i === W - 1 || !covered[j * W + i + 1]) nextCorner[c(i + 1, j + 1)] = c(i + 1, j);
-  if (j === 0 || !covered[(j - 1) * W + i]) nextCorner[c(i + 1, j)] = c(i, j);
-}
-interface TracedRing { label: number; outer: boolean; corners: Pt[]; mid: Pt[] }
-const traced: TracedRing[] = [];
-for (let start = 0; start < corners; start++) {
-  if (nextCorner[start] === -1) continue;
-  const cornerRing: Pt[] = [], mid: Pt[] = [];
-  let k = start, label = -1, area2 = 0;
-  do {
-    const n = nextCorner[k]!;
-    nextCorner[k] = -1;
-    const ax = k % (W + 1), az = (k - ax) / (W + 1), bx = n % (W + 1), bz = (n - bx) / (W + 1);
-    if (label < 0) {
-      // The pixel on the left of a->b.
-      const pi = bz > az ? ax : bz < az ? ax - 1 : bx > ax ? ax : ax - 1, pj = bz > az ? az : bz < az ? bz : bx > ax ? az - 1 : az;
-      label = blobs.label[pj * W + pi]!;
-    }
-    cornerRing.push([X0 + ax, Z0 + az]); mid.push([X0 + (ax + bx) / 2, Z0 + (az + bz) / 2]);
-    area2 += ax * bz - bx * az;
-    k = n;
-  } while (k !== start);
-  traced.push({ label, outer: area2 < 0, corners: cornerRing, mid });
-}
-
-/** Douglas-Peucker on a closed ring. */
-function simplifyClosed(ring: readonly Pt[], tolerance: number): Pt[] {
-  const n = ring.length;
-  if (tolerance <= 0 || n <= 4) return ring.filter((p, i) => {
-    const a = ring[(i + n - 1) % n]!, b = ring[(i + 1) % n]!;
-    return Math.abs((p[0] - a[0]) * (b[1] - a[1]) - (p[1] - a[1]) * (b[0] - a[0])) > 1e-9;
-  });
-  let far = 0, farD = -1;
-  for (let i = 1; i < n; i++) { const d = Math.hypot(ring[i]![0] - ring[0]![0], ring[i]![1] - ring[0]![1]); if (d > farD) { farD = d; far = i; } }
-  const keep = new Uint8Array(n);
-  keep[0] = 1; keep[far] = 1;
-  const stack: [number, number][] = [[0, far], [far, n]];
-  while (stack.length) {
-    const [s, e] = stack.pop()!, a = ring[s]!, b = ring[e % n]!;
-    const dx = b[0] - a[0], dz = b[1] - a[1], len2 = dx * dx + dz * dz;
-    let worst = -1, worstD = tolerance;
-    for (let i = s + 1; i < e; i++) {
-      const p = ring[i]!, t = len2 > 0 ? Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dz) / len2)) : 0;
-      const d = Math.hypot(p[0] - a[0] - dx * t, p[1] - a[1] - dz * t);
-      if (d > worstD) { worstD = d; worst = i; }
-    }
-    if (worst >= 0) { keep[worst] = 1; stack.push([s, worst], [worst, e]); }
+  // Trace pixel boundaries: each edge keeps its pixel on the left; a corner has at most one outgoing edge (no pinches).
+  const corners = (W + 1) * (H + 1);
+  const nextCorner = new Int32Array(corners).fill(-1);
+  for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) {
+    if (!covered[j * W + i]) continue;
+    const c = (x: number, z: number) => z * (W + 1) + x;
+    if (i === 0 || !covered[j * W + i - 1]) nextCorner[c(i, j)] = c(i, j + 1);
+    if (j === H - 1 || !covered[(j + 1) * W + i]) nextCorner[c(i, j + 1)] = c(i + 1, j + 1);
+    if (i === W - 1 || !covered[j * W + i + 1]) nextCorner[c(i + 1, j + 1)] = c(i + 1, j);
+    if (j === 0 || !covered[(j - 1) * W + i]) nextCorner[c(i + 1, j)] = c(i, j);
   }
-  return ring.filter((_, i) => keep[i]);
-}
-const ringArea = (r: readonly Pt[]) => Math.abs(signedArea(r as Pt[]));
-// Simplify every ring, then re-simplify any ring that now crosses or touches another (or itself) more finely.
-const LEVELS = [0.75, 0.4, 0.2, 0, -1];
-const level = traced.map(() => 0);
-const shapes = traced.map(r => simplifyClosed(r.mid, LEVELS[0]!));
-for (let round = 0; ; round++) {
-  const segments: { r: number; i: number; a: Pt; b: Pt }[] = [];
-  const grid = new Map<string, number[]>();
-  shapes.forEach((ring, r) => ring.forEach((a, i) => {
-    const b = ring[(i + 1) % ring.length]!, s = segments.length;
-    segments.push({ r, i, a, b });
-    for (let gx = Math.floor(Math.min(a[0], b[0]) / 8); gx <= Math.floor(Math.max(a[0], b[0]) / 8); gx++)
-      for (let gz = Math.floor(Math.min(a[1], b[1]) / 8); gz <= Math.floor(Math.max(a[1], b[1]) / 8); gz++) {
-        const key = `${gx},${gz}`; (grid.get(key) ?? grid.set(key, []).get(key)!).push(s);
+  interface TracedRing { label: number; outer: boolean; corners: Pt[]; mid: Pt[] }
+  const traced: TracedRing[] = [];
+  for (let start = 0; start < corners; start++) {
+    if (nextCorner[start] === -1) continue;
+    const cornerRing: Pt[] = [], mid: Pt[] = [];
+    let k = start, label = -1, area2 = 0;
+    do {
+      const n = nextCorner[k]!;
+      nextCorner[k] = -1;
+      const ax = k % (W + 1), az = (k - ax) / (W + 1), bx = n % (W + 1), bz = (n - bx) / (W + 1);
+      if (label < 0) {
+        // The pixel on the left of a->b.
+        const pi = bz > az ? ax : bz < az ? ax - 1 : bx > ax ? ax : ax - 1, pj = bz > az ? az : bz < az ? bz : bx > ax ? az - 1 : az;
+        label = blobs.label[pj * W + pi]!;
       }
+      cornerRing.push([X0 + ax, Z0 + az]); mid.push([X0 + (ax + bx) / 2, Z0 + (az + bz) / 2]);
+      area2 += ax * bz - bx * az;
+      k = n;
+    } while (k !== start);
+    traced.push({ label, outer: area2 < 0, corners: cornerRing, mid });
+  }
+
+  /** Douglas-Peucker on a closed ring. */
+  function simplifyClosed(ring: readonly Pt[], tolerance: number): Pt[] {
+    const n = ring.length;
+    if (tolerance <= 0 || n <= 4) return ring.filter((p, i) => {
+      const a = ring[(i + n - 1) % n]!, b = ring[(i + 1) % n]!;
+      return Math.abs((p[0] - a[0]) * (b[1] - a[1]) - (p[1] - a[1]) * (b[0] - a[0])) > 1e-9;
+    });
+    let far = 0, farD = -1;
+    for (let i = 1; i < n; i++) { const d = Math.hypot(ring[i]![0] - ring[0]![0], ring[i]![1] - ring[0]![1]); if (d > farD) { farD = d; far = i; } }
+    const keep = new Uint8Array(n);
+    keep[0] = 1; keep[far] = 1;
+    const stack: [number, number][] = [[0, far], [far, n]];
+    while (stack.length) {
+      const [s, e] = stack.pop()!, a = ring[s]!, b = ring[e % n]!;
+      const dx = b[0] - a[0], dz = b[1] - a[1], len2 = dx * dx + dz * dz;
+      let worst = -1, worstD = tolerance;
+      for (let i = s + 1; i < e; i++) {
+        const p = ring[i]!, t = len2 > 0 ? Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dz) / len2)) : 0;
+        const d = Math.hypot(p[0] - a[0] - dx * t, p[1] - a[1] - dz * t);
+        if (d > worstD) { worstD = d; worst = i; }
+      }
+      if (worst >= 0) { keep[worst] = 1; stack.push([s, worst], [worst, e]); }
+    }
+    return ring.filter((_, i) => keep[i]);
+  }
+  const ringArea = (r: readonly Pt[]) => Math.abs(signedArea(r as Pt[]));
+  // Simplify every ring, then re-simplify any ring that now crosses or touches another (or itself) more finely.
+  const LEVELS = [0.75, 0.4, 0.2, 0, -1];
+  const level = traced.map(() => 0);
+  const shapes = traced.map(r => simplifyClosed(r.mid, LEVELS[0]!));
+  for (let round = 0; ; round++) {
+    const segments: { r: number; i: number; a: Pt; b: Pt }[] = [];
+    const grid = new Map<string, number[]>();
+    shapes.forEach((ring, r) => ring.forEach((a, i) => {
+      const b = ring[(i + 1) % ring.length]!, s = segments.length;
+      segments.push({ r, i, a, b });
+      for (let gx = Math.floor(Math.min(a[0], b[0]) / 8); gx <= Math.floor(Math.max(a[0], b[0]) / 8); gx++)
+        for (let gz = Math.floor(Math.min(a[1], b[1]) / 8); gz <= Math.floor(Math.max(a[1], b[1]) / 8); gz++) {
+          const key = `${gx},${gz}`; (grid.get(key) ?? grid.set(key, []).get(key)!).push(s);
+        }
+    }));
+    const orient = (p: Pt, q: Pt, r: Pt) => { const v = (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]); return Math.abs(v) < 1e-9 ? 0 : Math.sign(v); };
+    const onSeg = (p: Pt, q: Pt, r: Pt) => r[0] >= Math.min(p[0], q[0]) - 1e-9 && r[0] <= Math.max(p[0], q[0]) + 1e-9 && r[1] >= Math.min(p[1], q[1]) - 1e-9 && r[1] <= Math.max(p[1], q[1]) + 1e-9;
+    const meet = (a: Pt, b: Pt, c: Pt, d: Pt) => {
+      const o1 = orient(a, b, c), o2 = orient(a, b, d), o3 = orient(c, d, a), o4 = orient(c, d, b);
+      if (o1 * o2 < 0 && o3 * o4 < 0) return true;
+      return (o1 === 0 && onSeg(a, b, c)) || (o2 === 0 && onSeg(a, b, d)) || (o3 === 0 && onSeg(c, d, a)) || (o4 === 0 && onSeg(c, d, b));
+    };
+    const bad = new Set<number>();
+    for (const list of grid.values()) for (let x = 0; x < list.length; x++) for (let y = x + 1; y < list.length; y++) {
+      const s = segments[list[x]!]!, t = segments[list[y]!]!;
+      if (s.r === t.r) { const n = shapes[s.r]!.length, gap = Math.abs(s.i - t.i); if (gap <= 1 || gap === n - 1) continue; }
+      if (bad.has(s.r) && bad.has(t.r)) continue;
+      if (meet(s.a, s.b, t.a, t.b)) { bad.add(s.r); bad.add(t.r); }
+    }
+    shapes.forEach((ring, r) => { if (ring.length < 3 || ringArea(ring) < 1e-6) bad.add(r); });
+    if (!bad.size) break;
+    for (const r of bad) {
+      if (level[r]! >= LEVELS.length - 1) throw new Error(`Traced ring ${r} stays invalid after full refinement`);
+      level[r]!++;
+      const t = LEVELS[level[r]!]!;
+      shapes[r] = t < 0 ? simplifyClosed(traced[r]!.corners, 0) : simplifyClosed(traced[r]!.mid, t);
+    }
+    if (round > 10) throw new Error('Ring refinement did not converge');
+  }
+  const polygonsByLabel = new Map<number, { outer: Pt[] | null; holes: Pt[][] }>();
+  traced.forEach((ring, r) => {
+    const entry = polygonsByLabel.get(ring.label) ?? { outer: null, holes: [] };
+    if (ring.outer) entry.outer = shapes[r]!; else if (ringArea(shapes[r]!) >= 1) entry.holes.push(shapes[r]!);
+    polygonsByLabel.set(ring.label, entry);
+  });
+  const added: polygonClipping.MultiPolygon = [];
+  for (const { outer, holes } of polygonsByLabel.values()) if (outer && ringArea(outer) >= 30) added.push([outer, ...holes].map(r => r.map(([x, z]) => [x, z] as [number, number])));
+  const current = gameplay.supportedArea!;
+  const currentPolygons: polygonClipping.MultiPolygon = current.regions.map(r => [r.outer, ...r.holes ?? []].map(ring => ring.map(([x, z]) => [x, z] as [number, number])));
+  const union = polygonClipping.union(currentPolygons, added);
+  const polygonArea = (p: polygonClipping.Polygon) => p.reduce((s, ring, i) => s + (i ? -1 : 1) * ringArea(ring.slice(0, -1) as Pt[]), 0);
+  const lost = polygonClipping.difference(currentPolygons, union);
+  if (lost.some(p => polygonArea(p) > 1e-6)) throw new Error('The extended mask no longer covers the current supported area');
+  // The union covers each current region whole, so the largest union polygon around a region's box carries it.
+  const boxOf = (ring: readonly (readonly number[])[]) => ring.reduce((b, p) => [Math.min(b[0]!, p[0]!), Math.min(b[1]!, p[1]!), Math.max(b[2]!, p[0]!), Math.max(b[3]!, p[1]!)], [Infinity, Infinity, -Infinity, -Infinity]);
+  const carriers = new Set(current.regions.map(r => {
+    const rb = boxOf(r.outer);
+    return union.map(p => ({ p, b: boxOf(p[0]!), a: polygonArea(p) })).filter(({ b }) => b[0]! <= rb[0]! && b[1]! <= rb[1]! && b[2]! >= rb[2]! && b[3]! >= rb[3]!).sort((x, y) => y.a - x.a)[0]?.p;
   }));
-  const orient = (p: Pt, q: Pt, r: Pt) => { const v = (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0]); return Math.abs(v) < 1e-9 ? 0 : Math.sign(v); };
-  const onSeg = (p: Pt, q: Pt, r: Pt) => r[0] >= Math.min(p[0], q[0]) - 1e-9 && r[0] <= Math.max(p[0], q[0]) + 1e-9 && r[1] >= Math.min(p[1], q[1]) - 1e-9 && r[1] <= Math.max(p[1], q[1]) + 1e-9;
-  const meet = (a: Pt, b: Pt, c: Pt, d: Pt) => {
-    const o1 = orient(a, b, c), o2 = orient(a, b, d), o3 = orient(c, d, a), o4 = orient(c, d, b);
-    if (o1 * o2 < 0 && o3 * o4 < 0) return true;
-    return (o1 === 0 && onSeg(a, b, c)) || (o2 === 0 && onSeg(a, b, d)) || (o3 === 0 && onSeg(c, d, a)) || (o4 === 0 && onSeg(c, d, b));
-  };
-  const bad = new Set<number>();
-  for (const list of grid.values()) for (let x = 0; x < list.length; x++) for (let y = x + 1; y < list.length; y++) {
-    const s = segments[list[x]!]!, t = segments[list[y]!]!;
-    if (s.r === t.r) { const n = shapes[s.r]!.length, gap = Math.abs(s.i - t.i); if (gap <= 1 || gap === n - 1) continue; }
-    if (bad.has(s.r) && bad.has(t.r)) continue;
-    if (meet(s.a, s.b, t.a, t.b)) { bad.add(s.r); bad.add(t.r); }
-  }
-  shapes.forEach((ring, r) => { if (ring.length < 3 || ringArea(ring) < 1e-6) bad.add(r); });
-  if (!bad.size) break;
-  for (const r of bad) {
-    if (level[r]! >= LEVELS.length - 1) throw new Error(`Traced ring ${r} stays invalid after full refinement`);
-    level[r]!++;
-    const t = LEVELS[level[r]!]!;
-    shapes[r] = t < 0 ? simplifyClosed(traced[r]!.corners, 0) : simplifyClosed(traced[r]!.mid, t);
-  }
-  if (round > 10) throw new Error('Ring refinement did not converge');
+  const ordered = union.map(p => ({ p, area: polygonArea(p), keepsCurrent: carriers.has(p) }))
+    .sort((a, b) => Number(b.keepsCurrent) - Number(a.keepsCurrent) || b.area - a.area);
+  const kept = ordered.slice(0, 128);
+  const droppedArea = ordered.slice(128).reduce((s, o) => s + o.area, 0);
+  let named = 0;
+  const supportedArea: SupportedArea = { schemaVersion: 1, regions: kept.map(({ p, keepsCurrent }) => {
+    const rings = p.map(ring => ring.slice(0, -1).map(([x, z]) => [x, z] as [number, number]));
+    const id = keepsCurrent && named < current.regions.length ? current.regions[named++]!.id : `district-navigation-${named++}`;
+    return { id, outer: rings[0]!, ...(rings.length > 1 ? { holes: rings.slice(1) } : {}) };
+  }) };
+  const nextGameplay: GameplayBundle = { ...gameplay, supportedArea };
+  const saProblems = validateSupportedArea(supportedArea, nextGameplay.playArea), gameplayProblems = validateGameplayBundle(nextGameplay);
+  const vertices = supportedArea.regions.reduce((s, r) => s + r.outer.length + (r.holes ?? []).reduce((t, h) => t + h.length, 0), 0);
+  log(`supported area: ${supportedArea.regions.length} regions, ${vertices} vertices, ${supportedArea.regions.reduce((s, r) => s + (r.holes?.length ?? 0), 0)} holes; dropped ${droppedArea.toFixed(0)} m2 beyond 128 regions`);
+  if (saProblems.length || gameplayProblems.length) throw new Error(`Gameplay invalid: ${[...saProblems, ...gameplayProblems].join('; ')}`);
+  return { nextGameplay, report: { regions: supportedArea.regions.length, vertices, raster: { x0: X0, z0: Z0, width: W, height: H, probed, selectedParts }, droppedAreaBeyondRegionCap: droppedArea } };
 }
-const polygonsByLabel = new Map<number, { outer: Pt[] | null; holes: Pt[][] }>();
-traced.forEach((ring, r) => {
-  const entry = polygonsByLabel.get(ring.label) ?? { outer: null, holes: [] };
-  if (ring.outer) entry.outer = shapes[r]!; else if (ringArea(shapes[r]!) >= 1) entry.holes.push(shapes[r]!);
-  polygonsByLabel.set(ring.label, entry);
-});
-const added: polygonClipping.MultiPolygon = [];
-for (const { outer, holes } of polygonsByLabel.values()) if (outer && ringArea(outer) >= 30) added.push([outer, ...holes].map(r => r.map(([x, z]) => [x, z] as [number, number])));
-const current = gameplay.supportedArea!;
-const currentPolygons: polygonClipping.MultiPolygon = current.regions.map(r => [r.outer, ...r.holes ?? []].map(ring => ring.map(([x, z]) => [x, z] as [number, number])));
-const union = polygonClipping.union(currentPolygons, added);
-const polygonArea = (p: polygonClipping.Polygon) => p.reduce((s, ring, i) => s + (i ? -1 : 1) * ringArea(ring.slice(0, -1) as Pt[]), 0);
-const lost = polygonClipping.difference(currentPolygons, union);
-if (lost.some(p => polygonArea(p) > 1e-6)) throw new Error('The extended mask no longer covers the current supported area');
-// The union covers each current region whole, so the largest union polygon around a region's box carries it.
-const boxOf = (ring: readonly (readonly number[])[]) => ring.reduce((b, p) => [Math.min(b[0]!, p[0]!), Math.min(b[1]!, p[1]!), Math.max(b[2]!, p[0]!), Math.max(b[3]!, p[1]!)], [Infinity, Infinity, -Infinity, -Infinity]);
-const carriers = new Set(current.regions.map(r => {
-  const rb = boxOf(r.outer);
-  return union.map(p => ({ p, b: boxOf(p[0]!), a: polygonArea(p) })).filter(({ b }) => b[0]! <= rb[0]! && b[1]! <= rb[1]! && b[2]! >= rb[2]! && b[3]! >= rb[3]!).sort((x, y) => y.a - x.a)[0]?.p;
-}));
-const ordered = union.map(p => ({ p, area: polygonArea(p), keepsCurrent: carriers.has(p) }))
-  .sort((a, b) => Number(b.keepsCurrent) - Number(a.keepsCurrent) || b.area - a.area);
-const kept = ordered.slice(0, 128);
-const droppedArea = ordered.slice(128).reduce((s, o) => s + o.area, 0);
-let named = 0;
-const supportedArea: SupportedArea = { schemaVersion: 1, regions: kept.map(({ p, keepsCurrent }) => {
-  const rings = p.map(ring => ring.slice(0, -1).map(([x, z]) => [x, z] as [number, number]));
-  const id = keepsCurrent && named < current.regions.length ? current.regions[named++]!.id : `district-navigation-${named++}`;
-  return { id, outer: rings[0]!, ...(rings.length > 1 ? { holes: rings.slice(1) } : {}) };
-}) };
-const nextGameplay: GameplayBundle = { ...gameplay, supportedArea };
-const saProblems = validateSupportedArea(supportedArea, nextGameplay.playArea), gameplayProblems = validateGameplayBundle(nextGameplay);
-const vertices = supportedArea.regions.reduce((s, r) => s + r.outer.length + (r.holes ?? []).reduce((t, h) => t + h.length, 0), 0);
-log(`supported area: ${supportedArea.regions.length} regions, ${vertices} vertices, ${supportedArea.regions.reduce((s, r) => s + (r.holes?.length ?? 0), 0)} holes; dropped ${droppedArea.toFixed(0)} m2 beyond 128 regions`);
-if (saProblems.length || gameplayProblems.length) throw new Error(`Gameplay invalid: ${[...saProblems, ...gameplayProblems].join('; ')}`);
+const extended = liveMode ? null : extendSupportedArea();
+const nextGameplay = extended?.nextGameplay ?? gameplay;
 
 // ---- release: new roads and gameplay files, everything else linked ----
 let roadsBytes: Uint8Array, roadsFormat = 'packed';
@@ -889,11 +996,11 @@ const roadsSha = sha256(roadsStored);
 const roadsRef = { path: `roads.gzip9.${roadsSha}.bin.gz`, bytes: roadsStored.length, sha256: roadsSha, compression: 'gzip' as const, decodedBytes: roadsBytes.length, decodedSha256: sha256(roadsBytes) };
 const gameplayBytes = Buffer.from(JSON.stringify(nextGameplay) + (gameplayText.endsWith('\n') ? '\n' : ''));
 const gameplaySha = sha256(gameplayBytes);
-const gameplayRef = { path: `gameplay.navigation.${gameplaySha.slice(0, 16)}.json`, bytes: gameplayBytes.length, sha256: gameplaySha };
+const gameplayRef = extended ? { path: `gameplay.navigation.${gameplaySha.slice(0, 16)}.json`, bytes: gameplayBytes.length, sha256: gameplaySha } : manifest.gameplay;
 const next = { ...manifest, worldReleaseId: values.release!, roads: roadsRef, gameplay: gameplayRef } as WorldManifest;
 const manifestProblems = validateWorldManifest(next);
 if (manifestProblems.length) throw new Error(manifestProblems.join('; '));
-const replaced = new Set(['manifest.json', manifest.roads.path, manifest.gameplay.path]);
+const replaced = new Set(['manifest.json', manifest.roads.path, ...extended ? [manifest.gameplay.path] : []]);
 let linked = 0, copied = 0;
 fs.mkdirSync(outDir, { recursive: true });
 function mirror(relative: string) {
@@ -909,7 +1016,7 @@ function mirror(relative: string) {
 }
 mirror('');
 fs.writeFileSync(path.join(outDir, roadsRef.path), roadsStored, { flag: 'wx' });
-fs.writeFileSync(path.join(outDir, gameplayRef.path), gameplayBytes, { flag: 'wx' });
+if (extended) fs.writeFileSync(path.join(outDir, gameplayRef.path), gameplayBytes, { flag: 'wx' });
 const nextManifestBytes = Buffer.from(JSON.stringify(next, null, 1) + (manifestBytes.toString('utf8').endsWith('\n') ? '\n' : ''));
 fs.writeFileSync(path.join(outDir, 'manifest.json'), nextManifestBytes, { flag: 'wx' });
 
@@ -927,8 +1034,8 @@ Object.assign(report, {
     points: graph.nodes.length + (['lanes', 'connectors', 'parking', 'footways'] as const).reduce((s, k) => s + graph[k].reduce((t, r) => t + r.points.length, 0), 0) },
   newCells: { cells: newCells.size, withLanes: new Set(graph.lanes.flatMap(l => l.points.filter(p => isNew(p[0], p[2])).map(p => cellOf(p[0], p[2])))).size,
     lanesTouching: graph.lanes.filter(l => inNewCells(l.points)).length },
-  supportedArea: { regions: supportedArea.regions.length, vertices, raster: { x0: X0, z0: Z0, width: W, height: H, probed, selectedParts }, droppedAreaBeyondRegionCap: droppedArea },
-  files: { linked, copied }, collisionLoads: probe.loads, seconds: (Date.now() - started) / 1000,
+  supportedArea: extended?.report ?? 'unchanged',
+  files: { linked, copied }, collisionLoads: probe.loads, baseMapBlockLoads: baseLoads, seconds: (Date.now() - started) / 1000,
 });
 fs.writeFileSync(`${outDir}.report.json`, JSON.stringify(report, null, 1) + '\n');
 log(`wrote ${outDir}: manifest ${report.manifestSha256}; ${linked} linked, ${copied} copied`);

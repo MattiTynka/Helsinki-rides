@@ -3,8 +3,8 @@ import {validateRoadGraph} from './roads.ts';
 
 /** Lossless delivery transport. Simulation and recording consumers still receive
  * the same schema2 RoadGraph with ordinary JS numbers and arrays. */
-export const MAX_PACKED_ROAD_BYTES=8_000_000;
-const MAX_LEGACY_BYTES=64*1024*1024,MAX_RECORDS=100_000,MAX_POINTS=333_333;
+export const MAX_PACKED_ROAD_BYTES=48_000_000;
+const MAX_LEGACY_BYTES=256*1024*1024,MAX_RECORDS=500_000,MAX_POINTS=2_000_000;
 const MAGIC='HROADS01',HEADER_BYTES=32;
 const GROUPS=['nodes','lanes','connectors','parking','footways']as const;
 type Group=typeof GROUPS[number];
@@ -27,21 +27,21 @@ export function encodePackedRoadGraph(graph:RoadGraph):Uint8Array{
  const intern=(s:string)=>{let i=indices.get(s);if(i===undefined){i=strings.length;indices.set(s,i);strings.push(s);}return i;};
  for(const kind of GROUPS){const fields=FIELDS[kind],rows=(graph[kind]as readonly any[]).map(record=>{const points=kind==='nodes'?[record.position]:record.points,start=xyz.length/3;for(const p of points)xyz.push(p[0],p[1],p[2]);return[...fields.map(field=>{const v=record[field];return STRINGS.has(field)?v===null?null:intern(v):Object.is(v,-0)?'-0':v;}),start,points.length];});groups[kind]={fields,rows};}
  const json=encoder.encode(JSON.stringify({schemaVersion:1,root:{schemaVersion:graph.schemaVersion,originId:graph.originId,source:graph.source},strings,groups})),offset=Math.ceil((HEADER_BYTES+json.length)/8)*8,total=offset+xyz.length*8;
- requireValue(total<=MAX_PACKED_ROAD_BYTES,'packed transport exceeds8MB');const bytes=new Uint8Array(total),view=new DataView(bytes.buffer);bytes.set(encoder.encode(MAGIC));view.setUint32(8,1,true);view.setUint32(12,json.length,true);view.setUint32(16,xyz.length/3,true);view.setUint32(20,0,true);view.setUint32(24,offset,true);view.setUint32(28,total,true);bytes.set(json,HEADER_BYTES);for(let i=0;i<xyz.length;i++)view.setFloat64(offset+i*8,xyz[i]!,true);return bytes;
+ requireValue(total<=MAX_PACKED_ROAD_BYTES,'packed transport exceeds48MB');const bytes=new Uint8Array(total),view=new DataView(bytes.buffer);bytes.set(encoder.encode(MAGIC));view.setUint32(8,1,true);view.setUint32(12,json.length,true);view.setUint32(16,xyz.length/3,true);view.setUint32(20,0,true);view.setUint32(24,offset,true);view.setUint32(28,total,true);bytes.set(json,HEADER_BYTES);for(let i=0;i<xyz.length;i++)view.setFloat64(offset+i*8,xyz[i]!,true);return bytes;
 }
 
 /** Input must first pass the manifest's stored/decoded size and SHA-256 checks.
  * This parser independently bounds structure before reconstructing any graph. */
 export function decodeRoadGraph(bytes:Uint8Array):RoadGraph{
- requireValue(bytes.length>0&&bytes.length<=MAX_LEGACY_BYTES,'input exceeds64MiB');
+ requireValue(bytes.length>0&&bytes.length<=MAX_LEGACY_BYTES,'input exceeds256MiB');
  if(!isPackedRoadGraph(bytes)){const value:unknown=JSON.parse(decoder.decode(bytes));safeJson(value);checkGraph(value);return value;}
- requireValue(bytes.length>=HEADER_BYTES&&bytes.length<=MAX_PACKED_ROAD_BYTES,'packed length exceeds8MB');const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength),jsonBytes=view.getUint32(12,true),count=view.getUint32(16,true),offset=view.getUint32(24,true);
+ requireValue(bytes.length>=HEADER_BYTES&&bytes.length<=MAX_PACKED_ROAD_BYTES,'packed length exceeds48MB');const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength),jsonBytes=view.getUint32(12,true),count=view.getUint32(16,true),offset=view.getUint32(24,true);
  requireValue(view.getUint32(8,true)===1&&view.getUint32(20,true)===0,'unsupported packed version/reserved bits');requireValue(count<=MAX_POINTS&&jsonBytes>0&&jsonBytes<=MAX_PACKED_ROAD_BYTES-HEADER_BYTES,'invalid header counts');requireValue(offset===Math.ceil((HEADER_BYTES+jsonBytes)/8)*8&&offset+count*24===bytes.length&&view.getUint32(28,true)===bytes.length,'truncated or overlapping packed ranges');for(let i=HEADER_BYTES+jsonBytes;i<offset;i++)requireValue(bytes[i]===0,'nonzero alignment padding');
  const header:unknown=JSON.parse(decoder.decode(bytes.subarray(HEADER_BYTES,HEADER_BYTES+jsonBytes)));keys(header,['schemaVersion','root','strings','groups'],'header');const h=header as any;requireValue(h.schemaVersion===1,'invalid header schema');keys(h.root,['schemaVersion','originId','source'],'root');safeJson(h.root);requireValue(Array.isArray(h.strings)&&h.strings.length<=MAX_RECORDS,'string dictionary count exceeded');for(const s of h.strings)requireValue(typeof s==='string'&&s.length<=4096,'invalid string dictionary');keys(h.groups,GROUPS,'groups');
  const graph:any={...h.root};let next=0,expandedBytes=encoder.encode(JSON.stringify(h.root)).length;
  for(const kind of GROUPS){const table=h.groups[kind];keys(table,['fields','rows'],`${kind} table`);requireValue(Array.isArray(table.fields)&&JSON.stringify(table.fields)===JSON.stringify(FIELDS[kind]),'unsupported table fields');requireValue(Array.isArray(table.rows)&&table.rows.length<=MAX_RECORDS,'row count exceeded');graph[kind]=[];for(const row of table.rows){const fields=FIELDS[kind];requireValue(Array.isArray(row)&&row.length===fields.length+2,'table row width');const start=row[fields.length],length=row[fields.length+1];requireValue(Number.isSafeInteger(start)&&start===next&&Number.isSafeInteger(length)&&length>0&&length<=count-next&&(!(kind==='nodes')||length===1),'invalid point interval');next+=length;
    const record:Record<string,unknown>={};for(let i=0;i<fields.length;i++){const field=fields[i]!,v=row[i];if(STRINGS.has(field)){requireValue(v===null&&field==='name'||Number.isSafeInteger(v)&&v>=0&&v<h.strings.length,'invalid string reference');record[field]=v===null?null:h.strings[v];}else{requireValue(v===null&&field==='heading'||v==='-0'||typeof v==='number'&&Number.isFinite(v),'invalid scalar');record[field]=v==='-0'?-0:v;}}
    const points:number[][]=[];for(let i=0;i<length;i++){const p=[0,1,2].map(k=>view.getFloat64(offset+(start+i)*24+k*8,true));requireValue(p.every(Number.isFinite),'nonfinite packed F64');points.push(p);}record[kind==='nodes'?'position':'points']=kind==='nodes'?points[0]:points;
-   expandedBytes+=encoder.encode(JSON.stringify(record)).length+1;requireValue(expandedBytes<=MAX_LEGACY_BYTES,'expanded graph exceeds64MiB');graph[kind].push(record);
+   expandedBytes+=encoder.encode(JSON.stringify(record)).length+1;requireValue(expandedBytes<=MAX_LEGACY_BYTES,'expanded graph exceeds256MiB');graph[kind].push(record);
  }}requireValue(next===count,'unclaimed packed points');checkGraph(graph);return graph;
 }
