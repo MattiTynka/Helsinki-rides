@@ -37,7 +37,7 @@ MAX_ARCHIVE_BYTES = 980_000_000
 MAX_EXTERNAL_WORLD_BYTES = 4_000_000_000
 MAX_EXTERNAL_ARCHIVE_BYTES = 2_000_000_000
 MAX_EXTERNAL_SHELL_BYTES = 20_000_000
-GAME_ORIGIN = 'https://mattitynka.github.io'
+GAME_ORIGIN = 'https://gptchatly.github.io'
 MAX_FILES = 10_000
 MAX_MANIFEST_BYTES = 8_000_000
 MAX_GAMEPLAY_BYTES = 8_000_000
@@ -51,11 +51,11 @@ EXTERNAL_DESCRIPTOR_KEYS = DESCRIPTOR_KEYS | frozenset({
     'archiveBudgetBytes', 'shellBudgetBytes',
 })
 GITHUB_RAW_DESCRIPTOR_KEYS = EXTERNAL_DESCRIPTOR_KEYS | {'deliveryProvider'}
-WORLD_BASE_URL = 'https://mattitynka.github.io/Helsinki-rides/world/'
+WORLD_BASE_URL = 'https://gptchatly.github.io/Helsinki-rides/world/'
 DIGEST = re.compile(r'[0-9a-f]{64}\Z')
 RELEASE = re.compile(r'[A-Za-z0-9][A-Za-z0-9._-]{0,95}\Z')
 ARCHIVE_URL = re.compile(
-    r'https://github\.com/MattiTynka/Helsinki-rides/releases/download/'
+    r'https://github\.com/GPTchatly/Helsinki-rides/releases/download/'
     r'[A-Za-z0-9][A-Za-z0-9._-]{0,95}/pages-world\.tar\.gz\Z'
 )
 SAFE_SEGMENT = re.compile(r'[A-Za-z0-9][A-Za-z0-9._-]*\Z')
@@ -849,7 +849,7 @@ def stage(descriptor_path: Path, archive: Path, output: Path, source_sha: str,
         if external:
             validate_privacy(world, inventory)
         receipt = {
-            'schemaVersion': 1, 'repository': 'MattiTynka/Helsinki-rides',
+            'schemaVersion': 1, 'repository': 'GPTchatly/Helsinki-rides',
             'sourceCommit': source_sha, 'descriptorSha256': descriptor_sha,
             'worldRelease': descriptor['worldRelease'], 'worldBaseUrl': descriptor['worldBaseUrl'],
             'manifestSha256': descriptor['manifestSha256'],

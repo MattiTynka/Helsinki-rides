@@ -9,9 +9,9 @@
   "schemaVersion": 3,
   "deliveryProvider": "github-raw",
   "worldOrigin": "https://raw.githubusercontent.com",
-  "worldBaseUrl": "https://raw.githubusercontent.com/MattiTynka/Helsinki-rides/4399d86bfa1c5054dad6ef7490f332be6f2d3741/world/",
-  "corsOrigin": "https://mattitynka.github.io",
-  "archiveUrl": "https://github.com/MattiTynka/Helsinki-rides/releases/download/live-roads-20261101/pages-world.tar.gz",
+  "worldBaseUrl": "https://raw.githubusercontent.com/GPTchatly/Helsinki-rides/2fe1c7c4f7b23c68cea58f5d04934cf25c87946b/world/",
+  "corsOrigin": "https://gptchatly.github.io",
+  "archiveUrl": "https://github.com/GPTchatly/Helsinki-rides/releases/download/live-roads-20261101/pages-world.tar.gz",
   "archiveSha256": "ebcc36f2ca4296453d88c27c1f59230069bf35812eedc042ad0a6c674e78fc6c",
   "archiveBytes": 1130609959
 }

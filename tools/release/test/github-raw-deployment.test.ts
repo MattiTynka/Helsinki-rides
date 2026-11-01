@@ -3,7 +3,7 @@ import {test} from 'node:test';
 import {basisDecoderUrl,createWorldDeployment,selectedRelease,worldReleaseUrl} from '../../../apps/game/src/world/urls.ts';
 
 test('GitHub raw pinned data URLs retain commit identity while executable decoders remain on Pages',()=>{
-  const root=`https://raw.githubusercontent.com/MattiTynka/Helsinki-rides/${'a'.repeat(40)}/world/`;
+  const root=`https://raw.githubusercontent.com/GPTchatly/Helsinki-rides/${'a'.repeat(40)}/world/`;
   const deployment=createWorldDeployment({appBase:'/Helsinki-rides/',pages:true,requirePinned:true,
     worldBaseUrl:root,release:'central-fixture',manifestSha256:'b'.repeat(64)});
   assert.equal(selectedRelease(deployment,'another-release'),'central-fixture');

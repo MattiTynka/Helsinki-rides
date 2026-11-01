@@ -126,7 +126,7 @@ class PagesWorldTest(unittest.TestCase):
         self.descriptor = {
             'schemaVersion': 1, 'worldRelease': self.release,
             'manifestSha256': sha(manifest_data), 'worldBaseUrl': pages.WORLD_BASE_URL,
-            'archiveUrl': 'https://github.com/MattiTynka/Helsinki-rides/releases/download/pages-test/pages-world.tar.gz',
+            'archiveUrl': 'https://github.com/GPTchatly/Helsinki-rides/releases/download/pages-test/pages-world.tar.gz',
             'archiveSha256': sha(stream.getvalue()), 'archiveBytes': len(stream.getvalue()),
             'worldBytes': sum(len(data) for name, data, kind in members if kind == tarfile.REGTYPE),
         }

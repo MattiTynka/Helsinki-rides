@@ -56,7 +56,7 @@ PUBLIC_HANDLE = 'MattiTynka'
 PUBLIC_EMAIL = PUBLIC_HANDLE + '@users.noreply.github.com'
 PUBLIC_AUTHOR_NAMES = {PUBLIC_HANDLE, 'Matti Tynka'}
 PUBLIC_DISPLAY_NAME = 'Matti Tynk\u00e4'
-PUBLIC_IDENTITIES = {(author, PUBLIC_EMAIL) for author in PUBLIC_AUTHOR_NAMES} | {(PUBLIC_DISPLAY_NAME, '')}
+PUBLIC_IDENTITIES = {(author, PUBLIC_EMAIL) for author in PUBLIC_AUTHOR_NAMES} | {(PUBLIC_DISPLAY_NAME, ''), ('GPTchatly', '')}
 OMIT_FILES = {f'content/assets/facades/estates/DSC{number}.jpg' for number in ('05064', '05070', '05072')}
 PATTERNS = {
     'personal-home-path': re.compile(r'(?:[A-Za-z]:[\\/]+(?:Users|Documents and Settings)[\\/]+|/(?:Users|home)/)[^\s"<>]+', re.I),

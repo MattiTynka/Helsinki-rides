@@ -24,7 +24,7 @@ def module(name, filename):
 prepare = module('test_raw_prepare', 'prepare-github-raw-world.py')
 verify = module('test_raw_verify', 'verify-github-raw-world.py')
 pages, raw = prepare.pages, prepare.raw
-BASE = raw.ORIGIN + '/MattiTynka/Helsinki-rides/' + 'a' * 40 + '/world/'
+BASE = raw.ORIGIN + '/GPTchatly/Helsinki-rides/' + 'a' * 40 + '/world/'
 
 
 class Response(io.BytesIO):
@@ -66,7 +66,7 @@ class GithubRawWorldTest(unittest.TestCase):
         for mutation in [{'schemaVersion': 2}, {'deliveryProvider': 'other'}, {'corsOrigin': '*'},
                          {'worldBaseUrl': BASE.replace('a' * 40, 'main')},
                          {'worldBaseUrl': BASE.replace('a' * 40, 'a' * 39)},
-                         {'worldBaseUrl': BASE.replace('MattiTynka', 'another')},
+                         {'worldBaseUrl': BASE.replace('GPTchatly', 'another')},
                          {'worldBaseUrl': BASE.replace('/world/', '/source/')},
                          {'worldBaseUrl': BASE + '../'}, {'worldBaseUrl': BASE + '?x=1'},
                          {'worldBaseUrl': BASE.replace('a' * 40, 'A' * 40)}]:

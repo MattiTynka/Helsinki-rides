@@ -10,14 +10,14 @@ export function productionWorldBinding(input: {
   const page = new URL(input.pageUrl);
   assert.ok(!page.username && !page.password && !page.search && !page.hash, 'Use an ordinary application URL without credentials, query or fragment');
   const local = ['localhost', '127.0.0.1'].includes(page.hostname) && ['http:', 'https:'].includes(page.protocol);
-  const live = input.allowLive === true && page.href === 'https://mattitynka.github.io/Helsinki-rides/';
+  const live = input.allowLive === true && page.href === 'https://gptchatly.github.io/Helsinki-rides/';
   assert.ok(local || live, 'Only loopback or the explicitly selected Helsinki Rides live page may be verified');
   const release = validateReleaseId(input.release);
   let worldBase = new URL('world/', page).href;
   if (input.worldBaseUrl !== undefined) {
     worldBase = validateWorldBaseUrl(input.worldBaseUrl);
-    assert.ok(worldBase === 'https://mattitynka.github.io/Helsinki-rides/world/' ||
-      /^https:\/\/raw\.githubusercontent\.com\/MattiTynka\/Helsinki-rides\/[a-f0-9]{40}\/world\/$/.test(worldBase),
+    assert.ok(worldBase === 'https://gptchatly.github.io/Helsinki-rides/world/' ||
+      /^https:\/\/raw\.githubusercontent\.com\/GPTchatly\/Helsinki-rides\/[a-f0-9]{40}\/world\/$/.test(worldBase),
     'World base must use the reviewed Pages or commit-pinned GitHub raw provider');
   }
   const releaseBase = `${worldBase}${release}/`;

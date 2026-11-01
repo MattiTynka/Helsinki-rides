@@ -5,7 +5,7 @@ import re
 
 PROVIDER = 'github-raw'
 ORIGIN = 'https://raw.githubusercontent.com'
-BASE = re.compile(r'https://raw\.githubusercontent\.com/MattiTynka/Helsinki-rides/([0-9a-f]{40})/world/\Z')
+BASE = re.compile(r'https://raw\.githubusercontent\.com/GPTchatly/Helsinki-rides/([0-9a-f]{40})/world/\Z')
 MAX_FILE_BYTES = 100 * 1024 * 1024
 # Conservative decimal limit, also below 2 GiB. This applies to measured Git pack bytes.
 MAX_PUSH_BYTES = 2_000_000_000
