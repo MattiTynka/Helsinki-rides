@@ -1,13 +1,16 @@
 // Live city cell worker (docs/live-kartta-cells-plan-2026-10-30.md): fetches the City of Helsinki's terrain, building
 // footprints, street parts, water mask and textured LoD2 tiles from kartta.hel.fi and converts them into a square's
-// collision and visual payloads off the main thread. A collision job never fails: when a source stays unavailable
-// after retries it answers an empty bundle. Created by live-source.ts as a module worker.
+// collision and visual payloads off the main thread. Squares the release's static base map covers (hybrid live cells)
+// take their collision and ground, bridges included, from the base map instead; only their LoD2 buildings stream. A
+// collision job never fails: when a source stays unavailable after retries it answers an empty bundle. Created by
+// live-source.ts as a module worker.
 import { cellId } from '@helsinki/world-schema';
 import {
   LIVE_GROUND_QUADS, LIVE_GROUND_STEP, LIVE_SOURCES,
   type GeoJsonFeatureCollection, type LiveCellSourceInit, type LiveCollisionResult, type LiveVisualResult, type TerrainTileAddress,
 } from './contract.ts';
-import { buildCollisionCell, emptyCollisionCell } from './convert/collision-cell.ts';
+import { assembleBaseSquare, buildCollisionCell, emptyCollisionCell } from './convert/collision-cell.ts';
+import { BaseMapSource } from './base-map-source.ts';
 import { cellParts, convertTile, type ConvertedTile } from './convert/buildings.ts';
 import { squareGeodeticBox } from './convert/projection.ts';
 import { decodeQuantizedMesh, sampleLattice, terrainTileAddresses, type QuantizedTile } from './convert/terrain.ts';
@@ -43,6 +46,7 @@ interface Session {
   readonly staticBuildings: ReadonlySet<string>;
   readonly staticVtj: ReadonlySet<string>;
   readonly context: number;
+  readonly baseMap: BaseMapSource | null;
 }
 
 let session: Session | null = null;
@@ -224,6 +228,7 @@ function isStaticSquare(cx: number, cz: number): boolean { return session!.stati
 async function collisionJob(req: number, cx: number, cz: number, overrides: Float32Array | null, signal: AbortSignal): Promise<void> {
   const s = session!, id = cellId(cx, cz), fingerprint = cellFingerprint(s.context, overrides);
   try {
+    if (await baseMapJob(req, cx, cz, signal)) return;
     const v = await abortable(sourceVersions(), signal);
     const key = liveCacheKey(v, id);
     const hit = await readLiveCollision(key, fingerprint);
@@ -264,6 +269,24 @@ async function collisionJob(req: number, cx: number, cz: number, overrides: Floa
       post({ type: 'collision', req, result, cached: false, net: netStats() }, [result.hcol]);
     } catch (inner) { fail(req, errorMessage(inner), false); }
   }
+}
+
+/** Answers from the static base map when it covers the square; false leaves the square to the live sources. */
+async function baseMapJob(req: number, cx: number, cz: number, signal: AbortSignal): Promise<boolean> {
+  const s = session!, id = cellId(cx, cz);
+  if (!s.baseMap) return false;
+  let square;
+  try { square = await abortable(s.baseMap.square(cx, cz, signal), signal); }
+  catch (error) {
+    if (signal.aborted) throw error;
+    note(`${id} base map: ${errorMessage(error)}`);
+    return false;
+  }
+  if (!square) return false;
+  const out = assembleBaseSquare(id, s.init.originId, s.init.origin, square);
+  const result: LiveCollisionResult = { id, hcol: out.hcol, ground: out.ground, empty: false };
+  post({ type: 'collision', req, result, cached: true, net: netStats() }, collisionArrays(result));
+  return true;
 }
 
 function collisionArrays(result: LiveCollisionResult): ArrayBufferView[] {
@@ -327,6 +350,7 @@ function handle(message: LiveWorkerRequest): void {
         init, liveVersion: message.liveVersion,
         staticCells: new Set(init.staticCellIds), staticBuildings: new Set(init.staticBuildingIds), staticVtj: new Set(init.staticVtj),
         context: contextFingerprint(init),
+        baseMap: init.baseMapUrl ? new BaseMapSource(init.baseMapUrl, init.originId, init.staticCellIds, note) : null,
       };
       post({ type: 'ready', net: netStats() });
       return;

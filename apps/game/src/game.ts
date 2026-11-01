@@ -23,6 +23,7 @@ import { CollisionStream } from './world/collision-stream.ts';
 import { LiveCellSource } from './world/live/live-source.ts';
 import { LiveRecording } from './world/live/recording.ts';
 import { LiveVisuals } from './world/live/live-visuals.ts';
+import { loadDropInPlaces } from './world/live/places.ts';
 import { resolveDropInTarget } from './world/drop-in.ts';
 import { CellVisualStream, missingVisualCoverage, type StreamFocus } from './world/cell-streaming.ts';
 import { i18n } from './i18n/index.ts';
@@ -92,6 +93,8 @@ export class Game {
   readonly collision: CollisionStream | null;
   /** Null with `?live=0` or `?collision=all`. */
   readonly live: LiveCells | null;
+  /** Drop-in places beyond the release's landmarks and addresses (the base map's districts and streets), by option value. */
+  private readonly dropInPlaces = new Map<string, readonly [number, number]>();
   readonly liveVisuals: LiveVisuals | null;
   get liveSource(): LiveCellSource | null { return this.live?.source ?? null; }
   get liveRecording(): LiveRecording | null { return this.live?.recording ?? null; }
@@ -298,6 +301,7 @@ export class Game {
     }
     mark('helsinki:visuals-ready');
     const game = new Game(config, data, world, scene, loader, assets, canvas, streaming, collision, effects, shadowMaterial, live, liveVisuals);
+    if (live) game.addDropInPlaces(Game.baseMapUrl(data));
     // Everything in the scene at spawn (cells, scenery, coastal water, landmarks, the player and the actors synced
     // so far) is uploaded and compiled before Play, with the deferred actors loading and preparing alongside.
     const deferred = game.loadDeferredAssets();
@@ -353,11 +357,31 @@ export class Game {
     return world;
   }
 
+  /** The release's static base map (ground and bridges of the live squares, drop-in places) lives beside its manifest. */
+  private static baseMapUrl(data: WorldData): string {
+    return new URL('basemap/', new URL(data.base, globalThis.location?.href)).href;
+  }
+
+  /** The base map's districts and streets join the drop-in menu when they arrive; without them the menu stays as it is. */
+  private addDropInPlaces(baseMapUrl: string): void {
+    loadDropInPlaces(baseMapUrl).then(districts => {
+      this.hud.addDropInGroups(districts.map((d, i) => {
+        const options = [d, ...d.areas, ...d.streets].map((p, j) => {
+          const value = `place:${i}:${j}`;
+          this.dropInPlaces.set(value, p.position);
+          return { value, text: p.name };
+        });
+        return { label: d.name, options };
+      }));
+    }, error => console.warn('Drop-in places unavailable', error));
+  }
+
   private static liveCells(data: WorldData): LiveCells {
     const cells = data.manifest.cells, buildings = cells.flatMap(cell => cell.buildings);
     const ids = cells.map(cell => cell.id);
+    const baseMapUrl = Game.baseMapUrl(data);
     const source = new LiveCellSource({ origin: data.manifest.origin.originProjected, originId: data.manifest.origin.id, staticCellIds: ids,
-      staticBuildingIds: buildings.map(b => b.id), staticVtj: buildings.flatMap(b => [b.vtj, b.registerId].filter((v): v is string => !!v)) });
+      staticBuildingIds: buildings.map(b => b.id), staticVtj: buildings.flatMap(b => [b.vtj, b.registerId].filter((v): v is string => !!v)), baseMapUrl });
     return { grid: new LiveGrid(ids), source, recording: __CAPTURE_REPLAY__ ? new LiveRecording() : null };
   }
 
@@ -743,7 +767,8 @@ export class Game {
   dropIn(label: string): void | Promise<void> {
     const g = this.data.gameplay;
     const entry = g.landmarks.find(l => l.label === label) ?? g.addresses.find(a => a.label === label);
-    if (!entry) return;
+    const place = this.dropInPlaces.get(label);
+    if (!entry) return place && this.teleport(place[0], place[1]);
     return this.teleport(entry.position[0], entry.position[1], entry.headingDeg);
   }
 

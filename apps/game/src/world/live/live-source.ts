@@ -2,13 +2,13 @@
 // simulation consumed them (replays depend on it): memoized, shared by concurrent callers, and never a rejection except
 // on abort, since a square whose sources stay unavailable gets an empty bundle. Visual payloads are built on request. edgeOverrides pins
 // live ground to the release terrain where a live square meets a static one.
-import { LIVE_VERSION, type LiveGrid } from '@helsinki/sim';
-import { cellId, sampleTerrain, type TerrainGrid } from '@helsinki/world-schema';
+import { LIVE_VERSION } from '@helsinki/sim';
+import { cellId } from '@helsinki/world-schema';
 import {
-  LIVE_GROUND_N, LIVE_GROUND_STEP,
   type LiveCellSourceInit, type LiveCollisionResult, type LiveGroundVisual, type LiveSourceStats, type LiveVisualResult,
 } from './contract.ts';
 import { emptyCollisionCell } from './convert/collision-cell.ts';
+export { edgeOverrides } from './convert/terrain.ts';
 import { abortError, errorMessage, Lru, SharedRuns, type LiveNetStats } from './live-net.ts';
 import type { LiveWorkerRequest, LiveWorkerResponse } from './live-worker.ts';
 
@@ -207,34 +207,4 @@ export class LiveCellSource {
     this.errors.push(message);
     if (this.errors.length > 8) this.errors.splice(0, this.errors.length - 8);
   }
-}
-
-/**
- * Release ground heights for a live square's lattice points that lie on an edge or corner shared with a static square
- * and inside the release terrain grid; NaN elsewhere. Null when no point qualifies. sampleLattice uses them in place of
- * the city terrain so live ground meets the release ground without a step.
- */
-export function edgeOverrides(grid: LiveGrid, terrain: TerrainGrid, cx: number, cz: number): Float32Array | null {
-  const N = LIVE_GROUND_N, last = N - 1, size = last * LIVE_GROUND_STEP, eps = 1e-6;
-  const points: number[] = [];
-  const edge = (from: number, step: number) => { for (let i = 0; i < N; i++) points.push(from + i * step); };
-  // z grows southward: iz = 0 is the north edge.
-  if (grid.isStatic(cx - 1, cz)) edge(0, N);
-  if (grid.isStatic(cx + 1, cz)) edge(last, N);
-  if (grid.isStatic(cx, cz - 1)) edge(0, 1);
-  if (grid.isStatic(cx, cz + 1)) edge(last * N, 1);
-  if (grid.isStatic(cx - 1, cz - 1)) points.push(0);
-  if (grid.isStatic(cx + 1, cz - 1)) points.push(last);
-  if (grid.isStatic(cx - 1, cz + 1)) points.push(last * N);
-  if (grid.isStatic(cx + 1, cz + 1)) points.push(last * N + last);
-  const x1 = terrain.x0 + (terrain.nx - 1) * terrain.resolution, z1 = terrain.z0 + (terrain.nz - 1) * terrain.resolution;
-  let out: Float32Array | null = null;
-  for (const i of points) {
-    const ix = i % N, iz = (i - ix) / N;
-    const x = cx * size + ix * LIVE_GROUND_STEP, z = cz * size + iz * LIVE_GROUND_STEP;
-    if (x < terrain.x0 - eps || x > x1 + eps || z < terrain.z0 - eps || z > z1 + eps) continue;
-    out ??= new Float32Array(N * N).fill(Number.NaN);
-    out[i] = sampleTerrain(terrain, x, z);
-  }
-  return out;
 }

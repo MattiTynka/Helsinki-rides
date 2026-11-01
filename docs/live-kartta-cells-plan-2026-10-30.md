@@ -153,6 +153,26 @@ This runs in a worker and must be deterministic.
   - Keep this separate from the service worker, whose allow-list covers only the world host.
 - **Attribution.** The credits already list the same City of Helsinki sources under CC BY 4.0. Add "streamed from kartta.hel.fi/3d".
 
+### 7. Hybrid: static base map, live buildings (owner decision, 30 October)
+
+Only the LoD2 building models stream from kartta.hel.fi/3d. Everything else a live square needs is a static base map published beside the release manifest (`basemap/`):
+- terrain heights in centimetre steps;
+- water, and the street and green classes of every ground quad;
+- building collision prisms;
+- bridge decks.
+
+- **Builder.** `tools/world/build_base_map.ts` derives each square with the same converter the worker uses. It writes gzip blocks of 8 × 8 squares plus `index.json`, which records each block's SHA-256 and the hash of the release's static cell ids. The builder resumes where it stopped.
+- **Runtime.** The worker builds a covered square's HCOL and ground from its block, with no request to the city. Squares the base map lacks, or a base map built for other cells, fall back to the live sources.
+- **Bridge parts.** Decks come from the street and green parts register:
+  - every part of main type `Silta`;
+  - every part of a street area named "…silta" or "…sillat", such as Lauttasaarensilta and Kulosaaren silta.
+- **Deck shape.**
+  - Touching parts form one bridge.
+  - The deck is one plane, fitted along the bridge's principal axis through the median approach-terrain heights at its two ends. A bridge with only one anchored end gets a level deck.
+  - Deck quads follow the 2 m ground grid. Ground within 2.5 m below a deck, or above it, is cut away.
+  - The visual hangs a 1.2 m slab edge under open deck edges.
+- **Not covered.** Bridges inside release cells, such as Crusellinsilta, are untouched. Arched decks are flat between their ends.
+
 ## What live cells will not have
 
 - **Bridges.** The terrain model is bare earth and has no bridge decks. Snow cannot cross to Lauttasaari and falls into the water. The release world's bridges were rebuilt by hand.

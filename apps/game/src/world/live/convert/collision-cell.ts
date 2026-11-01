@@ -1,13 +1,16 @@
 // Live collision cell (docs/live-kartta-cells-plan-2026-10-30.md, section 3): one live square's HCOL v2 bundle and its
 // ground mesh. Ground is the sampled 2 m terrain lattice without water and no-data quads, each quad tagged by the street
 // and green parts register polygon under its centre. Buildings are register footprints owned by the square (footprint
-// centroid), clipped to the square grown by the live margin and extruded into prisms from their storey counts. Pure,
-// browser-safe and deterministic: the same input gives byte-identical output, so a session and its replay agree.
+// centroid), clipped to the square grown by the live margin and extruded into prisms from their storey counts. A static
+// base map square (tools/world/build_base_map.ts) stores the derived quads and prisms plus its bridge decks, and is
+// assembled here the same way. Pure, browser-safe and deterministic: the same input gives byte-identical output, so a
+// session and its replay agree.
 import { ShapeUtils, Vector2 } from 'three';
 import { encodeCollisionBundle, type TriMeshCollider } from '@helsinki/world-schema';
 import {
-  LIVE_GROUND_COLLIDER_ID, LIVE_GROUND_N, LIVE_GROUND_QUADS, LIVE_GROUND_STEP, LIVE_SURFACE_TAGS,
-  type CollisionCellInput, type CollisionCellOutput, type GeoJsonFeature, type GeoJsonFeatureCollection, type LiveGroundVisual, type LiveSurface, type Origin,
+  LIVE_GROUND_COLLIDER_ID, LIVE_GROUND_N, LIVE_GROUND_QUADS, LIVE_GROUND_STEP, LIVE_SURFACE_ORDER, LIVE_SURFACE_TAGS, QUAD_HOLE, QUAD_WATER,
+  type BaseSquare, type CollisionCellInput, type CollisionCellOutput, type GeoJsonFeature, type GeoJsonFeatureCollection, type LiveDeck, type LiveGroundVisual,
+  type LivePrism, type LiveSurface, type Origin,
 } from '../contract.ts';
 
 const N = LIVE_GROUND_N, Q = LIVE_GROUND_QUADS, STEP = LIVE_GROUND_STEP, SQUARE = Q * STEP;
@@ -16,9 +19,12 @@ const MARGIN = 32;
 /** Collider Y of lattice points without terrain data; no kept triangle uses them. */
 const NO_DATA_Y = -50;
 const FRAME = 'X-east,Y-up,Z-south' as const;
-/** Ground surfaces in tag order; where register polygons overlap, the lower index wins. */
-const SURFACES: readonly LiveSurface[] = ['road', 'walk', 'green', 'yard'];
+const SURFACES = LIVE_SURFACE_ORDER;
 const YARD = 3, WALL = 4, ROOF = 5;
+/** Id of a base map square's bridge deck collider. */
+export const LIVE_DECK_COLLIDER_ID = 'live-deck';
+/** Depth of the slab edge drawn below an open deck edge (visual only), and its ground class (walk). */
+const SLAB = 1.2, SLAB_SURFACE = 1;
 const SURFACE_TAGS: readonly string[] = [...SURFACES.map(s => LIVE_SURFACE_TAGS[s]), 'wall', 'roof'];
 /** Prism height: storeys × 3.2 m + 2 m above the lowest ground, 9 m without a storey count; the base sinks 0.5 m. */
 // The base sinks deep: margin parts take clamped edge heights, so on a downhill neighbour a shallow base would float.
@@ -59,9 +65,58 @@ export function classifyStreetPart(properties: Readonly<Record<string, unknown>>
 
 /** One live square's HCOL bytes (ground first, then one prism collider per owned building) and its ground mesh. */
 export function buildCollisionCell(input: CollisionCellInput): CollisionCellOutput {
+  return assembleSquare(input.id, input.originId, input.origin, { cx: input.cx, cz: input.cz, ...deriveSquare(input), deck: null });
+}
+
+/** A square's ground quads (water, holes without terrain data, else the register class) and its building prisms. */
+export function deriveSquare(input: CollisionCellInput): { heights: Float32Array; quads: Int8Array; prisms: LivePrism[] } {
   const { cx, cz, origin, heights, waterMask } = input;
   if (heights.length !== N * N) throw new Error(`${input.id}: ${heights.length} lattice heights, expected ${N * N}`);
   if (waterMask && waterMask.length !== Q * Q) throw new Error(`${input.id}: water mask holds ${waterMask.length} quads, expected ${Q * Q}`);
+  const gx0 = cx * SQUARE, gz0 = cz * SQUARE;
+  const streets = streetPolygons(input.streetParts, origin, [gx0, gz0, gx0 + SQUARE, gz0 + SQUARE]);
+  const quads = new Int8Array(Q * Q);
+  for (let iz = 0; iz < Q; iz++) for (let ix = 0; ix < Q; ix++) {
+    const q = iz * Q + ix, i = iz * N + ix;
+    if (waterMask && waterMask[q] !== 0) quads[q] = QUAD_WATER;
+    else if (Number.isNaN(heights[i]!) || Number.isNaN(heights[i + 1]!) || Number.isNaN(heights[i + N]!) || Number.isNaN(heights[i + N + 1]!)) quads[q] = QUAD_HOLE;
+    else quads[q] = surfaceAt(streets, gx0 + ix * STEP + STEP / 2, gz0 + iz * STEP + STEP / 2);
+  }
+  return { heights, quads, prisms: buildingPrisms(input, gx0, gz0) };
+}
+
+/** A base map square's collision and ground: land assembles as a live square; open sea is flat water without colliders. */
+export function assembleBaseSquare(id: string, originId: string, origin: Origin, square: BaseSquare): CollisionCellOutput {
+  if (square.kind === 'land' && square.heights && square.quads) {
+    return assembleSquare(id, originId, origin, { cx: square.cx, cz: square.cz, heights: square.heights, quads: square.quads, prisms: square.prisms, deck: square.deck });
+  }
+  const hcol = emptyCollisionCell(id, originId);
+  if (square.kind !== 'water') return { hcol, ground: null, buildings: 0 };
+  const gx0 = square.cx * SQUARE, gz0 = square.cz * SQUARE, sea = 0 - origin[2];
+  const positions = new Float32Array(N * N * 3), normals = new Float32Array(N * N * 3);
+  for (let i = 0; i < N * N; i++) {
+    positions[i * 3] = gx0 + (i % N) * STEP;
+    positions[i * 3 + 1] = sea;
+    positions[i * 3 + 2] = gz0 + Math.floor(i / N) * STEP;
+    normals[i * 3 + 1] = 1;
+  }
+  const ground: LiveGroundVisual = { positions, normals, classes: [], water: waterMesh(new Int8Array(Q * Q).fill(QUAD_WATER), gx0, gz0, sea) };
+  return { hcol, ground, buildings: 0 };
+}
+
+interface AssemblyInput {
+  readonly cx: number;
+  readonly cz: number;
+  readonly heights: Float32Array;
+  readonly quads: Int8Array;
+  readonly prisms: readonly LivePrism[];
+  readonly deck: LiveDeck | null;
+}
+
+/** HCOL bytes (ground, bridge decks, then one prism collider per building) and the ground mesh of one square. */
+function assembleSquare(id: string, originId: string, origin: Origin, square: AssemblyInput): CollisionCellOutput {
+  const { cx, cz, heights, quads } = square;
+  if (heights.length !== N * N || quads.length !== Q * Q) throw new Error(`${id}: ${heights.length} heights and ${quads.length} quads`);
   const gx0 = cx * SQUARE, gz0 = cz * SQUARE;
 
   const lattice = new Float32Array(N * N * 3);
@@ -72,16 +127,11 @@ export function buildCollisionCell(input: CollisionCellInput): CollisionCellOutp
     lattice[i * 3 + 2] = gz0 + iz * STEP;
   }
 
-  const streets = streetPolygons(input.streetParts, origin, [gx0, gz0, gx0 + SQUARE, gz0 + SQUARE]);
-  const quadSurface = new Int8Array(Q * Q).fill(-1);
   const counts = [0, 0, 0, 0];
   let kept = 0;
-  for (let iz = 0; iz < Q; iz++) for (let ix = 0; ix < Q; ix++) {
-    const q = iz * Q + ix, i = iz * N + ix;
-    if (waterMask && waterMask[q] !== 0) continue;
-    if (Number.isNaN(heights[i]!) || Number.isNaN(heights[i + 1]!) || Number.isNaN(heights[i + N]!) || Number.isNaN(heights[i + N + 1]!)) continue;
-    const s = surfaceAt(streets, gx0 + ix * STEP + STEP / 2, gz0 + iz * STEP + STEP / 2);
-    quadSurface[q] = s;
+  for (let q = 0; q < Q * Q; q++) {
+    const s = quads[q]!;
+    if (s < 0) continue;
     counts[s] = counts[s]! + 1;
     kept++;
   }
@@ -91,7 +141,7 @@ export function buildCollisionCell(input: CollisionCellInput): CollisionCellOutp
   const classIndices = counts.map(c => new Uint32Array(c * 6)), classFill = [0, 0, 0, 0];
   let t = 0;
   for (let q = 0; q < Q * Q; q++) {
-    const s = quadSurface[q]!;
+    const s = quads[q]!;
     if (s < 0) continue;
     const i = Math.floor(q / Q) * N + (q % Q);
     const tri = [i, i + N, i + 1, i + 1, i + N, i + N + 1] as const;
@@ -102,22 +152,118 @@ export function buildCollisionCell(input: CollisionCellInput): CollisionCellOutp
     classFill[s] = classFill[s]! + 6;
     t++;
   }
-  const groundCollider: TriMeshCollider = { id: LIVE_GROUND_COLLIDER_ID, group: 'ground', ref: null, positions: lattice, indices, triangleTags };
+  const colliders: TriMeshCollider[] = [{ id: LIVE_GROUND_COLLIDER_ID, group: 'ground', ref: null, positions: lattice, indices, triangleTags }];
+  const deck = square.deck ? deckMesh(square.deck, gx0, gz0) : null;
+  if (deck) colliders.push({ id: LIVE_DECK_COLLIDER_ID, group: 'ground', ref: null, positions: deck.positions, indices: deck.indices, triangleTags: deck.tags });
+  let buildings = 0;
+  for (const p of square.prisms) {
+    const mesh = prism(p.polygons, p.base, p.top);
+    if (mesh) colliders.push({ id: `lb${buildings++}`, group: 'buildings', ref: p.ref, ...mesh });
+  }
 
-  const buildings = buildingColliders(input, gx0, gz0);
-  const hcol = encodeCollisionBundle({ originId: input.originId, frame: FRAME, cell: input.id, surfaceTags: SURFACE_TAGS }, [groundCollider, ...buildings]);
-  const ground: LiveGroundVisual = {
+  const hcol = encodeCollisionBundle({ originId, frame: FRAME, cell: id, surfaceTags: SURFACE_TAGS }, colliders);
+  const water = waterMesh(quads, gx0, gz0, 0 - origin[2]);
+  let ground: LiveGroundVisual = {
     positions: lattice.slice(),
     normals: latticeNormals(heights),
     classes: SURFACES.flatMap((surface, s) => (counts[s] ? [{ surface, indices: classIndices[s]! }] : [])),
-    water: waterMesh(waterMask, gx0, gz0, 0 - origin[2]),
+    water,
   };
-  return { hcol, ground, buildings: buildings.length };
+  if (deck) ground = withDeck(ground, classIndices, deck);
+  return { hcol, ground, buildings };
 }
 
-/** A valid HCOL v2 bundle without colliders: a live square whose sources stayed unavailable. */
+/** A valid HCOL v2 bundle without colliders: a live square whose sources stayed unavailable, or open sea. */
 export function emptyCollisionCell(id: string, originId: string): Uint8Array {
   return encodeCollisionBundle({ originId, frame: FRAME, cell: id, surfaceTags: SURFACE_TAGS }, []);
+}
+
+// ---- bridge decks
+
+interface DeckMesh {
+  readonly positions: Float32Array;
+  readonly indices: Uint32Array;
+  readonly tags: Uint16Array;
+  /** Per vertex, +Y unit normal of its plane. */
+  readonly normals: Float32Array;
+  /** Per surface class, deck triangle indices into positions. */
+  readonly classes: readonly number[][];
+  /** Slab edge quads: top corners a, b (deck vertex indices) and the outward XZ normal. */
+  readonly edges: readonly { readonly a: number; readonly b: number; readonly nx: number; readonly nz: number }[];
+}
+
+/** Deck quads as a welded grid per plane (same diagonal as the ground), and the slab edges where a deck ends inside the square. */
+function deckMesh(deck: LiveDeck, gx0: number, gz0: number): DeckMesh | null {
+  if (deck.quads.length !== Q * Q || deck.surfaces.length !== Q * Q) throw new Error(`deck holds ${deck.quads.length} quads`);
+  const planes = deck.planes.length / 3;
+  const vertexOf = new Map<number, number>();
+  const pos: number[] = [], nor: number[] = [], idx: number[] = [], tags: number[] = [];
+  const classes: number[][] = SURFACES.map(() => []);
+  const vertex = (ix: number, iz: number, p: number): number => {
+    const key = (iz * N + ix) * planes + p;
+    let v = vertexOf.get(key);
+    if (v === undefined) {
+      const a = deck.planes[p * 3]!, bx = deck.planes[p * 3 + 1]!, bz = deck.planes[p * 3 + 2]!;
+      const x = gx0 + ix * STEP, z = gz0 + iz * STEP;
+      v = pos.length / 3;
+      pos.push(x, a + bx * x + bz * z, z);
+      const len = Math.sqrt(bx * bx + 1 + bz * bz);
+      nor.push(-bx / len, 1 / len, -bz / len);
+      vertexOf.set(key, v);
+    }
+    return v;
+  };
+  const edges: { a: number; b: number; nx: number; nz: number }[] = [];
+  const plane = (ix: number, iz: number): number => (ix < 0 || iz < 0 || ix >= Q || iz >= Q ? -1 : deck.quads[iz * Q + ix]! - 1);
+  for (let iz = 0; iz < Q; iz++) for (let ix = 0; ix < Q; ix++) {
+    const p = plane(ix, iz);
+    if (p < 0) continue;
+    if (p >= planes) throw new Error(`deck quad names plane ${p + 1} of ${planes}`);
+    const s = Math.min(deck.surfaces[iz * Q + ix]!, SURFACES.length - 1);
+    const a = vertex(ix, iz, p), b = vertex(ix, iz + 1, p), c = vertex(ix + 1, iz, p), d = vertex(ix + 1, iz + 1, p);
+    idx.push(a, b, c, c, b, d);
+    tags.push(s, s);
+    classes[s]!.push(a, b, c, c, b, d);
+    // A deck ends where the neighbour quad has another plane or none; at the square border the neighbour is unknown.
+    if (ix > 0 && plane(ix - 1, iz) !== p) edges.push({ a: b, b: a, nx: -1, nz: 0 });
+    if (ix < Q - 1 && plane(ix + 1, iz) !== p) edges.push({ a: c, b: d, nx: 1, nz: 0 });
+    if (iz > 0 && plane(ix, iz - 1) !== p) edges.push({ a, b: c, nx: 0, nz: -1 });
+    if (iz < Q - 1 && plane(ix, iz + 1) !== p) edges.push({ a: d, b, nx: 0, nz: 1 });
+  }
+  if (!idx.length) return null;
+  return { positions: Float32Array.from(pos), indices: Uint32Array.from(idx), tags: Uint16Array.from(tags), normals: Float32Array.from(nor), classes, edges };
+}
+
+/** The ground visual with the deck triangles appended to their classes and a slab edge hung below each open deck edge. */
+function withDeck(ground: LiveGroundVisual, classIndices: readonly Uint32Array[], deck: DeckMesh): LiveGroundVisual {
+  const L = N * N, D = deck.positions.length / 3;
+  const positions = new Float32Array((L + D + deck.edges.length * 4) * 3), normals = new Float32Array(positions.length);
+  positions.set(ground.positions);
+  normals.set(ground.normals);
+  positions.set(deck.positions, L * 3);
+  normals.set(deck.normals, L * 3);
+  const extra = deck.classes.map(list => list.map(v => v + L));
+  let v = L + D;
+  for (const e of deck.edges) {
+    const ax = deck.positions[e.a * 3]!, ay = deck.positions[e.a * 3 + 1]!, az = deck.positions[e.a * 3 + 2]!;
+    const bx = deck.positions[e.b * 3]!, by = deck.positions[e.b * 3 + 1]!, bz = deck.positions[e.b * 3 + 2]!;
+    positions.set([ax, ay, az, bx, by, bz, ax, ay - SLAB, az, bx, by - SLAB, bz], v * 3);
+    for (let k = 0; k < 4; k++) normals.set([e.nx, 0, e.nz], (v + k) * 3);
+    // (top a, bottom a, top b) faces along (−dz, dx) for d = b − a; flip it when that points into the deck.
+    const out = (bx - ax) * e.nz - (bz - az) * e.nx > 0;
+    const quad = out ? [v, v + 2, v + 1, v + 1, v + 2, v + 3] : [v, v + 1, v + 2, v + 1, v + 3, v + 2];
+    extra[SLAB_SURFACE]!.push(...quad);
+    v += 4;
+  }
+  const classes = SURFACES.flatMap((surface, s) => {
+    const own = classIndices[s]!, more = extra[s]!;
+    if (!own.length && !more.length) return [];
+    const indices = new Uint32Array(own.length + more.length);
+    indices.set(own);
+    indices.set(more, own.length);
+    return [{ surface, indices }];
+  });
+  return { positions, normals, classes, water: ground.water };
 }
 
 // ---- ground
@@ -148,7 +294,7 @@ function surfaceAt(streets: readonly StreetPolygon[], x: number, z: number): num
 }
 
 /** Even-odd test over the outer ring and its holes. */
-function contains(rings: Polygon, x: number, z: number): boolean {
+export function contains(rings: readonly (readonly number[])[], x: number, z: number): boolean {
   let inside = false;
   for (const r of rings) {
     for (let i = 0, j = r.length - 2; i < r.length; j = i, i += 2) {
@@ -180,8 +326,7 @@ function latticeNormals(heights: Float32Array): Float32Array {
 }
 
 /** Flat upward quads at sea level for every water quad, sharing lattice corners. */
-function waterMesh(mask: Uint8Array | null, gx0: number, gz0: number, y: number): LiveGroundVisual['water'] {
-  if (!mask) return null;
+function waterMesh(quads: Int8Array, gx0: number, gz0: number, y: number): LiveGroundVisual['water'] {
   const remap = new Int32Array(N * N).fill(-1);
   const positions: number[] = [], indices: number[] = [];
   const vertex = (ix: number, iz: number): number => {
@@ -190,7 +335,7 @@ function waterMesh(mask: Uint8Array | null, gx0: number, gz0: number, y: number)
     return remap[i]!;
   };
   for (let iz = 0; iz < Q; iz++) for (let ix = 0; ix < Q; ix++) {
-    if (mask[iz * Q + ix] === 0) continue;
+    if (quads[iz * Q + ix] !== QUAD_WATER) continue;
     const a = vertex(ix, iz), b = vertex(ix, iz + 1), c = vertex(ix + 1, iz), d = vertex(ix + 1, iz + 1);
     indices.push(a, b, c, c, b, d);
   }
@@ -208,7 +353,7 @@ interface Footprint {
 }
 
 /** Prisms of the footprints this square owns, in a stable order (VTJ id, register id, coordinates). */
-function buildingColliders(input: CollisionCellInput, gx0: number, gz0: number): TriMeshCollider[] {
+function buildingPrisms(input: CollisionCellInput, gx0: number, gz0: number): LivePrism[] {
   const footprints: Footprint[] = [];
   for (const f of input.footprints.features) {
     const polygons = featurePolygons(f, input.origin);
@@ -220,7 +365,7 @@ function buildingColliders(input: CollisionCellInput, gx0: number, gz0: number):
   footprints.sort((a, b) => compareText(a.vtj, b.vtj) || compareText(a.key, b.key) || compareCoordinates(a.polygons, b.polygons));
 
   const clip: Rect = [gx0 - MARGIN, gz0 - MARGIN, gx0 + SQUARE + MARGIN, gz0 + SQUARE + MARGIN];
-  const out: TriMeshCollider[] = [];
+  const out: LivePrism[] = [];
   for (const fp of footprints) {
     let largest = fp.polygons[0]![0]!, largestArea = -1;
     for (const poly of fp.polygons) {
@@ -245,8 +390,7 @@ function buildingColliders(input: CollisionCellInput, gx0: number, gz0: number):
     if (!Number.isFinite(floor)) continue;
     const storeys = storeyCount(fp.properties);
     const base = floor - BASE_SINK, top = base + BASE_SINK + (storeys > 0 ? storeys * STOREY_HEIGHT + ROOF_ALLOWANCE : UNKNOWN_HEIGHT);
-    const mesh = prism(clipped, base, top);
-    if (mesh) out.push({ id: `lb${out.length}`, group: 'buildings', ref: fp.ref, ...mesh });
+    out.push({ ref: fp.ref, base, top, polygons: clipped });
   }
   return out;
 }
@@ -258,13 +402,13 @@ function storeyCount(properties: Readonly<Record<string, unknown>> | null): numb
 }
 
 /** Walls facing away from the solid on every ring edge, and the roof at `top` triangulated with its holes, facing up. */
-function prism(polygons: readonly Polygon[], base: number, top: number): Pick<TriMeshCollider, 'positions' | 'indices' | 'triangleTags'> | null {
+function prism(polygons: readonly (readonly (readonly number[])[])[], base: number, top: number): Pick<TriMeshCollider, 'positions' | 'indices' | 'triangleTags'> | null {
   const pos: number[] = [], idx: number[] = [], tags: number[] = [];
   for (const rings of polygons) {
     const first = pos.length / 3;
     for (const r of rings) for (let i = 0; i < r.length; i += 2) pos.push(r[i]!, top, r[i + 1]!);
     // Vector2, not plain {x, y}: triangulateShape calls .equals() on the ring ends.
-    const points = (r: Ring) => Array.from({ length: r.length / 2 }, (_, i) => new Vector2(r[i * 2]!, r[i * 2 + 1]!));
+    const points = (r: readonly number[]) => Array.from({ length: r.length / 2 }, (_, i) => new Vector2(r[i * 2]!, r[i * 2 + 1]!));
     for (const face of ShapeUtils.triangulateShape(points(rings[0]!), rings.slice(1).map(points))) {
       const a = first + face[0]!, b = first + face[1]!, c = first + face[2]!;
       const up = (pos[b * 3 + 2]! - pos[a * 3 + 2]!) * (pos[c * 3]! - pos[a * 3]!) - (pos[b * 3]! - pos[a * 3]!) * (pos[c * 3 + 2]! - pos[a * 3 + 2]!);
@@ -307,7 +451,7 @@ function latticeHeight(heights: Float32Array, gx0: number, gz0: number, x: numbe
 // ---- polygons
 
 /** Polygon and MultiPolygon features (EPSG:3879 [E, N]) as runtime XZ polygons: x = E − E0, z = N0 − N. */
-function featurePolygons(f: GeoJsonFeature, origin: Origin): Polygon[] {
+export function featurePolygons(f: GeoJsonFeature, origin: Origin): Polygon[] {
   const g = f.geometry;
   if (!g) return [];
   const polygons = g.type === 'Polygon' ? [g.coordinates] : g.type === 'MultiPolygon' ? g.coordinates : [];
@@ -341,7 +485,7 @@ function open(r: Ring): Ring {
 }
 
 /** Twice the signed area in runtime XZ (positive counter-clockwise with X right and Z up), fanned from the first point. */
-function area2(r: Ring): number {
+function area2(r: readonly number[]): number {
   const x0 = r[0]!, z0 = r[1]!;
   let a = 0;
   for (let i = 2; i + 3 < r.length; i += 2) a += (r[i]! - x0) * (r[i + 3]! - z0) - (r[i + 2]! - x0) * (r[i + 1]! - z0);

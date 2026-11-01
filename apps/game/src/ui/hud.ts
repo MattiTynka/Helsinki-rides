@@ -101,9 +101,23 @@ export class Hud {
       .filter(a => resolveDropInTarget(gameplay, roads, ...a.position) !== null).map(a => a.label);
     for (const l of labels) { const o = document.createElement('option'); o.value = l; o.textContent = placeLabel(l); this.dropin.appendChild(o); }
     i18n.subscribe(() => {
-      for (const option of this.dropin.options) if (option.value) option.textContent = placeLabel(option.value);
+      for (const option of this.dropin.options) if (option.value && !option.dataset['place']) option.textContent = placeLabel(option.value);
     });
     this.dropin.addEventListener('change', () => { const v = this.dropin.value; this.dropin.value = ''; this.dropin.blur(); if (v && this.onDropIn) this.onDropIn(v); });
+  }
+
+  /** More drop-in places after the release's own, one group per district; names are proper names, not translated. */
+  addDropInGroups(groups: readonly { label: string; options: readonly { value: string; text: string }[] }[]): void {
+    for (const group of groups) {
+      const g = document.createElement('optgroup');
+      g.label = group.label;
+      for (const { value, text } of group.options) {
+        const o = document.createElement('option');
+        o.value = value; o.textContent = text; o.dataset['place'] = '1';
+        g.appendChild(o);
+      }
+      this.dropin.appendChild(g);
+    }
   }
 
   setWorldLoading(message: string | null): void {

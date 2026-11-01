@@ -3,7 +3,7 @@
 // release terrain through tools/world/lib/quantized-mesh.ts: the floor tile of the point, the linear height of the
 // first containing triangle in its bucket, N2000 heights as delivered minus the origin height. Pure and browser-safe;
 // tile bytes arrive already decompressed (the HTTP layer undoes brotli or gzip content encoding).
-import { gk25ToGeodetic } from '@helsinki/world-schema';
+import { gk25ToGeodetic, sampleTerrain, type TerrainGrid } from '@helsinki/world-schema';
 import { LIVE_GROUND_N, LIVE_GROUND_STEP, LIVE_TERRAIN_ZOOM, type Origin, type TerrainTileAddress } from '../contract.ts';
 
 const SQUARE = (LIVE_GROUND_N - 1) * LIVE_GROUND_STEP;
@@ -101,8 +101,12 @@ interface TileEntry { readonly address: TerrainTileAddress; readonly tile: Quant
 
 /** Every zoom-18 tile that meets the square's lattice (plus a small pad), x ascending then y ascending (y from the south). */
 export function terrainTileAddresses(cx: number, cz: number, origin: Origin): TerrainTileAddress[] {
+  return terrainTileAddressesInBox(cx * SQUARE - TILE_PAD, cz * SQUARE - TILE_PAD, (cx + 1) * SQUARE + TILE_PAD, (cz + 1) * SQUARE + TILE_PAD, origin);
+}
+
+/** Every zoom-18 tile that meets a runtime XZ box, x ascending then y ascending (y from the south). */
+export function terrainTileAddressesInBox(x0: number, z0: number, x1: number, z1: number, origin: Origin): TerrainTileAddress[] {
   const [E0, N0] = origin;
-  const x0 = cx * SQUARE - TILE_PAD, x1 = (cx + 1) * SQUARE + TILE_PAD, z0 = cz * SQUARE - TILE_PAD, z1 = (cz + 1) * SQUARE + TILE_PAD;
   const corners = [gk25ToGeodetic(E0 + x0, N0 - z0), gk25ToGeodetic(E0 + x1, N0 - z0), gk25ToGeodetic(E0 + x0, N0 - z1), gk25ToGeodetic(E0 + x1, N0 - z1)];
   const south = Math.min(...corners.map(c => c[0])), north = Math.max(...corners.map(c => c[0]));
   const west = Math.min(...corners.map(c => c[1])), east = Math.max(...corners.map(c => c[1]));
@@ -123,6 +127,23 @@ export function sampleLattice(cx: number, cz: number, origin: Origin, tiles: rea
   const N = LIVE_GROUND_N, out = new Float32Array(N * N);
   if (overrides && overrides.length !== N * N) throw new Error(`terrain overrides hold ${overrides.length} values, expected ${N * N}`);
   const [E0, N0, H0] = origin;
+  const heightAt = terrainSampler(tiles);
+  for (let iz = 0; iz < N; iz++) for (let ix = 0; ix < N; ix++) {
+    const i = iz * N + ix, override = overrides ? overrides[i]! : NaN;
+    if (!Number.isNaN(override)) { out[i] = override; continue; }
+    const x = cx * SQUARE + ix * LIVE_GROUND_STEP, z = cz * SQUARE + iz * LIVE_GROUND_STEP;
+    const [lat, lon] = gk25ToGeodetic(E0 + x, N0 - z);
+    const h = heightAt(lat, lon);
+    out[i] = h === null ? NaN : h - H0;
+  }
+  return out;
+}
+
+/**
+ * N2000 height at a geodetic point from the given tiles, as sampleLattice samples: the floor tile at the finest zoom,
+ * then the other tiles within a hair of the point in (zoom descending, x, y) order. Null where no tile covers it.
+ */
+export function terrainSampler(tiles: readonly { address: TerrainTileAddress; tile: QuantizedTile }[]): (lat: number, lon: number) => number | null {
   const sorted = [...tiles].sort((a, b) => b.address.z - a.address.z || a.address.x - b.address.x || a.address.y - b.address.y);
   const entries: TileEntry[] = [];
   const byKey = new Map<string, TileEntry>();
@@ -152,13 +173,35 @@ export function sampleLattice(cx: number, cz: number, origin: Origin, tiles: rea
     }
     return null;
   };
-  for (let iz = 0; iz < N; iz++) for (let ix = 0; ix < N; ix++) {
-    const i = iz * N + ix, override = overrides ? overrides[i]! : NaN;
-    if (!Number.isNaN(override)) { out[i] = override; continue; }
-    const x = cx * SQUARE + ix * LIVE_GROUND_STEP, z = cz * SQUARE + iz * LIVE_GROUND_STEP;
-    const [lat, lon] = gk25ToGeodetic(E0 + x, N0 - z);
-    const h = heightAt(lat, lon);
-    out[i] = h === null ? NaN : h - H0;
+  return heightAt;
+}
+
+/**
+ * Release ground heights for a live square's lattice points that lie on an edge or corner shared with a static square
+ * and inside the release terrain grid; NaN elsewhere. Null when no point qualifies. sampleLattice uses them in place of
+ * the city terrain so live ground meets the release ground without a step.
+ */
+export function edgeOverrides(grid: { isStatic(cx: number, cz: number): boolean }, terrain: TerrainGrid, cx: number, cz: number): Float32Array | null {
+  const N = LIVE_GROUND_N, last = N - 1, size = last * LIVE_GROUND_STEP, eps = 1e-6;
+  const points: number[] = [];
+  const edge = (from: number, step: number) => { for (let i = 0; i < N; i++) points.push(from + i * step); };
+  // z grows southward: iz = 0 is the north edge.
+  if (grid.isStatic(cx - 1, cz)) edge(0, N);
+  if (grid.isStatic(cx + 1, cz)) edge(last, N);
+  if (grid.isStatic(cx, cz - 1)) edge(0, 1);
+  if (grid.isStatic(cx, cz + 1)) edge(last * N, 1);
+  if (grid.isStatic(cx - 1, cz - 1)) points.push(0);
+  if (grid.isStatic(cx + 1, cz - 1)) points.push(last);
+  if (grid.isStatic(cx - 1, cz + 1)) points.push(last * N);
+  if (grid.isStatic(cx + 1, cz + 1)) points.push(last * N + last);
+  const x1 = terrain.x0 + (terrain.nx - 1) * terrain.resolution, z1 = terrain.z0 + (terrain.nz - 1) * terrain.resolution;
+  let out: Float32Array | null = null;
+  for (const i of points) {
+    const ix = i % N, iz = (i - ix) / N;
+    const x = cx * size + ix * LIVE_GROUND_STEP, z = cz * size + iz * LIVE_GROUND_STEP;
+    if (x < terrain.x0 - eps || x > x1 + eps || z < terrain.z0 - eps || z > z1 + eps) continue;
+    out ??= new Float32Array(N * N).fill(Number.NaN);
+    out[i] = sampleTerrain(terrain, x, z);
   }
   return out;
 }

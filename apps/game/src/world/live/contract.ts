@@ -47,9 +47,16 @@ export interface GeoJsonFeatureCollection { readonly type: 'FeatureCollection'; 
 /** One decoded quantized-mesh tile and its TMS address. */
 export interface TerrainTileAddress { readonly z: number; readonly x: number; readonly y: number }
 
-/** Ground mesh of one square, runtime frame. Water and no-data quads are in no class. */
+/** Ground surfaces in HCOL tag order; where register polygons overlap, the lower index wins. */
+export const LIVE_SURFACE_ORDER: readonly LiveSurface[] = ['road', 'walk', 'green', 'yard'];
+/** Ground quad values (QUADS × QUADS, row-major) besides a LIVE_SURFACE_ORDER index: water, and a hole (no terrain data,
+ *  or ground a bridge deck covers). */
+export const QUAD_WATER = -2;
+export const QUAD_HOLE = -1;
+
+/** Ground mesh of one square, runtime frame. Water and hole quads are in no class. */
 export interface LiveGroundVisual {
-  /** N × N lattice, row-major as the collider. */
+  /** N × N lattice, row-major as the collider, then bridge deck vertices and their slab edges (base map squares). */
   readonly positions: Float32Array;
   readonly normals: Float32Array;
   readonly classes: readonly { readonly surface: LiveSurface; readonly indices: Uint32Array }[];
@@ -76,9 +83,48 @@ export interface CollisionCellInput {
   readonly isStaticSquare: (cx: number, cz: number) => boolean;
 }
 
+/** A building collider: footprint polygons (outer ring, then holes; runtime XZ pairs) extruded from `base` to `top`. */
+export interface LivePrism {
+  readonly ref: string | null;
+  readonly base: number;
+  readonly top: number;
+  readonly polygons: readonly (readonly (readonly number[])[])[];
+}
+
+/**
+ * Bridge decks over one square on the ground quad grid. Each bridge is one plane, runtime Y = a + bx · x + bz · z, so
+ * squares sharing a bridge compute bit-identical heights on their common edge.
+ */
+export interface LiveDeck {
+  /** [a, bx, bz] per bridge plane. */
+  readonly planes: Float64Array;
+  /** QUADS × QUADS: 0 for no deck, else the plane index + 1. */
+  readonly quads: Uint8Array;
+  /** QUADS × QUADS: the LIVE_SURFACE_ORDER index of each deck quad. */
+  readonly surfaces: Uint8Array;
+}
+
+/**
+ * One square of the static base map (hybrid live cells: static ground and bridges, live LoD2 buildings). Everything
+ * the square's collision needs, prepared offline by tools/world/build_base_map.ts. 'water' squares are open sea and
+ * 'void' squares lie outside the terrain layer; neither has ground.
+ */
+export interface BaseSquare {
+  readonly cx: number;
+  readonly cz: number;
+  readonly kind: 'land' | 'water' | 'void';
+  /** N × N runtime Y in centimetre steps; NaN without terrain data. Null unless land. */
+  readonly heights: Float32Array | null;
+  /** QUADS × QUADS: QUAD_WATER, QUAD_HOLE or a LIVE_SURFACE_ORDER index. Null unless land. */
+  readonly quads: Int8Array | null;
+  readonly prisms: readonly LivePrism[];
+  readonly deck: LiveDeck | null;
+}
+
 export interface CollisionCellOutput {
   readonly hcol: Uint8Array;
-  readonly ground: LiveGroundVisual;
+  /** Null for a square without ground or water (outside the terrain layer). */
+  readonly ground: LiveGroundVisual | null;
   readonly buildings: number;
 }
 
@@ -127,6 +173,8 @@ export interface LiveCellSourceInit {
   /** Manifest building ids (`BID_<uuid>`, the LoD2 feature `id`) and register ids, never duplicated live. */
   readonly staticBuildingIds: readonly string[];
   readonly staticVtj: readonly string[];
+  /** Directory URL of the release's static base map (`basemap/`); squares it covers build without the network. */
+  readonly baseMapUrl?: string | null;
 }
 
 export interface LiveSourceStats {

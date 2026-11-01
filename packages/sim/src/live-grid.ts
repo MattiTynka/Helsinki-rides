@@ -1,10 +1,11 @@
-// Live city cells (kartta-live-2): the 128 m grid squares the release manifest does not cover, filled at runtime from
-// the City of Helsinki's 3D map (apps/game/src/world/live). Which squares are live, their ids and their collision
+// Live city cells (kartta-live-3): the 128 m grid squares the release manifest does not cover, filled at runtime from
+// the release's static base map (ground, water, building collision, bridge decks) and the City of Helsinki's 3D map
+// (LoD2 buildings, and everything for squares the base map lacks; apps/game/src/world/live). Which squares are live, their ids and their collision
 // extents are fixed here from the manifest alone, so a browser session and its Node replay plan the same residency.
 import { cellId } from '@helsinki/world-schema';
 import type { CollisionCellRef } from './collision-residency.ts';
 
-export const LIVE_VERSION = 'kartta-live-2';
+export const LIVE_VERSION = 'kartta-live-3';
 export const LIVE_CELL_SIZE = 128;
 /** Buildings owned by a square (footprint centroid) are clipped to the square grown by this margin. */
 export const LIVE_MARGIN = 32;
