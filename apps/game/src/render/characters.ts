@@ -1,7 +1,7 @@
 // Character views: skinned hero meshes driven by the sim's clip state (skill: gameplay animation). Locomotion clips
 // play in place at a rate matched to the measured speed; the sim owns world displacement.
 import * as THREE from 'three';
-import type { CharacterState, PlayerState, VehicleState } from '@helsinki/sim';
+import { AIRCRAFT_DEFINITIONS, type AircraftState, type CharacterState, type PlayerState, type VehicleState } from '@helsinki/sim';
 import type { AssetLibrary, CharacterAsset } from './assets.ts';
 import { advanceGaitPhase, isLocomotionClip, locomotionWeights, MOVEMENT_CLIPS, type MovementClip } from './locomotion.ts';
 import { NativeCharacterAnimation } from './native-character-animation.ts';
@@ -109,7 +109,7 @@ export class CharacterView {
     }
   }
 
-  update(state: CharacterState & { readonly knockdown?: KnockdownPresentation | null }, dt: number, armed: boolean, interaction: PlayerState['vehicleInteraction'] = null, vehicle?: VehicleState, poses?: VehiclePoses, presentation?: CharacterPresentationOptions): void {
+  update(state: CharacterState & { readonly knockdown?: KnockdownPresentation | null }, dt: number, armed: boolean, interaction: PlayerState['vehicleInteraction'] = null, vehicle?: Pick<VehicleState, 'position' | 'rotation'>, poses?: VehiclePoses, presentation?: CharacterPresentationOptions, seat?: readonly [number, number, number]): void {
     // Root placement remains smooth at presentation rate even when distant skeleton poses are sampled.
     this.root.visible = state.inVehicle === null;
     this.root.position.set(state.position[0], state.position[1], state.position[2]);
@@ -153,7 +153,7 @@ export class CharacterView {
     if (this.nativeAnimation) {
       this.nativeAnimation.update(animationState, dt, collapse);
       if (ownsVehiclePose && !this.vehicleAnimation) this.vehicleAnimation = new NativeVehicleAnimation(this.model);
-      const seated = this.vehicleAnimation?.apply(this.root, ownsVehiclePose ? interaction : null, vehicle, dt, poses) ?? false;
+      const seated = this.vehicleAnimation?.apply(this.root, ownsVehiclePose ? interaction : null, vehicle, dt, poses, seat) ?? false;
       this.placeShadow(state, seated);
       if (this.pistol) this.pistol.visible = presentingWeapon;
       this.pedestrianAnimation?.apply(animationState, dt, collapse !== null);
@@ -199,6 +199,20 @@ export class CharacterView {
       }
     }
     this.pedestrianAnimation?.apply(animationState, dt, collapse !== null, jumpWeight);
+  }
+
+  /** Use Snow's existing rig and seated pose; the aircraft's seat socket owns world placement. */
+  updateAircraft(player: PlayerState, aircraft: AircraftState, dt: number): void {
+    const definition = AIRCRAFT_DEFINITIONS.find(d => d.id === aircraft.id);
+    if (!definition) throw new Error('Aircraft seat definition missing');
+    const interaction: NonNullable<PlayerState['vehicleInteraction']> = {
+      vehicleId: aircraft.id, stage: 'seated', clip: 'enter', side: 'driver', progress: 1, startOffset: [0, 0, 0],
+    };
+    const seated: PlayerState = { ...player, inVehicle: null, weapon: null, clip: 'idle', speed: 0, grounded: true, jumpPhase: 'grounded' };
+    this.update(seated, dt, false,
+      interaction, aircraft, undefined, undefined, definition.seat);
+    this.shadow.visible = false;
+    if (this.pistol) this.pistol.visible = false;
   }
 
   /** Called after all animation, aiming and vehicle layers, before the renderer tests visibility. */

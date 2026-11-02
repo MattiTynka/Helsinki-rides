@@ -339,6 +339,25 @@ class PagesWorldTest(unittest.TestCase):
         path.write_bytes(startup_jpeg())
         self.assertEqual(self.stage()['status'], 'PASS')
 
+    def test_shell_accepts_only_the_two_optimized_contract_pinned_aircraft(self):
+        source = Path(__file__).resolve().parents[3]
+        for name in ['trainer', 'helicopter']:
+            data = (source / f'apps/game/src/assets/aircraft/{name}.glb').read_bytes()
+            (self.output / f'assets/{name}-Ab12cd34.glb').write_bytes(data)
+        self.assertEqual(self.stage()['status'], 'PASS')
+        path = self.output / 'assets/trainer-Ab12cd34.glb'
+        path.write_bytes(path.read_bytes() + b'unreviewed bytes')
+        with self.assertRaises(ValueError):
+            pages._shell_inventory(self.output)
+
+    def test_shell_rejects_unreviewed_model_names_and_oversize_aircraft(self):
+        for name in ['trainer.glb', 'other-Ab12cd34.glb', 'trainer-Ab12cd34.glb']:
+            path = self.output / 'assets' / name
+            path.write_bytes(b'x' * (1024 * 1024 + 1))
+            with self.assertRaises(ValueError):
+                pages._shell_inventory(self.output)
+            path.unlink()
+
     def test_shell_refuses_unreviewed_image_names(self):
         for name in ['photo-C3c2do1Y.jpg', 'senate-square-start.jpg', 'senate-square-start-C3c2do1Y.png']:
             with self.subTest(name=name):

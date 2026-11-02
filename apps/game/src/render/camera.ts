@@ -24,6 +24,7 @@ export class ChaseCamera {
   private readonly target = new THREE.Vector3();
   private initialised = false;
   private carYawOffset = 0;
+  private wasFlying = false;
   /** 0 on foot, 1 in the chase rig; damped so an interrupted entry eases back instead of cutting. */
   carBlend = 0;
   readonly camera: THREE.PerspectiveCamera;
@@ -62,6 +63,28 @@ export class ChaseCamera {
   update(state: SimState, world: StaticWorld, chaseOffset: readonly [number, number, number] | null, dt: number,
     chaseTarget: THREE.Vector3 | null = null, focus: THREE.Vector3 | null = null, groundY: number | null = null): void {
     const p = state.player;
+    const aircraft = p.mode === 'flying' ? state.aircraft.find(a => a.id === p.aircraftId) : undefined;
+    if (aircraft) {
+      this.wasFlying = true;
+      this.carBlend = 1;
+      this.carYawOffset = THREE.MathUtils.damp(this.carYawOffset, 0, 0.5, dt);
+      const yaw = aircraft.yaw + this.carYawOffset;
+      this.yaw = yaw;
+      this.target.set(aircraft.position[0], aircraft.position[1] + 1.5, aircraft.position[2]);
+      const distance = aircraft.kind === 'plane' ? 22 : 18;
+      const desired = this.target.clone().add(new THREE.Vector3(-Math.sin(yaw) * distance, 7 + Math.sin(-this.pitch) * 8, -Math.cos(yaw) * distance));
+      const direction = desired.clone().sub(this.target), length = direction.length();
+      if (length > 0.01) {
+        const ray = new RAPIER.Ray({ x: this.target.x, y: this.target.y, z: this.target.z }, { x: direction.x / length, y: direction.y / length, z: direction.z / length });
+        const hit = world.physics.castRay(ray, length + 0.4, true, undefined, groups(GROUP.bullet, GROUP.static));
+        if (hit) desired.copy(this.target).addScaledVector(direction.normalize(), Math.max(0.5, hit.timeOfImpact - 0.4));
+      }
+      if (!this.initialised) { this.pos.copy(desired); this.initialised = true; }
+      else this.pos.lerp(desired, 1 - Math.exp(-dt * 7));
+      this.camera.position.copy(this.pos); this.camera.lookAt(this.target);
+      return;
+    }
+    if (this.wasFlying) { this.reset(p.yaw); this.wasFlying = false; }
     const v = state.vehicles.find(x => x.id === (p.inVehicle ?? p.vehicleInteraction?.vehicleId));
     const weight = chaseOffset && v ? carCameraWeight(p) : 0;
     this.carBlend = this.initialised ? THREE.MathUtils.damp(this.carBlend, weight, 8, dt) : weight;

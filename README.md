@@ -19,10 +19,17 @@ and [current verification record](docs/benchmarks/city-north-2026-10-19.md) for 
 exact candidate, limits and acceptance status. The [city expansion handoff](docs/handoff-2026-10-19.md)
 records the local preview, source snapshots and reproducible checks.
 
-Play the browser beta at **[Helsinki Rides](https://mattitynka.github.io/Helsinki-rides/)**.
+Play this fork at **[Helsinki Rides](https://gptchatly.github.io/Helsinki-rides/)**.
 The full central Helsinki map streams nearby visuals as you travel. The initial
 city-data download can take a while. Use WASD to move, Space to jump, and F to
 enter or leave a car; the loading screen lists the remaining controls.
+
+Choose **Malmi airfield | aircraft** in the location menu to find a trainer plane
+and light helicopter. Walk beside either aircraft and press F to board. W/S controls
+speed, A/D turns, Space climbs, Ctrl descends, and Shift boosts speed. The plane
+needs a takeoff run; the helicopter can hover. Land and stop before pressing F to
+leave, or hold X to recover the aircraft to its Malmi stand. Touch flight controls
+are also available. See the [aircraft implementation and credits](docs/malmi-aircraft.md).
 
 Phones and tablets automatically start with Low graphics and a 30 FPS presentation
 target. Touch controls support walking, aiming, firing, jumping and driving;

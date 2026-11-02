@@ -9,8 +9,9 @@ import { QUALITY_TIERS, tierParameters } from '../../../apps/game/src/render/qua
 
 test('a stale vehicle reference cannot interrupt syncViews before the camera, HUD and audio update', () => {
   const calls: string[] = [];
-  const state = { player: { inVehicle: 'removed-car', mode: 'driving', weapon: null }, vehicles: [], characters: [], shots: [], time: 1 } as unknown as SimState;
+  const state = { player: { inVehicle: 'removed-car', mode: 'driving', weapon: null }, aircraft: [], vehicles: [], characters: [], shots: [], time: 1 } as unknown as SimState;
   const context = {
+    aircraftViews: { update: () => {}, ready: true },
     vehicleViews: new Map(), characterViews: new Map(),
     pendingShots: [],
     playerView: { update: () => {}, root: { visible: false } },
@@ -60,7 +61,8 @@ test('deferred officer models follow a moving patrol car instead of the stale bo
   let rainLoaded = false;
   const context = {
     sim: { playerPosition: [0, 0, 0], definition: () => ({ assetId: 'vehicle-patrol' }) },
-    state: { vehicles: [vehicle], characters: [officer] },
+    state: { aircraft: [], vehicles: [vehicle], characters: [officer] },
+    aircraftViews: { ready: true },
     assets: { hasVehicle: () => true, hasCharacter: () => rainLoaded },
   };
   const ready = () => Game.prototype.actorModelsReady.call(context as unknown as Game);
@@ -80,13 +82,14 @@ test('deferred officer models follow a moving patrol car instead of the stale bo
 function waitingFrameFixture(cause: 'models' | 'collision') {
   let modelsReady = cause !== 'models', collisionReady = cause !== 'collision', characterDt = -1;
   let attempts = 0, steps = 0, message: string | null = null, visualMissing = false;
-  const state = { tick: 60, player: { mode: 'onFoot' }, time: 1 } as unknown as SimState;
+  const state = { tick: 60, player: { mode: 'onFoot' }, aircraft: [], time: 1 } as unknown as SimState;
   const modelMessage = (Game.prototype as unknown as { modelsWaitingMessage(): string | null }).modelsWaitingMessage;
   const context = {
     missingVisualCells: () => visualMissing ? ['missing-coarse'] : [],
     visualLoading: { blocked: false, blockedFrames: 0, blockedSeconds: 0, missingCells: [] as string[] },
     collisionLoading: { blocked: false, blockedFrames: 0, blockedSeconds: 0 },
     modelLoading: { blocked: false, blockedFrames: 0, blockedSeconds: 0, failed: true },
+    aircraftViews: { ready: true },
     config: { dynamicResolution: false }, lastNow: 0, paused: false, accumulator: 0,
     presentationAlpha: 0, presentationFrameTime: 0, state, previousState: state, timeScale: 1,
     fpsAcc: 0, fpsFrames: 0, stats: { fps: 0, frameMs: 0 }, sim: { screen: null },
@@ -369,4 +372,28 @@ test('a session started from a remembered tier writes low on promotion to the pr
       }
     });
   } finally { mock.timers.reset(); }
+});
+
+test('nearby aircraft gate simulation until their models load while absent and distant aircraft stay deferred', async () => {
+  let loads = 0, resolveLoad!: () => void;
+  const pending = new Promise<void>(resolve => { resolveLoad = resolve; });
+  const view = { ready: false, ensureLoaded: () => { loads++; return pending; } };
+  const aircraft = { id: 'malmi-plane', occupied: false, position: [129, 10, 0] };
+  const context = {
+    sim: { playerPosition: [0, 0, 0] }, state: { aircraft: [] as typeof aircraft[], vehicles: [], characters: [] },
+    assets: { loadDeferred: () => Promise.resolve() }, aircraftViews: view,
+    actorModelsReady: (): boolean => Game.prototype.actorModelsReady.call(context as unknown as Game),
+  };
+  assert.equal(context.actorModelsReady(), true); assert.equal(loads, 0, 'no aircraft must not initiate downloads');
+  context.state.aircraft.push(aircraft);
+  assert.equal(context.actorModelsReady(), true); assert.equal(loads, 0, 'distant parked aircraft stay deferred');
+  aircraft.position = [128, 10, 0];
+  assert.equal(context.actorModelsReady(), false); assert.equal(loads, 1, 'a nearby unseen aircraft cannot become playable');
+  let completed = false;
+  const wait = Game.prototype.actorModelsLoaded.call(context as unknown as Game).then(() => { completed = true; });
+  await Promise.resolve(); assert.equal(completed, false, 'the load wait cannot finish merely because a request started');
+  view.ready = true; resolveLoad(); await wait;
+  assert.equal(completed, true); assert.equal(context.actorModelsReady(), true);
+  view.ready = false; aircraft.position = [1000, 100, 1000]; aircraft.occupied = true;
+  assert.equal(context.actorModelsReady(), false, 'an occupied aircraft requires its model regardless of range');
 });

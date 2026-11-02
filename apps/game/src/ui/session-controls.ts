@@ -93,11 +93,25 @@ export class SessionControls {
     creditTitle.dataset.sessionText = 'credits.heading';
     const creditText = document.createElement('p');
     creditText.textContent = game.data.manifest.attribution.join(' · ');
+    const aircraftCredit = document.createElement('p');
+    const aircraftLabel = document.createElement('strong');
+    aircraftLabel.dataset.sessionText = 'credits.aircraft.label';
+    aircraftCredit.append(aircraftLabel, ' Trainer plane · Light helicopter — ');
+    for (const [label, href] of [
+      ['Low-Poly Aircraft Kit Free', 'https://heyheythere.itch.io/low-poly-aircraft-kit-free'],
+      ['heyheythere', 'https://heyheythere.itch.io/'],
+      ['CC BY 4.0', 'https://creativecommons.org/licenses/by/4.0/'],
+    ]) {
+      const link = document.createElement('a');
+      link.textContent = label!; link.href = href!;
+      link.target = '_blank'; link.rel = 'noopener noreferrer';
+      aircraftCredit.append(link, ' · ');
+    }
     const notices = document.createElement('a');
-    notices.href = 'https://github.com/MattiTynka/Helsinki-rides/blob/main/THIRD_PARTY_NOTICES.md';
+    notices.href = 'https://github.com/GPTchatly/Helsinki-rides/blob/main/THIRD_PARTY_NOTICES.md';
     notices.target = '_blank'; notices.rel = 'noopener noreferrer';
     notices.dataset.sessionText = 'credits.notices';
-    credits.append(creditTitle, creditText, notices);
+    credits.append(creditTitle, creditText, aircraftCredit, notices);
     box.append(this.resumeButton, this.fullscreenButton, this.preferences, credits, reload);
     this.panel.append(box);
     document.body.append(this.toolbar, this.panel);
@@ -168,7 +182,7 @@ export class SessionControls {
   private updateTouch(): void {
     const p = this.game.state.player;
     this.game.hud.touchControls = this.touch.enabled;
-    this.touch.update({ mode: p.mode, alive: p.alive, canInteract: !!p.nearVehicle, canRecover: true });
+    this.touch.update({ mode: p.mode, alive: p.alive, canInteract: !!p.nearVehicle || !!p.nearAircraft, canRecover: true });
     this.touch.setActive(this.started && !this.game.paused && !this.game.visualLoading.blocked
       && !this.game.collisionLoading.blocked && !this.game.collisionLoading.teleporting && !this.game.modelLoading.blocked);
   }

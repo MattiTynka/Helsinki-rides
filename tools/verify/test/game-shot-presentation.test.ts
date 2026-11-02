@@ -13,7 +13,7 @@ function fixture(shotsAt: (tick: number) => Shot[] = tick => tick === 1 ? [shot(
   let tick = 0;
   const received: Shot[] = [], calls: string[] = [], animationSteps: number[] = [], effectSteps: number[] = [];
   const character = { position: [0, 0, 0], yaw: 0, alive: true, health: 100, clip: 'aim', speed: 0, aiming: true, inVehicle: null, grounded: true, verticalSpeed: 0, groundDistance: 0, jumpPhase: 'grounded', jumpPhaseTime: 0, jumpKind: null, climb: null, landingSpeed: 0 };
-  const snapshot = (): SimState => ({ tick, time: tick / 60, shots: tick === 0 ? [] : shotsAt(tick), vehicles: [],
+  const snapshot = (): SimState => ({ tick, time: tick / 60, shots: tick === 0 ? [] : shotsAt(tick), aircraft: [], vehicles: [],
     player: { ...character, id: 'player', mode: 'onFoot', weapon: 'pistol', pitch: 0, vehicleInteraction: null },
     characters: [{ ...character, id: 'police-1' }],
   }) as unknown as SimState;
@@ -31,6 +31,7 @@ function fixture(shotsAt: (tick: number) => Shot[] = tick => tick === 1 ? [shot(
       step: () => { tick++; return []; }, state: snapshot, collisionSources: () => [] },
     world: { physics: { castRay: () => null } },
     scene: { camera: { position: { x: 0, y: 1.6, z: -3 } } },
+    aircraftViews: { update: () => {}, ready: true },
     playerView: view('player'), characterViews: new Map([['police-1', view('police')]]), vehicleViews: new Map(),
     effects: { addShots: (shots: readonly Shot[]) => { calls.push('effects:add'); received.push(...shots); },
       update: (dt: number) => { calls.push('effects:update'); effectSteps.push(dt); }, reset: () => calls.push('effects:reset'),

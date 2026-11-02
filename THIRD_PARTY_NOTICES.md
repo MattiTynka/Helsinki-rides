@@ -10,6 +10,17 @@ models. See [release scope and exclusions](docs/open-source-release.md) and the
 [source register](docs/source-register.md) for adaptation history. Existing
 explicit CC0 artwork dedications remain in force.
 
+## Aircraft at Malmi
+
+Trainer plane and Light helicopter from [Low-Poly Aircraft Kit Free](https://heyheythere.itch.io/low-poly-aircraft-kit-free)
+by [heyheythere](https://heyheythere.itch.io/), licensed under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+The two small runtime GLBs are included under `apps/game/src/assets/aircraft/`.
+Their atlas is embedded after lossless removal of non-rendering metadata; original pixels, meshes, pivot rig and clips are retained.
+The game supplies Malmi placement, flight control and moving-part animation.
+See [asset contract](content/assets/aircraft.contract.json) for hashes and census,
+and [the included full license](content/assets/aircraft-license.md).
+
 ## Vendored Basis Universal decoder
 
 `apps/game/public/basis/basis_transcoder.js` and

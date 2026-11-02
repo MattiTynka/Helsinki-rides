@@ -15,6 +15,8 @@ import { ActorWarmup } from './render/warmup.ts';
 import { CityScene, type CellView } from './render/scene.ts';
 import { textureBytesOf } from './render/cell-resources.ts';
 import { VehicleView } from './render/vehicles.ts';
+import { AircraftViews } from './render/aircraft.ts';
+import { MALMI_AIRFIELD } from '@helsinki/sim';
 import { vehicleDoorOpen, vehiclePoses } from './render/native-vehicle-animation.ts';
 import { interpolateState } from './render/interpolation.ts';
 import { Hud, type FrameStats } from './ui/hud.ts';
@@ -27,6 +29,7 @@ import { loadDropInPlaces } from './world/live/places.ts';
 import { resolveDropInTarget } from './world/drop-in.ts';
 import { CellVisualStream, missingVisualCoverage, type StreamFocus } from './world/cell-streaming.ts';
 import { i18n } from './i18n/index.ts';
+import { flightText } from './ui/flight-text.ts';
 import { catchUpSteps, FramePacer } from './render/frame-pacing.ts';
 import { presetTier, tierParameters, type QualityTier } from './render/quality-tiers.ts';
 import { QualityGovernor, tierRank } from './render/quality-governor.ts';
@@ -106,6 +109,9 @@ export class Game {
   readonly config: GameConfig;
   readonly characterViews = new Map<string, CharacterView>();
   readonly vehicleViews = new Map<string, VehicleView>();
+  readonly aircraftViews: AircraftViews;
+  private aircraftTexturesAccounted = false;
+  private flightViewActive = false;
   readonly playerView: CharacterView;
   readonly shadowMaterial: THREE.MeshBasicMaterial;
   state: SimState;
@@ -175,6 +181,7 @@ export class Game {
     this.stats.renderScale = scene.resolutionScale;
     this.loader = loader;
     this.assets = assets;
+    this.aircraftViews = new AircraftViews(loader, scene.scene);
     this.streaming = streaming;
     this.collision = collision;
     this.live = live;
@@ -328,7 +335,7 @@ export class Game {
       mark('helsinki:deferred-assets-ready');
       const streaming = this.streaming;
       if (!streaming) return;
-      streaming.persistentTextureBytes = textureBytesOf(persistentRoots(this.assets));
+      streaming.persistentTextureBytes = textureBytesOf(persistentRoots(this.assets).concat(this.aircraftViews.roots()));
       streaming.detail.setTextureBudget(detailTextureBudget(streaming));
     }, error => {
       console.error('Police models failed to load; retrying', error);
@@ -492,8 +499,9 @@ export class Game {
   private currentCommand(): Command {
     if (this.scripted) return this.scripted;
     const driving = this.state.player.mode === 'driving' || this.state.player.mode === 'exiting';
-    const command = this.input.command(this.cameraRig.yaw, this.cameraRig.pitch, driving);
-    return !driving && (command.buttons & (Button.aim | Button.fire)) !== 0 ? { ...command, aimRay: this.cameraRig.aimRay() } : command;
+    const flying = this.state.player.mode === 'flying';
+    const command = this.input.command(this.cameraRig.yaw, this.cameraRig.pitch, driving, flying);
+    return !driving && !flying && (command.buttons & (Button.aim | Button.fire)) !== 0 ? { ...command, aimRay: this.cameraRig.aimRay() } : command;
   }
 
   /**
@@ -560,6 +568,10 @@ export class Game {
   actorModelsReady(): boolean {
     const [px, , pz] = this.sim.playerPosition;
     const near = (p: readonly number[]): boolean => Math.hypot(p[0]! - px, p[2]! - pz) <= DEFERRED_MODEL_RANGE;
+    if (this.state.aircraft.some(a => a.occupied || near(a.position)) && !this.aircraftViews.ready) {
+      void this.aircraftViews.ensureLoaded().catch(() => {});
+      return false;
+    }
     for (const v of this.state.vehicles) {
       const id = this.sim.definition(v.definition).assetId;
       if (DEFERRED_ASSETS.has(id) && !this.assets.hasVehicle(id) && near(v.position)) return false;
@@ -575,10 +587,19 @@ export class Game {
 
   /** Resolves when `actorModelsReady` (inspection harnesses); a failed load is retried every second. */
   async actorModelsLoaded(): Promise<void> {
-    while (!this.actorModelsReady()) await this.assets.loadDeferred().catch(() => new Promise(resolve => setTimeout(resolve, 1000)));
+    while (!this.actorModelsReady()) {
+      await Promise.all([
+        this.assets.loadDeferred(),
+        this.state.aircraft.length ? this.aircraftViews.ensureLoaded() : Promise.resolve(),
+      ]).catch(() => new Promise(resolve => setTimeout(resolve, 1000)));
+    }
   }
 
   private modelsWaitingMessage(): string | null {
+    if (this.modelLoading.blocked && !this.aircraftViews.ready && this.state.aircraft.some(a => a.occupied ||
+      Math.hypot(a.position[0] - this.state.player.position[0], a.position[2] - this.state.player.position[2]) < DEFERRED_MODEL_RANGE)) {
+      return flightText(this.aircraftViews.failed ? 'failed' : 'loading');
+    }
     return this.modelLoading.blocked ? i18n.text(this.modelLoading.failed ? 'world.policeFailed' : 'world.police') : null;
   }
 
@@ -608,7 +629,10 @@ export class Game {
       // Mouse look.
       const [dx, dy] = this.input.takeLook();
       const [gx, gy] = this.input.gamepadLook(dt);
-      if (this.cameraRig.inCar) this.cameraRig.mouseOffsetInCar(dx + gx); else this.cameraRig.look(dx + gx, dy + gy);
+      if (this.cameraRig.inCar) {
+        this.cameraRig.mouseOffsetInCar(dx + gx);
+        if (this.state.player.mode === 'flying') this.cameraRig.look(0, dy + gy);
+      } else this.cameraRig.look(dx + gx, dy + gy);
       if (this.sim.screen && this.sim.screen.ticks < this.sim.options.screenTicks - 120) this.timeScale = 1;
       this.accumulator += dt * this.timeScale;
       let steps = 0;
@@ -673,6 +697,12 @@ export class Game {
     this.onStateChange?.(this.state);
     const p = state.player;
     const shots = this.pendingShots.splice(0);
+    this.aircraftViews.update(state.aircraft, characterDt, p.position);
+    if (this.streaming && this.aircraftViews.ready && !this.aircraftTexturesAccounted) {
+      this.aircraftTexturesAccounted = true;
+      this.streaming.persistentTextureBytes = textureBytesOf(persistentRoots(this.assets).concat(this.aircraftViews.roots()));
+      this.streaming.detail.setTextureBudget(detailTextureBudget(this.streaming));
+    }
     // Vehicles.
     const seen = new Set<string>();
     for (const v of state.vehicles) {
@@ -706,9 +736,11 @@ export class Game {
     for (const [id, view] of this.characterViews) if (!seen.has(id)) { view.dispose(); this.characterViews.delete(id); }
     // Player.
     const playerVehicle = state.vehicles.find(v => v.id === p.inVehicle);
+    const playerAircraft = state.aircraft.find(a => a.id === p.aircraftId);
     const interactionVehicle = state.vehicles.find(v => v.id === p.vehicleInteraction?.vehicleId);
     for (const shot of shots) if (shot.shooter === 'player') this.playerView.notifyShot();
-    this.playerView.update(p, characterDt, p.weapon !== null && (p.aiming || p.clip === 'fire'), p.vehicleInteraction, interactionVehicle,
+    if (p.mode === 'flying' && playerAircraft) this.playerView.updateAircraft(p, playerAircraft, characterDt);
+    else this.playerView.update(p, characterDt, p.weapon !== null && (p.aiming || p.clip === 'fire'), p.vehicleInteraction, interactionVehicle,
       interactionVehicle ? vehiclePoses(this.sim.definition(interactionVehicle.definition)) : undefined);
     if (p.inVehicle && !playerVehicle) this.playerView.root.visible = true;
     // A stale presentation reference must not stop the frame loop before rendering.
@@ -725,6 +757,18 @@ export class Game {
       // The ground Snow gets in from and out onto: under the wheels, or the roof plane of a car on its roof.
       const upsideDown = new THREE.Vector3(0, 1, 0).applyQuaternion(q).y < 0;
       groundY = new THREE.Vector3(0, upsideDown ? cameraDef.collider.centre[1] + cameraDef.collider.halfExtents[1] : 0, 0).applyQuaternion(q).add(origin).y;
+    }
+    if (playerAircraft || this.flightViewActive) {
+      // Account for vertical viewing distance without expanding horizontal streaming ranges or budgets.
+      const tier = tierParameters(this.stats.tier, this.config.mobile === true);
+      const height = playerAircraft ? Math.max(0, Math.min(650, p.position[1] - this.world.groundHeight(p.position[0], p.position[2]))) : 0;
+      if (this.scene.scene.fog instanceof THREE.Fog) {
+        this.scene.scene.fog.near = Math.hypot(tier.fog.near, height);
+        this.scene.scene.fog.far = Math.hypot(tier.fog.far, height + (playerAircraft ? 20 : 0));
+      }
+      const far = Math.hypot(tier.cameraFar, height + (playerAircraft ? 20 : 0));
+      if (Math.abs(this.scene.camera.far - far) > 0.5) { this.scene.camera.far = far; this.scene.camera.updateProjectionMatrix(); }
+      this.flightViewActive = !!playerAircraft;
     }
     this.cameraRig.update(state, this.world, cameraDef?.cameraChase ?? null, dt, chaseTarget, focus, groundY);
     if (this.streaming || this.collision) {
@@ -765,6 +809,7 @@ export class Game {
   // ---- drop-in and scripting ----
 
   dropIn(label: string): void | Promise<void> {
+    if (label === 'malmi-airfield') return this.teleport(MALMI_AIRFIELD.x - 6, MALMI_AIRFIELD.z, 0, true);
     const g = this.data.gameplay;
     const entry = g.landmarks.find(l => l.label === label) ?? g.addresses.find(a => a.label === label);
     const place = this.dropInPlaces.get(label);
@@ -776,10 +821,10 @@ export class Game {
    * Put the player (on foot) at the nearest road point to XZ, facing `headingDeg`. With streamed collision whose
    * destination bytes are not cached yet, this completes asynchronously and ticks wait meanwhile.
    */
-  teleport(x: number, z: number, headingDeg = 0): void | Promise<void> {
+  teleport(x: number, z: number, headingDeg = 0, exact = false): void | Promise<void> {
     if (this.sim.mode !== 'onFoot' || this.collisionLoading.teleporting) return;
     this.input.reset();
-    const target = resolveDropInTarget(this.data.gameplay, this.world.roads, x, z);
+    const target = exact ? [x, z] as const : resolveDropInTarget(this.data.gameplay, this.world.roads, x, z);
     if (!target) return Promise.reject(new Error('Drop-in is outside qualified world coverage'));
     const [tx, tz] = target;
     const collision = this.collision;
@@ -787,7 +832,7 @@ export class Game {
     const missing = (): string[] => [...new Set(this.world.unavailable(this.sim.dropInPlan(tx, tz)).concat(this.world.cellsAt(tx, tz).filter(id => !collision.get(id))))];
     const finish = (): void => {
       if (this.sim.mode !== 'onFoot') return;
-      this.placePlayer(this.dropInGround(collision, tx, tz), x, z, headingDeg);
+      this.placePlayer(this.dropInGround(collision, tx, tz, exact), x, z, headingDeg);
     };
     if (!missing().length) { finish(); return; }
     this.collisionLoading.teleporting = true;
@@ -800,11 +845,11 @@ export class Game {
   }
 
   /** Ground under a drop-in destination whose collision may not be registered with Rapier yet. */
-  private dropInGround(collision: CollisionStream, x: number, z: number): V3 {
+  private dropInGround(collision: CollisionStream, x: number, z: number, requireActual = false): V3 {
     if (this.world.queryable(x, z)) return this.sim.groundPoint(x, z);
     // Mirror the Rapier probe: the highest surface below terrain + 30 m, including the fallback heightfield.
     const top = this.world.groundHeight(x, z) + 30;
-    let y = this.world.groundHeight(x, z) - 0.4;
+    let y = requireActual ? -Infinity : this.world.groundHeight(x, z) - 0.4;
     for (const id of this.world.cellsAt(x, z)) {
       // A live square next to the address need not be loaded; drop-in plans never require one.
       const bytes = collision.get(id);
@@ -812,6 +857,7 @@ export class Game {
       const h = groundBelowBundle(parseCollisionBundle(bytes), x, top, z, 80);
       if (h !== null) y = Math.max(y, h);
     }
+    if (!Number.isFinite(y)) throw new Error('Airfield ground is unavailable; retry the destination');
     return [x, y, z];
   }
 

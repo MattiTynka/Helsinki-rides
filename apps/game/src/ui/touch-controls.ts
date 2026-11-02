@@ -2,6 +2,7 @@ import { isTouchFirstDevice } from '../device.ts';
 import { i18n, type MessageKey } from '../i18n/index.ts';
 import type { Input } from '../input/input.ts';
 import type { TouchRole } from '../input/touch-state.ts';
+import { flightText } from './flight-text.ts';
 
 export interface TouchControlsState {
   readonly mode: string;
@@ -72,6 +73,12 @@ export class TouchControls {
       if (role === 'aim') button.setAttribute('aria-pressed', 'false');
       this.buttons.set(role, button); actions.append(button);
     }
+    for (const role of ['ascend', 'descend'] as const) {
+      const button = document.createElement('button'); button.type = 'button';
+      button.className = `touch-button touch-${role}`; button.dataset.touchRole = role;
+      button.textContent = flightText(role); this.bind(button, role);
+      this.buttons.set(role, button); actions.append(button);
+    }
     this.element.append(actions); document.body.append(this.element);
 
     this.preferences = document.createElement('details'); this.preferences.id = 'touch-preferences'; this.preferences.className = 'touch-preferences';
@@ -116,14 +123,20 @@ export class TouchControls {
     const context = `${state.mode}:${state.alive}:${state.contextKey ?? ''}`;
     if (this.context !== null && this.context !== context) this.clear();
     this.context = context; this.state = state;
-    const driving = state.mode === 'driving' || state.mode === 'exiting';
+    const flying = state.mode === 'flying';
+    const driving = flying || state.mode === 'driving' || state.mode === 'exiting';
     this.input.touch.setDriving(driving);
-    const presentation = `${driving}:${Boolean(state.canInteract)}:${state.canRecover !== false}:${i18n.language}`;
+    this.input.touch.setFlying(flying);
+    const presentation = `${driving}:${flying}:${Boolean(state.canInteract)}:${state.canRecover !== false}:${i18n.language}`;
     if (presentation !== this.presentationKey) {
       this.presentationKey = presentation; this.element.classList.toggle('touch-driving', driving);
       this.stick.querySelector('.touch-stick-guide')!.textContent = i18n.text(driving ? 'touch.steer' : 'touch.move');
       for (const role of ['aim', 'fire', 'jump', 'reload', 'holster'] as const) this.buttons.get(role)!.hidden = driving;
-      for (const role of ['accelerate', 'brake', 'handbrake', 'horn'] as const) this.buttons.get(role)!.hidden = !driving;
+      for (const role of ['accelerate', 'brake'] as const) this.buttons.get(role)!.hidden = !driving;
+      for (const role of ['handbrake', 'horn'] as const) this.buttons.get(role)!.hidden = !driving || flying;
+      for (const role of ['ascend', 'descend'] as const) {
+        this.buttons.get(role)!.hidden = !flying; this.buttons.get(role)!.textContent = flightText(role);
+      }
       const interact = this.buttons.get('interact')!;
       interact.hidden = !driving && !state.canInteract;
       interact.textContent = i18n.text(driving ? 'touch.exit' : 'touch.enter');
@@ -163,7 +176,7 @@ export class TouchControls {
     this.setHint(); this.refreshVisibility();
   }
   private refreshVisibility(): void {
-    const playableMode = this.state.mode === 'onFoot' || this.state.mode === 'driving' || this.state.mode === 'exiting';
+    const playableMode = this.state.mode === 'onFoot' || this.state.mode === 'driving' || this.state.mode === 'exiting' || this.state.mode === 'flying';
     const visible = this.active && this.enabled && this.state.alive && playableMode;
     if (visible !== this.visible) { this.visible = visible; this.element.classList.toggle('hidden', !visible); }
     this.input.touch.setActive(visible && this.input.active);

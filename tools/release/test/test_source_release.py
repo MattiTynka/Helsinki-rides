@@ -6,6 +6,8 @@ import tempfile
 import unittest
 import os
 import subprocess
+import struct
+import zlib
 from unittest import mock
 
 SPEC = importlib.util.spec_from_file_location('source_release', Path(__file__).resolve().parents[1] / 'source_release.py')
@@ -14,6 +16,53 @@ SPEC.loader.exec_module(release)
 
 
 class SourceReleaseTest(unittest.TestCase):
+    def test_only_reviewed_aircraft_glbs_are_selected(self):
+        self.assertTrue(release.selected('apps/game/src/assets/aircraft/trainer.glb'))
+        self.assertFalse(release.selected('apps/game/src/assets/aircraft/unreviewed.glb'))
+
+    def test_aircraft_embedded_png_metadata_is_not_hidden_by_glb_storage(self):
+        def chunk(kind, payload):
+            return struct.pack('>I', len(payload)) + kind + payload + struct.pack('>I', zlib.crc32(kind + payload))
+        png = b'\x89PNG\r\n\x1a\n'
+        png += chunk(b'IHDR', struct.pack('>IIBBBBB', 1, 1, 8, 2, 0, 0, 0))
+        png += chunk(b'tEXt', b'Author\x00' + b'private contact')
+        png += chunk(b'IDAT', zlib.compress(b'\x00\x00\x00\x00')) + chunk(b'IEND', b'')
+        document = {'asset': {'version': '2.0'}, 'buffers': [{'byteLength': len(png)}],
+                    'bufferViews': [{'buffer': 0, 'byteOffset': 0, 'byteLength': len(png)}],
+                    'images': [{'mimeType': 'image/png', 'bufferView': 0}]}
+        encoded = json.dumps(document).encode()
+        encoded += b' ' * (-len(encoded) % 4)
+        binary = png + b'\x00' * (-len(png) % 4)
+        data = struct.pack('<III', 0x46546C67, 2, 28 + len(encoded) + len(binary))
+        data += struct.pack('<II', len(encoded), 0x4E4F534A) + encoded
+        data += struct.pack('<II', len(binary), 0x004E4942) + binary
+        result = release.aircraft_findings(sorted(release.AIRCRAFT_MODELS)[0], data)
+        self.assertEqual(result[0]['rule'], 'image-private-metadata')
+
+    def test_aircraft_json_metadata_is_privacy_scanned(self):
+        name = sorted(release.AIRCRAFT_MODELS)[0]
+        document = {'asset': {'version': '2.0', 'extras': {'source': '/' + 'home/operator/private'}},
+                    'buffers': [{'byteLength': 4}]}
+        encoded = json.dumps(document).encode()
+        encoded += b' ' * (-len(encoded) % 4)
+        data = struct.pack('<III', 0x46546C67, 2, 28 + len(encoded) + 4)
+        data += struct.pack('<II', len(encoded), 0x4E4F534A) + encoded
+        data += struct.pack('<II', 4, 0x004E4942) + b'\x00' * 4
+        findings = release.scan_text(name, release.source_text(name, data))
+        self.assertEqual(findings[0]['rule'], 'personal-home-path')
+        self.assertNotIn('operator', json.dumps(findings))
+        for malformed in [data[:-1], data + b'\x00', b'bad']:
+            with self.assertRaises(ValueError):
+                release.source_text(name, malformed)
+        document['buffers'][0]['uri'] = 'https://example.org/resource.bin'
+        encoded = json.dumps(document).encode()
+        encoded += b' ' * (-len(encoded) % 4)
+        data = struct.pack('<III', 0x46546C67, 2, 28 + len(encoded) + 4)
+        data += struct.pack('<II', len(encoded), 0x4E4F534A) + encoded
+        data += struct.pack('<II', 4, 0x004E4942) + b'\x00' * 4
+        with self.assertRaises(ValueError):
+            release.source_text(name, data)
+
     def test_public_skills_are_scanned_without_local_runs(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

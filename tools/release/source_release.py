@@ -16,6 +16,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import struct
 import subprocess
 import sys
 import zlib
@@ -52,6 +53,7 @@ IMAGES = {
         'linjat/toinen-10/front', 'linjat/toinen-12-103151972Y/northeast', 'linjat/toinen-14/northwest')),
 }
 DECODERS = {'apps/game/public/basis/basis_transcoder.js', 'apps/game/public/basis/basis_transcoder.wasm'}
+AIRCRAFT_MODELS = {f'apps/game/src/assets/aircraft/{name}.glb' for name in ('trainer', 'helicopter')}
 PUBLIC_HANDLE = 'MattiTynka'
 PUBLIC_EMAIL = PUBLIC_HANDLE + '@users.noreply.github.com'
 PUBLIC_AUTHOR_NAMES = {PUBLIC_HANDLE, 'Matti Tynka'}
@@ -85,7 +87,7 @@ def selected(relative: str) -> bool:
         if len(parts) == 3:
             return p.name in {'SKILL.md', 'LICENSE'}
         return parts[2] in SKILL_SOURCE_DIRS and p.suffix in TEXT_SUFFIXES | {'.sh'}
-    return relative in ROOT_FILES or relative in IMAGES or relative in DECODERS or relative in COMPRESSED_JSON or (
+    return relative in ROOT_FILES or relative in IMAGES or relative in DECODERS or relative in AIRCRAFT_MODELS or relative in COMPRESSED_JSON or (
         parts[0] in SOURCE_DIRS and p.suffix in TEXT_SUFFIXES)
 
 
@@ -126,6 +128,9 @@ def scan_text(name: str, text: str) -> list[dict]:
 
 
 def source_text(name: str, data: bytes) -> str:
+    if name in AIRCRAFT_MODELS:
+        document, _ = aircraft_glb(data)
+        return json.dumps(document, ensure_ascii=False)
     if name in COMPRESSED_JSON:
         # The exact two public datasets may be compressed; never skip their
         # decoded privacy scan or accept filenames/comments in gzip headers.
@@ -145,6 +150,59 @@ def source_text(name: str, data: bytes) -> str:
         json.loads(text)
         return text
     return data.decode('utf-8-sig')
+
+
+def aircraft_glb(data: bytes) -> tuple[dict, bytes]:
+    """Only the two embedded aircraft GLBs are permitted in the source export."""
+    if len(data) < 28 or len(data) > 2 * 1024 * 1024:
+        raise ValueError('invalid aircraft size')
+    magic, version, total = struct.unpack_from('<III', data)
+    if magic != 0x46546C67 or version != 2 or total != len(data):
+        raise ValueError('invalid aircraft header')
+    json_size, kind = struct.unpack_from('<II', data, 12)
+    binary_header = 20 + json_size
+    if kind != 0x4E4F534A or json_size % 4 or binary_header + 8 > len(data):
+        raise ValueError('invalid aircraft JSON')
+    document = json.loads(data[20:binary_header].decode('utf8'))
+    binary_size, kind = struct.unpack_from('<II', data, binary_header)
+    if kind != 0x004E4942 or binary_size % 4 or binary_header + 8 + binary_size != len(data):
+        raise ValueError('invalid aircraft binary')
+    binary = data[binary_header + 8:]
+    if not isinstance(document, dict) or not isinstance(document.get('asset'), dict) or document['asset'].get('version') != '2.0':
+        raise ValueError('invalid aircraft document')
+    buffers = document.get('buffers', [])
+    if not isinstance(buffers, list) or not 1 <= len(buffers) <= 2 or not isinstance(buffers[0], dict) or not isinstance(buffers[0].get('byteLength'), int) or not 0 <= binary_size - buffers[0]['byteLength'] <= 3:
+        raise ValueError('invalid aircraft buffer')
+    if len(buffers) == 2 and (not isinstance(buffers[1], dict) or not isinstance(buffers[1].get('byteLength'), int)
+                            or not 0 <= buffers[1]['byteLength'] <= 2 * 1024 * 1024
+                            or buffers[1].get('extensions') != {'EXT_meshopt_compression': {'fallback': True}}):
+        raise ValueError('invalid aircraft virtual buffer')
+    def check_embedded(value):
+        if isinstance(value, dict):
+            if 'uri' in value:
+                raise ValueError('external aircraft resource')
+            for child in value.values():
+                check_embedded(child)
+        elif isinstance(value, list):
+            for child in value:
+                check_embedded(child)
+    check_embedded(document)
+    return document, binary
+
+
+def aircraft_findings(name: str, data: bytes) -> list[dict]:
+    try:
+        document, binary = aircraft_glb(data)
+        findings = []
+        for image in document.get('images', []):
+            view = document['bufferViews'][image['bufferView']]
+            start, size = view.get('byteOffset', 0), view['byteLength']
+            if image.get('mimeType') != 'image/png' or view.get('buffer') != 0 or not isinstance(start, int) or not isinstance(size, int) or start < 0 or size <= 0 or start + size > len(binary):
+                raise ValueError('invalid aircraft image')
+            findings.extend(image_findings(name + '/atlas.png', binary[start:start + size]))
+        return findings
+    except (UnicodeDecodeError, ValueError, KeyError, IndexError, TypeError, AttributeError, struct.error):
+        return [{'file': name, 'rule': 'invalid-aircraft-glb'}]
 
 
 def git_output(root: Path, *args: str) -> bytes:
@@ -178,6 +236,8 @@ def audit(root: Path, include_git: bool = False, images: bool = False) -> dict:
         findings.extend(scan_text(name, name))
         if images and name in IMAGES:
             findings.extend(image_findings(name, data))
+        if name in AIRCRAFT_MODELS:
+            findings.extend(aircraft_findings(name, data))
         if name not in IMAGES and not name.endswith('.wasm'):
             try:
                 findings.extend(scan_text(name, source_text(name, data)))
@@ -213,6 +273,8 @@ def audit(root: Path, include_git: bool = False, images: bool = False) -> dict:
                 blob = git_output(root, 'cat-file', 'blob', oid)
                 if images and name in IMAGES:
                     findings.extend(image_findings(name, blob))
+                if name in AIRCRAFT_MODELS:
+                    findings.extend(aircraft_findings(name, blob))
                 if name not in IMAGES and not name.endswith('.wasm'):
                     try:
                         findings.extend(scan_text(name, source_text(name, blob)))

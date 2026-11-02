@@ -4,6 +4,7 @@ export * from './world.ts';
 export * from './collision-residency.ts';
 export * from './live-grid.ts';
 export * from './vehicle.ts';
+export * from './aircraft.ts';
 export * from './character.ts';
 export * from './wanted.ts';
 export * from './weapons.ts';

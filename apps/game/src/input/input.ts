@@ -97,9 +97,11 @@ export class Input {
   }
 
   /** Build the command for the next tick; `yaw`/`pitch` come from the camera. */
-  command(yaw: number, pitch: number, driving: boolean): Command {
+  command(yaw: number, pitch: number, driving: boolean, flying = false): Command {
+    driving ||= flying;
     if (!this.enabled) return { moveX: 0, moveZ: 0, yaw, pitch, buttons: 0 };
     this.touch.setDriving(driving);
+    this.touch.setFlying(flying);
     let moveX = this.axis(['KeyA', 'ArrowLeft'], ['KeyD', 'ArrowRight']);
     let moveZ = this.axis(['KeyS', 'ArrowDown'], ['KeyW', 'ArrowUp']);
     let buttons = 0;
@@ -108,9 +110,11 @@ export class Input {
     if (this.holsterLatch) { if (!driving) buttons |= Button.holster; this.holsterLatch = false; }
     if ((this.mouseButtons & 1) !== 0 && this.mouseActive) buttons |= Button.fire;
     if ((this.mouseButtons & 4) !== 0 && this.mouseActive) buttons |= Button.aim;
-    if (driving && this.keys.has('Space')) buttons |= Button.handbrake;
+    if (driving && !flying && this.keys.has('Space')) buttons |= Button.handbrake;
+    if (flying && this.keys.has('Space')) buttons |= Button.ascend;
+    if (flying && (this.keys.has('ControlLeft') || this.keys.has('ControlRight'))) buttons |= Button.descend;
     if (this.keys.has('KeyH')) buttons |= Button.horn;
-    if (this.keys.has('KeyR')) buttons |= Button.reload;
+    if (!flying && this.keys.has('KeyR')) buttons |= Button.reload;
     if (this.keys.has('KeyX') || this.keys.has('Backspace')) buttons |= Button.recover;
     // Gamepad: left stick move/steer, right stick look is read by the game loop, RT throttle/fire, LT brake/aim.
     const gp = this.activeGamepad();
@@ -124,7 +128,8 @@ export class Input {
       if (gp.buttons[0]?.pressed) buttons |= Button.interact;
       if (gp.buttons[10]?.pressed) buttons |= Button.sprint;
       const jumpHeld = gp.buttons[1]?.pressed ?? false;
-      if (driving && jumpHeld) buttons |= Button.handbrake;
+      if (driving && jumpHeld) buttons |= flying ? Button.ascend : Button.handbrake;
+      if (flying && gp.buttons[4]?.pressed) buttons |= Button.descend;
       if (!driving && jumpHeld && !this.gamepadJumpHeld) this.jumpPresses = Math.min(2, this.jumpPresses + 1);
       this.gamepadJumpHeld = jumpHeld;
       if (gp.buttons[2]?.pressed) buttons |= Button.reload;
@@ -133,6 +138,7 @@ export class Input {
     const touch = this.touch.consume();
     if (touch.moveX !== 0 || touch.moveZ !== 0) { moveX = touch.moveX; moveZ = touch.moveZ; }
     buttons |= touch.buttons;
+    if (flying) buttons &= ~(Button.fire | Button.aim | Button.reload | Button.holster | Button.jump | Button.handbrake);
     this.jumpPresses = Math.min(2, this.jumpPresses + touch.jumpPresses);
     // Preserve two distinct taps even if both arrive between simulation ticks. A neutral tick between
     // pulses keeps the replay's edge-triggered jump deterministic; holding Space never auto-jumps.

@@ -9,6 +9,7 @@ import { PoliceForce, type PoliceUnitState } from './police.ts';
 import { ParkedCars } from './parked-cars.ts';
 import { CIVILIAN_BULLETS_LETHAL, civilianVariant, Pedestrians, type PedestrianKnockdown } from './pedestrians.ts';
 import { Vehicle } from './vehicle.ts';
+import { Aircraft, AIRCRAFT_DEFINITIONS, aircraftSupportGround, MALMI_AIRFIELD, type AircraftState } from './aircraft.ts';
 import { WantedState, type Crime, type WantedSnapshot } from './wanted.ts';
 import { fireRay, Inventory, type ShotResult } from './weapons.ts';
 import { resolveAimDirection } from './aim.ts';
@@ -18,7 +19,7 @@ import { RAPIER, type StaticWorld } from './world.ts';
 import { initialResidencySources, RESIDENCY, source, type ResidencyPlan, type ResidencySource } from './collision-residency.ts';
 import {supportedSpawnGround}from'./spawn-ground.ts';
 
-export type PlayerMode = 'onFoot' | 'entering' | 'driving' | 'exiting' | 'wasted' | 'busted';
+export type PlayerMode = 'onFoot' | 'entering' | 'driving' | 'flying' | 'exiting' | 'wasted' | 'busted';
 
 export interface Shot {
   readonly shooter: string;
@@ -73,6 +74,8 @@ export interface CharacterState {
 }
 
 export interface PlayerState extends CharacterState {
+  readonly aircraftId: string | null;
+  readonly nearAircraft: string | null;
   readonly pitch: number;
   readonly armour: number;
   readonly mode: PlayerMode;
@@ -84,6 +87,7 @@ export interface PlayerState extends CharacterState {
 }
 
 export interface SimState {
+  readonly aircraft: readonly AircraftState[];
   readonly tick: number;
   readonly time: number;
   readonly player: PlayerState;
@@ -131,6 +135,9 @@ export class Simulation {
   readonly player: Character;
   readonly inventory = new Inventory();
   readonly vehicles = new Map<string, Vehicle>();
+  readonly aircraft = new Map<string, Aircraft>();
+  playerAircraftId: string | null = null;
+  private aircraftRecoverPending = false;
   /** Non-player characters (officers now, pedestrians from M3). */
   readonly characters = new Map<string, Character>();
   readonly wanted: WantedState;
@@ -304,14 +311,18 @@ export class Simulation {
     return this.player.inVehicle ? this.vehicles.get(this.player.inVehicle) ?? null : null;
   }
 
+  get playerAircraft(): Aircraft | null { return this.playerAircraftId ? this.aircraft.get(this.playerAircraftId) ?? null : null; }
+
   /** The player's position for the police (car position while driving). */
   get playerPosition(): V3 {
+    if (this.playerAircraft) return this.playerAircraft.position;
     const v = this.playerVehicle;
     return v ? v.position : this.player.centre;
   }
 
   /** Direction of travel on the ground (unit XZ): the car's motion while it moves, otherwise the way the car or Snow faces. */
   get playerHeading(): [number, number] {
+    if (this.playerAircraft) return [Math.sin(this.playerAircraft.yaw), Math.cos(this.playerAircraft.yaw)];
     const v = this.playerVehicle;
     const [x, z] = !v ? [Math.sin(this.player.yaw), Math.cos(this.player.yaw)]
       : Math.hypot(v.velocity[0], v.velocity[2]) > 1 ? [v.velocity[0], v.velocity[2]] : [v.forward[0], v.forward[2]];
@@ -320,6 +331,7 @@ export class Simulation {
   }
 
   get playerSpeed(): number {
+    if (this.playerAircraft) return Math.abs(this.playerAircraft.speed);
     const v = this.playerVehicle;
     return v ? v.speed : this.player.speed;
   }
@@ -358,6 +370,9 @@ export class Simulation {
     const sources = [source(p[0], p[2], RESIDENCY.player)];
     if (this.screen) sources.push(source(this.screen.anchor.position[0], this.screen.anchor.position[1], RESIDENCY.player));
     for (const v of this.vehicles.values()) sources.push(source(v.position[0], v.position[2], RESIDENCY.actor));
+    // Only nearby parked aircraft retain collision. A flight must not pin a second, distant district forever.
+    for (const a of this.aircraft.values()) if (a.occupied || distanceXZ(a.position, p) < 180) sources.push(source(a.position[0], a.position[2], RESIDENCY.actor));
+    if (this.aircraftRecoverPending && this.playerAircraft) sources.push(source(this.playerAircraft.def.position[0], this.playerAircraft.def.position[1], RESIDENCY.player));
     for (const c of this.characters.values()) if (!c.inVehicle) sources.push(source(c.position[0], c.position[2], RESIDENCY.actor));
     return sources;
   }
@@ -386,6 +401,7 @@ export class Simulation {
     this.shots = [];
     this.lastCommand = command;
     if (this.world.streamed) this.world.applyResidency(this.residencyPlan());
+    this.spawnNearbyAircraft();
     this.jumpPressed = has(command.buttons, Button.jump) && !this.jumpWasDown;
     this.jumpWasDown = has(command.buttons, Button.jump);
     this.inventory.step();
@@ -396,6 +412,7 @@ export class Simulation {
       case 'onFoot': this.stepOnFoot(command); break;
       case 'entering': this.stepEntering(); break;
       case 'driving': this.stepDriving(command); break;
+      case 'flying': this.stepFlying(command); break;
       case 'exiting': this.stepExiting(command); break;
       case 'wasted': case 'busted': this.stepScreen(); break;
     }
@@ -418,6 +435,7 @@ export class Simulation {
     this.drainContacts();
 
     if (this.playerVehicle) this.followVehicle();
+    if (this.playerAircraft) this.followAircraft();
     for (const c of this.characters.values()) if (!c.alive) c.deathTicks++;
     this.layBodies();
 
@@ -480,6 +498,8 @@ export class Simulation {
     if (handsFree && has(command.buttons, Button.fire)) this.playerFire(yaw, this.pitch);
     // Enter a vehicle.
     if (has(command.buttons, Button.interact) && this.modeTicks > 10 && p.grounded && p.jumpPhase !== 'takeoff') {
+      const aircraft = this.nearestEnterableAircraft();
+      if (aircraft) { this.enterAircraft(aircraft); return; }
       const v = this.nearestEnterableVehicle();
       if (v) this.beginEnter(v);
     }
@@ -496,6 +516,73 @@ export class Simulation {
       if (d <= v.def.seat.entryRadius + 1.2 && d < bestD) { best = v; bestD = d; }
     }
     return best;
+  }
+
+  private spawnNearbyAircraft(): void {
+    if (distanceXZ(this.playerPosition, [MALMI_AIRFIELD.x, 0, MALMI_AIRFIELD.z]) > 180) return;
+    for (const def of AIRCRAFT_DEFINITIONS) {
+      if (this.aircraft.has(def.id)) continue;
+      const [x, z] = def.position;
+      if (![[x - 7, z - 7], [x + 7, z - 7], [x - 7, z + 7], [x + 7, z + 7]].every(([px, pz]) => this.world.queryable(px!, pz!))) continue;
+      const ground = aircraftSupportGround(this.world, def.kind, x, z, def.yaw);
+      if (ground !== null) this.aircraft.set(def.id, new Aircraft(this.world, def, ground));
+    }
+  }
+
+  private nearestEnterableAircraft(): Aircraft | null {
+    let best: Aircraft | null = null, distance = Infinity;
+    for (const aircraft of this.aircraft.values()) {
+      if (aircraft.occupied || !aircraft.near(this.player.position)) continue;
+      const d = distanceXZ(aircraft.position, this.player.position);
+      if (d < distance) { best = aircraft; distance = d; }
+    }
+    return best;
+  }
+
+  private enterAircraft(aircraft: Aircraft): void {
+    this.player.resetJump(); this.inventory.select(-1); this.wanted.clearPlayerFire();
+    this.aiming = false; this.playerAircraftId = aircraft.id; aircraft.occupied = true;
+    this.mode = 'flying'; this.modeTicks = 0; this.recoverTicks = 0; this.aircraftRecoverPending = false;
+    this.followAircraft(); this.emit('enterAircraft', aircraft.id);
+  }
+
+  private followAircraft(): void {
+    const aircraft = this.playerAircraft!;
+    this.player.position = aircraft.seat;
+    this.player.yaw = aircraft.yaw; this.player.speed = Math.abs(aircraft.speed);
+    this.player.hide();
+  }
+
+  private stepFlying(command: Command): void {
+    const aircraft = this.playerAircraft;
+    if (!aircraft) { this.playerAircraftId = null; this.mode = 'onFoot'; return; }
+    this.aiming = false;
+    if (has(command.buttons, Button.recover)) {
+      this.recoverTicks++;
+      if (this.recoverTicks === RECOVER_HOLD_TICKS) this.aircraftRecoverPending = true;
+    } else this.recoverTicks = 0;
+    if (this.aircraftRecoverPending) {
+      if (aircraft.recover()) { this.aircraftRecoverPending = false; this.emit('recover', aircraft.id); }
+      this.followAircraft(); return;
+    }
+    aircraft.step(command);
+    if (has(command.buttons, Button.interact) && this.modeTicks > 10) {
+      const exit = aircraft.exitPoint();
+      if (exit) {
+        aircraft.occupied = false; aircraft.throttle = 0;
+        this.playerAircraftId = null; this.mode = 'onFoot'; this.modeTicks = 0;
+        this.player.teleport(exit, aircraft.yaw); this.emit('exitAircraft', aircraft.id);
+      } else this.emit('aircraftExitBlocked', aircraft.id);
+    }
+  }
+
+  private releaseAircraft(): void {
+    const aircraft = this.playerAircraft;
+    if (aircraft) {
+      aircraft.occupied = false; aircraft.throttle = 0;
+      this.player.teleport(this.player.position, aircraft.yaw);
+    }
+    this.playerAircraftId = null; this.aircraftRecoverPending = false;
   }
 
   private beginEnter(v: Vehicle): void {
@@ -1077,7 +1164,8 @@ export class Simulation {
     // Geographic coverage qualifies automatic spawns, not traversal. Recover only an
     // actual fall or invalid physics state, never a crossing of an invisible XZ fence.
     const outside = (p: V3): boolean => !p.every(Number.isFinite) || p[1] < kill;
-    if (pv && outside(pv.position)) { this.recoverVehicle(pv); this.emit('killPlane', pv.id); }
+    if (this.playerAircraft && outside(this.playerAircraft.position)) { this.aircraftRecoverPending = true; this.emit('killPlane', this.playerAircraft.id); }
+    else if (pv && outside(pv.position)) { this.recoverVehicle(pv); this.emit('killPlane', pv.id); }
     else if (!pv && outside(this.player.position)) {
       this.recoverPlayer();
       this.emit('killPlane', 'player');
@@ -1086,6 +1174,7 @@ export class Simulation {
   }
 
   private wasted(): void {
+    this.releaseAircraft();
     this.cancelVehicleEntry();
     this.player.resetJump(true);
     const anchor = this.gameplay.anchors.find(a => a.kind === 'hospital')!;
@@ -1100,6 +1189,7 @@ export class Simulation {
   }
 
   private busted(): void {
+    this.releaseAircraft();
     this.cancelVehicleEntry();
     this.player.resetJump(true);
     const anchor = this.gameplay.anchors.find(a => a.kind === 'police')!;
@@ -1126,6 +1216,7 @@ export class Simulation {
     const p = this.player;
     const safe = this.safeSpawns.character(s.anchor.position[0], s.anchor.position[1], headingToYaw(s.anchor.headingDeg), p.body);
     p.inVehicle = null;
+    this.playerAircraftId = null; this.aircraftRecoverPending = false;
     p.alive = true;
     p.health = this.gameplay.player.health;
     p.deathTicks = 0;
@@ -1163,7 +1254,7 @@ export class Simulation {
     let clip: CharacterClip;
     if (!p.alive) clip = 'death';
     else if (this.mode === 'busted') clip = 'arrested';
-    else if (this.mode === 'driving' || this.mode === 'exiting') clip = 'drive';
+    else if (this.mode === 'driving' || this.mode === 'flying' || this.mode === 'exiting') clip = 'drive';
     else if (this.mode === 'entering') clip = this.entryStage !== 'approach' || p.speed < 0.2 ? 'idle' : 'walk';
     else if (p.hitTicks > 0) clip = 'hit';
     else if (this.tick - this.lastFireTick < 8) clip = 'fire';
@@ -1227,11 +1318,12 @@ export class Simulation {
       tick: this.tick, time: this.tick / TICK_HZ,
       player: {
         ...characterState(p), aiming: this.aiming, pitch: this.pitch, armour: p.armour, mode: this.mode, modeTicks: this.modeTicks,
+        aircraftId: this.playerAircraftId, nearAircraft: this.mode === 'onFoot' ? this.nearestEnterableAircraft()?.id ?? null : null,
         weapon: w ? { id: w.def.id, magazine: w.magazine, reserve: w.reserve, reloading: w.reloadTicks > 0 } : null,
         nearVehicle: near ? near.id : null, recoverProgress: Math.min(1, this.recoverTicks / RECOVER_HOLD_TICKS),
         vehicleInteraction: this.vehicleInteraction,
       },
-      vehicles, characters, police: this.police.states(), wanted: this.wanted.snapshot(), arrestProgress: this.police.arrestProgress,
+      aircraft: [...this.aircraft.values()].map(a => a.state()), vehicles, characters, police: this.police.states(), wanted: this.wanted.snapshot(), arrestProgress: this.police.arrestProgress,
       screen: this.screen ? { kind: this.screen.kind, ticksLeft: this.screen.ticks, destination: this.screen.anchor.destinationName } : null,
       shots: this.shots, events: this.events,
     };
@@ -1241,6 +1333,7 @@ export class Simulation {
   digest(): string {
     const parts: string[] = [`t${this.tick}`, this.mode, r3(this.player.position), String(Math.round(this.player.health)), `w${this.wanted.stars}/${r2(this.wanted.heat)}/${this.wanted.playerHasFired ? 'fired' : 'quiet'}`, `jump:${this.player.jumpDigest}:${this.jumpWasDown ? 1 : 0}`, `vehicle:${this.vehicleInteractionDigest}`];
     for (const id of [...this.vehicles.keys()].sort()) { const v = this.vehicles.get(id)!; parts.push(`${id}:${r3(v.position)}:${r2(v.yaw)}:${Math.round(v.health)}:${this.playerTakenVehicles.has(v) ? 'taken' : 'untaken'}`); }
+    if (this.aircraft.size) parts.push(`aircraft:${this.playerAircraftId ?? '-'}:${this.aircraftRecoverPending}:${this.recoverTicks}:${[...this.aircraft.values()].sort((a,b) => a.id.localeCompare(b.id)).map(a => a.digest()).join(';')}`);
     for (const id of [...this.characters.keys()].sort()) { const c = this.characters.get(id)!; parts.push(`${id}:${r3(c.position)}:${Math.round(c.health)}:${c.inVehicle ?? '-'}:${c.jumpDigest}:death${c.deathTicks}`); }
     parts.push(`police:${this.police.units.map(u => `${u.id}=${u.state}`).join(',')}`);
     parts.push(`policeRoutes:${this.police.routingDigest()}`);
@@ -1255,6 +1348,7 @@ export class Simulation {
     const parts: string[] = [String(this.tick), this.mode, r3(this.player.position), r2(this.player.yaw), String(Math.round(this.player.health)), String(this.wanted.stars), r2(this.wanted.heat), String(this.wanted.playerHasFired), this.player.jumpDigest, String(this.jumpWasDown), this.vehicleInteractionDigest];
     const ids = [...this.vehicles.keys()].sort();
     for (const id of ids) { const v = this.vehicles.get(id)!; parts.push(id, r3(v.position), r2(v.yaw), String(Math.round(v.health)), String(this.playerTakenVehicles.has(v))); }
+    if (this.aircraft.size) parts.push(`aircraft:${this.playerAircraftId ?? '-'}:${this.aircraftRecoverPending}:${this.recoverTicks}:${[...this.aircraft.values()].sort((a,b) => a.id.localeCompare(b.id)).map(a => a.digest()).join(';')}`);
     const cids = [...this.characters.keys()].sort();
     for (const id of cids) { const c = this.characters.get(id)!; parts.push(id, r3(c.position), String(Math.round(c.health)), c.inVehicle ?? '-', c.jumpDigest, String(c.deathTicks)); }
     parts.push(`policeRoutes:${this.police.routingDigest()}`);

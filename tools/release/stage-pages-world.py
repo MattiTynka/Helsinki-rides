@@ -65,6 +65,7 @@ KTX2_IDENTIFIER = bytes([0xab, 0x4b, 0x54, 0x58, 0x20, 0x32, 0x30, 0xbb, 0x0d, 0
 PUBLICATION_EXTENSIONS = frozenset({'.json', '.md', '.txt'})
 SHELL_ASSET = re.compile(r'assets/[A-Za-z0-9][A-Za-z0-9_-]*\.(?:js|css|wasm)\Z')
 START_SCREEN_IMAGE = re.compile(r'assets/senate-square-start-[A-Za-z0-9_-]{8}\.jpg\Z')
+AIRCRAFT_ASSET = re.compile(r'assets/(trainer|helicopter)-[A-Za-z0-9_-]{8}\.glb\Z')
 # The GT40-derived Kaamos model has no redistribution permission. Check runtime identities
 # and known GLB names; historical prose and publication/license documents remain unrestricted.
 RESTRICTED_VEHICLE = re.compile(r'(?:vehicle[-_]?)?(?:kaamos|gt[-_]?40)(?:[-_.][A-Za-z0-9_.-]+)?\Z', re.IGNORECASE)
@@ -682,6 +683,7 @@ def _shell_inventory(output: Path) -> tuple[list[str], int]:
         raise ValueError('Pages output must be an existing regular directory')
     names: list[str] = []
     total = 0
+    aircraft_bytes = 0
     for directory, directories, files in os.walk(output, followlinks=False):
         for name in directories + files:
             path = Path(directory) / name
@@ -691,12 +693,18 @@ def _shell_inventory(output: Path) -> tuple[list[str], int]:
             path = Path(directory) / name
             relative = path.relative_to(output).as_posix()
             is_start_image = START_SCREEN_IMAGE.fullmatch(relative) is not None
-            if relative not in {'index.html', 'sw.js', 'basis/basis_transcoder.js', 'basis/basis_transcoder.wasm'} and SHELL_ASSET.fullmatch(relative) is None and not is_start_image:
+            aircraft = AIRCRAFT_ASSET.fullmatch(relative)
+            if relative not in {'index.html', 'sw.js', 'basis/basis_transcoder.js', 'basis/basis_transcoder.wasm'} and SHELL_ASSET.fullmatch(relative) is None and not is_start_image and not aircraft:
                 raise ValueError('Pages output contains an unexpected, source, or review file')
             if not path.is_file():
                 raise ValueError('Pages output must contain only regular files')
             if is_start_image:
                 _validate_start_screen_image(path)
+            if aircraft:
+                _validate_shell_aircraft(path, aircraft[1])
+                aircraft_bytes += path.stat().st_size
+                if aircraft_bytes > 256 * 1024:
+                    raise ValueError('aircraft exceed the combined shell asset budget')
             names.append(relative)
             total += path.stat().st_size
     if not {'index.html', 'basis/basis_transcoder.js', 'basis/basis_transcoder.wasm'}.issubset(names):
@@ -704,6 +712,24 @@ def _shell_inventory(output: Path) -> tuple[list[str], int]:
     if (output / 'world').exists():
         raise ValueError('Pages output already contains a world release')
     return sorted(names), total
+
+
+def _validate_shell_aircraft(path: Path, kind: str) -> None:
+    """Only the two licensed, optimized, contract-pinned models belong in Pages."""
+    if path.stat().st_size > 1024 * 1024:
+        raise ValueError('aircraft exceeds the web model budget')
+    canonical = f'apps/game/src/assets/aircraft/{kind}.glb'
+    contract_path = Path(__file__).resolve().parents[2] / 'content/assets/aircraft.contract.json'
+    contract = _json(contract_path.read_bytes())
+    matches = [model for model in contract['models'] if model['file'] == canonical]
+    if len(matches) != 1:
+        raise ValueError('aircraft is missing its source contract')
+    data = path.read_bytes()
+    if len(data) != matches[0]['bytes'] or hashlib.sha256(data).hexdigest() != matches[0]['sha256']:
+        raise ValueError('aircraft differs from the reviewed optimized model')
+    scanner = _privacy_scanner()
+    if scanner.aircraft_findings(canonical, data) or scanner.scan_text(canonical, scanner.source_text(canonical, data)):
+        raise ValueError('aircraft contains invalid or private metadata')
 
 
 def _publication_require(condition: bool, message: str) -> None:

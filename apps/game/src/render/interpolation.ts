@@ -1,4 +1,4 @@
-import type { CharacterState, PlayerState, Quat, SimState, V3, VehicleState } from '@helsinki/sim';
+import type { AircraftState, CharacterState, PlayerState, Quat, SimState, V3, VehicleState } from '@helsinki/sim';
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const angle = (a: number, b: number, t: number) => a + Math.atan2(Math.sin(b - a), Math.cos(b - a)) * t;
@@ -41,12 +41,19 @@ function vehicle(before: VehicleState | undefined, after: VehicleState, t: numbe
   };
 }
 
+function aircraft(before: AircraftState | undefined, after: AircraftState, t: number): AircraftState {
+  if (!before || before.occupied !== after.occupied || distance(before.position, after.position) > 5) return after;
+  return { ...after, position: vector(before.position, after.position, t), rotation: quaternion(before.rotation, after.rotation, t),
+    yaw: angle(before.yaw, after.yaw, t), speed: lerp(before.speed, after.speed, t), verticalSpeed: lerp(before.verticalSpeed, after.verticalSpeed, t) };
+}
+
 /** One-tick-delayed presentation only. State, collision, commands and replay remain authoritative at 60 Hz. */
 export function interpolateState(before: SimState, after: SimState, fraction: number): SimState {
-  if (after.tick !== before.tick + 1 || before.player.mode !== after.player.mode || before.player.inVehicle !== after.player.inVehicle || distance(before.player.position, after.player.position) > 5) return after;
+  if (after.tick !== before.tick + 1 || before.player.mode !== after.player.mode || before.player.inVehicle !== after.player.inVehicle || before.player.aircraftId !== after.player.aircraftId || distance(before.player.position, after.player.position) > 5) return after;
   const t = Math.max(0, Math.min(1, fraction));
   const previousVehicles = new Map(before.vehicles.map(v => [v.id, v]));
   const previousCharacters = new Map(before.characters.map(c => [c.id, c]));
+  const previousAircraft = new Map((before.aircraft ?? []).map(a => [a.id, a]));
   const previousInteraction = before.player.vehicleInteraction, interaction = after.player.vehicleInteraction;
   const player: PlayerState = { ...character(before.player, after.player, t), pitch: lerp(before.player.pitch, after.player.pitch, t),
     // A shove that follows another restarts its clip: do not sweep back through it.
@@ -56,6 +63,7 @@ export function interpolateState(before: SimState, after: SimState, fraction: nu
   };
   return { ...after, time: lerp(before.time, after.time, t), player,
     vehicles: after.vehicles.map(v => vehicle(previousVehicles.get(v.id), v, t)),
+    aircraft: (after.aircraft ?? []).map(a => aircraft(previousAircraft.get(a.id), a, t)),
     characters: after.characters.map(c => character(previousCharacters.get(c.id), c, t)),
   };
 }

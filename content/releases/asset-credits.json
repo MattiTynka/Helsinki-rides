@@ -114,6 +114,26 @@
       "licenseFileSha256": "6d01f55c6e4c49a2c9963e147e561945ae2c83958c8ca667d90a6bffdbfac061",
       "evidence": "Archived Standard edition License.txt explicitly declares CC0 1.0 Universal. Source archive and license hashes were read from the existing 2026-10-17 project ledger; no upstream package is included in the source export.",
       "changes": "Walk, jog and sprint clips retargeted to the reduced Snow/Rain rigs, with the posture, contacts, cadence and in-place adaptations recorded in content/assets/locomotion.motion.json. The civilian game assets ship the walk only; their run and sprint are Snow's supplied movement (content/assets/civilian-flee.motion.json). Project-authored collapse and other gameplay poses retain their own provenance."
+    },
+    {
+      "id": "malmi-aircraft",
+      "title": "Trainer plane and Light helicopter - Low-Poly Aircraft Kit Free",
+      "authors": [
+        {
+          "name": "heyheythere",
+          "role": "Models, textures and animation rig"
+        }
+      ],
+      "sourceUrl": "https://heyheythere.itch.io/low-poly-aircraft-kit-free",
+      "license": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "evidence": {
+        "status": "license-verified-from-free-download",
+        "retrievedOn": "2026-11-02",
+        "licenseFile": "content/assets/aircraft-license.md",
+        "contract": "content/assets/aircraft.contract.json"
+      },
+      "changes": "Non-rendering atlas metadata removed losslessly; colour atlas embedded into GLBs; native lossless raw Meshopt storage compression applied without geometry or animation changes; runtime placement, flight controls and pivot animation added."
     }
   ],
   "removedAssets": [

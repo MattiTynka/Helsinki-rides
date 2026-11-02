@@ -1,7 +1,7 @@
 import { Button } from '@helsinki/sim';
 
 export type TouchRole = 'move' | 'look' | 'fire' | 'aim' | 'jump' | 'interact' | 'reload'
-  | 'holster' | 'recover' | 'accelerate' | 'brake' | 'handbrake' | 'horn';
+  | 'holster' | 'recover' | 'accelerate' | 'brake' | 'handbrake' | 'horn' | 'ascend' | 'descend';
 interface Contact { readonly role: TouchRole; x: number; y: number; }
 export interface TouchCommand { moveX: number; moveZ: number; buttons: number; jumpPresses: number; }
 
@@ -11,6 +11,7 @@ export class TouchState {
   private readonly pulses: { pointer: number; role: TouchRole }[] = [];
   private enabled = true;
   private driving = false;
+  private flying = false;
   private dx = 0;
   private dy = 0;
   private moveX = 0;
@@ -21,6 +22,7 @@ export class TouchState {
 
   setActive(active: boolean): void { if (!active) this.reset(); this.enabled = active; }
   setDriving(driving: boolean): void { if (this.driving !== driving) { this.reset(); this.driving = driving; } }
+  setFlying(flying: boolean): void { if (this.flying !== flying) { this.reset(); this.flying = flying; } }
   get isDriving(): boolean { return this.driving; }
   get activePointers(): number { return this.contacts.size; }
 
@@ -80,8 +82,10 @@ export class TouchState {
     let buttons = this.sprint ? Button.sprint : 0, jumps = 0;
     const held = new Set(Array.from(this.contacts.values(), contact => contact.role));
     if (this.driving) {
-      if (held.has('handbrake')) buttons |= Button.handbrake;
-      if (held.has('horn')) buttons |= Button.horn;
+      if (held.has('handbrake') && !this.flying) buttons |= Button.handbrake;
+      if (held.has('horn') && !this.flying) buttons |= Button.horn;
+      if (this.flying && held.has('ascend')) buttons |= Button.ascend;
+      if (this.flying && held.has('descend')) buttons |= Button.descend;
     } else {
       if (held.has('fire')) buttons |= Button.fire;
       if (this.aiming) buttons |= Button.aim;

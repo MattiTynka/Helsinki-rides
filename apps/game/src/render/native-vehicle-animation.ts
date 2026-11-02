@@ -126,7 +126,7 @@ export class NativeVehicleAnimation {
    * walk-up actually stopped, and the bones blend in from the mixer pose. When the layer lets go, its last pose fades
    * into the mixer over VEHICLE_POSE_RELEASE seconds. Returns whether the car layer owns the body this frame.
    */
-  apply(root: THREE.Object3D, interaction: Interaction, vehicle: VehicleState | undefined, dt = 0, poses = VEHICLE_POSES): boolean {
+  apply(root: THREE.Object3D, interaction: Interaction, vehicle: Pick<VehicleState, 'position' | 'rotation'> | undefined, dt = 0, poses = VEHICLE_POSES, seat?: readonly [number, number, number]): boolean {
     const sample = vehiclePoseSample(interaction, poses);
     if (!sample || !vehicle || !interaction) { this.posed = null; this.release(root, dt); return false; }
     // The entry and the first shove start from the walk-up: blend the body in and warp the root onto the clip.
@@ -176,6 +176,13 @@ export class NativeVehicleAnimation {
     }
     root.visible = true;
     root.updateMatrixWorld(true);
+    if (seat) {
+      // Reuse the authored seated pose, aligning its actual hips to the aircraft's seat socket.
+      this.hips.getWorldPosition(this.pa);
+      this.pb.fromArray(seat).applyQuaternion(root.quaternion).add(this.offset.fromArray(vehicle.position));
+      root.position.add(this.pb.sub(this.pa));
+      root.updateMatrixWorld(true);
+    }
     if (blend < 1) this.blendHips(this.mixerHips, blend);
     for (const [node, q] of this.last) q.copy(node.quaternion);
     this.lastHips.copy(this.hips.matrixWorld);

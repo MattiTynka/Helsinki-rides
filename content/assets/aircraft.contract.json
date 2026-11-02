@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "title": "Low-Poly Aircraft Kit Free",
+    "creator": "heyheythere",
+    "url": "https://heyheythere.itch.io/low-poly-aircraft-kit-free",
+    "retrievedOn": "2026-11-02",
+    "license": "CC-BY-4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "licenseFile": "content/assets/aircraft-license.md"
+  },
+  "axes": {
+    "forward": "+Z",
+    "up": "+Y",
+    "units": "metres",
+    "origin": "Ground under the wheels or skids"
+  },
+  "changes": "Removed non-rendering atlas metadata through the native lossless PNG sanitizer, embedded the atlas using glTF Transform 4.5.1, then applied the native lossless raw Meshopt buffer-view compressor. Every compressed view is decoded and checked byte-for-byte before acceptance. Mesh accessors, materials, hierarchy, pivots and animation clips are retained. Runtime supplies placement and flight-driven animation.",
+  "textures": {
+    "width": 512,
+    "height": 512,
+    "originalEncodedBytes": 4637,
+    "originalSha256": "9a4bcccf0b5f36ae40c6932d4a736af08f75a1d46c866b84b62aaa4100f10bb6",
+    "encodedBytes": 4550,
+    "sha256": "3fe1513743b2221158d4b1ea237fd27b801741466d65d36d0f6bce3f046f9951",
+    "description": "One metadata-sanitized embedded PNG per model; compressed pixel chunks remain byte-exact. Standard and Low use identical small assets.",
+    "rgbaMipmappedBytesPerModel": 1398100
+  },
+  "models": [
+    {
+      "id": "malmi-plane",
+      "title": "Trainer plane",
+      "file": "apps/game/src/assets/aircraft/trainer.glb",
+      "originalSha256": "b893658393ff367a7642ba2bb5fbb6cc3d1dc840dc570d878708bc7f210e9f03",
+      "sha256": "48a1fdb1d8fd6ffd4976e1b148cae005dd55ac6abd987baa89c1c5ca0564c7f2",
+      "bytes": 47840,
+      "triangles": 606,
+      "bounds": {
+        "min": [
+          -5.400000095367432,
+          0,
+          -3.619999885559082
+        ],
+        "max": [
+          5.400000095367432,
+          2.8499999046325684,
+          3.7300000190734863
+        ]
+      },
+      "materialCount": 1,
+      "nodes": [
+        "trainer_aileron_left",
+        "trainer_aileron_right",
+        "trainer_elevator",
+        "trainer_propeller",
+        "trainer_rudder",
+        "trainer"
+      ],
+      "animations": [
+        "controls",
+        "spin"
+      ],
+      "articulation": "Rigid-part transform rig, with named hinge and hub pivots; no deforming skeleton.",
+      "images": [
+        {
+          "mimeType": "image/png",
+          "embedded": true
+        }
+      ],
+      "compression": {
+        "originalBytes": 65888,
+        "originalSha256": "cd55d63f43726a1d60af82eb6c95f820f1f881a808a3cef90236fbe119312e15",
+        "semanticSha256": "b72cfbe1ad431248379d4d18b99e60c51c6898575f8ac676cd1a86f3d5a5183b",
+        "accessorCount": 36,
+        "animationCount": 2,
+        "skinCount": 0,
+        "nodeCount": 6,
+        "images": [
+          {
+            "index": 0,
+            "sha256": "3fe1513743b2221158d4b1ea237fd27b801741466d65d36d0f6bce3f046f9951"
+          }
+        ],
+        "applied": true,
+        "reason": "compressed",
+        "compressedBytes": 47840,
+        "savedBytes": 18048,
+        "compressedSha256": "48a1fdb1d8fd6ffd4976e1b148cae005dd55ac6abd987baa89c1c5ca0564c7f2",
+        "compressedViews": 7,
+        "preservedViews": 2
+      },
+      "validation": {
+        "errors": 0,
+        "warnings": 0
+      }
+    },
+    {
+      "id": "malmi-helicopter",
+      "title": "Light helicopter",
+      "file": "apps/game/src/assets/aircraft/helicopter.glb",
+      "originalSha256": "ccd036e64d1252b03dee486ee0a8def136cb1cf03d3205731106172aad3ee88c",
+      "sha256": "bfd0870f0bcf4f426e6f1842e34f42e76d22de06f15e8b32701bdbfd029281ff",
+      "bytes": 32636,
+      "triangles": 478,
+      "bounds": {
+        "min": [
+          -0.8949999809265137,
+          0.0060288566164672375,
+          -5.599999904632568
+        ],
+        "max": [
+          0.8949999809265137,
+          2.9800000190734863,
+          4.475000001490116
+        ]
+      },
+      "materialCount": 1,
+      "nodes": [
+        "helicopter_rotor_main",
+        "helicopter_rotor_tail",
+        "helicopter"
+      ],
+      "animations": [
+        "spin"
+      ],
+      "articulation": "Rigid-part transform rig, with named hinge and hub pivots; no deforming skeleton.",
+      "images": [
+        {
+          "mimeType": "image/png",
+          "embedded": true
+        }
+      ],
+      "compression": {
+        "originalBytes": 48128,
+        "originalSha256": "7fed3d873821fca44c6671c1ae0fd631bf0bb127ad0e541e66caf685e838808d",
+        "semanticSha256": "628c07f2fd113b19b30cc0b2b5ffd09b577bb46d4f4d779db4c6fff282287848",
+        "accessorCount": 18,
+        "animationCount": 1,
+        "skinCount": 0,
+        "nodeCount": 3,
+        "images": [
+          {
+            "index": 0,
+            "sha256": "3fe1513743b2221158d4b1ea237fd27b801741466d65d36d0f6bce3f046f9951"
+          }
+        ],
+        "applied": true,
+        "reason": "compressed",
+        "compressedBytes": 32636,
+        "savedBytes": 15492,
+        "compressedSha256": "bfd0870f0bcf4f426e6f1842e34f42e76d22de06f15e8b32701bdbfd029281ff",
+        "compressedViews": 4,
+        "preservedViews": 2
+      },
+      "validation": {
+        "errors": 0,
+        "warnings": 0
+      }
+    }
+  ]
+}

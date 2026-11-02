@@ -16,6 +16,9 @@ export const Button = {
   jump: 256,
   /** Put away the drawn weapon; takes priority over aim, fire and reload on this tick. */
   holster: 512,
+  /** Aircraft collective / climb and descent; held controls, not jump impulses. */
+  ascend: 1024,
+  descend: 2048,
 } as const;
 
 export interface AimRay {

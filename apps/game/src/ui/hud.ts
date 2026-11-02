@@ -5,6 +5,7 @@ import { type GameEvent, type GameplayBundle, type RoadGraph, type RoadIndex, ty
 import { resolveDropInTarget } from '../world/drop-in.ts';
 import { i18n, placeLabel, type MessageKey } from '../i18n/index.ts';
 import type { QualityTier } from '../render/quality-tiers.ts';
+import { flightText } from './flight-text.ts';
 
 export interface FrameStats {
   /** From the real presentation interval (no 10 fps floor). */
@@ -100,7 +101,11 @@ export class Hud {
     const labels = [...gameplay.landmarks, ...gameplay.addresses]
       .filter(a => resolveDropInTarget(gameplay, roads, ...a.position) !== null).map(a => a.label);
     for (const l of labels) { const o = document.createElement('option'); o.value = l; o.textContent = placeLabel(l); this.dropin.appendChild(o); }
+    const malmi = document.createElement('option');
+    malmi.value = 'malmi-airfield'; malmi.textContent = flightText('malmi'); malmi.dataset['place'] = '1';
+    this.dropin.append(malmi);
     i18n.subscribe(() => {
+      malmi.textContent = flightText('malmi');
       for (const option of this.dropin.options) if (option.value && !option.dataset['place']) option.textContent = placeLabel(option.value);
     });
     this.dropin.addEventListener('change', () => { const v = this.dropin.value; this.dropin.value = ''; this.dropin.blur(); if (v && this.onDropIn) this.onDropIn(v); });
@@ -216,8 +221,13 @@ export class Hud {
     this.speed.textContent = car ? (car.damage === 'intact'
       ? i18n.text('vehicle.speed', { speed: i18n.number(car.speed * 3.6) })
       : i18n.text('vehicle.damagedSpeed', { speed: i18n.number(car.speed * 3.6), damage: damageKey ? i18n.template(damageKey) : car.damage })) : '';
+    const aircraft = p.aircraftId ? state.aircraft.find(a => a.id === p.aircraftId) : null;
+    if (aircraft) this.speed.textContent = `${flightText(aircraft.kind)} | ${i18n.number(aircraft.speed * 3.6)} km/h | ${i18n.number(aircraft.position[1] + 7.5)} m`;
     let prompt = '';
-    if (p.mode === 'onFoot' && p.nearVehicle) prompt = i18n.text(this.touchControls ? 'touch.promptEnter' : 'interaction.enter');
+    if (p.mode === 'onFoot' && p.nearAircraft) prompt = this.touchControls ? i18n.text('touch.enter') : flightText('enter');
+    else if (aircraft) prompt = [this.touchControls ? flightText('touchControls') : flightText('controls'),
+      aircraft.blocked ? flightText('blocked') : aircraft.grounded && aircraft.speed < 2 ? (this.touchControls ? i18n.text('touch.exit') : flightText('exit')) : flightText('airborne')].join(' | ');
+    else if (p.mode === 'onFoot' && p.nearVehicle) prompt = i18n.text(this.touchControls ? 'touch.promptEnter' : 'interaction.enter');
     else if (p.mode === 'driving') prompt = car && car.damage === 'wrecked' ? i18n.text(this.touchControls ? 'touch.promptWreck' : 'interaction.leaveWreck') : '';
     else if (p.mode === 'entering') {
       const stage = p.vehicleInteraction?.stage;
@@ -267,6 +277,7 @@ export class Hud {
       }
     }
     const dot = (x: number, z: number, colour: string, r = 4) => { const [mx, my] = this.toMap(x, z); c.fillStyle = colour; c.beginPath(); c.arc(mx - px + size / 2, my - py + size / 2, r, 0, Math.PI * 2); c.fill(); };
+    for (const a of state.aircraft ?? []) dot(a.position[0], a.position[2], '#8fe9ef', 5);
     for (const v of state.vehicles) if (v.definition === 'patrol') dot(v.position[0], v.position[2], v.sirenOn ? '#4f7dff' : '#8fa6e8', 4);
     for (const ch of state.characters) if (ch.inVehicle === null && ch.alive) dot(ch.position[0], ch.position[2], '#8fa6e8', 3);
     if (state.wanted.lastSeen && state.wanted.searching) { dot(state.wanted.lastSeen[0], state.wanted.lastSeen[2], 'rgba(255,80,80,0.25)', 20); }
