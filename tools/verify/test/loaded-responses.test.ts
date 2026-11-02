@@ -35,3 +35,17 @@ test('original bodies are hashed before delayed identity lookup and cumulative f
   await new Promise(resolve=>setImmediate(resolve));assert.equal(errors.length,1);assert.match(errors[0]!.message,/cumulative/);
   await assert.rejects(bounded.sha256(url),/cumulative/);
 });
+
+test('generated blob and data worker scripts are not original HTTP identity responses',async()=>{
+  let reads=0;
+  const capture=createLoadedResponseCapture({maxResponses:1});
+  for(const worker of ['blob:http://127.0.0.1/generated-worker','data:text/javascript,postMessage(1)']) {
+    capture.observe(response({url:worker,type:'script',onBody:()=>{reads++;throw new Error('Generated worker body has been revoked');}}));
+  }
+  await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(reads,0,'Generated worker bodies must not be requested from the HTTP recorder');
+  assert.equal(capture.error(),null);
+  capture.observe(response());
+  assert.equal(await capture.sha256(url),sha(Buffer.from('original bytes')));
+  await assert.rejects(capture.sha256('blob:http://127.0.0.1/generated-worker'),/Exactly one original/);
+});

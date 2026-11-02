@@ -42,6 +42,9 @@ export function createLoadedResponseCapture(limits: {maxResponses?: number; maxB
       if (failure) return;
       try {
         const url = new URL(response.url());
+        // Generated worker scripts have no original HTTP response identity and
+        // may be revoked before Chromium exposes their bodies to the recorder.
+        if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
         if (response.request().resourceType() !== 'script' && !url.pathname.endsWith('/manifest.json')) return;
         assert.ok(++candidates <= maxResponses, `Loaded identity response limit ${maxResponses} exceeded`);
         if (response.status() !== 200) return;
