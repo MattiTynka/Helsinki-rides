@@ -101,10 +101,14 @@ export class Hud {
     const labels = [...gameplay.landmarks, ...gameplay.addresses]
       .filter(a => resolveDropInTarget(gameplay, roads, ...a.position) !== null).map(a => a.label);
     for (const l of labels) { const o = document.createElement('option'); o.value = l; o.textContent = placeLabel(l); this.dropin.appendChild(o); }
+    const airports = document.createElement('optgroup');
+    airports.label = flightText('airports');
     const malmi = document.createElement('option');
     malmi.value = 'malmi-airfield'; malmi.textContent = flightText('malmi'); malmi.dataset['place'] = '1';
-    this.dropin.append(malmi);
+    airports.append(malmi);
+    this.dropin.insertBefore(airports, this.dropin.children[1] ?? null);
     i18n.subscribe(() => {
+      airports.label = flightText('airports');
       malmi.textContent = flightText('malmi');
       for (const option of this.dropin.options) if (option.value && !option.dataset['place']) option.textContent = placeLabel(option.value);
     });

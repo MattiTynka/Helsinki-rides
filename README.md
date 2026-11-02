@@ -24,7 +24,7 @@ The full central Helsinki map streams nearby visuals as you travel. The initial
 city-data download can take a while. Use WASD to move, Space to jump, and F to
 enter or leave a car; the loading screen lists the remaining controls.
 
-Choose **Malmi airfield | aircraft** in the location menu to find a trainer plane
+Choose **Airports → Malmi airport** at the top of the location menu to find a trainer plane
 and light helicopter. Walk beside either aircraft and press F to board. W/S controls
 speed, A/D turns, Space climbs, Ctrl descends, and Shift boosts speed. The plane
 needs a takeoff run; the helicopter can hover. Land and stop before pressing F to
