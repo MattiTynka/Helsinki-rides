@@ -13,7 +13,8 @@ const entry = createRequire(new URL('../../../apps/game/package.json', import.me
 const THREE = await import(new URL('./three.module.js', pathToFileURL(entry)).href);
 
 const aircraft = (x = 10): AircraftState => ({ id: 'malmi-plane', kind: 'plane', position: [x, 40, 20], rotation: [0, 0, 0, 1],
-  yaw: 0, speed: 30, verticalSpeed: 0, grounded: false, throttle: .5, occupied: true, blocked: false });
+  yaw: 0, speed: 30, verticalSpeed: 0, grounded: false, throttle: .5, occupied: true, blocked: false,
+  crashed:false,health:1,damage:'intact',velocity:[0,0,30],angularVelocity:[0,0,0] });
 function snapshot(tick: number, a = aircraft()): SimState {
   return { tick, time: tick / 60, player: { position: a.position, mode: 'flying', aircraftId: a.id, inVehicle: null, yaw: a.yaw },
     aircraft: [a], vehicles: [], characters: [] } as unknown as SimState;

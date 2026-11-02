@@ -14,6 +14,12 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #0b0e14; fon
 .stars .off { color: rgba(255, 255, 255, 0.25); }
 .wanted-note { font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #ffb3b3; min-height: 16px; }
 #minimap { width: 220px; height: 220px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.5); background: #1c2230; }
+.map-navigation { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.compass { display: flex; align-items: center; justify-content: center; gap: 6px; width: max-content; max-width: 100%; min-height: 28px; padding: 1px 9px; border: 1px solid #ffffff66; border-radius: 18px; background: #16202ee6; font: 600 12px/1 ui-monospace, Consolas, monospace; }
+.compass-dial { position: relative; display: block; width: 25px; height: 25px; }
+.compass-north { position: absolute; top: 0; left: 9px; font-size: 8px; color: #ffb5ab; }
+#compass-needle { position: absolute; display: block; left: 5px; top: 7px; width: 16px; height: 16px; text-align: center; line-height: 16px; transform-origin: center; color: #fff; }
+#compass-heading { white-space: nowrap; }
 .bars { display: flex; flex-direction: column; gap: 4px; width: 200px; margin-bottom: 4px; }
 .bar { height: 10px; background: rgba(0, 0, 0, 0.55); border-radius: 3px; overflow: hidden; }
 .fill { height: 100%; width: 100%; transition: width 120ms linear; }
@@ -132,6 +138,11 @@ body.touch-layout .stars { font-size: 22px; }
 body.touch-layout .wanted-note { font-size: 10px; letter-spacing: 1px; }
 body.touch-layout .bottom-left { top: calc(max(8px, env(safe-area-inset-top)) + 52px); bottom: auto; left: max(8px, env(safe-area-inset-left)); flex-direction: column; align-items: flex-start; gap: 4px; }
 body.touch-layout #minimap { width: clamp(70px, 18vmin, 112px); height: clamp(70px, 18vmin, 112px); border-width: 1px; }
+body.touch-layout .map-navigation { width: clamp(70px, 18vmin, 112px); gap: 3px; }
+body.touch-layout .compass { box-sizing: border-box; gap: 2px; padding: 0 4px; min-height: 26px; font-size: 9px; }
+body.touch-layout .compass-dial { width: 20px; flex-shrink: 0; }
+body.touch-layout .compass-north { left: 7px; }
+body.touch-layout #compass-needle { left: 2px; }
 body.touch-layout .bars { width: clamp(70px, 18vmin, 112px); gap: 3px; }
 body.touch-layout .bar { height: 5px; }
 body.touch-layout .bottom-right { top: 62px; bottom: auto; right: max(12px, env(safe-area-inset-right)); }

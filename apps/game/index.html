@@ -20,7 +20,13 @@
         <div id="wanted-note" class="wanted-note"></div>
       </div>
       <div class="bottom-left">
-        <canvas id="minimap" width="220" height="220"></canvas>
+        <div class="map-navigation">
+          <div id="compass" class="compass" role="img" aria-label="Heading">
+            <span class="compass-dial" aria-hidden="true"><span class="compass-north">N</span><span id="compass-needle">↑</span></span>
+            <span id="compass-heading" aria-hidden="true">N 000°</span>
+          </div>
+          <canvas id="minimap" width="220" height="220"></canvas>
+        </div>
         <div class="bars">
           <div class="bar"><div id="health" class="fill health"></div></div>
           <div class="bar"><div id="armour" class="fill armour"></div></div>

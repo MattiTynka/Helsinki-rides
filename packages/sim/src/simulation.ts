@@ -176,6 +176,7 @@ export class Simulation {
   private entryOffset: [number, number, number] = [0, 0, 0];
   private readonly eventQueue: RAPIER.EventQueue;
   private readonly colliderVehicle = new Map<number, Vehicle>();
+  private readonly colliderAircraft = new Map<number, Aircraft>();
   private readonly colliderCharacter = new Map<number, Character>();
   private readonly blocksUpperDoor = (collider: RAPIER.Collider): boolean => {
     const character = this.colliderCharacter.get(collider.handle);
@@ -370,8 +371,12 @@ export class Simulation {
     const sources = [source(p[0], p[2], RESIDENCY.player)];
     if (this.screen) sources.push(source(this.screen.anchor.position[0], this.screen.anchor.position[1], RESIDENCY.player));
     for (const v of this.vehicles.values()) sources.push(source(v.position[0], v.position[2], RESIDENCY.actor));
-    // Only nearby parked aircraft retain collision. A flight must not pin a second, distant district forever.
-    for (const a of this.aircraft.values()) if (a.occupied || distanceXZ(a.position, p) < 180) sources.push(source(a.position[0], a.position[2], RESIDENCY.actor));
+    // Both wrecks retain support even while sleeping: removing a support collider wakes a dynamic body.
+    // Intact distant parked aircraft remain kinematic and do not need a district lease.
+    for (const a of this.aircraft.values()) if (a.occupied || a.crashed || distanceXZ(a.position, p) < 180) {
+      sources.push(source(a.position[0], a.position[2], RESIDENCY.actor));
+      if(a.crashed&&!a.body.isSleeping())sources.push(source(a.position[0]+a.velocity[0]*0.5,a.position[2]+a.velocity[2]*0.5,RESIDENCY.actor));
+    }
     if (this.aircraftRecoverPending && this.playerAircraft) sources.push(source(this.playerAircraft.def.position[0], this.playerAircraft.def.position[1], RESIDENCY.player));
     for (const c of this.characters.values()) if (!c.inVehicle) sources.push(source(c.position[0], c.position[2], RESIDENCY.actor));
     return sources;
@@ -428,11 +433,14 @@ export class Simulation {
 
     const filter = (): boolean => true;
     for (const v of this.vehicles.values()) v.step(this.world, filter);
+    for (const a of this.aircraft.values()) a.beforePhysics();
     for (const c of this.characters.values()) if (!c.inVehicle && (c.alive || !c.grounded)) c.move(this.world, c.alive ? c.desiredVx : 0, c.alive ? c.desiredVz : 0);
 
     this.world.physics.step(this.eventQueue);
     this.world.markStepped();
+    for (const a of this.aircraft.values()) a.afterPhysics();
     this.drainContacts();
+    for(const a of this.aircraft.values())if(a.crashPending){a.crashPending=false;this.emit('aircraftCrash',a.id,Math.round(Math.hypot(...a.velocityBefore)));}
 
     if (this.playerVehicle) this.followVehicle();
     if (this.playerAircraft) this.followAircraft();
@@ -525,7 +533,10 @@ export class Simulation {
       const [x, z] = def.position;
       if (![[x - 7, z - 7], [x + 7, z - 7], [x - 7, z + 7], [x + 7, z + 7]].every(([px, pz]) => this.world.queryable(px!, pz!))) continue;
       const ground = aircraftSupportGround(this.world, def.kind, x, z, def.yaw);
-      if (ground !== null) this.aircraft.set(def.id, new Aircraft(this.world, def, ground));
+      if (ground !== null) {
+        const aircraft=new Aircraft(this.world,def,ground);this.aircraft.set(def.id,aircraft);
+        for(const c of aircraft.colliders)this.colliderAircraft.set(c.handle,aircraft);
+      }
     }
   }
 
@@ -1100,11 +1111,19 @@ export class Simulation {
   private drainContacts(): void {
     // Contact cooldowns are useful for only half a second; retired city actors must not leave history here.
     for (const [key, tick] of this.ramCooldown) if (this.tick - tick >= 30) this.ramCooldown.delete(key);
+    const aircraftImpacts=new Map<Aircraft,number>();
     this.eventQueue.drainContactForceEvents(e => {
       const h1 = e.collider1(), h2 = e.collider2();
       const force = e.maxForceMagnitude();
       if (force < RAM_FORCE_THRESHOLD) return;
       const v1 = this.colliderVehicle.get(h1), v2 = this.colliderVehicle.get(h2);
+      const a1=this.colliderAircraft.get(h1),a2=this.colliderAircraft.get(h2);
+      for(const a of [a1,a2])if(a){
+        if(!a.crashed)a.crash();
+        const other=v1??v2;
+        const dv=Math.max(a.deltaV,other?.deltaV??0);
+        aircraftImpacts.set(a,Math.max(aircraftImpacts.get(a)??0,dv));
+      }
       if (!v1 && !v2) return;
       // Damage follows the speed change of the impact, not the contact force, so leaning on a wall is harmless.
       const dv = Math.max(v1?.deltaV ?? 0, v2?.deltaV ?? 0);
@@ -1126,6 +1145,11 @@ export class Simulation {
         } else this.emit('crash', 'static', Math.round(dv * 10) / 10);
       }
     });
+    // A wing, fuselage and undercarriage touching in one tick are one body impact, not three damage bills.
+    for(const [a,dv]of aircraftImpacts)if(dv>2){
+      a.applyDamage(clamp((dv-2)*0.025,0,0.65));
+      if(a===this.playerAircraft&&dv>12)this.player.takeDamage(clamp((dv-12)*2,0,80));
+    }
     this.eventQueue.drainCollisionEvents((h1, h2, started) => {
       if (!started) return;
       const v = this.colliderVehicle.get(h1) ?? this.colliderVehicle.get(h2);

@@ -32,6 +32,7 @@ import { i18n } from './i18n/index.ts';
 import { flightText } from './ui/flight-text.ts';
 import { catchUpSteps, FramePacer } from './render/frame-pacing.ts';
 import { presetTier, tierParameters, type QualityTier } from './render/quality-tiers.ts';
+import {flightStreamingProfile, flightSectorHalfAngle, type FlightStreamingProfile} from './render/flight-streaming.ts';
 import { QualityGovernor, tierRank } from './render/quality-governor.ts';
 
 /** Officer and patrol-car models load after startup; patrols begin at least 150 m from the player. */
@@ -162,6 +163,7 @@ export class Game {
   readonly modelLoading = { blocked: false, blockedFrames: 0, blockedSeconds: 0, failed: false };
   /** Why the last `stepTicks` stopped early. */
   private stepBlock: 'collision' | 'models' | null = null;
+  private visualProfileKey = '';
 
   private constructor(config: GameConfig, data: WorldData, world: StaticWorld, scene: CityScene, loader: GlbLoader, assets: AssetLibrary, canvas: HTMLCanvasElement, streaming: WorldVisualStreaming | null, collision: CollisionStream | null,
     effects: Effects, shadowMaterial: THREE.MeshBasicMaterial, live: LiveCells | null, liveVisuals: LiveVisuals | null) {
@@ -189,7 +191,12 @@ export class Game {
     this.sim = new Simulation(world, { seed: config.seed });
     this.cameraRig = new ChaseCamera(scene.camera);
     this.input = new Input(canvas, config.review);
-    this.hud = new Hud(config.hud && !config.review, data.manifest, data.gameplay, world.roads);
+    this.hud = new Hud(config.hud && !config.review, data.manifest, data.gameplay, world.roads, data.terrain);
+    if (live) this.hud.setMapSource((cx, cz) => {
+      if (!live.grid.isLive(cx, cz)) return null;
+      const id = live.grid.id(cx, cz);
+      return {ground:live.source.ground(id),hcol:collision?.get(id)};
+    });
     this.hud.onDropIn = label => { void this.dropIn(label)?.catch(error => {
       console.error('Drop-in failed', error);
       this.hud.showNotice('dropin.failed', this.state.time);
@@ -442,12 +449,7 @@ export class Game {
     const previous = this.stats.tier;
     const params = tierParameters(tier, this.config.mobile === true);
     this.scene.applyTier(params);
-    if (this.streaming) {
-      for (const [stream, range] of [[this.streaming.detail, params.detail], [this.streaming.fallback, params.fallback]] as const) {
-        stream.setOptions({ radius: range.radius, maxCells: range.maxCells, geometryBudgetBytes: range.geometryBudgetMiB * 2 ** 20 });
-      }
-      this.liveVisuals?.setRanges(params.detail, params.fallback);
-    }
+    this.configureFlightStreaming(tier, this.state.player.mode === 'flying');
     this.vehicleDetailRange = params.vehicleDetailRange;
     for (const view of this.vehicleViews.values()) view.setDetailRange(params.vehicleDetailRange);
     // Textures loaded from now on follow the tier's mip drop (`?mipdrop` pins it); resident ones keep their levels.
@@ -455,6 +457,21 @@ export class Game {
     this.stats.tier = tier;
     if (tierRank(tier) > tierRank(previous)) this.hud.showNotice('quality.lowered', this.state.time, 4);
     this.scheduleTierMemory();
+  }
+
+  /** Compose quality and aircraft mode without changing LOD/backend identities. */
+  private configureFlightStreaming(tier:QualityTier,inAircraft:boolean):FlightStreamingProfile {
+    const profile=flightStreamingProfile(tier,this.config.mobile===true,inAircraft);
+    const halfAngle=flightSectorHalfAngle(this.scene.camera.fov,this.scene.camera.aspect);
+    const selection=profile.selection.sector ? {...profile.selection,sector:{...profile.selection.sector,halfAngle}} : profile.selection;
+    const key=`${tier}:${inAircraft}:${halfAngle.toFixed(3)}`;
+    if (key !== this.visualProfileKey) {
+      this.visualProfileKey=key;
+      this.streaming?.detail.setOptions({radius:profile.detail.radius,maxCells:profile.detail.maxCells,geometryBudgetBytes:profile.detail.geometryBudgetMiB*2**20});
+      this.streaming?.fallback.setOptions({radius:profile.fallback.radius,maxCells:profile.fallback.maxCells,geometryBudgetBytes:profile.fallback.geometryBudgetMiB*2**20,...selection});
+      this.liveVisuals?.setRanges(profile.detail,profile.fallback,selection);
+    }
+    return profile;
   }
 
   /** Automatic preset only (never review): remember a demotion still in force for the next visit (also on pagehide). */
@@ -758,15 +775,15 @@ export class Game {
       const upsideDown = new THREE.Vector3(0, 1, 0).applyQuaternion(q).y < 0;
       groundY = new THREE.Vector3(0, upsideDown ? cameraDef.collider.centre[1] + cameraDef.collider.halfExtents[1] : 0, 0).applyQuaternion(q).add(origin).y;
     }
+    const flightProfile=this.configureFlightStreaming(this.stats.tier,!!playerAircraft);
     if (playerAircraft || this.flightViewActive) {
-      // Account for vertical viewing distance without expanding horizontal streaming ranges or budgets.
-      const tier = tierParameters(this.stats.tier, this.config.mobile === true);
+      // Slant distance follows the actual horizontal residency policy in flight.
       const height = playerAircraft ? Math.max(0, Math.min(650, p.position[1] - this.world.groundHeight(p.position[0], p.position[2]))) : 0;
       if (this.scene.scene.fog instanceof THREE.Fog) {
-        this.scene.scene.fog.near = Math.hypot(tier.fog.near, height);
-        this.scene.scene.fog.far = Math.hypot(tier.fog.far, height + (playerAircraft ? 20 : 0));
+        this.scene.scene.fog.near = Math.hypot(flightProfile.fog.near, height);
+        this.scene.scene.fog.far = Math.hypot(flightProfile.fog.far, height + (playerAircraft ? 20 : 0));
       }
-      const far = Math.hypot(tier.cameraFar, height + (playerAircraft ? 20 : 0));
+      const far = Math.hypot(flightProfile.cameraFar, height + (playerAircraft ? 20 : 0));
       if (Math.abs(this.scene.camera.far - far) > 0.5) { this.scene.camera.far = far; this.scene.camera.updateProjectionMatrix(); }
       this.flightViewActive = !!playerAircraft;
     }
@@ -782,7 +799,11 @@ export class Game {
       const modelsWaiting = this.modelsWaitingMessage();
       if (this.streaming) {
         const position = playerVehicle?.position ?? p.position;
-        const focus: StreamFocus = { x: position[0], z: position[2], velocityX, velocityZ };
+        const direction=this.scene.camera.getWorldDirection(new THREE.Vector3());
+        const horizontal=Math.hypot(direction.x,direction.z);
+        const focus: StreamFocus = { x: position[0], z: position[2], velocityX, velocityZ,
+          viewX:horizontal>0.01?direction.x/horizontal:Math.sin(playerAircraft?.yaw??p.yaw),
+          viewZ:horizontal>0.01?direction.z/horizontal:Math.cos(playerAircraft?.yaw??p.yaw) };
         this.streaming.fallback.update(focus);
         this.streaming.detail.update(focus);
         this.liveVisuals?.update(focus);

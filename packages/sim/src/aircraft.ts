@@ -1,6 +1,7 @@
 // Simple fixed-step flight. Collision and ground always come from the resident world, never client HUD state.
 import { Button, has, TICK_SECONDS, type Command } from './commands.ts';
-import { clamp, distanceXZ, moveToward, quatMul, quatYaw, rotate, wrapAngle, type Quat, type V3 } from './math.ts';
+import { clamp, distanceXZ, moveToward, quatMul, quatYaw, rotate, wrapAngle, yawOf, type Quat, type V3 } from './math.ts';
+import type { DamageState } from './vehicle.ts';
 import { LIVE_REGION_XZ } from './live-grid.ts';
 import { GROUP, groups, RAPIER, type StaticWorld } from './world.ts';
 import { CHARACTER, FEET_TO_CENTRE } from './character.ts';
@@ -21,6 +22,8 @@ export interface AircraftState {
   readonly id: string; readonly kind: AircraftKind; readonly position: V3; readonly rotation: Quat;
   readonly yaw: number; readonly speed: number; readonly verticalSpeed: number;
   readonly grounded: boolean; readonly throttle: number; readonly occupied: boolean; readonly blocked: boolean;
+  readonly crashed: boolean; readonly health: number; readonly damage: DamageState;
+  readonly velocity: V3; readonly angularVelocity: V3;
 }
 const vector = (p: V3) => ({ x: p[0], y: p[1], z: p[2] });
 const MAX_HEIGHT = 550;
@@ -46,6 +49,18 @@ export const AIRCRAFT_HULLS: Readonly<Record<AircraftKind, readonly AircraftHull
 };
 function rotationOf(yaw: number, pitch: number, bank: number): Quat {
   return quatMul(quatMul(quatYaw(yaw), [Math.sin(pitch / 2), 0, 0, Math.cos(pitch / 2)]), [0, 0, Math.sin(bank / 2), Math.cos(bank / 2)]);
+}
+function isLevelYaw(from: Quat, to: Quat): boolean {
+  return Math.abs(from[0])+Math.abs(from[2])+Math.abs(to[0])+Math.abs(to[2])<1e-12;
+}
+/** Shortest world-space angular velocity taking one orientation to the next in a fixed tick. */
+function angularVelocityBetween(from: Quat, to: Quat): V3 {
+  let delta=quatMul(to,[-from[0],-from[1],-from[2],from[3]]);
+  if(delta[3]<0)delta=delta.map(v=>-v)as Quat;
+  const sine=Math.hypot(delta[0],delta[1],delta[2]);
+  if(sine<1e-12)return [0,0,0];
+  const scale=2*Math.atan2(sine,delta[3])/(sine*TICK_SECONDS);
+  return [delta[0]*scale,delta[1]*scale,delta[2]*scale];
 }
 
 /** A query-qualified aircraft spawn. A height-grid edge extrapolation never authorizes spawning. */
@@ -79,8 +94,16 @@ export class Aircraft {
   grounded = true;
   occupied = false;
   blocked = false;
+  crashed = false;
+  health = 1;
+  damage: DamageState = 'intact';
+  velocityBefore: V3 = [0, 0, 0];
+  /** One-shot transition consumed by the simulation, including the first physical impact tick. */
+  crashPending = false;
+  readonly colliders: RAPIER.Collider[] = [];
   private bank = 0;
   private pitch = 0;
+  private flightAngularVelocity: V3 = [0,0,0];
   readonly body: RAPIER.RigidBody;
   readonly collider: RAPIER.Collider;
   readonly world: StaticWorld;
@@ -97,15 +120,19 @@ export class Aircraft {
   }
   get id(): string { return this.def.id; }
   get rotation(): Quat {
+    if (this.crashed) { const q=this.body.rotation(); return [q.x,q.y,q.z,q.w]; }
     return rotationOf(this.yaw, this.pitch, this.bank);
   }
+  get velocity(): V3 { if(this.crashed){const v=this.body.linvel();return [v.x,v.y,v.z];}return [Math.sin(this.yaw)*this.speed,this.verticalSpeed,Math.cos(this.yaw)*this.speed]; }
+  get angularVelocity(): V3 { const v=this.body.angvel();return this.crashed?[v.x,v.y,v.z]:[...this.flightAngularVelocity]; }
+  get deltaV(): number { const v=this.velocity;return Math.hypot(...v.map((n,i)=>n-this.velocityBefore[i]!)); }
   get seat(): V3 { const p = rotate(this.rotation, this.def.seat); return p.map((v, i) => v + this.position[i]!) as V3; }
-  state(): AircraftState { return { id: this.id, kind: this.def.kind, position: [...this.position], rotation: this.rotation, yaw: this.yaw, speed: this.speed, verticalSpeed: this.verticalSpeed, grounded: this.grounded, throttle: this.throttle, occupied: this.occupied, blocked: this.blocked }; }
-  near(position: V3): boolean { return this.grounded && this.speed < 2 && Math.abs(position[1] - this.position[1]) < 2 && distanceXZ(position, this.position) <= this.def.entryRadius; }
+  state(): AircraftState { return { id: this.id, kind: this.def.kind, position: [...this.position], rotation: this.rotation, yaw: this.yaw, speed: this.speed, verticalSpeed: this.verticalSpeed, grounded: this.grounded, throttle: this.throttle, occupied: this.occupied, blocked: this.blocked, crashed:this.crashed,health:this.health,damage:this.damage,velocity:this.velocity,angularVelocity:this.angularVelocity }; }
+  near(position: V3): boolean { return !this.crashed && this.grounded && this.speed < 2 && Math.abs(position[1] - this.position[1]) < 2 && distanceXZ(position, this.position) <= this.def.entryRadius; }
 
   step(command: Command): void {
     this.blocked = false;
-    if (!this.occupied) return;
+    if (!this.occupied || this.crashed) return;
     const plane = this.def.kind === 'plane', dt = TICK_SECONDS;
     // Plane throttle persists when W is released; S reduces it. Helicopters stop and hover on release.
     if (plane) this.throttle = clamp(this.throttle + command.moveZ * dt * 0.45, 0, 1);
@@ -116,25 +143,36 @@ export class Aircraft {
     const nextYaw = wrapAngle(this.yaw - command.moveX * (plane ? this.grounded ? 0.45 : 0.7 : 1.0) * dt);
     const climb = (has(command.buttons, Button.ascend) ? 1 : 0) - (has(command.buttons, Button.descend) ? 1 : 0);
     const liftReady = !plane || nextSpeed >= 18;
-    const targetVertical = climb > 0 && liftReady ? plane ? 10 : 9 : climb < 0 ? -7 : plane && !this.grounded && nextSpeed < 16 ? -5 : 0;
+    const support=aircraftSupportGround(this.world,this.def.kind,this.position[0],this.position[2],this.yaw,this.position[1]+0.05);
+    // The arcade descent control includes a landing flare. Abrupt terrain/obstacle impacts still retain their
+    // real sink velocity; holding descend over a runway is an ordinary landing, not a mandatory crash.
+    const descendingRate=support!==null&&this.position[1]-support<6?-2:-7;
+    const targetVertical = climb > 0 && liftReady ? plane ? 10 : 9 : climb < 0 ? descendingRate : plane && !this.grounded && nextSpeed < 16 ? descendingRate : 0;
     const nextVertical = moveToward(this.verticalSpeed, targetVertical, 8 * dt);
     const candidate: V3 = [this.position[0] + Math.sin(nextYaw) * nextSpeed * dt, clamp(this.position[1] + nextVertical * dt, -40, MAX_HEIGHT), this.position[2] + Math.cos(nextYaw) * nextSpeed * dt];
     const [x0, z0, x1, z1] = LIVE_REGION_XZ;
     const clearance = plane ? 8 : 15;
     if (candidate[0] < x0 + clearance || candidate[0] > x1 - clearance || candidate[2] < z0 + clearance || candidate[2] > z1 - clearance || ![-clearance,0,clearance].every(dx => [-clearance,0,clearance].every(dz => this.world.queryable(candidate[0] + dx, candidate[2] + dz)))) {
-      this.blocked = true; this.speed = 0; this.verticalSpeed = 0; return;
+      this.blocked = true; this.speed = 0; this.verticalSpeed = 0; this.flightAngularVelocity=[0,0,0]; return;
     }
     // Ground is a real resident static surface. It can raise a taxiing aircraft over gently sloping pavement,
     // but never pulls a flying aircraft through buildings or snaps it to a roof above its current height.
     const ground = aircraftSupportGround(this.world, this.def.kind, candidate[0], candidate[2], nextYaw, this.position[1] + (this.grounded ? 2 : 0.05));
     let landed = false;
-    if (ground !== null && candidate[1] <= ground + 0.08 && nextVertical <= 0.1) { candidate[1] = ground; landed = true; }
+    if (ground !== null && candidate[1] <= ground + 0.08 && nextVertical <= 0.1) {
+      if(!this.grounded&&nextVertical < -4){this.crash([Math.sin(nextYaw)*nextSpeed,nextVertical,Math.cos(nextYaw)*nextSpeed]);return;}
+      candidate[1] = ground; landed = true;
+    }
     if (this.grounded && !liftReady && ground !== null) { candidate[1] = ground; landed = true; }
     const levelling = this.grounded || (nextVertical <= 0 && ground !== null && candidate[1] - ground < 3);
     let nextBank = moveToward(this.bank, levelling ? 0 : command.moveX * (plane ? 0.38 : 0.18), dt);
     let nextPitch = moveToward(this.pitch, levelling ? 0 : -nextVertical * 0.018, dt);
     const oldRotation = this.rotation;
     let nextRotation = rotationOf(nextYaw, nextPitch, nextBank);
+    // Capture before the sweep retry rewrites intended angles and before applying a clipped pose. Euler deltas
+    // are local axes; the quaternion delta is the world angular velocity Rapier needs at any impact fraction.
+    const intendedAngularVelocity=angularVelocityBetween(oldRotation,nextRotation);
+    const intendedLevelYaw=isLevelYaw(oldRotation,nextRotation);
     let fraction = this.sweepFraction(candidate, oldRotation, nextRotation, Math.abs(wrapAngle(nextYaw - this.yaw)) + Math.abs(nextPitch - this.pitch) + Math.abs(nextBank - this.bank));
     // A rotation blocked near the ground must still allow a vertical escape. Retry translation at the current
     // orientation; keep every visual angle frozen so the rejected wing/rotor cannot turn through the obstruction.
@@ -154,19 +192,65 @@ export class Aircraft {
     this.bank += (nextBank - this.bank) * fraction;
     this.pitch += (nextPitch - this.pitch) * fraction;
     this.placeBody();
+    this.flightAngularVelocity=angularVelocityBetween(oldRotation,this.rotation);
+    // The angular enclosure can touch a graded runway while the real gear remains clear. The existing
+    // translation-only levelling retry is support, whereas a blocked airborne bank is a hull strike.
+    const runwayRotationRetry=!intendedLevelYaw&&ground!==null&&this.position[1]-ground<3;
+    if((rotationBlocked&&!runwayRotationRetry)||fraction<0.999){
+      this.crash([Math.sin(nextYaw)*nextSpeed,nextVertical,Math.cos(nextYaw)*nextSpeed],intendedAngularVelocity);
+    }
+  }
+
+  /** A real hull strike hands the same pose to Rapier. No flight forces or orientation correction follow. */
+  crash(velocity:V3=this.velocity,angularVelocity:V3=this.flightAngularVelocity):void {
+    if(this.crashed)return;
+    this.placeBody();
+    this.crashed=true;this.crashPending=true;this.grounded=false;this.blocked=true;this.throttle=0;
+    this.body.setBodyType(RAPIER.RigidBodyType.Dynamic,true);this.body.enableCcd(true);
+    this.body.setLinearDamping(0.12);this.body.setAngularDamping(0.65);
+    for(const c of this.colliders)c.setCollisionGroups(groups(GROUP.vehicle,GROUP.all));
+    this.body.setLinvel(vector(velocity),true);this.body.setAngvel(vector(angularVelocity),true);
+    this.velocityBefore=[...velocity];
+    this.applyDamage(Math.max(0.12,(Math.hypot(...velocity)-2)*0.012));
+  }
+  beforePhysics():void { if(this.crashed)this.velocityBefore=this.velocity;else if(!this.occupied)this.flightAngularVelocity=[0,0,0]; }
+  afterPhysics():void {
+    if(!this.crashed)return;
+    const p=this.body.translation();this.position=[p.x,p.y,p.z];this.yaw=yawOf(this.rotation);
+    const v=this.velocity;this.speed=Math.hypot(v[0],v[2]);this.verticalSpeed=v[1];
+    let contact=false;
+    for(const c of this.colliders)this.world.physics.contactPairsWith(c,other=>{if(other.parent()?.handle!==this.body.handle)contact=true;});
+    this.grounded=contact&&Math.abs(v[1])<0.3;
+  }
+  applyDamage(amount:number):void {
+    this.health=clamp(this.health-Math.max(0,amount),0,1);
+    this.damage=this.health===0?'wrecked':this.health<0.25?'burning':this.health<0.65?'smoking':'intact';
   }
 
   /** Only dismount onto a flat, unobstructed surface beside the parked aircraft. */
   exitPoint(): V3 | null {
-    if (!this.grounded || Math.abs(this.speed) >= 2 || Math.abs(this.verticalSpeed) > 0.2) return null;
-    for (const side of [1, -1]) {
-      const offset = rotate(quatYaw(this.yaw), [side * (this.def.kind === 'plane' ? 6.6 : 3.0), 0, 0]);
+    if (!this.grounded || Math.abs(this.speed) >= 2 || Math.abs(this.verticalSpeed) > 0.2 || Math.hypot(...this.angularVelocity)>0.3) return null;
+    const offsets=[1,-1].map(side=>rotate(quatYaw(this.yaw),[side*(this.def.kind==='plane'?6.6:3),0,0]));
+    if(this.crashed){
+      // A rotor or wing can lie across the ordinary door exit after a rollover. Search beyond the full
+      // physical envelope, still requiring real flat ground and a clear standing volume at the destination.
+      for(const axis of [0,2]as const)for(const sign of [1,-1]){
+        let reach=0;
+        for(const h of AIRCRAFT_HULLS[this.def.kind])for(const dx of [-1,1])for(const dy of [-1,1])for(const dz of [-1,1]){
+          const corner=rotate(this.rotation,[h.centre[0]+dx*h.half[0],h.centre[1]+dy*h.half[1],h.centre[2]+dz*h.half[2]]);
+          reach=Math.max(reach,sign*corner[axis]);
+        }
+        const offset:V3=[0,0,0];offset[axis]=sign*(reach+CHARACTER.radius+0.3);offsets.push(offset);
+      }
+    }
+    for (const offset of offsets) {
       const x = this.position[0] + offset[0], z = this.position[2] + offset[2];
       const y = aircraftGround(this.world, x, z, this.position[1] + 1);
-      if (y === null || Math.abs(y - this.position[1]) > 0.6) continue;
+      const exitHeight=this.crashed?Math.max(...AIRCRAFT_HULLS[this.def.kind].map(h=>h.centre[1]+h.half[1]))+0.6:0.6;
+      if (y === null || Math.abs(y - this.position[1]) > exitHeight) continue;
       // A box encloses the actual standing capsule. It also avoids the capsule/large-triangle near-parallel
       // false positives seen on runway grades, while conservatively retaining every wall/person obstruction.
-      const hit = this.world.physics.intersectionWithShape({ x, y: y + FEET_TO_CENTRE + 0.06, z }, { x: 0, y: 0, z: 0, w: 1 }, new RAPIER.Cuboid(CHARACTER.radius, FEET_TO_CENTRE, CHARACTER.radius), undefined, groups(GROUP.character, GROUP.static | GROUP.vehicle | GROUP.character), undefined, this.body);
+      const hit = this.world.physics.intersectionWithShape({ x, y: y + FEET_TO_CENTRE + 0.06, z }, { x: 0, y: 0, z: 0, w: 1 }, new RAPIER.Cuboid(CHARACTER.radius, FEET_TO_CENTRE, CHARACTER.radius), undefined, groups(GROUP.character, GROUP.static | GROUP.vehicle | GROUP.character), undefined, this.crashed?undefined:this.body);
       if (!hit) return [x, y, z];
     }
     return null;
@@ -174,16 +258,26 @@ export class Aircraft {
   recover(): boolean {
     const [x, z] = this.def.position, ground = aircraftSupportGround(this.world, this.def.kind, x, z, this.def.yaw);
     if (ground === null) return false;
+    this.crashed=false;this.crashPending=false;this.health=1;this.damage='intact';
+    this.flightAngularVelocity=[0,0,0];
+    this.body.setBodyType(RAPIER.RigidBodyType.KinematicPositionBased,true);this.body.setLinvel({x:0,y:0,z:0},true);this.body.setAngvel({x:0,y:0,z:0},true);
+    for(const c of this.colliders)c.setCollisionGroups(groups(GROUP.vehicle,GROUP.vehicle|GROUP.character|GROUP.bullet));
     this.position = [x, ground, z]; this.yaw = this.def.yaw; this.speed = 0; this.verticalSpeed = 0; this.throttle = 0;
     this.grounded = true; this.blocked = false; this.bank = 0; this.pitch = 0; this.placeBody(); return true;
   }
-  digest(): string { return JSON.stringify([this.id, this.position, this.yaw, this.speed, this.verticalSpeed, this.throttle, this.grounded, this.occupied, this.bank, this.pitch]); }
+  digest(): string { return JSON.stringify([this.id, this.position, this.yaw, this.speed, this.verticalSpeed, this.throttle, this.grounded, this.occupied, this.bank, this.pitch,this.crashed,this.health,this.damage,this.rotation,this.velocity,this.angularVelocity,this.body.isSleeping()]); }
   private attachHull(hull: AircraftHull): RAPIER.Collider {
-    return this.world.physics.createCollider(RAPIER.ColliderDesc.cuboid(...hull.half).setTranslation(...hull.centre)
-      .setCollisionGroups(groups(GROUP.vehicle, GROUP.character | GROUP.bullet)), this.body);
+    const mass=this.def.kind==='plane'?1100:7500,he=AIRCRAFT_HULLS[this.def.kind][0]!.half;
+    const desc=RAPIER.ColliderDesc.cuboid(...hull.half).setTranslation(...hull.centre).setDensity(0)
+      .setFriction(0.55).setRestitution(0.05).setCollisionGroups(groups(GROUP.vehicle, GROUP.vehicle | GROUP.character | GROUP.bullet))
+      .setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS|RAPIER.ActiveEvents.CONTACT_FORCE_EVENTS).setContactForceEventThreshold(8000);
+    // Only the fuselage carries mass: the conservative rotor-disc envelope must not dominate inertia.
+    if(!this.colliders.length)desc.setMassProperties(mass,{x:0,y:0,z:0},{x:mass/3*(he[1]**2+he[2]**2),y:mass/3*(he[0]**2+he[2]**2),z:mass/3*(he[0]**2+he[1]**2)},{x:0,y:0,z:0,w:1});
+    const collider=this.world.physics.createCollider(desc,this.body);this.colliders.push(collider);return collider;
   }
   private sweepFraction(candidate: V3, fromRotation: Quat, toRotation: Quat, angularTravel: number): number {
     let fraction = 1;
+    const yawOnly=isLevelYaw(fromRotation,toRotation);
     for (const hull of AIRCRAFT_HULLS[this.def.kind]) {
       const a = rotate(fromRotation, hull.centre), b = rotate(toRotation, hull.centre);
       const from = this.position.map((v, i) => v + a[i]!) as V3;
@@ -192,22 +286,26 @@ export class Aircraft {
       // The oriented box's farthest point moves at most radius * angle. Expanding every local axis by that
       // distance encloses every intermediate orientation, while the centre's chord needs the curvature margin.
       const margin = Math.hypot(...hull.half) * angularTravel + Math.hypot(...hull.centre) * angularTravel * angularTravel / 8;
-      const shape = new RAPIER.Cuboid(hull.half[0] + margin, hull.half[1] + margin, hull.half[2] + margin);
+      // A level yaw turn preserves every point's height. Growing Y for that motion consumed the gear/nose's
+      // 3 cm ground skin on Malmi's real uneven runway, producing a spurious impact at zero taxi speed.
+      // Keep the full horizontal enclosure and ordinary static/vehicle queries: a real wing/wall strike blocks.
+      const verticalMargin=yawOnly?0:margin;
+      const shape = new RAPIER.Cuboid(hull.half[0] + margin, hull.half[1] + verticalMargin, hull.half[2] + margin);
       const q = { x: fromRotation[0], y: fromRotation[1], z: fromRotation[2], w: fromRotation[3] };
       if (length < 1e-9) {
-        if (angularTravel && this.world.physics.intersectionWithShape(vector(from), q, shape, undefined, groups(GROUP.vehicle, GROUP.static), undefined, this.body)) fraction = 0;
+        if (angularTravel && this.world.physics.intersectionWithShape(vector(from), q, shape, undefined, groups(GROUP.vehicle, GROUP.static|GROUP.vehicle), undefined, this.body)) fraction = 0;
         continue;
       }
-      const hit = this.world.physics.castShape(vector(from), q, vector(delta), shape, 0.003, 1, true, undefined, groups(GROUP.vehicle, GROUP.static), undefined, this.body);
+      const hit = this.world.physics.castShape(vector(from), q, vector(delta), shape, 0.003, 1, true, undefined, groups(GROUP.vehicle, GROUP.static|GROUP.vehicle), undefined, this.body);
       if (hit) {
         // Rapier can report TOI 0 against nearly parallel runway triangles even when the gear is separated.
         // Independently certify the ENTIRE swept volume with an enclosing oriented box. This neither ignores
         // the floor collider nor trusts its tag: any real ground, wall or post inside that volume still blocks.
         const localDelta = rotate([-fromRotation[0], -fromRotation[1], -fromRotation[2], fromRotation[3]], delta);
         const swept = new RAPIER.Cuboid(hull.half[0] + margin + Math.abs(localDelta[0]) / 2 + 0.003,
-          hull.half[1] + margin + Math.abs(localDelta[1]) / 2 + 0.003, hull.half[2] + margin + Math.abs(localDelta[2]) / 2 + 0.003);
+          hull.half[1] + verticalMargin + Math.abs(localDelta[1]) / 2 + 0.003, hull.half[2] + margin + Math.abs(localDelta[2]) / 2 + 0.003);
         const centre = from.map((v, i) => v + delta[i]! / 2) as V3;
-        if (!this.world.physics.intersectionWithShape(vector(centre), q, swept, undefined, groups(GROUP.vehicle, GROUP.static), undefined, this.body)) continue;
+        if (!this.world.physics.intersectionWithShape(vector(centre), q, swept, undefined, groups(GROUP.vehicle, GROUP.static|GROUP.vehicle), undefined, this.body)) continue;
         fraction = Math.min(fraction, Math.max(0, hit.time_of_impact - 0.005 / length));
       }
     }

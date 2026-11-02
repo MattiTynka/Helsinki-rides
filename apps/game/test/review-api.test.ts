@@ -10,7 +10,10 @@ test('residentCells() reports the sorted resident ids of both visual streams thr
   Object.defineProperty(globalThis, 'window', { value: {}, configurable: true, writable: true });
   try {
     const api = installTestApi(game as unknown as Game, () => {});
-    assert.deepEqual(api.residentCells(), { detail: ['c_m01_p00', 'c_p00_p00', 'c_p01_p00'], fallback: ['c_m02_m01', 'c_p02_p00'] });
+    assert.deepEqual(api.residentCells(), { detail: ['c_m01_p00', 'c_p00_p00', 'c_p01_p00'], fallback: ['c_m02_m01', 'c_p02_p00'],live:null });
+    const live={detail:['c_p40_m70'],fallback:['c_p40_m71']};
+    const withLive=installTestApi({...game,liveVisuals:{residentIds:()=>live}} as unknown as Game,()=>{});
+    assert.deepEqual(withLive.residentCells()?.live,live,'actual live residency is observable without production state mutators');
     const unstreamed = installTestApi({ ...game, streaming: null } as unknown as Game, () => {});
     assert.equal(unstreamed.residentCells(), null, 'pilot worlds without streaming have no stream residency');
   } finally {

@@ -140,7 +140,7 @@ export class GameAudio {
       if (e.type === 'fire') this.burst(0.12, 0.6, 2500);
       else if (e.type === 'policeFire') this.burst(0.12, 0.25, 1800);
       else if (e.type === 'horn') this.tone(420, 0.35, 0.2);
-      else if (e.type === 'crash' || e.type === 'ram' || e.type === 'ramPolice') this.burst(0.3, 0.5, 500);
+      else if (e.type === 'crash' || e.type === 'aircraftCrash' || e.type === 'ram' || e.type === 'ramPolice') this.burst(0.3, 0.5, 500);
       else if (e.type === 'windshieldBreak') this.burst(0.45, 0.45, 9000);
       else if (e.type === 'wanted' && (e.value ?? 0) > 0) this.tone(880, 0.15, 0.15, 'sine');
       else if (e.type === 'wasted') this.tone(110, 1.2, 0.3, 'sawtooth');

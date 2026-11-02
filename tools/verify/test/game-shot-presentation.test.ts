@@ -30,7 +30,7 @@ function fixture(shotsAt: (tick: number) => Shot[] = tick => tick === 1 ? [shot(
     sim: { screen: null, inventory: { weapon: null }, player: { body: undefined, yaw: 0 },
       step: () => { tick++; return []; }, state: snapshot, collisionSources: () => [] },
     world: { physics: { castRay: () => null } },
-    scene: { camera: { position: { x: 0, y: 1.6, z: -3 } } },
+    scene: { camera: { fov: 62, aspect: 16 / 9, position: { x: 0, y: 1.6, z: -3 } } },
     aircraftViews: { update: () => {}, ready: true },
     playerView: view('player'), characterViews: new Map([['police-1', view('police')]]), vehicleViews: new Map(),
     effects: { addShots: (shots: readonly Shot[]) => { calls.push('effects:add'); received.push(...shots); },
@@ -49,8 +49,10 @@ function fixture(shotsAt: (tick: number) => Shot[] = tick => tick === 1 ? [shot(
     collisionLoading: { blocked: false, blockedFrames: 0, blockedSeconds: 0 },
     modelLoading: { blocked: false, blockedFrames: 0, blockedSeconds: 0 },
     lastNow: 0, paused: false, accumulator: 0, presentationAlpha: 0, presentationFrameTime: 0, timeScale: 1,
-    fpsAcc: 0, fpsFrames: 0, stats: { fps: 0, frameMs: 0 },
+    fpsAcc: 0, fpsFrames: 0, stats: { fps: 0, frameMs: 0, tier: 'standard' },
   };
+  // Exercise Game's real mode/tier policy even though the renderer itself is a lightweight fixture.
+  Object.setPrototypeOf(context, Game.prototype);
   return { context, received, calls, animationSteps, effectSteps,
     frame: (now: number) => Game.prototype.frame.call(context as unknown as Game, now) };
 }

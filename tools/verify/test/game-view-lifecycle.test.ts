@@ -11,6 +11,7 @@ test('a stale vehicle reference cannot interrupt syncViews before the camera, HU
   const calls: string[] = [];
   const state = { player: { inVehicle: 'removed-car', mode: 'driving', weapon: null }, aircraft: [], vehicles: [], characters: [], shots: [], time: 1 } as unknown as SimState;
   const context = {
+    config: { mobile: false }, stats: { tier: 'standard' }, scene: { camera: { fov: 62, aspect: 16 / 9 } },
     aircraftViews: { update: () => {}, ready: true },
     vehicleViews: new Map(), characterViews: new Map(),
     pendingShots: [],
@@ -21,6 +22,7 @@ test('a stale vehicle reference cannot interrupt syncViews before the camera, HU
     hud: { update: () => calls.push('hud'), setWorldLoading: () => {} }, audio: { update: () => calls.push('audio') },
     modelsWaitingMessage: () => null,
   };
+  Object.setPrototypeOf(context, Game.prototype);
   Game.prototype.syncViews.call(context as unknown as Game, 1 / 60, 1 / 60, state);
   assert.deepEqual(calls, ['camera', 'hud', 'audio']);
   assert.equal(context.playerView.root.visible, true, 'show Snow when no vehicle view exists');
@@ -249,11 +251,11 @@ function tierFixture(config: Record<string, unknown>) {
   const views = [1, 2].map(id => ({ setDetailRange: (range: number) => calls.push([`view${id}`, range]) }));
   const game = Object.assign(Object.create(Game.prototype), {
     config: { mobile: false, presetSource: 'url', review: false, preset: 'standard', ...config }, stats: { tier: 'standard' },
-    scene: { applyTier: (params: unknown) => calls.push(['scene', params]) },
+    scene: { camera: { fov: 62, aspect: 16 / 9 }, applyTier: (params: unknown) => calls.push(['scene', params]) },
     streaming: { detail: { setOptions: (o: unknown) => calls.push(['detail', o]) }, fallback: { setOptions: (o: unknown) => calls.push(['fallback', o]) } },
     vehicleViews: new Map(views.map((v, k) => [`car${k}`, v])), vehicleDetailRange: 60, tierMemoryTimer: null,
     loader: { setMipDrop: (n: number) => mipDrops.push(n) },
-    hud: { showNotice: (key: string, time: number, seconds: number) => notices.push([key, time, seconds]) }, state: { time: 12 },
+    hud: { showNotice: (key: string, time: number, seconds: number) => notices.push([key, time, seconds]) }, state: { time: 12, player: { mode: 'onFoot' } },
   }) as Game & { vehicleDetailRange: number };
   return { game, calls, notices, mipDrops };
 }
@@ -265,7 +267,7 @@ test('applyTier applies the tier to the scene, both streams and every existing v
   assert.deepEqual(calls, [
     ['scene', QUALITY_TIERS.low],
     ['detail', { radius: 170, maxCells: 16, geometryBudgetBytes: 96 * MiB }],
-    ['fallback', { radius: 300, maxCells: 28, geometryBudgetBytes: 64 * MiB }],
+    ['fallback', { radius: 300, maxCells: 28, geometryBudgetBytes: 64 * MiB, sector: null, lookaheadSeconds: 3, maxLookahead: 180 }],
     ['view1', 30], ['view2', 30],
   ]);
   assert.equal(game.vehicleDetailRange, 30, 'new vehicle views use the new range');
@@ -292,6 +294,33 @@ test('applyTier sets the tier mip drop for later texture loads unless ?mipdrop o
     pinned.game.applyTier('minimal'); pinned.game.applyTier('standard');
     assert.deepEqual(pinned.mipDrops, [mipDrop, mipDrop], `?mipdrop=${mipDrop}`);
   }
+});
+
+test('quality changes during flight preserve its wider sector in both streams and ground mode restores ordinary selection', () => {
+  const { game, calls } = tierFixture({});
+  const liveRanges: unknown[][] = [];
+  Object.assign(game, { liveVisuals: { setRanges: (...ranges: unknown[]) => liveRanges.push(ranges) } });
+  Object.assign(game.state.player, { mode: 'flying' });
+  game.applyTier('low');
+  const fallback = () => calls.filter(call => call[0] === 'fallback').at(-1)![1];
+  assert.deepEqual(fallback(), { radius: 700, maxCells: 64, geometryBudgetBytes: 64 * 2 ** 20,
+    sector: { nearRadius: 240, halfAngle: Math.PI / 3 }, lookaheadSeconds: 8, maxLookahead: 500 });
+  assert.deepEqual(liveRanges.at(-1), [
+    { radius: 170, maxCells: 16, geometryBudgetMiB: 96 }, { radius: 700, maxCells: 64, geometryBudgetMiB: 64 },
+    { sector: { nearRadius: 240, halfAngle: Math.PI / 3 }, lookaheadSeconds: 8, maxLookahead: 500 },
+  ], 'live and release streams receive the same composed tier and flight policy');
+
+  game.applyTier('minimal');
+  assert.deepEqual(fallback(), { radius: 520, maxCells: 42, geometryBudgetBytes: 48 * 2 ** 20,
+    sector: { nearRadius: 180, halfAngle: Math.PI / 3 }, lookaheadSeconds: 8, maxLookahead: 350 });
+  Object.assign(game.state.player, { mode: 'onFoot' });
+  game.applyTier('minimal');
+  assert.deepEqual(fallback(), { radius: 220, maxCells: 20, geometryBudgetBytes: 48 * 2 ** 20,
+    sector: null, lookaheadSeconds: 3, maxLookahead: 180 }, 'the mode change restores ground policy even when the tier stays the same');
+  assert.deepEqual(liveRanges.at(-1), [
+    { radius: 110, maxCells: 10, geometryBudgetMiB: 64 }, { radius: 220, maxCells: 20, geometryBudgetMiB: 48 },
+    { sector: null, lookaheadSeconds: 3, maxLookahead: 180 },
+  ]);
 });
 
 function memoryStorage() {

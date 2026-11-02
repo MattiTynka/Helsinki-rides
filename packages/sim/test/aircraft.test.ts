@@ -66,22 +66,144 @@ test('aircraft sweep catches a suspended beam at the actual high wing, beyond th
   sim.world.physics.step();sim.world.markStepped();
   let blocked=false;
   for(let i=0;i<500;i++){sim.step({...NEUTRAL,moveZ:1});if(plane.blocked){blocked=true;break;}}
-  assert.equal(blocked,true);assert.ok(plane.position[2]>z-66);assert.equal(plane.speed,0);
+  assert.equal(blocked,true);assert.ok(plane.position[2]>z-66);
+  assert.equal(plane.crashed,true);assert.equal(plane.body.isDynamic(),true);
+  assert.ok(Math.hypot(...plane.velocity)>5,'impact retains incoming momentum');
+  const q=plane.rotation;advance(sim,90,{buttons:Button.ascend,moveZ:1});
+  assert.ok(q.some((v,i)=>Math.abs(v-plane.rotation[i]!)>0.05),'off-centre wing impact tumbles');
+  assert.equal(plane.throttle,0);
 });
 
-test('banking a high wing toward a beam is clipped with its full visual orientation',()=>{
+test('banking a high wing toward a beam hands the full visual orientation to physics',()=>{
   const sim=makeSim(),plane=board(sim,'plane');
   plane.position=[x,10,z];plane.yaw=0;plane.speed=25;plane.throttle=0.5;plane.grounded=false;
   const beam=sim.world.physics.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(x-5,11.2,z+20));
   sim.world.physics.createCollider(RAPIER.ColliderDesc.cuboid(1,0.1,40).setCollisionGroups(groups(GROUP.static,GROUP.all)),beam);
   sim.world.physics.step();sim.world.markStepped();
-  let blocked=false;
+  let blocked=false,handoff:readonly number[]=[];
+  const crash=plane.crash.bind(plane);plane.crash=(velocity,angular)=>{handoff=angular??[];crash(velocity,angular);};
   for(let i=0;i<20;i++){
     sim.step({...NEUTRAL,moveX:1});blocked ||= plane.blocked;
-    const wing=rotate(plane.rotation,[-5,2.3,0.75]);
-    assert.ok(plane.position[1]+wing[1]>11.3,'visible wing stays above the beam');
+    if(plane.crashed)break;
   }
   assert.equal(blocked,true);
+  assert.equal(plane.crashed,true);assert.equal(plane.body.isDynamic(),true);
+  assert.ok(Math.hypot(...handoff)>0.9,'translation retry retains the incoming world bank rate');
+});
+
+test('streaming holds preserve an intact aircraft, but a hard sink crashes and recovery restores it',()=>{
+  const sim=makeSim(),heli=board(sim,'helicopter'),queryable=sim.world.queryable.bind(sim.world);
+  sim.world.queryable=()=>false;advance(sim,10,{moveZ:1});assert.equal(heli.state().crashed,false);assert.equal(heli.health,1);
+  sim.world.queryable=queryable;
+  heli.position=[x,0.2,z];heli.grounded=false;heli.verticalSpeed=-18;
+  sim.step(NEUTRAL);assert.equal(heli.crashed,true);assert.ok(heli.health<1);
+  assert.ok(heli.velocityBefore[1]<-5,'hard landing gives the solver incoming downward momentum');
+  advance(sim,60,{buttons:Button.recover});assert.equal(heli.crashed,false);assert.equal(heli.health,1);assert.equal(heli.damage,'intact');
+  assert.equal(heli.body.isKinematic(),true);assert.deepEqual(heli.angularVelocity,[0,0,0]);
+});
+
+test('hard touchdown preserves the prior bank momentum in world axes',()=>{
+  const sim=makeSim(),heli=board(sim,'helicopter');
+  heli.position=[heli.position[0],20,heli.position[2]];heli.yaw=Math.PI/2;heli.grounded=false;
+  heli.step({...NEUTRAL,moveX:1});const incoming=heli.angularVelocity;
+  assert.ok(Math.abs(incoming[0])>0.9&&Math.abs(incoming[2])<0.05,'local bank is world X at an eastward heading');
+  heli.position=[heli.position[0],0.2,heli.position[2]];heli.verticalSpeed=-18;
+  heli.step(NEUTRAL);assert.equal(heli.crashed,true);
+  assert.ok(heli.angularVelocity.every((v,i)=>Math.abs(v-incoming[i]!)<1e-6),'handoff retains the previous bank momentum before the solver runs');
+});
+
+test('a fast thin-wall crash uses CCD and continues while unoccupied with a distant collision lease',()=>{
+  const sim=makeSim(),plane=board(sim,'plane');
+  plane.position=[x,12,z];plane.yaw=0;plane.speed=80;plane.throttle=1;plane.grounded=false;
+  const wall=sim.world.physics.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(x,18,z+8));
+  sim.world.physics.createCollider(RAPIER.ColliderDesc.cuboid(30,18,0.025).setCollisionGroups(groups(GROUP.static,GROUP.all)),wall);
+  sim.world.physics.step();sim.world.markStepped();
+  advance(sim,10);assert.equal(plane.crashed,true);assert.ok(plane.position[2]<z+8);
+  plane.occupied=false;sim.playerAircraftId=null;sim.mode='onFoot';sim.player.teleport([x+700,0,z],0);
+  const before=[...plane.position];advance(sim,5);assert.notDeepEqual(plane.position,before);
+  assert.ok(sim.collisionSources().some(s=>Math.hypot(s.x-plane.position[0],s.z-plane.position[2])<1));
+  assert.equal(plane.near(plane.position),false);
+  plane.body.sleep();assert.ok(sim.collisionSources().some(s=>Math.hypot(s.x-plane.position[0],s.z-plane.position[2])<1),'a sleeping distant wreck retains its support lease');
+});
+
+test('a settled overturned helicopter offers a clear ground exit and cannot resume flight',()=>{
+  const sim=makeSim(),heli=board(sim,'helicopter');heli.crash([0,0,0]);
+  heli.body.setTranslation({x:heli.position[0],y:6,z:heli.position[2]},true);heli.body.setRotation({x:0,y:0,z:1,w:0},true);
+  advance(sim,360);assert.equal(heli.crashed,true);assert.ok(Math.hypot(...heli.angularVelocity)<0.3);
+  sim.step({...NEUTRAL,buttons:Button.interact});assert.equal(sim.mode,'onFoot',JSON.stringify(heli.state()));
+  assert.equal(heli.occupied,false);assert.equal(heli.near(sim.player.position),false);
+});
+
+test('physical crash replay includes full rotation, health and unoccupied motion deterministically',()=>{
+  const a=makeSim(),b=makeSim();
+  for(const sim of[a,b]){
+    const heli=board(sim,'helicopter');heli.position=[x,0.2,z];heli.verticalSpeed=-18;heli.grounded=false;
+  }
+  for(let i=0;i<180;i++){
+    a.step(NEUTRAL);b.step(NEUTRAL);assert.equal(a.hash(),b.hash(),`physical crash tick ${i}`);
+    assert.deepEqual(a.state().aircraft,b.state().aircraft);
+  }
+  assert.equal(a.playerAircraft!.crashed,true);
+});
+
+test('an aircraft hits a dynamic vehicle body and multi-hull contacts bill damage once per tick',()=>{
+  const sim=makeSim(),plane=board(sim,'plane');
+  plane.position=[x,1,z];plane.yaw=0;plane.speed=40;plane.throttle=1;plane.grounded=false;
+  const car=sim.world.physics.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(x,1,z+10));
+  sim.world.physics.createCollider(RAPIER.ColliderDesc.cuboid(2,1,3).setMass(1650).setCollisionGroups(groups(GROUP.vehicle,GROUP.all)),car);
+  sim.world.physics.step();sim.world.markStepped();
+  let crashEvents=0;
+  for(let i=0;i<120;i++){
+    const before=plane.health;sim.step(NEUTRAL);
+    crashEvents+=sim.events.filter(e=>e.type==='aircraftCrash').length;
+    if(i>15)assert.ok(before-plane.health<=0.650001,'one body impact has a bounded damage bill');
+  }
+  assert.equal(plane.crashed,true);assert.equal(crashEvents,1);
+  assert.ok(car.translation().z>z+10.5,'the dynamic contact transfers momentum to the vehicle');
+  const health=plane.health;advance(sim,300);const resting=plane.health;advance(sim,60);
+  assert.ok(resting<=health);assert.equal(plane.health,resting,'resting contact does not repeatedly charge damage');
+});
+
+test('stationary taxi turns on the captured Malmi runway do not turn terrain skin into a crash',()=>{
+  // A small public live-ground patch captured at the actual aircraft spawn. Heights are centimetres;
+  // its two-metre lattice and triangle diagonal match the source collision, including the cell seam.
+  const heights=[
+    707,703,701,700,702,704,706,708,710,711,
+    706,703,700,702,703,705,707,709,711,713,
+    705,702,700,700,702,704,706,708,710,712,
+    704,702,700,699,700,701,703,705,707,709,
+    704,702,700,699,699,699,701,703,705,707,
+    704,702,700,699,698,698,699,700,702,704,
+    704,702,700,699,698,697,697,698,700,702,
+    704,702,700,699,698,697,696,696,698,700,
+    704,702,700,699,698,697,696,696,697,699,
+    704,702,700,699,698,697,696,696,696,698,
+  ];
+  const positions=new Float32Array(300),indices:number[]=[];
+  for(let iz=0;iz<10;iz++)for(let ix=0;ix<10;ix++){
+    const i=iz*10+ix;positions.set([4978+ix*2,heights[i]!/100,-8960+iz*2],i*3);
+    if(ix<9&&iz<9)indices.push(i,i+10,i+1,i+1,i+10,i+11);
+  }
+  const world=StaticWorld.fromBytes(terrain,roads,gameplay);
+  world.addCell('malmi-runway-patch',encodeCollisionBundle({originId:'t',frame:'X-east,Y-up,Z-south',cell:'malmi-runway-patch',surfaceTags:['road:asphalt']},[{
+    id:'ground',group:'ground',ref:null,positions,indices:new Uint32Array(indices),triangleTags:new Uint16Array(indices.length/3),
+  }]));
+  world.physics.step();world.markStepped();
+  const plane=new Aircraft(world,AIRCRAFT_DEFINITIONS[0]!,7.0103807);plane.occupied=true;
+  for(let i=0;i<1800;i++){
+    plane.step({...NEUTRAL,moveX:i<900?1:-1});plane.beforePhysics();world.physics.step();plane.afterPhysics();
+    assert.equal(plane.crashed,false,`captured runway turn tick ${i}`);
+  }
+  assert.equal(plane.health,1);assert.equal(plane.speed,0);assert.equal(plane.grounded,true);
+});
+
+test('a stationary yaw turn still strikes a real obstacle with the high wing',()=>{
+  const sim=makeSim(),plane=board(sim,'plane');
+  const beam=sim.world.physics.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(x+4.5,2.2,z+2.5));
+  sim.world.physics.createCollider(RAPIER.ColliderDesc.cuboid(0.1,0.1,0.1).setCollisionGroups(groups(GROUP.static,GROUP.all)),beam);
+  sim.world.physics.step();sim.world.markStepped();
+  for(let i=0;i<180&&!plane.crashed;i++)sim.step({...NEUTRAL,moveX:1});
+  assert.equal(plane.crashed,true);assert.equal(plane.body.isDynamic(),true);
 });
 
 test('recovery waits for Malmi collision, then resets aircraft and occupancy without airborne ejection',()=>{
@@ -118,6 +240,12 @@ test('a gently graded runway supports the complete gear footprint through taxi, 
     const world=StaticWorld.fromBytes(bytes,roads,gameplay);world.addCell('slope',support);
     const sim=new Simulation(world,{seed:17}),plane=board(sim,'plane');
     assert.ok(plane.position[1]>height(x,z)+grade,'spawn uses uphill gear support, not centre alone');
+    for(let i=0;i<900;i++){
+      sim.step({...NEUTRAL,moveX:1});
+      assert.equal(plane.crashed,false,`stationary graded-runway turn grade ${grade}, tick ${i}: ${JSON.stringify(plane.state())}`);
+    }
+    assert.equal(plane.grounded,true);assert.equal(plane.speed,0);assert.equal(plane.health,1);
+    assert.equal(plane.recover(),true);
     advance(sim,240,{moveZ:1,buttons:Button.ascend});
     assert.ok(plane.position[1]-height(plane.position[0],plane.position[2])>8,`takeoff on grade ${grade}: ${JSON.stringify(plane.state())}`);
     assert.ok(Math.hypot(plane.position[0]-x,plane.position[2]-z)>20);

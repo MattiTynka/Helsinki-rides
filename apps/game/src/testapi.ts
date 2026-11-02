@@ -81,10 +81,11 @@ export interface HelsinkiTestApi {
   /** Review-only live material/palette/uniform ownership, deduplicated by actual renderer allocation. */
   textureOwnership(): TextureOwnershipSnapshot;
   streaming(): { detail: CellStreamStats; fallback: CellStreamStats; scenery: { residentCells: number; residentInstances: number; totalInstances: number };
+    live: {detail:CellStreamStats;fallback:CellStreamStats} | null;
     coverage: { blocked: boolean; blockedFrames: number; blockedSeconds: number; missingCells: string[] };
     persistentTextureMiB: number; totalTextureBudgetMiB: number } | null;
   /** Sorted ids of the cells resident in the detail and fallback streams (null without streaming). */
-  residentCells(): { detail: string[]; fallback: string[] } | null;
+  residentCells(): { detail: string[]; fallback: string[]; live: {detail:string[];fallback:string[]} | null } | null;
   awaitVisuals(): Promise<void>;
   /**
    * Collision residency: the rules a recording replays under (null: every cell resident), resident cells and bytes,
@@ -158,9 +159,10 @@ export function installTestApi(game: Game, onStart: () => void): HelsinkiTestApi
       game.scene.scene.getObjectByName('scenery') ?? null),
     textureOwnership: () => inspectTextureOwnership(game.scene.scene, game.scene.renderer.properties, game.scene.renderer.info.memory.textures),
     streaming: () => game.streaming ? { detail: game.streaming.detail.stats(), fallback: game.streaming.fallback.stats(), scenery: game.scene.sceneryStats(),
+      live: game.liveVisuals?.stats() ?? null,
       coverage: { ...game.visualLoading, missingCells: game.missingVisualCells() },
       persistentTextureMiB: game.streaming.persistentTextureBytes / 2 ** 20, totalTextureBudgetMiB: game.streaming.totalTextureBudgetBytes / 2 ** 20 } : null,
-    residentCells: () => game.streaming ? { detail: game.streaming.detail.residentIds().sort(), fallback: game.streaming.fallback.residentIds().sort() } : null,
+    residentCells: () => game.streaming ? { detail: game.streaming.detail.residentIds().sort(), fallback: game.streaming.fallback.residentIds().sort(),live:game.liveVisuals?.residentIds()??null } : null,
     awaitVisuals: () => game.awaitVisuals(),
     collision: () => ({ residency: game.world.streamed ? COLLISION_RESIDENCY : null, resident: game.world.residentCells().length,
       blocked: game.collisionLoading.blocked, blockedFrames: game.collisionLoading.blockedFrames, blockedSeconds: game.collisionLoading.blockedSeconds,

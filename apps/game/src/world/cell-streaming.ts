@@ -1,7 +1,8 @@
 // Visual residency only. The complete collision world stays resident and keeps its deterministic insertion order.
 import type { CellDescriptor } from '@helsinki/world-schema';
 
-export interface StreamFocus { x: number; z: number; velocityX: number; velocityZ: number }
+export interface StreamFocus { x: number; z: number; velocityX: number; velocityZ: number; viewX?: number; viewZ?: number }
+export interface CellViewSector { readonly nearRadius: number; readonly halfAngle: number }
 export interface CellResource { readonly textureBytes: number; readonly geometryBytes: number; readonly lod?: 'lod0' | 'lod1' | 'lod2' }
 export interface CellStreamBackend<T extends CellResource> {
   load(cell: CellDescriptor, signal: AbortSignal): Promise<T>;
@@ -16,6 +17,8 @@ export interface CellStreamOptions {
   readonly radius: number;
   readonly lookaheadSeconds: number;
   readonly maxLookahead: number;
+  /** Optional protected near disk plus a farther view sector; null restores ordinary ground selection. */
+  readonly sector?: CellViewSector | null;
   readonly concurrency?: number;
   readonly level?: 'lod0' | 'lod1' | 'lod2';
   readonly maxCells?: number;
@@ -79,10 +82,15 @@ export function selectVisualCells(cells: readonly CellDescriptor[], focus: Strea
   const speed = Math.hypot(focus.velocityX, focus.velocityZ);
   const lead = Math.min(options.maxLookahead, speed * options.lookaheadSeconds);
   const ux = speed > 0.01 ? focus.velocityX / speed : 0, uz = speed > 0.01 ? focus.velocityZ / speed : 0;
+  const sector = options.sector;
+  const nearRadius = sector ? Math.min(options.radius, sector.nearRadius) : options.radius;
+  const viewLength = Math.hypot(focus.viewX ?? 0, focus.viewZ ?? 0);
+  const viewX = Number.isFinite(viewLength) && viewLength > 0.01 ? focus.viewX! / viewLength : speed > 0.01 ? ux : 0;
+  const viewZ = Number.isFinite(viewLength) && viewLength > 0.01 ? focus.viewZ! / viewLength : speed > 0.01 ? uz : 1;
   const endX = focus.x + ux * lead, endZ = focus.z + uz * lead;
   const minX = Math.min(focus.x, endX) - options.radius, maxX = Math.max(focus.x, endX) + options.radius;
   const minZ = Math.min(focus.z, endZ) - options.radius, maxZ = Math.max(focus.z, endZ) + options.radius;
-  const ranked: { cell: CellDescriptor; here: number; corridor: number; rank: number }[] = [];
+  const ranked: { cell: CellDescriptor; here: number; corridor: number; rank: number; group: number }[] = [];
   for (const cell of cells) {
     const b = boundsByCell?.get(cell.id) ?? visualBounds(cell);
     // Reject only cells outside the entire swept rectangle; exact distances and ordering below stay unchanged.
@@ -91,9 +99,23 @@ export function selectVisualCells(cells: readonly CellDescriptor[], focus: Strea
     // Sample the movement corridor, not only its end: a fast car cannot skip the intervening visual cells.
     let corridor = here;
     if (lead > 0 && speed > .01) for (let i = 1; i <= 4; i++) corridor = Math.min(corridor, distance(b, focus.x + ux * lead * i / 4, focus.z + uz * lead * i / 4));
-    if (corridor <= options.radius) ranked.push({ cell, here, corridor, rank: Math.min(here, corridor + 35) - (resident.has(cell.id) ? 18 : 0) });
+    let group = 0;
+    if (sector) {
+      const cx = (b[0] + b[2]) / 2 - focus.x, cz = (b[1] + b[3]) / 2 - focus.z;
+      const centreDistance = Math.hypot(cx, cz), halfDiagonal = Math.hypot(b[2] - b[0], b[3] - b[1]) / 2;
+      // Bounding-circle angular padding keeps cells intersecting the edge of the
+      // view, rather than dropping their visible half when their centroid is out.
+      const padding = centreDistance > halfDiagonal ? Math.asin(halfDiagonal / centreDistance) : Math.PI;
+      const angle = centreDistance > 0 ? Math.acos(Math.max(-1, Math.min(1, (cx * viewX + cz * viewZ) / centreDistance))) : 0;
+      const inView = here <= options.radius && angle <= sector.halfAngle + padding;
+      if (here <= nearRadius) group = 0;
+      else if (inView) group = 1;
+      else if (corridor <= nearRadius) group = 2;
+      else continue;
+    } else if (corridor > options.radius) continue;
+    ranked.push({ cell, here, corridor, group, rank: Math.min(here, corridor + 35) - (resident.has(cell.id) ? 18 : 0) });
   }
-  ranked.sort((a, b) => a.rank - b.rank || a.here - b.here || a.cell.id.localeCompare(b.cell.id));
+  ranked.sort((a, b) => a.group - b.group || a.rank - b.rank || a.here - b.here || a.cell.id.localeCompare(b.cell.id));
   let used = 0, geometryUsed = 0;
   const selected: CellDescriptor[] = [];
   for (const { cell } of ranked) {
@@ -160,14 +182,17 @@ export class CellVisualStream<T extends CellResource> {
    * A detail-tier change narrows or widens the selection. Work outside the new selection is cancelled and evicted before
    * anything new loads (as on every reselection). The LOD level is session-fixed, so decoded cost caches stay valid.
    */
-  setOptions(partial: Partial<Pick<CellStreamOptions, 'radius' | 'maxCells' | 'geometryBudgetBytes'>>): void {
+  setOptions(partial: Partial<Pick<CellStreamOptions, 'radius' | 'maxCells' | 'geometryBudgetBytes' | 'sector' | 'lookaheadSeconds' | 'maxLookahead'>>): void {
     if (this.disposed) return;
-    const { radius, maxCells, geometryBudgetBytes } = partial;
+    const { radius, maxCells, geometryBudgetBytes, sector, lookaheadSeconds, maxLookahead } = partial;
     this.options = {
       ...this.options,
       ...(radius !== undefined && Number.isFinite(radius) && radius >= 0 ? { radius } : {}),
       ...(maxCells !== undefined && Number.isInteger(maxCells) && maxCells > 0 ? { maxCells } : {}),
       ...(geometryBudgetBytes !== undefined && geometryBudgetBytes > 0 ? { geometryBudgetBytes } : {}),
+      ...(sector === null || sector && Number.isFinite(sector.nearRadius) && sector.nearRadius >= 0 && Number.isFinite(sector.halfAngle) && sector.halfAngle > 0 && sector.halfAngle <= Math.PI ? { sector } : {}),
+      ...(lookaheadSeconds !== undefined && Number.isFinite(lookaheadSeconds) && lookaheadSeconds >= 0 ? { lookaheadSeconds } : {}),
+      ...(maxLookahead !== undefined && Number.isFinite(maxLookahead) && maxLookahead >= 0 ? { maxLookahead } : {}),
     };
     this.reselect();
     this.pump();

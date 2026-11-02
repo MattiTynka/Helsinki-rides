@@ -74,9 +74,9 @@ export class AircraftViews {
       view.root.visible = Math.hypot(state.position[0] - playerPosition[0]!, state.position[2] - playerPosition[2]!) < 1800 || state.occupied;
       view.root.position.set(...state.position);
       view.root.quaternion.set(...state.rotation);
-      view.spin.timeScale = state.occupied ? 0.3 + state.throttle * 2 : 0;
+      view.spin.timeScale = state.occupied && !state.crashed ? state.kind === 'helicopter' ? 3 : 0.3 + state.throttle * 2 : 0;
       view.mixer.update(Math.min(0.1, Math.max(0, dt)));
-      if (state.kind === 'plane') {
+      if (state.kind === 'plane' && !state.crashed) {
         const roll = new THREE.Euler().setFromQuaternion(view.root.quaternion, 'YXZ').z;
         const elevator = view.model.getObjectByName('trainer_elevator');
         const left = view.model.getObjectByName('trainer_aileron_left');

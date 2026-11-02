@@ -10,7 +10,7 @@ import { LIVE_CELL_SIZE, type LiveGrid } from '@helsinki/sim';
 import type { CellView, CityScene } from '../../render/scene.ts';
 import type { StreamRange } from '../../render/quality-tiers.ts';
 import { geometryBytesOf, textureGpuBytes } from '../../render/cell-resources.ts';
-import { CellVisualStream, type CellStreamBackend, type CellStreamStats, type StreamFocus } from '../cell-streaming.ts';
+import { CellVisualStream, type CellStreamBackend, type CellStreamStats, type CellStreamOptions, type StreamFocus } from '../cell-streaming.ts';
 import type { GlbLoader } from '../loader.ts';
 import type { LiveBuildingPart, LiveGroundVisual, LiveSurface, LiveTextureBytes } from './contract.ts';
 import { edgeOverrides, type LiveCellSource } from './live-source.ts';
@@ -40,7 +40,9 @@ const GROUND_COLOURS: Readonly<Record<LiveSurface, number>> = { road: 0x56585b, 
 
 /** Selection estimates before a square's real costs are known (the stream then uses measured costs). */
 const estimate = (textureBytesEstimate: number): VisualLod => ({ path: '', bytes: 0, sha256: '', triangles: 4000, drawCalls: 6, atlases: 0, textureBytesEstimate });
-const LIVE_VISUAL: CellDescriptor['visual'] = { lod0: estimate(4 * MiB), lod1: estimate(4 * MiB), lod2: estimate(MiB) };
+// Coarse city massing is always colour-only; detailed views retain the facade
+// imagery. This identity is session-fixed, including its zero texture estimate.
+const LIVE_VISUAL: CellDescriptor['visual'] = { lod0: estimate(4 * MiB), lod1: estimate(4 * MiB), lod2: estimate(0) };
 
 function liveDescriptor(id: string, cx: number, cz: number): CellDescriptor {
   const x0 = cx * LIVE_CELL_SIZE, z0 = cz * LIVE_CELL_SIZE;
@@ -248,11 +250,12 @@ export class LiveVisuals {
   }
 
   /** A detail-tier change: both streams' ranges and budgets, and the window's reach. */
-  setRanges(detail: StreamRange, fallback: StreamRange): void {
+  setRanges(detail: StreamRange, fallback: StreamRange,
+    selection: Pick<CellStreamOptions, 'sector' | 'lookaheadSeconds' | 'maxLookahead'> = {sector:null,lookaheadSeconds:3,maxLookahead:180}): void {
     if (this.disposed) return;
     this.fallbackRadius = fallback.radius;
     this.detail.setOptions({ radius: detail.radius, maxCells: detail.maxCells, geometryBudgetBytes: detail.geometryBudgetMiB * MiB });
-    this.fallback.setOptions({ radius: fallback.radius, maxCells: fallback.maxCells, geometryBudgetBytes: fallback.geometryBudgetMiB * MiB });
+    this.fallback.setOptions({ radius: fallback.radius, maxCells: fallback.maxCells, geometryBudgetBytes: fallback.geometryBudgetMiB * MiB, ...selection });
     if (this.focus) this.rebuildWindow(this.focus.x, this.focus.z);
   }
 
@@ -300,6 +303,10 @@ export class LiveVisuals {
 
   stats(): { detail: CellStreamStats; fallback: CellStreamStats } {
     return { detail: this.detail.stats(), fallback: this.fallback.stats() };
+  }
+
+  residentIds(): {detail:string[];fallback:string[]} {
+    return {detail:this.detail.residentIds().sort(),fallback:this.fallback.residentIds().sort()};
   }
 
   dispose(): void {
@@ -364,7 +371,7 @@ export class LiveVisuals {
     const result = await this.source.visual(cx, cz, maxGeometricError, signal);
     signal.throwIfAborted();
     const used = new Set<string>();
-    for (const part of result.parts) if (part.texture !== null) used.add(part.texture);
+    for (const part of result.parts) if (lod !== 'lod2' && part.texture !== null) used.add(part.texture);
     const images = new Map<string, { image: LiveTextureBytes; share: number }>();
     for (const image of result.textures) {
       if (!used.has(image.key)) continue;
