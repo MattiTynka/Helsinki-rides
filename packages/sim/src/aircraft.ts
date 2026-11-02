@@ -14,8 +14,8 @@ export interface AircraftDefinition {
   readonly seat: V3; readonly entryRadius: number;
 }
 export const AIRCRAFT_DEFINITIONS: readonly AircraftDefinition[] = [
-  { id: 'malmi-plane', kind: 'plane', label: 'Malmi airplane', position: [MALMI_AIRFIELD.x, MALMI_AIRFIELD.z], yaw: Math.PI, seat: [0, 0.8, 0.5], entryRadius: 7 },
-  { id: 'malmi-helicopter', kind: 'helicopter', label: 'Malmi helicopter', position: [5009.144, -8933.758], yaw: Math.PI, seat: [0, 0.8, 0.8], entryRadius: 6 },
+  { id: 'malmi-plane', kind: 'plane', label: 'Cessna 172', position: [MALMI_AIRFIELD.x, MALMI_AIRFIELD.z], yaw: Math.PI, seat: [-0.2, 0.95, 1.3], entryRadius: 7 },
+  { id: 'malmi-helicopter', kind: 'helicopter', label: 'Mi-17', position: [5009.144, -8933.758], yaw: Math.PI, seat: [0.25, 1.35, 3.2], entryRadius: 6 },
 ];
 export interface AircraftState {
   readonly id: string; readonly kind: AircraftKind; readonly position: V3; readonly rotation: Quat;
@@ -29,19 +29,19 @@ export interface AircraftHull { readonly centre: V3; readonly half: V3 }
  * control-surface travel fits the wing/tail boxes. The 3 cm gear/skid skin is the floor-contact tolerance. */
 export const AIRCRAFT_HULLS: Readonly<Record<AircraftKind, readonly AircraftHull[]>> = {
   plane: [
-    { centre: [0, 1.75, -0.1], half: [0.65, 1.1, 3.5] },
-    { centre: [0, 2.3, 0.75], half: [5.5, 0.25, 0.85] },
-    { centre: [0, 1.62, -3], half: [1.85, 0.25, 0.75] },
-    { centre: [0, 2.2, -3], half: [0.25, 0.75, 0.75] },
-    { centre: [0, 1.22, 3.5], half: [1.05, 1.05, 0.3] },
-    { centre: [0, 0.32, 1.45], half: [1.3, 0.29, 1.6] },
+    { centre: [0, 1.35, 0.25], half: [1.12, 0.8, 3.75] },
+    { centre: [0, 2.2, 0.75], half: [5.55, 0.25, 0.95] },
+    { centre: [0, 1.13, -3.2], half: [1.85, 0.2, 0.9] },
+    { centre: [0, 1.8, -3.3], half: [0.25, 0.75, 0.8] },
+    { centre: [0.01, 1.15, 4.04], half: [1.12, 1.12, 0.25] },
+    { centre: [0, 0.3, 0.7], half: [1.4, 0.27, 2.5] },
   ],
   helicopter: [
-    { centre: [0, 1.65, -0.25], half: [0.95, 1.2, 2.2] },
-    { centre: [0, 2.05, -4], half: [0.8, 0.65, 1.7] },
-    { centre: [0, 2.9, 0.1], half: [4.6, 0.15, 4.6] },
-    { centre: [0.1, 2.05, -5.25], half: [0.15, 0.7, 0.7] },
-    { centre: [0, 0.33, 0.2], half: [0.95, 0.3, 1.4] },
+    { centre: [0, 2.15, 0.4], half: [2.05, 1.6, 4.65] },
+    { centre: [0, 2.8, -7.7], half: [0.8, 1.1, 3.5] },
+    { centre: [0, 4.27, 0], half: [10.7, 0.35, 10.7] },
+    { centre: [0.31, 4.14, -10.99], half: [0.25, 1.8, 1.8] },
+    { centre: [0, 0.4, 0.8], half: [2.02, 0.37, 2.9] },
   ],
 };
 function rotationOf(yaw: number, pitch: number, bank: number): Quat {
@@ -120,7 +120,8 @@ export class Aircraft {
     const nextVertical = moveToward(this.verticalSpeed, targetVertical, 8 * dt);
     const candidate: V3 = [this.position[0] + Math.sin(nextYaw) * nextSpeed * dt, clamp(this.position[1] + nextVertical * dt, -40, MAX_HEIGHT), this.position[2] + Math.cos(nextYaw) * nextSpeed * dt];
     const [x0, z0, x1, z1] = LIVE_REGION_XZ;
-    if (candidate[0] < x0 + 8 || candidate[0] > x1 - 8 || candidate[2] < z0 + 8 || candidate[2] > z1 - 8 || ![-8,0,8].every(dx => [-8,0,8].every(dz => this.world.queryable(candidate[0] + dx, candidate[2] + dz)))) {
+    const clearance = plane ? 8 : 15;
+    if (candidate[0] < x0 + clearance || candidate[0] > x1 - clearance || candidate[2] < z0 + clearance || candidate[2] > z1 - clearance || ![-clearance,0,clearance].every(dx => [-clearance,0,clearance].every(dz => this.world.queryable(candidate[0] + dx, candidate[2] + dz)))) {
       this.blocked = true; this.speed = 0; this.verticalSpeed = 0; return;
     }
     // Ground is a real resident static surface. It can raise a taxiing aircraft over gently sloping pavement,
@@ -159,7 +160,7 @@ export class Aircraft {
   exitPoint(): V3 | null {
     if (!this.grounded || Math.abs(this.speed) >= 2 || Math.abs(this.verticalSpeed) > 0.2) return null;
     for (const side of [1, -1]) {
-      const offset = rotate(quatYaw(this.yaw), [side * (this.def.kind === 'plane' ? 6.6 : 2.6), 0, 0]);
+      const offset = rotate(quatYaw(this.yaw), [side * (this.def.kind === 'plane' ? 6.6 : 3.0), 0, 0]);
       const x = this.position[0] + offset[0], z = this.position[2] + offset[2];
       const y = aircraftGround(this.world, x, z, this.position[1] + 1);
       if (y === null || Math.abs(y - this.position[1]) > 0.6) continue;

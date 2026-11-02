@@ -70,8 +70,8 @@ export class ChaseCamera {
       this.carYawOffset = THREE.MathUtils.damp(this.carYawOffset, 0, 0.5, dt);
       const yaw = aircraft.yaw + this.carYawOffset;
       this.yaw = yaw;
-      this.target.set(aircraft.position[0], aircraft.position[1] + 1.5, aircraft.position[2]);
-      const distance = aircraft.kind === 'plane' ? 22 : 18;
+      this.target.set(aircraft.position[0], aircraft.position[1] + (aircraft.kind === 'plane' ? 1.5 : 2.5), aircraft.position[2]);
+      const distance = aircraft.kind === 'plane' ? 22 : 34;
       const desired = this.target.clone().add(new THREE.Vector3(-Math.sin(yaw) * distance, 7 + Math.sin(-this.pitch) * 8, -Math.cos(yaw) * distance));
       const direction = desired.clone().sub(this.target), length = direction.length();
       if (length > 0.01) {

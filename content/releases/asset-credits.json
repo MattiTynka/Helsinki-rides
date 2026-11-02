@@ -16,7 +16,12 @@
     },
     {
       "id": "mustang-source",
-      "gameAssetIds": ["vehicle-lumi-gt", "vehicle-patrol", "vehicle-lumi-gt-far-low", "vehicle-patrol-far-low"],
+      "gameAssetIds": [
+        "vehicle-lumi-gt",
+        "vehicle-patrol",
+        "vehicle-lumi-gt-far-low",
+        "vehicle-patrol-far-low"
+      ],
       "title": "Ford Mustang Gt 500 With pro Rig FOR FREE!",
       "author": "NoOb StUfFs",
       "authorUrl": "https://sketchfab.com/NoObStUfFs",
@@ -37,7 +42,9 @@
     },
     {
       "id": "veyron-source",
-      "gameAssetIds": ["vehicle-revontuli"],
+      "gameAssetIds": [
+        "vehicle-revontuli"
+      ],
       "title": "Bugatti Veyron fully rigged.",
       "author": "NoOb StUfFs",
       "authorUrl": "https://sketchfab.com/NoObStUfFs",
@@ -60,8 +67,16 @@
       "id": "helsinki-cathedral-source",
       "title": "Helsinki Cathedral - Finland",
       "authors": [
-        { "name": "Dany Sánchez", "identity": "MiniWorld3D", "role": "Original model" },
-        { "name": "Jukka Seppänen", "identity": "kijaidesign", "role": "Model optimizations" }
+        {
+          "name": "Dany Sánchez",
+          "identity": "MiniWorld3D",
+          "role": "Original model"
+        },
+        {
+          "name": "Jukka Seppänen",
+          "identity": "kijaidesign",
+          "role": "Model optimizations"
+        }
       ],
       "sourceUrl": "https://www.printables.com/model/486571-helsinki-cathedral-finland",
       "suppliedSourceSha256": "4a3fbc3d9457b0946035fe475f1851e856e10a34951c7810ecf65865df4b0cc9",
@@ -79,7 +94,9 @@
     },
     {
       "id": "civilian-snow-source",
-      "gameAssetIds": ["character-civilian-snow-black"],
+      "gameAssetIds": [
+        "character-civilian-snow-black"
+      ],
       "title": "Snow civilian, original dark-skinned game derivative",
       "author": "Blender Studio",
       "sourceUrl": "https://studio.blender.org/characters/snow/",
@@ -91,7 +108,10 @@
     },
     {
       "id": "civilian-rain-source",
-      "gameAssetIds": ["character-civilian-rain-black", "character-civilian-rain-white"],
+      "gameAssetIds": [
+        "character-civilian-rain-black",
+        "character-civilian-rain-white"
+      ],
       "title": "Rain civilians, original dark-skinned derivative and lighter-skinned texture variant",
       "author": "Blender Studio",
       "sourceUrl": "https://studio.blender.org/characters/rain/",
@@ -103,7 +123,11 @@
     },
     {
       "id": "civilian-quaternius-locomotion",
-      "gameAssetIds": ["character-civilian-snow-black", "character-civilian-rain-black", "character-civilian-rain-white"],
+      "gameAssetIds": [
+        "character-civilian-snow-black",
+        "character-civilian-rain-black",
+        "character-civilian-rain-white"
+      ],
       "title": "Quaternius Universal Animation Library, free Standard edition",
       "author": "Quaternius",
       "sourceUrl": "https://quaternius.itch.io/universal-animation-library",
@@ -116,24 +140,45 @@
       "changes": "Walk, jog and sprint clips retargeted to the reduced Snow/Rain rigs, with the posture, contacts, cadence and in-place adaptations recorded in content/assets/locomotion.motion.json. The civilian game assets ship the walk only; their run and sprint are Snow's supplied movement (content/assets/civilian-flee.motion.json). Project-authored collapse and other gameplay poses retain their own provenance."
     },
     {
-      "id": "malmi-aircraft",
-      "title": "Trainer plane and Light helicopter - Low-Poly Aircraft Kit Free",
+      "id": "malmi-plane",
+      "title": "Cessna 172",
       "authors": [
         {
-          "name": "heyheythere",
-          "role": "Models, textures and animation rig"
+          "name": "osmosikum",
+          "role": "Model, textures and mechanical articulation"
         }
       ],
-      "sourceUrl": "https://heyheythere.itch.io/low-poly-aircraft-kit-free",
+      "sourceUrl": "https://sketchfab.com/3d-models/plane-cedc8a07370747f7b0d14400cdf2faf9",
       "license": "CC-BY-4.0",
       "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
       "evidence": {
-        "status": "license-verified-from-free-download",
+        "status": "original-distribution-and-creator-listing-verified",
         "retrievedOn": "2026-11-02",
         "licenseFile": "content/assets/aircraft-license.md",
         "contract": "content/assets/aircraft.contract.json"
       },
-      "changes": "Non-rendering atlas metadata removed losslessly; colour atlas embedded into GLBs; native lossless raw Meshopt storage compression applied without geometry or animation changes; runtime placement, flight controls and pivot animation added."
+      "changes": "Scale and pivot normalization; web material conversion; bounded texture and geometry optimization; metadata removal and Meshopt compression."
+    },
+    {
+      "id": "malmi-helicopter",
+      "title": "Mi-17 Helicopter",
+      "authors": [
+        {
+          "name": "Blendsteve",
+          "role": "Model, textures and mechanical articulation"
+        }
+      ],
+      "sourceUrl": "https://blendswap.com/blend/12696",
+      "license": "CC-BY-3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "evidence": {
+        "status": "original-distribution-and-creator-listing-verified",
+        "retrievedOn": "2026-11-02",
+        "licenseFile": "content/assets/aircraft-license.md",
+        "contract": "content/assets/aircraft.contract.json"
+      },
+      "changes": "Scale and pivot normalization; web material conversion; bounded texture and geometry optimization; metadata removal and Meshopt compression.",
+      "additionalNotice": "Original distribution: Fan Art; commercial use is not allowed. Included for the free, noncommercial release."
     }
   ],
   "removedAssets": [

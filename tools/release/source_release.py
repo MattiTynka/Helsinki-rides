@@ -174,7 +174,7 @@ def aircraft_glb(data: bytes) -> tuple[dict, bytes]:
     if not isinstance(buffers, list) or not 1 <= len(buffers) <= 2 or not isinstance(buffers[0], dict) or not isinstance(buffers[0].get('byteLength'), int) or not 0 <= binary_size - buffers[0]['byteLength'] <= 3:
         raise ValueError('invalid aircraft buffer')
     if len(buffers) == 2 and (not isinstance(buffers[1], dict) or not isinstance(buffers[1].get('byteLength'), int)
-                            or not 0 <= buffers[1]['byteLength'] <= 2 * 1024 * 1024
+                            or not 0 <= buffers[1]['byteLength'] <= 8 * 1024 * 1024
                             or buffers[1].get('extensions') != {'EXT_meshopt_compression': {'fallback': True}}):
         raise ValueError('invalid aircraft virtual buffer')
     def check_embedded(value):

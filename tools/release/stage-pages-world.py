@@ -703,7 +703,7 @@ def _shell_inventory(output: Path) -> tuple[list[str], int]:
             if aircraft:
                 _validate_shell_aircraft(path, aircraft[1])
                 aircraft_bytes += path.stat().st_size
-                if aircraft_bytes > 256 * 1024:
+                if aircraft_bytes > 4 * 1024 * 1024:
                     raise ValueError('aircraft exceed the combined shell asset budget')
             names.append(relative)
             total += path.stat().st_size
@@ -716,7 +716,7 @@ def _shell_inventory(output: Path) -> tuple[list[str], int]:
 
 def _validate_shell_aircraft(path: Path, kind: str) -> None:
     """Only the two licensed, optimized, contract-pinned models belong in Pages."""
-    if path.stat().st_size > 1024 * 1024:
+    if path.stat().st_size > 2 * 1024 * 1024:
         raise ValueError('aircraft exceeds the web model budget')
     canonical = f'apps/game/src/assets/aircraft/{kind}.glb'
     contract_path = Path(__file__).resolve().parents[2] / 'content/assets/aircraft.contract.json'

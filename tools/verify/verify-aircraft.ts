@@ -75,7 +75,8 @@ try {
   const modelTransfers=await page.evaluate(()=>performance.getEntriesByType('resource').filter(entry=>/\/(trainer|helicopter)-[^/]+\.glb/.test(entry.name))
     .map(entry=>({name:new URL(entry.name).pathname,bytes:(entry as PerformanceResourceTiming).decodedBodySize})));
   assert.equal(modelTransfers.length,2);
-  assert.equal(modelTransfers.reduce((sum,entry)=>sum+entry.bytes,0),80476);
+  const contract=JSON.parse(fs.readFileSync(new URL('../../content/assets/aircraft.contract.json',import.meta.url),'utf8')) as {models:{bytes:number}[]};
+  assert.equal(modelTransfers.reduce((sum,entry)=>sum+entry.bytes,0),contract.models.reduce((sum,model)=>sum+model.bytes,0));
   record('optimized-models-loaded-on-demand',modelTransfers);
   record('browser-errors',session.consoleErrors);
   fs.writeFileSync(path.join(values.out,'results.json'),JSON.stringify({status:'PASS',url:values.url,checks,captures,review:'CAPTURED_NOT_REVIEWED',state:await snapshot()},null,2));

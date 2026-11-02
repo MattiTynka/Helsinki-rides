@@ -96,17 +96,21 @@ export class SessionControls {
     const aircraftCredit = document.createElement('p');
     const aircraftLabel = document.createElement('strong');
     aircraftLabel.dataset.sessionText = 'credits.aircraft.label';
-    aircraftCredit.append(aircraftLabel, ' Trainer plane · Light helicopter — ');
+    aircraftCredit.append(aircraftLabel, ' ');
     for (const [label, href] of [
-      ['Low-Poly Aircraft Kit Free', 'https://heyheythere.itch.io/low-poly-aircraft-kit-free'],
-      ['heyheythere', 'https://heyheythere.itch.io/'],
+      ['Cessna 172 - osmosikum', 'https://sketchfab.com/3d-models/plane-cedc8a07370747f7b0d14400cdf2faf9'],
       ['CC BY 4.0', 'https://creativecommons.org/licenses/by/4.0/'],
+      ['Mi-17 - Blendsteve (CG Geek)', 'https://blendswap.com/blend/12696'],
+      ['CC BY 3.0', 'https://creativecommons.org/licenses/by/3.0/'],
     ]) {
       const link = document.createElement('a');
       link.textContent = label!; link.href = href!;
       link.target = '_blank'; link.rel = 'noopener noreferrer';
-      aircraftCredit.append(link, ' · ');
+      aircraftCredit.append(link, ' | ');
     }
+    const aircraftChanges = document.createElement('span');
+    aircraftChanges.dataset.sessionText = 'credits.aircraft.changes';
+    aircraftCredit.append(aircraftChanges);
     const notices = document.createElement('a');
     notices.href = 'https://github.com/GPTchatly/Helsinki-rides/blob/main/THIRD_PARTY_NOTICES.md';
     notices.target = '_blank'; notices.rel = 'noopener noreferrer';

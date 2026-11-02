@@ -353,7 +353,7 @@ class PagesWorldTest(unittest.TestCase):
     def test_shell_rejects_unreviewed_model_names_and_oversize_aircraft(self):
         for name in ['trainer.glb', 'other-Ab12cd34.glb', 'trainer-Ab12cd34.glb']:
             path = self.output / 'assets' / name
-            path.write_bytes(b'x' * (1024 * 1024 + 1))
+            path.write_bytes(b'x' * (2 * 1024 * 1024 + 1))
             with self.assertRaises(ValueError):
                 pages._shell_inventory(self.output)
             path.unlink()

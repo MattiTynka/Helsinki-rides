@@ -1,59 +1,66 @@
 # Malmi aircraft
 
-The trainer plane and light helicopter are from [Low-Poly Aircraft Kit Free by
-heyheythere](https://heyheythere.itch.io/low-poly-aircraft-kit-free), licensed under
-[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Their rigid parts have
-animated propeller, rotor and control-surface pivots. They use a mechanical
-transform rig; they do not use a deforming character skeleton. Full attribution
-and terms are in `THIRD_PARTY_NOTICES.md` and `content/assets/aircraft-license.md`.
+The Cessna 172 is adapted from [Plane by osmosikum](https://sketchfab.com/3d-models/plane-cedc8a07370747f7b0d14400cdf2faf9), CC BY 4.0.
+The [Mi-17 Helicopter by Blendsteve (CG Geek)](https://blendswap.com/blend/12696)
+is CC BY 3.0 in its original distribution. That distribution additionally marks
+the helicopter as Fan Art and prohibits commercial use; this notice is retained
+for the free, noncommercial game release. Credits appear at startup and in the
+session menu, `THIRD_PARTY_NOTICES.md`, the asset contract and license notices.
 
-The plane's southern-runway stand is at 60.24985 N, 25.0422 E, projected through
-the existing EPSG:3879 origin to runtime X 4986.982, Z -8950.456. The helicopter
-stand is at X 5009.144, Z -8933.758. Placement uses the real streamed Malmi ground;
-unavailable terrain does not authorize a spawn. The location menu places Snow
-beside the plane without snapping to a nearby road.
+The original FBX and Blender archives remain offline. Their hashes are recorded
+in `content/assets/aircraft.contract.json`. The repeatable conversion uses
+Blender 5.2.1 in a network-disabled, read-only container with embedded source
+scripts disabled, bounded CPU/memory and explicit input/output mounts.
+`tools/blender/prepare_polished_aircraft.py` accepts the extracted `cessna` and
+`mi17` directories, then produces clean GLBs with metres, +Z forward, +Y up and
+an origin at ground level. The helicopter's horizontal origin is the main hub.
 
-Flight runs at the existing 60 Hz simulation step. W/S changes plane throttle;
-the selected throttle persists when released. Helicopters hover when W/S is
-released. A/D turns, Space/Ctrl controls height, Shift boosts speed, and F boards
-or exits a stopped aircraft on supported ground. Holding X recovers to its stand
-after destination collision is available. Flight is bounded to the city's live
-data region and 550 runtime metres in height. Static collision uses swept part
-envelopes for the fuselage, wings, gear and complete animated rotor discs. This
-is an arcade controller, with automatic leveling near landing.
+The Cessna keeps its propeller and tail hinges. The Mi-17 keeps its main and tail
+rotor geometry; the full main rotor sweeps a 21.3-metre diameter. Legacy materials
+are converted to web PBR materials, helicopter colours are baked, evaluated body
+geometry is simplified and authoring wire controls and unrelated scenery are
+excluded. The original character rig and seated pose are retained; seat sockets,
+collision envelopes, ground support, exit clearance and camera fit these models.
 
-Snow's accepted seated joint pose is aligned to each aircraft's seat and follows
-its full orientation. The original character skeleton, skin and ordinary walking
-controller are retained. Flying uses a separate occupancy field so it does not
-change existing car interaction authority. Safe exits require a flat surface and
-capsule clearance; pressing F in the air leaves Snow aboard.
+The producer `tools/assets/prepare_polished_aircraft.mjs` downsizes textures to
+at most 1024 square and emits metadata-free palette PNGs, removes GLB extras,
+deduplicates resources and applies native lossless Meshopt buffer compression.
+Every compressed buffer view is decoded and checked byte-for-byte. Final exports:
 
-The original atlas pixels, meshes, hierarchy and clips are retained. The producer
-removes nonrendering PNG metadata, embeds the atlas and applies the native
-lossless Meshopt compressor with byte-for-byte decode checks. Final assets are
-47,840 bytes / 606 triangles and 32,636 bytes / 478 triangles: 80,476 bytes total.
-Each has one 512-square atlas, approximately 1.34 MiB including RGBA mipmaps.
-Standard and Low use these same small assets. They load near Malmi rather than
-at city startup and are emitted as hashed application assets. The world packet
-is unchanged; GitHub's existing artifact and push budgets are unchanged.
+| Aircraft | Transfer bytes | Triangles | Texture memory including RGBA mipmaps |
+| --- | ---: | ---: | ---: |
+| Cessna 172 | 1,341,144 | 29,700 | 12,582,916 |
+| Mi-17 | 995,708 | 48,630 | 8,388,614 |
+| Combined | 2,336,852 | 78,330 | 20,971,530 |
 
-The source curator audits both GLB JSON and embedded PNG metadata. The Pages
-stager admits only trainer/helicopter hashed filenames with exact contract
-sizes and hashes, a 1 MiB individual limit and a 256 KiB combined limit.
+Standard and Low share these bounded assets. Both load near Malmi, rather than
+at city startup, and their texture memory is deducted from city streaming's
+combined budget. Model limits are 2 MiB each, 4 MiB together; the overall
+application shell remains capped at 20,000,000 bytes. Admission still requires
+exact contract hashes and sizes, embedded resources only, and GLB/image metadata
+privacy checks. The two allowed filenames are unchanged. World content is unchanged.
 
-Reproduce asset preparation from the extracted licensed sampler:
+The plane stand remains at runtime X 4986.982, Z -8950.456; the helicopter stand
+is at X 5009.144, Z -8933.758. Airports → Malmi airport drops Snow beside the
+plane without road snapping. W/S controls speed, A/D turns, Space/Ctrl controls
+height, Shift boosts and F boards/exits on supported ground. Hold X to recover
+when the destination collision is available. Aircraft still use the existing
+fixed-step arcade flight controller; this replacement does not add crash physics
+or change flight cell visibility ranges.
+
+Reproduction after the isolated Blender conversion:
 
 ```sh
-node tools/assets/prepare_aircraft.mjs INPUT_DIRECTORY
+node tools/assets/prepare_polished_aircraft.mjs CONVERTED_DIRECTORY
 node --test tools/verify/test/aircraft-assets.test.mjs packages/sim/test/aircraft.test.ts tools/verify/test/flight-presentation.test.ts
 pnpm typecheck
 pnpm test:source
-python -m unittest discover -s tools/release/test
+python -m unittest discover -s tools/release/test -p 'test_*.py'
+python tools/release/source_release.py audit --images
 ```
 
-With the pinned world configured, build `pnpm build:review`, serve it on loopback
-and run `node tools/verify/verify-aircraft.ts --url LOCAL_REVIEW_URL --out FRESH_DIRECTORY`.
-The journey observes native state but uses real keyboard input to board, take off,
-turn, reject an airborne exit, land and leave both aircraft, walking from the
-airfield drop-in to the helicopter. Captures require visual inspection.
-This functional journey does not qualify mobile hardware or citywide performance.
+Build with the pinned world descriptor, serve `pnpm build:review` locally, and run
+`node tools/verify/verify-aircraft.ts --url LOCAL_REVIEW_URL --out FRESH_DIRECTORY`.
+The native journey uses real keyboard boarding, takeoff, turning, landing, safe
+exit and walking between the stands. Open its captures before accepting the
+visual fit. This functional journey does not qualify mobile hardware performance.

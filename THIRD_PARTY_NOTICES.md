@@ -12,14 +12,16 @@ explicit CC0 artwork dedications remain in force.
 
 ## Aircraft at Malmi
 
-Trainer plane and Light helicopter from [Low-Poly Aircraft Kit Free](https://heyheythere.itch.io/low-poly-aircraft-kit-free)
-by [heyheythere](https://heyheythere.itch.io/), licensed under
-[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
-The two small runtime GLBs are included under `apps/game/src/assets/aircraft/`.
-Their atlas is embedded after lossless removal of non-rendering metadata; original pixels, meshes, pivot rig and clips are retained.
-The game supplies Malmi placement, flight control and moving-part animation.
-See [asset contract](content/assets/aircraft.contract.json) for hashes and census,
-and [the included full license](content/assets/aircraft-license.md).
+- **Cessna 172**, from [Plane by osmosikum](https://sketchfab.com/3d-models/plane-cedc8a07370747f7b0d14400cdf2faf9), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+- **Mi-17 Helicopter**, by [Blendsteve (CG Geek)](https://blendswap.com/blend/12696), licensed under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/). The original distribution additionally identifies the model as **Fan Art** and states: **commercial use is not allowed**. This notice is retained for the free, noncommercial game release.
+
+Changes: coordinate and scale normalization, runtime mechanical animation pivots,
+PBR material conversion, helicopter colour baking and geometry simplification,
+texture resizing and palette encoding, metadata removal and lossless Meshopt
+storage compression. The game supplies placement, flight control and pilot fitting.
+The originals are not included in this source distribution.
+See the [asset contract](content/assets/aircraft.contract.json) for source hashes,
+export measurements and changes, and [license notices](content/assets/aircraft-license.md).
 
 ## Vendored Basis Universal decoder
 

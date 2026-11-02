@@ -1,93 +1,177 @@
 {
-  "schemaVersion": 1,
-  "source": {
-    "title": "Low-Poly Aircraft Kit Free",
-    "creator": "heyheythere",
-    "url": "https://heyheythere.itch.io/low-poly-aircraft-kit-free",
-    "retrievedOn": "2026-11-02",
-    "license": "CC-BY-4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
-    "licenseFile": "content/assets/aircraft-license.md"
-  },
+  "schemaVersion": 2,
   "axes": {
     "forward": "+Z",
     "up": "+Y",
     "units": "metres",
-    "origin": "Ground under the wheels or skids"
+    "origin": "Ground under the landing gear; helicopter horizontal origin at main rotor hub"
   },
-  "changes": "Removed non-rendering atlas metadata through the native lossless PNG sanitizer, embedded the atlas using glTF Transform 4.5.1, then applied the native lossless raw Meshopt buffer-view compressor. Every compressed view is decoded and checked byte-for-byte before acceptance. Mesh accessors, materials, hierarchy, pivots and animation clips are retained. Runtime supplies placement and flight-driven animation.",
-  "textures": {
-    "width": 512,
-    "height": 512,
-    "originalEncodedBytes": 4637,
-    "originalSha256": "9a4bcccf0b5f36ae40c6932d4a736af08f75a1d46c866b84b62aaa4100f10bb6",
-    "encodedBytes": 4550,
-    "sha256": "3fe1513743b2221158d4b1ea237fd27b801741466d65d36d0f6bce3f046f9951",
-    "description": "One metadata-sanitized embedded PNG per model; compressed pixel chunks remain byte-exact. Standard and Low use identical small assets.",
-    "rgbaMipmappedBytesPerModel": 1398100
+  "toolchain": {
+    "blender": "5.2.1",
+    "gltfTransform": "4.5.1",
+    "sharp": "0.35.5"
   },
+  "changes": "Normalized geometry and mechanical pivots; rebuilt PBR materials; baked legacy helicopter colours; simplified helicopter geometry; removed authoring geometry; resized and palette-encoded metadata-free PNG textures; lossless Meshopt buffer compression with byte-for-byte decode verification.",
   "models": [
     {
       "id": "malmi-plane",
-      "title": "Trainer plane",
+      "title": "Cessna 172",
+      "source": {
+        "title": "Plane",
+        "creator": "osmosikum",
+        "url": "https://sketchfab.com/3d-models/plane-cedc8a07370747f7b0d14400cdf2faf9",
+        "license": "CC-BY-4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "archiveSha256": "3a47f30b4246113facefbfa3a1c72dac8588801ca55fdf93a0f1224c71678ac3",
+        "archiveBytes": 16864998,
+        "sourceFileSha256": "8c37ad1283b3747773e0829d40ed948b1c0acc854444b6259947120170edeeb3",
+        "retrievedOn": "2026-11-02",
+        "licenseFile": "content/assets/aircraft-license.md"
+      },
       "file": "apps/game/src/assets/aircraft/trainer.glb",
-      "originalSha256": "b893658393ff367a7642ba2bb5fbb6cc3d1dc840dc570d878708bc7f210e9f03",
-      "sha256": "48a1fdb1d8fd6ffd4976e1b148cae005dd55ac6abd987baa89c1c5ca0564c7f2",
-      "bytes": 47840,
-      "triangles": 606,
+      "originalSha256": "2951f221b4655043d282cb19dc072cf9a443f0c08336c330535d195e25cdc526",
+      "sha256": "51c73b5f4a24b00537dc8da27c10b220470ae3b0584f1363f511616e189d810e",
+      "bytes": 1341144,
+      "triangles": 29700,
       "bounds": {
         "min": [
-          -5.400000095367432,
+          -5.498719215393066,
           0,
-          -3.619999885559082
+          -4.023176193237305
         ],
         "max": [
-          5.400000095367432,
-          2.8499999046325684,
-          3.7300000190734863
+          5.501280784606934,
+          2.453390598297119,
+          4.016672134399414
         ]
       },
-      "materialCount": 1,
+      "materialCount": 6,
       "nodes": [
-        "trainer_aileron_left",
-        "trainer_aileron_right",
+        "plane_part_2",
+        "plane_part_3",
+        "plane_part_5",
+        "plane_part_0",
         "trainer_elevator",
+        "plane_part_4",
         "trainer_propeller",
-        "trainer_rudder",
-        "trainer"
+        "plane_part_1",
+        "trainer_rudder"
       ],
       "animations": [
-        "controls",
         "spin"
       ],
-      "articulation": "Rigid-part transform rig, with named hinge and hub pivots; no deforming skeleton.",
+      "articulation": "Rigid-part mechanical rig; original moving geometry retained around normalized hub and hinge pivots.",
+      "textures": [
+        {
+          "width": 512,
+          "height": 512,
+          "encodedBytes": 111712,
+          "sha256": "7ff751b19b8b395960d5d4b0d2df32b4239fe49afdfcf9e85097f6a8aff01cf0",
+          "rgbaMipmappedBytes": 1398102
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "encodedBytes": 130762,
+          "sha256": "a295ad303a04e70c542e47f3cc89f4b9a659fe8f0781e0aa15713ff83f100210",
+          "rgbaMipmappedBytes": 1398102
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "encodedBytes": 2638,
+          "sha256": "d3ca6394d91918b8f7df39ea4eabeb4fb68eaec93303b7938c0dc3a00c61a91e",
+          "rgbaMipmappedBytes": 1398102
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 252730,
+          "sha256": "720d53fb084499a5706c7a4ecebfc37f445cbe01faf0d68a55e38678ff5a2ba3",
+          "rgbaMipmappedBytes": 5592406
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "encodedBytes": 88942,
+          "sha256": "93395de051e395463c58df8c8d555562122091a63c0271704792597e49385d23",
+          "rgbaMipmappedBytes": 1398102
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "encodedBytes": 135206,
+          "sha256": "3026423eebd33658dc4eee841d852b129d5ff03dd1444daf0881e860bc37cfea",
+          "rgbaMipmappedBytes": 1398102
+        }
+      ],
       "images": [
+        {
+          "mimeType": "image/png",
+          "embedded": true
+        },
+        {
+          "mimeType": "image/png",
+          "embedded": true
+        },
+        {
+          "mimeType": "image/png",
+          "embedded": true
+        },
+        {
+          "mimeType": "image/png",
+          "embedded": true
+        },
+        {
+          "mimeType": "image/png",
+          "embedded": true
+        },
         {
           "mimeType": "image/png",
           "embedded": true
         }
       ],
       "compression": {
-        "originalBytes": 65888,
-        "originalSha256": "cd55d63f43726a1d60af82eb6c95f820f1f881a808a3cef90236fbe119312e15",
-        "semanticSha256": "b72cfbe1ad431248379d4d18b99e60c51c6898575f8ac676cd1a86f3d5a5183b",
-        "accessorCount": 36,
-        "animationCount": 2,
+        "originalBytes": 1579592,
+        "originalSha256": "b83a4ab408ce77e49dcee97b267d54a554f3ad5a71e1fc64c37603ef188c277e",
+        "semanticSha256": "6c771e8b8ac3500189fee27a453ac48d38096d5a52b612b67e3c7644df227455",
+        "accessorCount": 50,
+        "animationCount": 1,
         "skinCount": 0,
-        "nodeCount": 6,
+        "nodeCount": 9,
         "images": [
           {
             "index": 0,
-            "sha256": "3fe1513743b2221158d4b1ea237fd27b801741466d65d36d0f6bce3f046f9951"
+            "sha256": "7ff751b19b8b395960d5d4b0d2df32b4239fe49afdfcf9e85097f6a8aff01cf0"
+          },
+          {
+            "index": 1,
+            "sha256": "a295ad303a04e70c542e47f3cc89f4b9a659fe8f0781e0aa15713ff83f100210"
+          },
+          {
+            "index": 2,
+            "sha256": "d3ca6394d91918b8f7df39ea4eabeb4fb68eaec93303b7938c0dc3a00c61a91e"
+          },
+          {
+            "index": 3,
+            "sha256": "720d53fb084499a5706c7a4ecebfc37f445cbe01faf0d68a55e38678ff5a2ba3"
+          },
+          {
+            "index": 4,
+            "sha256": "93395de051e395463c58df8c8d555562122091a63c0271704792597e49385d23"
+          },
+          {
+            "index": 5,
+            "sha256": "3026423eebd33658dc4eee841d852b129d5ff03dd1444daf0881e860bc37cfea"
           }
         ],
         "applied": true,
         "reason": "compressed",
-        "compressedBytes": 47840,
-        "savedBytes": 18048,
-        "compressedSha256": "48a1fdb1d8fd6ffd4976e1b148cae005dd55ac6abd987baa89c1c5ca0564c7f2",
-        "compressedViews": 7,
-        "preservedViews": 2
+        "compressedBytes": 1341144,
+        "savedBytes": 238448,
+        "compressedSha256": "51c73b5f4a24b00537dc8da27c10b220470ae3b0584f1363f511616e189d810e",
+        "compressedViews": 13,
+        "preservedViews": 7
       },
       "validation": {
         "errors": 0,
@@ -96,61 +180,220 @@
     },
     {
       "id": "malmi-helicopter",
-      "title": "Light helicopter",
+      "title": "Mi-17",
+      "source": {
+        "title": "Mi-17 Helicopter",
+        "creator": "Blendsteve",
+        "url": "https://blendswap.com/blend/12696",
+        "license": "CC-BY-3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+        "additionalNotice": "Original distribution marks this as Fan Art and states that commercial use is not allowed. Retained for this free, noncommercial game release.",
+        "archiveSha256": "09497b7f2eec124d7fcd52ecb0f38814eb89a876df73e81a6c00661645d1e3dc",
+        "archiveBytes": 40643151,
+        "sourceFileSha256": "7da490069c58a5fafb7aa04584362b43e14fb654e1dd1691b8199c0772f7c980",
+        "retrievedOn": "2026-11-02",
+        "licenseFile": "content/assets/aircraft-license.md"
+      },
       "file": "apps/game/src/assets/aircraft/helicopter.glb",
-      "originalSha256": "ccd036e64d1252b03dee486ee0a8def136cb1cf03d3205731106172aad3ee88c",
-      "sha256": "bfd0870f0bcf4f426e6f1842e34f42e76d22de06f15e8b32701bdbfd029281ff",
-      "bytes": 32636,
-      "triangles": 478,
+      "originalSha256": "2cad4b8a3891dcb5a96223acb37e047157633d7846be34150a5313066cd7e86f",
+      "sha256": "8dfab6fd7f008d7af8bfee5df2d312c72bbd3303ee8e7524be526ffc9d9800b3",
+      "bytes": 995708,
+      "triangles": 48630,
       "bounds": {
         "min": [
-          -0.8949999809265137,
-          0.0060288566164672375,
-          -5.599999904632568
+          -10.501913070678711,
+          0,
+          -12.512076377868652
         ],
         "max": [
-          0.8949999809265137,
-          2.9800000190734863,
-          4.475000001490116
+          9.485488891601562,
+          5.831645965576172,
+          9.588634490966797
         ]
       },
-      "materialCount": 1,
+      "materialCount": 20,
       "nodes": [
+        "helicopter_part_1",
+        "helicopter_part_2",
+        "helicopter_part_3",
+        "helicopter_part_4",
+        "helicopter_part_5",
+        "helicopter_part_8",
+        "helicopter_part_9",
+        "helicopter_part_10",
+        "helicopter_part_11",
+        "helicopter_part_12",
+        "helicopter_part_13",
+        "helicopter_part_14",
+        "helicopter_part_15",
+        "helicopter_part_16",
+        "helicopter_part_17",
+        "helicopter_part_0",
         "helicopter_rotor_main",
-        "helicopter_rotor_tail",
-        "helicopter"
+        "helicopter_part_6",
+        "helicopter_part_7",
+        "helicopter_rotor_tail"
       ],
       "animations": [
         "spin"
       ],
-      "articulation": "Rigid-part transform rig, with named hinge and hub pivots; no deforming skeleton.",
+      "articulation": "Rigid-part mechanical rig; original moving geometry retained around normalized hub and hinge pivots.",
+      "textures": [
+        {
+          "width": 1024,
+          "height": 1024,
+          "encodedBytes": 17054,
+          "sha256": "011d7289c76c6239ba184df063d1afbf55fb8883db5db01a639f4308e9f349a7",
+          "rgbaMipmappedBytes": 5592406
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "encodedBytes": 656,
+          "sha256": "9f3ea7cf835a12ad05b9d30593f0483091ceb0f9231243bcafe1b90e187f18cb",
+          "rgbaMipmappedBytes": 349526
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "encodedBytes": 43593,
+          "sha256": "72c4119d09ce950534d57e7c98a32111a40d1970b453d744a8721bcd2b1c8a31",
+          "rgbaMipmappedBytes": 349526
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "encodedBytes": 2246,
+          "sha256": "146deb1be1fa76bb8f4bb00eb6b5a0767e82566e3ac88698052a9317bd9f58ee",
+          "rgbaMipmappedBytes": 349526
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "encodedBytes": 495,
+          "sha256": "3be7ee2232d766079f3c0d7e5cf65c8bc085acbc7d16de4e7344881b67c7f817",
+          "rgbaMipmappedBytes": 349526
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "encodedBytes": 13831,
+          "sha256": "8adf1de19f65b1bbccb0c2d86cbb5da0d2cd1cf95753f697f94baca735297ff0",
+          "rgbaMipmappedBytes": 349526
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "encodedBytes": 815,
+          "sha256": "de5af8e1fabb1d41911b1bd2eef033bfc9131e1a5e0d9e4bf39b150387a59a22",
+          "rgbaMipmappedBytes": 349526
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "encodedBytes": 4792,
+          "sha256": "340a532c90306aa94871e9907b7f7641185989d67d98f461df99789b988dbad6",
+          "rgbaMipmappedBytes": 349526
+        },
+        {
+          "width": 256,
+          "height": 256,
+          "encodedBytes": 20823,
+          "sha256": "d4461a1de151ae151cbd8510a96a57336bebf19545a2e2a59b8647209c363e00",
+          "rgbaMipmappedBytes": 349526
+        }
+      ],
       "images": [
+        {
+          "mimeType": "image/png",
+          "embedded": true
+        },
+        {
+          "mimeType": "image/png",
+          "embedded": true
+        },
+        {
+          "mimeType": "image/png",
+          "embedded": true
+        },
+        {
+          "mimeType": "image/png",
+          "embedded": true
+        },
+        {
+          "mimeType": "image/png",
+          "embedded": true
+        },
+        {
+          "mimeType": "image/png",
+          "embedded": true
+        },
+        {
+          "mimeType": "image/png",
+          "embedded": true
+        },
+        {
+          "mimeType": "image/png",
+          "embedded": true
+        },
         {
           "mimeType": "image/png",
           "embedded": true
         }
       ],
       "compression": {
-        "originalBytes": 48128,
-        "originalSha256": "7fed3d873821fca44c6671c1ae0fd631bf0bb127ad0e541e66caf685e838808d",
-        "semanticSha256": "628c07f2fd113b19b30cc0b2b5ffd09b577bb46d4f4d779db4c6fff282287848",
-        "accessorCount": 18,
+        "originalBytes": 1312248,
+        "originalSha256": "9d8e5970bcf58f3b6892146b853c7d255d1ccc4ba02f1bc062550f787f50c9c9",
+        "semanticSha256": "040a30611b32cb985e7c3440806026f39d7f32a9124b0a8c0c844c575d1b9a46",
+        "accessorCount": 117,
         "animationCount": 1,
         "skinCount": 0,
-        "nodeCount": 3,
+        "nodeCount": 20,
         "images": [
           {
             "index": 0,
-            "sha256": "3fe1513743b2221158d4b1ea237fd27b801741466d65d36d0f6bce3f046f9951"
+            "sha256": "011d7289c76c6239ba184df063d1afbf55fb8883db5db01a639f4308e9f349a7"
+          },
+          {
+            "index": 1,
+            "sha256": "9f3ea7cf835a12ad05b9d30593f0483091ceb0f9231243bcafe1b90e187f18cb"
+          },
+          {
+            "index": 2,
+            "sha256": "72c4119d09ce950534d57e7c98a32111a40d1970b453d744a8721bcd2b1c8a31"
+          },
+          {
+            "index": 3,
+            "sha256": "146deb1be1fa76bb8f4bb00eb6b5a0767e82566e3ac88698052a9317bd9f58ee"
+          },
+          {
+            "index": 4,
+            "sha256": "3be7ee2232d766079f3c0d7e5cf65c8bc085acbc7d16de4e7344881b67c7f817"
+          },
+          {
+            "index": 5,
+            "sha256": "8adf1de19f65b1bbccb0c2d86cbb5da0d2cd1cf95753f697f94baca735297ff0"
+          },
+          {
+            "index": 6,
+            "sha256": "de5af8e1fabb1d41911b1bd2eef033bfc9131e1a5e0d9e4bf39b150387a59a22"
+          },
+          {
+            "index": 7,
+            "sha256": "340a532c90306aa94871e9907b7f7641185989d67d98f461df99789b988dbad6"
+          },
+          {
+            "index": 8,
+            "sha256": "d4461a1de151ae151cbd8510a96a57336bebf19545a2e2a59b8647209c363e00"
           }
         ],
         "applied": true,
         "reason": "compressed",
-        "compressedBytes": 32636,
-        "savedBytes": 15492,
-        "compressedSha256": "bfd0870f0bcf4f426e6f1842e34f42e76d22de06f15e8b32701bdbfd029281ff",
-        "compressedViews": 4,
-        "preservedViews": 2
+        "compressedBytes": 995708,
+        "savedBytes": 316540,
+        "compressedSha256": "8dfab6fd7f008d7af8bfee5df2d312c72bbd3303ee8e7524be526ffc9d9800b3",
+        "compressedViews": 32,
+        "preservedViews": 14
       },
       "validation": {
         "errors": 0,
