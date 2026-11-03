@@ -8,6 +8,7 @@ import * as THREE from 'three';
 import { clone as skeletonClone } from 'three/addons/utils/SkeletonUtils.js';
 import type { AssetLibrary, PrepareAsset, PreparedAsset } from './assets.ts';
 import { createContactShadow } from './contact-shadow.ts';
+import { SkinnedMeshCuller } from './skinned-culling.ts';
 import type { Effects } from './effects.ts';
 
 /** Uploads and compiles a detached root against the city scene (`CityScene.prepareObject`). */
@@ -30,6 +31,8 @@ export function assetWarmupRoot(source: THREE.Object3D, asset: PreparedAsset, li
   const skeletons = new Set<THREE.Skeleton>();
   if (asset.kind === 'character') {
     const model = skeletonClone(source);
+    // Civilian views first appear after Play; cache their shared geometry analysis while loading.
+    new SkinnedMeshCuller(model).dispose();
     model.traverse(node => { const mesh = node as THREE.SkinnedMesh; if (mesh.isSkinnedMesh) skeletons.add(mesh.skeleton); });
     const socket = model.getObjectByName('SOCKET_HAND_R');
     const pistol = library.pistol?.clone(true);

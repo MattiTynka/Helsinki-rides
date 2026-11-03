@@ -2,11 +2,15 @@
 import { Button, type Command } from '@helsinki/sim';
 import { TouchState } from './touch-state.ts';
 
+const STARTUP_MOVEMENT_KEYS = new Set(['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight',
+  'ShiftLeft', 'ShiftRight', 'AltLeft', 'AltRight']);
+
 export class Input {
   readonly touch = new TouchState();
   private enabled = true;
   private touchEnabled = false;
   private readonly keys = new Set<string>();
+  private startupMovement: Set<string> | null = null;
   private mouseDx = 0;
   private mouseDy = 0;
   private mouseButtons = 0;
@@ -27,6 +31,13 @@ export class Input {
     this.unlockedMouse = unlockedMouse;
     this.touch.setActive(false);
     addEventListener('keydown', e => {
+      if (this.startupMovement) {
+        if (STARTUP_MOVEMENT_KEYS.has(e.code)
+          && !(e.target && e.target instanceof Element && e.target.closest('button, a, select, input, textarea, [contenteditable="true"]'))) {
+          e.preventDefault(); this.startupMovement.add(e.code);
+        }
+        return;
+      }
       if (!this.enabled) return;
       // Startup controls keep native Tab/Space/Enter behaviour and never send gameplay commands.
       if (document.getElementById?.('loading')?.classList.contains('hidden') === false
@@ -38,7 +49,7 @@ export class Input {
       if (e.code === 'KeyG') this.holsterLatch = true;
       if (e.code === 'Space') this.jumpPresses = Math.min(2, this.jumpPresses + 1);
     });
-    addEventListener('keyup', e => this.keys.delete(e.code));
+    addEventListener('keyup', e => { this.keys.delete(e.code); this.startupMovement?.delete(e.code); });
     addEventListener('blur', () => this.reset());
     canvas.addEventListener('mousedown', e => { if (!this.enabled || this.touchEnabled) return; this.mouseButtons |= 1 << e.button; if (!this.locked && !this.unlockedMouse) canvas.requestPointerLock?.(); });
     addEventListener('mouseup', e => { this.mouseButtons &= ~(1 << e.button); });
@@ -50,9 +61,23 @@ export class Input {
   get active(): boolean { return this.enabled; }
 
   setActive(active: boolean): void {
+    // Only successful activation preserves startup intent; any pause/reset cancels it.
+    const startupMovement = active ? this.startupMovement : null;
     if (active && !this.enabled) this.gamepadNeedsNeutral = true;
     if (!active || active !== this.enabled) this.reset();
+    this.startupMovement = startupMovement;
     this.enabled = active; this.touch.setActive(active && this.touchEnabled);
+  }
+
+  /** Called only for the first Play gesture, after the session enters its readiness wait. */
+  beginStartupMovementCapture(): void {
+    if (!this.enabled) this.startupMovement = new Set();
+  }
+
+  /** Apply held movement once the loading overlay is hidden; actions are never buffered. */
+  finishStartupMovementCapture(): void {
+    if (this.enabled && this.startupMovement) for (const code of this.startupMovement) this.keys.add(code);
+    this.startupMovement = null;
   }
 
   setTouchEnabled(enabled: boolean): void {
@@ -62,6 +87,7 @@ export class Input {
 
   /** Lifecycle boundaries discard held controls and queued impulses, including latched touch aim. */
   reset(): void {
+    this.startupMovement = null;
     this.keys.clear(); this.jumpPresses = 0; this.jumpPulseLastTick = false; this.gamepadJumpHeld = false;
     this.interactLatch = false; this.holsterLatch = false; this.mouseButtons = 0; this.mouseDx = 0; this.mouseDy = 0;
     this.touch.reset();

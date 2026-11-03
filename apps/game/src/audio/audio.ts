@@ -2,8 +2,11 @@
 // before Play where the browser allows it; starts on the first user gesture, as browsers require.
 import type { GameEvent, SimState } from '@helsinki/sim';
 
+export type AudioStartStatus = 'running' | 'disabled' | 'unavailable' | 'timeout';
+
 export class GameAudio {
   private ctx: AudioContext | null = null;
+  private starting: Promise<AudioStartStatus> | null = null;
   private master: GainNode | null = null;
   private engine: { osc: OscillatorNode; gain: GainNode; filter: BiquadFilterNode } | null = null;
   private siren: { osc: OscillatorNode; gain: GainNode } | null = null;
@@ -12,40 +15,48 @@ export class GameAudio {
 
   constructor(enabled: boolean) { this.enabled = enabled; }
 
-  /**
-   * Build the context and its graph ahead of Play, so the Play gesture only resumes it: constructing an AudioContext
-   * costs ~90 ms of main thread. Chrome and Firefox log an autoplay warning for a context made before any user activation,
-   * so without one yet this waits for the first activating input (a press precedes its click) and builds it there.
-   */
-  prepare(): void {
+  /** Build and suspend audio during loading; a fresh visitor's Play gesture only resumes the prepared graph. */
+  async prepare(): Promise<void> {
     if (!this.enabled || this.ctx || typeof AudioContext === 'undefined') return;
-    const nav = navigator as Navigator & { userActivation?: UserActivation; getAutoplayPolicy?: (type: string) => string };
-    const activation = nav.userActivation;
-    const build = (): void => {
-      if (this.ctx) return;
-      // A context made after an activation would start playing: hold it until Play resumes it.
-      try { void this.build().suspend().catch(() => {}); } catch { /* start() creates it lazily instead. */ }
-    };
-    if (activation?.hasBeenActive || nav.getAutoplayPolicy?.('audiocontext') === 'allowed') { build(); return; }
-    if (!activation) return;
-    const events = ['pointerdown', 'pointerup', 'mousedown', 'keydown', 'touchend'];
-    const early = (): void => {
-      if (!activation.hasBeenActive) return;
-      for (const type of events) window.removeEventListener(type, early, true);
-      if (this.enabled) build();
-    };
-    for (const type of events) window.addEventListener(type, early, { capture: true, passive: true });
+    // Autoplay policy may keep a new context suspended. It does not require postponing graph construction.
+    // Wait for suspension before enabling Play so an earlier suspend cannot race the user's resume.
+    try { await this.build().suspend(); } catch { /* Browsers that require activation retry construction in start(). */ }
   }
 
-  /** Call from a user gesture. */
-  start(): void {
-    if (!this.enabled) return;
-    if (this.ctx && this.ctx.state !== 'closed') {
-      if (this.ctx.state !== 'running') void this.ctx.resume().catch(error => console.warn('Audio could not resume', error));
-      return;
+  /** Invoke in the gesture; callers can keep gameplay paused while the audio device starts. */
+  start(): Promise<AudioStartStatus> {
+    if (!this.enabled) return Promise.resolve('disabled');
+    if (this.starting) return this.starting;
+    let ctx: AudioContext, resumed: Promise<void>;
+    try {
+      ctx = this.ctx && this.ctx.state !== 'closed' ? this.ctx : this.build();
+      if (ctx.state === 'running') return Promise.resolve('running');
+      resumed = ctx.resume();
+    } catch {
+      console.warn('Audio is unavailable; continuing without sound');
+      return Promise.resolve('unavailable');
     }
-    const ctx = this.build();
-    if (ctx.state === 'suspended') void ctx.resume();
+    const pending = new Promise<AudioStartStatus>(resolve => {
+      let settled = false;
+      const finish = (status: AudioStartStatus): void => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timeout);
+        resolve(status);
+      };
+      // A denied or unavailable device must not hold the game on its loading screen indefinitely.
+      const timeout = setTimeout(() => {
+        console.warn('Audio startup timed out; continuing without sound');
+        finish('timeout');
+      }, 1000);
+      resumed.then(() => finish(ctx.state === 'running' ? 'running' : 'unavailable'), () => {
+        if (!settled) console.warn('Audio is unavailable; continuing without sound');
+        finish('unavailable');
+      });
+    });
+    this.starting = pending;
+    void pending.then(() => { if (this.starting === pending) this.starting = null; });
+    return pending;
   }
 
   private build(): AudioContext {
@@ -83,7 +94,12 @@ export class GameAudio {
   }
 
   suspend(): void {
-    if (this.ctx?.state === 'running') void this.ctx.suspend().catch(error => console.warn('Audio could not pause', error));
+    // A timed-out resume can still finish later. Queue suspension even if the context reports suspended,
+    // and let a later gesture issue a new resume after it.
+    if (this.ctx && this.ctx.state !== 'closed') {
+      void this.ctx.suspend().catch(() => console.warn('Audio could not pause'));
+    }
+    this.starting = null;
   }
 
   private burst(duration: number, volume: number, cutoff: number): void {

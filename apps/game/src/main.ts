@@ -41,21 +41,24 @@ async function boot(): Promise<void> {
   const session = new SessionControls(game, canvas, touch);
   if (!config.review) game.setPaused(true);
   game.start();
-  const begin = (event: MouseEvent) => {
+  const begin = async (event: MouseEvent) => {
     // Keep source/license links usable without consuming the play interaction.
     if (event.target instanceof Element && event.target.closest('a, #loading-credits, #graphics, #language-choice, #touch-preferences')) return;
     loading.removeEventListener('click', begin);
+    if (playButton) playButton.disabled = true;
+    const ready = session.begin();
+    game.input.beginStartupMovementCapture();
+    await ready;
     loading.classList.add('hidden');
-    session.begin();
+    game.input.finishStartupMovementCapture();
   };
   loading.addEventListener('click', begin);
-  game.audio.prepare();
-  canvas.addEventListener('click', () => game.audio.start());
+  canvas.addEventListener('click', () => { if (!game.paused) void game.audio.start(); });
   // Review controls are a build capability; a URL flag only changes presentation.
   if (__REVIEW_BUILD__ || import.meta.env.DEV) {
     installTestApi(game, () => loading.classList.add('hidden'));
   }
-  if (config.review) { loading.classList.add('hidden'); session.begin(); }
+  if (config.review) { await session.begin(); loading.classList.add('hidden'); }
 }
 
 /**

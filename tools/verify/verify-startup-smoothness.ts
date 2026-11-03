@@ -201,12 +201,20 @@ function instrument(options: { noParallelCompile: boolean; blockSubmits: boolean
   };
   const useProgram = proto.useProgram!;
   proto.useProgram = function (program) { currentProgram = program ? programId(program as object) : null; return useProgram.call(this, program); };
+  // Offscreen preparation also uses #view's context. Only default-framebuffer draws present to the player.
+  const drawTargets = new WeakMap<object, unknown>(), bindFramebuffer = proto.bindFramebuffer!;
+  proto.bindFramebuffer = function (target, buffer) {
+    const gl = this as unknown as WebGL2RenderingContext;
+    if (target === gl.FRAMEBUFFER || target === gl.DRAW_FRAMEBUFFER) drawTargets.set(this, buffer);
+    return bindFramebuffer.call(this, target, buffer);
+  };
   // A frame is presented when a game rAF callback draws on the game canvas.
   for (const name of ['drawArrays', 'drawElements', 'drawArraysInstanced', 'drawElementsInstanced', 'drawRangeElements']) {
     const draw = proto[name]!;
     proto[name] = function (...a) {
       if (frameTime !== null && (this as unknown as WebGL2RenderingContext).canvas instanceof HTMLCanvasElement
-        && ((this as unknown as WebGL2RenderingContext).canvas as HTMLCanvasElement).id === 'view') {
+        && ((this as unknown as WebGL2RenderingContext).canvas as HTMLCanvasElement).id === 'view'
+        && (drawTargets.get(this) ?? null) === null) {
         if (frameTime !== lastPresented) { lastPresented = frameTime; P.presented.push(frameTime); }
         if (currentProgram !== null && frameViews.size < 1000 && collectingViews()) {
           const n = drawsPerProgram.get(currentProgram) ?? 0, v = programView.get(currentProgram);
@@ -352,6 +360,9 @@ try {
   await page.mouse.click(cx, cy);
   script.playClick = [cx, cy];
   await page.keyboard.down('KeyW');
+  // Initial audio activation may finish after the gesture. Input starts only once the game is revealed.
+  await page.waitForFunction(() => document.getElementById('loading')?.classList.contains('hidden'), undefined, { timeout: 10000 });
+  await mark('controlsReadyMs');
   // Hold W until Snow moves: >= 0.5 m from the click position (test API), or a presented frame in which most persistent
   // draws moved (production). Tick and view-change timing stay separate metrics.
   const moving = async () => {

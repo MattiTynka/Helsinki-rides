@@ -327,8 +327,22 @@ export class Game {
     progress(0, 1, 'people and cars');
     await deferred;
     progress(1, 1, 'people and cars');
+    await game.audio.prepare();
+    await game.prepareStartupFrame();
     mark('helsinki:playable');
     return game;
+  }
+
+  /** Finish first-tick actors, physics and their actual presentation under the loading screen. */
+  private async prepareStartupFrame(): Promise<void> {
+    // Optional-model failures retain their retry path; never advance unseen nearby actors.
+    if (this.actorModelsReady()) {
+      await this.collisionLoaded();
+      this.stepTicks(1, { ...NEUTRAL, yaw: this.sim.player.yaw });
+    }
+    // Prepare every initial view here. Ordinary gameplay keeps the two-new-views-per-frame allowance.
+    this.syncViews(0, 0, this.state, this.state.characters.length);
+    this.render();
   }
 
   /**
@@ -709,7 +723,7 @@ export class Game {
     this.stats.tick = this.sim.tick;
   }
 
-  syncViews(dt: number, characterDt = dt, state = this.state): void {
+  syncViews(dt: number, characterDt = dt, state = this.state, maxNewCharacterViews = 2): void {
     this.presentationState = state;
     this.onStateChange?.(this.state);
     const p = state.player;
@@ -740,7 +754,7 @@ export class Game {
       seen.add(c.id);
       let view = this.characterViews.get(c.id);
       const assetId = characterAsset(c.id);
-      if (!view && (newViews >= 2 || !this.assets.hasCharacter(assetId))) continue;
+      if (!view && (newViews >= maxNewCharacterViews || !this.assets.hasCharacter(assetId))) continue;
       if (!view) { newViews++; view = new CharacterView(this.assets, assetId, this.shadowMaterial); this.characterViews.set(c.id, view); this.scene.scene.add(view.root); }
       for (const shot of shots) if (shot.shooter === c.id) view.notifyShot();
       view.update(c, characterDt, c.aiming || c.clip === 'aim' || c.clip === 'fire', null, undefined, undefined,

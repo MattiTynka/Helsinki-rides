@@ -13,6 +13,8 @@ export class SessionControls {
   private readonly canvas: HTMLCanvasElement;
   private readonly touch: TouchControls;
   private started = false;
+  private resumeGeneration = 0;
+  private resuming = false;
   private graphicsLost = false;
   private readonly toolbar = document.createElement('div');
   private readonly panel = document.createElement('div');
@@ -126,7 +128,7 @@ export class SessionControls {
       if (event.code !== 'Escape' || !this.started || this.graphicsLost) return;
       event.preventDefault();
       // Escape releases desktop pointer lock first. Pausing never implicitly resumes gameplay.
-      if (!this.game.paused) this.pause();
+      if (!this.game.paused || this.resuming) this.pause();
     });
     this.panel.addEventListener('keydown', event => {
       if (event.key !== 'Tab') return;
@@ -151,16 +153,19 @@ export class SessionControls {
     game.onStateChange = () => this.updateTouch();
   }
 
-  begin(): void {
+  async begin(): Promise<void> {
     this.started = true;
     this.toolbar.classList.remove('hidden');
     this.preferences.append(this.touch.preferences);
     if (this.graphicsLost) this.pause('session.contextLost');
-    else this.resume();
+    else await this.resume();
   }
 
   pause(reason: MessageKey = 'session.interrupted'): void {
     if (!this.started) return;
+    this.resumeGeneration++;
+    this.resuming = false;
+    this.resumeButton.disabled = this.graphicsLost;
     this.reason = reason;
     this.game.setPaused(true);
     this.touch.setActive(false);
@@ -171,16 +176,26 @@ export class SessionControls {
     if (!document.hidden) this.resumeButton.focus({ preventScroll: true });
   }
 
-  private resume(): void {
-    if (!this.started || this.graphicsLost || document.hidden) return;
-    this.panel.classList.add('hidden');
-    this.game.audio.start();
-    this.game.setPaused(false);
-    this.updateTouch();
+  private async resume(): Promise<void> {
+    if (!this.started || this.graphicsLost || document.hidden || this.resuming) return;
+    const generation = ++this.resumeGeneration;
+    this.resuming = true;
+    this.resumeButton.disabled = true;
+    this.game.setPaused(true);
+    this.touch.setActive(false);
     this.canvas.focus({ preventScroll: true });
+    // Pointer lock must be requested inside the original gesture, before awaiting audio readiness.
     if (!this.touch.enabled && !this.game.config.review) {
       try { void this.canvas.requestPointerLock?.()?.catch(() => {}); } catch { /* Windowed keyboard/gamepad play remains available. */ }
     }
+    await this.game.audio.start();
+    if (generation !== this.resumeGeneration) return;
+    this.resuming = false;
+    this.resumeButton.disabled = this.graphicsLost;
+    if (this.graphicsLost || document.hidden) return;
+    this.panel.classList.add('hidden');
+    this.game.setPaused(false);
+    this.updateTouch();
   }
 
   private updateTouch(): void {

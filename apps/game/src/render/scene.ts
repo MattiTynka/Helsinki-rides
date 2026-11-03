@@ -59,8 +59,6 @@ export class CityScene {
   /** The active tier's foliage LOD distance scale. */
   private foliageLodScale: number;
   private readonly uploads = new UploadQueue();
-  /** Whether the context links programs in parallel (KHR_parallel_shader_compile), checked at the first preparation. */
-  private parallelCompile: boolean | null = null;
   private offscreen: THREE.WebGLRenderTarget | null = null;
   private readonly maxPixelRatio: number;
   private readonly resolution: AdaptiveResolution;
@@ -184,9 +182,9 @@ export class CityScene {
 
   /**
    * Upload the textures of `root` (a detached root, or the scene itself) through the frame-budgeted queue and compile
-   * its programs against this scene's fog and final light set, so its first draw neither uploads nor links. Without
-   * KHR_parallel_shader_compile three.js reports every program ready at once and only waits for the link at its first
-   * use, inside a later frame; the root is then also drawn once into a tiny offscreen target, so that wait happens here.
+   * its programs against this scene's fog and final light set. Even with parallel shader compilation, the driver
+   * and renderer defer program introspection, geometry uploads and vertex bindings until the first draw. Complete
+   * that draw in the same bounded queue before publishing the root, so first visibility does not do the warm-up.
    */
   async prepareObject(root: THREE.Object3D, signal?: AbortSignal): Promise<void> {
     const pending = new AbortController(), abort = () => pending.abort();
@@ -199,8 +197,7 @@ export class CityScene {
       pending.signal.throwIfAborted();
       await this.renderer.compileAsync(root, this.camera, this.scene);
       pending.signal.throwIfAborted();
-      this.parallelCompile ??= this.renderer.getContext().getExtension('KHR_parallel_shader_compile') !== null;
-      if (!this.parallelCompile) this.drawOffscreen(root);
+      await this.uploads.enqueue(() => this.drawOffscreen(root), pending.signal);
     } catch (error) {
       pending.abort();
       throw error;
