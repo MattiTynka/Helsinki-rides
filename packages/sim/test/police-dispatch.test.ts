@@ -65,6 +65,36 @@ test('dispatch reaches a small disconnected district instead of snapping to the 
   }
 });
 
+test('failed high-altitude and off-map dispatch queries inspect local road geometry only after index preparation', () => {
+  const local = graph([0]), far = Array.from({length: 10000}, (_, i) => lane(`far-${i}`, 10000 + i * 64, 10000, 1, 20));
+  let farGeometryReads = 0;
+  for (const road of far) {
+    const points = road.points;
+    Object.defineProperty(road, 'points', {get: () => { farGeometryReads++; return points; }});
+  }
+  const roads = new RoadIndex({...local, lanes: [...local.lanes, ...far]});
+  // Preparing the spatial and topology indexes is allowed to read the full graph once.
+  assert.deepEqual(policeDispatchCandidates(roads, [0, 120, 0]), []);
+  farGeometryReads = 0;
+  for (let i = 0; i < 20; i++) {
+    assert.deepEqual(policeDispatchCandidates(roads, [i, 120, 0]), []);
+    assert.deepEqual(policeDispatchCandidates(roads, [-10000 - i, 0, -10000]), []);
+  }
+  assert.equal(farGeometryReads, 0, 'failed local queries must not rescan unrelated lane polylines');
+});
+
+test('stacked dispatch roads retain ground candidates and select only the bridge at the bridge level', () => {
+  const ground = graph([0]), bridge = graph([0]);
+  const bridgeLanes: RoadLane[] = bridge.lanes.map(l => ({...l, id: `bridge-${l.id}`, points: l.points.map(p => [p[0], 9, p[2]] as [number, number, number])}));
+  const bridgeConnectors = bridge.connectors.map(c => ({...c, id: `bridge-${c.id}`, from: `bridge-${c.from}`, to: `bridge-${c.to}`}));
+  const roads = new RoadIndex({...ground, lanes: [...ground.lanes, ...bridgeLanes], connectors: [...ground.connectors, ...bridgeConnectors]});
+  assert.deepEqual(policeDispatchCandidates(roads, [0, .9, 0]), policeDispatchCandidates(new RoadIndex(ground), [0, .9, 0]));
+  const candidates = policeDispatchCandidates(roads, [0, 9.9, 0]);
+  assert.ok(candidates.length >= 2);
+  assert.ok(candidates.every(c => c.laneId.startsWith('bridge-') && c.point[1] === 9));
+  assert.deepEqual(policeDispatchCandidates(roads, [0, 5, 0]), [], 'roads more than three metres below and above remain distinct');
+});
+
 test('fixed Senate spawns do not prevent a native-supported local patrol a kilometre away', () => {
   const sim = makeSim(1000);
   try {

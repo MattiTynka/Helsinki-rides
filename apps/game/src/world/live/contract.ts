@@ -150,6 +150,9 @@ export interface LiveTextureBytes {
   readonly share: number;
 }
 
+/** Fixed per visual backend: coarse retains every triangle but omits UVs and texture payloads. */
+export type LiveVisualKind = 'detail' | 'coarse';
+
 export interface LiveVisualResult {
   readonly id: string;
   readonly maxGeometricError: number;

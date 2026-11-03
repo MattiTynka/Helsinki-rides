@@ -54,14 +54,15 @@ test('flight and tier changes preserve each hard allocation and ground policy, i
 test('live flight expands the real candidate window and mounts distant colour-only cells within texture caps',async()=>{
   const low=tierParameters('low'),flight=flightStreamingProfile('low',false,true),grid=new LiveGrid([]);
   const shown=new Map<string,CellView>();let textureAcquisitions=0;
+  const requestedKinds:{error:number;kind:unknown}[]=[];
   const positions=new Float32Array([0,2,0,1,2,0,0,3,0]);
   const visual=new LiveVisuals({grid,low:true,mobile:false,detail:low.detail,fallback:low.fallback,
     detailTextureBudgetBytes:32*2**20,fallbackTextureBudgetBytes:8*2**20,
     loader:{ktx2:{parse(){textureAcquisitions++;throw new Error('unexpected texture upload');}}} as never,
     terrain:{x0:0,z0:0,resolution:128,nx:2,nz:2,heights:new Float32Array(4)} as never,
     source:{ground:()=>({positions:new Float32Array(),normals:new Float32Array(),classes:[],water:null}),
-      visual:async(cx:number)=>({parts:[{positions,normals:positions,uvs:new Float32Array(6),texture:'facade',color:[0.7,0.6,0.5]}],
-        textures:cx>=5?[{key:'facade',width:1024,height:1024,share:1,bytes:new ArrayBuffer(16)}]:[],triangles:1})} as never,
+      visual:async(cx:number,_cz:number,error:number,kind:unknown)=>{requestedKinds.push({error,kind});return {parts:[{positions,normals:positions,uvs:new Float32Array(6),texture:'facade',color:[0.7,0.6,0.5]}],
+        textures:cx>=5?[{key:'facade',width:1024,height:1024,share:1,bytes:new ArrayBuffer(16)}]:[],triangles:1};}} as never,
     scene:{prepareCell:async()=>{},adoptCellGroup:()=>1,showCell:(v:CellView)=>shown.set(`${v.lod}:${v.id}`,v),disposeCell:(v:CellView)=>shown.delete(`${v.lod}:${v.id}`)} as never});
   try{
     visual.update(at);
@@ -77,5 +78,8 @@ test('live flight expands the real candidate window and mounts distant colour-on
     assert.ok(visual.stats().fallback.residentGeometryMiB<=low.fallback.geometryBudgetMiB);
     visual.setRanges(low.detail,low.fallback);await new Promise(resolve=>setTimeout(resolve,0));
     assert.ok(!visual.residentIds().fallback.some(id=>far.includes(id)),'ground mode retires the distant live geometry');
+    assert.ok(requestedKinds.some(r=>r.kind==='coarse'));
+    assert.ok(requestedKinds.some(r=>r.kind==='detail'));
+    assert.ok(requestedKinds.every(r=>r.kind===(r.error===20?'coarse':'detail')),'each backend requests its fixed payload kind through flight/ground range changes');
   }finally{visual.dispose();}
 });

@@ -368,7 +368,7 @@ export class LiveVisuals {
     const [cx, cz] = square;
     const ground = this.source.ground(cell.id) ?? (await this.source.collision(cx, cz, edgeOverrides(this.grid, this.terrain, cx, cz), signal, true)).ground;
     signal.throwIfAborted();
-    const result = await this.source.visual(cx, cz, maxGeometricError, signal);
+    const result = await this.source.visual(cx, cz, maxGeometricError, lod === 'lod2' ? 'coarse' : 'detail', signal);
     signal.throwIfAborted();
     const used = new Set<string>();
     for (const part of result.parts) if (lod !== 'lod2' && part.texture !== null) used.add(part.texture);

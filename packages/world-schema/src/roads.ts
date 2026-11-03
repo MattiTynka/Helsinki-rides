@@ -46,6 +46,8 @@ export class LaneSegmentIndex {
   private readonly segmentPoint: Uint32Array;
   /** Arc length before each segment, accumulated exactly as the scan does. */
   private readonly segmentS: Float64Array;
+  /** The level-aware scan historically accumulates Math.hypot rather than sqrt(dx*dx+dz*dz). */
+  private readonly segmentLevelS: Float64Array;
   private readonly cells = new Map<number, number[]>();
   private readonly x0: number;
   private readonly z0: number;
@@ -63,6 +65,7 @@ export class LaneSegmentIndex {
     this.segmentLane = new Uint32Array(count);
     this.segmentPoint = new Uint32Array(count);
     this.segmentS = new Float64Array(count);
+    this.segmentLevelS = new Float64Array(count);
     const finite = Number.isFinite(minX) && Number.isFinite(maxX) && Number.isFinite(minZ) && Number.isFinite(maxZ);
     this.x0 = finite ? minX : 0; this.z0 = finite ? minZ : 0;
     this.columns = finite ? Math.floor((maxX - minX) / LaneSegmentIndex.CELL) + 1 : 0;
@@ -70,11 +73,12 @@ export class LaneSegmentIndex {
     let k = 0;
     for (let l = 0; l < lanes.length; l++) {
       const lane = lanes[l]!;
-      let s = 0;
+      let s = 0, levelS = 0;
       for (let i = 1; i < lane.points.length; i++) {
         const a = lane.points[i - 1]!, b = lane.points[i]!;
         const dx = b[0] - a[0], dz = b[2] - a[2];
         this.segmentLane[k] = l; this.segmentPoint[k] = i; this.segmentS[k] = s;
+        this.segmentLevelS[k] = levelS;
         if (finite) {
           const c0 = this.column(Math.min(a[0], b[0])), c1 = this.column(Math.max(a[0], b[0]));
           const r0 = this.row(Math.min(a[2], b[2])), r1 = this.row(Math.max(a[2], b[2]));
@@ -86,6 +90,7 @@ export class LaneSegmentIndex {
           }
         }
         s += Math.sqrt(dx * dx + dz * dz);
+        levelS += Math.hypot(dx, dz);
         k++;
       }
     }
@@ -94,8 +99,8 @@ export class LaneSegmentIndex {
   private column(x: number): number { return Math.min(this.columns - 1, Math.max(0, Math.floor((x - this.x0) / LaneSegmentIndex.CELL))); }
   private row(z: number): number { return Math.min(this.rows - 1, Math.max(0, Math.floor((z - this.z0) / LaneSegmentIndex.CELL))); }
 
-  /** Nearest lane by XZ distance to its polyline, optionally preferring lanes whose direction matches `heading` (unit XZ). */
-  nearest(x: number, z: number, heading: [number, number] | undefined, maxDistance: number): LaneHit | null {
+  /** Grid candidates retain graph/segment order so equal ranks keep the first hit, as in a full scan. */
+  private nearbySegments(x: number, z: number, maxDistance: number): ArrayLike<number> | null {
     // Pad the square so float rounding at its edge cannot exclude a segment at exactly maxDistance.
     const reach = maxDistance + 1;
     let candidates: ArrayLike<number> | null = null;
@@ -108,6 +113,12 @@ export class LaneSegmentIndex {
         candidates = Uint32Array.from(set).sort();
       } else if ((c1 - c0 + 1) * (r1 - r0 + 1) <= 1024) candidates = [];
     }
+    return candidates;
+  }
+
+  /** Nearest lane by XZ distance to its polyline, optionally preferring lanes whose direction matches `heading` (unit XZ). */
+  nearest(x: number, z: number, heading: [number, number] | undefined, maxDistance: number): LaneHit | null {
+    const candidates = this.nearbySegments(x, z, maxDistance);
     let best: LaneHit | null = null;
     let bestScore = Infinity;
     const total = candidates ? candidates.length : this.segmentLane.length;
@@ -131,6 +142,26 @@ export class LaneSegmentIndex {
           bestScore = score;
           best = { laneId: lane.id, s: s + Math.sqrt(len2) * t, point: [px, a[1] + (b[1] - a[1]) * t, pz], distance: d };
         }
+      }
+    }
+    return best;
+  }
+
+  /** Nearest accepted lane within three metres vertically, preserving the police level-aware scan's arithmetic. */
+  nearestAtLevel(position: Vec3, heading: [number, number] | undefined, maxDistance: number, accept?: ReadonlySet<string>): LaneHit | null {
+    const candidates = this.nearbySegments(position[0], position[2], maxDistance);
+    let best: LaneHit | null = null, score = Infinity;
+    const total = candidates ? candidates.length : this.segmentLane.length;
+    for (let j = 0; j < total; j++) {
+      const k = candidates ? candidates[j]! : j, lane = this.lanes[this.segmentLane[k]!]!;
+      if (accept && !accept.has(lane.id)) continue;
+      const i = this.segmentPoint[k]!, a = lane.points[i - 1]!, b = lane.points[i]!;
+      const dx = b[0] - a[0], dz = b[2] - a[2], length = Math.hypot(dx, dz);
+      const t = length ? Math.min(1, Math.max(0, ((position[0] - a[0]) * dx + (position[2] - a[2]) * dz) / (length * length))) : 0;
+      const point: Vec3 = [a[0] + dx * t, a[1] + (b[1] - a[1]) * t, a[2] + dz * t], d = Math.hypot(point[0] - position[0], point[2] - position[2]);
+      const rank = d + (heading && length ? (1 - (dx * heading[0] + dz * heading[1]) / length) * 4 : 0);
+      if (d <= maxDistance && Math.abs(point[1] - position[1]) <= 3 && rank < score) {
+        score = rank; best = {laneId: lane.id, s: this.segmentLevelS[k]! + length * t, point, distance: d};
       }
     }
     return best;
@@ -207,6 +238,15 @@ export class RoadIndex {
   nearestLane(x: number, z: number, heading?: [number, number], maxDistance = 30): LaneHit | null {
     this.segments ??= new LaneSegmentIndex(this.graph.lanes);
     return this.segments.nearest(x, z, heading, maxDistance);
+  }
+
+  /**
+   * Level-aware query over the same prepared geometry as nearestLane. As with that index, lane geometry must stay
+   * unchanged after preparation. Height and accept membership are checked on every query; no eligibility is cached.
+   */
+  nearestLaneAtLevel(position: Vec3, heading: [number, number] | undefined, maxDistance: number, accept?: ReadonlySet<string>): LaneHit | null {
+    this.segments ??= new LaneSegmentIndex(this.graph.lanes);
+    return this.segments.nearestAtLevel(position, heading, maxDistance, accept);
   }
 
   /**

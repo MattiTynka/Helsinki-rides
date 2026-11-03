@@ -328,21 +328,8 @@ export function patrolSpawnPlacement(roads: RoadIndex, spawn: GameplayBundle['po
 function laneAtLevel(roads: RoadIndex, position: V3, distance: number, heading?: [number, number], accept?: ReadonlySet<string>): LaneHit | null {
   const nearest = roads.nearestLane(position[0], position[2], heading, distance);
   if (nearest && Math.abs(nearest.point[1] - position[1]) <= 3 && (!accept || accept.has(nearest.laneId))) return nearest;
-  // The ordinary spatial query is sufficient almost everywhere. Only stacked/off-road cases and unaccepted lanes need this scan.
-  let best: LaneHit | null = null, score = Infinity;
-  for (const lane of roads.graph.lanes) {
-    if (accept && !accept.has(lane.id)) continue;
-    let s = 0;
-    for (let i = 1; i < lane.points.length; i++) {
-      const a = lane.points[i - 1]!, b = lane.points[i]!, dx = b[0] - a[0], dz = b[2] - a[2], length = Math.hypot(dx, dz);
-      const t = length ? clamp(((position[0] - a[0]) * dx + (position[2] - a[2]) * dz) / (length * length), 0, 1) : 0;
-      const point: Vec3 = [a[0] + dx * t, a[1] + (b[1] - a[1]) * t, a[2] + dz * t], d = distanceXZ(point, position);
-      const rank = d + (heading && length ? (1 - (dx * heading[0] + dz * heading[1]) / length) * 4 : 0);
-      if (d <= distance && Math.abs(point[1] - position[1]) <= 3 && rank < score) { score = rank; best = { laneId: lane.id, s: s + length * t, point, distance: d }; }
-      s += length;
-    }
-  }
-  return best;
+  // Stacked/off-road cases and unaccepted lanes need a filtered query over the same local segment cells.
+  return roads.nearestLaneAtLevel(position, heading, distance, accept);
 }
 
 /** Where a route to `position` ends: the nearest lane at its level that routes can reach, else the nearest at all. */

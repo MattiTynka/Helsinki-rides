@@ -78,6 +78,51 @@ test('cached collision ground still maps roads when the optional ground visual w
   assert.ok(image.fills.includes('#c9d2e3'), 'actual road-tagged triangles are painted as roads');
 });
 
+test('empty collision tiles are parsed once by identity while late ground and replacement collision still arrive', async () => {
+  const { encodeCollisionBundle } = await import('../../../packages/world-schema/src/index.ts');
+  class ObservedBytes extends Uint8Array {
+    reads = 0;
+    override subarray(begin?: number, end?: number) { this.reads++; return super.subarray(begin, end); }
+  }
+  const header = { originId: 'test', frame: 'X-east,Y-up,Z-south' as const, cell: '0,0', surfaceTags: ['roof'] };
+  const hcol = new ObservedBytes(encodeCollisionBundle(header, []));
+  const map = new LiveMinimap(() => canvas() as never);
+  assert.equal(map.cell(0, 0, { hcol }), null);
+  const reads = hcol.reads;
+  assert.ok(reads > 0, 'the first visit decodes actual collision bytes');
+  assert.equal(map.cell(0, 0, { hcol }), null);
+  assert.equal(map.cell(0, 0, null), null);
+  assert.equal(hcol.reads, reads, 'unchanged non-paintable HCOL is not decoded every frame');
+  const positions = new Float32Array([0, 0, 0, 4, 0, 0, 0, 0, 4]);
+  const indices = new Uint32Array([0, 1, 2]);
+  const ground = { positions, normals: positions, classes: [{ surface: 'road', indices }], water: null };
+  assert.ok(map.cell(0, 0, { ground } as never), 'late ground invalidates the negative result even when HCOL is unchanged');
+  const replacement = encodeCollisionBundle(header, [{ id: 'building', group: 'buildings', ref: null, positions, indices, triangleTags: new Uint16Array([0]) }]);
+  const lateCollision = new LiveMinimap(() => canvas() as never);
+  assert.equal(lateCollision.cell(0, 0, { hcol }), null);
+  assert.ok(lateCollision.cell(0, 0, { hcol: replacement }), 'new HCOL identity invalidates the negative result');
+});
+
+test('empty collision results share the bounded cell LRU with painted tiles', async () => {
+  const { encodeCollisionBundle } = await import('../../../packages/world-schema/src/index.ts');
+  class ObservedBytes extends Uint8Array {
+    reads = 0;
+    override subarray(begin?: number, end?: number) { this.reads++; return super.subarray(begin, end); }
+  }
+  const hcol = new ObservedBytes(encodeCollisionBundle({ originId: 'test', frame: 'X-east,Y-up,Z-south', cell: '0,0', surfaceTags: [] }, []));
+  const map = new LiveMinimap(() => canvas() as never);
+  for (let cx = 0; cx < 24; cx++) assert.equal(map.cell(cx, 0, { hcol }), null);
+  const reads = hcol.reads;
+  assert.equal(map.cell(0, 0, { hcol }), null);
+  assert.equal(hcol.reads, reads, 'a recent negative result is retained');
+  map.cell(24, 0, { hcol });
+  const afterOverflow = hcol.reads;
+  map.cell(0, 0, { hcol });
+  assert.equal(hcol.reads, afterOverflow, 'using a negative result refreshes its recency');
+  map.cell(1, 0, { hcol });
+  assert.ok(hcol.reads > afterOverflow, 'the least recent result is evicted after 24 cells');
+});
+
 test('release terrain is shaded within its true extent and missing territory stays visibly hatched', () => {
   const created: { colours: string[]; strokes: number }[] = [];
   const prior = Object.getOwnPropertyDescriptor(globalThis, 'document');

@@ -3,7 +3,7 @@
 // glTF Y-up to the tile's Z-up frame, the accumulated tile transform to ECEF, then the exact projection. Every frame
 // on the way is right-handed, so glTF's counter-clockwise front faces stay front faces in the runtime frame.
 import { readKtx2Layout } from '@helsinki/world-schema';
-import type { LiveBuildingPart, LiveTextureBytes, Origin } from '../contract.ts';
+import type { LiveBuildingPart, LiveTextureBytes, LiveVisualKind, Origin } from '../contract.ts';
 import { bufferViewBytes, parseGlb, propertyTableCount, readAccessor, readStringProperty, type Glb } from './glb.ts';
 import { IDENTITY, SQUARE, apply4, ecefToRuntime, multiply4 } from './projection.ts';
 
@@ -174,11 +174,13 @@ export function convertTile(url: string, glb: Uint8Array, transform: readonly nu
 /**
  * The building parts square (cx, cz) owns: features whose XZ centroid lies in it, unless the square is static or
  * `exclude` names the building, and only the first copy of an id across `tiles`. Geometry is merged per (texture,
- * colour) into fresh arrays; each texture's share is this square's triangles on it over the tile's.
+ * colour) into fresh arrays; coarse payloads group by colour alone and omit UVs/images without changing triangles.
+ * Each detail texture's share is this square's triangles on it over the tile's. Cached tile arrays stay intact.
  */
 export function cellParts(
   tiles: readonly ConvertedTile[], cx: number, cz: number,
   exclude: (id: string | null, vtj: string | null) => boolean, isStaticSquare: (cx: number, cz: number) => boolean,
+  kind: LiveVisualKind = 'detail',
 ): { parts: LiveBuildingPart[]; textures: LiveTextureBytes[]; triangles: number } {
   type Chunk = ConvertedFeature['parts'][number];
   const groups = new Map<string, { texture: string | null; color: readonly [number, number, number]; chunks: Chunk[]; floats: number }>();
@@ -190,15 +192,16 @@ export function cellParts(
     if (fx !== cx || fz !== cz || isStaticSquare(fx, fz) || exclude(f.id, f.vtj)) continue;
     if (f.id !== null) taken.add(f.id);
     for (const p of f.parts) {
-      const key = `${p.texture ?? ''}|${p.color.join(',')}`;
+      const texture = kind === 'coarse' ? null : p.texture;
+      const key = `${texture ?? ''}|${p.color.join(',')}`;
       let group = groups.get(key);
-      if (!group) groups.set(key, group = { texture: p.texture, color: p.color, chunks: [], floats: 0 });
+      if (!group) groups.set(key, group = { texture, color: p.color, chunks: [], floats: 0 });
       group.chunks.push(p);
       group.floats += p.positions.length;
-      if (p.texture !== null) {
-        const u = used.get(p.texture) ?? { tile, triangles: 0 };
+      if (texture !== null) {
+        const u = used.get(texture) ?? { tile, triangles: 0 };
         u.triangles += p.positions.length / 9;
-        used.set(p.texture, u);
+        used.set(texture, u);
       }
     }
   }

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { LaneSegmentIndex, RoadIndex, pointAlong, polylineLength, validateRoadGraph, type LaneHit } from '../src/roads.ts';
 import type { RoadGraph } from '../src/types.ts';
+import type { Vec3 } from '../src/coordinates.ts';
 
 // Two one-way lanes joined by a right turn at node n1: a (west→east along z=0) then b (south along x=20).
 const graph: RoadGraph = {
@@ -73,4 +74,52 @@ test('the lane segment grid returns exactly the linear scan result, ties and edg
   }
   const vertex = lanes[3]!.points[1]!;
   assert.deepEqual(index.nearest(vertex[0] + 30, vertex[2], undefined, 30), linearNearest(lanes, vertex[0] + 30, vertex[2], undefined, 30));
+});
+
+/** Reference for the former police fallback, including its hypot-based projection and arc-length arithmetic. */
+function linearAtLevel(lanes: RoadGraph['lanes'], position: Vec3, heading: [number, number] | undefined, distance: number, accept?: ReadonlySet<string>): LaneHit | null {
+  let best: LaneHit | null = null, score = Infinity;
+  for (const lane of lanes) {
+    if (accept && !accept.has(lane.id)) continue;
+    let s = 0;
+    for (let i = 1; i < lane.points.length; i++) {
+      const a = lane.points[i - 1]!, b = lane.points[i]!, dx = b[0] - a[0], dz = b[2] - a[2], length = Math.hypot(dx, dz);
+      const t = length ? Math.min(1, Math.max(0, ((position[0] - a[0]) * dx + (position[2] - a[2]) * dz) / (length * length))) : 0;
+      const point: Vec3 = [a[0] + dx * t, a[1] + (b[1] - a[1]) * t, a[2] + dz * t], d = Math.hypot(point[0] - position[0], point[2] - position[2]);
+      const rank = d + (heading && length ? (1 - (dx * heading[0] + dz * heading[1]) / length) * 4 : 0);
+      if (d <= distance && Math.abs(point[1] - position[1]) <= 3 && rank < score) { score = rank; best = {laneId: lane.id, s: s + length * t, point, distance: d}; }
+      s += length;
+    }
+  }
+  return best;
+}
+
+test('level-filtered segment queries preserve the police scan across slopes, headings, accept sets and ties', () => {
+  let seed = 759;
+  const random = () => (seed = (Math.imul(seed, 1103515245) + 12345) >>> 0) / 2 ** 32;
+  const lanes = Array.from({length: 160}, (_, i) => {
+    const points: [number, number, number][] = [[random() * 500 - 250, random() * 20, random() * 500 - 250]];
+    for (let j = 0; j < 5; j++) { const p = points.at(-1)!; points.push(j === 2 ? [...p] : [p[0] + random() * 100 - 50, p[1] + random() * 12 - 6, p[2] + random() * 100 - 50]); }
+    return {...graph.lanes[0]!, id: `l${i}`, points};
+  });
+  lanes.push({...lanes[7]!, id: 'duplicate'});
+  const roads = new RoadIndex({...graph, lanes}), accept = new Set(lanes.filter((_, i) => i % 2 === 0).map(l => l.id));
+  for (let i = 0; i < 2000; i++) {
+    const position: Vec3 = [random() * 800 - 400, random() * 30, random() * 800 - 400], angle = random() * Math.PI * 2;
+    const heading: [number, number] | undefined = i % 3 === 0 ? undefined : [Math.sin(angle), Math.cos(angle)];
+    const distance = [0, 30, 40, 70, 80, 5000][i % 6]!, accepted = i % 2 ? accept : undefined;
+    assert.deepEqual(roads.nearestLaneAtLevel(position, heading, distance, accepted), linearAtLevel(lanes, position, heading, distance, accepted));
+  }
+});
+
+test('level-filtered queries keep inclusive radius and height edges, graph-order ties, and live accept membership', () => {
+  const first: RoadGraph['lanes'][number] = {...graph.lanes[0]!, id: 'first', points: [[0, 0, 0], [20, 0, 0]]};
+  const bridge: RoadGraph['lanes'][number] = {...first, id: 'bridge', points: [[0, 9, 0], [20, 9, 0]]};
+  const roads = new RoadIndex({...graph, lanes: [first, {...first, id: 'tie'}, bridge]}), accept = new Set(['tie']);
+  assert.equal(roads.nearestLaneAtLevel([10, 3, 70], undefined, 70)?.laneId, 'first');
+  assert.equal(roads.nearestLaneAtLevel([10, 3.0001, 70], undefined, 70), null);
+  assert.equal(roads.nearestLaneAtLevel([10, 9, 0], [1, 0], 70)?.laneId, 'bridge');
+  assert.equal(roads.nearestLaneAtLevel([10, 0, 0], undefined, 70, accept)?.laneId, 'tie');
+  accept.delete('tie'); accept.add('first');
+  assert.equal(roads.nearestLaneAtLevel([10, 0, 0], undefined, 70, accept)?.laneId, 'first');
 });

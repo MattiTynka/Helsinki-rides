@@ -27,11 +27,11 @@ export function compassHeading(yaw: number): { degrees: number; cardinal: string
 
 const SURFACE_COLOURS = { road: '#c9d2e3', walk: '#727e91', green: '#405c4c', yard: '#545749' };
 
-interface PaintedCell extends MapCellData { readonly canvas: HTMLCanvasElement }
+interface CachedCell extends MapCellData { readonly canvas: HTMLCanvasElement | null }
 
 /** A second, world-aligned layer. Missing data never poisons the cache with a permanent blank tile. */
 export class LiveMinimap {
-  private readonly cells = new Map<string, PaintedCell>();
+  private readonly cells = new Map<string, CachedCell>();
   private readonly createCanvas: () => HTMLCanvasElement;
   constructor(createCanvas: () => HTMLCanvasElement = () => document.createElement('canvas')) { this.createCanvas = createCanvas; }
 
@@ -46,7 +46,8 @@ export class LiveMinimap {
     const bundle = hcol ? parseCollisionBundle(hcol) : null;
     const buildings = bundle?.colliders.filter(c => c.group === 'buildings' || c.group === 'citymodel' || c.group === 'landmarks') ?? [];
     const colliderGround = bundle?.colliders.filter(c => c.group === 'ground' && c.indices.length > 0) ?? [];
-    if (!ground && buildings.length === 0 && colliderGround.length === 0) return null;
+    // Immutable collision bytes with no map surfaces need decoding only once. Late data changes identity.
+    if (!ground && buildings.length === 0 && colliderGround.length === 0) return this.remember(key, { canvas: null, ground, hcol });
     const canvas = this.createCanvas();
     canvas.width = canvas.height = MAP_CELL_METRES * MAP_SCALE;
     const context = canvas.getContext('2d')!;
@@ -61,7 +62,7 @@ export class LiveMinimap {
         context.moveTo((ax - cx * MAP_CELL_METRES) * MAP_SCALE, (az - cz * MAP_CELL_METRES) * MAP_SCALE);
         context.lineTo((bx - cx * MAP_CELL_METRES) * MAP_SCALE, (bz - cz * MAP_CELL_METRES) * MAP_SCALE);
         context.lineTo((dx - cx * MAP_CELL_METRES) * MAP_SCALE, (dz - cz * MAP_CELL_METRES) * MAP_SCALE);
-        context.closePath();
+        // fill() closes each moveTo-delimited triangle; explicit closePath rescans the growing native path.
       }
       context.fill();
     };
@@ -73,8 +74,12 @@ export class LiveMinimap {
       for (const tag of new Set(collider.triangleTags)) triangles(collider.positions, collider.indices, colours[bundle!.header.surfaceTags[tag]!] ?? '#48544e', collider.triangleTags, tag);
     }
     for (const building of buildings) triangles(building.positions, building.indices, '#94929c');
-    this.cells.delete(key); this.cells.set(key, { canvas, ground, hcol });
+    return this.remember(key, { canvas, ground, hcol });
+  }
+
+  private remember(key: string, cell: CachedCell): HTMLCanvasElement | null {
+    this.cells.delete(key); this.cells.set(key, cell);
     if (this.cells.size > 24) this.cells.delete(this.cells.keys().next().value!);
-    return canvas;
+    return cell.canvas;
   }
 }

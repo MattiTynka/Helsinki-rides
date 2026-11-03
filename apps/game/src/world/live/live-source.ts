@@ -5,7 +5,7 @@
 import { LIVE_VERSION } from '@helsinki/sim';
 import { cellId } from '@helsinki/world-schema';
 import {
-  type LiveCellSourceInit, type LiveCollisionResult, type LiveGroundVisual, type LiveSourceStats, type LiveVisualResult,
+  type LiveCellSourceInit, type LiveCollisionResult, type LiveGroundVisual, type LiveSourceStats, type LiveVisualKind, type LiveVisualResult,
 } from './contract.ts';
 import { emptyCollisionCell } from './convert/collision-cell.ts';
 export { edgeOverrides } from './convert/terrain.ts';
@@ -93,8 +93,8 @@ export class LiveCellSource {
   }
 
   /** The square's LoD2 buildings at `maxGeometricError`; rejects on failure or abort (the visual stream retries). */
-  async visual(cx: number, cz: number, maxGeometricError: number, signal?: AbortSignal): Promise<LiveVisualResult> {
-    const message = await this.ask({ type: 'visual', cx, cz, maxGeometricError }, signal, []);
+  async visual(cx: number, cz: number, maxGeometricError: number, kind: LiveVisualKind, signal?: AbortSignal): Promise<LiveVisualResult> {
+    const message = await this.ask({ type: 'visual', cx, cz, maxGeometricError, kind }, signal, []);
     if (message.type === 'visual') {
       this.visualBuilt++;
       return message.result;

@@ -7,7 +7,7 @@
 import { cellId } from '@helsinki/world-schema';
 import {
   LIVE_GROUND_QUADS, LIVE_GROUND_STEP, LIVE_SOURCES,
-  type GeoJsonFeatureCollection, type LiveCellSourceInit, type LiveCollisionResult, type LiveVisualResult, type TerrainTileAddress,
+  type GeoJsonFeatureCollection, type LiveCellSourceInit, type LiveCollisionResult, type LiveVisualKind, type LiveVisualResult, type TerrainTileAddress,
 } from './contract.ts';
 import { assembleBaseSquare, buildCollisionCell, emptyCollisionCell } from './convert/collision-cell.ts';
 import { BaseMapSource } from './base-map-source.ts';
@@ -24,7 +24,7 @@ import { abortable, errorMessage, LiveNet, Lru, SharedRuns, type LiveNetStats, t
 export type LiveWorkerRequest =
   | { readonly type: 'init'; readonly init: LiveCellSourceInit; readonly liveVersion: string }
   | { readonly type: 'collision'; readonly req: number; readonly cx: number; readonly cz: number; readonly overrides: Float32Array | null }
-  | { readonly type: 'visual'; readonly req: number; readonly cx: number; readonly cz: number; readonly maxGeometricError: number }
+  | { readonly type: 'visual'; readonly req: number; readonly cx: number; readonly cz: number; readonly maxGeometricError: number; readonly kind: LiveVisualKind }
   | { readonly type: 'abort'; readonly req: number };
 
 export type LiveWorkerResponse =
@@ -307,7 +307,7 @@ function lod2Tile(tile: SelectedTile, signal: AbortSignal): Promise<ConvertedTil
   });
 }
 
-async function visualJob(req: number, cx: number, cz: number, maxGeometricError: number, signal: AbortSignal): Promise<void> {
+async function visualJob(req: number, cx: number, cz: number, maxGeometricError: number, kind: LiveVisualKind, signal: AbortSignal): Promise<void> {
   const s = session!, id = cellId(cx, cz);
   try {
     const box = squareGeodeticBox(cx, cz, s.init.origin, VISUAL_PAD);
@@ -316,7 +316,7 @@ async function visualJob(req: number, cx: number, cz: number, maxGeometricError:
     signal.throwIfAborted();
     const exclude = (building: string | null, vtj: string | null): boolean =>
       (building !== null && s.staticBuildings.has(building)) || (vtj !== null && s.staticVtj.has(vtj));
-    const { parts, textures, triangles } = cellParts(tiles, cx, cz, exclude, isStaticSquare);
+    const { parts, textures, triangles } = cellParts(tiles, cx, cz, exclude, isStaticSquare, kind);
     // Texture bytes belong to the cached tile: send copies. Part arrays are fresh.
     const copies = textures.map(t => ({ ...t, bytes: t.bytes.slice(0) }));
     const result: LiveVisualResult = { id, maxGeometricError, parts, textures: copies, triangles };
@@ -356,7 +356,7 @@ function handle(message: LiveWorkerRequest): void {
       return;
     }
     case 'collision': start(message.req, signal => collisionJob(message.req, message.cx, message.cz, message.overrides, signal)); return;
-    case 'visual': start(message.req, signal => visualJob(message.req, message.cx, message.cz, message.maxGeometricError, signal)); return;
+    case 'visual': start(message.req, signal => visualJob(message.req, message.cx, message.cz, message.maxGeometricError, message.kind, signal)); return;
     case 'abort': jobs.get(message.req)?.abort(); return;
   }
 }
