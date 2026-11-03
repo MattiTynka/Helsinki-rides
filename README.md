@@ -19,7 +19,7 @@ and [current verification record](docs/benchmarks/city-north-2026-10-19.md) for 
 exact candidate, limits and acceptance status. The [city expansion handoff](docs/handoff-2026-10-19.md)
 records the local preview, source snapshots and reproducible checks.
 
-Play this fork at **[Helsinki Rides](https://gptchatly.github.io/Helsinki-rides/)**.
+Play the browser beta at **[Helsinki Rides](https://mattitynka.github.io/Helsinki-rides/)**.
 The full central Helsinki map streams nearby visuals as you travel. The initial
 city-data download can take a while. Use WASD to move, Space to jump, and F to
 enter or leave a car; the loading screen lists the remaining controls.

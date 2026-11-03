@@ -174,7 +174,7 @@ def prepare(source, packet, out, expected_manifest, world_budget, repository_bud
     inventory, descriptor = external.inventory_world(source, expected_manifest, world_budget)
     if any(item['bytes'] > raw.MAX_FILE_BYTES for item in inventory.values()):
         raise ValueError('world payload exceeds 100 MiB')
-    archive_url = f'https://github.com/GPTchatly/Helsinki-rides/releases/download/{archive_tag}/pages-world.tar.gz'
+    archive_url = f'https://github.com/MattiTynka/Helsinki-rides/releases/download/{archive_tag}/pages-world.tar.gz'
     if not pages.ARCHIVE_URL.fullmatch(archive_url):
         raise ValueError('invalid archive release tag')
     receipt_path = packet / 'upload-inventory.json'
@@ -210,7 +210,7 @@ def prepare(source, packet, out, expected_manifest, world_budget, repository_bud
     git(repo, 'update-index', '-z', '--index-info', data=index)
     tree = git(repo, 'write-tree').decode().strip()
     now = int(time.time())
-    identity = f'GPTchatly <> {now} +0000'
+    identity = f'{source_release.PUBLIC_DISPLAY_NAME} <> {now} +0000'
     commit_data = (f'tree {tree}\n' + (f'parent {previous_commit}\n' if previous_commit else '') +
                    f'author {identity}\ncommitter {identity}\n\nPublish world {descriptor["worldRelease"]}\n').encode('utf-8')
     commit = git(repo, 'hash-object', '-t', 'commit', '-w', '--stdin', data=commit_data).decode().strip()
@@ -222,7 +222,7 @@ def prepare(source, packet, out, expected_manifest, world_budget, repository_bud
         if (source / name).stat().st_size != item['bytes'] or pages._hash_file(source / name) != item['sha256']:
             raise ValueError('source world changed during local commit preparation')
     descriptor.update(schemaVersion=3, deliveryProvider=raw.PROVIDER, worldOrigin=raw.ORIGIN,
-                      worldBaseUrl=f'{raw.ORIGIN}/GPTchatly/Helsinki-rides/{commit}/world/', corsOrigin=pages.GAME_ORIGIN,
+                      worldBaseUrl=f'{raw.ORIGIN}/MattiTynka/Helsinki-rides/{commit}/world/', corsOrigin=pages.GAME_ORIGIN,
                       archiveUrl=archive_url, archiveSha256=prepared['archiveSha256'], archiveBytes=prepared['archiveBytes'],
                       archiveBudgetBytes=prepared['archiveBudgetBytes'])
     descriptor_path = out / 'descriptor.local-not-published.json'

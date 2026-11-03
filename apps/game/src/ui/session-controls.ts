@@ -112,7 +112,7 @@ export class SessionControls {
     aircraftChanges.dataset.sessionText = 'credits.aircraft.changes';
     aircraftCredit.append(aircraftChanges);
     const notices = document.createElement('a');
-    notices.href = 'https://github.com/GPTchatly/Helsinki-rides/blob/main/THIRD_PARTY_NOTICES.md';
+    notices.href = 'https://github.com/MattiTynka/Helsinki-rides/blob/main/THIRD_PARTY_NOTICES.md';
     notices.target = '_blank'; notices.rel = 'noopener noreferrer';
     notices.dataset.sessionText = 'credits.notices';
     credits.append(creditTitle, creditText, aircraftCredit, notices);
